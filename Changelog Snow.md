@@ -81,3 +81,4 @@ Performance:
 
 Other:
 - Kopenhagen starts with university
+- Morgenröte Traits now have different colors signifying whether they are traits related to Natural History, Mathematical and Technical Science, Humanities, Arts or Sports.
