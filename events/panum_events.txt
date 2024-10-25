@@ -13,6 +13,7 @@ namespace = panum
 ######JEs & HISTORICAL#######
 
 #Panum 11: The Germ Theory
+#Panum 12: The First Vaccine
 
 ######PHYSICIAN ACTIONS######
 
@@ -323,6 +324,64 @@ panum.11 = {
 	option = {	#
 		name = panum.11.g
 		panum_add_germ_theory_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Panum 12: The First Vaccine
+panum.12 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.12.t
+
+	desc = panum.12.d
+
+	flavor = panum.12.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		has_technology_researched = panum_vaccination_tech
+		NOT = {
+			has_global_variable = theiler_smallpox_vaccine_invented_global_var
+		}
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		if = {
+			limit ={
+				NOT = {
+					has_variable = panum_physician_var
+				}
+			}
+			create_new_physician_effect = yes
+			panum_set_new_physician_as_physician_effect = yes
+			var:panum_physician_var = {
+				save_scope_as = panum_physician_scope
+			}
+		}
+	}
+
+	option = {	#
+		name = panum.12.g
+		theiler_add_smallpox_vaccine_effect = yes
+		physician_experience_gain_effect = { AMOUNT = 50 }
+		panum_medium_add_technology = yes
 	}
 
 	after = {
