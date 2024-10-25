@@ -3,7 +3,7 @@ Changelog for 2.2.5 "Snow"
 Medicine:
 - New character type Physician.
 - Physician can work on diseases to find treatments. They also have some other minor projects to work on.
-- Various Diseases that can ravage your country. Use your Physician to deal with them.
+- Cholera and Typhus as diseases that can ravage your country. Use your Physician to deal with them.
 
 Astronomy:
 - There are no longer empty planet modifiers. Instead it will be handled with variables and you will get a tooltip telling you, how much Astronomy Prestige you will get.
