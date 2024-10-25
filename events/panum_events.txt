@@ -143,6 +143,13 @@ namespace = panum
 
 #Panum 340: Smallpox Treatment
 
+#Panum 351: The Old Foe
+#Panum 352: Rumors of Smallpox Treatment
+#Panum 353: The Scourge of Smallpox
+#Panum 354: The Smallpox Vaccine
+#Panum 355: Vaccination begins
+#Panum 356: A Disease in Retreat
+
 ######TYPHUS######
 
 ### Typhus Epidemic ###
@@ -7030,11 +7037,11 @@ panum.340 = {
 
 	type = country_event
 
-	title = panum.140.t
+	title = panum.340.t
 
-	desc = panum.140.d
+	desc = panum.340.d
 
-	flavor = panum.140.f
+	flavor = panum.340.f
 	
 	duration = 3
 
@@ -7062,7 +7069,7 @@ panum.340 = {
 	}
 
 	option = {	#Smallpox is losing its horror.
-		name = panum.140.g
+		name = panum.340.g
 		panum_add_smallpox_treatment_effect = yes
 		var:panum_physician_var = {
 			set_character_busy_and_immortal = no
@@ -7072,6 +7079,256 @@ panum.340 = {
 	after = {
 		remove_variable = panum_treatment_title_randomizer_var
 		remove_variable = panum_disease_title_var
+	}
+}
+
+#Panum 351: The old Foe
+panum.351 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.351.t
+
+	desc = panum.351.d
+
+	flavor = panum.351.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_smallpox.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+	}
+
+	option = {	#
+		name = panum.351.g
+		add_journal_entry = {
+			type = je_panum_vaccine
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = panum.352
+			days = { 30 60 }
+		}
+		trigger_event = {
+			id = panum.353
+			days = { 60 80 }
+		}
+	}
+}
+
+#Panum 352: Rumors of Smallpox Cure
+panum.352 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.352.t
+
+	desc = panum.352.d
+
+	flavor = panum.352.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_smallpox.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+	}
+
+	option = {	#
+		name = panum.352.g
+		theiler_add_x_smallpox_vaccine_clues_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+		trigger_event = {
+			id = panum.354
+			days = { 30 90 }
+		}
+	}
+}
+
+#Panum 353: The Scourge of Smallpox
+panum.353 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.353.t
+
+	desc = panum.353.d
+
+	flavor = panum.353.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_smallpox.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		has_journal_entry = je_panum_smallpox
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_smallpox_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#
+		name = panum.353.g
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				percent = 0.002
+			}
+		}
+	}
+}
+
+#Panum 354: The Smallpox Vaccine
+panum.354 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.354.t
+
+	desc = panum.354.d
+
+	flavor = panum.354.f_generic
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_vaccination.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+	}
+
+	option = {	#
+		name = panum.354.g_generic
+		theiler_add_x_smallpox_vaccine_clues_effect = { AMOUNT = 1 }
+		panum_small_add_technology = yes
+	}
+
+	after = {
+		trigger_event = {
+			id = panum.355
+			days = { 30 60 }
+		}
+	}
+}
+
+#Panum 355: Vaccination begins
+panum.355 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.355.t
+
+	desc = panum.355.d
+
+	flavor = panum.355.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_vaccination.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = panum_ruler
+		}
+	}
+
+	option = {	#
+		name = panum.355.g
+		theiler_add_x_smallpox_vaccine_clues_effect = { AMOUNT = 1 }
+		scope:panum_ruler = {
+			add_modifier = {
+				name = panum_smallpox_vaccination_character_modifier
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = panum.356
+			days = { 90 150 }
+		}
+	}
+}
+
+#Panum 356: A Disease in Reatreat
+panum.356 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.356.t
+
+	desc = panum.356.d
+
+	flavor = panum.356.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_vaccination.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+	}
+
+	option = {	#
+		name = panum.356.g
+		theiler_add_x_smallpox_vaccine_clues_effect = { AMOUNT = 1 }
+		physician_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	after = {
 	}
 }
 
