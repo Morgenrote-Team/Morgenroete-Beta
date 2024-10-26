@@ -96,3 +96,10 @@ Engineering:
 Fixes:
 - Morgenröte Characters now properly die when their treatment is botched.
 - You will get an event about a character death through a botched treatment.
+
+
+
+Mini-Update 2
+
+Characters:
+- Armand Trousseau (random French Physician)
