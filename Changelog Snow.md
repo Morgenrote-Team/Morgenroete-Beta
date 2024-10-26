@@ -82,3 +82,15 @@ Performance:
 Other:
 - Kopenhagen starts with university
 - Morgenröte Traits now have different colors signifying whether they are traits related to Natural History, Mathematical and Technical Science, Humanities, Arts or Sports.
+
+Mini-Update 1
+
+Medicine:
+- Smallpox is now added (mostly important for games starting before the vanilla start date).
+
+Engineering:
+- Added two random events for the Mechanical Computer Project.
+
+Fixes:
+- Morgenröte Characters now properly die when their treatment is botched.
+- You will get an event about a character death through a botched treatment.
