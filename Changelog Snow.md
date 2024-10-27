@@ -104,4 +104,5 @@ Mini-Update 2
 Characters:
 - Armand Trousseau (random French Physician)
 - Hermann Helmholtz (random German Physician)
+- James Blundell (random British Physician)
 - J Marion Sims (random American physician)
