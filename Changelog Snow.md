@@ -104,3 +104,4 @@ Mini-Update 2
 Characters:
 - Armand Trousseau (random French Physician)
 - Hermann Helmholtz (random German Physician)
+- J Marion Sims (random American physician)
