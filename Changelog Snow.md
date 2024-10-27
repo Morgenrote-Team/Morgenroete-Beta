@@ -117,5 +117,6 @@ Fixes:
 Mini-Update 3
 
 Characters:
+- Jules Béhier (random French Physician)
 - Charles Pravaz (random French Physician)
 - John Hughes Bennett (random British Physician)
