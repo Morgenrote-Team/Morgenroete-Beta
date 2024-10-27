@@ -106,4 +106,8 @@ Characters:
 - Hermann Helmholtz (random German Physician)
 - James Blundell (random British Physician)
 - Crowford Long (random American physician)
+- William T. G. Morton (random American physician)
 - J Marion Sims (random American physician)
+
+Fixes:
+- Promoting a Physician will no longer be eternal but stop once a new academic appears.
