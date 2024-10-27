@@ -103,4 +103,4 @@ Mini-Update 2
 
 Characters:
 - Armand Trousseau (random French Physician)
-- Hermann Helmholz (random German Physician)
+- Hermann Helmholtz (random German Physician)
