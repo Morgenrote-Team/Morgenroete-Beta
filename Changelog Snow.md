@@ -111,3 +111,10 @@ Characters:
 
 Fixes:
 - Promoting a Physician will no longer be eternal but stop once a new academic appears.
+
+
+
+Mini-Update 3
+
+Characters:
+- John Hughes Bennett (random British Physician)
