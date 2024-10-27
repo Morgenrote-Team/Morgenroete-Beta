@@ -105,4 +105,5 @@ Characters:
 - Armand Trousseau (random French Physician)
 - Hermann Helmholtz (random German Physician)
 - James Blundell (random British Physician)
+- Crowford Long (random American physician)
 - J Marion Sims (random American physician)
