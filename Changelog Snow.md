@@ -120,3 +120,6 @@ Characters:
 - Jules Béhier (random French Physician)
 - Charles Pravaz (random French Physician)
 - John Hughes Bennett (random British Physician)
+
+Fixes:
+- The Physician Projects should now work properly again.
