@@ -130,3 +130,6 @@ Mini-Update 4
 
 Characters:
 - Élie Metchnikoff (random Russian Physician)
+
+Fixes:
+- Writers now gain Reputation on their tours.
