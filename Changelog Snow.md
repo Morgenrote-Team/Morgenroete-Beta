@@ -141,4 +141,5 @@ Fixes:
 Mini-Update 5
 
 Characters:
+- Paul Ehrlich (random German Physician)
 - Ronald Ross (random British Physician)
