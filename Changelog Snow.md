@@ -143,3 +143,6 @@ Mini-Update 5
 Characters:
 - Paul Ehrlich (random German Physician)
 - Ronald Ross (random British Physician)
+
+Quality of Life:
+- The tooltips for the academic focus now show the correct interest groups even if you play with other mods.
