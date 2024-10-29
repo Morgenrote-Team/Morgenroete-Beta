@@ -133,3 +133,5 @@ Characters:
 
 Fixes:
 - Writers now gain Reputation on their tours.
+- Experienced and Famous Physicians will now also gain progress for their projects.
+- Medical Projects no longer give you tons of negative modifiers.
