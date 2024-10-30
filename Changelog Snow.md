@@ -141,6 +141,7 @@ Fixes:
 Mini-Update 5
 
 Characters:
+- Haruthiun Abeljanz (random Armenian Chemist)
 - Albert Boehring (random German Chemist)
 - Nils Johan Berlin (random Swedish Chemist)
 - Christian Wilhelm Blomstrand (random Swedish Chemist and Geologist)
