@@ -142,6 +142,7 @@ Mini-Update 5
 
 Characters:
 - Albert Boehring (random German Chemist)
+- Alice Ball (random American Chemist)
 - Emil Behring (random German Physician)
 - Paul Ehrlich (random German Physician)
 - Ronald Ross (random British Physician)
