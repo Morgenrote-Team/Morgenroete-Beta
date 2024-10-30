@@ -147,6 +147,7 @@ Characters:
 - Per Theodor Cleve (random Swedish Chemist and Geologist)
 - Carl Gustaf Mosander (random Swedish Chemist)
 - Marc Delafontaine (random Swiss Chemist)
+- Friedrich August Flückiger (random Swiss Chemist)
 - Alice Ball (random American Chemist)
 - Emil Behring (random German Physician)
 - Paul Ehrlich (random German Physician)
