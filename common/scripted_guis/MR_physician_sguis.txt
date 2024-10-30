@@ -228,9 +228,11 @@ mr_physician_expand_medical_system_button = {
     }
     effect = {
 		set_variable = mr_physician_expand_medical_system_var
-		add_modifier = {
-			name = panum_medical_system_cost_modifier
-			multiplier = money_amount_multiplier_small
+		show_as_tooltip = {
+			add_modifier = {
+				name = panum_medical_system_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
 		}
 		add_journal_entry = { type = je_panum_medical_system_project }
 		if = {
@@ -263,9 +265,11 @@ mr_physician_medical_research_button = {
 		}
 	}
 	effect = {
-		add_modifier = {
-			name = panum_medical_research_cost_modifier
-			multiplier = money_amount_multiplier_small
+		show_as_tooltip = {
+			add_modifier = {
+				name = panum_medical_research_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
 		}
 		add_journal_entry = { type = je_panum_medical_research_project }
 		if = {
@@ -344,6 +348,45 @@ mr_medical_congress_button = {
 		add_modifier = {
 			name = panum_congress_host_modifier
 			years = 5
+		}	
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_FIRST_VACCINE_BUTTON
+mr_first_vaccine_button = {
+    scope = country
+	is_shown = {
+		has_global_variable = theiler_smallpox_vaccine_invented_global_var
+		NOR = {
+			theiler_has_smallpox_vaccine_trigger = yes
+			has_variable = panum_smallpox_vaccine_ongoing_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_PHYSICIAN_TRIGGER
+			has_variable = panum_physician_var
+		}
+		custom_tooltip = {
+			text = MR_VACCINATION_TECH_TRIGGER_TT
+			has_technology_researched = panum_vaccination_tech
+		}
+		custom_tooltip = {
+			text = MR_HAS_SMALLPOX_EPIDEMIC_TRIGGER_TT
+			has_journal_entry = je_panum_smallpox
+		}
+    }
+    effect = {
+		set_variable = panum_smallpox_vaccine_ongoing_var
+		trigger_event = {
+			id = panum.351
+			popup = yes
 		}	
     }
 
@@ -460,7 +503,7 @@ mr_physician_wounded_treatment_button_sgui = {
 					}
 				}
 				scope:chosen_character = {
-					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					#This effect adds a negative modifier to the IG of the character if the character is not a Morgenröte Character
 					panum_botched_treatment_ig_effect = yes
 
 					random_list = {
@@ -555,15 +598,8 @@ mr_physician_seriously_injured_treatment_button_sgui = {
 				}
 			}
 			0 = {
-				#Event to notify the player of result
-				hidden_effect = {
-					trigger_event = {
-						id = panum.2303
-						popup = yes
-					}
-				}
 				scope:chosen_character = {
-					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					#This effect adds a negative modifier to the IG of the character if the character is not a Morgenröte Character
 					panum_botched_treatment_ig_effect = yes
 
 					random_list = {
@@ -602,7 +638,16 @@ mr_physician_seriously_injured_treatment_button_sgui = {
 							}
 						}
 						1 = {
-							kill_character = yes
+							panum_character_treatment_fatal_effect = yes
+						}
+					}
+					#Event to notify the player of botched treatment
+					# checks if the character is a live in the trigger
+					# does not trigger in case of death
+					hidden_effect = {
+						trigger_event = {
+							id = panum.2303
+							popup = yes
 						}
 					}
 				}
@@ -660,15 +705,8 @@ mr_physician_kidney_stones_treatment_button_sgui = {
 				}
 			}
 			0 = {
-				#Event to notify the player of result
-				hidden_effect = {
-					trigger_event = {
-						id = panum.2303
-						popup = yes
-					}
-				}
 				scope:chosen_character = {
-					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					#This effect adds a negative modifier to the IG of the character if the character is not a Morgenröte Character
 					panum_botched_treatment_ig_effect = yes
 
 					random_list = {
@@ -707,8 +745,17 @@ mr_physician_kidney_stones_treatment_button_sgui = {
 							}
 						}
 						1 = {
-							kill_character = yes
+							panum_character_treatment_fatal_effect = yes
 						}
+					}
+				}
+				#Event to notify the player of botched treatment
+				# checks if the character is a live in the trigger
+				# does not trigger in case of death
+				hidden_effect = {
+					trigger_event = {
+						id = panum.2303
+						popup = yes
 					}
 				}
 
@@ -765,15 +812,8 @@ mr_physician_cancer_treatment_button_sgui = {
 				}
 			}
 			0 = {
-				#Event to notify the player of result
-				hidden_effect = {
-					trigger_event = {
-						id = panum.2303
-						popup = yes
-					}
-				}
 				scope:chosen_character = {
-					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					#This effect adds a negative modifier to the IG of the character if the character is not a Morgenröte Character
 					panum_botched_treatment_ig_effect = yes
 
 					random_list = {
@@ -819,8 +859,17 @@ mr_physician_cancer_treatment_button_sgui = {
 							}
 						}
 						1 = {
-							kill_character = yes
+							panum_character_treatment_fatal_effect = yes
 						}
+					}
+				}
+				#Event to notify the player of botched treatment
+				# checks if the character is a live in the trigger
+				# does not trigger in case of death
+				hidden_effect = {
+					trigger_event = {
+						id = panum.2303
+						popup = yes
 					}
 				}
 
@@ -877,15 +926,8 @@ mr_physician_syphilis_treatment_button_sgui = {
 				}
 			}
 			0 = {
-				#Event to notify the player of result
-				hidden_effect = {
-					trigger_event = {
-						id = panum.2303
-						popup = yes
-					}
-				}
 				scope:chosen_character = {
-					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					#This effect adds a negative modifier to the IG of the character if the character is not a Morgenröte Character
 					panum_botched_treatment_ig_effect = yes
 
 					random_list = {
@@ -931,8 +973,17 @@ mr_physician_syphilis_treatment_button_sgui = {
 							}
 						}
 						1 = {
-							kill_character = yes
+							panum_character_treatment_fatal_effect = yes
 						}
+					}
+				}
+				#Event to notify the player of botched treatment
+				# checks if the character is a live in the trigger
+				# does not trigger in case of death
+				hidden_effect = {
+					trigger_event = {
+						id = panum.2303
+						popup = yes
 					}
 				}
 
@@ -989,15 +1040,8 @@ mr_physician_sickly_treatment_button_sgui = {
 				}
 			}
 			0 = {
-				#Event to notify the player of result
-				hidden_effect = {
-					trigger_event = {
-						id = panum.2303
-						popup = yes
-					}
-				}
 				scope:chosen_character = {
-					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					#This effect adds a negative modifier to the IG of the character if the character is not a Morgenröte Character
 					panum_botched_treatment_ig_effect = yes
 
 					random_list = {
@@ -1029,8 +1073,17 @@ mr_physician_sickly_treatment_button_sgui = {
 							}
 						}
 						1 = {
-							kill_character = yes
+							panum_character_treatment_fatal_effect = yes
 						}
+					}
+				}
+				#Event to notify the player of botched treatment
+				# checks if the character is a live in the trigger
+				# does not trigger in case of death
+				hidden_effect = {
+					trigger_event = {
+						id = panum.2303
+						popup = yes
 					}
 				}
 
@@ -1087,15 +1140,8 @@ mr_physician_panum_cholera_treatment_button_sgui = {
 				}
 			}
 			0 = {
-				#Event to notify the player of result
-				hidden_effect = {
-					trigger_event = {
-						id = panum.2303
-						popup = yes
-					}
-				}
 				scope:chosen_character = {
-					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					#This effect adds a negative modifier to the IG of the character if the character is not a Morgenröte Character
 					panum_botched_treatment_ig_effect = yes
 
 					random_list = {
@@ -1134,8 +1180,17 @@ mr_physician_panum_cholera_treatment_button_sgui = {
 							}
 						}
 						1 = {
-							kill_character = yes
+							panum_character_treatment_fatal_effect = yes
 						}
+					}
+				}
+				#Event to notify the player of botched treatment
+				# checks if the character is a live in the trigger
+				# does not trigger in case of death
+				hidden_effect = {
+					trigger_event = {
+						id = panum.2303
+						popup = yes
 					}
 				}
 
@@ -1192,15 +1247,8 @@ mr_physician_panum_tuberculosis_treatment_button_sgui = {
 				}
 			}
 			0 = {
-				#Event to notify the player of result
-				hidden_effect = {
-					trigger_event = {
-						id = panum.2303
-						popup = yes
-					}
-				}
 				scope:chosen_character = {
-					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					#This effect adds a negative modifier to the IG of the character if the character is not a Morgenröte Character
 					panum_botched_treatment_ig_effect = yes
 
 					random_list = {
@@ -1239,8 +1287,17 @@ mr_physician_panum_tuberculosis_treatment_button_sgui = {
 							}
 						}
 						1 = {
-							kill_character = yes
+							panum_character_treatment_fatal_effect = yes
 						}
+					}
+				}
+				#Event to notify the player of botched treatment
+				# checks if the character is a live in the trigger
+				# does not trigger in case of death
+				hidden_effect = {
+					trigger_event = {
+						id = panum.2303
+						popup = yes
 					}
 				}
 
@@ -1297,15 +1354,8 @@ mr_physician_panum_yellow_fever_treatment_button_sgui = {
 				}
 			}
 			0 = {
-				#Event to notify the player of result
-				hidden_effect = {
-					trigger_event = {
-						id = panum.2303
-						popup = yes
-					}
-				}
 				scope:chosen_character = {
-					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					#This effect adds a negative modifier to the IG of the character if the character is not a Morgenröte Character
 					panum_botched_treatment_ig_effect = yes
 
 					random_list = {
@@ -1344,8 +1394,17 @@ mr_physician_panum_yellow_fever_treatment_button_sgui = {
 							}
 						}
 						1 = {
-							kill_character = yes
+							panum_character_treatment_fatal_effect = yes
 						}
+					}
+				}
+				#Event to notify the player of botched treatment
+				# checks if the character is a live in the trigger
+				# does not trigger in case of death
+				hidden_effect = {
+					trigger_event = {
+						id = panum.2303
+						popup = yes
 					}
 				}
 
@@ -1410,7 +1469,7 @@ mr_physician_psychological_affliction_treatment_button_sgui = {
 					}
 				}
 				scope:chosen_character = {
-					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					#This effect adds a negative modifier to the IG of the character if the character is not a Morgenröte Character
 					panum_botched_treatment_ig_effect = yes
 
 					random_list = {
@@ -1519,7 +1578,7 @@ mr_physician_shellshocked_treatment_button_sgui = {
 					}
 				}
 				scope:chosen_character = {
-					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					#This effect adds a negative modifier to the IG of the character if the character is not a Morgenröte Character
 					panum_botched_treatment_ig_effect = yes
 
 					random_list = {
@@ -1628,7 +1687,7 @@ mr_physician_alcoholic_treatment_button_sgui = {
 					}
 				}
 				scope:chosen_character = {
-					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					#This effect adds a negative modifier to the IG of the character if the character is not a Morgenröte Character
 					panum_botched_treatment_ig_effect = yes
 
 					random_list = {
@@ -1731,7 +1790,7 @@ mr_physician_opium_addiction_treatment_button_sgui = {
 					}
 				}
 				scope:chosen_character = {
-					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					#This effect adds a negative modifier to the IG of the character if the character is not a Morgenröte Character
 					panum_botched_treatment_ig_effect = yes
 
 					random_list = {

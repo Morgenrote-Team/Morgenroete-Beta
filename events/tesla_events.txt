@@ -1,0 +1,212 @@
+﻿#################
+# Tesla EVENTS  #
+#################
+
+#by Marco Dandolo & Lord R
+
+###################
+
+namespace = tesla
+
+###################
+
+###### Mechanical Engineer Projects ######
+
+#Tesla 223: A First Prototype
+#Tesla 224: Feature Creep
+
+#################################################################################
+
+###### Mechanical Engineer Projects ######
+
+#Tesla 223: A First Prototype
+tesla.223 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = tesla.223.t
+    desc = tesla.223.d
+	flavor = tesla.223.f
+
+	duration = 3
+
+	event_image = {
+		#Photo of Babbage Analytical Engine Plan from 1840 at the Computer History Museum
+		# CC BY 4.0 by ArnoldReinhold
+		# https://en.wikipedia.org/wiki/Analytical_engine#/media/File:Babbage_Analytical_Engine_Plan_1840_CHM.agr.jpg
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_analytical_engine.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/machinists.dds"
+
+	cooldown = {
+		years = 30
+	}
+
+	trigger = {
+		any_scope_building = {
+			is_building_type = building_university
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_university
+					has_active_production_method = pm_dubois_university_mathematics
+				}
+			}
+			random_scope_building = {
+				limit = {
+					is_building_type = building_university
+					has_active_production_method = pm_dubois_university_mathematics
+				}
+				save_scope_as = tesla_university_scope
+			}
+		}
+		else = {
+			random_scope_building = {
+				limit = {
+					is_building_type = building_university
+				}
+				save_scope_as = tesla_university_scope
+			}
+		}
+	}
+
+	option = { #I hope he will finish more than a prototype...
+		name = tesla.223.g
+
+		scope:tesla_university_scope = {
+			add_modifier = {
+				name = tesla_prototype_mechanical_computer_modifier
+				years = 5
+			}
+		}
+	}
+}
+
+#Tesla 224: Feature Creep
+tesla.224 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = tesla.224.t
+    desc = tesla.224.d
+	flavor = tesla.224.f
+
+	duration = 3
+
+	event_image = {
+		#Photo of Babbage Analytical Engine Plan from 1840 at the Computer History Museum
+		# CC BY 4.0 by ArnoldReinhold
+		# https://en.wikipedia.org/wiki/Analytical_engine#/media/File:Babbage_Analytical_Engine_Plan_1840_CHM.agr.jpg
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_analytical_engine.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/machinists.dds"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+		je:je_gaudi_mechanical_computer_project = {
+			"scripted_bar_progress(gaudi_mechanical_computer_project_progress_bar)" >= 50
+		}
+	}
+
+	immediate = {
+	}
+
+	option = { #Would you please just build that computer?
+		name = tesla.224.g
+		default_option = yes
+
+		gaudi_add_x_mechanical_computer_progress_effect = { AMOUNT = -50 }
+	}
+
+	option = { #Threaten to cut funding.
+		name = tesla.224.h
+
+		random_list = {
+			5 = {
+				gaudi_add_x_mechanical_computer_progress_effect = { AMOUNT = 10 }
+			}
+			74 = {}
+			20 = {
+				trigger = {
+					var:gaudi_engineer_var ?= {
+						has_trait = psychological_affliction
+					}
+				}
+				var:gaudi_engineer_var ?= {
+					add_trait = psychological_affliction
+				}
+			}
+			1 = {
+				var:gaudi_engineer_var ?= {
+					retire_engineer_effect = yes
+				}
+			}
+		}
+	}
+}
+
+#Tesla 225: Fire damages Mechanical Computer
+tesla.225 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = tesla.225.t
+    desc = tesla.225.d
+	flavor = tesla.225.f
+
+	duration = 3
+
+	event_image = {
+		#Photo of Babbage Analytical Engine Plan from 1840 at the Computer History Museum
+		# CC BY 4.0 by ArnoldReinhold
+		# https://en.wikipedia.org/wiki/Analytical_engine#/media/File:Babbage_Analytical_Engine_Plan_1840_CHM.agr.jpg
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_analytical_engine.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/machinists.dds"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+		je:je_gaudi_mechanical_computer_project = {
+			"scripted_bar_progress(gaudi_mechanical_computer_project_progress_bar)" >= 20
+		}
+	}
+
+	immediate = {
+	}
+
+	option = { #Will this computer ever be built?
+		name = tesla.225.g
+		default_option = yes
+
+		gaudi_add_x_mechanical_computer_progress_effect = { AMOUNT = -20 }
+	}
+
+	option = { #Send them additional funding.
+		name = tesla.225.h
+
+		add_treasury = -20000
+		gaudi_add_x_mechanical_computer_progress_effect = { AMOUNT = -10 }
+	}
+}

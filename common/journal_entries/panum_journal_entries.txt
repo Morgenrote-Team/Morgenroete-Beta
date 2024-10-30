@@ -68,6 +68,54 @@ je_panum_germ_theory = {
 	should_be_pinned_by_default = yes
 }
 
+#The Vaccine
+je_panum_vaccine = {
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	group = je_group_panum_medicine
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_smallpox_vaccine_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_smallpox_vaccine_clues_var
+				value = 0
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_panum_vaccine_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		theiler_add_smallpox_vaccine_effect = yes
+	}
+
+	current_value = {
+		value = var:theiler_smallpox_vaccine_clues_var
+	}
+
+	goal_add_value = {
+		value = 4
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
 ### Expand Medical System ###
 je_panum_medical_system_project = {
 	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
@@ -83,7 +131,9 @@ je_panum_medical_system_project = {
 			if = {
 				#If the Progress reaches the cost, the PM will be unlocked in a state
 				limit = {
-					var:panum_medical_system_project_progress_var >= 30
+					je:je_panum_medical_system_project = {
+						"scripted_bar_progress(panum_medical_system_project_progress_bar)" >= 30
+					}
 				}
 				#Physician gets experience
 				physician_experience_gain_effect = { AMOUNT = 20 }
@@ -145,9 +195,11 @@ je_panum_medical_system_project = {
 					}
 				}
 				#The cost will be subtracted from the current progress
-				change_variable = {
-					name = panum_medical_system_project_progress_var
-					subtract = 30
+				je:je_panum_medical_system_project = {
+					add_progress = { 
+						name = panum_medical_system_project_progress_bar
+						value = -36
+					}
 				}
 			}
 		}
@@ -159,10 +211,11 @@ je_panum_medical_system_project = {
 
 	immediate = {
 		set_variable = panum_can_stop_active_medical_project_var #This is used to check if the country has a project already
-		#Sets the Medical Progress at the beginning
-		set_variable = {
-			name = panum_medical_system_project_progress_var
-			value = 0
+		scope:journal_entry = {
+			add_modifier = {
+				name = panum_medical_system_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
 		}
 	}
 
@@ -194,15 +247,6 @@ je_panum_medical_system_project = {
 		}
 	}
 
-	current_value = {
-		#Keeps track of the Medical Progress. If the Progress reaches the progress_cost, a PM will be unlocked.
-		value = var:panum_medical_system_project_progress_var
-	}
-
-	goal_add_value = {
-		value = 30
-	}
-
 	invalid = {
 		custom_tooltip = {
 			text = panum_stop_medical_project_tt
@@ -220,6 +264,7 @@ je_panum_medical_system_project = {
 
 	on_invalid = {
 		remove_variable = mr_physician_expand_medical_system_var
+		remove_variable = panum_stop_medical_project_var
 		remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
 		var:panum_physician_var ?= {
 			set_character_busy_and_immortal = no
@@ -246,7 +291,9 @@ je_panum_medical_research_project = {
 			if = {
 				#If the Progress reaches the cost, the PM will be unlocked in a state
 				limit = {
-					var:panum_medical_research_project_progress_var >= 40
+					je:je_panum_medical_research_project = {
+						"scripted_bar_progress(panum_medical_research_project_progress_bar)" >= 36
+					}
 				}
 				#Physician gets experience	
 				panum_small_add_technology = yes
@@ -276,9 +323,11 @@ je_panum_medical_research_project = {
 					}
 				}
 				#The cost will be subtracted from the current progress
-				change_variable = {
-					name = panum_medical_system_project_progress_var
-					subtract = 40
+				je:je_panum_medical_research_project = {
+					add_progress = { 
+						name = panum_medical_research_project_progress_bar
+						value = -36
+					}
 				}
 			}
 		}
@@ -293,10 +342,11 @@ je_panum_medical_research_project = {
 
 	immediate = {
 		set_variable = panum_can_stop_active_medical_project_var #This is used to check if the country has a project already
-		#Sets the Medical Progress at the beginning
-		set_variable = {
-			name = panum_medical_research_project_progress_var
-			value = 0
+		scope:journal_entry = {
+			add_modifier = {
+				name = panum_medical_research_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
 		}
 	}
 
@@ -307,12 +357,9 @@ je_panum_medical_research_project = {
 	}
 
 	current_value = {
-		#Keeps track of the Medical Progress. If the Progress reaches the progress_cost, a PM will be unlocked.
-		value = var:panum_medical_research_project_progress_var
 	}
 
 	goal_add_value = {
-		value = 40
 	}
 
 	invalid = {
@@ -342,7 +389,6 @@ je_panum_medical_research_project = {
 
 	should_be_pinned_by_default = yes
 }
-
 
 ###################################################################################################
 
@@ -2932,6 +2978,89 @@ je_panum_smallpox_treatment = {
 	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
 
 	group = je_group_panum_medicine
+
+	on_weekly_pulse = {
+		effect = {
+			random_list = {
+				3 = {}
+				1 = {
+					panum_add_x_smallpox_treatment_clues_effect = { AMOUNT = 1 }
+				}
+			}
+		}
+	}
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = panum_smallpox_treatment_clues_var
+				}
+			}
+			set_variable = {
+				name = panum_smallpox_treatment_clues_var
+				value = 0
+			}
+		}
+	}
+
+	fail = {
+		NOT = {
+			has_journal_entry = je_panum_smallpox
+		}
+    }
+
+	on_fail = {
+		trigger_event = {
+			id = panum.134 #Unfinished Treatment
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_panum_smallpox_treatment_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = panum.340
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	current_value = {
+		value = var:panum_smallpox_treatment_clues_var
+	}
+
+	goal_add_value = {
+		value = 3
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_physician_dies_tt
+			NOT = {
+				has_variable = panum_physician_var
+			}
+		}
+	}
+
+	on_invalid = {
+		panum_remove_active_variables_effect = yes
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
 }
 
 je_panum_typhus_treatment = {

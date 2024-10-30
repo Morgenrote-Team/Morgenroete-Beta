@@ -1,5 +1,10 @@
 Changelog for 2.2.5 "Snow"
 
+Medicine:
+- New character type Physician.
+- Physician can work on diseases to find treatments. They also have some other minor projects to work on.
+- Cholera and Typhus as diseases that can ravage your country. Use your Physician to deal with them.
+
 Astronomy:
 - There are no longer empty planet modifiers. Instead it will be handled with variables and you will get a tooltip telling you, how much Astronomy Prestige you will get.
 - Other astronomical Discoveries will now also show you, how much astronomical prestige they add.
@@ -68,6 +73,7 @@ Fixes:
 - Schliemann will now only be available at between 1852 and 1890.
 - Fixed missing animal names for the Get Exotic animal Journal Entry.
 - Characters with the academic gowns will no longer wear sashes.
+- Poems are no longer all nihilistic and instead have actual titles.
 
 Performance:
 - Removed some global variables for planet discoveries.
@@ -75,3 +81,78 @@ Performance:
 
 Other:
 - Kopenhagen starts with university
+- Morgenröte Traits now have different colors signifying whether they are traits related to Natural History, Mathematical and Technical Science, Humanities, Arts or Sports.
+
+
+
+Mini-Update 1
+
+Medicine:
+- Smallpox is now added (mostly important for games starting before the vanilla start date).
+
+Engineering:
+- Added three random events for the Mechanical Computer Project.
+
+Fixes:
+- Morgenröte Characters now properly die when their treatment is botched.
+- You will get an event about a character death through a botched treatment.
+
+
+
+Mini-Update 2
+
+Characters:
+- Armand Trousseau (random French Physician)
+- Hermann Helmholtz (random German Physician)
+- James Blundell (random British Physician)
+- Crowford Long (random American physician)
+- William T. G. Morton (random American physician)
+- J Marion Sims (random American physician)
+
+Fixes:
+- Promoting a Physician will no longer be eternal but stop once a new academic appears.
+
+
+
+Mini-Update 3
+
+Characters:
+- Jules Béhier (random French Physician)
+- Charles Pravaz (random French Physician)
+- John Hughes Bennett (random British Physician)
+
+Fixes:
+- The Physician Projects should now work properly again.
+
+
+
+Mini-Update 4
+
+Characters:
+- Élie Metchnikoff (random Russian Physician)
+
+Fixes:
+- Writers now gain Reputation on their tours.
+- Experienced and Famous Physicians will now also gain progress for their projects.
+- Medical Projects no longer give you tons of negative modifiers.
+
+
+
+Mini-Update 5
+
+Characters:
+- Haruthiun Abeljanz (random Armenian Chemist)
+- Albert Boehring (random German Chemist)
+- Nils Johan Berlin (random Swedish Chemist)
+- Christian Wilhelm Blomstrand (random Swedish Chemist and Geologist)
+- Per Theodor Cleve (random Swedish Chemist and Geologist)
+- Carl Gustaf Mosander (random Swedish Chemist)
+- Marc Delafontaine (random Swiss Chemist)
+- Friedrich August Flückiger (random Swiss Chemist)
+- Alice Ball (random American Chemist)
+- Emil Behring (random German Physician)
+- Paul Ehrlich (random German Physician)
+- Ronald Ross (random British Physician)
+
+Quality of Life:
+- The tooltips for the academic focus now show the correct interest groups even if you play with other mods.

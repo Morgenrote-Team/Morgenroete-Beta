@@ -13,6 +13,7 @@ namespace = panum
 ######JEs & HISTORICAL#######
 
 #Panum 11: The Germ Theory
+#Panum 12: The First Vaccine
 
 ######PHYSICIAN ACTIONS######
 
@@ -141,6 +142,13 @@ namespace = panum
 ### Smallpox Treatment ###
 
 #Panum 340: Smallpox Treatment
+
+#Panum 351: The Old Foe
+#Panum 352: Rumors of Smallpox Treatment
+#Panum 353: The Scourge of Smallpox
+#Panum 354: The Smallpox Vaccine
+#Panum 355: Vaccination begins
+#Panum 356: A Disease in Retreat
 
 ######TYPHUS######
 
@@ -287,6 +295,7 @@ namespace = panum
 #Panum 2301: Successful Treatment
 #Panum 2302: Neutral Treatment
 #Panum 2303: Botched Treatment
+#Panum 2304: Fatal Treatment
 
 #################################################################################
 
@@ -323,6 +332,65 @@ panum.11 = {
 	option = {	#
 		name = panum.11.g
 		panum_add_germ_theory_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Panum 12: The First Vaccine
+panum.12 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.12.t
+
+	desc = panum.12.d
+
+	flavor = panum.12.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		game_date < 1836.1.1
+		has_technology_researched = panum_vaccination_tech
+		NOT = {
+			has_global_variable = theiler_smallpox_vaccine_invented_global_var
+		}
+	}
+
+	immediate = {
+		var:panum_physician_var ?= {
+			save_scope_as = panum_physician_scope
+		}
+		if = {
+			limit ={
+				NOT = {
+					has_variable = panum_physician_var
+				}
+			}
+			create_new_physician_effect = yes
+			panum_set_new_physician_as_physician_effect = yes
+			var:panum_physician_var = {
+				save_scope_as = panum_physician_scope
+			}
+		}
+	}
+
+	option = {	#
+		name = panum.12.g
+		theiler_add_smallpox_vaccine_effect = yes
+		physician_experience_gain_effect = { AMOUNT = 50 }
+		panum_medium_add_technology = yes
 	}
 
 	after = {
@@ -6177,7 +6245,7 @@ panum.261 = {
 			}
 			set_global_variable = panum_pneumothorax_global_var
 			var:panum_physician_var = {
-				set_variable = panum_pneumothorax_inventor_var
+				set_variable = panum_physician_achievement_pneumothorax_inventor_var
 			}
 			panum_add_x_medical_score_points_effect = { AMOUNT = 1 }
 			add_modifier = {
@@ -6240,7 +6308,7 @@ panum.262 = {
 			}
 			set_global_variable = panum_thoracoplasty_global_var
 			var:panum_physician_var = {
-				set_variable = panum_thoracoplasty_inventor_var
+				set_variable = panum_physician_achievement_thoracoplasty_inventor_var
 			}
 			panum_add_x_medical_score_points_effect = { AMOUNT = 1 }
 			add_modifier = {
@@ -6971,11 +7039,11 @@ panum.340 = {
 
 	type = country_event
 
-	title = panum.140.t
+	title = panum.340.t
 
-	desc = panum.140.d
+	desc = panum.340.d
 
-	flavor = panum.140.f
+	flavor = panum.340.f
 	
 	duration = 3
 
@@ -7003,7 +7071,7 @@ panum.340 = {
 	}
 
 	option = {	#Smallpox is losing its horror.
-		name = panum.140.g
+		name = panum.340.g
 		panum_add_smallpox_treatment_effect = yes
 		var:panum_physician_var = {
 			set_character_busy_and_immortal = no
@@ -7013,6 +7081,256 @@ panum.340 = {
 	after = {
 		remove_variable = panum_treatment_title_randomizer_var
 		remove_variable = panum_disease_title_var
+	}
+}
+
+#Panum 351: The old Foe
+panum.351 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.351.t
+
+	desc = panum.351.d
+
+	flavor = panum.351.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_smallpox.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+	}
+
+	option = {	#
+		name = panum.351.g
+		add_journal_entry = {
+			type = je_panum_vaccine
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = panum.352
+			days = { 30 60 }
+		}
+		trigger_event = {
+			id = panum.353
+			days = { 60 80 }
+		}
+	}
+}
+
+#Panum 352: Rumors of Smallpox Cure
+panum.352 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.352.t
+
+	desc = panum.352.d
+
+	flavor = panum.352.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_smallpox.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+	}
+
+	option = {	#
+		name = panum.352.g
+		theiler_add_x_smallpox_vaccine_clues_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+		trigger_event = {
+			id = panum.354
+			days = { 30 90 }
+		}
+	}
+}
+
+#Panum 353: The Scourge of Smallpox
+panum.353 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.353.t
+
+	desc = panum.353.d
+
+	flavor = panum.353.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_smallpox.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		has_journal_entry = je_panum_smallpox
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_smallpox_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#
+		name = panum.353.g
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				percent = 0.002
+			}
+		}
+	}
+}
+
+#Panum 354: The Smallpox Vaccine
+panum.354 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.354.t
+
+	desc = panum.354.d
+
+	flavor = panum.354.f_generic
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_vaccination.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+	}
+
+	option = {	#
+		name = panum.354.g_generic
+		theiler_add_x_smallpox_vaccine_clues_effect = { AMOUNT = 1 }
+		panum_small_add_technology = yes
+	}
+
+	after = {
+		trigger_event = {
+			id = panum.355
+			days = { 30 60 }
+		}
+	}
+}
+
+#Panum 355: Vaccination begins
+panum.355 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.355.t
+
+	desc = panum.355.d
+
+	flavor = panum.355.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_vaccination.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = panum_ruler
+		}
+	}
+
+	option = {	#
+		name = panum.355.g
+		theiler_add_x_smallpox_vaccine_clues_effect = { AMOUNT = 1 }
+		scope:panum_ruler = {
+			add_modifier = {
+				name = panum_smallpox_vaccination_character_modifier
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = panum.356
+			days = { 90 150 }
+		}
+	}
+}
+
+#Panum 356: A Disease in Reatreat
+panum.356 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.356.t
+
+	desc = panum.356.d
+
+	flavor = panum.356.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_vaccination.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+	}
+
+	option = {	#
+		name = panum.356.g
+		theiler_add_x_smallpox_vaccine_clues_effect = { AMOUNT = 1 }
+		physician_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	after = {
 	}
 }
 
@@ -8133,6 +8451,16 @@ panum.440 = {
 		panum_add_x_germ_theory_clues_effect = { AMOUNT = 4 }
 		var:panum_physician_var = {
 			set_character_busy_and_immortal = no
+		}
+		if = {
+			limit = {
+				var:panum_physician_var ?= {
+					has_trait = panum_typhus
+				}
+			}
+			var:panum_physician_var ?= {
+				remove_trait = panum_typhus
+			}
 		}
 		if = {
 			limit = {
@@ -14934,6 +15262,13 @@ panum.2102 = {
 
 	option = {	#Surgery
 		name = panum.2102.g
+		trigger = {
+			var:panum_physician_var ?= {
+				NOT = {
+					has_trait = panum_surgeon
+				}
+			}
+		}
 		default_option = yes
 		var:panum_physician_var ?= {
 			add_trait = panum_surgeon
@@ -14943,6 +15278,13 @@ panum.2102 = {
 
 	option = {	#Psychiatry
 		name = panum.2102.h
+		trigger = {
+			var:panum_physician_var ?= {
+				NOT = {
+					has_trait = panum_psychiatrist
+				}
+			}
+		}
 		var:panum_physician_var ?= {
 			add_trait = panum_psychiatrist
 		}
@@ -14951,6 +15293,13 @@ panum.2102 = {
 
 	option = {	#Epidemiology
 		name = panum.2102.i
+		trigger = {
+			var:panum_physician_var ?= {
+				NOT = {
+					has_trait = panum_epidemiologist
+				}
+			}
+		}
 		var:panum_physician_var ?= {
 			add_trait = panum_epidemiologist
 		}
@@ -14959,8 +15308,23 @@ panum.2102 = {
 
 	option = {	#Military Medicine
 		name = panum.2102.j
+		trigger = {
+			var:panum_physician_var ?= {
+				NOT = {
+					has_trait = panum_military_physician
+				}
+			}
+		}
 		var:panum_physician_var ?= {
 			add_trait = panum_military_physician
+		}
+		dubois_add_x_academy_progress = { AMOUNT = 25 }
+	}
+
+	option = {	#Experience
+		name = panum.2102.k
+		var:panum_physician_var ?= {
+			physician_experience_gain_effect = { AMOUNT = 25 }
 		}
 		dubois_add_x_academy_progress = { AMOUNT = 25 }
 	}
@@ -15310,6 +15674,12 @@ panum.2303 = {
 
 	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
 
+	trigger = {
+		scope:chosen_character = {
+			is_character_alive = yes
+		}
+	}
+
 	immediate = {
 		var:panum_physician_var = {
 			save_scope_as = panum_physician_scope
@@ -15318,6 +15688,41 @@ panum.2303 = {
 
 	option = { 
 		name = panum.2303.g #This should not have happened!
+	
+	}
+
+	after = {
+	}
+}
+
+#Panum 2304: Fatal Treatment
+panum.2304 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2304.t
+	desc = panum.2304.d
+	flavor = panum.2304.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = { 
+		name = panum.2304.g #A Tragedy
 	
 	}
 
