@@ -142,6 +142,7 @@ Mini-Update 5
 
 Characters:
 - Albert Boehring (random German Chemist)
+- Christian Wilhelm Blomstrand (random Swedish Chemist and Geologist)
 - Per Theodor Cleve (random Swedish Chemist and Geologist)
 - Carl Gustaf Mosander (random Swedish Chemist)
 - Alice Ball (random American Chemist)
