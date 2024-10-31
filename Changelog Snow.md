@@ -140,6 +140,9 @@ Fixes:
 
 Mini-Update 5
 
+Fixes:
+- Journal Entries for gathering clues should now keep track of clues you found before.
+
 Characters:
 - Haruthiun Abeljanz (random Armenian Chemist)
 - Albert Boehring (random German Chemist)
@@ -153,6 +156,9 @@ Characters:
 - Emil Behring (random German Physician)
 - Paul Ehrlich (random German Physician)
 - Ronald Ross (random British Physician)
+
+General:
+- The Genetics technology now gives a stronger bonus.
 
 Quality of Life:
 - The tooltips for the academic focus now show the correct interest groups even if you play with other mods.
