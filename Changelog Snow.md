@@ -169,3 +169,6 @@ Mini-Update 5
 
 Characters:
 - Carl Auer von Welsbach (random Austrian Chemist)
+
+Fixes:
+- Fixed a trigger for the AI
