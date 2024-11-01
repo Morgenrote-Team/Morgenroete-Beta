@@ -173,5 +173,8 @@ Characters:
 - August Wilhelm Hofmann (random German Chemist)
 - Karl Ernst Claus (random Russian Chemist)
 
+3D:
+- Morgenröte characters now wear Dracula glasses but with normal glass (Thanks to Miss Duce).
+
 Fixes:
 - Fixed a trigger for the AI
