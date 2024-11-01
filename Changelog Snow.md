@@ -169,6 +169,7 @@ Mini-Update 5
 
 Characters:
 - Carl Auer von Welsbach (random Austrian Chemist)
+- William Crookes (random British Chemist)
 - Karl Ernst Claus (random Russian Chemist)
 
 Fixes:
