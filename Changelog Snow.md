@@ -173,6 +173,7 @@ Characters:
 - William Crookes (random British Chemist)
 - August Wilhelm Hofmann (random German Chemist)
 - Karl Ernst Claus (random Russian Chemist)
+- Hisakatsu Yabe (random Japanese Geologist and Paleontologist)
 - Kitasato Shibasaburō (random Japanese Physician)
 
 3D:
