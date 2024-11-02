@@ -171,6 +171,7 @@ Characters:
 - Carl Auer von Welsbach (random Austrian Chemist)
 - Martin Martens (random Belgian/Dutch Chemist and Physician)
 - Louis Melsens (random Belgian Chemist)
+- Jean Stas (random Belian Chemist and Physician)
 - Claude-Auguste Lamy (random French Chemist)
 - William Crookes (random British Chemist)
 - August Wilhelm Hofmann (random German Chemist)
