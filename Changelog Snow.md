@@ -169,7 +169,8 @@ Mini-Update 5
 
 Characters:
 - Carl Auer von Welsbach (random Austrian Chemist)
-- Martin Martens (random Belian/Dutch Chemist and Physician)
+- Martin Martens (random Belgian/Dutch Chemist and Physician)
+- Louis Melsens (random Belgian Chemist)
 - Claude-Auguste Lamy (random French Chemist)
 - William Crookes (random British Chemist)
 - August Wilhelm Hofmann (random German Chemist)
