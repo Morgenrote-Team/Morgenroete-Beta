@@ -173,6 +173,7 @@ Characters:
 - William Crookes (random British Chemist)
 - August Wilhelm Hofmann (random German Chemist)
 - Karl Ernst Claus (random Russian Chemist)
+- Kitasato Shibasaburō (random Japanese Physician)
 
 3D:
 - Morgenröte characters now wear Dracula glasses but with normal glass (Thanks to Miss Duce).
