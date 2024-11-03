@@ -180,6 +180,7 @@ Characters:
 - Gustave Dewalque (random Belgian Geologist, Paleontologist and Physician)
 - Max Lohest (random Belgian Geologist and Anthropologist)
 - Hisakatsu Yabe (random Japanese Geologist and Paleontologist)
+- Félicien Chapuis (random Belian Physician and Naturalist)
 - Kitasato Shibasaburō (random Japanese Physician)
 
 3D:
