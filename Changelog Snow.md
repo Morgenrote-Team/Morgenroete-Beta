@@ -177,6 +177,7 @@ Characters:
 - William Crookes (random British Chemist)
 - August Wilhelm Hofmann (random German Chemist)
 - Karl Ernst Claus (random Russian Chemist)
+- Alphonse Briart (random Belgian Geologist)
 - Gustave Dewalque (random Belgian Geologist, Paleontologist and Physician)
 - Max Lohest (random Belgian Geologist and Anthropologist)
 - Hisakatsu Yabe (random Japanese Geologist and Paleontologist)
