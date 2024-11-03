@@ -168,6 +168,7 @@ Quality of Life:
 Mini-Update 5
 
 Characters:
+- Julien Fraipont (random Belgian Anthropologist and Paleontologist)
 - Carl Auer von Welsbach (random Austrian Chemist)
 - Martin Martens (random Belgian/Dutch Chemist and Physician)
 - Louis Melsens (random Belgian Chemist)
