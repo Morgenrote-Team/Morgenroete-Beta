@@ -171,6 +171,7 @@ Characters:
 - Julien Fraipont (random Belgian Anthropologist and Paleontologist)
 - François Folie (random Belgian Astronomer)
 - Constantin Le Paige (random Belgian Astronomer)
+- George Van Biesbroeck (randim Belian Astronomer)
 - Carl Auer von Welsbach (random Austrian Chemist)
 - Martin Martens (random Belgian/Dutch Chemist and Physician)
 - Louis Melsens (random Belgian Chemist)
