@@ -179,6 +179,7 @@ Characters:
 - Karl Ernst Claus (random Russian Chemist)
 - Alphonse Briart (random Belgian Geologist)
 - Jean Baptiste Julien d'Omalius d'Halloy (random Belgian Geologist)
+- Charles-Louis-Joseph-Xavier de la Vallée Poussin (random Belgian Geologist)
 - Gustave Dewalque (random Belgian Geologist, Paleontologist and Physician)
 - André Dumont (random Belgian Geologist)
 - Max Lohest (random Belgian Geologist and Anthropologist)
