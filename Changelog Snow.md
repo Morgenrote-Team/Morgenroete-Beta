@@ -169,6 +169,7 @@ Mini-Update 5
 
 Characters:
 - Julien Fraipont (random Belgian Anthropologist and Paleontologist)
+- Louis Cruls (random Belgian Astronomer)
 - François Folie (random Belgian Astronomer)
 - Constantin Le Paige (random Belgian Astronomer)
 - George Van Biesbroeck (randim Belian Astronomer)
