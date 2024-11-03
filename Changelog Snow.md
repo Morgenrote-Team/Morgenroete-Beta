@@ -177,6 +177,7 @@ Characters:
 - William Crookes (random British Chemist)
 - August Wilhelm Hofmann (random German Chemist)
 - Karl Ernst Claus (random Russian Chemist)
+- César Franck (random Belgian Composer)
 - Alphonse Briart (random Belgian Geologist)
 - Jean Baptiste Julien d'Omalius d'Halloy (random Belgian Geologist)
 - Charles-Louis-Joseph-Xavier de la Vallée Poussin (random Belgian Geologist)
