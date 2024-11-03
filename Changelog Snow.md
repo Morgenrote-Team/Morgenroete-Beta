@@ -183,6 +183,7 @@ Characters:
 - Gustave Dewalque (random Belgian Geologist, Paleontologist and Physician)
 - André Dumont (random Belgian Geologist)
 - Max Lohest (random Belgian Geologist and Anthropologist)
+- Alphonse François Renard (random Belgian Geologist and Anthropologist)
 - Hisakatsu Yabe (random Japanese Geologist and Paleontologist)
 - Ernest Candèze (random Belian Physician and Naturalist)
 - Félicien Chapuis (random Belian Physician and Naturalist)
