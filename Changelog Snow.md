@@ -169,6 +169,7 @@ Mini-Update 5
 
 Characters:
 - Julien Fraipont (random Belgian Anthropologist and Paleontologist)
+- Jean Capart (random Belgian Archaeologist)
 - Franz Cumont (random Belgian Archaeologist)
 - Jean-Joseph-Antoine-Marie de Witte (random Belgian Archaeologist)
 - Henri Lavachery (random Belgian Archaeologist)
