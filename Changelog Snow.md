@@ -171,6 +171,7 @@ Characters:
 - Julien Fraipont (random Belgian Anthropologist and Paleontologist)
 - Franz Cumont (random Belgian Archaeologist)
 - Jean-Joseph-Antoine-Marie de Witte (random Belgian Archaeologist)
+- Henri Lavachery (random Belgian Archaeologist)
 - Louis Cruls (random Belgian Astronomer)
 - François Folie (random Belgian Astronomer)
 - Constantin Le Paige (random Belgian Astronomer)
