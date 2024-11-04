@@ -169,7 +169,8 @@ Mini-Update 5
 
 Characters:
 - Julien Fraipont (random Belgian Anthropologist and Paleontologist)
-- Franz Cumont (random Belian Archaeologist)
+- Franz Cumont (random Belgian Archaeologist)
+- Jean-Joseph-Antoine-Marie de Witte (random Belgian Archaeologist)
 - Louis Cruls (random Belgian Astronomer)
 - François Folie (random Belgian Astronomer)
 - Constantin Le Paige (random Belgian Astronomer)
@@ -200,7 +201,7 @@ Characters:
 - Kitasato Shibasaburō (random Japanese Physician)
 
 3D:
-- Morgenröte characters now wear Dracula glasses but with normal glass (Thanks to Miss Duce).
+- Morgenröte characters can now wear Dracula glasses but with normal glass (Thanks to Miss Duce).
 
 Fixes:
 - Fixed a trigger for the AI
