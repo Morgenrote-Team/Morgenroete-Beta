@@ -462,6 +462,7 @@ mr_physician_wounded_treatment_button_sgui = {
         chosen_character
     }
 	effect = {
+		set_variable = panum_character_treatment_wounded_var
 		remove_variable = panum_physician_character_treatment_button_active
 		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
@@ -565,6 +566,7 @@ mr_physician_seriously_injured_treatment_button_sgui = {
         chosen_character
     }
 	effect = {
+		set_variable = panum_character_treatment_seriously_injured_var
 		remove_variable = panum_physician_character_treatment_button_active
 		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
@@ -672,6 +674,7 @@ mr_physician_kidney_stones_treatment_button_sgui = {
         chosen_character
     }
 	effect = {
+		set_variable = panum_character_treatment_kidney_stones_var
 		remove_variable = panum_physician_character_treatment_button_active
 		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
@@ -779,6 +782,7 @@ mr_physician_cancer_treatment_button_sgui = {
         chosen_character
     }
 	effect = {
+		set_variable = panum_character_treatment_cancer_var
 		remove_variable = panum_physician_character_treatment_button_active
 		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
@@ -893,6 +897,7 @@ mr_physician_syphilis_treatment_button_sgui = {
         chosen_character
     }
 	effect = {
+		set_variable = panum_character_treatment_syphilis_var
 		remove_variable = panum_physician_character_treatment_button_active
 		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
@@ -1007,6 +1012,7 @@ mr_physician_sickly_treatment_button_sgui = {
         chosen_character
     }
 	effect = {
+		set_variable = panum_character_treatment_sickly_var
 		remove_variable = panum_physician_character_treatment_button_active
 		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
@@ -1107,6 +1113,7 @@ mr_physician_panum_cholera_treatment_button_sgui = {
         chosen_character
     }
 	effect = {
+		set_variable = panum_character_treatment_cholera_var
 		remove_variable = panum_physician_character_treatment_button_active
 		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
@@ -1214,6 +1221,7 @@ mr_physician_panum_tuberculosis_treatment_button_sgui = {
         chosen_character
     }
 	effect = {
+		set_variable = panum_character_treatment_tuberculosis_var
 		remove_variable = panum_physician_character_treatment_button_active
 		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
@@ -1309,6 +1317,114 @@ mr_physician_panum_tuberculosis_treatment_button_sgui = {
 	}
 }
 
+mr_character_has_panum_typhus_trait_for_treatment_sgui = {
+	scope = character
+	is_shown = {
+		has_trait = panum_typhus
+	}
+}
+mr_physician_panum_typhus_treatment_button_sgui = {
+	scope = country
+	saved_scopes = {
+        chosen_character
+    }
+	effect = {
+		set_variable = panum_character_treatment_typhus_var
+		remove_variable = panum_physician_character_treatment_button_active
+		panum_treatment_cooldown_modifier_add_effect = yes
+		random_list = {
+			0 = {
+				#Event to notify the player of result
+				hidden_effect = {
+					trigger_event = {
+						id = panum.2301
+						popup = yes
+					}
+				}
+				scope:chosen_character = {
+					remove_trait = panum_typhus
+				}
+
+				modifier = {
+					add = panum_typhus_success_chance_value
+				}
+			}
+			0 = {
+				#Event to notify the player of result
+				hidden_effect = {
+					trigger_event = {
+						id = panum.2302
+						popup = yes
+					}
+				}
+
+				modifier = {
+					add = panum_typhus_no_effect_chance_value
+				}
+			}
+			0 = {
+				scope:chosen_character = {
+					#This effect adds a negative modifier to the IG of the character if the character is not a Morgenröte Character
+					panum_botched_treatment_ig_effect = yes
+
+					random_list = {
+						8 = {
+							add_trait = sickly
+
+							trigger = {
+								NOT = { has_trait = sickly }
+							}
+						}
+						4 = {
+							add_trait = alcoholic
+
+							trigger = {
+								NOT = { has_trait = alcoholic }
+							}
+						}
+						4 = {
+							add_trait = opium_addiction
+
+							trigger = {
+								NOT = { has_trait = opium_addiction }
+							}
+						}
+						4 = {
+							add_trait = cocaine_addiction
+
+							trigger = {
+								NOT = { has_trait = cocaine_addiction }
+							}
+						}
+						20 = {
+							add_modifier = {
+								name = panum_physician_botched_treatment_modifier
+								years = 2
+							}
+						}
+						1 = {
+							panum_character_treatment_fatal_effect = yes
+						}
+					}
+				}
+				#Event to notify the player of botched treatment
+				# checks if the character is alive in the trigger
+				# does not trigger in case of death
+				hidden_effect = {
+					trigger_event = {
+						id = panum.2303
+						popup = yes
+					}
+				}
+
+				modifier = {
+					add = panum_typhus_negative_effect_chance_value
+				}
+			}
+		}
+	}
+}
+
 mr_character_has_panum_yellow_fever_trait_for_treatment_sgui = {
 	scope = character
 	is_shown = {
@@ -1321,6 +1437,7 @@ mr_physician_panum_yellow_fever_treatment_button_sgui = {
         chosen_character
     }
 	effect = {
+		set_variable = panum_character_treatment_yellow_fever_var
 		remove_variable = panum_physician_character_treatment_button_active
 		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
@@ -1428,6 +1545,7 @@ mr_physician_psychological_affliction_treatment_button_sgui = {
         chosen_character
     }
 	effect = {
+		set_variable = panum_character_treatment_psychological_affliction_var
 		remove_variable = panum_physician_character_treatment_button_active
 		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
@@ -1537,6 +1655,7 @@ mr_physician_shellshocked_treatment_button_sgui = {
         chosen_character
     }
 	effect = {
+		set_variable = panum_character_treatment_shellshocked_var
 		remove_variable = panum_physician_character_treatment_button_active
 		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
@@ -1646,6 +1765,7 @@ mr_physician_alcoholic_treatment_button_sgui = {
         chosen_character
     }
 	effect = {
+		set_variable = panum_character_treatment_alcoholic_var
 		remove_variable = panum_physician_character_treatment_button_active
 		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
@@ -1748,6 +1868,7 @@ mr_physician_opium_addiction_treatment_button_sgui = {
         chosen_character
     }
 	effect = {
+		set_variable = panum_character_treatment_opium_addiction_var
 		remove_variable = panum_physician_character_treatment_button_active
 		panum_treatment_cooldown_modifier_add_effect = yes
 
