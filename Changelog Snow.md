@@ -140,6 +140,9 @@ Fixes:
 
 Mini-Update 5
 
+Fixes:
+- Journal Entries for gathering clues should now keep track of clues you found before.
+
 Characters:
 - Haruthiun Abeljanz (random Armenian Chemist)
 - Albert Boehring (random German Chemist)
@@ -154,5 +157,53 @@ Characters:
 - Paul Ehrlich (random German Physician)
 - Ronald Ross (random British Physician)
 
+General:
+- The Genetics technology now gives a stronger bonus.
+
 Quality of Life:
 - The tooltips for the academic focus now show the correct interest groups even if you play with other mods.
+
+
+
+Mini-Update 5
+
+Characters:
+- Julien Fraipont (random Belgian Anthropologist and Paleontologist)
+- Jean Capart (random Belgian Archaeologist)
+- Franz Cumont (random Belgian Archaeologist)
+- Jean-Joseph-Antoine-Marie de Witte (random Belgian Archaeologist)
+- Henri Lavachery (random Belgian Archaeologist)
+- Louis Cruls (random Belgian Astronomer)
+- François Folie (random Belgian Astronomer)
+- Constantin Le Paige (random Belgian Astronomer)
+- George Van Biesbroeck (randim Belian Astronomer)
+- Carl Auer von Welsbach (random Austrian Chemist)
+- Martin Martens (random Belgian/Dutch Chemist and Physician)
+- Louis Melsens (random Belgian Chemist)
+- Jean Stas (random Belian Chemist and Physician)
+- Claude-Auguste Lamy (random French Chemist)
+- William Crookes (random British Chemist)
+- August Wilhelm Hofmann (random German Chemist)
+- Karl Ernst Claus (random Russian Chemist)
+- Jean Absil (random Belgian Composer)
+- Peter Benoit (random Belgian Composer)
+- César Franck (random Belgian Composer)
+- Eugène Ysaÿe (random Belgian Composer)
+- Alphonse Briart (random Belgian Geologist)
+- Jean Baptiste Julien d'Omalius d'Halloy (random Belgian Geologist)
+- Charles-Louis-Joseph-Xavier de la Vallée Poussin (random Belgian Geologist)
+- Gustave Dewalque (random Belgian Geologist, Paleontologist and Physician)
+- André Dumont (random Belgian Geologist)
+- Max Lohest (random Belgian Geologist and Anthropologist)
+- Alphonse François Renard (random Belgian Geologist)
+- René Tavernier (random Belgian Geologist)
+- Hisakatsu Yabe (random Japanese Geologist and Paleontologist)
+- Ernest Candèze (random Belian Physician and Naturalist)
+- Félicien Chapuis (random Belian Physician and Naturalist)
+- Kitasato Shibasaburō (random Japanese Physician)
+
+3D:
+- Morgenröte characters can now wear Dracula glasses but with normal glass (Thanks to Miss Duce).
+
+Fixes:
+- Fixed a trigger for the AI
