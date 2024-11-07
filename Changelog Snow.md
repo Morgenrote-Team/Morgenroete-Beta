@@ -201,6 +201,7 @@ Characters:
 - Ernest Candèze (random Belgian Physician and Naturalist)
 - Félicien Chapuis (random Belgian Physician and Naturalist)
 - James Ensor (random Belgian Painter)
+- François-Joseph Navez (random Belgian Painter)
 - Kitasato Shibasaburō (random Japanese Physician)
 
 3D:
