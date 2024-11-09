@@ -203,9 +203,11 @@ Characters:
 - Alfred Cluysenaar (random Belgian Painter)
 - André Cluysenaar (random Belgian Painter)
 - James Ensor (random Belgian Painter)
+- Fernand Khnopff (random Belgian Painter)
 - François-Joseph Navez (Belgian starting Painter)
 - Jean-François Portaels (random Belgian Painter)
 - Kitasato Shibasaburō (random Japanese Physician)
+- Hendrik Conscience (Belgian starting Writer)
 
 3D:
 - Morgenröte characters can now wear Dracula glasses but with normal glass (Thanks to Miss Duce).
