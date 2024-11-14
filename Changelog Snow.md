@@ -197,6 +197,7 @@ Characters:
 - Max Lohest (random Belgian Geologist and Anthropologist)
 - Alphonse François Renard (random Belgian Geologist)
 - René Tavernier (random Belgian Geologist)
+- James David Forbes (random British Geologist)
 - Giuseppe Mercalli (random Italian Geologist)
 - Luigi Palmieri (random Italian Geologist)
 - Hisakatsu Yabe (random Japanese Geologist and Paleontologist)
