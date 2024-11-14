@@ -200,6 +200,7 @@ Characters:
 - Hisakatsu Yabe (random Japanese Geologist and Paleontologist)
 - Ernest Candèze (random Belgian Physician and Naturalist)
 - Félicien Chapuis (random Belgian Physician and Naturalist)
+- Étienne-Jules Marey (random French Physician)
 - Alfred Cluysenaar (random Belgian Painter)
 - André Cluysenaar (random Belgian Painter)
 - James Ensor (random Belgian Painter)
