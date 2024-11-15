@@ -201,6 +201,7 @@ Characters:
 - Giuseppe Mercalli (random Italian Geologist)
 - Luigi Palmieri (random Italian Geologist)
 - Hisakatsu Yabe (random Japanese Geologist and Paleontologist)
+- Charles Richter (random American Geologist)
 - Ernest Candèze (random Belgian Physician and Naturalist)
 - Félicien Chapuis (random Belgian Physician and Naturalist)
 - Étienne-Jules Marey (random French Physician)
