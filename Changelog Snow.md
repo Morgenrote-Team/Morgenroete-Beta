@@ -198,6 +198,7 @@ Characters:
 - Alphonse François Renard (random Belgian Geologist)
 - René Tavernier (random Belgian Geologist)
 - James David Forbes (random British Geologist)
+- Beno Gutenberg (random German Geologist)
 - Giuseppe Mercalli (random Italian Geologist)
 - Luigi Palmieri (random Italian Geologist)
 - Hisakatsu Yabe (random Japanese Geologist and Paleontologist)
