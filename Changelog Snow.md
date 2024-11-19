@@ -198,6 +198,7 @@ Characters:
 - Alphonse François Renard (random Belgian Geologist)
 - René Tavernier (random Belgian Geologist)
 - James David Forbes (random British Geologist)
+- Arthur Holmes (random British Geologist)
 - Roderick Murchison (random British Geologist)
 - Beno Gutenberg (random German Geologist)
 - Giuseppe Mercalli (random Italian Geologist)
