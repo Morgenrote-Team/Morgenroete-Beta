@@ -223,6 +223,7 @@ Characters:
 
 Changes:
 - Rudolf Wolf is now a random Astronomer
+- Added an Observatory to Switzerland (Observatoire de Genève) and removed the event for the Eidgenössische Sternwarte.
 
 3D:
 - Morgenröte characters can now wear Dracula glasses but with normal glass (Thanks to Miss Duce).
