@@ -178,6 +178,7 @@ Characters:
 - Constantin Le Paige (random Belgian Astronomer)
 - George Van Biesbroeck (random Belgian Astronomer)
 - Robert Emden (random Swiss Astronomer)
+- Emile Plantamour (random Swiss Astronomer)
 - Robert Julius Trumpler (random Swiss Astronomer)
 - Carl Auer von Welsbach (random Austrian Chemist)
 - Martin Martens (random Belgian/Dutch Chemist and Physician)
