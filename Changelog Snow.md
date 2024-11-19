@@ -220,6 +220,9 @@ Characters:
 - Kitasato Shibasaburō (random Japanese Physician)
 - Hendrik Conscience (Belgian starting Writer)
 
+Changes:
+- Rudolf Wolf is now a random Astronomer
+
 3D:
 - Morgenröte characters can now wear Dracula glasses but with normal glass (Thanks to Miss Duce).
 
