@@ -190,6 +190,7 @@ Characters:
 - William Crookes (random British Chemist)
 - August Wilhelm Hofmann (random German Chemist)
 - Karl Ernst Claus (random Russian Chemist)
+- Roland Scholl (random Swiss Chemist)
 - Jean Absil (random Belgian Composer)
 - Peter Benoit (random Belgian Composer)
 - César Franck (random Belgian Composer)
