@@ -129,6 +129,7 @@ namespace = panum
 #Panum 246: Lifestyle & Immunity
 #Panum 247: A notfiable Disease
 #Panum 248: Killing the Microbes
+#Panum 249: Personal spittoon +1
 
 #Panum 251: A Cell Disease
 #Panum 252: Bronchiectasis
@@ -6078,6 +6079,16 @@ panum.240 = {
 		}
 		if = {
 			limit = {
+				var:panum_physician_var ?= {
+					has_trait = panum_tuberculosis
+				}
+			}
+			var:panum_physician_var ?= {
+				remove_trait = panum_tuberculosis
+			}
+		}
+		if = {
+			limit = {
 				scope:panum_disease_state = {
 					has_modifier = panum_epidemic_tuberculosis_severe_modifier
 				}
@@ -6646,7 +6657,7 @@ panum.248 = {
 			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
 		}
 		panum_has_miasma_theory_trigger = no
-		var:panum_cholera_treatment_clues_var >= 5
+		var:panum_tuberculosis_treatment_clues_var >= 5
 	}
 
 	immediate = {
@@ -6663,6 +6674,60 @@ panum.248 = {
 		name = panum.248.g
 		default_option = yes
 		panum_add_x_tuberculosis_treatment_clues_effect = { AMOUNT = 3 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 249: Personal spittoon
+panum.249 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.249.t
+
+	desc = panum.249.d
+
+	flavor = panum.249.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_4.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		panum_has_miasma_theory_trigger = no
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_tuberculosis_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.249.g
+		default_option = yes
+		panum_add_x_tuberculosis_treatment_clues_effect = { AMOUNT = 1 }
 	}
 
 	after = {
@@ -6879,6 +6944,7 @@ panum.254 = {
 	option = {	#Precisely observed.
 		name = panum.254.g
 		default_option = yes
+		panum_add_x_tuberculosis_treatment_clues_effect = { AMOUNT = 1 }
 		var:panum_physician_var = {
 			add_trait = panum_tuberculosis
 		}
@@ -11152,11 +11218,11 @@ panum.540 = {
 
 	type = country_event
 
-	title = panum.140.t
+	title = panum.540.t
 
-	desc = panum.140.d
+	desc = panum.540.d
 
-	flavor = panum.140.f
+	flavor = panum.540.f
 	
 	duration = 3
 
@@ -11184,16 +11250,977 @@ panum.540 = {
 	}
 
 	option = {	#Yellow Fever is losing its horror.
-		name = panum.140.g
+		name = panum.540.g
 		panum_add_yellow_fever_treatment_effect = yes
+		panum_add_x_germ_theory_clues_effect = { AMOUNT = 4 }
 		var:panum_physician_var = {
 			set_character_busy_and_immortal = no
+		}
+		if = {
+			limit = {
+				var:panum_physician_var ?= {
+					has_trait = panum_yellow_fever
+				}
+			}
+			var:panum_physician_var ?= {
+				remove_trait = panum_yellow_fever
+			}
+		}
+		if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_yellow_fever_severe_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				remove_modifier = panum_epidemic_yellow_fever_severe_modifier
+			}
+		}
+		if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_yellow_fever_normal_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				remove_modifier = panum_epidemic_yellow_fever_normal_modifier
+			}
+		}
+		if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_yellow_fever_mild_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				remove_modifier = panum_epidemic_yellow_fever_mild_modifier
+			}
 		}
 	}
 
 	after = {
 		remove_variable = panum_treatment_title_randomizer_var
 		remove_variable = panum_disease_title_var
+	}
+}
+
+#Panum 541: Into the Feverish Heart
+panum.541 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.541.t
+
+	desc = panum.541.d
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				scope:panum_disease_state = {
+					state_is_in_americas = yes
+				}
+			}
+			desc = panum.541.f_america
+		}
+		triggered_desc = {
+			trigger = {
+				scope:panum_disease_state = {
+					state_is_in_africa = yes
+				}
+			}
+			desc = panum.541.f_africa
+		}
+	}
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_yellow_fever_investigation.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		var:panum_dubious_yellow_fever_treatment_clues_var = 0
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.541.g
+		default_option = yes
+		hidden_effect = {
+			panum_add_dubious_yellow_fever_treatment_clues_effect = yes
+		}
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 542: Wars of Yesterday
+panum.542 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.542.t
+
+	desc = panum.542.d
+
+	flavor = panum.542.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 200 #Should not happen again
+	}
+
+	trigger = {
+		var:panum_dubious_yellow_fever_treatment_clues_var = 1
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.542.g
+		default_option = yes
+		panum_add_dubious_yellow_fever_treatment_clues_effect = yes
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 543: Fields of Woe
+panum.543 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.543.t
+
+	desc = panum.543.d
+
+	flavor = panum.543.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_2.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 200 #Should not happen again
+	}
+
+	trigger = {
+		var:panum_dubious_yellow_fever_treatment_clues_var = 2
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.543.g
+		default_option = yes
+		panum_add_dubious_yellow_fever_treatment_clues_effect = yes
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 544: The Water...?
+panum.544 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.544.t
+
+	desc = panum.544.d
+
+	flavor = panum.544.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_3.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 200 #Should not happen again
+	}
+
+	trigger = {
+		var:panum_dubious_yellow_fever_treatment_clues_var = 3
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.544.g
+		default_option = yes
+		panum_add_dubious_yellow_fever_treatment_clues_effect = yes
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 545: The Island
+panum.545 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.545.t
+
+	desc = panum.545.d
+
+	flavor = panum.545.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_4.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 200 #Should not happen again
+	}
+
+	trigger = {
+		var:panum_dubious_yellow_fever_treatment_clues_var = 4
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.545.g
+		default_option = yes
+		panum_add_dubious_yellow_fever_treatment_clues_effect = yes
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 546: Swamp Gas?
+panum.546 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.546.t
+
+	desc = panum.546.d
+
+	flavor = panum.546.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_5.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 200 #Should not happen again
+	}
+
+	trigger = {
+		var:panum_dubious_yellow_fever_treatment_clues_var = 5
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.546.g
+		default_option = yes
+		panum_add_dubious_yellow_fever_treatment_clues_effect = yes
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 547: The Rival
+panum.547 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.547.t
+
+	desc = panum.547.d
+
+	flavor = panum.547.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_3.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 200 #Should not happen again
+	}
+
+	trigger = {
+		var:panum_dubious_yellow_fever_treatment_clues_var = 6
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.547.g
+		default_option = yes
+		panum_add_dubious_yellow_fever_treatment_clues_effect = yes
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 548: The Forked Road
+panum.548 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.548.t
+
+	desc = panum.548.d
+
+	flavor = panum.548.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_yellow_fever_investigation.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 200 #Should not happen again
+	}
+
+	trigger = {
+		var:panum_dubious_yellow_fever_treatment_clues_var = 7
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.548.g
+		default_option = yes
+		hidden_effect = {
+			panum_add_dubious_yellow_fever_treatment_clues_effect = yes
+		}
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 551: The Path to Prevention?
+panum.551 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.551.t
+
+	desc = panum.551.d
+
+	flavor = panum.551.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_yellow_fever_investigation.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 200 #Should not happen again
+	}
+
+	trigger = {
+		var:panum_dubious_yellow_fever_treatment_clues_var = 8
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.551.g
+		default_option = yes
+		physician_experience_gain_effect = { AMOUNT = 20 }
+		hidden_effect = {
+			panum_add_dubious_yellow_fever_treatment_clues_effect = yes
+		}
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 552: Fillet O'Facts
+panum.552 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.552.t
+
+	desc = panum.552.d
+
+	flavor = panum.552.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 200 #Should not happen again
+	}
+
+	trigger = {
+		var:panum_dubious_yellow_fever_treatment_clues_var = 9
+		var:panum_yellow_fever_treatment_clues_var = 0
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.552.g
+		default_option = yes
+		dubois_add_x_academy_progress = { AMOUNT = 20 }
+		panum_add_x_yellow_fever_treatment_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 553: The Mission/The Slum
+panum.553 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				scope:panum_disease_state = {
+					state_is_in_americas = yes
+				}
+			}
+			desc = panum.553.t_america
+		}
+		triggered_desc = {
+			trigger = {
+				scope:panum_disease_state = {
+					state_is_in_africa = yes
+				}
+			}
+			desc = panum.553.t_africa
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				scope:panum_disease_state = {
+					state_is_in_americas = yes
+				}
+			}
+			desc = panum.553.d_america
+		}
+		triggered_desc = {
+			trigger = {
+				scope:panum_disease_state = {
+					state_is_in_africa = yes
+				}
+			}
+			desc = panum.553.d_africa
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				scope:panum_disease_state = {
+					state_is_in_americas = yes
+				}
+			}
+			desc = panum.553.f_america
+		}
+		triggered_desc = {
+			trigger = {
+				scope:panum_disease_state = {
+					state_is_in_africa = yes
+				}
+			}
+			desc = panum.553.f_africa
+		}
+	}
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_2.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 200 #Should not happen again
+	}
+
+	trigger = {
+		var:panum_dubious_yellow_fever_treatment_clues_var = 9
+		var:panum_yellow_fever_treatment_clues_var = 2
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.553.g
+		trigger = {
+			scope:panum_disease_state = {
+				state_is_in_americas = yes
+			}
+		}
+		default_option = yes
+		panum_add_x_yellow_fever_treatment_clues_effect = { AMOUNT = 2 }
+	}
+
+	option = {	#Precisely observed.
+		name = panum.553.h
+		trigger = {
+			scope:panum_disease_state = {
+				state_is_in_africa = yes
+			}
+		}
+		default_option = yes
+		panum_add_x_yellow_fever_treatment_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 554: The Biggest Killer
+panum.554 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.554.t
+
+	desc = panum.554.d
+
+	flavor = panum.554.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_3.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 200 #Should not happen again
+	}
+
+	trigger = {
+		var:panum_dubious_yellow_fever_treatment_clues_var = 9
+		var:panum_yellow_fever_treatment_clues_var = 4
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.554.g
+		default_option = yes
+		panum_add_x_yellow_fever_treatment_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 555: Memories of Yesteryear/Folk Remedies
+panum.555 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				scope:panum_disease_state = {
+					state_is_in_americas = yes
+				}
+			}
+			desc = panum.555.t_america
+		}
+		triggered_desc = {
+			trigger = {
+				scope:panum_disease_state = {
+					state_is_in_africa = yes
+				}
+			}
+			desc = panum.555.t_africa
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				scope:panum_disease_state = {
+					state_is_in_americas = yes
+				}
+			}
+			desc = panum.555.d_america
+		}
+		triggered_desc = {
+			trigger = {
+				scope:panum_disease_state = {
+					state_is_in_africa = yes
+				}
+			}
+			desc = panum.555.d_africa
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				scope:panum_disease_state = {
+					state_is_in_americas = yes
+				}
+			}
+			desc = panum.555.d_america
+		}
+		triggered_desc = {
+			trigger = {
+				scope:panum_disease_state = {
+					state_is_in_africa = yes
+				}
+			}
+			desc = panum.555.d_africa
+		}
+	}
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_4.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 200 #Should not happen again
+	}
+
+	trigger = {
+		var:panum_dubious_yellow_fever_treatment_clues_var = 9
+		var:panum_yellow_fever_treatment_clues_var = 6
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.555.g
+		trigger = {
+			scope:panum_disease_state = {
+				state_is_in_americas = yes
+			}
+		}
+		default_option = yes
+		panum_add_x_yellow_fever_treatment_clues_effect = { AMOUNT = 2 }
+	}
+
+	option = {	#Precisely observed.
+		name = panum.555.h
+		trigger = {
+			scope:panum_disease_state = {
+				state_is_in_africa = yes
+			}
+		}
+		default_option = yes
+		panum_add_x_yellow_fever_treatment_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 556: The Biggest Killer
+panum.556 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.556.t
+
+	desc = panum.556.d
+
+	flavor = panum.556.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_5.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 200 #Should not happen again
+	}
+
+	trigger = {
+		var:panum_dubious_yellow_fever_treatment_clues_var = 9
+		var:panum_yellow_fever_treatment_clues_var = 8
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.556.g
+		default_option = yes
+		panum_add_x_yellow_fever_treatment_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
 	}
 }
 
