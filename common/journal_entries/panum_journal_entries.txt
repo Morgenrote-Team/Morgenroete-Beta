@@ -3096,7 +3096,7 @@ je_panum_tuberculosis_treatment = {
 		random_events = {
 			30 = 0
 
-			#Good Events (+12-16)
+			#Good Events (+13-17)
 			1 = panum.241 #Panum 241: The Rabbit Experiment +1-4
 			2 = panum.242 #Panum 242: Death of the Crowd +1-2
 			2 = panum.243 #Panum 243: A Tuberculosis Hermit +1
@@ -3105,12 +3105,13 @@ je_panum_tuberculosis_treatment = {
 			2 = panum.246 #Panum 246: Lifestyle & Immunity +1
 			1 = panum.247 #Panum 247: A notfiable Disease +2
 			1 = panum.248 #Panum 248: Killing the Microbes +3
+			2 = panum.249 #Panum 249: Personal spittoon +1
 
-			#Bad Events (-4)
+			#Bad Events (-3)
 			1 = panum.251 #Panum 251: A Cell Disease -2
 			1 = panum.252 #Panum 252: Bronchiectasis -1
 			1 = panum.253 #Panum 253: Charlatanism -1
-			1 = panum.254 #Panum 254: Contact with the White Death
+			1 = panum.254 #Panum 254: Contact with the White Death +1
 
 			#Character Events (+8-9)
 			10 = panum.261 #Panum 261: Artificial Pneumothorax +3
@@ -3180,7 +3181,7 @@ je_panum_tuberculosis_treatment = {
 	}
 
 	goal_add_value = {
-		value = 8
+		value = 10
 	}
 
 	invalid = {
@@ -3419,7 +3420,127 @@ je_panum_typhus_treatment = {
 }
 
 je_panum_yellow_fever_treatment = {
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
 	group = je_group_panum_medicine
+
+	on_weekly_pulse = {
+		random_events = {
+			30 = 0
+
+			#Dubious Clues Events
+			10 = panum.541 #Panum 541: Into the Feverish Heart
+			5 = panum.542 #Panum 542: Wars of Yesterday
+			5 = panum.543 #Panum 543: Fields of Woe
+			5 = panum.544 #Panum 544: The Water...?
+			5 = panum.545 #Panum 545: The Island
+			5 = panum.546 #Panum 546: Swamp Gas?
+			5 = panum.547 #Panum 547: The Rival
+			5 = panum.548 #Panum 548: The Forked Road
+
+			#Real Clues Events
+			5 = panum.551 #Panum 551: The Path to Prevention?
+			5 = panum.552 #Panum 552: Fillet O'Facts
+			5 = panum.553 #Panum 553: The Mission/The Slum
+			5 = panum.554 #Panum 554: The Biggest Killer
+			5 = panum.555 #Panum 555: Memories of Yesteryear/Folk Remedies
+			5 = panum.556 #Panum 556: Simple Fabric?
+
+		}
+	}
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = panum_yellow_fever_treatment_clues_var
+				}
+			}
+			set_variable = {
+				name = panum_yellow_fever_treatment_clues_var
+				value = 0
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = panum_dubious_yellow_fever_treatment_clues_var
+				}
+			}
+			set_variable = {
+				name = panum_dubious_yellow_fever_treatment_clues_var
+				value = 0
+			}
+		}
+	}
+
+	fail = {
+		NOT = {
+			has_journal_entry = je_panum_yellow_fever
+		}
+    }
+
+	on_fail = {
+		trigger_event = {
+			id = panum.134 #Unfinished Treatment
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_panum_yellow_fever_treatment_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = panum.540
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:panum_yellow_fever_treatment_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_physician_dies_tt
+			NOT = {
+				has_variable = panum_physician_var
+			}
+		}
+	}
+
+	on_invalid = {
+		panum_remove_active_variables_effect = yes
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
 }
 
 je_panum_measles_treatment = {
