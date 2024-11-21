@@ -1,15 +1,27 @@
-Changelog for 2.2.5 "Snow"
+Changelog for 2.3.0 "Finlay"
 
 General:
+- Compatible with 1.8.+
 - The Genetics technology now gives a stronger bonus.
 - Rudolf Wolf is now a random Astronomer
-- Added an Observatory to Switzerland (Observatoire de Genève) and removed the event for the Eidgenössische Sternwarte.
 - Events should now appear more spread out.
 
 Medicine:
 - New character type Physician.
-- Physician can work on diseases to find treatments. They also have some other minor projects to work on.
-- Cholera and Typhus as diseases that can ravage your country. Use your Physician to deal with them.
+- Cholera, Tuberculosis, Smallpox, Typhus and Yellow as diseases that can ravage your country as epidemic diseases.
+- Epidemics will hit you country under different circumstances. For example, Typhus will occur in countries with high devastation, Yellow Fever in tropical climate. Low SoL has an impact.
+- Physicians can find treatments for epidemic diseases. They will still occur, but in a milder variant. They only will stay for some months instead of a year.
+- Bevor a Physician can find a treatment, a disease has to be described first.
+- A Physician can always describe a disease, but there a certain technology is needed to find a treatment for a certain disease.
+- You'll find a lot of helpful information about epidemic diseases in the Medical Faculty.
+- Depending on the disease, a Physician may need more time to find a treatment.
+- Physicians normally describe and cure diseases when an epidemic occurs; they can also go on expeditions to write descriptions or find tretaments, but this will take longer.
+- Countries which are the first to disocver a treatment get a special modifiers and can held a Medical Congress.
+- Medical Congresses invites all Physicians and gives bonuses; Physicians may share knowledge (descriptions and treatments for free!)
+- Physicians can do Medical Research for better medical technology.
+- Added new technologies: Vaccination, Microbiology, Antitoxins.
+- Physicians can expand the Medical System and found clinics and hospitals which have a positive effects on mortality, growth and living standard.
+- Physicians can treat other characters with bad condition traits like sickly, wounded, seriously injured etc.
 
 Astronomy:
 - There are no longer empty planet modifiers. Instead it will be handled with variables and you will get a tooltip telling you, how much Astronomy Prestige you will get.
@@ -20,6 +32,57 @@ Engineering:
 - Added a new project to develop the first mechanical computer.
 - You can now see all engineering projects even if your specialization does not match your engineer.
 - Added three random events for the Mechanical Computer Project.
+
+Element Names:
+- Added various new element names.
+
+Balance:
+- Most Licences do no longer cost influence.
+
+Quality of Life:
+- Added many modifiers to show you what effect our traits, production method, etc. have on the Morgenröte Mechanics.
+- The tooltips for the academic focus now show the correct interest groups even if you play with other mods.
+
+Fixes:
+- The Special Art styles no longer tell you to look at the Technology window instead of the Morgenröte GUI.
+- Neptunium can no longer exist twice.
+- There should no longer be any element symbols being used twice.
+- Zoos will no longer downgrade automatically.
+- No more Error spam in observer games.
+- Painters and Writers should no longer get more than 500 reputation.
+- You can recruit academics now if other countries have a geologist or chemist now.
+- Safari now end if you acquire the animals in other ways.
+- Pilots will stop being busy after an airshow instead of becoming even more busy.
+- You should no longer get a new pilot at the Schneider trophy if you already has one. If it happens anyways, you have the option to keep your current pilot.
+- Campania should no longer show up as Volcano Expedition location when not owned.
+- Synthetic Rubber will not produce Silk anymore.
+- The Observatory should no longer give a warning for you to upgrade it, if it is fully upgraded.
+- Various Tooltips are now more informative and tell you which country is affected.
+- Hopefully fixed a bug that showed the Transatlantic Cable expedition as active even once it was finished.
+- Terbium is called Terbium again and not Tebrium.
+- Planet discoverers will now be displayed all the time and not suddenly disappear.
+- Children and babies will no longer win the Olympic Games (might still have some instances though).
+- The Cretaceous Scenery now has a title and flavor text again.
+- Chemicals in the water will now make people there angry.
+- Switzerland and Sweden now actually get the atmospheric engine at game start.
+- Schliemann will now only be available at between 1852 and 1890.
+- Fixed missing animal names for the Get Exotic animal Journal Entry.
+- Characters with the academic gowns will no longer wear sashes.
+- Poems are no longer all nihilistic and instead have actual titles.
+- Writers now gain Reputation on their tours.
+- Fixed a trigger for the AI
+
+Performance:
+- Removed some global variables for planet discoveries.
+- Revamped the way the AI gets a balloonist which will improve performance slightly.
+
+3D:
+- Morgenröte characters can now wear Dracula glasses but with normal glass (Thanks to Miss Duce).
+
+Other:
+- Kopenhagen starts with university.
+- Added an Observatory to Switzerland (Observatoire de Genève) and removed the event for the Eidgenössische Sternwarte.
+- Morgenröte Traits now have different colors signifying whether they are traits related to Natural History, Mathematical and Technical Science, Humanities, Arts or Sports.
 
 Characters:
 - Sam Eyde (random Norwegian Engineer)
@@ -123,53 +186,3 @@ Characters:
 - Jean-François Portaels (random Belgian Painter)
 - Kitasato Shibasaburō (random Japanese Physician)
 - Hendrik Conscience (Belgian starting Writer)
-
-Element Names:
-- Added various new element names.
-
-Balance:
-- Most Licences do no longer cost influence.
-
-Quality of Life:
-- Added many modifiers to show you what effect our traits, production method, etc. have on the Morgenröte Mechanics.
-- The tooltips for the academic focus now show the correct interest groups even if you play with other mods.
-
-Fixes:
-- The Special Art styles no longer tell you to look at the Technology window instead of the Morgenröte GUI.
-- Neptunium can no longer exist twice.
-- There should no longer be any element symbols being used twice.
-- Zoos will no longer downgrade automatically.
-- No more Error spam in observer games.
-- Painters and Writers should no longer get more than 500 reputation.
-- You can recruit academics now if other countries have a geologist or chemist now.
-- Safari now end if you acquire the animals in other ways.
-- Pilots will stop being busy after an airshow instead of becoming even more busy.
-- You should no longer get a new pilot at the Schneider trophy if you already has one. If it happens anyways, you have the option to keep your current pilot.
-- Campania should no longer show up as Volcano Expedition location when not owned.
-- Synthetic Rubber will not produce Silk anymore.
-- The Observatory should no longer give a warning for you to upgrade it, if it is fully upgraded.
-- Various Tooltips are now more informative and tell you which country is affected.
-- Hopefully fixed a bug that showed the Transatlantic Cable expedition as active even once it was finished.
-- Terbium is called Terbium again and not Tebrium.
-- Planet discoverers will now be displayed all the time and not suddenly disappear.
-- Children and babies will no longer win the Olympic Games (might still have some instances though).
-- The Cretaceous Scenery now has a title and flavor text again.
-- Chemicals in the water will now make people there angry.
-- Switzerland and Sweden now actually get the atmospheric engine at game start.
-- Schliemann will now only be available at between 1852 and 1890.
-- Fixed missing animal names for the Get Exotic animal Journal Entry.
-- Characters with the academic gowns will no longer wear sashes.
-- Poems are no longer all nihilistic and instead have actual titles.
-- Writers now gain Reputation on their tours.
-- Fixed a trigger for the AI
-
-Performance:
-- Removed some global variables for planet discoveries.
-- Revamped the way the AI gets a balloonist which will improve performance slightly.
-
-Other:
-- Kopenhagen starts with university
-- Morgenröte Traits now have different colors signifying whether they are traits related to Natural History, Mathematical and Technical Science, Humanities, Arts or Sports.
-
-3D:
-- Morgenröte characters can now wear Dracula glasses but with normal glass (Thanks to Miss Duce).
