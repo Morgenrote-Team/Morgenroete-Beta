@@ -4,6 +4,7 @@ General:
 - The Genetics technology now gives a stronger bonus.
 - Rudolf Wolf is now a random Astronomer
 - Added an Observatory to Switzerland (Observatoire de Genève) and removed the event for the Eidgenössische Sternwarte.
+- Events should now appear more spread out.
 
 Medicine:
 - New character type Physician.
