@@ -33,6 +33,57 @@ Engineering:
 - You can now see all engineering projects even if your specialization does not match your engineer.
 - Added three random events for the Mechanical Computer Project.
 
+Element Names:
+- Added various new element names.
+
+Balance:
+- Most Licences do no longer cost influence.
+
+Quality of Life:
+- Added many modifiers to show you what effect our traits, production method, etc. have on the Morgenröte Mechanics.
+- The tooltips for the academic focus now show the correct interest groups even if you play with other mods.
+
+Fixes:
+- The Special Art styles no longer tell you to look at the Technology window instead of the Morgenröte GUI.
+- Neptunium can no longer exist twice.
+- There should no longer be any element symbols being used twice.
+- Zoos will no longer downgrade automatically.
+- No more Error spam in observer games.
+- Painters and Writers should no longer get more than 500 reputation.
+- You can recruit academics now if other countries have a geologist or chemist now.
+- Safari now end if you acquire the animals in other ways.
+- Pilots will stop being busy after an airshow instead of becoming even more busy.
+- You should no longer get a new pilot at the Schneider trophy if you already has one. If it happens anyways, you have the option to keep your current pilot.
+- Campania should no longer show up as Volcano Expedition location when not owned.
+- Synthetic Rubber will not produce Silk anymore.
+- The Observatory should no longer give a warning for you to upgrade it, if it is fully upgraded.
+- Various Tooltips are now more informative and tell you which country is affected.
+- Hopefully fixed a bug that showed the Transatlantic Cable expedition as active even once it was finished.
+- Terbium is called Terbium again and not Tebrium.
+- Planet discoverers will now be displayed all the time and not suddenly disappear.
+- Children and babies will no longer win the Olympic Games (might still have some instances though).
+- The Cretaceous Scenery now has a title and flavor text again.
+- Chemicals in the water will now make people there angry.
+- Switzerland and Sweden now actually get the atmospheric engine at game start.
+- Schliemann will now only be available at between 1852 and 1890.
+- Fixed missing animal names for the Get Exotic animal Journal Entry.
+- Characters with the academic gowns will no longer wear sashes.
+- Poems are no longer all nihilistic and instead have actual titles.
+- Writers now gain Reputation on their tours.
+- Fixed a trigger for the AI
+
+Performance:
+- Removed some global variables for planet discoveries.
+- Revamped the way the AI gets a balloonist which will improve performance slightly.
+
+3D:
+- Morgenröte characters can now wear Dracula glasses but with normal glass (Thanks to Miss Duce).
+
+Other:
+- Kopenhagen starts with university.
+- Added an Observatory to Switzerland (Observatoire de Genève) and removed the event for the Eidgenössische Sternwarte.
+- Morgenröte Traits now have different colors signifying whether they are traits related to Natural History, Mathematical and Technical Science, Humanities, Arts or Sports.
+
 Characters:
 - Sam Eyde (random Norwegian Engineer)
 - Alfred Wegener (random German Geologist)
@@ -135,54 +186,3 @@ Characters:
 - Jean-François Portaels (random Belgian Painter)
 - Kitasato Shibasaburō (random Japanese Physician)
 - Hendrik Conscience (Belgian starting Writer)
-
-Element Names:
-- Added various new element names.
-
-Balance:
-- Most Licences do no longer cost influence.
-
-Quality of Life:
-- Added many modifiers to show you what effect our traits, production method, etc. have on the Morgenröte Mechanics.
-- The tooltips for the academic focus now show the correct interest groups even if you play with other mods.
-
-Fixes:
-- The Special Art styles no longer tell you to look at the Technology window instead of the Morgenröte GUI.
-- Neptunium can no longer exist twice.
-- There should no longer be any element symbols being used twice.
-- Zoos will no longer downgrade automatically.
-- No more Error spam in observer games.
-- Painters and Writers should no longer get more than 500 reputation.
-- You can recruit academics now if other countries have a geologist or chemist now.
-- Safari now end if you acquire the animals in other ways.
-- Pilots will stop being busy after an airshow instead of becoming even more busy.
-- You should no longer get a new pilot at the Schneider trophy if you already has one. If it happens anyways, you have the option to keep your current pilot.
-- Campania should no longer show up as Volcano Expedition location when not owned.
-- Synthetic Rubber will not produce Silk anymore.
-- The Observatory should no longer give a warning for you to upgrade it, if it is fully upgraded.
-- Various Tooltips are now more informative and tell you which country is affected.
-- Hopefully fixed a bug that showed the Transatlantic Cable expedition as active even once it was finished.
-- Terbium is called Terbium again and not Tebrium.
-- Planet discoverers will now be displayed all the time and not suddenly disappear.
-- Children and babies will no longer win the Olympic Games (might still have some instances though).
-- The Cretaceous Scenery now has a title and flavor text again.
-- Chemicals in the water will now make people there angry.
-- Switzerland and Sweden now actually get the atmospheric engine at game start.
-- Schliemann will now only be available at between 1852 and 1890.
-- Fixed missing animal names for the Get Exotic animal Journal Entry.
-- Characters with the academic gowns will no longer wear sashes.
-- Poems are no longer all nihilistic and instead have actual titles.
-- Writers now gain Reputation on their tours.
-- Fixed a trigger for the AI
-
-Performance:
-- Removed some global variables for planet discoveries.
-- Revamped the way the AI gets a balloonist which will improve performance slightly.
-
-Other:
-- Kopenhagen starts with university.
-- Added an Observatory to Switzerland (Observatoire de Genève) and removed the event for the Eidgenössische Sternwarte.
-- Morgenröte Traits now have different colors signifying whether they are traits related to Natural History, Mathematical and Technical Science, Humanities, Arts or Sports.
-
-3D:
-- Morgenröte characters can now wear Dracula glasses but with normal glass (Thanks to Miss Duce).
