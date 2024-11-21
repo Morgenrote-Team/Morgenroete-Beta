@@ -1,9 +1,9 @@
-Changelog for 2.2.5 "Snow"
+Changelog for 2.3.0 "Finlay"
 
 General:
+- Compatible with 1.8.+
 - The Genetics technology now gives a stronger bonus.
 - Rudolf Wolf is now a random Astronomer
-- Added an Observatory to Switzerland (Observatoire de Genève) and removed the event for the Eidgenössische Sternwarte.
 - Events should now appear more spread out.
 
 Medicine:
@@ -180,7 +180,8 @@ Performance:
 - Revamped the way the AI gets a balloonist which will improve performance slightly.
 
 Other:
-- Kopenhagen starts with university
+- Kopenhagen starts with university.
+- Added an Observatory to Switzerland (Observatoire de Genève) and removed the event for the Eidgenössische Sternwarte.
 - Morgenröte Traits now have different colors signifying whether they are traits related to Natural History, Mathematical and Technical Science, Humanities, Arts or Sports.
 
 3D:
