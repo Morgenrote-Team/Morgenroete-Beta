@@ -8,8 +8,20 @@ General:
 
 Medicine:
 - New character type Physician.
-- Physician can work on diseases to find treatments. They also have some other minor projects to work on.
-- Cholera and Typhus as diseases that can ravage your country. Use your Physician to deal with them.
+- Cholera, Tuberculosis, Smallpox, Typhus and Yellow as diseases that can ravage your country as epidemic diseases.
+- Epidemics will hit you country under different circumstances. For example, Typhus will occur in countries with high devastation, Yellow Fever in tropical climate. Low SoL has an impact.
+- Physicians can find treatments for epidemic diseases. They will still occur, but in a milder variant. They only will stay for some months instead of a year.
+- Bevor a Physician can find a treatment, a disease has to be described first.
+- A Physician can always describe a disease, but there a certain technology is needed to find a treatment for a certain disease.
+- You'll find a lot of helpful information about epidemic diseases in the Medical Faculty.
+- Depending on the disease, a Physician may need more time to find a treatment.
+- Physicians normally describe and cure diseases when an epidemic occurs; they can also go on expeditions to write descriptions or find tretaments, but this will take longer.
+- Countries which are the first to disocver a treatment get a special modifiers and can held a Medical Congress.
+- Medical Congresses invites all Physicians and gives bonuses; Physicians may share knowledge (descriptions and treatments for free!)
+- Physicians can do Medical Research for better medical technology.
+- Added new technologies: Vaccination, Microbiology, Antitoxins.
+- Physicians can expand the Medical System and found clinics and hospitals which have a positive effects on mortality, growth and living standard.
+- Physicians can treat other characters with bad condition traits like sickly, wounded, seriously injured etc.
 
 Astronomy:
 - There are no longer empty planet modifiers. Instead it will be handled with variables and you will get a tooltip telling you, how much Astronomy Prestige you will get.
