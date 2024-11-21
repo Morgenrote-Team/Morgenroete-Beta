@@ -2,6 +2,9 @@
 
 	group = je_group_expeditions
 
+	scripted_progress_bar = expedition_progress_bar
+	scripted_progress_bar = expedition_peril_progress_bar
+
 	on_monthly_pulse = {
 		random_events = {
 			70 = 0
@@ -25,12 +28,14 @@
 			20 = expedition_events.90 #previous explorers
 			20 = expedition_events.695 #lost foreign expedition
 
+			###MORGENRÖTE###
 			###DUBOIS EVENTS###
-			20 = dubois.41 #Exotic plants
-			20 = dubois.42 #Butterflies
-			15 = dubois.43 #River Fish
+			30 = dubois.41 #Exotic plants
+			30 = dubois.42 #Butterflies
+			20 = dubois.43 #River Fish
 			15 = dubois.44 #Samples lost
 			20 = dubois.45 #A valuable collection
+			###END###
 		}
 	}
 	
@@ -48,19 +53,25 @@
 			triggered_desc = {
 				desc = expedition_low_peril_loc
 				trigger = {
-					var:expedition_peril < 4
+					scope:journal_entry = {
+						"scripted_bar_progress(expedition_peril_progress_bar)" <= 3
+					}
 				}
 			}
 			triggered_desc = {
 				desc = expedition_medium_peril_loc
 				trigger = {
-					var:expedition_peril <= 5
+					scope:journal_entry = {
+						"scripted_bar_progress(expedition_peril_progress_bar)" <= 5
+					}
 				}
 			}
 			triggered_desc = {
 				desc = expedition_high_peril_loc
 				trigger = {
-					var:expedition_peril >= 6
+					scope:journal_entry = {
+						"scripted_bar_progress(expedition_peril_progress_bar)" > 5
+					}
 				}
 			}
 		}
@@ -74,7 +85,9 @@
 					NOT = {
 						has_variable = on_expedition
 					}
-					var:expedition_peril >= 8
+					scope:journal_entry = {
+						"scripted_bar_progress(expedition_peril_progress_bar)" >= 8
+					}
 				}
 			}
 			custom_tooltip = {
@@ -103,7 +116,7 @@
 		custom_tooltip = {
 			text = je_expedition_success
 			scope:journal_entry = {
-				is_goal_complete = yes
+				"scripted_bar_progress(expedition_progress_bar)" >= 8
 			}
 		}
 	}
@@ -122,16 +135,6 @@
 			remove_variable = expedition_leader_var
 		}
 	}
-	
-	current_value = {
-		value = var:expedition_progress
-	}
-
-	goal_add_value = {
-		add = 8
-	}
-	
-	progressbar = yes
 	
     weight = 200
     transferable = no
