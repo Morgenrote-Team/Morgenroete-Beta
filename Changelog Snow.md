@@ -1,5 +1,8 @@
 Changelog for 2.3.0 "Finlay"
 
+Changes:
+- Academics need to have an acceptance score of 4 or higher now instead of 3 or higher.
+
 Fixes:
 - Monuments and other buildings that you don't need to see, will no longer appear in the construction menu of every state.
 - The Physician Rating system now works as intended.
