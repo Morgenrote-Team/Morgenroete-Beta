@@ -2,6 +2,7 @@ Changelog for 2.3.0 "Finlay"
 
 Fixes:
 - Monuments and other buildings that you don't need to see, will no longer appear in the construction menu of every state.
+- The Physician Rating system now works as intended.
 
 Characters:
 - Hermann von Meyer (random German Paleontologist)
