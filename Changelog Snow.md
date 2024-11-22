@@ -6,6 +6,7 @@ Fixes:
 
 Characters:
 - Eduard Suess (random Austrian Paleontologist and Geologist)
+- Edmund von Mojsisovics (random Austrian Paleontologist and Geologist)
 - Hermann von Meyer (random German Paleontologist)
 - Johann Jakob Kaup (random German Paleontologist)
 - Friedrich August Quenstedt (random German Paleontologist and Geoloist)
