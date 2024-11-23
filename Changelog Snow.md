@@ -16,3 +16,4 @@ Characters:
 - Friedrich August Quenstedt (random German Paleontologist and Geoloist)
 - Karl Alfred von Zittel (random German Paleontologist and Geologist)
 - Sava Athanasiu (random Romanian Paleontologist and Geologist)
+- Grigore Cobălcescu (random Romanian Paleontologist and Geologist)
