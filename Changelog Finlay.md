@@ -19,4 +19,5 @@ Characters:
 - Sava Athanasiu (random Romanian Paleontologist and Geologist)
 - Grigore Cobălcescu (random Romanian Paleontologist and Geologist)
 - Aloïs Humbert (random Swiss Paleontologist and Naturalist)
+- Auguste Jaccard (random Swiss Paleontologist and Naturalist)
 - Ferdinand Schalch (random Swiss Paleontologist and Geologist)
