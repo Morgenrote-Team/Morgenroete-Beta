@@ -8,6 +8,7 @@ Fixes:
 - The Physician Rating system now works as intended.
 
 Characters:
+- Birger Bohlin (random Swedish Anthropologist and Paleontologist)
 - Alphonse Favre (random Swiss Geoloist and Paleontologist)
 - Eduard Suess (random Austrian Paleontologist and Geologist)
 - Edmund von Mojsisovics (random Austrian Paleontologist and Geologist)
