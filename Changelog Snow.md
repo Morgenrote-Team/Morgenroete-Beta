@@ -15,3 +15,4 @@ Characters:
 - Johann Jakob Kaup (random German Paleontologist)
 - Friedrich August Quenstedt (random German Paleontologist and Geoloist)
 - Karl Alfred von Zittel (random German Paleontologist and Geologist)
+- Sava Athanasiu (random Romanian Paleontologist and Geologist)
