@@ -22,4 +22,5 @@ Characters:
 - Amanz Gressly (random Swiss Paleontologist and Geologist)
 - Aloïs Humbert (random Swiss Paleontologist and Naturalist)
 - Auguste Jaccard (random Swiss Paleontologist and Geologist)
+- Adolf Naef (random Swiss Paleontologist and Naturalist)
 - Ferdinand Schalch (random Swiss Paleontologist and Geologist)
