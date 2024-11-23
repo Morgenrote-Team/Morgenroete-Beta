@@ -18,3 +18,4 @@ Characters:
 - Karl Alfred von Zittel (random German Paleontologist and Geologist)
 - Sava Athanasiu (random Romanian Paleontologist and Geologist)
 - Grigore Cobălcescu (random Romanian Paleontologist and Geologist)
+- Aloïs Humbert (random Swiss Paleontologist and Naturalist)
