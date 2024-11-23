@@ -6,6 +6,7 @@ Changes:
 Fixes:
 - Monuments and other buildings that you don't need to see, will no longer appear in the construction menu of every state.
 - The Physician Rating system now works as intended.
+- PBI event will only give 10% movement radicalism (instead of 1000%).
 
 Characters:
 - Birger Bohlin (random Swedish Anthropologist and Paleontologist)
