@@ -19,6 +19,7 @@ Characters:
 - Johann Jakob Kaup (random German Paleontologist)
 - Friedrich August Quenstedt (random German Paleontologist and Geoloist)
 - Karl Alfred von Zittel (random German Paleontologist and Geologist)
+- Dragutin Gorjanović-Kramberger (random Croatian Paleontologist, Geologist and Archaeologist)
 - Sava Athanasiu (random Romanian Paleontologist and Geologist)
 - Grigore Cobălcescu (random Romanian Paleontologist and Geologist)
 - Karl A. Grönwall (random Swedish Paleontologist and Geologist)
