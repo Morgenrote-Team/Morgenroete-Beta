@@ -20,6 +20,7 @@ Characters:
 - Karl Alfred von Zittel (random German Paleontologist and Geologist)
 - Sava Athanasiu (random Romanian Paleontologist and Geologist)
 - Grigore Cobălcescu (random Romanian Paleontologist and Geologist)
+- Karl A. Grönwall (random Swedish Paleontologist and Geologist)
 - Perceval de Loriol (random Swiss Paleontologist and Geologist)
 - Amanz Gressly (random Swiss Paleontologist and Geologist)
 - Aloïs Humbert (random Swiss Paleontologist and Naturalist)
