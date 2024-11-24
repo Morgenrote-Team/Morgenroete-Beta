@@ -280,6 +280,12 @@ mr_naturalist_improve_forestry_button = {
 	scope = country
 	is_valid = {
 		custom_tooltip = {
+			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
+			NOT = {
+				has_variable = dubois_improve_forestry_project_building_choser_var
+			}
+		}
+		custom_tooltip = {
 			text = MR_SAFARI_EXPEDITION_NATURALIST_TRIGGER_TT
 			dubois_has_active_naturalist = yes
 		}
@@ -288,7 +294,7 @@ mr_naturalist_improve_forestry_button = {
 			any_scope_building = {
 				is_building_type = building_logging_camp
 				level > 0
-				NOR = {
+				NAND = {
 					has_modifier = dubois_building_throughput_add_modifier
 					has_modifier = dubois_building_production_mult_modifier
 					has_modifier = dubois_building_goods_input_mult_modifier
@@ -297,17 +303,71 @@ mr_naturalist_improve_forestry_button = {
 		}
 	}
 	effect = {
-		add_journal_entry = { type = je_dubois_improve_forestry_project }
-		add_modifier = {
-			name = dubois_naturalist_forestry_cost_modifier
-			multiplier = money_amount_multiplier_small
-		}
 		if = {
 			limit = {
-				has_variable = dubois_naturalist_var
+				is_ai = yes
 			}
-			var:dubois_naturalist_var = {
-				set_character_busy_and_immortal = yes
+			ordered_scope_building = {
+				limit = {
+					level > 0
+					is_building_type = building_logging_camp
+					NOR = {
+						has_modifier = dubois_building_throughput_add_modifier
+						has_modifier = dubois_building_production_mult_modifier
+						has_modifier = dubois_building_goods_input_mult_modifier
+					}
+				}
+				order_by = earnings
+				save_scope_as = chosen_building
+			}
+			add_journal_entry = {
+				type = je_dubois_improve_forestry_project
+				target = scope:chosen_building
+			}
+			je:je_dubois_improve_forestry_project = {
+				add_modifier = {
+					name = dubois_naturalist_forestry_cost_modifier
+					multiplier = money_amount_multiplier_small
+				}
+			}
+			if = {
+				limit = {
+					has_variable = dubois_naturalist_var
+				}
+				var:dubois_naturalist_var = {
+					set_character_busy_and_immortal = yes
+				}
+			}
+		}
+		else = {
+			clear_variable_list = dubois_improve_forestry_buildings_variable_list
+			ordered_scope_building = {
+				limit = {
+					level > 0
+					is_building_type = building_logging_camp
+					NOR = {
+						has_modifier = dubois_building_throughput_add_modifier
+						has_modifier = dubois_building_production_mult_modifier
+						has_modifier = dubois_building_goods_input_mult_modifier
+					}
+				}
+				order_by = earnings
+				max = 1000
+				check_range_bounds = no
+
+				root = {
+					add_to_variable_list = {
+						name = dubois_improve_forestry_buildings_variable_list
+						target = prev
+					}
+				}
+			}
+			set_variable = dubois_improve_forestry_project_building_choser_var
+			show_as_tooltip = {
+				add_modifier = {
+					name = dubois_naturalist_forestry_cost_modifier
+					multiplier = money_amount_multiplier_small
+				}
 			}
 		}
 	}
@@ -334,6 +394,49 @@ mr_improve_forestry_active_sgui = {
 	scope = country
 	is_shown = {
 		has_journal_entry = je_dubois_improve_forestry_project
+	}
+}
+
+mr_improve_forestry_window_active_sgui = {
+	scope = country
+	is_shown = {
+		has_variable = dubois_improve_forestry_project_building_choser_var
+		#Active Naturalist
+		has_variable = dubois_naturalist_var
+		var:dubois_naturalist_var = {
+			is_busy = no
+		}
+	}
+}
+mr_improve_forestry_window_chose_button_sgui = {
+	scope = country
+	effect = {
+		add_journal_entry = {
+			type = je_dubois_improve_forestry_project
+			target = scope:chosen_building
+		}
+		je:je_dubois_improve_forestry_project = {
+			add_modifier = {
+				name = dubois_naturalist_forestry_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+		remove_variable = dubois_improve_forestry_project_building_choser_var
+		var:dubois_naturalist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		show_as_tooltip = {
+			add_modifier = {
+				name = dubois_naturalist_forestry_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+	}
+}
+mr_improve_forestry_window_close_button_sgui = {
+	scope = country
+	effect = {
+		remove_variable = dubois_improve_forestry_project_building_choser_var
 	}
 }
 
