@@ -1,4 +1,4 @@
-Changelog for 2.3.0 "Finlay"
+Changelog for 2.3.0a "Finlay"
 
 Changes:
 - Academics need to have an acceptance score of 4 or higher now instead of 3 or higher.
