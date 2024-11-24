@@ -21,6 +21,7 @@ Characters:
 - Sava Athanasiu (random Romanian Paleontologist and Geologist)
 - Grigore Cobălcescu (random Romanian Paleontologist and Geologist)
 - Karl A. Grönwall (random Swedish Paleontologist and Geologist)
+- Carl Wiman (random Swedish Paleontologist)
 - Perceval de Loriol (random Swiss Paleontologist and Geologist)
 - Amanz Gressly (random Swiss Paleontologist and Geologist)
 - Aloïs Humbert (random Swiss Paleontologist and Naturalist)
