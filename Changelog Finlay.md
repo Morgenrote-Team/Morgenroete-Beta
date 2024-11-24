@@ -10,9 +10,10 @@ Fixes:
 
 Characters:
 - Birger Bohlin (random Swedish Anthropologist and Paleontologist)
-- Alphonse Favre (random Swiss Geoloist and Paleontologist)
+- Alphonse Favre (random Swiss Geologist and Paleontologist)
 - Eduard Suess (random Austrian Paleontologist and Geologist)
 - Edmund von Mojsisovics (random Austrian Paleontologist and Geologist)
+- Đuro Pilar (random Croatian Paleontologist and Geologist)
 - Hans Bruno Geinitz (random German Paleontologist)
 - Hermann von Meyer (random German Paleontologist)
 - Johann Jakob Kaup (random German Paleontologist)
