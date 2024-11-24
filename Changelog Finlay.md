@@ -1,33 +1,5 @@
 Changelog for 2.3.0a "Finlay"
 
 Changes:
-- Academics need to have an acceptance score of 4 or higher now instead of 3 or higher.
-
-Fixes:
-- Monuments and other buildings that you don't need to see, will no longer appear in the construction menu of every state.
-- The Physician Rating system now works as intended.
-- PBI event will only give 10% movement radicalism (instead of 1000%).
-- Added missing Concepts for Panum.
-
-Characters:
-- Birger Bohlin (random Swedish Anthropologist and Paleontologist)
-- Alphonse Favre (random Swiss Geologist and Paleontologist)
-- Eduard Suess (random Austrian Paleontologist and Geologist)
-- Edmund von Mojsisovics (random Austrian Paleontologist and Geologist)
-- Đuro Pilar (random Croatian Paleontologist and Geologist)
-- Hans Bruno Geinitz (random German Paleontologist)
-- Hermann von Meyer (random German Paleontologist)
-- Johann Jakob Kaup (random German Paleontologist)
-- Friedrich August Quenstedt (random German Paleontologist and Geoloist)
-- Karl Alfred von Zittel (random German Paleontologist and Geologist)
-- Dragutin Gorjanović-Kramberger (random Croatian Paleontologist, Geologist and Archaeologist)
-- Sava Athanasiu (random Romanian Paleontologist and Geologist)
-- Grigore Cobălcescu (random Romanian Paleontologist and Geologist)
-- Karl A. Grönwall (random Swedish Paleontologist and Geologist)
-- Carl Wiman (random Swedish Paleontologist)
-- Perceval de Loriol (random Swiss Paleontologist and Geologist)
-- Amanz Gressly (random Swiss Paleontologist and Geologist)
-- Aloïs Humbert (random Swiss Paleontologist and Naturalist)
-- Auguste Jaccard (random Swiss Paleontologist and Geologist)
-- Adolf Naef (random Swiss Paleontologist and Naturalist)
-- Ferdinand Schalch (random Swiss Paleontologist and Geologist)
+- Lower chance that paleontologists spawn at game start.
+- Higher chance that engineers and physician spawn in minor power countries at game start.
