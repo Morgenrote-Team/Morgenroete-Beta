@@ -1,4 +1,4 @@
-Changelog for 2.3.1 "Finlay"
+Changelog for 2.3.1 "Einthoven"
 
 Changes:
 - Lower chance that paleontologists spawn at game start.
