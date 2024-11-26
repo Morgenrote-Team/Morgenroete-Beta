@@ -12,13 +12,6 @@ on_acquired_technology = {
 	}
 }
 
-on_half_yearly_pulse_country = { 
-	on_actions = {
-		delay = { days = { 1 180 } }
-		verrier_on_half_yearly_pulse_country
-	}
-}
-
 on_yearly_pulse_country = { 
 	on_actions = {
 		delay = { days = { 1 360 } }
@@ -51,87 +44,6 @@ on_building_built = {
 verrier_on_acquired_technology = {
 	events = {
 		verrier.200 #Verrier 200: [SCOPE] determines the distance of 61 Cygni to be 11.4 light years
-	}
-}
-
-verrier_on_half_yearly_pulse_country = {
-
-	effect = {
-		if = { #Comet of 1843
-			limit = {
-				game_date > 1843.1.1
-				NOT = {
-					game_date >= 1844.1.1
-				}
-				NOT = {
-					has_global_variable = verrier_1843_comet_sighted_var
-				}
-			}
-			trigger_event = {
-				id = verrier.60
-			}
-			c:USA ?= {
-				trigger_event = {
-					id = verrier.1060
-				}
-			}
-		}
-		if = { #Comet of 1858
-			limit = {
-				game_date > 1858.1.1
-				NOT = {
-					game_date >= 1859.1.1
-				}
-				NOT = {
-					has_global_variable = verrier_1858_comet_sighted_var
-				}
-			}
-			trigger_event = {
-				id = verrier.63
-			}
-		}
-		if = { #Comet of 1861
-			limit = {
-				game_date > 1861.1.1
-				NOT = {
-					game_date >= 1862.1.1
-				}
-				NOT = {
-					has_global_variable = verrier_1861_comet_sighted_var
-				}
-			}
-			trigger_event = {
-				id = verrier.66
-			}
-		}
-		if = { #Comet of 1874
-			limit = {
-				game_date > 1874.1.1
-				NOT = {
-					game_date >= 1875.1.1
-				}
-				NOT = {
-					has_global_variable = verrier_1874_comet_sighted_var
-				}
-			}
-			trigger_event = {
-				id = verrier.69
-			}
-		}
-		if = { #Comet of 1882
-			limit = {
-				game_date > 1882.1.1
-				NOT = {
-					game_date >= 1883.1.1
-				}
-				NOT = {
-					has_global_variable = verrier_1882_comet_sighted_var
-				}
-			}
-			trigger_event = {
-				id = verrier.72
-			}
-		}
 	}
 }
 
@@ -202,38 +114,6 @@ verrier_on_yearly_pulse_country = {
 	}
 }
 
-verrier_on_yearly_pulse = {
-	effect = {
-		#Carrington Event
-		if = {
-			limit = {
-				game_date >= 1859.1.1
-				NOT = {
-					has_global_variable = verrier_carrington_var
-				}
-				any_country = {
-					verrier_has_astronomer = yes
-				}
-			}
-
-			set_global_variable = verrier_carrington_var
-			ordered_country = {
-				limit = {
-					verrier_has_astronomer_no_tooltip_trigger = yes
-				}
-				order_by = verrier_carrington_astronomer_value
-				max = 1 #We only want the best country
-				check_range_bounds = no #prevents errors
-		
-				trigger_event = {
-					id = verrier.142
-					days = { 230 245 }
-				}
-			}
-		}
-	}
-}
-
 verrier_on_yearly_niagara = {
 	random_events = {
 		100 = 0
@@ -253,6 +133,367 @@ verrier_on_yearly_sound_of_science = {
 	random_events = {
 		4 = 0
 		1 = verrier.9010 #Verrier 9010: The Sound of Science
+	}
+}
+
+verrier_on_yearly_pulse = {
+	effect = {
+		#Carrington Event
+		if = {
+			limit = {
+				year >= 1859
+				NOT = {
+					has_global_variable = verrier_carrington_var
+				}
+			}
+
+			trigger_event = {
+				on_action = verrier_carrington_on_action
+				days = { 230 245 } #End of August/beginning of September
+			}
+		}
+		#Comet of 1843
+		if = {
+			limit = {
+				year >= 1843
+				NOR = {
+					year > 1843
+					has_global_variable = verrier_1843_comet_sighted_var
+				}
+			}
+			trigger_event = {
+				on_action = verrier_comet_1843_on_action
+				days = { 32 45 } #Beginning of February
+			}
+		}
+		#Comet of 1858
+		if = {
+			limit = {
+				year >= 1858
+				NOR = {
+					year > 1858
+					has_global_variable = verrier_1858_comet_sighted_var
+				}
+			}
+			trigger_event = {
+				on_action = verrier_comet_1858_on_action
+				days = { 151 161 } #Beginning of June
+			}
+		}
+		#Comet of 1861
+		if = {
+			limit = {
+				year >= 1861
+				NOR = {
+					year > 1861
+					has_global_variable = verrier_1861_comet_sighted_var
+				}
+			}
+			trigger_event = {
+				on_action = verrier_comet_1861_on_action
+				days = { 135 145 } #End of May
+			}
+		}
+		#Comet of 1874
+		if = {
+			limit = {
+				year >= 1874
+				NOR = {
+					year > 1874
+					has_global_variable = verrier_1874_comet_sighted_var
+				}
+			}
+			trigger_event = {
+				on_action = verrier_comet_1874_on_action
+				days = { 101 111 } #End of May
+			}
+		}
+		#Comet of 1882
+		if = {
+			limit = {
+				year >= 1882
+				NOR = {
+					year > 1882
+					has_global_variable = verrier_1882_comet_sighted_var
+				}
+			}
+			trigger_event = {
+				on_action = verrier_comet_1882_on_action
+				days = { 243 250 } #Beginning of September
+			}
+		}
+	}
+}
+
+verrier_carrington_on_action = {
+	effect = {
+		if = {
+			limit = {
+				any_country = {
+					verrier_has_astronomer = yes
+				}
+			}
+			set_global_variable = verrier_carrington_var
+			ordered_country = {
+				limit = {
+					verrier_has_astronomer_no_tooltip_trigger = yes
+				}
+				order_by = verrier_carrington_astronomer_value
+				max = 1 #We only want the best country
+				check_range_bounds = no #prevents errors
+
+				trigger_event = {
+					id = verrier.142
+				}
+			}
+		}
+	}
+}
+
+verrier_comet_1843_on_action = {
+	effect = {
+		set_global_variable = verrier_1843_comet_sighted_var
+		if = {
+			limit = {
+				any_country = {
+					has_variable = verrier_astronomer_var
+					NOT = {
+						has_variable = verrier_discovered_great_comet
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					has_variable = verrier_astronomer_var
+					NOT = {
+						has_variable = verrier_discovered_great_comet
+					}
+				}
+				set_global_variable = {
+					name = verrier_1843_comet_discoverer_global_var
+					value = var:verrier_astronomer_var
+					days = 365
+				}
+				set_global_variable = verrier_1843_comet_name_var
+				trigger_event = {
+					id = verrier.61
+				}
+			}
+		}
+		else = {
+			set_global_variable = {
+				name = verrier_active_comet_global_var
+				days = 365
+			}
+			random_country = {
+				limit = {
+					is_player = yes 
+				}
+				set_global_variable = verrier_1843_comet_year_var
+				trigger_event = {
+					id = verrier.62
+				}
+			}
+		}
+
+		#Collection for American Observatory
+		c:USA ?= {
+			trigger_event = {
+				id = verrier.1060
+			}
+		}
+	}
+}
+
+verrier_comet_1858_on_action = {
+	effect = {
+		set_global_variable = verrier_1858_comet_sighted_var
+		if = {
+			limit = {
+				any_country = {
+					has_variable = verrier_astronomer_var
+					NOT = {
+						has_variable = verrier_discovered_great_comet
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					has_variable = verrier_astronomer_var
+					NOT = {
+						has_variable = verrier_discovered_great_comet
+					}
+				}
+				set_global_variable = {
+					name = verrier_1858_comet_discoverer_global_var
+					value = var:verrier_astronomer_var
+					days = 365
+				}
+				set_global_variable = verrier_1858_comet_name_var
+				trigger_event = {
+					id = verrier.64
+				}
+			}
+		}
+		else = {
+			set_global_variable = {
+				name = verrier_active_comet_global_var
+				days = 365
+			}
+			random_country = {
+				limit = {
+					is_player = yes 
+				}
+				set_global_variable = verrier_1858_comet_year_var
+				trigger_event = {
+					id = verrier.65
+				}
+			}
+		}
+	}
+}
+
+verrier_comet_1861_on_action = {
+	effect = {
+		set_global_variable = verrier_1861_comet_sighted_var
+		if = {
+			limit = {
+				any_country = {
+					has_variable = verrier_astronomer_var
+					NOT = {
+						has_variable = verrier_discovered_great_comet
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					has_variable = verrier_astronomer_var
+					NOT = {
+						has_variable = verrier_discovered_great_comet
+					}
+				}
+				set_global_variable = {
+					name = verrier_1861_comet_discoverer_global_var
+					value = var:verrier_astronomer_var
+					days = 365
+				}
+				set_global_variable = verrier_1861_comet_name_var
+				trigger_event = {
+					id = verrier.67
+				}
+			}
+		}
+		else = {
+			set_global_variable = {
+				name = verrier_active_comet_global_var
+				days = 365
+			}
+			random_country = {
+				limit = {
+					is_player = yes 
+				}
+				set_global_variable = verrier_1861_comet_year_var
+				trigger_event = {
+					id = verrier.68
+				}
+			}
+		}
+	}
+}
+
+verrier_comet_1874_on_action = {
+	effect = {
+		set_global_variable = verrier_1874_comet_sighted_var
+		if = {
+			limit = {
+				any_country = {
+					has_variable = verrier_astronomer_var
+					NOT = {
+						has_variable = verrier_discovered_great_comet
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					has_variable = verrier_astronomer_var
+					NOT = {
+						has_variable = verrier_discovered_great_comet
+					}
+				}
+				set_global_variable = {
+					name = verrier_1874_comet_discoverer_global_var
+					value = var:verrier_astronomer_var
+					days = 365
+				}
+				set_global_variable = verrier_1874_comet_name_var
+				trigger_event = {
+					id = verrier.70
+				}
+			}
+		}
+		else = {
+			set_global_variable = {
+				name = verrier_active_comet_global_var
+				days = 365
+			}
+			random_country = {
+				limit = {
+					is_player = yes 
+				}
+				set_global_variable = verrier_1874_comet_year_var
+				trigger_event = {
+					id = verrier.71
+				}
+			}
+		}
+	}
+}
+
+verrier_comet_1882_on_action = {
+	effect = {
+		set_global_variable = verrier_1882_comet_sighted_var
+		if = {
+			limit = {
+				any_country = {
+					has_variable = verrier_astronomer_var
+					NOT = {
+						has_variable = verrier_discovered_great_comet
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					has_variable = verrier_astronomer_var
+					NOT = {
+						has_variable = verrier_discovered_great_comet
+					}
+				}
+				set_global_variable = {
+					name = verrier_1882_comet_discoverer_global_var
+					value = var:verrier_astronomer_var
+					days = 365
+				}
+				set_global_variable = verrier_1882_comet_name_var
+				trigger_event = {
+					id = verrier.73
+				}
+			}
+		}
+		else = {
+			set_global_variable = {
+				name = verrier_active_comet_global_var
+				days = 365
+			}
+			random_country = {
+				limit = {
+					is_player = yes 
+				}
+				set_global_variable = verrier_1882_comet_year_var
+				trigger_event = {
+					id = verrier.74
+				}
+			}
+		}
 	}
 }
 
