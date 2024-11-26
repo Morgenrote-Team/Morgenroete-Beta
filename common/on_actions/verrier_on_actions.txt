@@ -29,6 +29,13 @@ on_yearly_pulse_country = {
 	}
 }
 
+on_yearly_pulse = {
+	on_actions = {
+		#No delay as it allows for very precise control
+		verrier_on_yearly_pulse
+	}
+}
+
 on_five_year_pulse_country = {
 	on_actions = {
 		verrier_on_five_year_pulse_country
@@ -164,8 +171,6 @@ verrier_on_yearly_pulse_country = {
 
 		verrier.121 #Verrier 121: Astraea discovered
 
-		verrier.141 #Verrier 141: Carrington Event (hidden)
-
 		verrier.1001 #Verrier 1001: Construction of the Tara Wali Kothi (Awadh)
 
 		verrier.1013 #Verrier 1013: Othóneion Panepistímion opened in Athens (Greece)
@@ -194,6 +199,38 @@ verrier_on_yearly_pulse_country = {
 		20 = verrier.1110 #Verrier 1110: Twin Star disappeared
 		20 = verrier.1111 #Verrier 1111: Research Notes destroyed
 		100 = verrier.1112 #Verrier 1112: Lost stars
+	}
+}
+
+verrier_on_yearly_pulse = {
+	effect = {
+		#Carrington Event
+		if = {
+			limit = {
+				game_date >= 1859.1.1
+				NOT = {
+					has_global_variable = verrier_carrington_var
+				}
+				any_country = {
+					verrier_has_astronomer = yes
+				}
+			}
+
+			set_global_variable = verrier_carrington_var
+			ordered_country = {
+				limit = {
+					verrier_has_astronomer_no_tooltip_trigger = yes
+				}
+				order_by = verrier_carrington_astronomer_value
+				max = 1 #We only want the best country
+				check_range_bounds = no #prevents errors
+		
+				trigger_event = {
+					id = verrier.142
+					days = { 230 245 }
+				}
+			}
+		}
 	}
 }
 
