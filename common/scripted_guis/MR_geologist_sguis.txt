@@ -661,6 +661,12 @@ mr_geologist_oil_button = {
 	scope = country
 	is_valid = {
 		custom_tooltip = {
+			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
+			NOT = {
+				has_variable = agassiz_improve_oil_rig_project_building_choser_var
+			}
+		}
+		custom_tooltip = {
 			text = MR_GEOLOGIST_PUMPJACKS_TECH_TRIGGER_TT
 			has_technology_researched = pumpjacks
 		}
@@ -674,17 +680,67 @@ mr_geologist_oil_button = {
 		}
 	}
 	effect = {
-		add_journal_entry = { type = je_agassiz_find_oil_project }
-		add_modifier = {
-			name = agassiz_ore_search_cost_modifier
-			multiplier = money_amount_multiplier_medium
-		}
 		if = {
 			limit = {
-				has_variable = dubois_geologist_var
+				is_ai = yes
 			}
-			var:dubois_geologist_var ?= {
-				set_character_busy_and_immortal = yes
+			ordered_scope_building = {
+				limit = {
+					level > 0
+					is_building_type = building_oil_rig
+					NOT = {
+						has_modifier = agassiz_building_production_2_mult_modifier
+					}
+				}
+				order_by = earnings
+				save_scope_as = chosen_building
+			}
+			add_journal_entry = {
+				type = je_agassiz_find_oil_project
+				target = scope:chosen_building
+			}
+			je:je_agassiz_find_oil_project = {
+				add_modifier = {
+					name = agassiz_ore_search_cost_modifier
+					multiplier = money_amount_multiplier_medium
+				}
+			}
+			if = {
+				limit = {
+					has_variable = dubois_geologist_var
+				}
+				var:dubois_geologist_var = {
+					set_character_busy_and_immortal = yes
+				}
+			}
+		}
+		else = {
+			clear_variable_list = agassiz_improve_oil_rig_buildings_variable_list
+			ordered_scope_building = {
+				limit = {
+					level > 0
+					is_building_type = building_oil_rig
+					NOT = {
+						has_modifier = agassiz_building_production_2_mult_modifier
+					}
+				}
+				order_by = earnings
+				max = 1000
+				check_range_bounds = no
+
+				root = {
+					add_to_variable_list = {
+						name = agassiz_improve_oil_rig_buildings_variable_list
+						target = prev
+					}
+				}
+			}
+			set_variable = agassiz_improve_oil_rig_project_building_choser_var
+			show_as_tooltip = {
+				add_modifier = {
+					name = agassiz_ore_search_cost_modifier
+					multiplier = money_amount_multiplier_medium
+				}
 			}
 		}
 	}
@@ -710,6 +766,49 @@ mr_geologist_oil_stop_button = {
 			text = mr_geologist_oil_stop_button_effect_tt
 			set_variable = agassiz_stop_geologist_improving_project_var
 		}
+	}
+}
+
+mr_improve_oil_rig_window_active_sgui = {
+	scope = country
+	is_shown = {
+		has_variable = agassiz_improve_oil_rig_project_building_choser_var
+		#Active Naturalist
+		has_variable = dubois_geologist_var
+		var:dubois_geologist_var = {
+			is_busy = no
+		}
+	}
+}
+mr_improve_oil_rig_window_chose_button_sgui = {
+	scope = country
+	effect = {
+		add_journal_entry = {
+			type = je_agassiz_find_oil_project
+			target = scope:chosen_building
+		}
+		je:je_agassiz_find_oil_project = {
+			add_modifier = {
+				name = agassiz_ore_search_cost_modifier
+				multiplier = money_amount_multiplier_medium
+			}
+		}
+		show_as_tooltip = {
+			add_modifier = {
+				name = agassiz_ore_search_cost_modifier
+				multiplier = money_amount_multiplier_medium
+			}
+		}
+		remove_variable = agassiz_improve_oil_rig_project_building_choser_var
+		var:dubois_geologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+}
+mr_improve_oil_rig_window_close_button_sgui = {
+	scope = country
+	effect = {
+		remove_variable = agassiz_improve_oil_rig_project_building_choser_var
 	}
 }
 
