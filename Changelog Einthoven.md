@@ -9,6 +9,7 @@ Changes:
 Medicine:
 - Added 10 possible inventions when doing Medical research, like Blood Types, Chemotherapy or the first Transplantation
 - 6 of the 10 innovations can be gathered on a Medical Congress
+- A Physician can be recruited by GUI action if at least one hospital exists in the country. His special skill (surgeon, epidemiologist, etc.) can be selected directly.
 - Vienna and Paris start with Hospitals, London and Berlin with Clinics.
 
 Monuments:
