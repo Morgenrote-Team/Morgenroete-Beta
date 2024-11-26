@@ -4939,16 +4939,11 @@ je_gaudi_modernizing_industries_project = {
 				limit = { var:gaudi_mechanical_engineering_progress_var > gaudi_industries_progress_cost }
 				if = {
 					limit = {
-						any_scope_building = {
-							has_modifier = gaudi_engineer_focus_building
+						scope:target = {
 							NOT = { has_modifier = gaudi_building_throughput_add_modifier }
 						}
 					}
-					random_scope_building = {
-						limit = {
-							has_modifier = gaudi_engineer_focus_building
-							NOT = { has_modifier = gaudi_building_throughput_add_modifier }
-						}
+					scope:target = {
 						add_modifier = {
 							name = gaudi_building_throughput_add_modifier
 						}
@@ -4960,16 +4955,11 @@ je_gaudi_modernizing_industries_project = {
 				}
 				else_if = {
 					limit = {
-						any_scope_building = {
-							has_modifier = gaudi_engineer_focus_building
+						scope:target = {
 							NOT = { has_modifier = gaudi_building_production_mult_modifier }
 						}
 					}
-					random_scope_building = {
-						limit = {
-							has_modifier = gaudi_engineer_focus_building
-							NOT = { has_modifier = gaudi_building_production_mult_modifier }
-						}
+					scope:target = {
 						add_modifier = {
 							name = gaudi_building_production_mult_modifier
 						}
@@ -4980,11 +4970,7 @@ je_gaudi_modernizing_industries_project = {
 					}
 				}
 				else = {
-					random_scope_building = {
-						limit = {
-							has_modifier = gaudi_engineer_focus_building
-							NOT = { has_modifier = gaudi_building_goods_input_mult_modifier }
-						}
+					scope:target = {
 						add_modifier = {
 							name = gaudi_building_goods_input_mult_modifier
 						}
@@ -5000,37 +4986,6 @@ je_gaudi_modernizing_industries_project = {
 
 	immediate = {
 		set_variable = gaudi_can_stop_active_engineering_project_var #This is used to check if the country has a project already
-		ordered_scope_building = {
-			limit = {
-				level > 0
-				NOR = {
-					is_building_group = bg_whaling
-					is_building_group = bg_fishing
-					is_building_group = bg_service
-					is_building_group = bg_urban_facilities
-					is_building_group = bg_power
-					is_building_group = bg_government
-					is_building_group = bg_infrastructure
-					is_building_group = bg_military
-					is_building_type = building_elgar_opera
-				}
-				NOR = {
-					has_modifier = gaudi_building_throughput_add_modifier
-					has_modifier = gaudi_building_production_mult_modifier
-					has_modifier = gaudi_building_goods_input_mult_modifier
-				}
-			}
-			order_by = earnings
-			add_modifier = {
-				name = gaudi_engineer_focus_building
-			}
-			root = {
-				set_variable = {
-					name = gaudi_industrial_building_modernizing_var
-					value = prev
-				}
-			}
-		}
 		#Sets the Mechanical Engineering Progress at the beginning
 		set_variable = {
 			name = gaudi_mechanical_engineering_progress_var
@@ -5042,22 +4997,19 @@ je_gaudi_modernizing_industries_project = {
 	complete = {
 		custom_tooltip = {
 			text = gaudi_industrial_building_has_throughput_modifier_tt
-			any_scope_building = {
-				has_modifier = gaudi_engineer_focus_building
+			scope:target = {
 				has_modifier = gaudi_building_throughput_add_modifier
 			}
 		}
 		custom_tooltip = {
 			text = gaudi_industrial_building_has_production_modifier_tt
-			any_scope_building = {
-				has_modifier = gaudi_engineer_focus_building
+			scope:target = {
 				has_modifier = gaudi_building_production_mult_modifier
 			}
 		}
 		custom_tooltip = {
 			text = gaudi_industrial_building_has_input_modifier_tt
-			any_scope_building = {
-				has_modifier = gaudi_engineer_focus_building
+			scope:target = {
 				has_modifier = gaudi_building_goods_input_mult_modifier
 			}
 		}
@@ -5065,19 +5017,15 @@ je_gaudi_modernizing_industries_project = {
 
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		gaudi_remove_je_cost_modifiers_effect = yes
+		show_as_tooltip = {
+			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+		}
 		
 		#Those should be removed in every mechanical engineering je
 		remove_variable = gaudi_mechanical_engineering_progress_var
 		remove_variable = gaudi_monthly_mechanical_engineering_progress_var
 		remove_variable = engineer_mechanical_experience_add_var
 
-		every_scope_building = {
-			limit = {
-				has_modifier = gaudi_engineer_focus_building
-			}
-			remove_modifier = gaudi_engineer_focus_building
-		}
 		var:gaudi_engineer_var ?= {
 			set_character_busy_and_immortal = no
 		}
@@ -5113,19 +5061,15 @@ je_gaudi_modernizing_industries_project = {
 
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		gaudi_remove_je_cost_modifiers_effect = yes
+		show_as_tooltip = {
+			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+		}
 		
 		#Those should be removed in every mechanical engineering je
 		remove_variable = gaudi_mechanical_engineering_progress_var
 		remove_variable = gaudi_monthly_mechanical_engineering_progress_var
 		remove_variable = engineer_mechanical_experience_add_var
 
-		every_scope_building = {
-			limit = {
-				has_modifier = gaudi_engineer_focus_building
-			}
-			remove_modifier = gaudi_engineer_focus_building
-		}
 		remove_variable = gaudi_stop_engineering_project_var
 		var:gaudi_engineer_var ?= {
 			set_character_busy_and_immortal = no
