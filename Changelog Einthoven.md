@@ -13,3 +13,6 @@ Medicine:
 
 Monuments:
 - Added Petra to Transjordan at start.
+
+Archaeology:
+- Petra does not have a prestige bonus at game start. It must be explored by an Archaoelogist via JE to activate the bonus.
