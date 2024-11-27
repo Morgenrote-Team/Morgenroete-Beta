@@ -4107,7 +4107,7 @@ je_gaudi_construction_sector_project = {
 				add = var:gaudi_monthly_civil_engineering_progress_var
 			}
 			if = {
-				#If the Progress reaches the cost, the modifier will be added to a state
+				#If the Progress reaches the cost, the modifier will be added to a building
 				limit = {
 					var:gaudi_civil_engineering_progress_var > gaudi_construction_sectors_progress_cost
 				}
@@ -6690,17 +6690,11 @@ je_gaudi_civil_airports_project = {
 				limit = { var:gaudi_aeronautical_engineering_progress_var > gaudi_civil_airport_cost }
 				if = {
 					limit = {
-						any_scope_building = {
-							is_building_type = building_airport
+						scope:target = {
 							NOT = { has_modifier = gaudi_runway_expansion_mult_modifier }
 						}
 					}
-					ordered_scope_building = {
-						limit = {
-							is_building_type = building_airport
-							NOT = { has_modifier = gaudi_runway_expansion_mult_modifier }
-						}
-						order_by = level
+					scope:target = {
 						add_modifier = {
 							name = gaudi_runway_expansion_mult_modifier
 						}
@@ -6712,17 +6706,11 @@ je_gaudi_civil_airports_project = {
 				}
 				else_if = {
 					limit = {
-						any_scope_building = {
-							is_building_type = building_airport
+						scope:target = {
 							NOT = { has_modifier = gaudi_state_of_the_art_planes_mult_modifier }
 						}
 					}
-					ordered_scope_building = {
-						limit = {
-							is_building_type = building_airport
-							NOT = { has_modifier = gaudi_state_of_the_art_planes_mult_modifier }
-						}
-						order_by = level
+					scope:target = {
 						add_modifier = {
 							name = gaudi_state_of_the_art_planes_mult_modifier
 						}
@@ -6733,12 +6721,7 @@ je_gaudi_civil_airports_project = {
 					}
 				}
 				else = {
-					ordered_scope_building = {
-						limit = {
-							is_building_type = building_airport
-							NOT = { has_modifier = gaudi_efficient_motors_modifier }
-						}
-						order_by = level
+					scope:target = {
 						add_modifier = {
 							name = gaudi_efficient_motors_modifier
 						}
@@ -6748,14 +6731,6 @@ je_gaudi_civil_airports_project = {
 						subtract = gaudi_civil_airport_cost
 					}
 				}
-			}
-			set_variable = {
-				name = gaudi_num_airports_var
-				value = gaudi_num_airport_buildings_value
-			}
-			set_variable = {
-				name = gaudi_num_states_modernized_airport_var
-				value = gaudi_num_airport_buildings_with_modifiers_value
 			}
 		}
 	}
@@ -6767,31 +6742,35 @@ je_gaudi_civil_airports_project = {
 			name = gaudi_aeronautical_engineering_progress_var
 			value = 0
 		}
-		#Sets a variable for the number of states
-		set_variable = {
-			name = gaudi_num_airports_var
-			value = gaudi_num_airport_buildings_value
-		}
-		#Sets a variable for the number of states with a Modernized Airport modifier
-		set_variable = {
-			name = gaudi_num_states_modernized_airport_var
-			value = gaudi_num_airport_buildings_with_modifiers_value
-		}
 		gaudi_aeronautical_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
 
 	complete = {
-		custom_tooltip = { #All States need to have a Modernized Airports modifier to end this journal entry
-			text = gaudi_states_with_modernized_airports_tt
-			var:gaudi_num_states_modernized_airport_var = var:gaudi_num_airports_var
+		custom_tooltip = {
+			text = dubois_building_has_runway_expansion_modifier_tt
+			scope:target ?= {
+				has_modifier = gaudi_runway_expansion_mult_modifier
+			}
+		}
+		custom_tooltip = {
+			text = dubois_building_has_state_of_the_art_planes_modifier_tt
+			scope:target ?= {
+				has_modifier = gaudi_state_of_the_art_planes_mult_modifier
+			}
+		}
+		custom_tooltip = {
+			text = dubois_building_has_efficient_motors_modifier_tt
+			scope:target ?= {
+				has_modifier = gaudi_efficient_motors_modifier
+			}
 		}
 	}
 
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		gaudi_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_num_airports_var
-		remove_variable = gaudi_num_states_modernized_airport_var
+		show_as_tooltip = {
+			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+		}
 		
 		#Those should be removed in every aeronautical engineering je
 		remove_variable = gaudi_aeronautical_engineering_progress_var
@@ -6833,10 +6812,9 @@ je_gaudi_civil_airports_project = {
 
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		gaudi_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_num_airports_var
-		remove_variable = gaudi_num_states_modernized_airport_var
-		remove_variable = gaudi_stop_engineering_project_var
+		show_as_tooltip = {
+			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+		}
 		
 		#Those should be removed in every aeronautical engineering je
 		remove_variable = gaudi_aeronautical_engineering_progress_var
