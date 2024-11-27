@@ -301,6 +301,7 @@ namespace = panum
 
 ### Medical System Expansion ###
 
+#Panum 2100: Physician Recruitment
 #Panum 2101: Medical System Expanded
 #Panum 2102: Specialist Clinic in STATE
 #Panum 2103: Hospital in STATE
@@ -308,6 +309,21 @@ namespace = panum
 ### Medical Research ###
 
 #Panum 2201: Medical Research - Germ Theory
+#Panum 2202: Ancient Disease
+#Panum 2203: Strange Medicine
+#Panum 2204: Herbal Remedies?
+#Panum 2205: Animal Testing
+
+#Panum 2211: Aspirin
+#Panum 2212: X-Rays
+#Panum 2213: Blood Types
+#Panum 2214: Electrocardiograph
+#Panum 2215: First Transplantation
+#Panum 2216: Stereotactic Method
+#Panum 2217: Cardiopulmonary bypass
+#Panum 2218: Endoscope
+#Panum 2219: Ophthalmoscope
+#Panum 2220: Chemotherapy
 
 ### Character Treatment ###
 
@@ -16773,6 +16789,15 @@ panum.2005 = {
 				days = { 14 28 }
 			}
 		}
+		else_if = {
+			limit = {
+				panum_can_get_medical_innovation_trigger = yes
+			}
+			trigger_event = {
+				id = panum.2007
+				days = { 14 28 }
+			}
+		}
 		else = {
 			trigger_event = {
 				id = panum.2009
@@ -16825,6 +16850,63 @@ panum.2006 = {
 	}
 
 	after = {
+		if = {
+			limit = {
+				panum_can_get_medical_innovation_trigger = yes
+			}
+			trigger_event = {
+				id = panum.2007
+				days = { 14 28 }
+			}
+		}
+		else = {
+			trigger_event = {
+				id = panum.2009
+				days = { 60 90 }
+			}
+		}
+	}
+}
+
+#Panum 2007: Medical Congress - Inventions
+panum.2007 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2007.t
+	desc = panum.2007.d
+	flavor = panum.2007.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/panum_pictures/panum_medical_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = panum_congress_host_modifier
+			}
+			save_scope_as = panum_congress_host_country
+		}
+	}
+
+	option = { 
+		name = panum.2007.g #This evidence cannot be dismissed out of hand.
+		panum_add_medical_innovation_effect = yes
+	}
+
+	after = {
+		trigger_event = {
+			id = panum.2009
+			days = { 60 90 }
+		}
 	}
 }
 
@@ -16867,6 +16949,104 @@ panum.2009 = {
 }
 
 ##############################################################################################################
+
+#Panum 2100: Physician Recruitment
+panum.2100 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2100.t
+
+	desc = panum.2100.d
+
+	flavor = panum.2100.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_new_physician_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_physician_effect = yes
+	}
+
+	option = {
+		name = panum.2100.g #Epidemiology
+		default_option = yes
+		trigger = {
+			has_technology_researched = panum_vaccination_tech
+			NOT = {
+				scope:panum_new_physician_scope = {
+					has_trait = panum_epidemiologist
+				}
+			}
+		}
+		scope:panum_new_physician_scope = {
+			add_trait = panum_epidemiologist
+		}
+		panum_set_new_physician_as_physician_effect = yes
+	}
+
+	option = {
+		name = panum.2100.h #Surgery
+		trigger = {
+			NOT = {
+				scope:panum_new_physician_scope = {
+					has_trait = panum_surgeon
+				}
+			}
+		}
+		scope:panum_new_physician_scope = {
+			add_trait = panum_surgeon
+		}
+		panum_set_new_physician_as_physician_effect = yes
+	}
+
+	option = {
+		name = panum.2100.h #Psychiatry
+		trigger = {
+			has_technology_researched = psychiatry
+			NOT = {
+				scope:panum_new_physician_scope = {
+					has_trait = panum_psychiatrist
+				}
+			}
+		}
+		scope:panum_new_physician_scope = {
+			add_trait = panum_psychiatrist
+		}
+		panum_set_new_physician_as_physician_effect = yes
+	}
+
+	option = {
+		name = panum.2100.i #Military Medicine
+		trigger = {
+			has_technology_researched = triage
+			NOT = {
+				scope:panum_new_physician_scope = {
+					has_trait = panum_military_physician
+				}
+			}
+		}
+		scope:panum_new_physician_scope = {
+			add_trait = panum_military_physician
+		}
+		panum_set_new_physician_as_physician_effect = yes
+	}
+
+	after = {
+		remove_variable = panum_physician_recruitment_var
+	}
+}
 
 #Panum 2101: Medical System Expanded
 panum.2101 = {
@@ -17270,6 +17450,860 @@ panum.2204 = {
 	option = { 
 		name = panum.2204.g #Cross-disciplinary science remains the best science.
 		panum_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Panum 2205: Animal Testing
+panum.2205 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2205.t
+
+	desc = panum.2205.d
+
+	flavor = panum.2205.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+		var:panum_physician_var = {
+			has_trait = cruel
+		}
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {	#It's about saving human lives.
+		name = panum.2205.g
+		default_option = yes
+		panum_small_add_technology = yes
+		if = {
+			limit = {
+				NOT = {
+					var:panum_physician_var = {
+						has_trait = psychological_affliction
+					}
+				}
+			}
+			random_list = {
+				5 = {}
+				1 = {
+					var:panum_physician_var = {
+						add_trait = psychological_affliction
+					}
+				}
+			}
+		}
+	}
+
+	option = {	#The students should learn how to dissect animals.
+		name = panum.2205.h
+		default_option = yes
+		dubois_add_x_academy_progress = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:panum_physician_var = {
+						has_trait = psychological_affliction
+					}
+				}
+			}
+			random_list = {
+				10 = {}
+				1 = {
+					var:panum_physician_var = {
+						add_trait = psychological_affliction
+					}
+				}
+			}
+		}
+	}
+
+	option = {	#This is clearly going too far.
+		name = panum.2205.i
+	}
+
+	after = {
+	}
+
+}
+
+### Important Inventions
+
+#Panum 2211: Aspirin
+panum.2211 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:panum_aspirin_state_scope
+
+	title = panum.2211.t
+	desc = panum.2211.d
+	flavor = panum.2211.f
+
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:panum_physician_scope
+	right_icon = scope:mendelejew_chemist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_aspirin_global_var
+		}
+		mendelejew_has_chemist = yes
+		has_technology_researched = theiler_microbiology_tech
+		any_scope_building = {
+			is_building_type = building_chemical_plants
+			level >= 3
+		}
+		var:dubois_specimen >= 5000
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = panum_aspirin_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_aspirin_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		var:mendelejew_chemist_var = {
+			save_scope_as = mendelejew_chemist_scope
+		}
+		random_scope_building = {
+			limit = {
+				is_building_type = building_chemical_plants
+				level >= 3
+			}
+			save_scope_as = panum_aspirin_building_scope
+			state = {
+				save_scope_as = panum_aspirin_state_scope
+			}
+		}
+	}
+
+	option = { 
+		name = panum.2211.g #The drug will be the starting point for further medical research.
+		panum_small_add_technology = yes
+		physician_experience_gain_effect = { AMOUNT = 20 }
+		var:mendelejew_chemist_var = {
+			set_variable = panum_physician_achievement_aspirin_inventor_var
+		}
+		panum_add_x_medical_score_points_effect = { AMOUNT = 2 }
+		dubois_add_x_specimen_effect = { AMOUNT = -5000 }
+	}
+
+	option = { 
+		name = panum.2211.h #Chemistry is sure to open up even more spectacular discoveries.
+		mendelejew_small_add_technology = yes
+		chemist_experience_gain_effect = { AMOUNT = 20 }
+		var:mendelejew_chemist_var = {
+			set_variable = panum_physician_achievement_aspirin_inventor_var
+		}
+		panum_add_x_medical_score_points_effect = { AMOUNT = 2 }
+		dubois_add_x_specimen_effect = { AMOUNT = -5000 }
+	}
+
+	option = { 
+		name = panum.2211.i #The pharmaceutical industry will benefit from this.
+		physician_experience_gain_effect = { AMOUNT = 10 }
+		chemist_experience_gain_effect = { AMOUNT = 10 }
+		scope:panum_aspirin_building_scope = {
+			add_modifier = {
+				name = panum_aspirin_factory_modifier
+			}
+		}
+		var:panum_physician_var = {
+			set_variable = panum_physician_achievement_aspirin_inventor_var
+		}
+		var:mendelejew_chemist_var = {
+			set_variable = panum_physician_achievement_aspirin_inventor_var
+		}
+		panum_add_x_medical_score_points_effect = { AMOUNT = 2 }
+		dubois_add_x_specimen_effect = { AMOUNT = -5000 }
+	}
+
+	after = {
+	}
+}
+
+#Panum 2212: X-Rays
+panum.2212 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:panum_xray_state_scope
+
+	title = panum.2212.t
+	desc = panum.2212.d
+	flavor = panum.2212.f
+
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:panum_physician_scope
+	right_icon = scope:curie_physicist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_xray_global_var
+		}
+		curie_has_physicist = yes
+		has_technology_researched = verrier_modern_physics_tech
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_government_administration
+				has_active_production_method = pm_panum_hospital
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = panum_xray_var
+		set_global_variable = {
+			name = panum_xray_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_xray_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		var:curie_physicist_var = {
+			save_scope_as = curie_physicist_scope
+		}
+		random_scope_building = {
+			limit = {
+				is_building_type = building_government_administration
+				has_active_production_method = pm_panum_hospital
+			}
+			save_scope_as = panum_xray_building_scope
+			state = {
+				save_scope_as = panum_xray_state_scope
+			}
+		}
+	}
+
+	option = { 
+		name = panum.2212.g #Spooky - like seeing your own death.
+		physician_experience_gain_effect = { AMOUNT = 30 }
+		physicist_experience_gain_effect = { AMOUNT = 30 }
+		add_modifier = {
+			name = panum_xray_modifier
+		}
+		var:curie_physicist_var = {
+			set_variable = panum_physician_achievement_xray_inventor_var
+		}
+		panum_add_x_medical_score_points_effect = { AMOUNT = 4 }
+	}
+
+	after = {
+	}
+}
+
+#Panum 2213: Blood Types
+panum.2213 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:panum_bloodtypes_state_scope
+
+	title = panum.2213.t
+	desc = panum.2213.d
+	flavor = panum.2213.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_bloodtypes_global_var
+		}
+		var:panum_physician_var = {
+			OR = {
+				has_trait = theiler_biologist
+				has_trait = mendelejew_chemist
+			}
+		}
+		has_technology_researched = panum_antitoxins_tech
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_government_administration
+				OR = {
+					has_active_production_method = pm_panum_clinic
+					has_active_production_method = pm_panum_hospital
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = panum_bloodtypes_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_bloodtypes_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		random_scope_building = {
+			limit = {
+				is_building_type = building_government_administration
+				OR = {
+					has_active_production_method = pm_panum_clinic
+					has_active_production_method = pm_panum_hospital
+				}
+			}
+			save_scope_as = panum_bloodtypes_building_scope
+			state = {
+				save_scope_as = panum_bloodtypes_state_scope
+			}
+		}
+	}
+
+	option = { 
+		name = panum.2213.g #Research into blood groups must be promoted.
+		physician_experience_gain_effect = { AMOUNT = 25 }
+		panum_large_add_technology = yes
+		var:panum_physician_var = {
+			set_variable = panum_physician_achievement_bloodtypes_inventor_var
+		}
+		panum_add_x_medical_score_points_effect = { AMOUNT = 3 }
+	}
+
+	option = { 
+		name = panum.2213.h #The clinic is supposed to collect blood types and collect them for blood transfusions.
+		physician_experience_gain_effect = { AMOUNT = 25 }
+		scope:panum_bloodtypes_building_scope = {
+			add_modifier = {
+				name = panum_bloodtypes_modifier
+			}
+		}
+		var:panum_physician_var = {
+			set_variable = panum_physician_achievement_bloodtypes_inventor_var
+		}
+		panum_add_x_medical_score_points_effect = { AMOUNT = 3 }
+	}
+
+	after = {
+	}
+}
+
+#Panum 2214: Electrocardiograph
+panum.2214 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2214.t
+	desc = panum.2214.d
+	flavor = panum.2214.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_ecg.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_ecg_global_var
+		}
+		var:panum_physician_var = {
+			OR = {
+				has_trait = innovative
+				has_trait = meticulous
+				has_trait = engineer
+				has_trait = verrier_mathematician
+			}
+		}
+		has_technology_researched = electrical_capacitors
+	}
+
+	immediate = {
+		set_variable = panum_ecg_var
+		set_global_variable = {
+			name = panum_ecg_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_ecg_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = { 
+		name = panum.2214.g #This device should be in every hospital.
+		physician_experience_gain_effect = { AMOUNT = 25 }
+		add_modifier = {
+			name = panum_ecg_modifier
+		}
+		var:panum_physician_var = {
+			set_variable = panum_physician_achievement_ecg_inventor_var
+		}
+		panum_add_x_medical_score_points_effect = { AMOUNT = 3 }
+	}
+
+	after = {
+	}
+}
+
+#Panum 2215: First Transplantation
+panum.2215 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2215.t
+	desc = panum.2215.d
+	flavor = panum.2215.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_scalpel.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_transplantation_global_var
+		}
+		var:panum_physician_var = {
+			has_trait = panum_surgeon
+			OR = {
+				has_trait = panum_physician_experienced
+				has_trait = panum_physician_famous
+			}
+		}
+		has_technology_researched = modern_nursing
+		has_technology_researched = theiler_microbiology_tech
+		has_variable = panum_techniques_sterilization_var
+	}
+
+	immediate = {
+		set_variable = panum_transplantation_var
+		set_global_variable = {
+			name = panum_transplantation_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_transplantation_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = { 
+		name = panum.2215.g #And people thought Frankenstein was a horror novel!
+		physician_experience_gain_effect = { AMOUNT = 25 }
+		dubois_add_x_academy_progress = { AMOUNT = 50 }
+		panum_medium_add_technology = yes
+		add_modifier = {
+			name = panum_transplantation_modifier
+		}
+		var:panum_physician_var = {
+			set_variable = panum_physician_achievement_transplantation_inventor_var
+		}
+		panum_add_x_medical_score_points_effect = { AMOUNT = 3 }
+	}
+
+	after = {
+	}
+}
+
+#Panum 2216: Stereotactic Method
+panum.2216 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2216.t
+	desc = panum.2216.d
+	flavor = panum.2216.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_scalpel.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_stereotactic_method_global_var
+		}
+		var:panum_physician_var = {
+			has_trait = panum_surgeon
+			OR = {
+				has_trait = panum_physician_experienced
+				has_trait = panum_physician_famous
+			}
+		}
+		has_technology_researched = modern_nursing
+		has_technology_researched = panum_antitoxins_tech
+		has_variable = panum_techniques_patient_records_var
+	}
+
+	immediate = {
+		set_variable = panum_stereotactic_method_var
+		set_global_variable = {
+			name = panum_stereotactic_method_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_stereotactic_method_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = { 
+		name = panum.2216.g #And people thought Frankenstein was a horror novel!
+		physician_experience_gain_effect = { AMOUNT = 25 }
+		dubois_add_x_academy_progress = { AMOUNT = 50 }
+		panum_medium_add_technology = yes
+		add_modifier = {
+			name = panum_stereotactic_method_modifier
+		}
+		var:panum_physician_var = {
+			set_variable = panum_physician_achievement_stereotactic_method_inventor_var
+		}
+		panum_add_x_medical_score_points_effect = { AMOUNT = 3 }
+	}
+
+	after = {
+	}
+}
+
+#Panum 2217: Cardiopulmonary bypass
+panum.2217 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2217.t
+	desc = panum.2217.d
+	flavor = panum.2217.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_scalpel.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_cardiopulmonary_bypass_global_var
+		}
+		var:panum_physician_var = {
+			OR = {
+				has_trait = innovative
+				has_trait = meticulous
+				has_trait = engineer
+				has_trait = verrier_mathematician
+			}
+		}
+		has_technology_researched = panum_antitoxins_tech
+		has_variable = panum_techniques_patient_records_var
+	}
+
+	immediate = {
+		set_variable = panum_cardiopulmonary_bypass_var
+		set_global_variable = {
+			name = panum_cardiopulmonary_bypass_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_cardiopulmonary_bypass_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = { 
+		name = panum.2217.g #And people thought Frankenstein was a horror novel!
+		physician_experience_gain_effect = { AMOUNT = 25 }
+		dubois_add_x_academy_progress = { AMOUNT = 50 }
+		panum_medium_add_technology = yes
+		add_modifier = {
+			name = panum_cardiopulmonary_bypass_modifier
+		}
+		var:panum_physician_var = {
+			set_variable = panum_physician_achievement_cardiopulmonary_bypass_inventor_var
+		}
+		panum_add_x_medical_score_points_effect = { AMOUNT = 3 }
+	}
+
+	after = {
+	}
+}
+
+#Panum 2218: Endoscope
+panum.2218 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2218.t
+	desc = panum.2218.d
+	flavor = panum.2218.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_endoscope_global_var
+		}
+		var:panum_physician_var = {
+			has_trait = innovative
+		}
+		has_technology_researched = quinine
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = panum_endoscope_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_endoscope_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = { 
+		name = panum.2218.g #A useful medical device.
+		physician_experience_gain_effect = { AMOUNT = 10 }
+		panum_medium_add_technology = yes
+		var:panum_physician_var = {
+			set_variable = panum_physician_achievement_endoscope_inventor_var
+		}
+		panum_add_x_medical_score_points_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+	}
+}
+
+#Panum 2219: Ophthalmoscope
+panum.2219 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2219.t
+	desc = panum.2219.d
+	flavor = panum.2219.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_ophthalmoscope_global_var
+		}
+		var:panum_physician_var = {
+			has_trait = innovative
+		}
+		has_technology_researched = pharmaceuticals
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = panum_ophthalmoscope_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_ophthalmoscope_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = { 
+		name = panum.2219.g #A useful medical device.
+		physician_experience_gain_effect = { AMOUNT = 10 }
+		panum_medium_add_technology = yes
+		var:panum_physician_var = {
+			set_variable = panum_physician_achievement_ophthalmoscope_inventor_var
+		}
+		panum_add_x_medical_score_points_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+	}
+}
+
+#Panum 2220: Chemotherapy
+panum.2220 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2220.t
+	desc = panum.2220.d
+	flavor = panum.2220.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_ophthalmoscope_global_var
+		}
+		var:panum_physician_var = {
+			has_trait = panum_physician_famous
+		}
+		has_technology_researched = antibiotics
+	}
+
+	immediate = {
+		set_variable = panum_chemotherapy_var
+		set_global_variable = {
+			name = panum_ophthalmoscope_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_ophthalmoscope_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = { 
+		name = panum.2220.g #Could this be an answer to the suffering of cancer patients?
+		var:panum_physician_var = {
+			set_variable = panum_physician_achievement_ophthalmoscope_inventor_var
+		}
+		add_modifier = {
+			name = panum_chemotherapy_modifier
+		}
+		dubois_add_x_academy_progress = { AMOUNT = 100 }
+		panum_add_x_medical_score_points_effect = { AMOUNT = 5 }
 	}
 
 	after = {
