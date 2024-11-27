@@ -402,6 +402,7 @@ gaudi_industries_project_button = {
 	possible = {
 		gaudi_has_active_engineer = yes
 		any_scope_building = {
+			level > 0
 			NOR = {
 				is_building_group = bg_whaling
 				is_building_group = bg_fishing
@@ -411,10 +412,10 @@ gaudi_industries_project_button = {
 				is_building_group = bg_government
 				is_building_group = bg_infrastructure
 				is_building_group = bg_military
+				is_building_group = bg_subsistence_agriculture
 				is_building_type = building_elgar_opera
 			}
-			level > 0
-			NOR = {
+			NAND = {
 				has_modifier = gaudi_building_throughput_add_modifier
 				has_modifier = gaudi_building_production_mult_modifier
 				has_modifier = gaudi_building_goods_input_mult_modifier
@@ -423,13 +424,47 @@ gaudi_industries_project_button = {
 	}
 
 	effect = {
-		add_journal_entry = { type = je_gaudi_modernizing_industries_project }
-		add_modifier = {
-			name = gaudi_engineer_project_medium_cost_modifier
-			multiplier = money_amount_multiplier_small
+		ordered_scope_building = {
+			limit = {
+				level > 0
+				NOR = {
+					is_building_group = bg_whaling
+					is_building_group = bg_fishing
+					is_building_group = bg_service
+					is_building_group = bg_urban_facilities
+					is_building_group = bg_power
+					is_building_group = bg_government
+					is_building_group = bg_infrastructure
+					is_building_group = bg_military
+					is_building_group = bg_subsistence_agriculture
+					is_building_type = building_elgar_opera
+				}
+				NAND = {
+					has_modifier = gaudi_building_throughput_add_modifier
+					has_modifier = gaudi_building_production_mult_modifier
+					has_modifier = gaudi_building_goods_input_mult_modifier
+				}
+			}
+			order_by = earnings
+			save_scope_as = chosen_building
 		}
-		var:gaudi_engineer_var = {
-			set_character_busy_and_immortal = yes
+		add_journal_entry = {
+			type = je_gaudi_modernizing_industries_project
+			target = scope:chosen_building
+		}
+		je:je_gaudi_modernizing_industries_project = {
+			add_modifier = {
+				name = gaudi_engineer_project_medium_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+		if = {
+			limit = {
+				has_variable = gaudi_engineer_var
+			}
+			var:gaudi_engineer_var = {
+				set_character_busy_and_immortal = yes
+			}
 		}
 	}
 
@@ -1030,13 +1065,36 @@ gaudi_airports_project_button = {
 	}
 
 	effect = {
-		add_journal_entry = { type = je_gaudi_civil_airports_project }
-		add_modifier = {
-			name = gaudi_engineer_project_medium_cost_modifier
-			multiplier = money_amount_multiplier_small
+		ordered_scope_building = {
+			limit = {
+				level > 0
+				is_building_type = building_airport
+				NAND = {
+					has_modifier = gaudi_runway_expansion_mult_modifier
+					has_modifier = gaudi_state_of_the_art_planes_mult_modifier
+					has_modifier = gaudi_efficient_motors_modifier
+				}
+			}
+			order_by = earnings
+			save_scope_as = chosen_building
 		}
-		var:gaudi_engineer_var = {
-			set_character_busy_and_immortal = yes
+		add_journal_entry = {
+			type = je_gaudi_civil_airports_project
+			target = scope:chosen_building
+		}
+		je:je_gaudi_civil_airports_project = {
+			add_modifier = {
+				name = gaudi_engineer_project_medium_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+		if = {
+			limit = {
+				has_variable = gaudi_engineer_var
+			}
+			var:gaudi_engineer_var = {
+				set_character_busy_and_immortal = yes
+			}
 		}
 	}
 
