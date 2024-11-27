@@ -4107,20 +4107,12 @@ je_gaudi_construction_sector_project = {
 				}
 				if = { #First modifier
 					limit = {
-						any_scope_building = {
-							is_building_type = building_construction_sector
-							level > 0
+						scope:target = {
 							NOT = { has_modifier = gaudi_new_construction_methods_modifier }
 						}
 					}
 					#The construction sector with the most construction sectors will be chosen
-					ordered_scope_building = {
-						limit = {
-							NOT = { has_modifier = gaudi_new_construction_methods_modifier }
-							is_building_type = building_construction_sector
-							level > 0
-						}
-						order_by = level
+					scope:target = {
 						add_modifier = {
 							name = gaudi_new_construction_methods_modifier
 						}
@@ -4128,20 +4120,12 @@ je_gaudi_construction_sector_project = {
 				}
 				else_if = {
 					limit = {
-						any_scope_building = {
-							is_building_type = building_construction_sector
-							level > 0
+						scope:target = {
 							NOT = { has_modifier = gaudi_faster_construction_methods_modifier }
 						}
 					}
 					#The construction sector with the most construction sectors will be chosen
-					ordered_scope_building = {
-						limit = {
-							NOT = { has_modifier = gaudi_faster_construction_methods_modifier }
-							is_building_type = building_construction_sector
-							level > 0
-						}
-						order_by = level
+					scope:target = {
 						add_modifier = {
 							name = gaudi_faster_construction_methods_modifier
 						}
@@ -4149,13 +4133,7 @@ je_gaudi_construction_sector_project = {
 				}
 				else = {
 					#The construction sector with the most construction sectors will be chosen
-					ordered_scope_building = {
-						limit = {
-							NOT = { has_modifier = gaudi_efficient_construction_methods_modifier }
-							is_building_type = building_construction_sector
-							level > 0
-						}
-						order_by = level
+					scope:target = {
 						add_modifier = {
 							name = gaudi_efficient_construction_methods_modifier
 						}
@@ -4167,14 +4145,6 @@ je_gaudi_construction_sector_project = {
 					subtract = gaudi_construction_sectors_progress_cost
 				}
 			}
-			set_variable = {
-				name = gaudi_num_construction_sectors_var
-				value = gaudi_num_construction_sectors_value
-			}
-			set_variable = {
-				name = gaudi_num_construction_sectors_with_modifiers_var
-				value = gaudi_num_construction_sectors_with_modifiers_value
-			}
 		}
 	}
 
@@ -4185,31 +4155,35 @@ je_gaudi_construction_sector_project = {
 			name = gaudi_civil_engineering_progress_var
 			value = 0
 		}
-		#Sets a variable for the number of construction sectors
-		set_variable = {
-			name = gaudi_num_construction_sectors_var
-			value = gaudi_num_construction_sectors_value
-		}
-		#Sets a variable for the number of construction sectors with the modifiers modifier
-		set_variable = {
-			name = gaudi_num_construction_sectors_with_modifiers_var
-			value = gaudi_num_construction_sectors_with_modifiers_value
-		}
 		gaudi_civil_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
 
 	complete = {
-		custom_tooltip = { #All construction sectors need to have the modifiers to end this journal entry
-			text = gaudi_construction_sectors_with_modifiers_tt
-			var:gaudi_num_construction_sectors_with_modifiers_var = var:gaudi_num_construction_sectors_var
+		custom_tooltip = {
+			text = dubois_building_has_new_construction_methods_modifier_tt
+			scope:target ?= {
+				has_modifier = gaudi_new_construction_methods_modifier
+			}
+		}
+		custom_tooltip = {
+			text = dubois_building_has_faster_construction_methods_modifier_tt
+			scope:target ?= {
+				has_modifier = gaudi_faster_construction_methods_modifier
+			}
+		}
+		custom_tooltip = {
+			text = dubois_building_has_efficient_construction_methods_modifier_tt
+			scope:target ?= {
+				has_modifier = gaudi_efficient_construction_methods_modifier
+			}
 		}
 	}
 
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		gaudi_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_num_construction_sectors_var
-		remove_variable = gaudi_num_construction_sectors_with_modifiers_var
+		show_as_tooltip = {
+			remove_modifier = gaudi_engineer_project_low_cost_modifier
+		}
 		
 		#Those should be removed in every civil engineering je
 		remove_variable = gaudi_civil_engineering_progress_var
@@ -4251,9 +4225,9 @@ je_gaudi_construction_sector_project = {
 
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		gaudi_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_num_construction_sectors_var
-		remove_variable = gaudi_num_construction_sectors_with_modifiers_var
+		show_as_tooltip = {
+			remove_modifier = gaudi_engineer_project_low_cost_modifier
+		}
 		remove_variable = gaudi_stop_engineering_project_var
 
 		#Those should be removed in every civil engineering je

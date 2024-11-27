@@ -410,6 +410,12 @@ mr_civil_engineer_infrastructure_active = {
 mr_civil_engineer_construction_button = {
 	scope = country
 	is_valid = {
+		custom_tooltip = {
+			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
+			NOT = {
+				has_variable = gaudi_improve_construction_sector_building_choser_var
+			}
+		}
 		gaudi_has_civil_engineer_trigger = yes
 		gaudi_has_active_engineer = yes
 		custom_tooltip = {
@@ -420,17 +426,59 @@ mr_civil_engineer_construction_button = {
 		}
 	}
 	effect = {
-		add_journal_entry = { type = je_gaudi_construction_sector_project }
-		add_modifier = {
-			name = gaudi_engineer_project_low_cost_modifier
-			multiplier = money_amount_multiplier_small
-		}
 		if = {
 			limit = {
-				has_variable = gaudi_engineer_var
+				is_ai = yes
 			}
-			var:gaudi_engineer_var = {
-				set_character_busy_and_immortal = yes
+			ordered_scope_building = {
+				limit = {
+					tesla_construction_sector_valid_for_improvement_trigger = yes
+				}
+				order_by = earnings
+				save_scope_as = chosen_building
+			}
+			add_journal_entry = {
+				type = je_gaudi_construction_sector_project
+				target = scope:chosen_building
+			}
+			je:je_gaudi_construction_sector_project = {
+				add_modifier = {
+					name = gaudi_engineer_project_low_cost_modifier
+					multiplier = money_amount_multiplier_small
+				}
+			}
+			if = {
+				limit = {
+					has_variable = gaudi_engineer_var
+				}
+				var:gaudi_engineer_var = {
+					set_character_busy_and_immortal = yes
+				}
+			}
+		}
+		else = {
+			clear_variable_list = gaudi_improve_construction_sector_building_buildings_variable_list
+			ordered_scope_building = {
+				limit = {
+					tesla_construction_sector_valid_for_improvement_trigger = yes
+				}
+				order_by = earnings
+				max = 1000
+				check_range_bounds = no
+
+				root = {
+					add_to_variable_list = {
+						name = gaudi_improve_construction_sector_building_buildings_variable_list
+						target = prev
+					}
+				}
+			}
+			set_variable = gaudi_improve_construction_sector_building_choser_var
+			show_as_tooltip = {
+				add_modifier = {
+					name = gaudi_engineer_project_low_cost_modifier
+					multiplier = money_amount_multiplier_small
+				}
 			}
 		}
 	}
@@ -440,6 +488,49 @@ mr_civil_engineer_construction_active = {
 	scope = country
 	is_shown = {
 		has_journal_entry = je_gaudi_construction_sector_project
+	}
+}
+
+mr_improve_construction_sector_window_active_sgui = {
+	scope = country
+	is_shown = {
+		has_variable = gaudi_improve_construction_sector_building_choser_var
+		#Active Engineer
+		has_variable = gaudi_engineer_var
+		var:gaudi_engineer_var = {
+			is_busy = no
+		}
+	}
+}
+mr_improve_construction_sector_building_window_chose_button_sgui = {
+	scope = country
+	effect = {
+		add_journal_entry = {
+			type = je_gaudi_construction_sector_project
+			target = scope:chosen_building
+		}
+		je:je_gaudi_construction_sector_project = {
+			add_modifier = {
+				name = gaudi_engineer_project_low_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+		remove_variable = gaudi_improve_construction_sector_building_choser_var
+		var:gaudi_engineer_var = {
+			set_character_busy_and_immortal = yes
+		}
+		show_as_tooltip = {
+			add_modifier = {
+				name = gaudi_engineer_project_low_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+	}
+}
+mr_improve_construction_sector_building_window_close_button_sgui = {
+	scope = country
+	effect = {
+		remove_variable = gaudi_improve_construction_sector_building_choser_var
 	}
 }
 
@@ -577,7 +668,7 @@ mr_mechanical_engineer_industries_button = {
 		custom_tooltip = {
 			text = MR_MECHANICAL_ENGINEER_INDUSTRIES_TRIGGER_TT
 			any_scope_building = {
-				tesla_building_valid_for_improvement_trigger = yes
+				tesla_building_valid_for_mechanical_improvement_trigger = yes
 			}
 		}
 	}
@@ -588,7 +679,7 @@ mr_mechanical_engineer_industries_button = {
 			}
 			ordered_scope_building = {
 				limit = {
-					tesla_building_valid_for_improvement_trigger = yes
+					tesla_building_valid_for_mechanical_improvement_trigger = yes
 				}
 				order_by = earnings
 				save_scope_as = chosen_building
@@ -616,7 +707,7 @@ mr_mechanical_engineer_industries_button = {
 			clear_variable_list = gaudi_improve_mechanical_improvement_building_buildings_variable_list
 			ordered_scope_building = {
 				limit = {
-					tesla_building_valid_for_improvement_trigger = yes
+					tesla_building_valid_for_mechanical_improvement_trigger = yes
 				}
 				order_by = earnings
 				max = 1000
@@ -1391,7 +1482,7 @@ mr_aeronautical_engineer_airport_button = {
 			}
 			ordered_scope_building = {
 				limit = {
-					tesla_building_valid_for_improvement_trigger = yes
+					tesla_building_valid_for_mechanical_improvement_trigger = yes
 				}
 				order_by = earnings
 				save_scope_as = chosen_building
@@ -1419,7 +1510,7 @@ mr_aeronautical_engineer_airport_button = {
 			clear_variable_list = gaudi_improve_airport_building_buildings_variable_list
 			ordered_scope_building = {
 				limit = {
-					tesla_building_valid_for_improvement_trigger = yes
+					tesla_building_valid_for_mechanical_improvement_trigger = yes
 				}
 				order_by = earnings
 				max = 1000
