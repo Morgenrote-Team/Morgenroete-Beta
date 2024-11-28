@@ -538,6 +538,12 @@ mr_improve_construction_sector_building_window_close_button_sgui = {
 mr_civil_engineer_topographic_map_button = {
 	scope = country
 	is_valid = {
+		custom_tooltip = {
+			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
+			NOT = {
+				has_variable = mr_topographic_state_prioritizing_window_active_var
+			}
+		}
 		gaudi_has_civil_engineer_trigger = yes
 		gaudi_has_active_engineer = yes
 		custom_tooltip = {
@@ -552,19 +558,44 @@ mr_civil_engineer_topographic_map_button = {
 		}
 	}
 	effect = {
-		add_journal_entry = { type = je_gaudi_topographic_map_project }
-		add_modifier = {
-			name = gaudi_engineer_project_low_cost_modifier
-			multiplier = money_amount_multiplier_small
-		}
-		if = {
+		clear_variable_list = states_for_topographic_improvement_variable_list
+		ordered_scope_state = {
 			limit = {
-				has_variable = gaudi_engineer_var
+				NOT = {
+					has_modifier = gaudi_topographic_state_map_modifier
+				}
 			}
-			var:gaudi_engineer_var = {
-				set_character_busy_and_immortal = yes
+			order_by = gaudi_infrastructure_balance
+			max = 1000
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = states_for_topographic_improvement_variable_list
+					target = prev
+				}
 			}
 		}
+		set_variable = mr_topographic_state_prioritizing_window_active_var
+		show_as_tooltip = {
+			add_modifier = {
+				name = gaudi_engineer_project_low_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+#		add_journal_entry = { type = je_gaudi_topographic_map_project }
+#		add_modifier = {
+#			name = gaudi_engineer_project_low_cost_modifier
+#			multiplier = money_amount_multiplier_small
+#		}
+#		if = {
+#			limit = {
+#				has_variable = gaudi_engineer_var
+#			}
+#			var:gaudi_engineer_var = {
+#				set_character_busy_and_immortal = yes
+#			}
+#		}
 	}
 }
 #Active

@@ -1124,12 +1124,12 @@ types mr_popup_types {
         allow_outside = yes
         parentanchor = center
 
-        size = { 900 500 }
+        size = { 900 580 }
 
         enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
         visible = yes
         block "visible" {
-            visible = "[And( GetScriptedGui('mr_general_state_prioritizing_window_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End), And( IsInGame, And( Not( IsPauseMenuShown ), Not( IsGameOverScreenShown ))))]"
+            visible = "[And( GetScriptedGui('mr_state_prioritizing_topographic_project_window_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End), And( IsInGame, And( Not( IsPauseMenuShown ), Not( IsGameOverScreenShown ))))]"
         }
 
         widget = {
@@ -1184,107 +1184,296 @@ types mr_popup_types {
 
         ### Actual stuff
         flowcontainer = {
-            minimumsize = { 850 400 }
-            position = { 0 30 }
-            margin = { 10 10 }
+            direction = vertical
             parentanchor = center
+            minimumsize = { 850 480 }
 
-            #Left Side
-            scrollbox = {
-                size = { 410 380 }
-    
-                scrollbarpolicy_horizontal = always_off
-                scrollbarpolicy_vertical = as_needed
-    
-                scrollbar_vertical = {
-                    using = Scrollbar_Vertical
+            widget = {
+                size = { 850 60}
+            }
+
+            flowcontainer = {
+                margin = { 10 0 }
+                spacing = 2
+
+                sort_button = {
+                    size = { 140 30 }
+                    text = "NAME"
+                    enabled = no
+                    align = center|nobaseline
                 }
-    
-                blockoverride "scrollbox_content" {
-                    vbox = {
-                        spacing = 5
-                        block "datamodel" {
-                            datamodel = "[GetPlayer.MakeScope.GetList('states_for_improvement_variable_list')]"
-                        }
 
-                        item = {
-                            widget = {
-                                size = { 380 50 }
-                                background = {
-                                    using = entry_bg_simple
+                sort_button = {
+                    size = { 68 30 }
+                    text = "MR_INCORPORATION_STATUS"
+                    tooltip = "MR_INCORPORATION_STATUS_TT"
+                    block "sort_by_incorporation_status" {
+                        datacontext = "[GetScriptedGui('mr_sort_topographic_state_by_status_button_sgui')]"
+                    }
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                    align = center|nobaseline
+                }
+
+                sort_button = {
+                    size = { 71 30 }
+                    text = "MR_INFRASTRUCTURE_BALANCE"
+                    tooltip = "MR_INFRASTRUCTURE_BALANCE_TT"
+                    using = fontsize_xsmall
+                    block "sort_by_infrastructure_balance" {
+                        datacontext = "[GetScriptedGui('mr_sort_topographic_state_by_infrastructure_button_sgui')]"
+                    }
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                    align = center|nobaseline
+                }
+
+                sort_button = {
+                    size = { 110 30 }
+                    text = "MR_JOBSEEKERS"
+                    block "sort_by_jobseekers" {
+                        enabled = no
+                    }
+                    align = center|nobaseline
+                }
+
+                widget = {
+                    size = { 36 10 }
+                }
+
+                sort_button = {
+                    size = { 150 30 }
+                    text = "NAME"
+                    enabled = no
+                    align = center|nobaseline
+                }
+
+                sort_button = {
+                    size = { 68 30 }
+                    text = "MR_INCORPORATION_STATUS"
+                    enabled = no
+                    align = center|nobaseline
+                }
+
+                sort_button = {
+                    size = { 71 30 }
+                    text = "MR_INFRASTRUCTURE_BALANCE_NO_CONCEPT"
+                    using = fontsize_xsmall
+                    enabled = no
+                    align = center|nobaseline
+                }
+
+                sort_button = {
+                    size = { 100 30 }
+                    text = "MR_JOBSEEKERS_NO_CONCEPT"
+                    enabled = no
+                    align = center|nobaseline
+                }
+
+            }
+
+            flowcontainer = {
+                minimumsize = { 850 400 }
+                margin = { 10 2 }
+                spacing = 10
+
+                #Left Side
+                scrollbox = {
+                    size = { 410 380 }
+        
+                    scrollbarpolicy_horizontal = always_off
+                    scrollbarpolicy_vertical = as_needed
+        
+                    scrollbar_vertical = {
+                        using = Scrollbar_Vertical
+                    }
+        
+                    blockoverride "scrollbox_content" {
+                        vbox = {
+                            spacing = 5
+                            block "datamodel" {
+                                datamodel = "[GetPlayer.MakeScope.GetList('states_for_topographic_improvement_variable_list')]"
+                            }
+
+                            item = {
+                                widget = {
+                                    size = { 380 50 }
+                                    background = {
+                                        using = entry_bg_simple
+                                    }
+                                    datacontext = "[Scope.GetState]"
+
+                                    flowcontainer = {
+                                        spacing = 5
+                                        margin = { 10 0 }
+
+                                        #Name
+                                        textbox = {
+                                            raw_text = "[State.GetName]"
+                                            size = { 150 50 }
+                                            elide = right
+                                            align = nobaseline
+                                            using = fontsize_medium
+                                        }
+                                        #Unincorporated Status
+                                        widget = {
+                                            size = { 25 50 }
+
+                                            icon = {
+                                                parentanchor = center
+                                                visible = "[And(State.IsUnincorporated, Not(State.IsIncorporating))]"
+                                                size = { 25 25 }
+                                                texture = "gfx/interface/icons/state_status_icons/unincorporated_state.dds"
+                                            }
+                                        }
+
+                                        #Divider
+                                        vertical_divider = {
+                                            blockoverride "size" {
+                                                size = { 3 50 }
+                                            }
+                                        }
+
+                                        #Level
+                                        textbox = {
+                                            raw_text = "[State.GetInfrastructureBalance|0+=]"
+                                            size = { 60 50 }
+                                            elide = right
+                                            align = center|nobaseline
+                                            using = fontsize_large
+                                        }
+
+                                        #Divider
+                                        vertical_divider = {
+                                            blockoverride "size" {
+                                                size = { 3 50 }
+                                            }
+                                        }
+
+                                        #Job Seekers
+                                        textbox = {
+                                            raw_text = "[State.GetNumJobseekers|Dv]"
+                                            size = { 70 50 }
+                                            elide = right
+                                            align = center|nobaseline
+                                            using = fontsize_large
+                                        }
+
+                                        button_icon_move_right = {
+                                            parentanchor = vcenter
+                                            size = { 30 50 }
+
+                                            block "general_list_to_prioritized_button_datacontext" {
+                                                datacontext = "[GetScriptedGui('mr_transfer_from_general_list_to_prioritized_list_topographic_project_button_sgui')]"
+                                            }
+                                            onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('chosen_state', Scope.GetState.MakeScope ).End)]"
+
+                                            #tooltip = "TRANSFER_FORMATION_MOVE_UNITS_TOOLTIP"
+                                            using = tooltip_above
+                                            
+                                            blockoverride "icon_size" {
+                                                size = { 30 75% }
+                                            }
+                                        }
+                                    }
                                 }
-                                datacontext = "[Scope.GetState]"
+                            }
+                        }
+                    }
+                }
 
-                                flowcontainer = {
-                                    spacing = 5
-                                    margin = { 10 0 }
+                
+                #Right Side
+                scrollbox = {
+                    size = { 410 380 }
 
-                                    #Name
-                                    textbox = {
-                                        raw_text = "[State.GetName]"
-                                        size = { 150 50 }
-                                        elide = right
-                                        align = nobaseline
-                                        using = fontsize_medium
+                    scrollbarpolicy_horizontal = always_off
+                    scrollbarpolicy_vertical = as_needed
+
+                    scrollbar_vertical = {
+                        using = Scrollbar_Vertical
+                    }
+
+                    blockoverride "scrollbox_content" {
+                        vbox = {
+                            spacing = 5
+                            block "datamodel" {
+                                datamodel = "[GetPlayer.MakeScope.GetList('prioritized_states_for_topographic_improvement_variable_list')]"
+                            }
+
+                            item = {
+                                widget = {
+                                    size = { 380 50 }
+                                    background = {
+                                        using = entry_bg_simple
                                     }
-                                    #Unincorporated Status
-                                    widget = {
-                                        size = { 25 50 }
+                                    datacontext = "[Scope.GetState]"
 
-                                        icon = {
-                                            parentanchor = center
-                                            visible = "[And(State.IsUnincorporated, Not(State.IsIncorporating))]"
-                                            size = { 25 25 }
-                                            texture = "gfx/interface/icons/state_status_icons/unincorporated_state.dds"
+                                    flowcontainer = {
+                                        spacing = 5
+
+                                        button_icon_move_left = {
+                                            parentanchor = vcenter
+                                            size = { 30 50 }
+
+                                            block "prioritized_list_to_general_button_datacontext" {
+                                                datacontext = "[GetScriptedGui('mr_transfer_from_prioritized_list_to_general_list_topographic_project_button_sgui')]"
+                                            }
+                                            onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('chosen_state', Scope.GetState.MakeScope ).End)]"
+
+                                            blockoverride "icon_size" {
+                                                size = { 30 75% }
+                                            }
                                         }
-                                    }
 
-                                    #Divider
-                                    vertical_divider = {
-                                        blockoverride "size" {
-                                            size = { 3 50 }
+                                        #Name
+                                        textbox = {
+                                            raw_text = "[Add_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)1')]. [State.GetName]"
+                                            size = { 150 50 }
+                                            elide = right
+                                            align = nobaseline
+                                            using = fontsize_medium
                                         }
-                                    }
+                                        #Unincorporated Status
+                                        widget = {
+                                            size = { 25 50 }
 
-                                    #Level
-                                    textbox = {
-                                        raw_text = "[State.GetInfrastructureBalance|0+=]"
-                                        size = { 60 50 }
-                                        elide = right
-                                        align = center|nobaseline
-                                        using = fontsize_large
-                                    }
-
-                                    #Divider
-                                    vertical_divider = {
-                                        blockoverride "size" {
-                                            size = { 3 50 }
+                                            icon = {
+                                                parentanchor = center
+                                                visible = "[And(State.IsUnincorporated, Not(State.IsIncorporating))]"
+                                                size = { 25 25 }
+                                                texture = "gfx/interface/icons/state_status_icons/unincorporated_state.dds"
+                                            }
                                         }
-                                    }
 
-                                    #Job Seekers
-                                    textbox = {
-                                        raw_text = "[State.GetNumJobseekers|Dv]"
-                                        size = { 70 50 }
-                                        elide = right
-                                        align = center|nobaseline
-                                        using = fontsize_large
-                                    }
-
-                                    button_icon_move_right = {
-                                        parentanchor = vcenter
-                                        size = { 30 50 }
-
-                                        block "general_list_to_prioritized_button_datacontext" {
-                                            datacontext = "[GetScriptedGui('mr_transfer_from_general_list_to_prioritized_list_button_sgui')]"
+                                        #Divider
+                                        vertical_divider = {
+                                            blockoverride "size" {
+                                                size = { 3 50 }
+                                            }
                                         }
-                                        onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('chosen_state', Scope.GetState.MakeScope ).End)]"
 
-                                        #tooltip = "TRANSFER_FORMATION_MOVE_UNITS_TOOLTIP"
-                                        using = tooltip_above
-                                        
-                                        blockoverride "icon_size" {
-                                            size = { 30 75% }
+                                        #Level
+                                        textbox = {
+                                            raw_text = "[State.GetInfrastructureBalance|0+=]"
+                                            size = { 60 50 }
+                                            elide = right
+                                            align = center|nobaseline
+                                            using = fontsize_large
+                                        }
+
+                                        #Divider
+                                        vertical_divider = {
+                                            blockoverride "size" {
+                                                size = { 3 50 }
+                                            }
+                                        }
+
+                                        #Job Seekers
+                                        textbox = {
+                                            raw_text = "[State.GetNumJobseekers|Dv]"
+                                            size = { 70 50 }
+                                            elide = right
+                                            align = center|nobaseline
+                                            using = fontsize_large
                                         }
                                     }
                                 }
@@ -1294,106 +1483,8 @@ types mr_popup_types {
                 }
             }
 
-            
-            #Right Side
-            scrollbox = {
-                size = { 410 380 }
-
-                scrollbarpolicy_horizontal = always_off
-                scrollbarpolicy_vertical = as_needed
-
-                scrollbar_vertical = {
-                    using = Scrollbar_Vertical
-                }
-
-                blockoverride "scrollbox_content" {
-                    vbox = {
-                        spacing = 5
-                        block "datamodel" {
-                            datamodel = "[GetPlayer.MakeScope.GetList('prioritized_states_for_improvement_variable_list')]"
-                        }
-
-                        item = {
-                            widget = {
-                                size = { 380 50 }
-                                background = {
-                                    using = entry_bg_simple
-                                }
-                                datacontext = "[Scope.GetState]"
-
-                                flowcontainer = {
-                                    spacing = 5
-
-                                    button_icon_move_left = {
-                                        parentanchor = vcenter
-                                        size = { 30 50 }
-
-                                        block "prioritized_list_to_general_button_datacontext" {
-                                            datacontext = "[GetScriptedGui('mr_transfer_from_prioritized_list_to_general_list_button_sgui')]"
-                                        }
-                                        onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('chosen_state', Scope.GetState.MakeScope ).End)]"
-
-                                        blockoverride "icon_size" {
-                                            size = { 30 75% }
-                                        }
-                                    }
-
-                                    #Name
-                                    textbox = {
-                                        raw_text = "[State.GetName]"
-                                        size = { 150 50 }
-                                        elide = right
-                                        align = nobaseline
-                                        using = fontsize_medium
-                                    }
-                                    #Unincorporated Status
-                                    widget = {
-                                        size = { 25 50 }
-
-                                        icon = {
-                                            parentanchor = center
-                                            visible = "[And(State.IsUnincorporated, Not(State.IsIncorporating))]"
-                                            size = { 25 25 }
-                                            texture = "gfx/interface/icons/state_status_icons/unincorporated_state.dds"
-                                        }
-                                    }
-
-                                    #Divider
-                                    vertical_divider = {
-                                        blockoverride "size" {
-                                            size = { 3 50 }
-                                        }
-                                    }
-
-                                    #Level
-                                    textbox = {
-                                        raw_text = "[State.GetInfrastructureBalance|0+=]"
-                                        size = { 60 50 }
-                                        elide = right
-                                        align = center|nobaseline
-                                        using = fontsize_large
-                                    }
-
-                                    #Divider
-                                    vertical_divider = {
-                                        blockoverride "size" {
-                                            size = { 3 50 }
-                                        }
-                                    }
-
-                                    #Job Seekers
-                                    textbox = {
-                                        raw_text = "[State.GetNumJobseekers|Dv]"
-                                        size = { 70 50 }
-                                        elide = right
-                                        align = center|nobaseline
-                                        using = fontsize_large
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+            widget = {
+                size = { 850 40}
             }
         }
 
@@ -1404,7 +1495,7 @@ types mr_popup_types {
             position = { -5 13 }
 
             block "close_button_onclick" {
-                onclick = "[GetScriptedGui('mr_general_state_prioritizing_window_close_button_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                onclick = "[GetScriptedGui('mr_state_prioritizing_topographic_project_window_close_button_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
             }
             tooltip = "MR_CLOSE_WINDOW_TT"
             input_action = "back"
