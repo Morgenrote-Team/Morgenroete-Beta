@@ -788,7 +788,7 @@ widget = {
     }
 }
 
-types panum_character_treatment_per_trait_box {
+types mr_popup_types {
 	type panum_character_treatment_per_trait_box = hbox {
 		block "visible" {
             visible = "[GetScriptedGui('mr_character_has_sickly_trait_for_treatment_sgui').IsShown(GuiScope.SetRoot(Character.MakeScope).End)]"
@@ -1129,7 +1129,7 @@ types panum_character_treatment_per_trait_box {
         enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
         visible = yes
         block "visible" {
-            #"[And( GetScriptedGui('mr_improve_forestry_window_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End), And( IsInGame, And( Not( IsPauseMenuShown ), Not( IsGameOverScreenShown ))))]"
+            visible = "[And( GetScriptedGui('mr_general_state_prioritizing_window_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End), And( IsInGame, And( Not( IsPauseMenuShown ), Not( IsGameOverScreenShown ))))]"
         }
 
         widget = {
@@ -1178,7 +1178,7 @@ types panum_character_treatment_per_trait_box {
 
             block "second_line" {}
         }
-        
+
         ### FRAME
         popup_bg_frame = {}
 
@@ -1214,7 +1214,7 @@ types panum_character_treatment_per_trait_box {
                                     using = entry_bg_simple
                                 }
                                 datacontext = "[Scope.GetState]"
-    
+
                                 flowcontainer = {
                                     spacing = 5
                                     margin = { 10 0 }
@@ -1254,15 +1254,15 @@ types panum_character_treatment_per_trait_box {
                                         align = center|nobaseline
                                         using = fontsize_large
                                     }
-    
+
                                     #Divider
                                     vertical_divider = {
                                         blockoverride "size" {
                                             size = { 3 50 }
                                         }
                                     }
-    
-                                    #Productivity
+
+                                    #Job Seekers
                                     textbox = {
                                         raw_text = "[State.GetNumJobseekers|Dv]"
                                         size = { 70 50 }
@@ -1274,10 +1274,13 @@ types panum_character_treatment_per_trait_box {
                                     button_icon_move_right = {
                                         parentanchor = vcenter
                                         size = { 30 50 }
-                                        onclick = "[TransferFormationPopup.MoveRegulars(StagedUnitsWithType.AccessSelf)]"
 
-                                        enabled = "[StagedUnitsWithType.CanMoveRegularsToStaged]"
-                                        tooltip = "TRANSFER_FORMATION_MOVE_UNITS_TOOLTIP"
+                                        block "general_list_to_prioritized_button_datacontext" {
+                                            datacontext = "[GetScriptedGui('mr_transfer_from_general_list_to_prioritized_list_button_sgui')]"
+                                        }
+                                        onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('chosen_state', Scope.GetState.MakeScope ).End)]"
+
+                                        #tooltip = "TRANSFER_FORMATION_MOVE_UNITS_TOOLTIP"
                                         using = tooltip_above
                                         
                                         blockoverride "icon_size" {
@@ -1295,19 +1298,19 @@ types panum_character_treatment_per_trait_box {
             #Right Side
             scrollbox = {
                 size = { 410 380 }
-    
+
                 scrollbarpolicy_horizontal = always_off
                 scrollbarpolicy_vertical = as_needed
-    
+
                 scrollbar_vertical = {
                     using = Scrollbar_Vertical
                 }
-    
+
                 blockoverride "scrollbox_content" {
                     vbox = {
                         spacing = 5
                         block "datamodel" {
-                            datamodel = "[GetPlayer.MakeScope.GetList('states_for_improvement_variable_list')]"
+                            datamodel = "[GetPlayer.MakeScope.GetList('prioritized_states_for_improvement_variable_list')]"
                         }
 
                         item = {
@@ -1317,19 +1320,19 @@ types panum_character_treatment_per_trait_box {
                                     using = entry_bg_simple
                                 }
                                 datacontext = "[Scope.GetState]"
-    
+
                                 flowcontainer = {
                                     spacing = 5
 
                                     button_icon_move_left = {
                                         parentanchor = vcenter
                                         size = { 30 50 }
-                                        onclick = "[TransferFormationPopup.MoveRegulars(StagedUnitsWithType.AccessSelf)]"
 
-                                        enabled = "[StagedUnitsWithType.CanMoveRegularsToStaged]"
-                                        tooltip = "TRANSFER_FORMATION_MOVE_UNITS_TOOLTIP"
-                                        using = tooltip_above
-                                        
+                                        block "prioritized_list_to_general_button_datacontext" {
+                                            datacontext = "[GetScriptedGui('mr_transfer_from_prioritized_list_to_general_list_button_sgui')]"
+                                        }
+                                        onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('chosen_state', Scope.GetState.MakeScope ).End)]"
+
                                         blockoverride "icon_size" {
                                             size = { 30 75% }
                                         }
@@ -1370,15 +1373,15 @@ types panum_character_treatment_per_trait_box {
                                         align = center|nobaseline
                                         using = fontsize_large
                                     }
-    
+
                                     #Divider
                                     vertical_divider = {
                                         blockoverride "size" {
                                             size = { 3 50 }
                                         }
                                     }
-    
-                                    #Productivity
+
+                                    #Job Seekers
                                     textbox = {
                                         raw_text = "[State.GetNumJobseekers|Dv]"
                                         size = { 70 50 }
@@ -1401,11 +1404,11 @@ types panum_character_treatment_per_trait_box {
             position = { -5 13 }
 
             block "close_button_onclick" {
-                onclick = "[GetScriptedGui('mr_improve_forestry_window_close_button_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                onclick = "[GetScriptedGui('mr_general_state_prioritizing_window_close_button_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
             }
             tooltip = "MR_CLOSE_WINDOW_TT"
             input_action = "back"
-            
+
             blockoverride "icon" {
                 texture = "gfx/interface/buttons/button_icons/close.dds"
             }
