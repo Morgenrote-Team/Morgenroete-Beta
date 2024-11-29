@@ -2340,6 +2340,10 @@ elgar.121 = {
 	}
 
 	immediate = {
+		set_global_variable = {
+			name = elgar_global_tonkuenstler_cooldown
+			days = 1800
+		}
 		random_scope_state = {
 			limit = {
 				is_capital = yes
@@ -2433,30 +2437,25 @@ elgar.121 = {
 	}
 
 	after = {
-		hidden_effect = {
-			every_country = {
-				limit = {
-					OR = {
-						country_has_primary_culture = cu:south_german
-						country_has_primary_culture = cu:north_german
-						country_has_primary_culture = cu:alemannic
-					}
-					NOT = {
-						this = ROOT
-					}
+		trigger_event = { 
+			id = elgar.127 #First Meeting in the Founder's Capital
+			popup = yes 
+			days = { 30 50 }
+		}
+		every_country = {
+			limit = {
+				OR = {
+					country_has_primary_culture = cu:south_german
+					country_has_primary_culture = cu:north_german
+					country_has_primary_culture = cu:alemannic
 				}
-				trigger_event = { 
-					id = elgar.122
-					popup = yes 
-					days = { 3 10 }
+				NOT = {
+					this = ROOT
 				}
 			}
-		}
-		hidden_effect = {
 			trigger_event = { 
-				id = elgar.123
-				popup = yes 
-				days = 100
+				id = elgar.122
+				days = { 3 10 }
 			}
 		}
 	}
@@ -2598,24 +2597,23 @@ elgar.123 = {
 
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
+	cooldown = {
+		years = 10
+	}
+
 	trigger = {
 		OR = {
 			has_modifier = elgar_neudeutsche_musikschule_modifier
 			has_modifier = elgar_konservative_musikschule_modifier
 		}
-		NOT = {
-			has_variable = elgar_tonkuenstler_cooldown
-		}
+		elgar_has_composer = yes
 		NOT = {
 			has_global_variable = elgar_global_tonkuenstler_cooldown
 		}
 	}
 
 	immediate = {
-		set_variable = {
-			name = elgar_tonkuenstler_cooldown
-			days = 3650
-		}
+		set_global_variable = elgar_first_admv_global_var #The War of Romantics will not be available at the first meeting
 		set_global_variable = {
 			name = elgar_global_tonkuenstler_cooldown
 			days = 1800
@@ -2644,21 +2642,10 @@ elgar.123 = {
 	}
 
 	after = {
-		hidden_effect = {
-			every_country = {
-				limit = {
-					OR = {
-						country_has_primary_culture = cu:south_german
-						country_has_primary_culture = cu:north_german
-						country_has_primary_culture = cu:alemannic
-					}
-				}
-				trigger_event = { 
-					id = elgar.124
-					popup = yes 
-					days = { 30 50 }
-				}
-			}
+		trigger_event = { 
+			id = elgar.124
+			popup = yes 
+			days = { 30 50 }
 		}
 	}
 }
@@ -2777,6 +2764,7 @@ elgar.124 = {
 		name = elgar.124.i
 		trigger = {
 			elgar_has_great_composer = yes
+			set_global_variable = elgar_first_admv_global_var #The War of Romantics will not be available at the first meeting
 			NOT = {
 				has_global_variable = elgar_war_of_the_romantics
 			}
@@ -2862,6 +2850,9 @@ elgar.124 = {
 		ai_chance = {
 			base = 100
 		}
+	}
+
+	after = {
 	}
 }
 
@@ -3071,6 +3062,68 @@ elgar.126 = {
 			}
 		}
 		
+	}
+}
+
+#Elgar 127: Location of the next Tonkünstler-Versammlung
+elgar.127 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar.123.t
+		
+    desc = elgar.123.d
+
+	flavor = elgar.123.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/elgar_pictures/elgar_admv.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = elgar_global_tonkuenstler_cooldown
+			days = 1800
+		}
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			save_scope_as = elgar_musikverein_capital
+		}
+	}
+
+	option = { #We are honored!
+		name = elgar.123.g
+		default_option = yes
+		elgar_add_x_music_tradition_effect = { AMOUNT = 25 }
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			add_modifier = {
+				name = elgar_tonkuenstler_modifier
+				days = 90
+			}
+		}
+	}
+
+	after = {
+		trigger_event = { 
+			id = elgar.124
+			popup = yes 
+			days = { 30 50 }
+		}
 	}
 }
 #################################################################################
