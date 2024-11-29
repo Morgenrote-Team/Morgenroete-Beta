@@ -19,10 +19,4 @@ Archaeology:
 - Petra does not have a prestige bonus at game start. It must be explored by an Archaoelogist via JE to activate the bonus.
 
 Musikverein
-- Fixed an issue with the Musikverein event location triggering several times.
 - Added a button to found the Musikverein in the composer GUI.
-- Only the Musikverein host can get a special bonus and decide what happens (good relation and small music tradition, bad relation and medium music tradition, or War of the Romantics).
-- War of the Romantic will not be possible to trigger in the first Musikverein event.
-
-Fixes
-- Not a fix, but an emergency solution for the recurring Weberlied event.
