@@ -29,6 +29,10 @@ Medicine:
 - A Physician can be recruited by GUI action if at least one hospital exists in the country. His special skill (surgeon, epidemiologist, etc.) can be selected directly.
 - Vienna and Paris start with Hospitals, London and Berlin with Clinics.
 
+Meteorology:
+- The Meteorologist trait now spawns more often.
+- The Meteorologist trait and Meteorology Production Methods in the Observatory now reduce the impact of weather related harvest conditions.
+
 Monuments:
 - Added Petra to Transjordan at start.
 
