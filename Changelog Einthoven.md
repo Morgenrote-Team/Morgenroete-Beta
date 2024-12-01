@@ -9,7 +9,7 @@ Changes:
 Engineering:
 - You can now choose which building you want to improve with a new GUI window.
 - The Railway project is no longer part of the Infrastructure project. It is now a seperate project that also adds a throughput modifier to the railway building.
-- You can now choose the order in which the states are improved for the railway and topographic map projects.
+- You can now choose the order in which the states are improved for the railway and topographic map projects with a new GUI window.
 - Your enineer will now get experience every time he finishes improving a state with a modifier in the railway and topographic map projects.
 
 Epidemic Diseases:
