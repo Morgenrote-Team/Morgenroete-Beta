@@ -1,11 +1,5 @@
 Changelog for 2.3.1 "Einthoven"
 
-Changes:
-- Lower chance that paleontologists spawn at game start.
-- Higher chance that engineers and physicians spawn in minor power countries at game start.
-- University Specialization PMs, Physics Institute PMs and Astro Lab PM will consume Prints.
-- Volcano Expedition JE pinned by default.
-
 Engineering:
 - You can now choose which building you want to improve with a new GUI window.
 - The Railway project is no longer part of the Infrastructure project. It is now a seperate project that also adds a throughput modifier to the railway building.
@@ -42,3 +36,10 @@ Archaeology:
 
 Musikverein
 - Added a button to found the Musikverein in the composer GUI.
+
+Changes:
+- Lower chance that paleontologists spawn at game start.
+- Higher chance that engineers and physicians spawn in minor power countries at game start.
+- University Specialization PMs, Physics Institute PMs and Astro Lab PM will consume Prints.
+- Volcano Expedition JE pinned by default.
+- Mountain Expedition JE pinned by default.
