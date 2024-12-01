@@ -3,14 +3,14 @@ Changelog for 2.3.1 "Einthoven"
 Changes:
 - Lower chance that paleontologists spawn at game start.
 - Higher chance that engineers and physicians spawn in minor power countries at game start.
-- Cholera starts in 1846 instead of 1853.
 - University Specialization PMs, Physics Institute PMs and Astro Lab PM will consume Prints.
 
 Epidemic Diseases:
 - Changed Epidemic Diseases completely to the Harvest Condition system. This makes epidemics much more flexible and gives the player a better overview. It's also much more simple to maintain (especially in case of bugfixing).
 - Epidemics may stay between 40 to 80 weeks (instead of roughly one year), giving your Physician more time to study them.
 - Typhus will happen more frequently in states with high devastation.
-- Yellow fever will happen more frequently in tropical areas
+- Yellow fever will happen more frequently in tropical areas.
+- Cholera starts in 1846 instead of 1853.
 - Cholera does not have an effect on SoL.
 - Cholera, Typhus and Yellow Fever have an effect on infrastructure.
 - Tuberculosis has an effect on building throughput.
