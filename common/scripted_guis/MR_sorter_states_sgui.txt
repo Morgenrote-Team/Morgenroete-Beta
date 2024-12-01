@@ -1,0 +1,363 @@
+﻿### Building Sorter BUTTONS ###
+
+#by Lord R
+
+### Railway Project ###
+
+#Transfer from general list to prioritized list
+mr_transfer_from_general_list_to_prioritized_list_railway_project_button_sgui = {
+	scope = country
+	effect = {
+		remove_list_variable = {
+			name = states_for_railway_improvement_variable_list
+			target = scope:chosen_state
+		}
+		add_to_variable_list = {
+			name = prioritized_states_for_railway_improvement_variable_list
+			target = scope:chosen_state
+		}
+	}
+}
+#Transfer from prioritized list to general list
+mr_transfer_from_prioritized_list_to_general_list_railway_project_button_sgui = {
+	scope = country
+	effect = {
+		remove_list_variable = {
+			name = prioritized_states_for_railway_improvement_variable_list
+			target = scope:chosen_state
+		}
+		add_to_variable_list = {
+			name = states_for_railway_improvement_variable_list
+			target = scope:chosen_state
+		}
+	}
+}
+#Sort by Incorporation Status
+mr_sort_railway_state_by_status_button_sgui = {
+	scope = country
+	effect = {
+		ordered_in_list = {
+			variable = states_for_railway_improvement_variable_list
+			limit = {
+				is_incorporated = yes
+			}
+			order_by = gaudi_infrastructure_balance
+			max = 1000
+			check_range_bounds = no
+	
+			root = {
+				add_to_variable_list = {
+					name = placeholder_list
+					target = prev
+				}
+			}
+		}
+		ordered_in_list = {
+			variable = states_for_railway_improvement_variable_list
+			limit = {
+				is_incorporated = no
+			}
+			order_by = gaudi_infrastructure_balance
+			max = 1000
+			check_range_bounds = no
+	
+			root = {
+				add_to_variable_list = {
+					name = placeholder_list
+					target = prev
+				}
+			}
+		}
+		clear_variable_list = states_for_railway_improvement_variable_list
+		every_in_list = {
+			variable = placeholder_list
+	
+			root = {
+				add_to_variable_list = {
+					name = states_for_railway_improvement_variable_list
+					target = prev
+				}
+			}
+		}
+		clear_variable_list = placeholder_list
+	}
+}
+#Sort by Available Infrastructure
+mr_sort_railway_state_by_infrastructure_button_sgui = {
+	scope = country
+	effect = {
+		ordered_in_list = {
+			variable = states_for_railway_improvement_variable_list
+			order_by = gaudi_infrastructure_balance
+			max = 1000
+			check_range_bounds = no
+	
+			root = {
+				add_to_variable_list = {
+					name = placeholder_list
+					target = prev
+				}
+			}
+		}
+		clear_variable_list = states_for_railway_improvement_variable_list
+		every_in_list = {
+			variable = placeholder_list
+	
+			root = {
+				add_to_variable_list = {
+					name = states_for_railway_improvement_variable_list
+					target = prev
+				}
+			}
+		}
+		clear_variable_list = placeholder_list
+	}
+}
+#Visibility
+mr_state_prioritizing_railway_project_window_active_sgui = {
+	scope = country
+	is_shown = {
+		has_variable = mr_railway_state_prioritizing_window_active_var
+		OR = {
+			#Active Engineer
+			AND = {
+				has_variable = gaudi_engineer_var
+				var:gaudi_engineer_var = {
+					is_busy = no
+				}
+			}
+			has_journal_entry = je_gaudi_railway_project
+		}
+	}
+}
+#Closing
+mr_state_prioritizing_railway_project_window_close_button_sgui = {
+	scope = country
+	effect = {
+		remove_variable = mr_railway_state_prioritizing_window_active_var
+	}
+}
+#Start Project
+mr_state_prioritizing_railway_project_window_start_button_sgui = {
+	scope = country
+	is_shown = {
+		NOT = { has_journal_entry = je_gaudi_railway_project }
+	}
+	effect = {
+		remove_variable = mr_railway_state_prioritizing_window_active_var
+
+		add_journal_entry = { type = je_gaudi_railway_project }
+		je:je_gaudi_railway_project = {
+			add_modifier = {
+				name = gaudi_engineer_project_medium_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+		show_as_tooltip = {
+			add_modifier = {
+				name = gaudi_engineer_project_medium_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+		if = {
+			limit = {
+				has_variable = gaudi_engineer_var
+			}
+			var:gaudi_engineer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		clear_variable_list  = states_for_railway_improvement_variable_list #Removes the list
+	}
+}
+#Change Priority
+mr_state_prioritizing_railway_project_window_change_priority_button_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_gaudi_railway_project
+	}
+	effect = {
+		remove_variable = mr_railway_state_prioritizing_window_active_var
+		clear_variable_list  = states_for_railway_improvement_variable_list #Removes the list
+	}
+}
+
+### Topographic Map ###
+
+#Transfer from general list to prioritized list
+mr_transfer_from_general_list_to_prioritized_list_topographic_project_button_sgui = {
+	scope = country
+	effect = {
+		remove_list_variable = {
+			name = states_for_topographic_improvement_variable_list
+			target = scope:chosen_state
+		}
+		add_to_variable_list = {
+			name = prioritized_states_for_topographic_improvement_variable_list
+			target = scope:chosen_state
+		}
+	}
+}
+#Transfer from prioritized list to general list
+mr_transfer_from_prioritized_list_to_general_list_topographic_project_button_sgui = {
+	scope = country
+	effect = {
+		remove_list_variable = {
+			name = prioritized_states_for_topographic_improvement_variable_list
+			target = scope:chosen_state
+		}
+		add_to_variable_list = {
+			name = states_for_topographic_improvement_variable_list
+			target = scope:chosen_state
+		}
+	}
+}
+#Sort by Incorporation Status
+mr_sort_topographic_state_by_status_button_sgui = {
+	scope = country
+	effect = {
+		ordered_in_list = {
+			variable = states_for_topographic_improvement_variable_list
+			limit = {
+				is_incorporated = yes
+			}
+			order_by = gaudi_infrastructure_balance
+			max = 1000
+			check_range_bounds = no
+	
+			root = {
+				add_to_variable_list = {
+					name = placeholder_list
+					target = prev
+				}
+			}
+		}
+		ordered_in_list = {
+			variable = states_for_topographic_improvement_variable_list
+			limit = {
+				is_incorporated = no
+			}
+			order_by = gaudi_infrastructure_balance
+			max = 1000
+			check_range_bounds = no
+	
+			root = {
+				add_to_variable_list = {
+					name = placeholder_list
+					target = prev
+				}
+			}
+		}
+		clear_variable_list = states_for_topographic_improvement_variable_list
+		every_in_list = {
+			variable = placeholder_list
+	
+			root = {
+				add_to_variable_list = {
+					name = states_for_topographic_improvement_variable_list
+					target = prev
+				}
+			}
+		}
+		clear_variable_list = placeholder_list
+	}
+}
+#Sort by Available Infrastructure
+mr_sort_topographic_state_by_infrastructure_button_sgui = {
+	scope = country
+	effect = {
+		ordered_in_list = {
+			variable = states_for_topographic_improvement_variable_list
+			order_by = gaudi_infrastructure_balance
+			max = 1000
+			check_range_bounds = no
+	
+			root = {
+				add_to_variable_list = {
+					name = placeholder_list
+					target = prev
+				}
+			}
+		}
+		clear_variable_list = states_for_topographic_improvement_variable_list
+		every_in_list = {
+			variable = placeholder_list
+	
+			root = {
+				add_to_variable_list = {
+					name = states_for_topographic_improvement_variable_list
+					target = prev
+				}
+			}
+		}
+		clear_variable_list = placeholder_list
+	}
+}
+#Visibility
+mr_state_prioritizing_topographic_project_window_active_sgui = {
+	scope = country
+	is_shown = {
+		has_variable = mr_topographic_state_prioritizing_window_active_var
+		OR = {
+			#Active Engineer
+			AND = {
+				has_variable = gaudi_engineer_var
+				var:gaudi_engineer_var = {
+					is_busy = no
+				}
+			}
+			has_journal_entry = je_gaudi_topographic_map_project
+		}
+	}
+}
+#Closing
+mr_state_prioritizing_topographic_project_window_close_button_sgui = {
+	scope = country
+	effect = {
+		remove_variable = mr_topographic_state_prioritizing_window_active_var
+	}
+}
+#Start Project
+mr_state_prioritizing_topographic_project_window_start_button_sgui = {
+	scope = country
+	is_shown = {
+		NOT = { has_journal_entry = je_gaudi_topographic_map_project }
+	}
+	effect = {
+		remove_variable = mr_topographic_state_prioritizing_window_active_var
+
+		add_journal_entry = { type = je_gaudi_topographic_map_project }
+		je:je_gaudi_topographic_map_project = {
+			add_modifier = {
+				name = gaudi_engineer_project_low_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+		show_as_tooltip = {
+			add_modifier = {
+				name = gaudi_engineer_project_low_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+		if = {
+			limit = {
+				has_variable = gaudi_engineer_var
+			}
+			var:gaudi_engineer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		clear_variable_list  = states_for_topographic_improvement_variable_list #Removes the list
+	}
+}
+#Change Priority
+mr_state_prioritizing_topographic_project_window_change_priority_button_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_gaudi_topographic_map_project
+	}
+	effect = {
+		remove_variable = mr_topographic_state_prioritizing_window_active_var
+		clear_variable_list  = states_for_topographic_improvement_variable_list #Removes the list
+	}
+}
