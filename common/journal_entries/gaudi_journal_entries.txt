@@ -3165,7 +3165,7 @@ je_gaudi_civil_research_project = {
 									NOT = { has_modifier = gaudi_new_bridge_modifier }
 									NOT = { has_modifier = gaudi_new_tunnel_modifier }
 									AND = {
-										NOT = { has_modifier = gaudi_modernized_railway_lines_modifier }
+										NOT = { has_modifier = tesla_modernized_railway_lines_building_modifier }
 										any_scope_building = {
 											is_building_type = building_railway
 											level > 0
@@ -3908,6 +3908,7 @@ je_gaudi_railway_project = {
 	icon = "gfx/interface/icons/event_icons/railways.dds"
 
 	scripted_button = gaudi_stop_engineering_project_button
+	scripted_button = tesla_railway_project_new_priority_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
@@ -3925,17 +3926,68 @@ je_gaudi_railway_project = {
 			if = {
 				#If the Progress reaches the cost, the modifier will be added to a state
 				limit = {
-					var:gaudi_civil_engineering_progress_var > gaudi_road_progress_cost
+					var:gaudi_civil_engineering_progress_var > gaudi_railway_progress_cost
 				}
+				#Adds Experience to the Engineer
+				civil_engineer_experience_gain_effect = { AMOUNT = 3 }
+				#Effect if the priority list exists
 				if = {
+					limit = {
+						has_variable_list = prioritized_states_for_railway_improvement_variable_list
+					}
+					#This part removes all states from the priority list if they already have the modifier.
+					every_in_list = {
+						variable = prioritized_states_for_railway_improvement_variable_list
+						limit = {
+							any_scope_building = {
+								tesla_railway_invalid_for_improvement_trigger = yes
+							}
+						}
+
+						root = {
+							remove_list_variable = {
+								name = prioritized_states_for_railway_improvement_variable_list
+								target = prev
+							} 
+						}
+					}
+					#Chooses the first entry in the list
+					ordered_in_list = {
+						variable = prioritized_states_for_railway_improvement_variable_list
+						limit = {
+							any_scope_building = {
+								tesla_railway_valid_for_improvement_trigger = yes
+							}
+						}
+						max = 1 #Only the first one
+
+						#Adds the modifier
+						add_modifier = {
+							name = tesla_modernized_railway_lines_state_modifier
+						}
+						random_scope_building = {
+							limit = { tesla_railway_valid_for_improvement_trigger = yes }
+							
+							add_modifier = {
+								name = tesla_modernized_railway_lines_building_modifier
+							}
+						}
+						#Removes the state from the list
+						root = {
+							remove_list_variable = {
+								name = prioritized_states_for_railway_improvement_variable_list
+								target = prev
+							} 
+						}
+					}
+				}
+				else_if = {
 					limit = {
 						any_scope_state = {
 							is_incorporated = yes
 							any_scope_building = {
-								is_building_type = building_railway
-								level > 0
+								tesla_railway_valid_for_improvement_trigger = yes
 							}
-							NOT = { has_modifier = gaudi_modernized_railway_lines_modifier }
 						}
 					}
 					#The state with the least available infrastructure will be chosen
@@ -3943,14 +3995,21 @@ je_gaudi_railway_project = {
 						limit = {
 							is_incorporated = yes
 							any_scope_building = {
-								is_building_type = building_railway
-								level > 0
+								tesla_railway_valid_for_improvement_trigger = yes
 							}
-							NOT = { has_modifier = gaudi_modernized_railway_lines_modifier }
 						}
 						order_by = gaudi_infrastructure_balance
+
+						#Adds the modifier
 						add_modifier = {
-							name = gaudi_modernized_railway_lines_modifier
+							name = tesla_modernized_railway_lines_state_modifier
+						}
+						random_scope_building = {
+							limit = { tesla_railway_valid_for_improvement_trigger = yes }
+							
+							add_modifier = {
+								name = tesla_modernized_railway_lines_building_modifier
+							}
 						}
 					}
 				}
@@ -3958,22 +4017,29 @@ je_gaudi_railway_project = {
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
 						limit = {
-							NOT = { has_modifier = gaudi_modernized_railway_lines_modifier }
 							any_scope_building = {
-								is_building_type = building_railway
-								level > 0
+								tesla_railway_valid_for_improvement_trigger = yes
 							}
 						}
 						order_by = gaudi_infrastructure_balance
+
+						#Adds the modifier
 						add_modifier = {
-							name = gaudi_modernized_railway_lines_modifier
+							name = tesla_modernized_railway_lines_state_modifier
+						}
+						random_scope_building = {
+							limit = { tesla_railway_valid_for_improvement_trigger = yes }
+							
+							add_modifier = {
+								name = tesla_modernized_railway_lines_building_modifier
+							}
 						}
 					}
 				}
 				#The cost will be subtracted from the current progress
 				change_variable = {
 					name = gaudi_civil_engineering_progress_var
-					subtract = gaudi_road_progress_cost
+					subtract = gaudi_railway_progress_cost
 				}
 			}
 			set_variable = {
@@ -4016,7 +4082,9 @@ je_gaudi_railway_project = {
 
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		gaudi_remove_je_cost_modifiers_effect = yes
+		show_as_tooltip = {
+			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+		}
 		remove_variable = gaudi_num_states_var
 		remove_variable = gaudi_num_states_modernized_railway_var
 		
@@ -4041,7 +4109,7 @@ je_gaudi_railway_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_road_progress_cost
+		value = gaudi_railway_progress_cost
 	}
 
 	invalid = {
@@ -4060,7 +4128,7 @@ je_gaudi_railway_project = {
 
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		gaudi_remove_je_cost_modifiers_effect = yes
+		remove_modifier = gaudi_engineer_project_medium_cost_modifier
 		remove_variable = gaudi_num_states_var
 		remove_variable = gaudi_num_states_modernized_railway_var
 		remove_variable = gaudi_stop_engineering_project_var
@@ -4251,7 +4319,7 @@ je_gaudi_topographic_map_project = {
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
 	scripted_button = gaudi_stop_engineering_project_button
-	scripted_button = gaudi_topographic_map_project_new_priority_button
+	scripted_button = tesla_topographic_map_project_new_priority_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
@@ -4271,6 +4339,8 @@ je_gaudi_topographic_map_project = {
 				limit = {
 					var:gaudi_civil_engineering_progress_var > gaudi_topographic_map_progress_cost
 				}
+				#Adds Experience to the Engineer
+				civil_engineer_experience_gain_effect = { AMOUNT = 5 }
 				#Effect if the priority list exists
 				if = {
 					limit = {

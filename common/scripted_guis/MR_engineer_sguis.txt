@@ -328,13 +328,6 @@ mr_civil_engineer_infrastructure_button = {
 					NOT = { has_modifier = gaudi_canal_systems_modifier }
 					NOT = { has_modifier = gaudi_new_bridge_modifier }
 					NOT = { has_modifier = gaudi_new_tunnel_modifier }
-					AND = {
-						NOT = { has_modifier = gaudi_modernized_railway_lines_modifier }
-						any_scope_building = {
-							is_building_type = building_railway
-							level > 0
-						}
-					}
 				}
 			}
 		}
@@ -369,18 +362,6 @@ mr_civil_engineer_infrastructure_button = {
 				}
 				add_journal_entry = { type = je_gaudi_tunnel_project }
 			}
-			1 = {
-				trigger = {
-					any_scope_state = {
-						NOT = { has_modifier = gaudi_modernized_railway_lines_modifier }
-						any_scope_building = {
-							is_building_type = building_railway
-							level > 0
-						}
-					}
-				}
-				add_journal_entry = { type = je_gaudi_railway_project }
-			}
 		}
 		if = {
 			limit = {
@@ -401,8 +382,56 @@ mr_civil_engineer_infrastructure_active = {
 			has_journal_entry = je_gaudi_canal_project
 			has_journal_entry = je_gaudi_bridge_project
 			has_journal_entry = je_gaudi_tunnel_project
-			has_journal_entry = je_gaudi_railway_project
 		}
+	}
+}
+
+#Civil Engineer Railway project
+mr_civil_engineer_railway_button = {
+	scope = country
+	is_valid = {
+		gaudi_has_civil_engineer_trigger = yes
+		gaudi_has_active_engineer = yes
+		custom_tooltip = {
+			text = MR_CIVIL_ENGINEER_RAILWAY_TRIGGER_TT
+			any_scope_building = {
+				tesla_railway_valid_for_improvement_trigger = yes
+			}
+		}
+	}
+	effect = {
+		clear_variable_list = states_for_railway_improvement_variable_list
+		ordered_scope_state = {
+			limit = {
+				any_scope_building = {
+					tesla_railway_valid_for_improvement_trigger = yes
+				}
+			}
+			order_by = gaudi_infrastructure_balance
+			max = 1000
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = states_for_railway_improvement_variable_list
+					target = prev
+				}
+			}
+		}
+		set_variable = mr_railway_state_prioritizing_window_active_var
+		show_as_tooltip = {
+			add_modifier = {
+				name = gaudi_engineer_project_medium_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+	}
+}
+#Active
+mr_civil_engineer_railway_active = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_gaudi_railway_project
 	}
 }
 
@@ -426,59 +455,27 @@ mr_civil_engineer_construction_button = {
 		}
 	}
 	effect = {
-		if = {
+		clear_variable_list = gaudi_improve_construction_sector_building_buildings_variable_list
+		ordered_scope_building = {
 			limit = {
-				is_ai = yes
+				tesla_construction_sector_valid_for_improvement_trigger = yes
 			}
-			ordered_scope_building = {
-				limit = {
-					tesla_construction_sector_valid_for_improvement_trigger = yes
-				}
-				order_by = earnings
-				save_scope_as = chosen_building
-			}
-			add_journal_entry = {
-				type = je_gaudi_construction_sector_project
-				target = scope:chosen_building
-			}
-			je:je_gaudi_construction_sector_project = {
-				add_modifier = {
-					name = gaudi_engineer_project_low_cost_modifier
-					multiplier = money_amount_multiplier_small
-				}
-			}
-			if = {
-				limit = {
-					has_variable = gaudi_engineer_var
-				}
-				var:gaudi_engineer_var = {
-					set_character_busy_and_immortal = yes
+			order_by = earnings
+			max = 1000
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = gaudi_improve_construction_sector_building_buildings_variable_list
+					target = prev
 				}
 			}
 		}
-		else = {
-			clear_variable_list = gaudi_improve_construction_sector_building_buildings_variable_list
-			ordered_scope_building = {
-				limit = {
-					tesla_construction_sector_valid_for_improvement_trigger = yes
-				}
-				order_by = earnings
-				max = 1000
-				check_range_bounds = no
-
-				root = {
-					add_to_variable_list = {
-						name = gaudi_improve_construction_sector_building_buildings_variable_list
-						target = prev
-					}
-				}
-			}
-			set_variable = gaudi_improve_construction_sector_building_choser_var
-			show_as_tooltip = {
-				add_modifier = {
-					name = gaudi_engineer_project_low_cost_modifier
-					multiplier = money_amount_multiplier_small
-				}
+		set_variable = gaudi_improve_construction_sector_building_choser_var
+		show_as_tooltip = {
+			add_modifier = {
+				name = gaudi_engineer_project_low_cost_modifier
+				multiplier = money_amount_multiplier_small
 			}
 		}
 	}

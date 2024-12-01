@@ -107,12 +107,8 @@ gaudi_infrastructure_button = {
 				NOT = { has_modifier = gaudi_canal_systems_modifier }
 				NOT = { has_modifier = gaudi_new_bridge_modifier }
 				NOT = { has_modifier = gaudi_new_tunnel_modifier }
-				AND = {
-					NOT = { has_modifier = gaudi_modernized_railway_lines_modifier }
-					any_scope_building = {
-						is_building_type = building_railway
-						level > 0
-					}
+				any_scope_building = {
+					tesla_railway_valid_for_improvement_trigger = yes
 				}
 			}
 		}
@@ -125,41 +121,65 @@ gaudi_infrastructure_button = {
 					any_scope_state = { NOT = { has_modifier = gaudi_modern_roads_modifier } }
 				}
 				add_journal_entry = { type = je_gaudi_road_project }
+				je:je_gaudi_road_project = {
+					add_modifier = {
+						name = gaudi_engineer_project_medium_cost_modifier
+						multiplier = money_amount_multiplier_small
+					}
+				}
 			}
 			1 = {
 				trigger = {
 					any_scope_state = { NOT =  { has_modifier = gaudi_canal_systems_modifier } }
 				}
 				add_journal_entry = { type = je_gaudi_canal_project }
+				je:je_gaudi_canal_project = {
+					add_modifier = {
+						name = gaudi_engineer_project_medium_cost_modifier
+						multiplier = money_amount_multiplier_small
+					}
+				}
 			}
 			1 = {
 				trigger = {
 					any_scope_state = { NOT =  { has_modifier = gaudi_new_bridge_modifier } }
 				}
 				add_journal_entry = { type = je_gaudi_bridge_project }
+				je:je_gaudi_bridge_project = {
+					add_modifier = {
+						name = gaudi_engineer_project_medium_cost_modifier
+						multiplier = money_amount_multiplier_small
+					}
+				}
 			}
 			1 = {
 				trigger = {
 					any_scope_state = { NOT =  { has_modifier = gaudi_new_tunnel_modifier } }
 				}
 				add_journal_entry = { type = je_gaudi_tunnel_project }
+				je:je_gaudi_tunnel_project = {
+					add_modifier = {
+						name = gaudi_engineer_project_medium_cost_modifier
+						multiplier = money_amount_multiplier_small
+					}
+				}
 			}
 			1 = {
 				trigger = {
 					any_scope_state = {
-						NOT = { has_modifier = gaudi_modernized_railway_lines_modifier }
 						any_scope_building = {
-							is_building_type = building_railway
-							level > 0
+							tesla_railway_valid_for_improvement_trigger = yes
 						}
 					}
 				}
 				add_journal_entry = { type = je_gaudi_railway_project }
+				je:je_gaudi_railway_project = {
+					add_modifier = {
+						name = gaudi_engineer_project_medium_cost_modifier
+						multiplier = money_amount_multiplier_small
+					}
+				}
 			}
-		}
-		add_modifier = {
-			name = gaudi_engineer_project_medium_cost_modifier
-			multiplier = money_amount_multiplier_small
 		}
 		var:gaudi_engineer_var = {
 			set_character_busy_and_immortal = yes
@@ -176,6 +196,59 @@ gaudi_infrastructure_button = {
 			}
 			add = 1000
 		}
+	}
+}
+tesla_railway_project_new_priority_button = {
+	name = "tesla_railway_project_new_priority_button"
+	desc = "tesla_railway_project_new_priority_button_desc"
+
+	possible = {
+		custom_tooltip = {
+			text = MR_ALREADY_PRIORITIZING_STATES_TRIGGER_TT
+			NOT = {
+				has_variable = mr_railway_state_prioritizing_window_active_var
+			}
+		}
+	}
+
+	effect = {
+		clear_variable_list = states_for_railway_improvement_variable_list
+		ordered_scope_state = {
+			limit = {
+				any_scope_building = {
+					tesla_railway_valid_for_improvement_trigger = yes
+				}
+			}
+			order_by = gaudi_infrastructure_balance
+			max = 1000
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = states_for_railway_improvement_variable_list
+					target = prev
+				}
+			}
+		}
+		#This is used to remove elements from the prioritized list from the new list
+		if = {
+			limit = { has_variable_list = prioritized_states_for_railway_improvement_variable_list }
+			every_in_list = {
+				variable = prioritized_states_for_railway_improvement_variable_list
+				root = {
+					remove_list_variable = {
+						name = states_for_railway_improvement_variable_list
+						target = prev
+					}
+				}
+			}
+		}
+		#Activates the window
+		set_variable = mr_railway_state_prioritizing_window_active_var
+	}
+
+	ai_chance = {
+		base = 0
 	}
 }
 
@@ -264,9 +337,9 @@ gaudi_topographic_map_project_button = {
 		base = 150
 	}
 }
-gaudi_topographic_map_project_new_priority_button = {
-	name = "gaudi_topographic_map_project_new_priority_button"
-	desc = "gaudi_topographic_map_project_new_priority_button_desc"
+tesla_topographic_map_project_new_priority_button = {
+	name = "tesla_topographic_map_project_new_priority_button"
+	desc = "tesla_topographic_map_project_new_priority_button_desc"
 
 	possible = {
 		custom_tooltip = {
@@ -296,6 +369,20 @@ gaudi_topographic_map_project_new_priority_button = {
 				}
 			}
 		}
+		#This is used to remove elements from the prioritized list from the new list
+		if = {
+			limit = { has_variable_list = prioritized_states_for_topographic_improvement_variable_list }
+			every_in_list = {
+				variable = prioritized_states_for_topographic_improvement_variable_list
+				root = {
+					remove_list_variable = {
+						name = states_for_topographic_improvement_variable_list
+						target = prev
+					}
+				}
+			}
+		}
+		#Activates the window
 		set_variable = mr_topographic_state_prioritizing_window_active_var
 	}
 
