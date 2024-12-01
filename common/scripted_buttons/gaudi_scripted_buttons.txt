@@ -249,9 +249,11 @@ gaudi_topographic_map_project_button = {
 
 	effect = {
 		add_journal_entry = { type = je_gaudi_topographic_map_project }
-		add_modifier = {
-			name = gaudi_engineer_project_low_cost_modifier
-			multiplier = money_amount_multiplier_small
+		je:je_gaudi_topographic_map_project = {
+			add_modifier = {
+				name = gaudi_engineer_project_low_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
 		}
 		var:gaudi_engineer_var = {
 			set_character_busy_and_immortal = yes
@@ -260,6 +262,45 @@ gaudi_topographic_map_project_button = {
 
 	ai_chance = {
 		base = 150
+	}
+}
+gaudi_topographic_map_project_new_priority_button = {
+	name = "gaudi_topographic_map_project_new_priority_button"
+	desc = "gaudi_topographic_map_project_new_priority_button_desc"
+
+	possible = {
+		custom_tooltip = {
+			text = MR_ALREADY_PRIORITIZING_STATES_TRIGGER_TT
+			NOT = {
+				has_variable = mr_topographic_state_prioritizing_window_active_var
+			}
+		}
+	}
+
+	effect = {
+		clear_variable_list = states_for_topographic_improvement_variable_list
+		ordered_scope_state = {
+			limit = {
+				NOT = {
+					has_modifier = gaudi_topographic_state_map_modifier
+				}
+			}
+			order_by = gaudi_infrastructure_balance
+			max = 1000
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = states_for_topographic_improvement_variable_list
+					target = prev
+				}
+			}
+		}
+		set_variable = mr_topographic_state_prioritizing_window_active_var
+	}
+
+	ai_chance = {
+		base = 0
 	}
 }
 

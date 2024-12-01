@@ -4251,6 +4251,7 @@ je_gaudi_topographic_map_project = {
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
 	scripted_button = gaudi_stop_engineering_project_button
+	scripted_button = gaudi_topographic_map_project_new_priority_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
@@ -4270,15 +4271,26 @@ je_gaudi_topographic_map_project = {
 				limit = {
 					var:gaudi_civil_engineering_progress_var > gaudi_topographic_map_progress_cost
 				}
+				#Effect if the priority list exists
 				if = {
 					limit = {
 						has_variable_list = prioritized_states_for_topographic_improvement_variable_list
-						any_in_list = {
-							variable = prioritized_states_for_topographic_improvement_variable_list
+					}
+					#This part removes all states from the priority list if they already have the modifier.
+					every_in_list = {
+						variable = prioritized_states_for_topographic_improvement_variable_list
+						limit = {
+							has_modifier = gaudi_topographic_state_map_modifier
+						}
 
-							NOT = { has_modifier = gaudi_topographic_state_map_modifier }
+						root = {
+							remove_list_variable = {
+								name = prioritized_states_for_topographic_improvement_variable_list
+								target = prev
+							} 
 						}
 					}
+					#Chooses the first entry in the list
 					ordered_in_list = {
 						variable = prioritized_states_for_topographic_improvement_variable_list
 						limit = {
@@ -4286,9 +4298,11 @@ je_gaudi_topographic_map_project = {
 						}
 						max = 1 #Only the first one
 
+						#Adds the modifier
 						add_modifier = {
 							name = gaudi_topographic_state_map_modifier
 						}
+						#Removes the state from the list
 						root = {
 							remove_list_variable = {
 								name = prioritized_states_for_topographic_improvement_variable_list
@@ -4350,6 +4364,7 @@ je_gaudi_topographic_map_project = {
 			name = gaudi_civil_engineering_progress_var
 			value = 0
 		}
+
 		#Sets a variable for the number of states
 		set_variable = {
 			name = gaudi_num_states_var
@@ -4372,7 +4387,9 @@ je_gaudi_topographic_map_project = {
 
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		gaudi_remove_je_cost_modifiers_effect = yes
+		show_as_tooltip = {
+			remove_modifier = gaudi_engineer_project_low_cost_modifier
+		}
 		remove_variable = gaudi_num_states_var
 		remove_variable = gaudi_states_with_topographic_map_var
 
@@ -4417,7 +4434,9 @@ je_gaudi_topographic_map_project = {
 
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		gaudi_remove_je_cost_modifiers_effect = yes
+		show_as_tooltip = {
+			remove_modifier = gaudi_engineer_project_low_cost_modifier
+		}
 		remove_variable = gaudi_num_states_var
 		remove_variable = gaudi_states_with_topographic_map_var
 		remove_variable = gaudi_stop_engineering_project_var
