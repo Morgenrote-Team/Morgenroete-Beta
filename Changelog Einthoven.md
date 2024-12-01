@@ -4,6 +4,7 @@ Changes:
 - Lower chance that paleontologists spawn at game start.
 - Higher chance that engineers and physicians spawn in minor power countries at game start.
 - University Specialization PMs, Physics Institute PMs and Astro Lab PM will consume Prints.
+- Volcano Expedition JE pinned by default.
 
 Epidemic Diseases:
 - Changed Epidemic Diseases completely to the Harvest Condition system. This makes epidemics much more flexible and gives the player a better overview. It's also much more simple to maintain (especially in case of bugfixing).
