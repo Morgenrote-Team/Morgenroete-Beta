@@ -6,6 +6,16 @@ Changes:
 - Cholera starts in 1846 instead of 1853.
 - University Specialization PMs, Physics Institute PMs and Astro Lab PM will consume Prints.
 
+Epidemic Diseases:
+- Changed Epidemic Diseases completely to the Harvest Condition system. This makes epidemics much more flexible and gives the player a better overview. It's also much more simple to maintain (especially in case of bugfixing).
+- Epidemics may stay between 40 to 80 weeks (instead of roughly one year), giving your Physician more time to study them.
+- Typhus will happen more frequently in states with high devastation.
+- Yellow fever will happen more frequently in tropical areas
+- Cholera does not have an effect on SoL.
+- Cholera, Typhus and Yellow Fever have an effect on infrastructure.
+- Tuberculosis has an effect on building throughput.
+- Several epidemics may happen at the same time, if an epicenter of a neigbouring state has a negative impact on your country; as this happens automatically, the event for spreading epidemics to other countries was canceled.
+
 Medicine:
 - Added 10 possible inventions when doing Medical research, like Blood Types, Chemotherapy or the first Transplantation
 - 6 of the 10 innovations can be gathered on a Medical Congress
