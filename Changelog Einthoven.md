@@ -6,6 +6,12 @@ Changes:
 - University Specialization PMs, Physics Institute PMs and Astro Lab PM will consume Prints.
 - Volcano Expedition JE pinned by default.
 
+Engineering:
+- You can now choose which building you want to improve with a new GUI window.
+- The Railway project is no longer part of the Infrastructure project. It is now a seperate project that also adds a throughput modifier to the railway building.
+- You can now choose the order in which the states are improved for the railway and topographic map projects.
+- Your enineer will now get experience every time he finishes improving a state with a modifier in the railway and topographic map projects.
+
 Epidemic Diseases:
 - Changed Epidemic Diseases completely to the Harvest Condition system. This makes epidemics much more flexible and gives the player a better overview. It's also much more simple to maintain (especially in case of bugfixing).
 - Epidemics may stay between 40 to 80 weeks (instead of roughly one year), giving your Physician more time to study them.
