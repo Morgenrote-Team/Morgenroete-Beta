@@ -1153,19 +1153,13 @@ panum.100 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	trigger = {
-		panum_country_can_have_cholera_trigger = yes
-	}
-
 	immediate = {
-		panum_set_number_of_cholera_states_effect = yes
 		panum_set_cholera_state_effect = yes
 	}
 
 	option = {	#Cholera!
 		name = panum.100.g
 		default_option = yes
-		panum_add_cholera_modifier_effect = yes
 		add_journal_entry = {
 			type = je_panum_cholera
 		}
@@ -1274,102 +1268,102 @@ panum.100 = {
 }
 
 #Panum 101: Cholera in STATE
-panum.101 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	hidden = yes
-
-	trigger = {
-		panum_state_can_have_cholera_trigger = yes
-		NAND = {
-			panum_has_cholera_treatment_trigger = yes
-			var:panum_number_of_cholera_states_var <= 3
-		}
-	}
-
-	immediate = {
-		panum_add_number_of_cholera_states_effect = yes
-		panum_set_cholera_state_effect = yes
-		panum_add_cholera_modifier_effect = yes
-		post_notification = panum_epidemic_spread_notification
-	}
-
-
-	after = {
-	}
-
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			panum_has_cholera_treatment_trigger = no
-			factor = 4
-		}
-	}
-}
+#panum.101 = {
+#	dlc = dlc_morgenrote
+#
+#	type = country_event
+#
+#	hidden = yes
+#
+#	trigger = {
+#		panum_state_can_have_cholera_trigger = yes
+#		NAND = {
+#			panum_has_cholera_treatment_trigger = yes
+#			var:panum_number_of_cholera_states_var <= 3
+#		}
+#	}
+#
+#	immediate = {
+#		panum_add_number_of_cholera_states_effect = yes
+#		panum_set_cholera_state_effect = yes
+#		panum_add_cholera_modifier_effect = yes
+#		post_notification = panum_epidemic_spread_notification
+#	}
+#
+#
+#	after = {
+#	}
+#
+#	weight_multiplier = {
+#		base = 1
+#		modifier = {
+#			panum_has_cholera_treatment_trigger = no
+#			factor = 4
+#		}
+#	}
+#}
 
 #Panum 102: Cholera spreads to COUNTRY
-panum.102 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = panum.102.t
-
-	desc = panum.102.d
-
-	flavor = panum.100.f
-	
-	duration = 3
-
-	event_image = { 
-		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
-	}
-
-	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	cooldown = {
-		months = 3
-	}
-
-	trigger = {
-		any_country = {
-			panum_country_can_have_cholera_trigger = yes
-			is_adjacent_to_country = ROOT
-		}
-	}
-
-	immediate = {
-		random_country = {
-			limit = {
-				panum_country_can_have_cholera_trigger = yes
-				is_adjacent_to_country = ROOT
-			}
-			save_scope_as = panum_infected_country
-		}
-	}
-
-	option = {	#This plague is completely out of control!
-		name = panum.102.g
-		default_option = yes
-		add_modifier = {
-			name = panum_useless_plague_fighter_modifier
-			years = 2
-		}
-		scope:panum_infected_country = {
-			trigger_event = {
-				id = panum.100
-			}
-		}
-	}
-
-
-	after = {
-	}
-}
+#panum.102 = {
+#	dlc = dlc_morgenrote
+#
+#	type = country_event
+#
+#	title = panum.102.t
+#
+#	desc = panum.102.d
+#
+#	flavor = panum.100.f
+#	
+#	duration = 3
+#
+#	event_image = { 
+#		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
+#	}
+#
+#	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+#
+#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+#
+#	cooldown = {
+#		months = 3
+#	}
+#
+#	trigger = {
+#		any_country = {
+#			panum_country_can_have_cholera_trigger = yes
+#			is_adjacent_to_country = ROOT
+#		}
+#	}
+#
+#	immediate = {
+#		random_country = {
+#			limit = {
+#				panum_country_can_have_cholera_trigger = yes
+#				is_adjacent_to_country = ROOT
+#			}
+#			save_scope_as = panum_infected_country
+#		}
+#	}
+#
+#	option = {	#This plague is completely out of control!
+#		name = panum.102.g
+#		default_option = yes
+#		add_modifier = {
+#			name = panum_useless_plague_fighter_modifier
+#			years = 2
+#		}
+#		scope:panum_infected_country = {
+#			trigger_event = {
+#				id = panum.100
+#			}
+#		}
+#	}
+#
+#
+#	after = {
+#	}
+#}
 
 #Panum 103: Cholera in Factory
 panum.103 = {
@@ -2076,25 +2070,19 @@ panum.111 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	cooldown = {
-		months = 4
+		months = 6
 	}
 
 	trigger = {
 		any_scope_state = {
-			OR = {
-				has_modifier = panum_epidemic_cholera_deadly_modifier
-				has_modifier = panum_epidemic_cholera_severe_modifier
-			}
+			panum_state_has_cholera_trigger = yes
 		}
 	}
 
 	immediate = {
 		random_scope_state = {
 			limit = {
-				OR = {
-					has_modifier = panum_epidemic_cholera_deadly_modifier
-					has_modifier = panum_epidemic_cholera_severe_modifier
-				}
+				panum_state_has_cholera_trigger = yes
 			}
 			save_scope_as = panum_disease_state
 		}
@@ -2103,23 +2091,9 @@ panum.111 = {
 	option = {	#How many more dead?!
 		name = panum.111.g
 		default_option = yes
-		if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_cholera_severe_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				kill_population_percent_in_state = {
-					percent = 0.0025
-				}
-			}
-		}
-		else = {
-			scope:panum_disease_state = {
-				kill_population_percent_in_state = {
-					percent = 0.005
-				}
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				percent = 0.005
 			}
 		}
 	}
@@ -2968,46 +2942,6 @@ panum.140 = {
 		panum_add_x_germ_theory_clues_effect = { AMOUNT = 8 }
 		var:panum_physician_var = {
 			set_character_busy_and_immortal = no
-		}
-		if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_cholera_deadly_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				remove_modifier = panum_epidemic_cholera_deadly_modifier
-			}
-		}
-		if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_cholera_severe_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				remove_modifier = panum_epidemic_cholera_severe_modifier
-			}
-		}
-		if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_cholera_normal_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				remove_modifier = panum_epidemic_cholera_normal_modifier
-			}
-		}
-		if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_cholera_mild_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				remove_modifier = panum_epidemic_cholera_mild_modifier
-			}
 		}
 	}
 
@@ -4665,18 +4599,14 @@ panum.200 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	trigger = {
-		panum_country_can_have_tuberculosis_trigger = yes
 	}
 
 	immediate = {
-		panum_set_number_of_tuberculosis_states_effect = yes
-		panum_set_tuberculosis_state_effect = yes
 	}
 
 	option = {	#Tuberculosis!
 		name = panum.200.g
 		default_option = yes
-		panum_add_tuberculosis_modifier_effect = yes
 		add_journal_entry = {
 			type = je_panum_tuberculosis
 		}
@@ -4781,36 +4711,36 @@ panum.200 = {
 }
 
 #Panum 201: Tuberculosis in STATE
-panum.201 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	hidden = yes
-
-	trigger = {
-		var:panum_number_of_tuberculosis_states_var <= 3
-		panum_state_can_have_tuberculosis_trigger = yes
-	}
-
-	immediate = {
-		panum_set_tuberculosis_state_effect = yes
-		panum_add_number_of_tuberculosis_states_effect = yes
-		panum_add_tuberculosis_modifier_effect = yes
-		post_notification = panum_epidemic_spread_notification
-	}
-
-	after = {
-	}
-
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			panum_has_tuberculosis_treatment_trigger = no
-			factor = 4
-		}
-	}
-}
+#panum.201 = {
+#	dlc = dlc_morgenrote
+#
+#	type = country_event
+#
+#	hidden = yes
+#
+#	trigger = {
+#		var:panum_number_of_tuberculosis_states_var <= 3
+#		panum_state_can_have_tuberculosis_trigger = yes
+#	}
+#
+#	immediate = {
+#		panum_set_tuberculosis_state_effect = yes
+#		panum_add_number_of_tuberculosis_states_effect = yes
+#		panum_add_tuberculosis_modifier_effect = yes
+#		post_notification = panum_epidemic_spread_notification
+#	}
+#
+#	after = {
+#	}
+#
+#	weight_multiplier = {
+#		base = 1
+#		modifier = {
+#			panum_has_tuberculosis_treatment_trigger = no
+#			factor = 4
+#		}
+#	}
+#}
 
 #Panum 202: A hereditary disease?
 panum.202 = {
@@ -4841,9 +4771,7 @@ panum.202 = {
 	}
 
 	trigger = {
-		NOT = {
-			panum_has_tuberculosis_treatment_trigger = yes
-		}
+		panum_has_tuberculosis_treatment_trigger = no
 		any_scope_state = {
 			panum_state_has_tuberculosis_trigger = yes
 		}
@@ -5619,35 +5547,9 @@ panum.208 = {
 	option = {	#Will this never end?
 		name = panum.208.g
 		default_option = yes
-		if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_tuberculosis_severe_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				kill_population_percent_in_state = {
-					percent = 0.003
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_tuberculosis_normal_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				kill_population_percent_in_state = {
-					percent = 0.002
-				}
-			}
-		}
-		else = {
-			scope:panum_disease_state = {
-				kill_population_percent_in_state = {
-					percent = 0.001
-				}
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				percent = 0.002
 			}
 		}
 	}
@@ -7279,18 +7181,14 @@ panum.300 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	trigger = {
-		panum_country_can_have_smallpox_trigger = yes
 	}
 
 	immediate = {
-		panum_set_number_of_smallpox_states_effect = yes
-		panum_set_smallpox_state_effect = yes
 	}
 
 	option = {	#Smallpox!
 		name = panum.300.g
 		default_option = yes
-		panum_add_smallpox_modifier_effect = yes
 		add_journal_entry = {
 			type = je_panum_smallpox
 		}
@@ -7395,101 +7293,101 @@ panum.300 = {
 }
 
 #Panum 301: Smallpox in STATE
-panum.301 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	hidden = yes
-
-	trigger = {
-		panum_state_can_have_smallpox_trigger = yes
-		NAND = {
-			panum_has_smallpox_treatment_trigger = yes
-			var:panum_number_of_smallpox_states_var <= 3
-		}
-	}
-
-	immediate = {
-		panum_add_number_of_smallpox_states_effect = yes
-		panum_set_smallpox_state_effect = yes
-		panum_add_smallpox_modifier_effect = yes
-		post_notification = panum_epidemic_spread_notification
-	}
-
-	after = {
-	}
-
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			panum_has_smallpox_treatment_trigger = no
-			factor = 4
-		}
-	}
-}
+#panum.301 = {
+#	dlc = dlc_morgenrote
+#
+#	type = country_event
+#
+#	hidden = yes
+#
+#	trigger = {
+#		panum_state_can_have_smallpox_trigger = yes
+#		NAND = {
+#			panum_has_smallpox_treatment_trigger = yes
+#			var:panum_number_of_smallpox_states_var <= 3
+#		}
+#	}
+#
+#	immediate = {
+#		panum_add_number_of_smallpox_states_effect = yes
+#		panum_set_smallpox_state_effect = yes
+#		panum_add_smallpox_modifier_effect = yes
+#		post_notification = panum_epidemic_spread_notification
+#	}
+#
+#	after = {
+#	}
+#
+#	weight_multiplier = {
+#		base = 1
+#		modifier = {
+#			panum_has_smallpox_treatment_trigger = no
+#			factor = 4
+#		}
+#	}
+#}
 
 #Panum 302: Smallpox spreads to COUNTRY
-panum.302 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = panum.302.t
-
-	desc = panum.302.d
-
-	flavor = panum.300.f
-	
-	duration = 3
-
-	event_image = { 
-		texture = "gfx/event_pictures/panum_pictures/panum_smallpox.dds"
-	}
-
-	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	cooldown = {
-		months = 3
-	}
-
-	trigger = {
-		any_country = {
-			panum_country_can_have_smallpox_trigger = yes
-			is_adjacent_to_country = ROOT
-		}
-	}
-
-	immediate = {
-		random_country = {
-			limit = {
-				panum_country_can_have_smallpox_trigger = yes
-				is_adjacent_to_country = ROOT
-			}
-			save_scope_as = panum_infected_country
-		}
-	}
-
-	option = {	#This plague is completely out of control!
-		name = panum.302.g
-		default_option = yes
-		add_modifier = {
-			name = panum_useless_plague_fighter_modifier
-			years = 2
-		}
-		scope:panum_infected_country = {
-			trigger_event = {
-				id = panum.300
-			}
-		}
-	}
-
-
-	after = {
-	}
-}
+#panum.302 = {
+#	dlc = dlc_morgenrote
+#
+#	type = country_event
+#
+#	title = panum.302.t
+#
+#	desc = panum.302.d
+#
+#	flavor = panum.300.f
+#	
+#	duration = 3
+#
+#	event_image = { 
+#		texture = "gfx/event_pictures/panum_pictures/panum_smallpox.dds"
+#	}
+#
+#	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+#
+#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+#
+#	cooldown = {
+#		months = 3
+#	}
+#
+#	trigger = {
+#		any_country = {
+#			panum_country_can_have_smallpox_trigger = yes
+#			is_adjacent_to_country = ROOT
+#		}
+#	}
+#
+#	immediate = {
+#		random_country = {
+#			limit = {
+#				panum_country_can_have_smallpox_trigger = yes
+#				is_adjacent_to_country = ROOT
+#			}
+#			save_scope_as = panum_infected_country
+#		}
+#	}
+#
+#	option = {	#This plague is completely out of control!
+#		name = panum.302.g
+#		default_option = yes
+#		add_modifier = {
+#			name = panum_useless_plague_fighter_modifier
+#			years = 2
+#		}
+#		scope:panum_infected_country = {
+#			trigger_event = {
+#				id = panum.300
+#			}
+#		}
+#	}
+#
+#
+#	after = {
+#	}
+#}
 
 #Panum 303: Smallpox out of control
 panum.303 = {
@@ -7537,35 +7435,9 @@ panum.303 = {
 	option = {	#Is there no cure for this terrible illness?
 		name = panum.303.g
 		default_option = yes
-		if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_smallpox_severe_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				kill_population_percent_in_state = {
-					percent = 0.003
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_smallpox_normal_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				kill_population_percent_in_state = {
-					percent = 0.002
-				}
-			}
-		}
-		else = {
-			scope:panum_disease_state = {
-				kill_population_percent_in_state = {
-					percent = 0.001
-				}
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				percent = 0.002
 			}
 		}
 	}
@@ -8222,17 +8094,14 @@ panum.400 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	trigger = {
-		panum_country_can_have_typhus_trigger = yes
 	}
 
 	immediate = {
-		panum_set_typhus_state_effect = yes
 	}
 
 	option = {	#Typhus!
 		name = panum.400.g
 		default_option = yes
-		panum_add_typhus_modifier_effect = yes
 		add_journal_entry = {
 			type = je_panum_typhus
 		}
@@ -8319,34 +8188,34 @@ panum.400 = {
 }
 
 #Panum 401: Typhus in STATE
-panum.401 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	hidden = yes
-
-	trigger = {
-		panum_state_can_have_typhus_trigger = yes
-	}
-
-	immediate = {
-		panum_set_typhus_state_effect = yes
-		panum_add_typhus_modifier_effect = yes
-		post_notification = panum_epidemic_spread_notification
-	}
-
-	after = {
-	}
-
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			panum_has_typhus_treatment_trigger = no
-			factor = 4
-		}
-	}
-}
+#panum.401 = {
+#	dlc = dlc_morgenrote
+#
+#	type = country_event
+#
+#	hidden = yes
+#
+#	trigger = {
+#		panum_state_can_have_typhus_trigger = yes
+#	}
+#
+#	immediate = {
+#		panum_set_typhus_state_effect = yes
+#		panum_add_typhus_modifier_effect = yes
+#		post_notification = panum_epidemic_spread_notification
+#	}
+#
+#	after = {
+#	}
+#
+#	weight_multiplier = {
+#		base = 1
+#		modifier = {
+#			panum_has_typhus_treatment_trigger = no
+#			factor = 4
+#		}
+#	}
+#}
 
 #Panum 402: A disease of moral corruption?
 panum.402 = {
@@ -8377,9 +8246,7 @@ panum.402 = {
 	}
 
 	trigger = {
-		NOT = {
-			panum_has_typhus_treatment_trigger = yes
-		}
+		panum_has_typhus_treatment_trigger = no
 		any_scope_state = {
 			panum_state_has_typhus_trigger = yes
 		}
@@ -8461,9 +8328,7 @@ panum.403 = {
 	}
 
 	trigger = {
-		NOT = {
-			panum_has_typhus_treatment_trigger = yes
-		}
+		panum_has_typhus_treatment_trigger = no
 		any_scope_state = {
 			panum_state_has_typhus_trigger = yes
 		}
@@ -8561,9 +8426,7 @@ panum.404 = {
 	}
 
 	trigger = {
-		NOT = {
-			panum_has_typhus_treatment_trigger = yes
-		}
+		panum_has_typhus_treatment_trigger = no
 		any_scope_state = {
 			panum_state_has_typhus_trigger = yes
 			has_modifier = panum_typhus_fever_sheds_modifier
@@ -8673,9 +8536,7 @@ panum.405 = {
 	}
 
 	trigger = {
-		NOT = {
-			panum_has_typhus_treatment_trigger = yes
-		}
+		panum_has_typhus_treatment_trigger = no
 		any_scope_state = {
 			panum_state_has_typhus_trigger = yes
 			has_modifier = panum_typhus_fever_sheds_modifier
@@ -9329,36 +9190,6 @@ panum.440 = {
 			}
 			var:panum_physician_var ?= {
 				remove_trait = panum_typhus
-			}
-		}
-		if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_typhus_severe_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				remove_modifier = panum_epidemic_typhus_severe_modifier
-			}
-		}
-		if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_typhus_normal_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				remove_modifier = panum_epidemic_typhus_normal_modifier
-			}
-		}
-		if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_typhus_mild_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				remove_modifier = panum_epidemic_typhus_mild_modifier
 			}
 		}
 	}
@@ -10292,18 +10123,14 @@ panum.500 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	trigger = {
-		panum_country_can_have_yellow_fever_trigger = yes
 	}
 
 	immediate = {
-		panum_set_number_of_yellow_fever_states_effect = yes
-		panum_set_yellow_fever_state_effect = yes
 	}
 
 	option = {	#Yellow Fever
 		name = panum.500.g
 		default_option = yes
-		panum_add_yellow_fever_modifier_effect = yes
 		add_journal_entry = {
 			type = je_panum_yellow_fever
 		}
@@ -10390,36 +10217,36 @@ panum.500 = {
 }
 
 #Panum 501: Yellow Fever in STATE
-panum.501 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	hidden = yes
-
-	trigger = {
-		var:panum_number_of_yellow_fever_states_var <= 3
-		panum_state_can_have_yellow_fever_trigger = yes
-	}
-
-	immediate = {
-		panum_set_yellow_fever_state_effect = yes
-		panum_add_number_of_yellow_fever_states_effect = yes
-		panum_add_yellow_fever_modifier_effect = yes
-		post_notification = panum_epidemic_spread_notification
-	}
-
-	after = {
-	}
-
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			panum_has_yellow_fever_treatment_trigger = no
-			factor = 4
-		}
-	}
-}
+#panum.501 = {
+#	dlc = dlc_morgenrote
+#
+#	type = country_event
+#
+#	hidden = yes
+#
+#	trigger = {
+#		var:panum_number_of_yellow_fever_states_var <= 3
+#		panum_state_can_have_yellow_fever_trigger = yes
+#	}
+#
+#	immediate = {
+#		panum_set_yellow_fever_state_effect = yes
+#		panum_add_number_of_yellow_fever_states_effect = yes
+#		panum_add_yellow_fever_modifier_effect = yes
+#		post_notification = panum_epidemic_spread_notification
+#	}
+#
+#	after = {
+#	}
+#
+#	weight_multiplier = {
+#		base = 1
+#		modifier = {
+#			panum_has_yellow_fever_treatment_trigger = no
+#			factor = 4
+#		}
+#	}
+#}
 
 #Panum 502: A contagious disease?
 panum.502 = {
@@ -10450,9 +10277,7 @@ panum.502 = {
 	}
 
 	trigger = {
-		NOT = {
-			panum_has_yellow_fever_treatment_trigger = yes
-		}
+		panum_has_yellow_fever_treatment_trigger = no
 		any_scope_state = {
 			panum_state_has_yellow_fever_trigger = yes
 		}
@@ -10881,35 +10706,9 @@ panum.507 = {
 	option = {	#When will we finally be freed from this plague?
 		name = panum.507.g
 		default_option = yes
-		if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_yellow_fever_severe_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				kill_population_percent_in_state = {
-					percent = 0.003
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_yellow_fever_normal_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				kill_population_percent_in_state = {
-					percent = 0.002
-				}
-			}
-		}
-		else = {
-			scope:panum_disease_state = {
-				kill_population_percent_in_state = {
-					percent = 0.001
-				}
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				percent = 0.002
 			}
 		}
 	}
@@ -11288,36 +11087,6 @@ panum.540 = {
 			}
 			var:panum_physician_var ?= {
 				remove_trait = panum_yellow_fever
-			}
-		}
-		if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_yellow_fever_severe_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				remove_modifier = panum_epidemic_yellow_fever_severe_modifier
-			}
-		}
-		if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_yellow_fever_normal_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				remove_modifier = panum_epidemic_yellow_fever_normal_modifier
-			}
-		}
-		if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_yellow_fever_mild_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				remove_modifier = panum_epidemic_yellow_fever_mild_modifier
 			}
 		}
 	}
