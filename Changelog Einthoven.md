@@ -25,6 +25,8 @@ Medicine:
 - 6 of the 10 innovations can be gathered on a Medical Congress
 - A Physician can be recruited by GUI action if at least one hospital exists in the country. His special skill (surgeon, epidemiologist, etc.) can be selected directly.
 - Vienna and Paris start with Hospitals, London and Berlin with Clinics.
+- Clinics gives only 0.25 SoL, Hospitals only 0.5 SoL.
+- Clinics gives 10 % less disease impact in a state, Hospitals give -15 %.
 
 Meteorology:
 - The Meteorologist trait now spawns more often.
