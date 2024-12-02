@@ -15,8 +15,10 @@ Epidemic Diseases:
 - Cholera does not have an effect on SoL.
 - Cholera, Typhus and Yellow Fever have an effect on infrastructure.
 - Tuberculosis has an effect on building throughput.
-- Several epidemics may happen at the same time, if an epicenter of a neigbouring state has a negative impact on your country; as this happens automatically, the event for spreading epidemics to other countries was canceled.
+- Several epidemics may happen at the same time.
+- The event for spreading epidemics to other countries was canceled.
 - The medical technologies that are necessary for the treatment of a disease, when researched, reduce the severity of the epidemic by 25 percent (for example pasteurization for tuberculosis).
+- When an epidemic starts, a treatment modifier will be added to show the effects of the treatment, if a country ... has the treatment.
 
 Medicine:
 - Added 10 possible inventions when doing Medical research, like Blood Types, Chemotherapy or the first Transplantation
