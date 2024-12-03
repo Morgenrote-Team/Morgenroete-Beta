@@ -41,6 +41,17 @@ Archaeology:
 Musikverein
 - Added a button to found the Musikverein in the composer GUI.
 
+Uranium
+- Added new Uranium states:
+- STATE_TRANSVAAL
+- STATE_NIGER
+- STATE_SASKATCHEWAN
+- STATE_KOLYMA
+- STATE_PUNJAB
+- STATE_BEKES
+- STATE_WEST_KARELIA
+- STATE_BIHAR
+
 Changes:
 - Lower chance that paleontologists spawn at game start.
 - Higher chance that engineers and physicians spawn in minor power countries at game start.
