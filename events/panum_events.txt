@@ -29,8 +29,8 @@ namespace = panum
 ### Cholera Epidemic ###
 
 #Panum 100: The Cholera Epidemic in YEAR
-#Panum 101: Cholera in STATE
-#Panum 102: Cholera spreads to COUNTRY
+#Panum 101: Cholera - Third Wave
+#Panum 102: Cholera - Third Wave Notification
 #Panum 103: Cholera in Factory
 #Panum 104: CHARACTER gets Cholera!
 #Panum 105: The Exodus of the Rich
@@ -1289,103 +1289,131 @@ panum.100 = {
 	}
 }
 
-#Panum 101: Cholera in STATE
-#panum.101 = {
-#	dlc = dlc_morgenrote
-#
-#	type = country_event
-#
-#	hidden = yes
-#
-#	trigger = {
-#		panum_state_can_have_cholera_trigger = yes
-#		NAND = {
-#			panum_has_cholera_treatment_trigger = yes
-#			var:panum_number_of_cholera_states_var <= 3
-#		}
-#	}
-#
-#	immediate = {
-#		panum_add_number_of_cholera_states_effect = yes
-#		panum_set_cholera_state_effect = yes
-#		panum_add_cholera_modifier_effect = yes
-#		post_notification = panum_epidemic_spread_notification
-#	}
-#
-#
-#	after = {
-#	}
-#
-#	weight_multiplier = {
-#		base = 1
-#		modifier = {
-#			panum_has_cholera_treatment_trigger = no
-#			factor = 4
-#		}
-#	}
-#}
+#Panum 101: Cholera - Third Wave
+panum.101 = {
+	dlc = dlc_morgenrote
 
-#Panum 102: Cholera spreads to COUNTRY
-#panum.102 = {
-#	dlc = dlc_morgenrote
-#
-#	type = country_event
-#
-#	title = panum.102.t
-#
-#	desc = panum.102.d
-#
-#	flavor = panum.100.f
-#	
-#	duration = 3
-#
-#	event_image = { 
-#		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
-#	}
-#
-#	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
-#
-#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-#
-#	cooldown = {
-#		months = 3
-#	}
-#
-#	trigger = {
-#		any_country = {
-#			panum_country_can_have_cholera_trigger = yes
-#			is_adjacent_to_country = ROOT
-#		}
-#	}
-#
-#	immediate = {
-#		random_country = {
-#			limit = {
-#				panum_country_can_have_cholera_trigger = yes
-#				is_adjacent_to_country = ROOT
-#			}
-#			save_scope_as = panum_infected_country
-#		}
-#	}
-#
-#	option = {	#This plague is completely out of control!
-#		name = panum.102.g
-#		default_option = yes
-#		add_modifier = {
-#			name = panum_useless_plague_fighter_modifier
-#			years = 2
-#		}
-#		scope:panum_infected_country = {
-#			trigger_event = {
-#				id = panum.100
-#			}
-#		}
-#	}
-#
-#
-#	after = {
-#	}
-#}
+	placement = scope:panum_disease_state
+
+	type = country_event
+
+	title = panum.101.t
+
+	desc = panum.101.d
+
+	flavor = panum.100.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_third_cholera_global_var
+		}
+		game_date >= 1846.1.1 #We start with the third wave
+		any_scope_state = {
+			state_region = s:STATE_EAST_BENGAL
+		}
+	}
+
+	immediate = {
+		set_global_variable = panum_third_cholera_global_var
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_EAST_BENGAL
+			}
+			save_scope_as = panum_disease_state
+		}
+		add_journal_entry = {
+			type = je_panum_cholera
+		}
+	}
+
+	option = {	#Somehow, Cholera returned
+		name = panum.101.g
+		default_option = yes
+		s:STATE_EAST_BENGAL = {
+			start_harvest_condition = panum_cholera_condition
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					is_player = no
+				}
+				every_country = {
+					limit = {
+						is_player = yes
+					}
+					trigger_event = {
+						id = panum.102
+						days = { 20 30 }
+					}
+				}
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 102: Cholera - Third Wave Notification
+panum.102 = {
+	dlc = dlc_morgenrote
+
+	placement = scope:panum_disease_state
+
+	type = country_event
+
+	title = panum.101.t
+
+	desc = panum.100.d
+
+	flavor = panum.101.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_journal_entry = je_panum_cholera
+		}
+	}
+
+	immediate = {
+		set_global_variable = panum_third_cholera_global_var
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_EAST_BENGAL
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Somehow, Cholera returned
+		name = panum.101.g
+		default_option = yes
+	}
+
+
+	after = {
+	}
+}
 
 #Panum 103: Cholera in Factory
 panum.103 = {
