@@ -11,7 +11,7 @@ Epidemic Diseases:
 - Epidemics may stay between 40 to 80 weeks (instead of roughly one year), giving your Physician more time to study them.
 - Typhus will happen more frequently in states with high devastation.
 - Yellow fever will happen more frequently in tropical areas.
-- Cholera starts in 1846 instead of 1853.
+- Cholera starts in 1846 instead of 1853 (Starting Date of the Third Cholera Pandemic). Players will get a warning event when the Third Cholera Pandemic begins.
 - Cholera does not have an effect on SoL.
 - Cholera, Typhus and Yellow Fever have an effect on infrastructure.
 - Tuberculosis has an effect on building throughput.
