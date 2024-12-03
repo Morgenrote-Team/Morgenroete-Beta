@@ -58,3 +58,5 @@ Changes:
 - University Specialization PMs, Physics Institute PMs and Astro Lab PM will consume Prints.
 - Volcano Expedition JE pinned by default.
 - Mountain Expedition JE pinned by default.
+- Renamed building_curie_uranium_mine to building_uranium_mine.
+- renamed curie_uranium good to good_uranium.
