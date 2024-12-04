@@ -11,18 +11,22 @@ Epidemic Diseases:
 - Epidemics may stay between 40 to 80 weeks (instead of roughly one year), giving your Physician more time to study them.
 - Typhus will happen more frequently in states with high devastation.
 - Yellow fever will happen more frequently in tropical areas.
-- Cholera starts in 1846 instead of 1853.
+- Cholera starts in 1846 instead of 1853 (Starting Date of the Third Cholera Pandemic). Players will get a warning event when the Third Cholera Pandemic begins.
 - Cholera does not have an effect on SoL.
 - Cholera, Typhus and Yellow Fever have an effect on infrastructure.
 - Tuberculosis has an effect on building throughput.
-- Several epidemics may happen at the same time, if an epicenter of a neigbouring state has a negative impact on your country; as this happens automatically, the event for spreading epidemics to other countries was canceled.
+- Several epidemics may happen at the same time.
+- The event for spreading epidemics to other countries was canceled.
 - The medical technologies that are necessary for the treatment of a disease, when researched, reduce the severity of the epidemic by 25 percent (for example pasteurization for tuberculosis).
+- When an epidemic starts, a treatment modifier will be added to show the effects of the treatment, if a country ... has the treatment.
 
 Medicine:
 - Added 10 possible inventions when doing Medical research, like Blood Types, Chemotherapy or the first Transplantation
 - 6 of the 10 innovations can be gathered on a Medical Congress
 - A Physician can be recruited by GUI action if at least one hospital exists in the country. His special skill (surgeon, epidemiologist, etc.) can be selected directly.
 - Vienna and Paris start with Hospitals, London and Berlin with Clinics.
+- Clinics gives only 0.25 SoL, Hospitals only 0.5 SoL.
+- Clinics gives 10 % less disease impact in a state, Hospitals give -15 %.
 
 Meteorology:
 - The Meteorologist trait now spawns more often.
@@ -37,9 +41,22 @@ Archaeology:
 Musikverein
 - Added a button to found the Musikverein in the composer GUI.
 
+Uranium
+- Added new Uranium states:
+- STATE_TRANSVAAL
+- STATE_NIGER
+- STATE_SASKATCHEWAN
+- STATE_KOLYMA
+- STATE_PUNJAB
+- STATE_BEKES
+- STATE_WEST_KARELIA
+- STATE_BIHAR
+
 Changes:
 - Lower chance that paleontologists spawn at game start.
 - Higher chance that engineers and physicians spawn in minor power countries at game start.
 - University Specialization PMs, Physics Institute PMs and Astro Lab PM will consume Prints.
 - Volcano Expedition JE pinned by default.
 - Mountain Expedition JE pinned by default.
+- Renamed building_curie_uranium_mine to building_uranium_mine.
+- renamed curie_uranium good to good_uranium.

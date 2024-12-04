@@ -174,6 +174,7 @@ je_panum_medical_system_project = {
 							any_scope_building = {
 								is_building_type = building_government_administration
 								level >= 5
+								level < 20
 								has_active_production_method = pm_panum_no_clinic
 							}
 						}
@@ -184,10 +185,13 @@ je_panum_medical_system_project = {
 							any_scope_building = {
 								is_building_type = building_government_administration
 								level >= 5
+								level < 20
 								has_active_production_method = pm_panum_no_clinic
 							}
 						}
 						order_by = panum_administration_buildings_value
+						max = 1 #Limits to the state with highest urbanization
+						check_range_bounds = no #prevents errors
 						activate_production_method = {
 							building_type = building_government_administration
 							production_method = pm_panum_clinic
@@ -221,18 +225,32 @@ je_panum_medical_system_project = {
 
 	complete = {
 		any_scope_state = {
-			any_scope_building = {
-				is_building_type = building_government_administration
-				level >= 5
-				has_active_production_method = pm_panum_clinic
-			}
-			percent >= 1
-		}
-		any_scope_state = {
-			any_scope_building = {
-				is_building_type = building_government_administration
-				level >= 20
-				has_active_production_method = pm_panum_hospital
+			OR = {
+				custom_tooltip = {
+					text = je_panum_medical_system_project_success_1
+					any_scope_building = {
+						is_building_type = building_government_administration
+						level >= 20
+						has_active_production_method = pm_panum_hospital
+					}
+				}
+				custom_tooltip = {
+					text = je_panum_medical_system_project_success_2
+					any_scope_building = {
+						is_building_type = building_government_administration
+						level >= 5
+						level < 20
+						has_active_production_method = pm_panum_clinic
+					}
+				}
+				custom_tooltip = {
+					text = je_panum_medical_system_project_success_3
+					any_scope_building = {
+						is_building_type = building_government_administration
+						level < 5
+					}
+				}
+				NOT = { has_building = building_government_administration }
 			}
 			percent >= 1
 		}
@@ -732,9 +750,9 @@ je_panum_measles = {
 
 	on_monthly_pulse = {
 		random_events = {
-			200 = 0
-			100 = panum.601 #Panum 601: Measles in STATE
-			25 = panum.602 #Panum 602: Measles spreads to COUNTRY
+			100 = 0
+			#100 = panum.601 #Panum 601: Measles in STATE
+			#25 = panum.602 #Panum 602: Measles spreads to COUNTRY
 			10 = panum.603 #Panum 603: Measles kills children
 			10 = panum.604 #Panum 604: Measles paralyzes sailors
 			10 = panum.605 #Panum 605: Child Clinic for Measles
@@ -795,8 +813,8 @@ je_panum_scarlet = {
 
 	on_monthly_pulse = {
 		random_events = {
-			200 = 0
-			200 = panum.701 #Panum 701: Scarlet in STATE
+			100 = 0
+			#200 = panum.701 #Panum 701: Scarlet in STATE
 		}
 	}
 
@@ -853,9 +871,9 @@ je_panum_plague = {
 
 	on_monthly_pulse = {
 		random_events = {
-			200 = 0
-			100 = panum.801 #Panum 801: Plague in STATE
-			25 = panum.802 #Panum 802: Plague spreads to COUNTRY
+			100 = 0
+			#100 = panum.801 #Panum 801: Plague in STATE
+			#25 = panum.802 #Panum 802: Plague spreads to COUNTRY
 			
 			10 = panum.805 #Panum 805: Plague Quarantine
 			10 = panum.806 #Panum 806: Plague Houses
@@ -890,7 +908,7 @@ je_panum_plague = {
 	on_complete = {
 		set_variable = {
 			name = panum_recent_plague_in_country_var
-			years = 20
+			years = 15
 		}
 		panum_remove_disease_effect = yes
 		trigger_event = {

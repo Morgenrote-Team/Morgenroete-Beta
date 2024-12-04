@@ -155,7 +155,7 @@ panum_country_can_find_description_or_treatment_trigger = {
 ###Cholera###
 
 panum_country_can_have_cholera_trigger = {
-	game_date >= 1846.1.1 #We start with the second wave
+	game_date >= 1846.1.1 #We start with the third wave
 	NOT = {
 		has_variable = panum_recent_cholera_in_country_var
 	}
@@ -165,10 +165,8 @@ panum_country_can_have_cholera_trigger = {
 }
 
 panum_state_can_have_cholera_trigger = {
+	has_global_variable = panum_third_cholera_global_var
 	any_scope_state = {
-		NOT = {
-			has_variable = panum_recent_cholera_var
-		}
 		average_sol <= 15
 		total_urbanization >= 500
 		owner = {
@@ -221,9 +219,6 @@ panum_country_can_have_tuberculosis_trigger = {
 	panum_has_tuberculosis_prevention_trigger = no
 	panum_has_epidemic_trigger = no
 	any_scope_state = {
-		NOT = {
-			has_variable = panum_recent_tuberculosis_var
-		}
 		any_scope_pop = {
 			strata = poor
 			standard_of_living <= 20
@@ -234,9 +229,6 @@ panum_country_can_have_tuberculosis_trigger = {
 
 panum_state_can_have_tuberculosis_trigger = {
 	any_scope_state = {
-		NOT = {
-			has_variable = panum_recent_tuberculosis_var
-		}
 		average_sol <= 25
 		total_urbanization >= 750
 		owner = {
@@ -289,9 +281,6 @@ panum_country_can_have_smallpox_trigger = {
 	panum_has_smallpox_prevention_trigger = no
 	panum_has_epidemic_trigger = no
 	any_scope_state = {
-		NOT = {
-			has_variable = panum_recent_smallpox_var
-		}
 		any_scope_pop = {
 			strata = poor
 			standard_of_living <= 16
@@ -301,9 +290,6 @@ panum_country_can_have_smallpox_trigger = {
 
 panum_state_can_have_smallpox_trigger = {
 	any_scope_state = {
-		NOT = {
-			has_variable = panum_recent_smallpox_var
-		}
 		average_sol <= 10
 		owner = {
 			NOR = {
@@ -355,18 +341,12 @@ panum_country_can_have_typhus_trigger = {
 	panum_has_typhus_prevention_trigger = no
 	panum_has_epidemic_trigger = no
 	any_scope_state = {
-		NOT = {
-			has_variable = panum_recent_typhus_var
-		}
 		devastation > 0.15
 	}
 }
 
 panum_state_can_have_typhus_trigger = {
 	any_scope_state = {
-		NOT = {
-			has_variable = panum_recent_typhus_var
-		}
 		devastation > 0.15
 		owner = {
 			NOR = {
@@ -531,17 +511,15 @@ panum_country_can_have_measles_trigger = {
 
 panum_state_can_have_measles_trigger = {
 	any_scope_state = {
-		NOT = {
-			has_variable = panum_recent_measles_var
-		}
-		any_neighbouring_state = {
-			panum_state_has_measles_trigger = yes
-		}
-		any_scope_pop = {
-			strata = poor
-			standard_of_living <= 30
-		}
+		average_sol <= 30
 		total_urbanization >= 300
+		owner = {
+			NOR = {
+				has_variable = panum_recent_measles_in_country_var
+				has_journal_entry = je_panum_measles
+			}
+			panum_has_measles_prevention_trigger = no
+		}
 	}
 }
 
@@ -557,10 +535,8 @@ panum_has_measles_prevention_trigger = {
 }
 
 panum_state_has_measles_trigger = {
-	OR = {
-		has_modifier = panum_epidemic_measles_severe_modifier
-		has_modifier = panum_epidemic_measles_normal_modifier
-		has_modifier = panum_epidemic_measles_mild_modifier
+	state_region = {
+		has_harvest_condition = panum_measles_condition
 	}
 }
 
@@ -591,13 +567,14 @@ panum_country_can_have_scarlet_trigger = {
 
 panum_state_can_have_scarlet_trigger = {
 	any_scope_state = {
-		NOT = {
-			has_variable = panum_recent_scarlet_var
+		total_urbanization >= 500
+		owner = {
+			NOR = {
+				has_variable = panum_recent_scarlet_in_country_var
+				has_journal_entry = je_panum_scarlet
+			}
+			panum_has_scarlet_prevention_trigger = no
 		}
-		any_neighbouring_state = {
-			panum_state_has_scarlet_trigger = yes
-		}
-		total_urbanization >= 300
 	}
 }
 
@@ -613,10 +590,8 @@ panum_has_scarlet_prevention_trigger = {
 }
 
 panum_state_has_scarlet_trigger = {
-	OR = {
-		has_modifier = panum_epidemic_scarlet_severe_modifier
-		has_modifier = panum_epidemic_scarlet_normal_modifier
-		has_modifier = panum_epidemic_scarlet_mild_modifier
+	state_region = {
+		has_harvest_condition = panum_scarlet_condition
 	}
 }
 
@@ -646,18 +621,17 @@ panum_country_can_have_plague_trigger = {
 }
 
 panum_state_can_have_plague_trigger = {
+	has_global_variable = panum_third_plague_global_var
 	any_scope_state = {
-		NOT = {
-			has_variable = panum_recent_plague_var
+		average_sol <= 15
+		total_urbanization >= 300
+		owner = {
+			NOR = {
+				has_variable = panum_recent_plague_in_country_var
+				has_journal_entry = je_panum_plague
+			}
+			panum_has_plague_prevention_trigger = no
 		}
-		any_scope_pop = {
-			strata = poor
-			standard_of_living <= 12
-		}
-		any_neighbouring_state = {
-			panum_state_has_plague_trigger = yes
-		}
-		total_urbanization >= 500
 	}
 }
 
@@ -673,10 +647,8 @@ panum_has_plague_prevention_trigger = {
 }
 
 panum_state_has_plague_trigger = {
-	OR = {
-		has_modifier = panum_epidemic_plague_severe_modifier
-		has_modifier = panum_epidemic_plague_normal_modifier
-		has_modifier = panum_epidemic_plague_mild_modifier
+	state_region = {
+		has_harvest_condition = panum_plague_condition
 	}
 }
 
@@ -707,12 +679,14 @@ panum_country_can_have_diphteria_trigger = {
 
 panum_state_can_have_diphteria_trigger = {
 	any_scope_state = {
-		NOT = {
-			has_variable = panum_recent_diphteria_var
-		}
-		any_scope_pop = {
-			strata = poor
-			standard_of_living <= 20
+		average_sol <= 25
+		total_urbanization >= 200
+		owner = {
+			NOR = {
+				has_variable = panum_recent_diphteria_in_country_var
+				has_journal_entry = je_panum_diphteria
+			}
+			panum_has_diphteria_prevention_trigger = no
 		}
 	}
 }
@@ -729,10 +703,8 @@ panum_has_diphteria_prevention_trigger = {
 }
 
 panum_state_has_diphteria_trigger = {
-	OR = {
-		has_modifier = panum_epidemic_diphteria_severe_modifier
-		has_modifier = panum_epidemic_diphteria_normal_modifier
-		has_modifier = panum_epidemic_diphteria_mild_modifier
+	state_region = {
+		has_harvest_condition = panum_diphteria_condition
 	}
 }
 
@@ -762,15 +734,16 @@ panum_country_can_have_polio_trigger = {
 }
 
 panum_state_can_have_polio_trigger = {
+	game_date >= 1886.1.1 #second half of the game
 	any_scope_state = {
-		NOT = {
-			has_variable = panum_recent_polio_var
-		}
-		any_scope_pop = {
-			strata = poor
-			standard_of_living <= 25
-		}
+		average_sol <= 35
 		total_urbanization >= 1000
+		owner = {
+			NOT = {
+				has_variable = panum_recent_polio_in_country_var
+			}
+			panum_has_polio_prevention_trigger = no
+		}
 	}
 }
 
@@ -786,10 +759,8 @@ panum_has_polio_prevention_trigger = {
 }
 
 panum_state_has_polio_trigger = {
-	OR = {
-		has_modifier = panum_epidemic_polio_severe_modifier
-		has_modifier = panum_epidemic_polio_normal_modifier
-		has_modifier = panum_epidemic_polio_mild_modifier
+	state_region = {
+		has_harvest_condition = panum_polio_condition
 	}
 }
 
