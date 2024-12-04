@@ -3,6 +3,7 @@ Changelog for 2.3.1 "Einthoven"
 Engineering:
 - You can now choose which building you want to improve with a new GUI window.
 - The Railway project is no longer part of the Infrastructure project. It is now a seperate project that also adds a throughput modifier to the railway building.
+- The Canal Project has been reworked into an irrigation project that will improve the states ariculture and resistance to negative harvest conditions.
 - You can now choose the order in which the states are improved for the railway and topographic map projects with a new GUI window.
 - Your enineer will now get experience every time he finishes improving a state with a modifier in the railway and topographic map projects.
 
