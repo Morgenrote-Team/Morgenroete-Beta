@@ -61,3 +61,4 @@ Changes:
 - Mountain Expedition JE pinned by default.
 - Renamed building_curie_uranium_mine to building_uranium_mine.
 - renamed curie_uranium good to good_uranium.
+- Added Sweden as a Morgenröte Nation for "Thriving Culture" objectives.
