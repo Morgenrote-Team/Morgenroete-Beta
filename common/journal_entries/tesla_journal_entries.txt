@@ -15,7 +15,7 @@ je_gaudi_civil_research_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -29,7 +29,7 @@ je_gaudi_civil_research_project = {
 			if = {
 				#If the Progress reaches the cost, the modifier will be added to a state
 				limit = {
-					var:gaudi_civil_engineering_progress_var > gaudi_research_progress_cost
+					var:gaudi_civil_engineering_progress_var > tesla_research_progress_cost
 				}
 				gaudi_civil_engineering_small_add_technology = yes
 				civil_engineer_experience_gain_effect = { AMOUNT = 5 }
@@ -37,7 +37,7 @@ je_gaudi_civil_research_project = {
 				#The cost will be subtracted from the current progress
 				change_variable = {
 					name = gaudi_civil_engineering_progress_var
-					subtract = gaudi_research_progress_cost
+					subtract = tesla_research_progress_cost
 				}
 
 				#If any other project is available, this project will be stopped.
@@ -48,7 +48,6 @@ je_gaudi_civil_research_project = {
 							any_scope_state = {
 								OR = {
 									NOT = { has_modifier = gaudi_modern_roads_modifier }
-									NOT = { has_modifier = gaudi_canal_systems_modifier }
 									NOT = { has_modifier = gaudi_new_bridge_modifier }
 									NOT = { has_modifier = gaudi_new_tunnel_modifier }
 									AND = {
@@ -58,6 +57,7 @@ je_gaudi_civil_research_project = {
 											level > 0
 										}
 									}
+									tesla_state_region_has_no_irrigation_system = yes
 								}
 							}
 							any_scope_building = {
@@ -100,7 +100,7 @@ je_gaudi_civil_research_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_research_progress_cost
+		value = tesla_research_progress_cost
 	}
 
 	invalid = {
@@ -142,7 +142,7 @@ je_gaudi_road_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -156,7 +156,7 @@ je_gaudi_road_project = {
 			if = {
 				#If the Progress reaches the cost, the modifier will be added to a state
 				limit = {
-					var:gaudi_civil_engineering_progress_var > gaudi_road_progress_cost
+					var:gaudi_civil_engineering_progress_var > tesla_road_progress_cost
 				}
 				if = {
 					limit = {
@@ -171,7 +171,7 @@ je_gaudi_road_project = {
 							is_incorporated = yes
 							NOT = { has_modifier = gaudi_modern_roads_modifier }
 						}
-						order_by = gaudi_infrastructure_balance
+						order_by = tesla_infrastructure_balance
 						add_modifier = {
 							name = gaudi_modern_roads_modifier
 						}
@@ -181,7 +181,7 @@ je_gaudi_road_project = {
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
 						limit = { NOT = { has_modifier = gaudi_modern_roads_modifier } }
-						order_by = gaudi_infrastructure_balance
+						order_by = tesla_infrastructure_balance
 						add_modifier = {
 							name = gaudi_modern_roads_modifier
 						}
@@ -190,16 +190,16 @@ je_gaudi_road_project = {
 				#The cost will be subtracted from the current progress
 				change_variable = {
 					name = gaudi_civil_engineering_progress_var
-					subtract = gaudi_road_progress_cost
+					subtract = tesla_road_progress_cost
 				}
 			}
 			set_variable = {
-				name = gaudi_num_states_var
+				name = tesla_num_states_var
 				value = root.num_states
 			}
 			set_variable = {
 				name = gaudi_num_states_roads_var
-				value = gaudi_states_with_roads_value
+				value = tesla_states_with_roads_value
 			}
 		}
 	}
@@ -213,13 +213,13 @@ je_gaudi_road_project = {
 		}
 		#Sets a variable for the number of states
 		set_variable = {
-			name = gaudi_num_states_var
+			name = tesla_num_states_var
 			value = root.num_states
 		}
 		#Sets a variable for the number of states with a road modifier
 		set_variable = {
 			name = gaudi_num_states_roads_var
-			value = gaudi_states_with_roads_value #See Gaudi Script Values for the calculation
+			value = tesla_states_with_roads_value #See Gaudi Script Values for the calculation
 		}
 		gaudi_civil_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
@@ -227,14 +227,14 @@ je_gaudi_road_project = {
 	complete = {
 		custom_tooltip = { #All States need to have a roads modifier to end this journal entry
 			text = gaudi_states_with_roads_tt
-			var:gaudi_num_states_roads_var = var:gaudi_num_states_var
+			var:gaudi_num_states_roads_var = var:tesla_num_states_var
 		}
 	}
 
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		gaudi_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_num_states_var
+		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_roads_var
 		
 		#Those should be removed in every civil engineering je
@@ -258,7 +258,7 @@ je_gaudi_road_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_road_progress_cost
+		value = tesla_road_progress_cost
 	}
 
 	invalid = {
@@ -278,7 +278,7 @@ je_gaudi_road_project = {
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		gaudi_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_num_states_var
+		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_roads_var
 		remove_variable = gaudi_stop_engineering_project_var
 		
@@ -306,7 +306,7 @@ je_tesla_irrigation_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -320,50 +320,94 @@ je_tesla_irrigation_project = {
 			if = {
 				#If the Progress reaches the cost, the modifier will be added to a state
 				limit = {
-					var:gaudi_civil_engineering_progress_var > gaudi_canal_progress_cost
+					var:gaudi_civil_engineering_progress_var > tesla_irrigation_progress_cost
 				}
+				#Adds Experience to the Engineer
+				civil_engineer_experience_gain_effect = { AMOUNT = 5 }
+				#Effect if the priority list exists
 				if = {
+					limit = {
+						has_variable_list = prioritized_states_for_irrigation_improvement_variable_list
+					}
+					#This part removes all states from the priority list if they already have the modifier.
+					every_in_list = {
+						variable = prioritized_states_for_irrigation_improvement_variable_list
+						limit = {
+							tesla_state_region_has_irrigation_system = yes
+						}
+
+						root = {
+							remove_list_variable = {
+								name = prioritized_states_for_irrigation_improvement_variable_list
+								target = prev
+							} 
+						}
+					}
+					#Chooses the first entry in the list
+					ordered_in_list = {
+						variable = prioritized_states_for_irrigation_improvement_variable_list
+						limit = {
+							tesla_state_region_has_no_irrigation_system = yes
+						}
+						max = 1 #Only the first one
+
+						#Adds the state trait
+						state_region = {
+							add_state_trait = tesla_state_trait_irrigation
+						}
+						#Removes the state from the list
+						root = {
+							remove_list_variable = {
+								name = prioritized_states_for_irrigation_improvement_variable_list
+								target = prev
+							} 
+						}
+					}
+				}
+				else_if = {
 					limit = {
 						any_scope_state = {
 							is_incorporated = yes
-							NOT = { has_modifier = gaudi_canal_systems_modifier }
+							tesla_state_region_has_no_irrigation_system = yes
 						}
 					}
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
 						limit = {
 							is_incorporated = yes
-							NOT = { has_modifier = gaudi_canal_systems_modifier }
+							tesla_state_region_has_no_irrigation_system = yes
 						}
-						order_by = gaudi_infrastructure_balance
-						add_modifier = {
-							name = gaudi_canal_systems_modifier
+						order_by = tesla_infrastructure_balance
+						state_region = {
+							add_state_trait = tesla_state_trait_irrigation
 						}
 					}
 				}
 				else = {
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
-						limit = { NOT = { has_modifier = gaudi_canal_systems_modifier } }
-						order_by = gaudi_infrastructure_balance
-						add_modifier = {
-							name = gaudi_canal_systems_modifier
+						limit = {
+							tesla_state_region_has_no_irrigation_system = yes
+						}
+						order_by = tesla_infrastructure_balance
+						state_region = {
+							add_state_trait = tesla_state_trait_irrigation
 						}
 					}
 				}
 				#The cost will be subtracted from the current progress
 				change_variable = {
 					name = gaudi_civil_engineering_progress_var
-					subtract = gaudi_canal_progress_cost
+					subtract = tesla_irrigation_progress_cost
 				}
 			}
 			set_variable = {
-				name = gaudi_num_states_var
+				name = tesla_num_states_var
 				value = root.num_states
 			}
 			set_variable = {
-				name = gaudi_num_states_canals_var
-				value = gaudi_states_with_canals_value
+				name = tesla_num_states_irrigation_var
+				value = tesla_states_with_irrigation_value
 			}
 		}
 	}
@@ -377,29 +421,31 @@ je_tesla_irrigation_project = {
 		}
 		#Sets a variable for the number of states
 		set_variable = {
-			name = gaudi_num_states_var
+			name = tesla_num_states_var
 			value = root.num_states
 		}
 		#Sets a variable for the number of states with a road modifier
 		set_variable = {
-			name = gaudi_num_states_canals_var
-			value = gaudi_states_with_canals_value #See Gaudi Script Values for the calculation
+			name = tesla_num_states_irrigation_var
+			value = tesla_states_with_irrigation_value #See Gaudi Script Values for the calculation
 		}
 		gaudi_civil_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
 
 	complete = {
 		custom_tooltip = { #All States need to have a canals modifier to end this journal entry
-			text = gaudi_states_with_canals_tt
-			var:gaudi_num_states_canals_var = var:gaudi_num_states_var
+			text = tesla_states_with_irrigation_tt
+			var:tesla_num_states_irrigation_var = var:tesla_num_states_var
 		}
 	}
 
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		gaudi_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_num_states_var
-		remove_variable = gaudi_num_states_canals_var
+		show_as_tooltip = {
+			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+		}
+		remove_variable = tesla_num_states_var
+		remove_variable = tesla_num_states_irrigation_var
 		
 		#Those should be removed in every civil engineering je
 		remove_variable = gaudi_civil_engineering_progress_var
@@ -422,7 +468,7 @@ je_tesla_irrigation_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_canal_progress_cost
+		value = tesla_irrigation_progress_cost
 	}
 
 	invalid = {
@@ -441,9 +487,11 @@ je_tesla_irrigation_project = {
 
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		gaudi_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_num_states_var
-		remove_variable = gaudi_num_states_canals_var
+		show_as_tooltip = {
+			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+		}
+		remove_variable = tesla_num_states_var
+		remove_variable = tesla_num_states_irrigation_var
 		remove_variable = gaudi_stop_engineering_project_var
 		
 		#Those should be removed in every civil engineering je
@@ -470,7 +518,7 @@ je_gaudi_bridge_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -484,7 +532,7 @@ je_gaudi_bridge_project = {
 			if = {
 				#If the Progress reaches the cost, the modifier will be added to a state
 				limit = {
-					var:gaudi_civil_engineering_progress_var > gaudi_bridge_progress_cost
+					var:gaudi_civil_engineering_progress_var > tesla_bridge_progress_cost
 				}
 				if = {
 					limit = {
@@ -499,7 +547,7 @@ je_gaudi_bridge_project = {
 							is_incorporated = yes
 							NOT = { has_modifier = gaudi_new_bridge_modifier }
 						}
-						order_by = gaudi_infrastructure_balance
+						order_by = tesla_infrastructure_balance
 						add_modifier = {
 							name = gaudi_new_bridge_modifier
 						}
@@ -509,7 +557,7 @@ je_gaudi_bridge_project = {
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
 						limit = { NOT = { has_modifier = gaudi_new_bridge_modifier } }
-						order_by = gaudi_infrastructure_balance
+						order_by = tesla_infrastructure_balance
 						add_modifier = {
 							name = gaudi_new_bridge_modifier
 						}
@@ -518,16 +566,16 @@ je_gaudi_bridge_project = {
 				#The cost will be subtracted from the current progress
 				change_variable = {
 					name = gaudi_civil_engineering_progress_var
-					subtract = gaudi_bridge_progress_cost
+					subtract = tesla_bridge_progress_cost
 				}
 			}
 			set_variable = {
-				name = gaudi_num_states_var
+				name = tesla_num_states_var
 				value = root.num_states
 			}
 			set_variable = {
 				name = gaudi_num_states_bridge_var
-				value = gaudi_states_with_bridges_value
+				value = tesla_states_with_bridges_value
 			}
 		}
 	}
@@ -541,13 +589,13 @@ je_gaudi_bridge_project = {
 		}
 		#Sets a variable for the number of states
 		set_variable = {
-			name = gaudi_num_states_var
+			name = tesla_num_states_var
 			value = root.num_states
 		}
 		#Sets a variable for the number of states with a road modifier
 		set_variable = {
 			name = gaudi_num_states_bridge_var
-			value = gaudi_states_with_bridges_value #See Gaudi Script Values for the calculation
+			value = tesla_states_with_bridges_value #See Gaudi Script Values for the calculation
 		}
 		gaudi_civil_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
@@ -555,14 +603,14 @@ je_gaudi_bridge_project = {
 	complete = {
 		custom_tooltip = { #All States need to have a bridge modifier to end this journal entry
 			text = gaudi_states_with_bridges_tt
-			var:gaudi_num_states_bridge_var = var:gaudi_num_states_var
+			var:gaudi_num_states_bridge_var = var:tesla_num_states_var
 		}
 	}
 
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		gaudi_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_num_states_var
+		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_bridge_var
 		
 		#Those should be removed in every civil engineering je
@@ -586,7 +634,7 @@ je_gaudi_bridge_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_bridge_progress_cost
+		value = tesla_bridge_progress_cost
 	}
 
 	invalid = {
@@ -606,7 +654,7 @@ je_gaudi_bridge_project = {
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		gaudi_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_num_states_var
+		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_bridge_var
 		remove_variable = gaudi_stop_engineering_project_var
 		
@@ -634,7 +682,7 @@ je_gaudi_tunnel_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -648,7 +696,7 @@ je_gaudi_tunnel_project = {
 			if = {
 				#If the Progress reaches the cost, the modifier will be added to a state
 				limit = {
-					var:gaudi_civil_engineering_progress_var > gaudi_tunnel_progress_cost
+					var:gaudi_civil_engineering_progress_var > tesla_tunnel_progress_cost
 				}
 				if = {
 					limit = {
@@ -663,7 +711,7 @@ je_gaudi_tunnel_project = {
 							is_incorporated = yes
 							NOT = { has_modifier = gaudi_new_tunnel_modifier }
 						}
-						order_by = gaudi_infrastructure_balance
+						order_by = tesla_infrastructure_balance
 						add_modifier = {
 							name = gaudi_new_tunnel_modifier
 						}
@@ -673,7 +721,7 @@ je_gaudi_tunnel_project = {
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
 						limit = { NOT = { has_modifier = gaudi_new_tunnel_modifier } }
-						order_by = gaudi_infrastructure_balance
+						order_by = tesla_infrastructure_balance
 						add_modifier = {
 							name = gaudi_new_tunnel_modifier
 						}
@@ -682,16 +730,16 @@ je_gaudi_tunnel_project = {
 				#The cost will be subtracted from the current progress
 				change_variable = {
 					name = gaudi_civil_engineering_progress_var
-					subtract = gaudi_tunnel_progress_cost
+					subtract = tesla_tunnel_progress_cost
 				}
 			}
 			set_variable = {
-				name = gaudi_num_states_var
+				name = tesla_num_states_var
 				value = root.num_states
 			}
 			set_variable = {
 				name = gaudi_num_states_tunnel_var
-				value = gaudi_states_with_tunnel_value
+				value = tesla_states_with_tunnel_value
 			}
 		}
 	}
@@ -705,13 +753,13 @@ je_gaudi_tunnel_project = {
 		}
 		#Sets a variable for the number of states
 		set_variable = {
-			name = gaudi_num_states_var
+			name = tesla_num_states_var
 			value = root.num_states
 		}
 		#Sets a variable for the number of states with a road modifier
 		set_variable = {
 			name = gaudi_num_states_tunnel_var
-			value = gaudi_states_with_tunnel_value #See Gaudi Script Values for the calculation
+			value = tesla_states_with_tunnel_value #See Gaudi Script Values for the calculation
 		}
 		gaudi_civil_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
@@ -719,14 +767,14 @@ je_gaudi_tunnel_project = {
 	complete = {
 		custom_tooltip = { #All States need to have a bridge modifier to end this journal entry
 			text = gaudi_states_with_tunnels_tt
-			var:gaudi_num_states_tunnel_var = var:gaudi_num_states_var
+			var:gaudi_num_states_tunnel_var = var:tesla_num_states_var
 		}
 	}
 
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		gaudi_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_num_states_var
+		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_tunnel_var
 		
 		#Those should be removed in every civil engineering je
@@ -750,7 +798,7 @@ je_gaudi_tunnel_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_tunnel_progress_cost
+		value = tesla_tunnel_progress_cost
 	}
 
 	invalid = {
@@ -770,7 +818,7 @@ je_gaudi_tunnel_project = {
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		gaudi_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_num_states_var
+		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_tunnel_var
 		remove_variable = gaudi_stop_engineering_project_var
 		
@@ -799,7 +847,7 @@ je_gaudi_railway_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -813,7 +861,7 @@ je_gaudi_railway_project = {
 			if = {
 				#If the Progress reaches the cost, the modifier will be added to a state
 				limit = {
-					var:gaudi_civil_engineering_progress_var > gaudi_railway_progress_cost
+					var:gaudi_civil_engineering_progress_var > tesla_railway_progress_cost
 				}
 				#Adds Experience to the Engineer
 				civil_engineer_experience_gain_effect = { AMOUNT = 3 }
@@ -885,7 +933,7 @@ je_gaudi_railway_project = {
 								tesla_railway_valid_for_improvement_trigger = yes
 							}
 						}
-						order_by = gaudi_infrastructure_balance
+						order_by = tesla_infrastructure_balance
 
 						#Adds the modifier
 						add_modifier = {
@@ -908,7 +956,7 @@ je_gaudi_railway_project = {
 								tesla_railway_valid_for_improvement_trigger = yes
 							}
 						}
-						order_by = gaudi_infrastructure_balance
+						order_by = tesla_infrastructure_balance
 
 						#Adds the modifier
 						add_modifier = {
@@ -926,16 +974,16 @@ je_gaudi_railway_project = {
 				#The cost will be subtracted from the current progress
 				change_variable = {
 					name = gaudi_civil_engineering_progress_var
-					subtract = gaudi_railway_progress_cost
+					subtract = tesla_railway_progress_cost
 				}
 			}
 			set_variable = {
-				name = gaudi_num_states_var
-				value = gaudi_states_with_railways_value
+				name = tesla_num_states_var
+				value = tesla_states_with_railways_value
 			}
 			set_variable = {
 				name = gaudi_num_states_modernized_railway_var
-				value = gaudi_states_with_modernized_railways_value
+				value = tesla_states_with_modernized_railways_value
 			}
 		}
 	}
@@ -949,13 +997,13 @@ je_gaudi_railway_project = {
 		}
 		#Sets a variable for the number of states
 		set_variable = {
-			name = gaudi_num_states_var
-			value = gaudi_states_with_railways_value
+			name = tesla_num_states_var
+			value = tesla_states_with_railways_value
 		}
 		#Sets a variable for the number of states with a Modernized Railway Lines modifier
 		set_variable = {
 			name = gaudi_num_states_modernized_railway_var
-			value = gaudi_states_with_modernized_railways_value #See Gaudi Script Values for the calculation
+			value = tesla_states_with_modernized_railways_value #See Gaudi Script Values for the calculation
 		}
 		gaudi_civil_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
@@ -963,7 +1011,7 @@ je_gaudi_railway_project = {
 	complete = {
 		custom_tooltip = { #All States need to have a Modernized Railway Lines modifier to end this journal entry
 			text = gaudi_states_with_modernized_railway_tt
-			var:gaudi_num_states_modernized_railway_var = var:gaudi_num_states_var
+			var:gaudi_num_states_modernized_railway_var = var:tesla_num_states_var
 		}
 	}
 
@@ -972,7 +1020,7 @@ je_gaudi_railway_project = {
 		show_as_tooltip = {
 			remove_modifier = gaudi_engineer_project_medium_cost_modifier
 		}
-		remove_variable = gaudi_num_states_var
+		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_modernized_railway_var
 		
 		#Those should be removed in every civil engineering je
@@ -996,7 +1044,7 @@ je_gaudi_railway_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_railway_progress_cost
+		value = tesla_railway_progress_cost
 	}
 
 	invalid = {
@@ -1016,7 +1064,7 @@ je_gaudi_railway_project = {
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		remove_modifier = gaudi_engineer_project_medium_cost_modifier
-		remove_variable = gaudi_num_states_var
+		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_modernized_railway_var
 		remove_variable = gaudi_stop_engineering_project_var
 		
@@ -1044,7 +1092,7 @@ je_gaudi_construction_sector_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -1058,7 +1106,7 @@ je_gaudi_construction_sector_project = {
 			if = {
 				#If the Progress reaches the cost, the modifier will be added to a building
 				limit = {
-					var:gaudi_civil_engineering_progress_var > gaudi_construction_sectors_progress_cost
+					var:gaudi_civil_engineering_progress_var > tesla_construction_sectors_progress_cost
 				}
 				if = { #First modifier
 					limit = {
@@ -1097,7 +1145,7 @@ je_gaudi_construction_sector_project = {
 				#The cost will be subtracted from the current progress
 				change_variable = {
 					name = gaudi_civil_engineering_progress_var
-					subtract = gaudi_construction_sectors_progress_cost
+					subtract = tesla_construction_sectors_progress_cost
 				}
 			}
 		}
@@ -1161,7 +1209,7 @@ je_gaudi_construction_sector_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_construction_sectors_progress_cost
+		value = tesla_construction_sectors_progress_cost
 	}
 
 	invalid = {
@@ -1210,7 +1258,7 @@ je_gaudi_topographic_map_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -1224,7 +1272,7 @@ je_gaudi_topographic_map_project = {
 			if = {
 				#If the Progress reaches the cost, the modifier will be added to a state
 				limit = {
-					var:gaudi_civil_engineering_progress_var > gaudi_topographic_map_progress_cost
+					var:gaudi_civil_engineering_progress_var > tesla_topographic_map_progress_cost
 				}
 				#Adds Experience to the Engineer
 				civil_engineer_experience_gain_effect = { AMOUNT = 5 }
@@ -1281,7 +1329,7 @@ je_gaudi_topographic_map_project = {
 							is_incorporated = yes
 							NOT = { has_modifier = gaudi_topographic_state_map_modifier }
 						}
-						order_by = gaudi_infrastructure_balance
+						order_by = tesla_infrastructure_balance
 						add_modifier = {
 							name = gaudi_topographic_state_map_modifier
 						}
@@ -1291,7 +1339,7 @@ je_gaudi_topographic_map_project = {
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
 						limit = { NOT = { has_modifier = gaudi_topographic_state_map_modifier } }
-						order_by = gaudi_infrastructure_balance
+						order_by = tesla_infrastructure_balance
 						add_modifier = {
 							name = gaudi_topographic_state_map_modifier
 						}
@@ -1300,16 +1348,16 @@ je_gaudi_topographic_map_project = {
 				#The cost will be subtracted from the current progress
 				change_variable = {
 					name = gaudi_civil_engineering_progress_var
-					subtract = gaudi_topographic_map_progress_cost
+					subtract = tesla_topographic_map_progress_cost
 				}
 			}
 			set_variable = {
-				name = gaudi_num_states_var
+				name = tesla_num_states_var
 				value = root.num_states
 			}
 			set_variable = {
 				name = gaudi_states_with_topographic_map_var
-				value = gaudi_states_with_topographic_map_value
+				value = tesla_states_with_topographic_map_value
 			}
 		}
 	}
@@ -1324,13 +1372,13 @@ je_gaudi_topographic_map_project = {
 
 		#Sets a variable for the number of states
 		set_variable = {
-			name = gaudi_num_states_var
+			name = tesla_num_states_var
 			value = root.num_states
 		}
 		#Sets a variable for the number of states with a road modifier
 		set_variable = {
 			name = gaudi_states_with_topographic_map_var
-			value = gaudi_states_with_topographic_map_value #See Gaudi Script Values for the calculation
+			value = tesla_states_with_topographic_map_value #See Gaudi Script Values for the calculation
 		}
 		gaudi_civil_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
@@ -1338,7 +1386,7 @@ je_gaudi_topographic_map_project = {
 	complete = {
 		custom_tooltip = { #All States need to have a topographic map modifier to end this journal entry
 			text = gaudi_states_with_topographic_maps_tt
-			var:gaudi_states_with_topographic_map_var = var:gaudi_num_states_var
+			var:gaudi_states_with_topographic_map_var = var:tesla_num_states_var
 		}
 	}
 
@@ -1347,7 +1395,7 @@ je_gaudi_topographic_map_project = {
 		show_as_tooltip = {
 			remove_modifier = gaudi_engineer_project_low_cost_modifier
 		}
-		remove_variable = gaudi_num_states_var
+		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_states_with_topographic_map_var
 
 		#Those should be removed in every civil engineering je
@@ -1372,7 +1420,7 @@ je_gaudi_topographic_map_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_topographic_map_progress_cost
+		value = tesla_topographic_map_progress_cost
 	}
 
 	invalid = {
@@ -1394,7 +1442,7 @@ je_gaudi_topographic_map_project = {
 		show_as_tooltip = {
 			remove_modifier = gaudi_engineer_project_low_cost_modifier
 		}
-		remove_variable = gaudi_num_states_var
+		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_states_with_topographic_map_var
 		remove_variable = gaudi_stop_engineering_project_var
 		
@@ -1427,7 +1475,7 @@ je_gaudi_mechanical_research_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -1441,7 +1489,7 @@ je_gaudi_mechanical_research_project = {
 			if = {
 				#If the Progress reaches the cost, the modifier will be added to a state
 				limit = {
-					var:gaudi_mechanical_engineering_progress_var > gaudi_research_progress_cost
+					var:gaudi_mechanical_engineering_progress_var > tesla_research_progress_cost
 				}
 				gaudi_mechanical_engineering_small_add_technology = yes
 				mechanical_engineer_experience_gain_effect = { AMOUNT = 5 }
@@ -1449,7 +1497,7 @@ je_gaudi_mechanical_research_project = {
 				#The cost will be subtracted from the current progress
 				change_variable = {
 					name = gaudi_mechanical_engineering_progress_var
-					subtract = gaudi_research_progress_cost
+					subtract = tesla_research_progress_cost
 				}
 
 				#If any other project is available, this project will be stopped.
@@ -1519,7 +1567,7 @@ je_gaudi_mechanical_research_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_research_progress_cost
+		value = tesla_research_progress_cost
 	}
 
 	invalid = {
@@ -1561,7 +1609,7 @@ je_gaudi_new_locomotives_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -1569,7 +1617,7 @@ je_gaudi_new_locomotives_project = {
 			gaudi_mechanical_engineering_progress = yes
 			#Adds the monthly progress to the variable
 			if = {
-				limit = { NOT = { var:gaudi_mechanical_engineering_progress_var > gaudi_locomotives_progress_cost } }
+				limit = { NOT = { var:gaudi_mechanical_engineering_progress_var > tesla_locomotives_progress_cost } }
 				change_variable = {
 					name = gaudi_mechanical_engineering_progress_var
 					add = var:gaudi_monthly_mechanical_engineering_progress_var
@@ -1611,7 +1659,7 @@ je_gaudi_new_locomotives_project = {
 						#The cost will be subtracted from the current progress
 						change_variable = {
 							name = gaudi_mechanical_engineering_progress_var
-							subtract = gaudi_locomotives_progress_cost
+							subtract = tesla_locomotives_progress_cost
 						}
 					}
 				}
@@ -1649,7 +1697,7 @@ je_gaudi_new_locomotives_project = {
 						#The cost will be subtracted from the current progress
 						change_variable = {
 							name = gaudi_mechanical_engineering_progress_var
-							subtract = gaudi_locomotives_progress_cost
+							subtract = tesla_locomotives_progress_cost
 						}
 					}
 				}
@@ -1687,7 +1735,7 @@ je_gaudi_new_locomotives_project = {
 						#The cost will be subtracted from the current progress
 						change_variable = {
 							name = gaudi_mechanical_engineering_progress_var
-							subtract = gaudi_locomotives_progress_cost
+							subtract = tesla_locomotives_progress_cost
 						}
 					}
 				}
@@ -1725,7 +1773,7 @@ je_gaudi_new_locomotives_project = {
 						#The cost will be subtracted from the current progress
 						change_variable = {
 							name = gaudi_mechanical_engineering_progress_var
-							subtract = gaudi_locomotives_progress_cost
+							subtract = tesla_locomotives_progress_cost
 						}
 					}
 				}
@@ -1746,27 +1794,27 @@ je_gaudi_new_locomotives_project = {
 			}
 			set_variable = {
 				name = gaudi_num_railway_buildings_var
-				value = gaudi_num_railway_buildings_value
+				value = tesla_num_railway_buildings_value
 			}
 			set_variable = {
 				name = gaudi_num_railway_buildings_with_first_modifier_var
-				value = gaudi_num_railway_buildings_with_first_modifier_value
+				value = tesla_num_railway_buildings_with_first_modifier_value
 			}
 			set_variable = {
 				name = gaudi_num_railway_buildings_with_second_modifier_var
-				value = gaudi_num_railway_buildings_with_second_modifier_value
+				value = tesla_num_railway_buildings_with_second_modifier_value
 			}
 			set_variable = {
 				name = gaudi_num_railway_buildings_with_third_modifier_var
-				value = gaudi_num_railway_buildings_with_third_modifier_value
+				value = tesla_num_railway_buildings_with_third_modifier_value
 			}
 			set_variable = {
 				name = gaudi_num_railway_buildings_with_fourth_modifier_var
-				value = gaudi_num_railway_buildings_with_fourth_modifier_value
+				value = tesla_num_railway_buildings_with_fourth_modifier_value
 			}
 			set_variable = {
 				name = gaudi_num_railway_buildings_with_modifiers_var
-				value = gaudi_num_railway_buildings_with_modifiers_value
+				value = tesla_num_railway_buildings_with_modifiers_value
 			}
 		}
 	}
@@ -1781,28 +1829,28 @@ je_gaudi_new_locomotives_project = {
 		#Sets a variable for the number of buildings
 		set_variable = {
 			name = gaudi_num_railway_buildings_var
-			value = gaudi_num_railway_buildings_value
+			value = tesla_num_railway_buildings_value
 		}
 		#Sets a variable for the number of buildings with the modifiers
 		set_variable = {
 			name = gaudi_num_railway_buildings_with_first_modifier_var
-			value = gaudi_num_railway_buildings_with_first_modifier_value
+			value = tesla_num_railway_buildings_with_first_modifier_value
 		}
 		set_variable = {
 			name = gaudi_num_railway_buildings_with_second_modifier_var
-			value = gaudi_num_railway_buildings_with_second_modifier_value
+			value = tesla_num_railway_buildings_with_second_modifier_value
 		}
 		set_variable = {
 			name = gaudi_num_railway_buildings_with_third_modifier_var
-			value = gaudi_num_railway_buildings_with_third_modifier_value
+			value = tesla_num_railway_buildings_with_third_modifier_value
 		}
 		set_variable = {
 			name = gaudi_num_railway_buildings_with_fourth_modifier_var
-			value = gaudi_num_railway_buildings_with_fourth_modifier_value
+			value = tesla_num_railway_buildings_with_fourth_modifier_value
 		}
 		set_variable = {
 			name = gaudi_num_railway_buildings_with_modifiers_var
-			value = gaudi_num_railway_buildings_with_modifiers_value #See Gaudi Script Values for the calculation
+			value = tesla_num_railway_buildings_with_modifiers_value #See Gaudi Script Values for the calculation
 		}
 		gaudi_mechanical_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
@@ -1845,7 +1893,7 @@ je_gaudi_new_locomotives_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_locomotives_progress_cost
+		value = tesla_locomotives_progress_cost
 	}
 
 	invalid = {
@@ -1897,7 +1945,7 @@ je_gaudi_modernizing_industries_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -1909,7 +1957,7 @@ je_gaudi_modernizing_industries_project = {
 				add = var:gaudi_monthly_mechanical_engineering_progress_var
 			}
 			if = {
-				limit = { var:gaudi_mechanical_engineering_progress_var > gaudi_industries_progress_cost }
+				limit = { var:gaudi_mechanical_engineering_progress_var > tesla_industries_progress_cost }
 				if = {
 					limit = {
 						scope:target = {
@@ -1923,7 +1971,7 @@ je_gaudi_modernizing_industries_project = {
 					}
 					change_variable = {
 						name = gaudi_mechanical_engineering_progress_var
-						subtract = gaudi_industries_progress_cost
+						subtract = tesla_industries_progress_cost
 					}
 				}
 				else_if = {
@@ -1939,7 +1987,7 @@ je_gaudi_modernizing_industries_project = {
 					}
 					change_variable = {
 						name = gaudi_mechanical_engineering_progress_var
-						subtract = gaudi_industries_progress_cost
+						subtract = tesla_industries_progress_cost
 					}
 				}
 				else = {
@@ -1950,7 +1998,7 @@ je_gaudi_modernizing_industries_project = {
 					}
 					change_variable = {
 						name = gaudi_mechanical_engineering_progress_var
-						subtract = gaudi_industries_progress_cost
+						subtract = tesla_industries_progress_cost
 					}
 				}
 			}
@@ -2015,7 +2063,7 @@ je_gaudi_modernizing_industries_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_industries_progress_cost
+		value = tesla_industries_progress_cost
 	}
 
 	invalid = {
@@ -2063,7 +2111,7 @@ je_gaudi_mechanical_computer_project = {
 #	scripted_button = gaudi_additional_support_for_civil_engineer_button
 #	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	scripted_progress_bar = gaudi_mechanical_computer_project_progress_bar
 
@@ -2088,16 +2136,16 @@ je_gaudi_mechanical_computer_project = {
 				}
 				set_variable = {
 					name = engineer_mechanical_experience_add_var
-					value = gaudi_mechanical_engineer_progress_gain_from_experience
+					value = tesla_mechanical_engineer_progress_gain_from_experience
 				}
 			}
 			set_variable = {
 				name = gaudi_num_tooling_workshop_levels_var
-				value = gaudi_num_tooling_workshop_levels_value
+				value = tesla_num_tooling_workshop_levels_value
 			}
 			set_variable = {
 				name = gaudi_mechanical_computer_monthly_progress_var
-				value = gaudi_mechanical_computer_monthly_progress_value
+				value = tesla_mechanical_computer_monthly_progress_value
 			}
 		}
 	}
@@ -2109,16 +2157,16 @@ je_gaudi_mechanical_computer_project = {
 			}
 			set_variable = {
 				name = engineer_mechanical_experience_add_var
-				value = gaudi_mechanical_engineer_progress_gain_from_experience
+				value = tesla_mechanical_engineer_progress_gain_from_experience
 			}
 		}
 		set_variable = {
 			name = gaudi_num_tooling_workshop_levels_var
-			value = gaudi_num_tooling_workshop_levels_value
+			value = tesla_num_tooling_workshop_levels_value
 		}
 		set_variable = {
 			name = gaudi_mechanical_computer_monthly_progress_var
-			value = gaudi_mechanical_computer_monthly_progress_value
+			value = tesla_mechanical_computer_monthly_progress_value
 		}
 	}
 
@@ -2165,7 +2213,7 @@ je_gaudi_mechanical_computer_project = {
 
 		set_variable = {
 			name = gaudi_mechanical_computer_progress_save_var
-			value = gaudi_mechanical_computer_progress_percentage_value
+			value = tesla_mechanical_computer_progress_percentage_value
 		}
 
 		remove_variable = gaudi_stop_engineering_project_var
@@ -2193,7 +2241,7 @@ je_gaudi_military_research_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -2207,7 +2255,7 @@ je_gaudi_military_research_project = {
 			if = {
 				#If the Progress reaches the cost, the modifier will be added to a state
 				limit = {
-					var:gaudi_military_engineering_progress_var > gaudi_research_progress_cost
+					var:gaudi_military_engineering_progress_var > tesla_research_progress_cost
 				}
 				gaudi_military_engineering_small_add_technology = yes
 				military_engineer_experience_gain_effect = { AMOUNT = 5 }
@@ -2215,7 +2263,7 @@ je_gaudi_military_research_project = {
 				#The cost will be subtracted from the current progress
 				change_variable = {
 					name = gaudi_military_engineering_progress_var
-					subtract = gaudi_research_progress_cost
+					subtract = tesla_research_progress_cost
 				}
 				if = {
 					limit = {
@@ -2295,7 +2343,7 @@ je_gaudi_military_research_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_research_progress_cost
+		value = tesla_research_progress_cost
 	}
 
 	invalid = {
@@ -2337,7 +2385,7 @@ je_gaudi_naval_research_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -2351,7 +2399,7 @@ je_gaudi_naval_research_project = {
 			if = {
 				#If the Progress reaches the cost, the modifier will be added to a state
 				limit = {
-					var:gaudi_military_engineering_progress_var > gaudi_research_progress_cost
+					var:gaudi_military_engineering_progress_var > tesla_research_progress_cost
 				}
 				gaudi_naval_engineering_small_add_technology = yes
 				military_engineer_experience_gain_effect = { AMOUNT = 5 }
@@ -2359,7 +2407,7 @@ je_gaudi_naval_research_project = {
 				#The cost will be subtracted from the current progress
 				change_variable = {
 					name = gaudi_military_engineering_progress_var
-					subtract = gaudi_research_progress_cost
+					subtract = tesla_research_progress_cost
 				}
 				if = {
 					limit = {
@@ -2438,7 +2486,7 @@ je_gaudi_naval_research_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_research_progress_cost
+		value = tesla_research_progress_cost
 	}
 
 	invalid = {
@@ -2480,7 +2528,7 @@ je_gaudi_advanced_weapons_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -2535,7 +2583,7 @@ je_gaudi_advanced_weapons_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_advanced_weapons_progress_cost
+		value = tesla_advanced_weapons_progress_cost
 	}
 
 	invalid = {
@@ -2581,7 +2629,7 @@ je_gaudi_advanced_tanks_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -2636,7 +2684,7 @@ je_gaudi_advanced_tanks_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_advanced_tanks_progress_cost
+		value = tesla_advanced_tanks_progress_cost
 	}
 
 	invalid = {
@@ -2682,7 +2730,7 @@ je_gaudi_advanced_defence_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -2737,7 +2785,7 @@ je_gaudi_advanced_defence_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_advanced_defence_progress_cost
+		value = tesla_advanced_defence_progress_cost
 	}
 
 	invalid = {
@@ -2787,7 +2835,7 @@ je_gaudi_electrical_research_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -2801,7 +2849,7 @@ je_gaudi_electrical_research_project = {
 			if = {
 				#If the Progress reaches the cost, the modifier will be added to a state
 				limit = {
-					var:gaudi_electrical_engineering_progress_var > gaudi_research_progress_cost
+					var:gaudi_electrical_engineering_progress_var > tesla_research_progress_cost
 				}
 				gaudi_electrical_engineering_small_add_technology = yes
 				electrical_engineer_experience_gain_effect = { AMOUNT = 5 }
@@ -2809,7 +2857,7 @@ je_gaudi_electrical_research_project = {
 				#The cost will be subtracted from the current progress
 				change_variable = {
 					name = gaudi_electrical_engineering_progress_var
-					subtract = gaudi_research_progress_cost
+					subtract = tesla_research_progress_cost
 				}
 				if = {
 					limit = {
@@ -2916,7 +2964,7 @@ je_gaudi_electrical_research_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_research_progress_cost
+		value = tesla_research_progress_cost
 	}
 
 	invalid = {
@@ -2948,7 +2996,7 @@ je_gaudi_electrical_research_project = {
 je_gaudi_magnetic_observation = {
 	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_yearly_pulse = {
 		effect = {
@@ -3019,7 +3067,7 @@ je_gaudi_magnetic_observation = {
 je_gaudi_magnetic_station = {
 	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -3081,7 +3129,7 @@ je_gaudi_telegraphy_network = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -3213,7 +3261,7 @@ je_gaudi_radio_network = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -3331,7 +3379,7 @@ je_gaudi_radio_network = {
 #je_gaudi_transatlantic_cable = {
 #	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
 #
-#	group = je_group_gaudi_engineers
+#	group = je_group_tesla_engineers
 #
 #	can_deactivate = yes
 #
@@ -3424,7 +3472,7 @@ je_gaudi_radio_network = {
 je_gaudi_transatlantic_radio = {
 	icon = "gfx/interface/icons/event_icons/radio.dds"
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	can_deactivate = yes
 
@@ -3522,7 +3570,7 @@ je_gaudi_aviation_research_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -3536,7 +3584,7 @@ je_gaudi_aviation_research_project = {
 			if = {
 				#If the Progress reaches the cost, the modifier will be added to a state
 				limit = {
-					var:gaudi_aeronautical_engineering_progress_var > gaudi_research_progress_cost
+					var:gaudi_aeronautical_engineering_progress_var > tesla_research_progress_cost
 				}
 				gaudi_aeronautical_engineering_small_add_technology = yes
 				aeronautical_engineer_experience_gain_effect = { AMOUNT = 5 }
@@ -3544,7 +3592,7 @@ je_gaudi_aviation_research_project = {
 				#The cost will be subtracted from the current progress
 				change_variable = {
 					name = gaudi_aeronautical_engineering_progress_var
-					subtract = gaudi_research_progress_cost
+					subtract = tesla_research_progress_cost
 				}
 				if = {
 					limit = {
@@ -3600,7 +3648,7 @@ je_gaudi_aviation_research_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_research_progress_cost
+		value = tesla_research_progress_cost
 	}
 
 	invalid = {
@@ -3642,7 +3690,7 @@ je_gaudi_civil_airports_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -3654,7 +3702,7 @@ je_gaudi_civil_airports_project = {
 				add = var:gaudi_monthly_aeronautical_engineering_progress_var
 			}
 			if = {
-				limit = { var:gaudi_aeronautical_engineering_progress_var > gaudi_civil_airport_cost }
+				limit = { var:gaudi_aeronautical_engineering_progress_var > tesla_civil_airport_cost }
 				if = {
 					limit = {
 						scope:target = {
@@ -3668,7 +3716,7 @@ je_gaudi_civil_airports_project = {
 					}
 					change_variable = {
 						name = gaudi_aeronautical_engineering_progress_var
-						subtract = gaudi_civil_airport_cost
+						subtract = tesla_civil_airport_cost
 					}
 				}
 				else_if = {
@@ -3684,7 +3732,7 @@ je_gaudi_civil_airports_project = {
 					}
 					change_variable = {
 						name = gaudi_aeronautical_engineering_progress_var
-						subtract = gaudi_civil_airport_cost
+						subtract = tesla_civil_airport_cost
 					}
 				}
 				else = {
@@ -3695,7 +3743,7 @@ je_gaudi_civil_airports_project = {
 					}
 					change_variable = {
 						name = gaudi_aeronautical_engineering_progress_var
-						subtract = gaudi_civil_airport_cost
+						subtract = tesla_civil_airport_cost
 					}
 				}
 			}
@@ -3760,7 +3808,7 @@ je_gaudi_civil_airports_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_civil_airport_cost
+		value = tesla_civil_airport_cost
 	}
 
 	invalid = {
@@ -3807,7 +3855,7 @@ je_gaudi_advanced_airplanes_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
-	group = je_group_gaudi_engineers
+	group = je_group_tesla_engineers
 
 	on_monthly_pulse = {
 		effect = {
@@ -3862,7 +3910,7 @@ je_gaudi_advanced_airplanes_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_advanced_aircraft_progress_cost
+		value = tesla_advanced_aircraft_progress_cost
 	}
 
 	invalid = {

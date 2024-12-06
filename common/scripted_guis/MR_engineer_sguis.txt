@@ -325,7 +325,6 @@ mr_civil_engineer_infrastructure_button = {
 			any_scope_state = {
 				OR = {
 					NOT = { has_modifier = gaudi_modern_roads_modifier }
-					NOT = { has_modifier = gaudi_canal_systems_modifier }
 					NOT = { has_modifier = gaudi_new_bridge_modifier }
 					NOT = { has_modifier = gaudi_new_tunnel_modifier }
 				}
@@ -343,12 +342,6 @@ mr_civil_engineer_infrastructure_button = {
 					any_scope_state = { NOT = { has_modifier = gaudi_modern_roads_modifier } }
 				}
 				add_journal_entry = { type = je_gaudi_road_project }
-			}
-			1 = {
-				trigger = {
-					any_scope_state = { NOT =  { has_modifier = gaudi_canal_systems_modifier } }
-				}
-				add_journal_entry = { type = je_tesla_irrigation_project }
 			}
 			1 = {
 				trigger = {
@@ -379,7 +372,6 @@ mr_civil_engineer_infrastructure_active = {
 	is_shown = {
 		OR = {
 			has_journal_entry = je_gaudi_road_project
-			has_journal_entry = je_tesla_irrigation_project
 			has_journal_entry = je_gaudi_bridge_project
 			has_journal_entry = je_gaudi_tunnel_project
 		}
@@ -407,7 +399,7 @@ mr_civil_engineer_railway_button = {
 					tesla_railway_valid_for_improvement_trigger = yes
 				}
 			}
-			order_by = gaudi_infrastructure_balance
+			order_by = tesla_infrastructure_balance
 			max = 1000
 			check_range_bounds = no
 
@@ -432,6 +424,56 @@ mr_civil_engineer_railway_active = {
 	scope = country
 	is_shown = {
 		has_journal_entry = je_gaudi_railway_project
+	}
+}
+
+#Civil Engineer Irrigation project
+mr_civil_engineer_irrigation_button = {
+	scope = country
+	is_valid = {
+		gaudi_has_civil_engineer_trigger = yes
+		gaudi_has_active_engineer = yes
+		custom_tooltip = {
+			text = MR_CIVIL_ENGINEER_RAILWAY_TRIGGER_TT
+			any_scope_state = {
+				tesla_state_region_has_no_irrigation_system = yes
+			}
+		}
+		custom_tooltip = {
+			text = MR_CIVIL_ENGINEER_IRRIGATION_TRIGGER_TT
+		}
+	}
+	effect = {
+		clear_variable_list = states_for_irrigation_improvement_variable_list
+		ordered_scope_state = {
+			limit = {
+				tesla_state_region_has_no_irrigation_system = yes
+			}
+			order_by = tesla_infrastructure_balance
+			max = 1000
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = states_for_irrigation_improvement_variable_list
+					target = prev
+				}
+			}
+		}
+		set_variable = mr_irrigation_state_prioritizing_window_active_var
+		show_as_tooltip = {
+			add_modifier = {
+				name = gaudi_engineer_project_medium_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+	}
+}
+#Active
+mr_civil_engineer_irrigation_active = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_tesla_irrigation_project
 	}
 }
 
@@ -562,7 +604,7 @@ mr_civil_engineer_topographic_map_button = {
 					has_modifier = gaudi_topographic_state_map_modifier
 				}
 			}
-			order_by = gaudi_infrastructure_balance
+			order_by = tesla_infrastructure_balance
 			max = 1000
 			check_range_bounds = no
 
