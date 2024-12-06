@@ -943,6 +943,59 @@ je_panum_polio = {
 	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 
 	group = je_group_panum_medicine
+
+	on_monthly_pulse = {
+		random_events = {
+			100 = 0
+
+			#10 = panum.1003 #Panum 1003: 
+		}
+	}
+
+	immediate = {
+		panum_general_disease_research_from_je_effect = { DISEASE = polio }
+	}
+	
+    fail = {
+    }
+
+	on_fail = {
+	}
+
+	complete = {
+		NOT = {
+			any_scope_state = {
+				panum_state_has_polio_trigger = yes
+			}
+		}
+	}
+
+	on_complete = {
+		set_variable = {
+			name = panum_recent_polio_in_country_var
+			years = 3
+		}
+		panum_remove_disease_effect = yes
+		trigger_event = {
+			id = panum.1020
+			popup = yes
+		}
+	}
+
+	invalid = {
+	}
+
+	current_value = {
+	}
+
+	goal_add_value = {
+	}
+
+	progressbar = no
+
+	should_be_pinned_by_default = yes
+
+	weight = 50
 }
 
 ### Description JEs (local) ###
@@ -1871,10 +1924,9 @@ je_panum_polio_description = {
 
 	on_weekly_pulse = {
 		random_events = {
-			20 = 0
+			30 = 0
 			4 = panum.1021 #Panum 1021: Polio Hint (hidden)
-			2 = panum.1022 #Panum 1022: Polio Incubation
-			2 = panum.1023 #Panum 1023: Polio Symptoms
+			2 = panum.1022 #Panum 1022: The beginning of Poliomyelitis
 		}
 	}
 
@@ -3578,7 +3630,122 @@ je_panum_diphteria_treatment = {
 }
 
 je_panum_polio_treatment = {
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
 	group = je_group_panum_medicine
+
+	on_weekly_pulse = {
+		random_events = {
+			30 = 0
+
+			#Good Events (+12-15)
+			2 = panum.1041 #Panum 1041: Physiotherapy +2
+			3 = panum.1042 #Panum 1042: The Street +1
+			3 = panum.1043 #Panum 1043: The Parish +2
+			2 = panum.1044 #Panum 1044: Philanthropy +1-2
+			1 = panum.1045 #Panum 1045: Antibiotics +3
+			3 = panum.1046 #Panum 1046: Social Ostracism +1
+			1 = panum.1047 #Panum 1047: The Price of Progress +1
+			1 = panum.1048 #Panum 1048: Bacillus or Virus? +0-1
+			1 = panum.1049 #Panum 1049: Wheelchair acceptance +1-2
+
+			#Bad Events (-5-4)
+			1 = panum.1051 #Panum 1051: Polio Advice -1
+			2 = panum.1052 #Panum 1052: Braces -1-0
+			1 = panum.1053 #Panum 1053: Useless Surgery -1
+			1 = panum.1054 #Panum 1054: Convalescent Serum -1
+			1 = panum.1055 #Panum 1055: Isolation -1
+			1 = panum.1056 #Panum 1056: Post-Polio Syndrome -1
+
+			#Character Events (+10)
+			10 = panum.1061 #Panum 1061: Experiments with Apes +2
+			10 = panum.1062 #Panum 1062: Iron Lung +4
+			10 = panum.1063 #Panum 1063: Psychological support +2
+			10 = panum.1064 #Panum 1064: Diet +2
+		}
+	}
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = panum_polio_treatment_clues_var
+				}
+			}
+			set_variable = {
+				name = panum_polio_treatment_clues_var
+				value = 0
+			}
+		}
+	}
+
+	fail = {
+		NOT = {
+			has_journal_entry = je_panum_polio
+		}
+    }
+
+	on_fail = {
+		trigger_event = {
+			id = panum.134 #Unfinished Treatment
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_panum_polio_treatment_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = panum.1040
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:panum_polio_treatment_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_physician_dies_tt
+			NOT = {
+				has_variable = panum_physician_var
+			}
+		}
+	}
+
+	on_invalid = {
+		panum_remove_active_variables_effect = yes
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
 }
 
 ### Treatment JEs (expedition) ###
@@ -3590,7 +3757,7 @@ je_panum_cholera_treatment_expedition = {
 
 	on_monthly_pulse = {
 		random_events = {
-			4 = 0
+			6 = 0
 			1 = panum.135 #Panum 135: News from the Medical Expedition
 		}
 	}
@@ -3691,7 +3858,7 @@ je_panum_tuberculosis_treatment_expedition = {
 
 	on_monthly_pulse = {
 		random_events = {
-			4 = 0
+			12 = 0
 			1 = panum.135 #Panum 135: News from the Medical Expedition
 		}
 	}
@@ -3792,7 +3959,7 @@ je_panum_smallpox_treatment_expedition = {
 
 	on_monthly_pulse = {
 		random_events = {
-			4 = 0
+			6 = 0
 			1 = panum.135 #Panum 135: News from the Medical Expedition
 		}
 	}
@@ -3893,7 +4060,7 @@ je_panum_typhus_treatment_expedition = {
 
 	on_monthly_pulse = {
 		random_events = {
-			4 = 0
+			6 = 0
 			1 = panum.135 #Panum 135: News from the Medical Expedition
 		}
 	}
@@ -3994,7 +4161,7 @@ je_panum_yellow_fever_treatment_expedition = {
 
 	on_monthly_pulse = {
 		random_events = {
-			4 = 0
+			12 = 0
 			1 = panum.135 #Panum 135: News from the Medical Expedition
 		}
 	}
@@ -4095,7 +4262,7 @@ je_panum_measles_treatment_expedition = {
 
 	on_monthly_pulse = {
 		random_events = {
-			4 = 0
+			6 = 0
 			1 = panum.135 #Panum 135: News from the Medical Expedition
 		}
 	}
@@ -4196,7 +4363,7 @@ je_panum_scarlet_treatment_expedition = {
 
 	on_monthly_pulse = {
 		random_events = {
-			4 = 0
+			6 = 0
 			1 = panum.135 #Panum 135: News from the Medical Expedition
 		}
 	}
@@ -4297,7 +4464,7 @@ je_panum_plague_treatment_expedition = {
 
 	on_monthly_pulse = {
 		random_events = {
-			4 = 0
+			6 = 0
 			1 = panum.135 #Panum 135: News from the Medical Expedition
 		}
 	}
@@ -4398,7 +4565,7 @@ je_panum_diphteria_treatment_expedition = {
 
 	on_monthly_pulse = {
 		random_events = {
-			4 = 0
+			6 = 0
 			1 = panum.135 #Panum 135: News from the Medical Expedition
 		}
 	}
@@ -4499,7 +4666,7 @@ je_panum_polio_treatment_expedition = {
 
 	on_monthly_pulse = {
 		random_events = {
-			4 = 0
+			12 = 0
 			1 = panum.135 #Panum 135: News from the Medical Expedition
 		}
 	}
