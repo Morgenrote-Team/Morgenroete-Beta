@@ -42,6 +42,7 @@ Meteorology:
 
 Sweden
 - Added Sweden as a Morgenröte Nation for "Thriving Culture" objectives.
+- Added 14 historical writers.
 - Added 13 new specific, historical books for swedish cultures.
 
 Monuments:
