@@ -1,5 +1,10 @@
 Changelog for 2.3.1 "Einthoven"
 
+General
+- As of this version, the Multi-line Production Methods Framework from 1230james is no longer part of Morgenröte. In order to continue to ensure the correct view of the production methods, you have to download it separately.
+- You can subscribe to the mod on Steam: https://steamcommunity.com/sharedfiles/filedetails/?id=3029908567&searchtext=multi+line+pm
+- Or you can download the mod on GiTHub: https://github.com/1230james/vic3-multi-line-pms-framework
+
 Engineering:
 - You can now choose which building you want to improve with a new GUI window.
 - The Railway project is no longer part of the Infrastructure project. It is now a seperate project that also adds a throughput modifier to the railway building.
