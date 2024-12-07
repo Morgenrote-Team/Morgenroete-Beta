@@ -10,6 +10,13 @@ Engineering:
 Epidemic Diseases:
 - Changed Epidemic Diseases completely to the Harvest Condition system. This makes epidemics much more flexible and gives the player a better overview. It's also much more simple to maintain (especially in case of bugfixing).
 - Epidemics may stay between 40 to 80 weeks (instead of roughly one year), giving your Physician more time to study them.
+- Added Measles, a mild disease. There is no treatment for Measles yet, but it can be described.
+- Added events for Measles Epidemic.
+- Added Scarlet Fever, a rather harmless disease. There is no treatment for Scarlet Fever yet, but it can be described.
+- Scarlet does not have epidemic events, it just stays in the state as a modifier for a while.
+- Added Polio. Polio will become epidemic at the end of the 19th century.
+- Polio can be described. Treatment is possible, but a bit tricky, because you may need some special additions.
+- Added events for Polio Epidemic, Polio Description and Polio Treatment.
 - Typhus will happen more frequently in states with high devastation.
 - Yellow fever will happen more frequently in tropical areas.
 - Cholera starts in 1846 instead of 1853 (Starting Date of the Third Cholera Pandemic). Players will get a warning event when the Third Cholera Pandemic begins.
