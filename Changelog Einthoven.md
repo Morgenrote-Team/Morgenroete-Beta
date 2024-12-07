@@ -3,29 +3,29 @@ Changelog for 2.3.1 "Einthoven"
 Engineering:
 - You can now choose which building you want to improve with a new GUI window.
 - The Railway project is no longer part of the Infrastructure project. It is now a seperate project that also adds a throughput modifier to the railway building.
-- The Canal Project has been reworked into an irrigation project that will improve the states ariculture and resistance to negative harvest conditions.
+- The Canal Project has been reworked into an irrigation project that will improve the states agriculture and resistance to negative harvest conditions.
 - You can now choose the order in which the states are improved for the railway and topographic map projects with a new GUI window.
-- Your enineer will now get experience every time he finishes improving a state with a modifier in the railway and topographic map projects.
+- Your engineer will now get experience every time he finishes improving a state with a modifier in the railway and topographic map projects.
 
 Epidemic Diseases:
-- Changed Epidemic Diseases completely to the Harvest Condition system. This makes epidemics much more flexible and gives the player a better overview. It's also much more simple to maintain (especially in case of bugfixing).
+- Changed Epidemic Diseases completely to the Harvest Condition system. This makes epidemics much more flexible and gives the player a better overview. It's also much simpler to maintain (especially in case of bugfixing).
 - Epidemics may stay between 40 to 80 weeks (instead of roughly one year), giving your Physician more time to study them.
 - Added Measles, a mild disease. There is no treatment for Measles yet, but it can be described.
 - Added events for Measles Epidemic.
 - Added Scarlet Fever, a rather harmless disease. There is no treatment for Scarlet Fever yet, but it can be described.
-- Scarlet does not have epidemic events, it just stays in the state as a modifier for a while.
+- Scarlet does not have epidemic events, it just stays in one state as a modifier for a while.
 - Added Polio. Polio will become epidemic at the end of the 19th century.
 - Polio can be described. Treatment is possible, but a bit tricky, because you may need some special additions.
 - Added events for Polio Epidemic, Polio Description and Polio Treatment.
 - Typhus will happen more frequently in states with high devastation.
-- Yellow fever will happen more frequently in tropical areas.
+- Yellow Fever will happen more frequently in tropical areas.
 - Cholera starts in 1846 instead of 1853 (Starting Date of the Third Cholera Pandemic). Players will get a warning event when the Third Cholera Pandemic begins.
 - Cholera does not have an effect on SoL.
 - Cholera, Typhus and Yellow Fever have an effect on infrastructure.
 - Tuberculosis has an effect on building throughput.
 - Several epidemics may happen at the same time.
 - The event for spreading epidemics to other countries was canceled.
-- The medical technologies that are necessary for the treatment of a disease, when researched, reduce the severity of the epidemic by 25 percent (for example pasteurization for tuberculosis).
+- The medical technologies that are necessary for the treatment of a disease, when researched, reduce the severity of the epidemic by 25 percent (for example Pasteurization helps against Tuberculosis).
 - When an epidemic starts, a treatment modifier will be added to show the effects of the treatment, if a country ... has the treatment.
 
 Medicine:
