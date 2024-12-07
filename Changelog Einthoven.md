@@ -40,6 +40,9 @@ Meteorology:
 - The Meteorologist trait now spawns more often.
 - The Meteorologist trait and Meteorology Production Methods in the Observatory now reduce the impact of weather related harvest conditions.
 
+Sweden
+- Added 13 new specific, historical books for swedish cultures.
+
 Monuments:
 - Added Petra to Transjordan at start.
 
