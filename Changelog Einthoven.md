@@ -41,6 +41,7 @@ Meteorology:
 - The Meteorologist trait and Meteorology Production Methods in the Observatory now reduce the impact of weather related harvest conditions.
 
 Sweden
+- Added Sweden as a Morgenröte Nation for "Thriving Culture" objectives.
 - Added 13 new specific, historical books for swedish cultures.
 
 Monuments:
@@ -71,4 +72,3 @@ Changes:
 - Mountain Expedition JE pinned by default.
 - Renamed building_curie_uranium_mine to building_uranium_mine.
 - renamed curie_uranium good to good_uranium.
-- Added Sweden as a Morgenröte Nation for "Thriving Culture" objectives.
