@@ -20694,3 +20694,135 @@ panum.2420 = {
 	after = {
 	}
 }
+
+########################################################################################################################################
+
+#Panum 3000: The Red Cross
+panum.3000 = {
+	dlc = dlc_morgenrote
+
+	placement = scope:panum_red_cross_state
+
+	type = country_event
+
+	title = panum.3000.t
+
+	desc = panum.3000.d
+
+	flavor = panum.3000.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_red_cross.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			save_scope_as = panum_red_cross_state
+		}
+	}
+
+	option = {	#A decisive step forward in international cooperation.
+		name = panum.3000.g
+		default_option = yes
+		scope:panum_red_cross_state = {
+			create_building = {
+				building = "building_panum_red_cross"
+				level = 1
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					is_player = no
+				}
+				every_country = {
+					limit = {
+						is_player = yes
+					}
+					trigger_event = {
+						id = panum.3001
+					}
+				}
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 3001: The Red Cross - Notification
+panum.3001 = {
+	dlc = dlc_morgenrote
+
+	placement = scope:panum_red_cross_state
+
+	type = country_event
+
+	title = panum.3000.t
+
+	desc = panum.3001.d
+
+	flavor = panum.3000.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_red_cross.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_building = building_panum_red_cross
+			}
+			save_scope_as = panum_red_cross_state
+		}
+	}
+
+	option = {	#We join this organization as a founding member.
+		name = panum.3001.g
+		default_option = yes
+		set_variable = panum_red_cross_member_var
+		add_modifier = {
+			name = panum_red_cross_member_modifier
+		}
+		change_infamy = -3
+		trigger = {
+			is_country_type = recognized
+			infamy < 35
+			OR = {
+				has_technology_researched = modern_nursing
+				has_technology_researched = human_rights
+			}
+		}
+	}
+
+	option = {	#Interesting.
+		name = panum.3001.h
+	}
+
+
+	after = {
+	}
+}
