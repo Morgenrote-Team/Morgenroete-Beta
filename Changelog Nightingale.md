@@ -6,6 +6,8 @@ Red Cross
 - Added new building: HQ of the Red Cross (+100 diplo action, +10 prestige).
 - Other nations can join the Red Cross via action, giving a special modifier.
 - Members of the Red Cross can sign up to three International Conventions, giving a bonus on prestige, soldier mortality and infamy, but a small disadvantage for military units.
+- Added an event vor Switzerland to create the Red Cross historically after 1862. This should accelerate the foundation.
+- Added a game rule to deactivate the historical event, so the Red Cross can only appear by action.
 
 Medicine:
 - Added 10 possible inventions when doing Medical research, like Blood Types, Chemotherapy or the first Transplantation
