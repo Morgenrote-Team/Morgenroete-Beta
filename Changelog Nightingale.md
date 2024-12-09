@@ -21,3 +21,11 @@ Olympics:
 - Added new building: HQ of the International Olympic Committee (+100 diplo action, +10 prestige)
 - The founder of the IOC gets the HQ of the IOC as special building in his capital.
 - New action to usurp the presidency of the IOC when the HQ of the IOC is under control. Only possible if there is no president.
+
+JEs unpinned (for better overview)
+- Agassiz: Seismometer, Seismograph, Advanced Oceanography, Mid-Atlantic Ridge
+- Mendelejew: Periodic Table, Noble Gases
+- Elgar: Leipzig Conservatory, Accademia Santa Cecilia, Petrograd Conservatory
+- Klimt: Pre-Raphaelites, Barbizon School, Macchiaioli
+- Panum: Germ Theory, The Vaccine
+- Verrier: Uranus, Dwarf Planets, Neptune, Pluto
