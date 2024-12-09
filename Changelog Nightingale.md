@@ -11,8 +11,12 @@ Red Cross:
 - A special event may trigger which gives you a free physician when losing a battle and being a member of the Red Cross.
 
 Medicine:
-- Added 10 possible inventions when doing Medical research, like Blood Types, Chemotherapy or the first Transplantation
-- 6 of the 10 innovations can be gathered on a Medical Congress
+- Added new Action: Medical Techniques.
+- Physicians can improve the Medical Techniques of a country, depending on medical tech. There are seven different tiers of Medical Techniques. Each tier gives a better modifier.
+- Skill and Traits of a Physician are important for the progress of the Medical Techniques JE. 
+- Added 10 possible Medical Inventions when doing Medical Techniques, like Blood Types, Chemotherapy or the first Transplantation.
+- 6 of the 10 innovations can be gathered on a Medical Congress.
+- The first nation which introduces a Medical Technique or discovers a Medical Invention gets also Medical Prestige.
 
 Epidemics:
 - Added Treatment for Scarlet Fever. This is straight forward and has only three events.
