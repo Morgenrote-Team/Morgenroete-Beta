@@ -8,6 +8,7 @@ Red Cross
 - Members of the Red Cross can sign up to three International Conventions, giving a bonus on prestige, soldier mortality and infamy, but a small disadvantage for military units.
 - Added an event vor Switzerland to create the Red Cross historically after 1862. This should accelerate the foundation.
 - Added a game rule to deactivate the historical event, so the Red Cross can only appear by action.
+- A special event may trigger which gives you a free physician when losing a battle and being a member of the Red Cross.
 
 Medicine:
 - Added 10 possible inventions when doing Medical research, like Blood Types, Chemotherapy or the first Transplantation
