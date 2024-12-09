@@ -1,6 +1,6 @@
 Changelog for 2.3.2 "Nightingale"
 
-Red Cross
+Red Cross:
 - New action to found the Red Cross as an international organization.
 - The founder of the Red Cross gets the HQ of the Red Cross as special building in his capital.
 - Added new building: HQ of the Red Cross (+100 diplo action, +10 prestige).
@@ -14,7 +14,10 @@ Medicine:
 - Added 10 possible inventions when doing Medical research, like Blood Types, Chemotherapy or the first Transplantation
 - 6 of the 10 innovations can be gathered on a Medical Congress
 
-Olympics
+Epidemics:
+- Added Treatment for Scarlet Fever. This is straight forward and has only three events.
+
+Olympics:
 - Added new building: HQ of the International Olympic Committee (+100 diplo action, +10 prestige)
 - The founder of the IOC gets the HQ of the IOC as special building in his capital.
 - New action to usurp the presidency of the IOC when the HQ of the IOC is under control. Only possible if there is no president.
