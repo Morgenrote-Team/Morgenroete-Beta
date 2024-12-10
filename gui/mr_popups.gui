@@ -279,13 +279,13 @@ widget = {
 
     #Railway Project
     state_choser_popup = {
-        block "visible" {
+        blockoverride "visible" {
             visible = "[And( GetScriptedGui('mr_state_prioritizing_railway_project_window_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End), And( IsInGame, And( Not( IsPauseMenuShown ), Not( IsGameOverScreenShown ))))]"
         }
         blockoverride "sort_by_incorporation_status" {
             datacontext = "[GetScriptedGui('mr_sort_railway_state_by_status_button_sgui')]"
         }
-        blockoverride "sort_by_infrastructure_balance" {
+        blockoverride "sort_by_third_button" {
             datacontext = "[GetScriptedGui('mr_sort_railway_state_by_infrastructure_button_sgui')]"
         }
         blockoverride "datamodel_states" {
@@ -313,17 +313,27 @@ widget = {
 
     #Irrigation Project
     state_choser_popup = {
-        block "visible" {
+        blockoverride "visible" {
             visible = "[And( GetScriptedGui('mr_state_prioritizing_irrigation_project_window_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End), And( IsInGame, And( Not( IsPauseMenuShown ), Not( IsGameOverScreenShown ))))]"
         }
         blockoverride "sort_by_incorporation_status" {
             datacontext = "[GetScriptedGui('mr_sort_irrigation_state_by_status_button_sgui')]"
         }
-        blockoverride "sort_by_infrastructure_balance" {
-            datacontext = "[GetScriptedGui('mr_sort_irrigation_state_by_infrastructure_button_sgui')]"
+        blockoverride "sort_by_third_button_name_and_tooltip" {
+            text = "MR_TOTAL_AGRICULTURAL_LEVELS"
+            tooltip = "MR_TOTAL_AGRICULTURAL_LEVELS_TT"
+        }
+        blockoverride "sort_by_third_button_name" {
+            text = "MR_TOTAL_AGRICULTURAL_LEVELS"
+        }
+        blockoverride "sort_by_third_button" {
+            datacontext = "[GetScriptedGui('mr_sort_irrigation_state_by_agricultural_building_total_level_button_sgui')]"
         }
         blockoverride "datamodel_states" {
             datamodel = "[GetPlayer.MakeScope.GetList('states_for_irrigation_improvement_variable_list')]"
+        }
+        blockoverride "third_column_text" {
+            raw_text = "[State.MakeScope.ScriptValue('tesla_state_total_agriculture_level_value')|V0]"
         }
         blockoverride "general_list_to_prioritized_button_datacontext" {
             datacontext = "[GetScriptedGui('mr_transfer_from_general_list_to_prioritized_list_irrigation_project_button_sgui')]"
@@ -1316,10 +1326,12 @@ types mr_popup_types {
 
                 sort_button = {
                     size = { 71 30 }
-                    text = "MR_INFRASTRUCTURE_BALANCE"
-                    tooltip = "MR_INFRASTRUCTURE_BALANCE_TT"
+                    block "sort_by_third_button_name_and_tooltip" {
+                        text = "MR_INFRASTRUCTURE_BALANCE"
+                        tooltip = "MR_INFRASTRUCTURE_BALANCE_TT"
+                    }
                     using = fontsize_xsmall
-                    block "sort_by_infrastructure_balance" {
+                    block "sort_by_third_button" {
                         datacontext = "[GetScriptedGui('mr_sort_topographic_state_by_infrastructure_button_sgui')]"
                     }
                     onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -1355,7 +1367,9 @@ types mr_popup_types {
 
                 sort_button = {
                     size = { 71 30 }
-                    text = "MR_INFRASTRUCTURE_BALANCE_NO_CONCEPT"
+                    block "sort_by_third_button_name" {
+                        text = "MR_INFRASTRUCTURE_BALANCE_NO_CONCEPT"
+                    }
                     using = fontsize_xsmall
                     enabled = no
                     align = center|nobaseline
@@ -1432,9 +1446,11 @@ types mr_popup_types {
                                             }
                                         }
 
-                                        #Level
+                                        #Third Row
                                         textbox = {
-                                            raw_text = "[State.GetInfrastructureBalance|0+=]"
+                                            block "third_column_text" {
+                                                raw_text = "[State.GetInfrastructureBalance|0+=]"
+                                            }
                                             size = { 60 50 }
                                             elide = right
                                             align = center|nobaseline
@@ -1550,9 +1566,11 @@ types mr_popup_types {
                                             }
                                         }
 
-                                        #Level
+                                        #Third Row
                                         textbox = {
-                                            raw_text = "[State.GetInfrastructureBalance|0+=]"
+                                            block "third_column_text" {
+                                                raw_text = "[State.GetInfrastructureBalance|0+=]"
+                                            }
                                             size = { 60 50 }
                                             elide = right
                                             align = center|nobaseline
