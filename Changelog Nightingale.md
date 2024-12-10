@@ -33,6 +33,3 @@ JEs unpinned (for better overview)
 - Klimt: Pre-Raphaelites, Barbizon School, Macchiaioli
 - Panum: Germ Theory, The Vaccine
 - Verrier: Uranus, Dwarf Planets, Neptune, Pluto
-
-Fixes:
-- AI will now promote Chemists, Geologists and Physicians.
