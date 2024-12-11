@@ -1036,6 +1036,58 @@ je_panum_diphteria = {
 	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 
 	group = je_group_panum_medicine
+
+	on_monthly_pulse = {
+		random_events = {
+			100 = 0
+			#200 = panum.901 #Panum 901: Diphteria in STATE
+		}
+	}
+
+	immediate = {
+		panum_general_disease_research_from_je_effect = { DISEASE = diphteria }
+	}
+	
+    fail = {
+    }
+
+	on_fail = {
+	}
+
+	complete = {
+		NOT = {
+			any_scope_state = {
+				panum_state_has_diphteria_trigger = yes
+			}
+		}
+	}
+
+	on_complete = {
+		set_variable = {
+			name = panum_recent_diphteria_in_country_var
+			years = 10
+		}
+		panum_remove_disease_effect = yes
+		trigger_event = {
+			id = panum.920
+			popup = yes
+		}
+	}
+
+	invalid = {
+	}
+
+	current_value = {
+	}
+
+	goal_add_value = {
+	}
+
+	progressbar = no
+
+	should_be_pinned_by_default = yes
+
+	weight = 50
 }
 
 je_panum_polio = {
@@ -1933,6 +1985,7 @@ je_panum_diphteria_description = {
 			4 = panum.921 #Panum 921: Diphteria Hint (hidden)
 			2 = panum.922 #Panum 922: Diphteria Incubation
 			2 = panum.923 #Panum 923: Diphteria Symptoms
+			2 = panum.924 #Panum 924: Diphteria?
 		}
 	}
 
@@ -3937,7 +3990,100 @@ je_panum_plague_treatment = {
 }
 
 je_panum_diphteria_treatment = {
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
 	group = je_group_panum_medicine
+
+	#on_weekly_pulse = {
+	#	random_events = {
+	#		30 = 0
+	#
+	#		#Good Events (+10)
+	#		1 = panum.941 #Panum 941: 
+	#	}
+	#}
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = panum_diphteria_treatment_clues_var
+				}
+			}
+			set_variable = {
+				name = panum_diphteria_treatment_clues_var
+				value = 0
+			}
+		}
+	}
+
+	fail = {
+		NOT = {
+			has_journal_entry = je_panum_diphteria
+		}
+    }
+
+	on_fail = {
+		trigger_event = {
+			id = panum.134 #Unfinished Treatment
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_panum_diphteria_treatment_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = panum.940
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:panum_diphteria_treatment_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_physician_dies_tt
+			NOT = {
+				has_variable = panum_physician_var
+			}
+		}
+	}
+
+	on_invalid = {
+		panum_remove_active_variables_effect = yes
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
 }
 
 je_panum_polio_treatment = {
