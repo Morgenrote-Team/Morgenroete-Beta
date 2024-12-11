@@ -3720,7 +3720,117 @@ je_panum_yellow_fever_treatment = {
 }
 
 je_panum_measles_treatment = {
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
 	group = je_group_panum_medicine
+
+	on_weekly_pulse = {
+		random_events = {
+			30 = 0
+
+			#Good Events (+14-17)
+			1 = panum.641 #Panum 641: A notifiable Disease +2
+			1 = panum.642 #Panum 642: Animal Infection +2-3
+			1 = panum.643 #Panum 643: An age-fluctuating disease +2
+			2 = panum.644 #Panum 644: Highly Contagious +1
+			2 = panum.645 #Panum 645: Sneezes and Coughs +1
+			1 = panum.646 #Panum 646: Antibiotics +2-3
+			2 = panum.647 #Panum 647: Statistics +0-1
+			1 = panum.648 #Panum 648: Multiplication +1
+			1 = panum.649 #Panum 649: Infection without symptoms +1
+			1 = panum.650 #Panum 650: Barracks disinfection +2
+
+			#Bad Events (-4)
+			1 = panum.651 #Panum 651: Failed Inoculation -2
+			1 = panum.652 #Panum 652: Throat gargling -1
+			1 = panum.653 #Panum 653: Disinfectant spray -1
+
+			#Special Events (+3)
+			10 = panum.661 #Panum 661: Take your Vitamins +3
+		}
+	}
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = panum_measles_treatment_clues_var
+				}
+			}
+			set_variable = {
+				name = panum_measles_treatment_clues_var
+				value = 0
+			}
+		}
+	}
+
+	fail = {
+		NOT = {
+			has_journal_entry = je_panum_measles
+		}
+    }
+
+	on_fail = {
+		trigger_event = {
+			id = panum.134 #Unfinished Treatment
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_panum_measles_treatment_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = panum.640
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:panum_measles_treatment_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_physician_dies_tt
+			NOT = {
+				has_variable = panum_physician_var
+			}
+		}
+	}
+
+	on_invalid = {
+		panum_remove_active_variables_effect = yes
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
 }
 
 je_panum_scarlet_treatment = {
