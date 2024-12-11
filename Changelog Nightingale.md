@@ -17,6 +17,7 @@ Medicine:
 - Added 10 possible Medical Inventions when doing Medical Techniques, like Blood Types, Chemotherapy or the first Transplantation.
 - 6 of the 10 innovations can be gathered on a Medical Congress.
 - The first nation which introduces a Medical Technique or discovers a Medical Invention gets also Medical Prestige.
+- Some Medical Techniques and Innovations have an effect on (surgical) Character Treatment, like Anaesthesia or Chemotherapy.
 
 Epidemics:
 - Added Treatment for Scarlet Fever. This is straight forward and has only three events.
