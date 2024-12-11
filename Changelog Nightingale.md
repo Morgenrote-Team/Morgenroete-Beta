@@ -20,6 +20,7 @@ Medicine:
 - Some Medical Techniques and Innovations have an effect on (surgical) Character Treatment, like Anaesthesia or Chemotherapy.
 
 Epidemics:
+- Added Treatment for Measles.
 - Added Treatment for Scarlet Fever. This is straight forward and has only three events.
 
 Olympics:
