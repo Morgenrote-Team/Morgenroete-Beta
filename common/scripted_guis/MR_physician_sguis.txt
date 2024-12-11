@@ -299,6 +299,71 @@ mr_physician_medical_research_stop_button = {
 	}
 }
 
+###########################################################
+
+### Improve Military Medicine ###
+
+#MR_PHYSICIAN_IMPROVE_MILITARY_MEDICINE_BUTTON
+mr_physician_improve_military_medicine_button = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_ACTIVE_PHYSICIAN_TRIGGER
+			has_variable = panum_physician_var
+			var:panum_physician_var = {
+				is_busy = no
+			}
+		}
+		custom_tooltip = {
+			text = MR_IRC_MODERN_NURSING_TECH_TRIGGER_TT
+			has_technology_researched = modern_nursing
+		}
+		custom_tooltip = {
+			text = panum_not_most_advanced_medical_support_trigger_tt
+			trigger_if = {
+				limit = { has_variable = panum_physician_advanced_medical_support_var }
+				NOT = { var:panum_physician_advanced_medical_support_var > 2 }
+			}
+			trigger_else = {
+				always = yes
+			}
+		}
+		custom_tooltip = {
+			text = MR_PHYSICIAN_HAS_MEDIC_TRAIT_TRIGGER_TT
+			var:panum_physician_var ?= {
+				OR = {
+					has_trait = panum_military_physician
+					has_trait = panum_red_cross
+				}
+			}
+		}
+	}
+	effect = {
+		show_as_tooltip = {
+			add_modifier = {
+				name = panum_military_medicine_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+		add_journal_entry = { type = je_panum_military_medicine_project }
+		if = {
+			limit = {
+				has_variable = panum_physician_var
+			}
+			var:panum_physician_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+	}
+}
+#Active
+mr_physician_improve_military_medicine_active = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_panum_military_medicine_project
+	}
+}
+
 #MR_RECRUIT_PHYSICIAN_BUTTON
 mr_recruit_physician_button = {
     scope = country
