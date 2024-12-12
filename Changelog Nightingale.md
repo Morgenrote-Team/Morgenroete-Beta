@@ -13,7 +13,7 @@ Red Cross:
 - Added a game rule to deactivate the historical event, so the Red Cross can only appear by action.
 - A special event may trigger which gives you a free physician when losing a battle and being a member of the Red Cross.
 
-Medicine:
+Medical Techniques:
 - Added new Action: Medical Techniques.
 - Physicians can improve the Medical Techniques of a country, depending on medical tech. There are seven different tiers of Medical Techniques. Each tier gives a better modifier.
 - Skill and Traits of a Physician are important for the progress of the Medical Techniques JE. 
@@ -21,6 +21,10 @@ Medicine:
 - 6 of the 10 innovations can be gathered on a Medical Congress.
 - The first nation which introduces a Medical Technique or discovers a Medical Invention gets also Medical Prestige.
 - Some Medical Techniques and Innovations have an effect on (surgical) Character Treatment, like Anaesthesia or Chemotherapy.
+
+Military Medicine:
+- Added new Action: Medical Techniques.
+- Military Physicians and Red Cross medics can add new advanced military mobilizations, called Advanced Medical Support. This new military mobilization group has three tiers.
 
 Epidemics:
 - Added Treatment for Measles.
