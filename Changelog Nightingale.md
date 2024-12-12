@@ -28,6 +28,9 @@ Olympics:
 - The founder of the IOC gets the HQ of the IOC as special building in his capital.
 - New action to usurp the presidency of the IOC when the HQ of the IOC is under control. Only possible if there is no president.
 
+Sweden:
+- Added new swedish politicians and engineers.
+
 JEs unpinned (for better overview)
 - Agassiz: Seismometer, Seismograph, Advanced Oceanography, Mid-Atlantic Ridge
 - Mendelejew: Periodic Table, Noble Gases
