@@ -514,6 +514,87 @@ je_panum_medical_techniques_project = {
 	should_be_pinned_by_default = yes
 }
 
+### Military Medicine ###
+je_panum_military_medicine_project = {
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	scripted_button = panum_stop_medical_project_button
+
+	group = je_group_panum_medicine
+
+	scripted_progress_bar = panum_military_medicine_project_progress_bar
+
+	#on_monthly_pulse = {
+	#	random_events = {
+	#		20 = 0
+	#	}
+	#}
+
+	immediate = {
+		set_variable = panum_can_stop_active_medical_project_var #This is used to check if the country has a project already
+		scope:journal_entry = {
+			add_modifier = {
+				name = panum_military_medicine_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = panum_military_medicine_progress_bar_at_full_tt
+			je:je_panum_military_medicine_project = {
+				"scripted_bar_progress(panum_military_medicine_project_progress_bar)" >= 180
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = no
+		}
+		trigger_event = {
+			id = panum.2501
+			popup = yes
+		}
+	}
+
+	current_value = {
+	}
+
+	goal_add_value = {
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = panum_stop_medical_project_tt
+			OR = {
+				custom_tooltip = {
+					text = je_physician_dies_tt
+					NOT = {
+						has_variable = panum_physician_var
+					}
+				}
+				has_variable = panum_stop_medical_project_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = mr_physician_introduce_medical_techniques_var
+		remove_variable = panum_stop_medical_project_var
+		remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
+		var:panum_physician_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
 ###################################################################################################
 
 ### Epidemic JEs ###
