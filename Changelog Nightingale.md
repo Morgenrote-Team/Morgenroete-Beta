@@ -1,5 +1,8 @@
 Changelog for 2.3.2 "Nightingale"
 
+General
+- Reworked Academic progress effect. You will get much more academic progress in events and after researching all techs. Except some cases in chemistry events, a small bonus will be 30, a medium bonus 60 and a large bonus 90 academic progress.
+
 Red Cross:
 - New action to found the Red Cross as an international organization.
 - The founder of the Red Cross gets the HQ of the Red Cross as special building in his capital.
