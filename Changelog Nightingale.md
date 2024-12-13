@@ -30,6 +30,10 @@ Epidemics:
 - Added Treatment for Measles.
 - Added Treatment for Scarlet Fever. This is straight forward and has only three events.
 
+Engineering:
+- The Irrigation System now uses the total levels of agricultural buildings to order the states in the new GUI window.
+- Replaced the jobseekers in the Irrigation system GUI with available arable land.
+
 Olympics:
 - Added new building: HQ of the International Olympic Committee (+100 diplo action, +10 prestige)
 - The founder of the IOC gets the HQ of the IOC as special building in his capital.
@@ -48,3 +52,4 @@ JEs unpinned (for better overview)
 
 Fixes:
 - Fixed Medical Expansion GUI not showing the last trigger properly.
+- Government Administrations now use the same building costs as vanilla.
