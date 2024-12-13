@@ -1,0 +1,63 @@
+﻿da_appoint_governor_general = {
+	groups= { overlord }
+	
+	requires_approval = no
+	should_notify_third_parties = yes
+	show_effect_in_tooltip = yes
+
+	texture = "gfx/interface/icons/diplomatic_action_icons/da_appoint_colonial_governor.dds"
+	confirmation_sound = "event:/SFX/UI/MapInteraction/SubjectInteractions/diplomatic_action_subjects_04_appoint_governor_benign"
+	selectable = {
+		has_dlc_feature = subject_and_bloc_actions
+	}
+	
+	potential = {
+		scope:target_country = {
+			#NOT = { has_variable = gubernatorial_candidate }
+			NOT = { is_diplomatic_play_enemy_of = root }
+		}
+		exists = c:SWE
+		exists = c:NOR
+		c:SWE = ROOT
+		c:SWE = {
+			has_law = law_type:law_monarchy	
+		}
+		c:NOR = {
+			is_subject_of = ROOT
+		}
+		NOT = { has_variable = je_swe_nor_union_promise_accepted }
+	}
+	
+	possible = {
+		custom_tooltip = {
+			text = "APPOINT_COLONIAL_GOVERNOR_ON_COOLDOWN"
+			scope:target_country = {
+				NOR = { 
+					has_variable = gubernatorial_candidate 
+					has_variable = gubernatorial_candidate_timed
+				}
+			}
+		}
+		NOT = { has_variable = swe_nor_governor_general_elected }
+		is_revolutionary = no
+		scope:target_country = {
+			is_revolutionary = no
+			OR = {	# don't appoint colonial governor monarchies
+				has_law = law_type:law_presidential_republic
+				has_law = law_type:law_parliamentary_republic
+			}
+		}
+	}
+
+	accept_effect = {
+		scope:target_country = {
+			set_variable = gubernatorial_candidate
+			set_variable = {
+				name = gubernatorial_candidate_timed
+				months = 61
+			}
+		}
+		trigger_event = { id = swe_nor_union_event.1 popup = yes}
+	}
+	
+}
