@@ -16,9 +16,9 @@ Red Cross:
 
 Subject Interactions:
 - Geological Team. With a Geologist, you can send an assistant team to a subject country, searching for formations and caves.
-- Uranium Team. With a Geologist, you can send an assistant team to a subject country, searching for uranium.
-- Medical Treatment Team. With a Physician, you can send an assistant team to a subject country, sharing your disease treatments. This will lower liberty desire.
-- Medical Vaccination Team. With a Physician, you can send an assistant team to a subject country, sharing your vaccine treatments. This will lower liberty desire.
+- Uranium Team. With a Geologist, you can send an assistant team to a subject country, searching for uranium. You'll need Modern Physics.
+- Medical Treatment Team. With a Physician, you can send an assistant team to a subject country, sharing your disease treatments. This will lower liberty desire. You'll need Civilizing Mission.
+- Medical Vaccination Team. With a Physician, you can send an assistant team to a subject country, sharing your vaccine treatments. This will lower liberty desire. You'll need Civilizing Mission.
 
 Fixes
 - Fixed a starter effect problem giving the smallpox vaccine to too many countries.
