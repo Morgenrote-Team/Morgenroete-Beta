@@ -19,3 +19,6 @@ Subject Interactions:
 - Uranium Team. With a Geologist, you can send an assistant team to a subject country, searching for uranium.
 - Medical Treatment Team. With a Physician, you can send an assistant team to a subject country, sharing your disease treatments. This will lower liberty desire.
 - Medical Vaccination Team. With a Physician, you can send an assistant team to a subject country, sharing your vaccine treatments. This will lower liberty desire.
+
+Fixes
+- Fixed a starter effect problem giving the smallpox vaccine to too many countries.
