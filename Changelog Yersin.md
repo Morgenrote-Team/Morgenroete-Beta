@@ -12,3 +12,4 @@ Red Cross
 - Second Convention gives -5% Battleship Offense Mult.
 - Great Powers are less eager to sign the Second Convention until they have a certain amount of infamy.
 - Great Powers are less eager to sign the Third Convention until they have a certain amount of infamy - or a rival uses chemical weapons.
+- NOTE: You only get your infamy and relation bonus with other members when actively signing a Convention. Getting it when it becomes binding only gives the modifier, not the one-time-effects.
