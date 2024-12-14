@@ -10,3 +10,5 @@ Red Cross
 - Second Convention gives -5% Carrier Offense Mult instead of -2.5%.
 - Second Convention gives -5% Dreadnought Offense Mult.
 - Second Convention gives -5% Battleship Offense Mult.
+- Great Powers are less eager to sign the Second Convention until they have a certain amount of infamy.
+- Great Powers are less eager to sign the Third Convention until they have a certain amount of infamy - or a rival uses chemical weapons.
