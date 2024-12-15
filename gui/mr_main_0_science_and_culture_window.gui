@@ -11,16 +11,62 @@ widget = {
 	layer = layer_ingame_menu
 	visible = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
 
-    #This widget is used for the input action so that you can use the Morgenröte button with the "M" key.
+    ### These are used to activate the GUI through the sGUI ###
+	#Academy Tab
     widget = {
-        visible = "[GetScriptedGui('mr_main_window_invisible_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		#Checks if the variable is set
+        visible = "[GetScriptedGui('mr_clicked_gui_button_academy_tab_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
         enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
         state = {
 			name = _show
-			on_finish = "[GetVariableSystem.Clear( 'com_fullscreen')]"
-			on_finish = "[GetVariableSystem.Clear('com_open_window')]"
+			#Activates the GUI
+			on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_sgui')]"
+			on_finish = "[GetVariableSystem.Set('mr_window_tab', 'academy')]"
+			#Removes the variable
+			on_finish = "[GetScriptedGui('mr_clicked_gui_button_academy_tab_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		}
+    }
+	#Arts Tab
+    widget = {
+		#Checks if the variable is set
+        visible = "[GetScriptedGui('mr_clicked_gui_button_arts_tab_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+        enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+        state = {
+			name = _show
+			#Activates the GUI
+			on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_sgui')]"
+			on_finish = "[GetVariableSystem.Set('mr_window_tab', 'arts')]"
+			#Removes the variable
+			on_finish = "[GetScriptedGui('mr_clicked_gui_button_arts_tab_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		}
+    }
+	#Sports Tab
+    widget = {
+		#Checks if the variable is set
+        visible = "[GetScriptedGui('mr_clicked_gui_button_sports_tab_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+        enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+        state = {
+			name = _show
+			#Activates the GUI
+            on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_sgui')]"
+			on_finish = "[GetVariableSystem.Set('mr_window_tab', 'sports')]"
+			#Removes the variable
+			on_finish = "[GetScriptedGui('mr_clicked_gui_button_sports_tab_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		}
+    }
+	#Close
+    widget = {
+		#Checks if the variable is set
+        visible = "[GetScriptedGui('mr_clicked_gui_button_close_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+        enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+        state = {
+			name = _show
+			#Activates the GUI
 			on_finish = "[GetScriptedGui('mr_main_window_toggle_off_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-			on_finish = "[GetScriptedGui('mr_main_window_toggle_off_for_button_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+			on_finish = "[GetVariableSystem.Clear('com_open_window')]"
+			on_finish = "[GetVariableSystem.Set('mr_window_tab', 'academy')]"
+			#Removes the variable
+			on_finish = "[GetScriptedGui('mr_clicked_gui_button_close_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 		}
     }
 
@@ -90,7 +136,7 @@ widget = {
 		
 		blockoverride "window_header_name"
 		{
-			text = "[AddLocalizationIf( GetVariableSystem.HasValue( 'mr_window_tab', 'academy' ), 'ACADEMY_OF_SCIENCE_VIEW_NAME' )][AddLocalizationIf( GetVariableSystem.HasValue( 'mr_window_tab', 'arts' ), 'ARTS_VIEW_NAME' )][AddLocalizationIf( GetVariableSystem.HasValue( 'mr_window_tab', 'sports' ), 'SPORTS_VIEW_NAME' )]"
+			text = "[AddLocalizationIf(Or4(GetVariableSystem.HasValue( 'mr_window_tab', 'academy'),GetVariableSystem.HasValue( 'mr_window_tab', 'academy_planetarium'),GetVariableSystem.HasValue( 'mr_window_tab', 'academy_periodic_table'),GetVariableSystem.HasValue( 'mr_window_tab', 'academy_medicine'))'ACADEMY_OF_SCIENCE_VIEW_NAME' )][AddLocalizationIf( GetVariableSystem.HasValue( 'mr_window_tab', 'arts' ), 'ARTS_VIEW_NAME' )][AddLocalizationIf( GetVariableSystem.HasValue( 'mr_window_tab', 'sports' ), 'SPORTS_VIEW_NAME' )]"
 		}
 	
 		blockoverride "fixed_top" {
