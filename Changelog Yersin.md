@@ -23,3 +23,12 @@ Subject Interactions:
 Fixes
 - Fixed a starter effect problem giving the smallpox vaccine to too many countries.
 - Fixed Red Cross Game Rule localization.
+
+Characters:
+- Added DNA for a few characters.
+
+GUI:
+- Reworked how the GUI works, you shouldn't notice anything.
+
+Compatibility:
+- Morgenröte is now compatible with the Community Mod Framework.
