@@ -410,7 +410,7 @@ input_context={
 	
 	###MOD ADDED###
 
-	#Chose an unused keybind and add "input_action = "input_m" " or similar to your GUI.
+	#Choose an unused keybind and add "input_action = "input_m" " or similar to your GUI.
 	#Put the localization of it into the replace folder localization/*language*/replace
 
 	input_action = {
@@ -453,5 +453,35 @@ input_context={
 		name = "input_p"
 		text = "SETTING_INPUT_ACTION_P"
 		scancode = 19			# P
+	}
+
+	input_action = {
+		name = "input_r"
+		text = "SETTING_INPUT_ACTION_R"
+		scancode = 21			# R
+	}
+
+	input_action = {
+		name = "input_t"
+		text = "SETTING_INPUT_ACTION_T"
+		scancode = 23			# T
+	}
+
+	input_action = {
+		name = "input_u"
+		text = "SETTING_INPUT_ACTION_U"
+		scancode = 24			# U
+	}
+
+	input_action = {
+		name = "input_v"
+		text = "SETTING_INPUT_ACTION_V"
+		scancode = 25			# V
+	}
+
+	input_action = {
+		name = "input_y"
+		text = "SETTING_INPUT_ACTION_Y"
+		scancode = 28			# Y
 	}
 }
