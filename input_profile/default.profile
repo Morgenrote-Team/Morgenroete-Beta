@@ -151,8 +151,8 @@ input_context={
 	}
 
 	input_action = {
-		name = "open_culture"
-		text = "SETTING_INPUT_ACTION_OPEN_CULTURE"
+		name = "open_society"
+		text = "SETTING_INPUT_ACTION_OPEN_SOCIETY"
 		scancode = 66	# F9
 	}
 
