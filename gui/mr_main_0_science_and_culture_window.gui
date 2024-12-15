@@ -11,6 +11,65 @@ widget = {
 	layer = layer_ingame_menu
 	visible = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
 
+    ### These are used to activate the GUI through the sGUI ###
+	#Academy Tab
+    widget = {
+		#Checks if the variable is set
+        visible = "[GetScriptedGui('mr_clicked_gui_button_academy_tab_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+        enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+        state = {
+			name = _show
+			#Activates the GUI
+			on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_sgui')]"
+			on_finish = "[GetVariableSystem.Set('mr_window_tab', 'academy')]"
+			#Removes the variable
+			on_finish = "[GetScriptedGui('mr_clicked_gui_button_academy_tab_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		}
+    }
+	#Arts Tab
+    widget = {
+		#Checks if the variable is set
+        visible = "[GetScriptedGui('mr_clicked_gui_button_arts_tab_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+        enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+        state = {
+			name = _show
+			#Activates the GUI
+			on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_sgui')]"
+			on_finish = "[GetVariableSystem.Set('mr_window_tab', 'arts')]"
+			#Removes the variable
+			on_finish = "[GetScriptedGui('mr_clicked_gui_button_arts_tab_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		}
+    }
+	#Sports Tab
+    widget = {
+		#Checks if the variable is set
+        visible = "[GetScriptedGui('mr_clicked_gui_button_sports_tab_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+        enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+        state = {
+			name = _show
+			#Activates the GUI
+            on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_sgui')]"
+			on_finish = "[GetVariableSystem.Set('mr_window_tab', 'sports')]"
+			#Removes the variable
+			on_finish = "[GetScriptedGui('mr_clicked_gui_button_sports_tab_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		}
+    }
+	#Close
+    widget = {
+		#Checks if the variable is set
+        visible = "[GetScriptedGui('mr_clicked_gui_button_close_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+        enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+        state = {
+			name = _show
+			#Activates the GUI
+			on_finish = "[GetScriptedGui('mr_main_window_toggle_off_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+			on_finish = "[GetVariableSystem.Clear('com_open_window')]"
+			on_finish = "[GetVariableSystem.Set('mr_window_tab', 'academy')]"
+			#Removes the variable
+			on_finish = "[GetScriptedGui('mr_clicked_gui_button_close_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		}
+    }
+
 	mr_fullscreen_block_window = {
 		parentanchor = top|hcenter
 		size = { 100% 100% }
@@ -18,7 +77,7 @@ widget = {
 		allow_outside = yes
 		alwaystransparent = no
 
-		visible = "[GetScriptedGui('mr_main_window_visible_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		visible = "[GetVariableSystem.HasValue('com_open_window', 'mr_sidebar_button_sgui')]"
 		#This is necessary to remove the overlay even if the scripted button is used.
 		#It uses the community variable to hide and show the overlay if the window is open/closed
 		state = {
@@ -35,18 +94,21 @@ widget = {
 			blockoverride "button_close"
 			{
 				onclick = "[GetScriptedGui('mr_main_window_toggle_off_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+            	onclick = "[GetVariableSystem.Clear('com_open_window')]"
 			}
 	
 			back_button_large = {
 				position = { 11 15 }
 				parentanchor = top|left
 				onclick = "[GetScriptedGui('mr_main_window_toggle_off_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+            	onclick = "[GetVariableSystem.Clear('com_open_window')]"
 				input_action = "back"
 			}
 		}
 	
 		blockoverride "close_button_onclick" {
 			onclick = "[GetScriptedGui('mr_main_window_toggle_off_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+            onclick = "[GetVariableSystem.Clear('com_open_window')]"
 		}
 	
 		blockoverride "animation_state_block" {
@@ -74,7 +136,7 @@ widget = {
 		
 		blockoverride "window_header_name"
 		{
-			text = "[GetPlayer.GetCustom('GUI_mr_main_window_name_type')]"
+			text = "[AddLocalizationIf(Or4(GetVariableSystem.HasValue( 'mr_window_tab', 'academy'),GetVariableSystem.HasValue( 'mr_window_tab', 'academy_planetarium'),GetVariableSystem.HasValue( 'mr_window_tab', 'academy_periodic_table'),GetVariableSystem.HasValue( 'mr_window_tab', 'academy_medicine'))'ACADEMY_OF_SCIENCE_VIEW_NAME' )][AddLocalizationIf( GetVariableSystem.HasValue( 'mr_window_tab', 'arts' ), 'ARTS_VIEW_NAME' )][AddLocalizationIf( GetVariableSystem.HasValue( 'mr_window_tab', 'sports' ), 'SPORTS_VIEW_NAME' )]"
 		}
 	
 		blockoverride "fixed_top" {
@@ -96,14 +158,14 @@ widget = {
 					}
 				}
 				blockoverride "first_button_click" {
-					onclick = "[GetScriptedGui('mr_main_window_tab_1_click_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetVariableSystem.Set( 'mr_window_tab', 'academy' )]"
 					onclick = "[GetScriptedGui('mr_ranking_setup_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 				}
 				blockoverride "first_button_visibility" {
-					visible = "[GetScriptedGui('mr_main_window_tab_1_visible_tab_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					visible = "[GetVariableSystem.HasValue( 'mr_window_tab', 'academy' )]"
 				}
 				blockoverride "first_button_visibility_checked" {
-					visible = "[Not( GetScriptedGui('mr_main_window_tab_1_visible_tab_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+					visible = "[Not( GetVariableSystem.HasValue( 'mr_window_tab', 'academy' ) )]"
 				}
 				blockoverride "first_button_selected" {
 					text = "ACADEMY_OF_SCIENCE_VIEW_NAME_NO_CUSTOM"
@@ -132,14 +194,14 @@ widget = {
 					}
 				}
 				blockoverride "second_button_click" {
-					onclick = "[GetScriptedGui('mr_main_window_tab_2_click_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetVariableSystem.Set( 'mr_window_tab', 'arts' )]"
 					onclick = "[GetScriptedGui('mr_ranking_setup_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 				}
 				blockoverride "second_button_visibility" {
-					visible = "[GetScriptedGui('mr_main_window_tab_2_visible_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					visible = "[GetVariableSystem.HasValue( 'mr_window_tab', 'arts' )]"
 				}
 				blockoverride "second_button_visibility_checked" {
-					visible = "[Not( GetScriptedGui('mr_main_window_tab_2_visible_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+					visible = "[Not( GetVariableSystem.HasValue( 'mr_window_tab', 'arts' ) )]"
 				}
 				blockoverride "second_button_selected" {
 					text = "ARTS_OVERVIEW_VIEW_NAME"
@@ -169,14 +231,14 @@ widget = {
 				}
 			}
 			blockoverride "third_button_click" {
-				onclick = "[GetScriptedGui('mr_main_window_tab_3_click_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				onclick = "[GetVariableSystem.Set( 'mr_window_tab', 'sports' )]"
 				onclick = "[GetScriptedGui('mr_ranking_setup_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 			}
 			blockoverride "third_button_visibility" {
-				visible = "[GetScriptedGui('mr_main_window_tab_3_visible_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				visible = "[GetVariableSystem.HasValue( 'mr_window_tab', 'sports' )]"
 			}
 			blockoverride "third_button_visibility_checked" {
-				visible = "[Not( GetScriptedGui('mr_main_window_tab_3_visible_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+				visible = "[Not( GetVariableSystem.HasValue( 'mr_window_tab', 'sports' ) )]"
 			}
 			blockoverride "third_button_selected" {
 				text = "SPORTS_OVERVIEW_VIEW_NAME"
