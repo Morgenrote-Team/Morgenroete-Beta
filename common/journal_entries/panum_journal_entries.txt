@@ -4271,7 +4271,130 @@ je_panum_scarlet_treatment = {
 }
 
 je_panum_plague_treatment = {
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
 	group = je_group_panum_medicine
+
+	on_weekly_pulse = {
+		events = {
+			panum.870 #Panum 870: Bacillus Pestis +1
+		}
+		random_events = {
+			30 = 0
+
+			#Good Events (+6)
+			1 = panum.841 #Panum 841: Spread along maritime routes +1
+			1 = panum.842 #Panum 842: Rotation Cleansing +1
+			1 = panum.843 #Panum 843: An interesting mortality +1
+			1 = panum.844 #Panum 844: It's the rats, stupid! +2
+			1 = panum.845 #Panum 845: A Sample +1
+
+			#Bad Events (-4)
+			1 = panum.851 #Panum 851: 'Simply Poverty and Dirt' -1
+			1 = panum.852 #Panum 852: Contamined Food? -1
+			1 = panum.853 #Panum 853: Tropical Disease -1
+			1 = panum.854 #Panum 854: This is not the Plague! -1
+
+			#Other Events (+10)
+			10 = panum.861 #Panum 861: Opium is not an answer +2 (character is meticulous)
+			10 = panum.862 #Panum 862: Septicamia +3 (antitoxins)
+			10 = panum.863 #Panum 863: Antibiotica +4 (antibiotics)
+			10 = panum.864 #Panum 864: Insecticides +2 (malaria prevention)
+			10 = panum.865 #Panum 865: Latrines +1 (modern sew)
+
+			#Advanced Events (+4)
+			10 = panum.871 #Panum 871: Fleas +2
+			10 = panum.872 #Panum 872: Anti-plague Serum +2
+		}
+	}
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = panum_plague_treatment_clues_var
+				}
+			}
+			set_variable = {
+				name = panum_plague_treatment_clues_var
+				value = 0
+			}
+		}
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	fail = {
+		NOT = {
+			has_journal_entry = je_panum_plague
+		}
+    }
+
+	on_fail = {
+		trigger_event = {
+			id = panum.134 #Unfinished Treatment
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_panum_plague_treatment_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = panum.840
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:panum_plague_treatment_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_physician_dies_tt
+			NOT = {
+				has_variable = panum_physician_var
+			}
+		}
+	}
+
+	on_invalid = {
+		panum_remove_active_variables_effect = yes
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
 }
 
 je_panum_diphteria_treatment = {

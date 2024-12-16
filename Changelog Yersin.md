@@ -1,5 +1,8 @@
 Changelog for 2.3.3 "Yersin"
 
+General:
+- Morgenröte is now compatible with the Community Mod Framework.
+
 Red Cross:
 - Conventions can become binding Conventions if the majority of the Great Powers and 65% of the Red Cross members adopt them. Players get a notification event.
 - Binding Conventions will be automatically added to all Red Cross members. They can not be abolished. To get rid of binding Conventions, a country has to leave the Red Cross.
@@ -20,6 +23,12 @@ Subject Interactions:
 - Medical Treatment Team. With a Physician, you can send an assistant team to a subject country, sharing your disease treatments. This will lower liberty desire. You'll need Civilizing Mission.
 - Medical Vaccination Team. With a Physician, you can send an assistant team to a subject country, sharing your vaccine treatments. This will lower liberty desire. You'll need Civilizing Mission.
 
+Epidemics:
+- Activated Plague.
+- Third Plague wave will start in the 1890s in East Asia.
+- Added Epidemic Events, Description Events and Treatment Events for Plague.
+- Plague is the only Epidemic which may lead to finding the Pathogen when searching for a Treatment.
+
 Fixes
 - Fixed a starter effect problem giving the smallpox vaccine to too many countries.
 - Fixed Red Cross Game Rule localization.
@@ -30,6 +39,3 @@ Characters:
 
 GUI:
 - Reworked how the GUI works, you shouldn't notice anything.
-
-Compatibility:
-- Morgenröte is now compatible with the Community Mod Framework.
