@@ -37,6 +37,7 @@ Fixes
 - Fixed Red Cross Game Rule localization.
 - Airport improvement project should only work for airports again.
 - Custom element names should work everywhere now.
+- The fraudy Piltdown man should no longer spam events.
 
 Characters:
 - Added DNA for a few characters.
