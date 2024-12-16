@@ -40,3 +40,4 @@ Characters:
 
 GUI:
 - Reworked how the GUI works, you shouldn't notice anything.
+- The buttons of the building chooser popup are now visible even if you scroll down.
