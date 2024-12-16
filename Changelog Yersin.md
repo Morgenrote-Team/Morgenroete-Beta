@@ -23,6 +23,9 @@ Subject Interactions:
 - Medical Treatment Team. With a Physician, you can send an assistant team to a subject country, sharing your disease treatments. This will lower liberty desire. You'll need Civilizing Mission.
 - Medical Vaccination Team. With a Physician, you can send an assistant team to a subject country, sharing your vaccine treatments. This will lower liberty desire. You'll need Civilizing Mission.
 
+Character Treatment:
+- The character Treatment does no longer require your physician to not be busy.
+
 Epidemics:
 - Activated Plague.
 - Third Plague wave will start in the 1890s in East Asia.
