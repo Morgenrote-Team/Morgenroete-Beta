@@ -23,6 +23,7 @@ Subject Interactions:
 Fixes
 - Fixed a starter effect problem giving the smallpox vaccine to too many countries.
 - Fixed Red Cross Game Rule localization.
+- Airport improvement project should only work for airports again.
 
 Characters:
 - Added DNA for a few characters.
