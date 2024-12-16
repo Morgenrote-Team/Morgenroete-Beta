@@ -649,6 +649,21 @@ panum.52 = {
 			limit = {
 				any_country = {
 					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_plague
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_plague
+				}
+				save_scope_as = panum_plague_country_scope
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					has_diplomatic_relevance = ROOT
 					has_journal_entry = je_panum_polio
 				}
 			}
@@ -810,6 +825,28 @@ panum.52 = {
 		}
 		hidden_effect = {
 			scope:panum_scarlet_country_scope = {
+				trigger_event = {
+					id = panum.137
+				}
+			}
+		}
+	}
+
+	option = {	#Plague Country
+		name = panum.52.n
+		trigger = {
+			exists = scope:panum_plague_country_scope
+			panum_has_plague_description_trigger = no
+		}
+		add_journal_entry = {
+			type = je_panum_plague_description_expedition
+			target = scope:panum_plague_country_scope
+		}
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+		hidden_effect = {
+			scope:panum_plague_country_scope = {
 				trigger_event = {
 					id = panum.137
 				}
@@ -1036,6 +1073,21 @@ panum.54 = {
 			limit = {
 				any_country = {
 					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_plague
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_plague
+				}
+				save_scope_as = panum_plague_country_scope
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					has_diplomatic_relevance = ROOT
 					has_journal_entry = je_panum_polio
 				}
 			}
@@ -1204,6 +1256,29 @@ panum.54 = {
 		}
 		hidden_effect = {
 			scope:panum_scarlet_country_scope = {
+				trigger_event = {
+					id = panum.137
+				}
+			}
+		}
+	}
+
+	option = {	#Plague Country
+		name = panum.52.n
+		trigger = {
+			exists = scope:panum_plague_country_scope
+			panum_has_plague_description_trigger = yes
+			panum_has_plague_treatment_trigger = no
+		}
+		add_journal_entry = {
+			type = je_panum_plague_treatment_expedition
+			target = scope:panum_plague_country_scope
+		}
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+		hidden_effect = {
+			scope:panum_plague_country_scope = {
 				trigger_event = {
 					id = panum.137
 				}
@@ -15016,9 +15091,6 @@ panum.800 = {
 				region = sr:region_indochina
 				region = sr:region_south_china
 				region = sr:region_north_china
-				region = sr:region_bombay
-				region = sr:region_punjab
-				region = sr:region_central_india
 				region = sr:region_bengal
 			}
 		}
@@ -15027,16 +15099,24 @@ panum.800 = {
 
 	immediate = {
 		set_global_variable = panum_third_plague_global_var
-		panum_set_number_of_plague_states_effect = yes
-		panum_set_plague_state_effect = yes
+		random_scope_state = {
+			limit = {
+				panum_state_can_have_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+		add_journal_entry = {
+			type = je_panum_plague
+		}
 	}
 
 	option = {	#Plague!
 		name = panum.800.g
 		default_option = yes
-		panum_add_plague_modifier_effect = yes
-		add_journal_entry = {
-			type = je_panum_plague
+		scope:panum_disease_state = {
+			state_region = {
+				start_harvest_condition = panum_plague_condition
+			}
 		}
 		hidden_effect = {
 			if = {
@@ -15057,76 +15137,6 @@ panum.800 = {
 	}
 
 	after = {
-	}
-
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			any_scope_state = {
-				has_famine = yes
-			}
-			factor = 10
-		}
-		modifier = {
-			has_journal_entry = je_sol_1
-			factor = 10
-		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 20
-				}
-			}
-			factor = 1.1
-		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 15
-				}
-			}
-			factor = 1.1
-		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 10
-				}
-			}
-			factor = 2
-		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 5
-				}
-			}
-			factor = 3
-		}
-		modifier = {
-			has_law = law_type:law_no_health_system
-			factor = 1.5
-		}
-		modifier = {
-			has_law = law_type:law_charitable_health_system
-			factor = 0.8
-		}
-		modifier = {
-			has_law = law_type:law_private_health_insurance
-			factor = 0.65
-		}
-		modifier = {
-			has_law = law_type:law_public_health_insurance
-			factor = 0.5
-		}
-		modifier = {
-			has_technology_researched = antibiotics
-			factor = 0.5
-		}
 	}
 }
 
@@ -15266,9 +15276,7 @@ panum.805 = {
 	}
 
 	trigger = {
-		NOT = {
-			panum_has_plague_treatment_trigger = yes
-		}
+		panum_has_plague_treatment_trigger = no
 		any_scope_state = {
 			panum_state_has_plague_trigger = yes
 			NOT = {
@@ -15482,6 +15490,7 @@ panum.808 = {
 	}
 
 	trigger = {
+		panum_has_plague_treatment_trigger = no
 		any_scope_state = {
 			panum_state_has_plague_trigger = yes
 			NOR = {
@@ -15574,6 +15583,7 @@ panum.809 = {
 	}
 
 	trigger = {
+		panum_has_plague_treatment_trigger = no
 		any_scope_state = {
 			panum_state_has_plague_trigger = yes
 			NOR = {
@@ -15659,15 +15669,16 @@ panum.810 = {
 	}
 
 	trigger = {
+		panum_has_plague_treatment_trigger = no
 		any_scope_state = {
-			has_modifier = panum_epidemic_plague_severe_modifier
+			panum_state_has_plague_trigger = yes
 		}
 	}
 
 	immediate = {
 		random_scope_state = {
 			limit = {
-				has_modifier = panum_epidemic_plague_severe_modifier
+				panum_state_has_plague_trigger = yes
 			}
 			save_scope_as = panum_disease_state
 		}
@@ -15716,6 +15727,7 @@ panum.811 = {
 	}
 
 	trigger = {
+		panum_has_plague_treatment_trigger = yes
 		any_scope_state = {
 			panum_state_has_plague_trigger = yes
 			NOT = {
@@ -15796,6 +15808,7 @@ panum.812 = {
 	}
 
 	trigger = {
+		panum_has_plague_treatment_trigger = yes
 		any_scope_state = {
 			panum_state_has_plague_trigger = yes
 			NOT = {
@@ -15866,6 +15879,7 @@ panum.813 = {
 	}
 
 	trigger = {
+		panum_has_plague_treatment_trigger = no
 		any_scope_state = {
 			panum_state_has_plague_trigger = yes
 		}
@@ -16171,11 +16185,11 @@ panum.840 = {
 
 	type = country_event
 
-	title = panum.140.t
+	title = panum.840.t
 
-	desc = panum.140.d
+	desc = panum.840.d
 
-	flavor = panum.140.f
+	flavor = panum.840.f
 	
 	duration = 3
 
@@ -16203,7 +16217,7 @@ panum.840 = {
 	}
 
 	option = {	#Scarlet Fever is losing its horror.
-		name = panum.140.g
+		name = panum.840.g
 		panum_add_scarlet_treatment_effect = yes
 		var:panum_physician_var = {
 			set_character_busy_and_immortal = no
@@ -16213,6 +16227,1129 @@ panum.840 = {
 	after = {
 		remove_variable = panum_treatment_title_randomizer_var
 		remove_variable = panum_disease_title_var
+	}
+}
+
+#Panum 841: A remarkable Spread
+panum.841 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.841.t
+
+	desc = panum.841.d
+
+	flavor = panum.841.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague_modern.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.841.g
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 842: Rotation Cleansing
+panum.842 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.842.t
+
+	desc = panum.842.d
+
+	flavor = panum.842.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague_modern.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.842.g
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 843: An interesting mortality
+panum.843 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.843.t
+
+	desc = panum.843.d
+
+	flavor = panum.843.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague_modern.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+		var:panum_plague_treatment_clues_var >= 2
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.843.g
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 844: It's the rats, stupid!
+panum.844 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.844.t
+
+	desc = panum.844.d
+
+	flavor = panum.844.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague_modern.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+		var:panum_plague_treatment_clues_var >= 1
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.844.g
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 845: A Sample
+panum.845 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.845.t
+
+	desc = panum.845.d
+
+	flavor = panum.845.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague_modern.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+		var:panum_plague_treatment_clues_var >= 3
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.845.g
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = 1 }
+		if = {
+			limit = {
+				is_player = yes
+			}
+			add_treasury = -50000
+		}
+		set_variable = panum_plague_tissue_sample_var
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 851: 'Simply Poverty and Dirt'
+panum.851 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.851.t
+
+	desc = panum.851.d
+
+	flavor = panum.851.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague_modern.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.851.g
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = -1 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 852: Contamined Food?
+panum.852 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.852.t
+
+	desc = panum.852.d
+
+	flavor = panum.852.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague_modern.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.852.g
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = -1 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 853: Tropical Disease
+panum.853 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.853.t
+
+	desc = panum.853.d
+
+	flavor = panum.853.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague_modern.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		NOT = {
+			has_technology_researched = malaria_prevention
+		}
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.853.g
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = -1 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 854: False Plague
+panum.854 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.854.t
+
+	desc = panum.854.d
+
+	flavor = panum.854.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague_modern.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.854.g
+		default_option = yes
+	}
+
+	option = {	#Precisely observed.
+		name = panum.854.h
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = -1 }
+		panum_add_typhus_description_effect = yes
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 861: Opium is not an answer
+panum.861 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.861.t
+
+	desc = panum.861.d
+
+	flavor = panum.861.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague_modern.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		var:panum_physician_var ?= {
+			has_trait = meticulous
+		}
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.861.g
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 862: Septicamia
+panum.862 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.862.t
+
+	desc = panum.862.d
+
+	flavor = panum.862.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague_modern.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		has_technology_researched = panum_antitoxins_tech
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.862.g
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = 3 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 863: Antibiotics
+panum.863 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.863.t
+
+	desc = panum.863.d
+
+	flavor = panum.863.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague_modern.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		has_technology_researched = antibiotics
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.863.g
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = 4 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 864: Insecticides
+panum.864 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.864.t
+
+	desc = panum.864.d
+
+	flavor = panum.864.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague_modern.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		has_technology_researched = malaria_prevention
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.864.g
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 865: Latrines
+panum.865 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.865.t
+
+	desc = panum.865.d
+
+	flavor = panum.865.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague_modern.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		has_technology_researched = modern_sewerage
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.865.g
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = 1 }
+		if = {
+			limit = {
+				is_player = yes
+			}
+			add_treasury = -100000
+		}
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 870: Bacillus Pestis
+panum.870 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.870.t
+
+	desc = panum.870.d
+
+	flavor = panum.870.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+		has_variable = panum_plague_tissue_sample_var
+		var:panum_plague_treatment_clues_var >= 5
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.870.g
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = 1 }
+		panum_add_x_germ_theory_clues_effect = { AMOUNT = 8 }
+		theiler_add_plague_pathogen_effect = yes
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 871: Fleas
+panum.871 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.871.t
+
+	desc = panum.871.d
+
+	flavor = panum.871.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague_modern.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+		theiler_has_plague_pathogen_trigger = yes
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.871.g
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 872: Anti-plague Serum
+panum.872 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.872.t
+
+	desc = panum.872.d
+
+	flavor = panum.872.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague_modern.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should never happen again
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+		theiler_has_plague_pathogen_trigger = yes
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Precisely observed.
+		name = panum.872.g
+		default_option = yes
+		panum_add_x_plague_treatment_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
 	}
 }
 
