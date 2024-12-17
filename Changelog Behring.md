@@ -23,4 +23,4 @@ Achievements:
 - Face of a Criminal: Eliminate a character because of his physiognomy.
 
 Fixes:
-- Fixed an issue with Medical Techniques not removing old modifiers and triggeirng the false event.
+- Fixed an issue with Medical Techniques not removing old modifiers and triggering the false event.
