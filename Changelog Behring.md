@@ -8,6 +8,7 @@ Epidemics:
 - It is possible to eredicate smallpox. To achieve this, every country needs the smallpox vaccine.
 
 Economy:
+- Added rubber as a potential luxury good for rich POPs.
 - Synthetic Rubber output increased from 60 -> 90.
 - Synthetic Oil output increased from 60 -> 90.
 
