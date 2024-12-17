@@ -1,5 +1,10 @@
 Changelog for 2.3.4 "Behring"
 
+Medical Research:
+- Added 7 possible diseases to research when doing Medical Research.
+- Possibility to get Vitamins Tech when examining rickets, pellagra or jod deficiency.
+- Examining Syphilis or Kidney Stones will help to treat characters with such traits.
+
 Medical Expansion:
 - Added one possible event for each physician specialization.
 - Added events for Lombrosism.
