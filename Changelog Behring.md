@@ -22,6 +22,11 @@ Achievements:
 - Minderwertigkeitskomplex: Establish your own Psychological School
 - Face of a Criminal: Eliminate a character because of his physiognomy.
 
+Characters:
+- Added DNA for a few characters.
+
 Fixes:
 - Fixed an issue with Medical Techniques not removing old modifiers and triggering the false event.
 - Fixed notification not showing the name of the Doctor when accelerating research.
+- Countries formed by the USA can now build the Statue of Liberty as well
+- Character Traits in the sports tab should now also show tooltips.
