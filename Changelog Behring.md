@@ -21,3 +21,6 @@ Achievements:
 - Eradication of the old Foe: Pursue the global eradication of smallpox.
 - Minderwertigkeitskomplex: Establish your own Psychological School
 - Face of a Criminal: Eliminate a character because of his physiognomy.
+
+Fixes:
+- Fixed an issue with Medical Techniques not removing old modifiers and triggeirng the false event.
