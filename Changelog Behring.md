@@ -7,6 +7,10 @@ Medical Expansion:
 Epidemics:
 - It is possible to eredicate smallpox. To achieve this, every country needs the smallpox vaccine.
 
+Economy:
+- Synthetic Rubber output increased from 60 -> 90.
+- Synthetic Oil output increased from 60 -> 90.
+
 Achievements:
 - Zauberberg: Own a tuberculosis sanatorium and a writer.
 - Who needs Dunant?: Found the Red Cross without playing Switzerland.
