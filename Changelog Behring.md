@@ -24,3 +24,4 @@ Achievements:
 
 Fixes:
 - Fixed an issue with Medical Techniques not removing old modifiers and triggering the false event.
+- Fixed notification not showing the name of the Doctor when accelerating research.
