@@ -35,3 +35,5 @@ Fixes:
 - Fixed notification not showing the name of the Doctor when accelerating research.
 - Countries formed by the USA can now build the Statue of Liberty as well
 - Character Traits in the sports tab should now also show tooltips.
+- The Literary Tradition Concept now has a description.
+- Replaced the Opera button for the Writer with a deactivated Library button.
