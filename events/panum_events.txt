@@ -664,6 +664,21 @@ panum.52 = {
 			limit = {
 				any_country = {
 					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_diphteria
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_diphteria
+				}
+				save_scope_as = panum_diphteria_country_scope
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					has_diplomatic_relevance = ROOT
 					has_journal_entry = je_panum_polio
 				}
 			}
@@ -847,6 +862,28 @@ panum.52 = {
 		}
 		hidden_effect = {
 			scope:panum_plague_country_scope = {
+				trigger_event = {
+					id = panum.137
+				}
+			}
+		}
+	}
+
+	option = {	#Diphteria Country
+		name = panum.52.o
+		trigger = {
+			exists = scope:panum_diphteria_country_scope
+			panum_has_diphteria_description_trigger = no
+		}
+		add_journal_entry = {
+			type = je_panum_diphteria_description_expedition
+			target = scope:panum_diphteria_country_scope
+		}
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+		hidden_effect = {
+			scope:panum_diphteria_country_scope = {
 				trigger_event = {
 					id = panum.137
 				}
@@ -1088,6 +1125,21 @@ panum.54 = {
 			limit = {
 				any_country = {
 					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_diphteria
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_diphteria
+				}
+				save_scope_as = panum_diphteria_country_scope
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					has_diplomatic_relevance = ROOT
 					has_journal_entry = je_panum_polio
 				}
 			}
@@ -1279,6 +1331,29 @@ panum.54 = {
 		}
 		hidden_effect = {
 			scope:panum_plague_country_scope = {
+				trigger_event = {
+					id = panum.137
+				}
+			}
+		}
+	}
+
+	option = {	#Diphteria Country
+		name = panum.52.o
+		trigger = {
+			exists = scope:panum_diphteria_country_scope
+			panum_has_diphteria_description_trigger = yes
+			panum_has_diphteria_treatment_trigger = no
+		}
+		add_journal_entry = {
+			type = je_panum_diphteria_treatment_expedition
+			target = scope:panum_diphteria_country_scope
+		}
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+		hidden_effect = {
+			scope:panum_diphteria_country_scope = {
 				trigger_event = {
 					id = panum.137
 				}
@@ -17546,7 +17621,7 @@ panum.921 = {
 	}
 }
 
-#Panum 922: Diphteria Incubation
+#Panum 922: Croup
 panum.922 = {
 	dlc = dlc_morgenrote
 
@@ -17686,87 +17761,17 @@ panum.923 = {
 	}
 }
 
-#Panum 924: Diphteria?
-panum.924 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = panum.924.t
-
-	desc = panum.924.d
-
-	flavor = panum.924.f
-	
-	duration = 3
-
-	event_image = { 
-		texture = "gfx/event_pictures/panum_pictures/panum_panum.dds"
-	}
-
-	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	cooldown = {
-		years = 100 #Should happen never again
-	}
-
-	trigger = {
-	}
-
-	immediate = {
-	}
-
-	option = {	#Precisely observed.
-		name = panum.124.g
-		default_option = yes
-		panum_add_x_diphteria_description_clues_effect = { AMOUNT = 3 }
-	}
-
-	after = {
-	}
-
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			var:panum_physician_var = {
-				has_trait = panum_epidemiologist
-			}
-			add = 3
-		}
-		modifier = {
-			var:panum_physician_var = {
-				has_trait = panum_physician_famous
-			}
-			add = 2
-		}
-		modifier = {
-			var:panum_physician_var = {
-				has_trait = panum_physician_experienced
-			}
-			add = 1
-		}
-		modifier = {
-			var:panum_physician_var = {
-				has_trait = meticulous
-			}
-			add = 1
-		}
-	}
-}
-
 #Panum 940: Diphteria Treatment
 panum.940 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = panum.139.t
+	title = panum.940.t
 
-	desc = panum.139.d
+	desc = panum.940.d
 
-	flavor = panum.139.f
+	flavor = panum.940.f
 	
 	duration = 3
 
@@ -17794,7 +17799,7 @@ panum.940 = {
 	}
 
 	option = {	#Diphteria is losing its horror.
-		name = panum.139.g
+		name = panum.940.g
 		panum_add_diphteria_treatment_effect = yes
 		var:panum_physician_var = {
 			set_character_busy_and_immortal = no
@@ -17804,6 +17809,768 @@ panum.940 = {
 	after = {
 		remove_variable = panum_treatment_title_randomizer_var
 		remove_variable = panum_disease_title_var
+		if = {
+			limit = {
+				var:panum_physician_var = {
+					has_variable = panum_the_shadow_var
+				}
+			}
+			trigger_event = {
+				id = panum.963
+				days = { 300 500 }
+			}
+		}
+	}
+}
+
+#Panum 941: Iron perchlorate
+panum.941 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.941.t
+
+	desc = panum.941.d
+
+	flavor = panum.941.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = panum_diphteria_1_var
+		}
+	}
+
+	immediate = {
+		set_variable = panum_diphteria_1_var
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {	#Did the doctor's experiments...?
+		name = panum.941.g
+		panum_add_x_diphteria_treatment_clues_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+	}
+}
+
+#Panum 942: Intubation
+panum.942 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.942.t
+
+	desc = panum.942.d
+
+	flavor = panum.942.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_2.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = panum_diphteria_2_var
+		}
+	}
+
+	immediate = {
+		set_variable = panum_diphteria_2_var
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {	#Did the doctor's experiments...?
+		name = panum.942.g
+		panum_add_x_diphteria_treatment_clues_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+	}
+}
+
+#Panum 943: Tracheotomy
+panum.943 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.943.t
+
+	desc = panum.943.d
+
+	flavor = panum.943.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_3.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = panum_diphteria_3_var
+		}
+	}
+
+	immediate = {
+		set_variable = panum_diphteria_3_var
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {	#Did the doctor's experiments...?
+		name = panum.943.g
+	}
+
+	after = {
+	}
+}
+
+#Panum 944: Mercury
+panum.944 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.944.t
+
+	desc = panum.944.d
+
+	flavor = panum.944.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_4.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = panum_diphteria_4_var
+		}
+	}
+
+	immediate = {
+		set_variable = panum_diphteria_4_var
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {	#Did the doctor's experiments...?
+		name = panum.944.g
+		panum_add_x_diphteria_treatment_clues_effect = { AMOUNT = -1 }
+	}
+
+	after = {
+	}
+}
+
+#Panum 945: Bleeding
+panum.945 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.945.t
+
+	desc = panum.945.d
+
+	flavor = panum.945.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_5.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = panum_diphteria_5_var
+		}
+	}
+
+	immediate = {
+		set_variable = panum_diphteria_5_var
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {	#Did the doctor's experiments...?
+		name = panum.945.g
+		panum_add_x_diphteria_treatment_clues_effect = { AMOUNT = -1 }
+	}
+
+	after = {
+	}
+}
+
+#Panum 951: The Rattle in the Night
+panum.951 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.951.t
+
+	desc = panum.951.d
+
+	flavor = panum.951.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100
+	}
+
+	trigger = {
+		theiler_has_diphteria_pathogen_trigger = no
+		has_variable = panum_diphteria_1_var
+		has_variable = panum_diphteria_2_var
+		has_variable = panum_diphteria_3_var
+		has_variable = panum_diphteria_4_var
+		has_variable = panum_diphteria_5_var
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {	#Did the doctor's experiments...?
+		name = panum.951.g
+	}
+
+	after = {
+		trigger_event = {
+			id = panum.952
+			days = { 3 7 }
+		}
+	}
+}
+
+#Panum 952: Treating Diphteria
+panum.952 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.952.t
+
+	desc = panum.952.d
+
+	flavor = panum.952.f
+	
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:panum_physician_scope
+	right_icon = scope:panum_son_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		create_character = {
+			first_name = mr_null
+			last_name = mr_null
+			female = no
+			age = 6
+			save_scope_as = panum_son_scope
+		}
+		scope:panum_son_scope = {
+			place_character_in_void = 120
+		}
+	}
+
+	option = {	#Treat the boy with iron perchlorate.
+		name = panum.952.g
+		hidden_effect = {
+			random_list = {
+				9 = {
+					trigger_event = {
+						id = panum.953
+						days = { 3 7 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = panum.954
+						days = { 3 7 }
+					}
+				}
+			}
+		}
+	}
+
+	option = {	#Treat the boy with iron perchlorate.
+		name = panum.952.h
+		hidden_effect = {
+			if = {
+				limit = {
+					var:panum_physician_var = {
+						has_trait = panum_surgeon
+						var:panum_physician_experience > 200
+					}
+				}
+				trigger_event = {
+					id = panum.954
+					days = { 3 7 }
+				}
+			}
+			else = {
+				trigger_event = {
+					id = panum.953
+					days = { 3 7 }
+				}
+			}
+		}
+	}
+
+	option = {	#Examine a tissue sample with the microscope.
+		name = panum.952.i
+		default_option = yes
+		trigger = {
+			var:panum_physician_var = {
+				OR = {
+					has_trait = theiler_biologist
+					has_trait = cruel
+					has_trait = ruthless
+					has_trait = reckless
+				}
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = panum.955
+				days = { 3 7 }
+			}
+		}
+	}
+
+	after = {
+		scope:panum_son_scope = {
+			free_character_from_void = no
+		}
+	}
+}
+
+#Panum 953: The Strangling Angel
+panum.953 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.953.t
+
+	desc = panum.953.d
+
+	flavor = panum.953.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {	#The doctor will have a hard time dealing with that.
+		name = panum.953.g
+		panum_add_x_diphteria_treatment_clues_effect = { AMOUNT = -2 }
+		physician_experience_gain_effect = { AMOUNT = -25 }
+		var:panum_physician_var = {
+			add_trait = psychological_affliction
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = panum.956
+			days = { 3 7 }
+		}
+	}
+}
+
+#Panum 954: Not Larynx, but Heart and Eyes
+panum.954 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.954.t
+
+	desc = panum.954.d
+
+	flavor = panum.954.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {	#The doctor will have a hard time dealing with that.
+		name = panum.954.g
+		panum_add_x_diphteria_treatment_clues_effect = { AMOUNT = 2 }
+		physician_experience_gain_effect = { AMOUNT = 25 }
+		var:panum_physician_var = {
+			add_trait = meticulous
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = panum.956
+			days = { 3 7 }
+		}
+	}
+}
+
+#Panum 955: The Sacrifice
+panum.955 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.955.t
+
+	desc = panum.955.d
+
+	flavor = panum.955.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {	#The doctor will have a hard time dealing with that.
+		name = panum.955.g
+		theiler_add_diphteria_pathogen_effect = yes
+		var:panum_physician_var = {
+			set_variable = panum_the_shadow_var
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = panum.961
+			days = { 30 90 }
+		}
+	}
+}
+
+#Panum 956: Radical Change of Theorem
+panum.956 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.956.t
+
+	desc = panum.956.d
+
+	flavor = panum.956.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {	#All efforts are now focused on finding the pathogen.
+		name = panum.956.g
+		default_option = yes
+		theiler_add_x_diphteria_pathogen_clues_effect = { AMOUNT = 2 }
+	}
+
+	option = {	#The focus of research should already be on a possible vaccine.
+		name = panum.956.h
+		theiler_add_x_diphteria_vaccine_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+		trigger_event = {
+			id = panum.961
+			days = { 30 90 }
+		}
+	}
+}
+
+#Panum 961: The Diphteria Toxin
+panum.961 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.961.t
+
+	desc = panum.961.d
+
+	flavor = panum.961.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {	#This is perhaps the crucial step...
+		name = panum.961.g
+		default_option = yes
+		set_variable = panum_search_diphteria_antitoxin_var
+	}
+
+	option = {	#This process is already known from the production of tetanus toxin...
+		name = panum.961.h
+		trigger = {
+			has_modifier = panum_tetanus_antitoxin_modifier
+		}
+		theiler_add_x_diphteria_pathogen_clues_effect = { AMOUNT = 1 }
+		theiler_add_x_diphteria_vaccine_clues_effect = { AMOUNT = 1 }
+		hidden_effect = {
+			trigger_event = {
+				id = panum.962
+				days = { 10 20 }
+			}
+		}
+	}
+
+	option = {	#The right amount of iodine could help with this.
+		name = panum.961.i
+		trigger = {
+			has_technology_researched = panum_vitamins_tech
+		}
+		theiler_add_x_diphteria_vaccine_clues_effect = { AMOUNT = 1 }
+		hidden_effect = {
+			trigger_event = {
+				id = panum.962
+				days = { 10 20 }
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Panum 962: The Diphteria Antitoxin
+panum.962 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.962.t
+
+	desc = panum.962.d
+
+	flavor = panum.962.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100
+	}
+
+	trigger = {
+		OR = {
+			has_variable = panum_search_diphteria_antitoxin_var
+			has_modifier = panum_tetanus_antitoxin_modifier
+			has_technology_researched = panum_vitamins_tech
+		}
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {	#Order as much of this serum as possible!
+		name = panum.962.g
+		panum_add_x_diphteria_treatment_clues_effect = { AMOUNT = 10 }
+	}
+
+	after = {
+	}
+}
+
+#Panum 963: The Shadow
+panum.963 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.963.t
+
+	desc = panum.963.d
+
+	flavor = panum.963.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100
+	}
+
+	trigger = {
+		var:panum_physician_var = {
+			has_variable = panum_the_shadow_var
+		}
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {	#Doctor [ROOT.Var('panum_physician_var').GetCharacter.GetLastName]... Doctor!
+		name = panum.963.g
+		kill_physician_effect = yes
+	}
+
+	after = {
 	}
 }
 
