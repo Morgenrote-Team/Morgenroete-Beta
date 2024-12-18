@@ -38,3 +38,8 @@ Fixes:
 - Character Traits in the sports tab should now also show tooltips.
 - The Literary Tradition Concept now has a description.
 - Replaced the Opera button for the Writer with a deactivated Library button.
+
+Swedish-Norwegian Personal Union:
+- Added a Diplomatic Action (Appoint Governor-General) for Sweden.
+- Added several decisions for Norway, demanding greater freedom within the union.
+- Added several events for Sweden, reacting to Norwegian demands.
