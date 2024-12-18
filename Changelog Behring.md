@@ -29,6 +29,7 @@ Achievements:
 
 Characters:
 - Added DNA for a few characters.
+- Samuel "Mark Twain" Clemens (random American writer, repurposed from vanilla and added a unique DNA)
 
 Fixes:
 - Fixed an issue with Medical Techniques not removing old modifiers and triggering the false event.
