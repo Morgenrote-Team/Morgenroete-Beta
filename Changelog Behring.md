@@ -12,6 +12,9 @@ Medical Expansion:
 Epidemics:
 - Health Care Level 1 is needed (instead of 2) to prevent smallpox.
 - It is possible to eredicate smallpox. To achieve this, every country needs the smallpox vaccine and at least Health Care Level 1.
+- Activated Diphteria.
+- Added Events for Diphteria Description and Treatment.
+- Diphteria is the last Epidemic.
 
 Economy:
 - Added rubber as a potential luxury good for rich POPs.
