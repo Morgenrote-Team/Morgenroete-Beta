@@ -39,6 +39,7 @@ Fixes:
 - Fixed notification not showing the name of the Doctor when accelerating research.
 - Fixed an error with chemistry events not showing up when doing discovery and isolation.
 - Fixed an error with a Sanatorium not being added correctly.
+- Fixed an error which prevented a Geologist from writing a report after returning from a Pacific Expedition.
 - Countries formed by the USA can now build the Statue of Liberty as well
 - Character Traits in the sports tab should now also show tooltips.
 - The Literary Tradition Concept now has a description.
