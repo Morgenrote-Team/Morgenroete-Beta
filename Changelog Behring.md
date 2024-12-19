@@ -42,6 +42,7 @@ Fixes:
 - The Literary Tradition Concept now has a description.
 - Replaced the Opera button for the Writer with a deactivated Library button.
 - The Event you receive at the end of a mechanical engineering imrpovement project now displays the improved building again.
+- If a character has a health condition trait but was recently treated and that character is the only valid character, you can no longer start a character treatment that results in an empty list.
 
 Swedish-Norwegian Personal Union:
 - Added a Diplomatic Action (Appoint Governor-General) for Sweden.
