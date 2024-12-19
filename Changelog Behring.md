@@ -41,6 +41,7 @@ Fixes:
 - Character Traits in the sports tab should now also show tooltips.
 - The Literary Tradition Concept now has a description.
 - Replaced the Opera button for the Writer with a deactivated Library button.
+- The Event you receive at the end of a mechanical engineering imrpovement project now displays the improved building again.
 
 Swedish-Norwegian Personal Union:
 - Added a Diplomatic Action (Appoint Governor-General) for Sweden.
