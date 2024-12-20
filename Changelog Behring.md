@@ -33,6 +33,8 @@ Achievements:
 Characters:
 - Added DNA for a few characters.
 - Samuel "Mark Twain" Clemens (random American writer, repurposed from vanilla and added a unique DNA)
+- Added Swedish Anthropologists, Archaeologists, Astronomers, and Chemists.
+- Sweden now has Jacob Berzelius as starting chemist.
 
 Fixes:
 - Fixed an issue with Medical Techniques not removing old modifiers and triggering the false event.
