@@ -44,6 +44,7 @@ Fixes:
 - Fixed an error which prevented a Geologist from writing a report after returning from a Pacific Expedition.
 - Fixed error in bovine fever event.
 - Fixed Transatlantic Cable Event&Je to make them more resistant against errors.
+- Fixed an issue with level 20+ government administrations not getting clinics/hospitals.
 - Countries formed by the USA can now build the Statue of Liberty as well.
 - Character Traits in the sports tab should now also show tooltips.
 - The Literary Tradition Concept now has a description.
