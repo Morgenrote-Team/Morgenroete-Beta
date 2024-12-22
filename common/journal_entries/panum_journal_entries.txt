@@ -169,6 +169,35 @@ je_panum_medical_system_project = {
 							has_building = building_government_administration
 							any_scope_building = {
 								is_building_type = building_government_administration
+								level >= 20
+								has_active_production_method = pm_panum_no_clinic
+							}
+						}
+					}
+					ordered_scope_state = {
+						limit = {
+							has_building = building_government_administration
+							any_scope_building = {
+								is_building_type = building_government_administration
+								level >= 20
+								has_active_production_method = pm_panum_no_clinic
+							}
+						}
+						order_by = panum_administration_buildings_value
+						max = 1 #Limits to the state with highest urbanization
+						check_range_bounds = no #prevents errors
+						activate_production_method = {
+							building_type = building_government_administration
+							production_method = pm_panum_clinic
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						any_scope_state = {
+							has_building = building_government_administration
+							any_scope_building = {
+								is_building_type = building_government_administration
 								level >= 5
 								level < 20
 								has_active_production_method = pm_panum_no_clinic
@@ -206,6 +235,15 @@ je_panum_medical_system_project = {
 		events = {
 			panum.2102 #Panum 2102: First Clinic
 			panum.2103 #Panum 2103: First Hospital
+		}
+
+		random_events = {
+			30 = 0
+
+			1 = panum.2111 #Panum 2111: Gray's Anatomy
+			1 = panum.2112 #Panum 2112: Diagram of Causes of Mortality
+			1 = panum.2113 #Panum 2113: Omnis cellula e cellula
+			1 = panum.2114 #Panum 2114: Born criminal
 		}
 	}
 
@@ -345,6 +383,8 @@ je_panum_medical_research_project = {
 		random_events = {
 			20 = 0
 
+			10 = panum.2211 #Panum 2211: Disease research
+
 			1 = panum.2202 #Panum 2202: Ancient Disease
 			1 = panum.2203 #Panum 2203: Strange Medicine
 			1 = panum.2204 #Panum 2204: Herbal Remedies?
@@ -395,6 +435,41 @@ je_panum_medical_research_project = {
 		var:panum_physician_var ?= {
 			set_character_busy_and_immortal = no
 		}
+	}
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+### Disease Investigation ###
+je_panum_disease_investigation = {
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	group = je_group_panum_medicine
+
+	scripted_progress_bar = panum_disease_investigation_project_progress_bar
+
+	immediate = {
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = panum_disease_investigation_progress_bar_at_full_tt
+			je:je_panum_disease_investigation = {
+				"scripted_bar_progress(panum_disease_investigation_project_progress_bar)" >= 60
+			}
+		}
+	}
+
+	on_complete = {
+		panum_disease_investigation_event_effect = yes
+	}
+
+	current_value = {
+	}
+
+	goal_add_value = {
 	}
 
 	weight = 30
@@ -523,12 +598,6 @@ je_panum_military_medicine_project = {
 	group = je_group_panum_medicine
 
 	scripted_progress_bar = panum_military_medicine_project_progress_bar
-
-	#on_monthly_pulse = {
-	#	random_events = {
-	#		20 = 0
-	#	}
-	#}
 
 	immediate = {
 		set_variable = panum_can_stop_active_medical_project_var #This is used to check if the country has a project already
@@ -2214,9 +2283,8 @@ je_panum_diphteria_description = {
 		random_events = {
 			20 = 0
 			4 = panum.921 #Panum 921: Diphteria Hint (hidden)
-			2 = panum.922 #Panum 922: Diphteria Incubation
-			2 = panum.923 #Panum 923: Diphteria Symptoms
-			2 = panum.924 #Panum 924: Diphteria?
+			2 = panum.922 #Panum 922: Croup
+			2 = panum.923 #Panum 923: Leathery Larynx
 		}
 	}
 
@@ -4402,14 +4470,24 @@ je_panum_diphteria_treatment = {
 
 	group = je_group_panum_medicine
 
-	#on_weekly_pulse = {
-	#	random_events = {
-	#		30 = 0
-	#
-	#		#Good Events (+10)
-	#		1 = panum.941 #Panum 941: 
-	#	}
-	#}
+	on_weekly_pulse = {
+		random_events = {
+			30 = 0
+	
+			#Normal Events
+			5 = panum.941 #Panum 941: Iron perchlorate +1
+			5 = panum.942 #Panum 942: Intubation +1
+			5 = panum.943 #Panum 943: Tracheotomy
+			5 = panum.944 #Panum 944: Mercury and Hydrochloric Acid -1
+			5 = panum.945 #Panum 945: Bleeding -1
+
+			#The Rattle in the Night
+			15 = panum.951 #Panum 951: The Rattle in the Night
+
+			##Panum 961: The Diphteria Antitoxin
+			1 = panum.961 #Panum 961: The Diphteria Antitoxin +10
+		}
+	}
 
 	immediate = {
 		if = { #Fallback if the variable does not exist yet
