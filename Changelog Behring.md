@@ -45,6 +45,7 @@ Fixes:
 - Fixed an error with a Sanatorium not being added correctly.
 - Fixed an error which prevented a Geologist from writing a report after returning from a Pacific Expedition.
 - Fixed error in bovine fever event.
+- Fixed an error in the Grain Shortage event.
 - Fixed Transatlantic Cable Event&Je to make them more resistant against errors.
 - Fixed an issue with level 20+ government administrations not getting clinics/hospitals.
 - Fixed a geologist bug with the Age of Earth Event.
