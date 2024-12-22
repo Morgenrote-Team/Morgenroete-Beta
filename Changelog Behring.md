@@ -39,6 +39,7 @@ Characters:
 Fixes:
 - Fixed an issue with Medical Techniques not removing old modifiers and triggering the false event.
 - Fixed notification not showing the name of the Doctor when accelerating research.
+- Fixed error with Animal Documentation not showing the number of documentations.
 - Fixed an error with chemistry events not showing up when doing discovery and isolation.
 - Fixed an error with a Sanatorium not being added correctly.
 - Fixed an error which prevented a Geologist from writing a report after returning from a Pacific Expedition.
