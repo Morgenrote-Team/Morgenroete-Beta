@@ -49,6 +49,7 @@ Fixes:
 - Fixed Transatlantic Cable Event&Je to make them more resistant against errors.
 - Fixed an issue with level 20+ government administrations not getting clinics/hospitals.
 - Fixed a geologist bug with the Age of Earth Event.
+- Fixed various literature related events without a scope.
 - Countries formed by the USA can now build the Statue of Liberty as well.
 - Character Traits in the sports tab should now also show tooltips.
 - The Literary Tradition Concept now has a description.
