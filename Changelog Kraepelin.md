@@ -1,4 +1,4 @@
-Changelog for 2.3.5 "Jung"
+Changelog for 2.3.5 "Kraepelin"
 
 Spanish Flu Rework:
 - Spanish Flu is now a harvest condition like every other disease.
