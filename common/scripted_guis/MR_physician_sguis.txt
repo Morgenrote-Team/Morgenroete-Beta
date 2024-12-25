@@ -75,7 +75,10 @@ mr_physician_describe_disease_foreign_button = {
 			text = MR_PHYSICIAN_CAN_DESCRIBE_FOREIGN_DISEASE_TRIGGER_TT
 			panum_can_describe_foreign_disease_trigger = yes
 		}
-		mr_gui_has_civilizing_mission_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_CIVILIZING_MISSION_TECH_TRIGGER_TT
+			has_technology_researched = civilizing_mission
+		}
     }
     effect = {
 		set_variable = panum_physician_action_active_var
@@ -150,7 +153,10 @@ mr_physician_find_treatment_foreign_button = {
 			text = MR_PHYSICIAN_CAN_FIND_FOREIGN_TREATMENT_TRIGGER_TT
 			panum_can_find_foreign_treatment_trigger = yes
 		}
-		mr_gui_has_civilizing_mission_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_CIVILIZING_MISSION_TECH_TRIGGER_TT
+			has_technology_researched = civilizing_mission
+		}
     }
     effect = {
 		set_variable = panum_physician_action_active_var
@@ -307,7 +313,10 @@ mr_physician_improve_military_medicine_button = {
 				is_busy = no
 			}
 		}
-		mr_gui_has_modern_nursing_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_IRC_MODERN_NURSING_TECH_TRIGGER_TT
+			has_technology_researched = modern_nursing
+		}
 		custom_tooltip = {
 			text = panum_not_most_advanced_medical_support_trigger_tt
 			trigger_if = {
@@ -398,7 +407,10 @@ mr_medical_congress_button = {
 			text = MR_HAS_PHYSICIAN_TRIGGER
 			has_variable = panum_physician_var
 		}
-		mr_gui_has_pharmaceuticals_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_MEDICAL_CONGRESS_PHARMACEUTICALS_TECH_TRIGGER_TT
+			has_technology_researched = pharmaceuticals
+		}
 		custom_tooltip = {
 			text = MR_MEDICINE_8_COUNTRIES_WITH_PHYSICIAN_TRIGGER_TT
 			any_country = {
@@ -459,7 +471,10 @@ mr_first_vaccine_button = {
 			text = MR_HAS_PHYSICIAN_TRIGGER
 			has_variable = panum_physician_var
 		}
-		mr_gui_has_vaccination_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_VACCINATION_TECH_TRIGGER_TT
+			has_technology_researched = panum_vaccination_tech
+		}
 		custom_tooltip = {
 			text = MR_HAS_SMALLPOX_EPIDEMIC_TRIGGER_TT
 			has_journal_entry = je_panum_smallpox
@@ -493,8 +508,14 @@ mr_red_cross_button = {
 			text = MR_HAS_PHYSICIAN_TRIGGER
 			has_variable = panum_physician_var
 		}
-		mr_gui_has_modern_nursing_tech_trigger = yes
-		mr_gui_has_human_rights_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_IRC_MODERN_NURSING_TECH_TRIGGER_TT
+			has_technology_researched = modern_nursing
+		}
+		custom_tooltip = {
+			text = MR_IRC_HUMAN_RIGHTS_TECH_TRIGGER_TT
+			has_technology_researched = human_rights
+		}
 		custom_tooltip = {
 			text = MR_IRC_INFAMY_TRIGGER_TT
 			infamy < 35
@@ -530,8 +551,14 @@ mr_join_red_cross_button = {
 	}
     is_valid = {
 		OR = {
-			mr_gui_has_modern_nursing_tech_trigger = yes
-			mr_gui_has_human_rights_tech_trigger = yes
+			custom_tooltip = {
+				text = MR_IRC_MODERN_NURSING_TECH_TRIGGER_TT
+				has_technology_researched = modern_nursing
+			}
+			custom_tooltip = {
+				text = MR_IRC_HUMAN_RIGHTS_TECH_TRIGGER_TT
+				has_technology_researched = human_rights
+			}
 		}
 		custom_tooltip = {
 			text = MR_IRC_INFAMY_TRIGGER_TT
@@ -548,6 +575,146 @@ mr_join_red_cross_button = {
 	}
 	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
+
+#MR_FOUND_ASYLUM_BUTTON
+mr_found_asylum_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_panum_asylum
+				}
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_PSYCHIATRIST_TRIGGER
+			has_variable = panum_physician_var
+			panum_physician_var ?= {
+				has_trait = panum_psychiatrist
+			}
+		}
+		custom_tooltip = {
+			text = MR_HAS_CLINIC_OR_HOSPITAL_TRIGGER_TT
+			OR = {
+				any_scope_state = {
+					is_incorporated = yes
+					any_scope_building = {
+						is_building_type = building_government_administration
+						has_active_production_method = pm_panum_hospital
+					}
+				}
+				any_scope_state = {
+					is_incorporated = yes
+					any_scope_building = {
+						is_building_type = building_government_administration
+						has_active_production_method = pm_panum_clinic
+					}
+				}
+			}
+		}
+    }
+    effect = {
+		custom_tooltip = {
+			text = panum_building_asylum_construction_start_tt
+			if = {
+				limit = {
+					OR = {
+						any_scope_state = {
+							is_incorporated = yes
+							any_scope_building = {
+								is_building_type = building_government_administration
+								has_active_production_method = pm_panum_hospital
+							}
+						}
+						any_scope_state = {
+							is_incorporated = yes
+							any_scope_building = {
+								is_building_type = building_government_administration
+								has_active_production_method = pm_panum_clinic
+							}
+						}
+					}
+				}
+				random_scope_state = {
+					limit = {
+						OR = {
+							any_scope_state = {
+								is_incorporated = yes
+								any_scope_building = {
+									is_building_type = building_government_administration
+									has_active_production_method = pm_panum_hospital
+								}
+							}
+							any_scope_state = {
+								is_incorporated = yes
+								any_scope_building = {
+									is_building_type = building_government_administration
+									has_active_production_method = pm_panum_clinic
+								}
+							}
+						}
+					}
+					start_building_construction = building_panum_asylum
+				}
+			}
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_SEND_CHARACTER_TO_ASYLUM
+mr_send_character_to_asylum_button_sgui = {
+	scope = country
+	is_valid = {
+		NOT = {
+			has_variable = panum_physician_character_asylum_button_active
+		}
+		custom_tooltip = {
+			text = MR_HAS_PSYCHIATRIST_TRIGGER
+			has_variable = panum_physician_var
+			panum_physician_var ?= {
+				has_trait = panum_psychiatrist
+			}
+		}
+		custom_tooltip = {
+			text = MR_HAS_MENTAL_ASYLUM_TRIGGER_TT
+			any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_panum_asylum
+					level >= 1
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_CAN_ANY_CHARACTER_BE_SEND_TO_ASYLUM_TRIGGER_TT
+			panum_can_any_characters_be_send_to_asylum_no_tooltip_trigger = yes
+		}
+		custom_tooltip = {
+			text = MR_NOT_HAD_RECENT_ASYLUM_CONDUCTED_TRIGGER_TT
+			NOT = {
+				has_modifier = panum_physician_recent_asylum_conducted_modifier
+			}
+		}
+	}
+	effect = {
+		set_variable = panum_physician_character_asylum_button_active
+		panum_set_asylum_list_effect = yes
+	}
+
+	#AI should not do that. Maybe totalitarian systems in the future. Or Bavaria. Mein Kini!
+}
+
+###########################################################
+
+###### CHARACTER TREATMENT ######
 
 #Button for treatment
 mr_physician_character_treatment_button_sgui = {
@@ -2298,19 +2465,37 @@ mr_physician_introduce_medical_techniques_level_button = {
 			}
 		}
 		#Level 1 Trigger
-		mr_gui_has_vaccination_tech_trigger = yes
-		mr_gui_has_central_archives_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_VACCINATION_TECH_TRIGGER_TT
+			has_technology_researched = panum_vaccination_tech
+		}
+		custom_tooltip = {
+			text = MR_CENTRAL_ARCHIVES_TECH_TRIGGER_TT
+			has_technology_researched = central_archives
+		}
 		#Level 2 Trigger
 		trigger_if = {
 			limit = { has_modifier = panum_medical_techniques_level_1_modifier }
-			mr_gui_has_pharmaceuticals_tech_trigger = yes
-			mr_gui_has_chemistry_tech_trigger = yes
+			custom_tooltip = {
+				text = MR_MEDICAL_CONGRESS_PHARMACEUTICALS_TECH_TRIGGER_TT
+				has_technology_researched = pharmaceuticals
+			}
+			custom_tooltip = {
+				text = MR_CHEMISTRY_TECH_TRIGGER_TT
+				has_technology_researched = verrier_chemistry_tech
+			}
 		}
 		#Level 3 Trigger
 		trigger_if = {
 			limit = { has_modifier = panum_medical_techniques_level_2_modifier }
-			mr_gui_has_quinine_tech_trigger = yes
-			mr_gui_has_mechanical_tools_tech_trigger = yes
+			custom_tooltip = {
+				text = MR_ARCHAEOLOGY_QUININE_TECH_TRIGGER
+				has_technology_researched = quinine
+			}
+			custom_tooltip = {
+				text = MR_HAS_MECHANICAL_TOOLS_TECH_TRIGGER_TT
+				has_technology_researched = mechanical_tools
+			}
 		}
 		#Level 4 Trigger
 		trigger_if = {
@@ -2319,25 +2504,46 @@ mr_physician_introduce_medical_techniques_level_button = {
 				text = MR_PHYSICIAN_HAS_GERM_THEORY_TRIGGER
 				panum_has_miasma_theory_trigger = no
 			}
-			mr_gui_has_microbiology_tech_trigger = yes
+			custom_tooltip = {
+				text = MR_MICROBIOLOGY_TECH_TRIGGER_TT
+				has_technology_researched = theiler_microbiology_tech
+			}
 		}
 		#Level 5 Trigger
 		trigger_if = {
 			limit = { has_modifier = panum_medical_techniques_level_4_modifier }
-			mr_gui_has_malaria_prevention_tech_trigger = yes
-			mr_gui_has_central_planning_tech_trigger = yes
+			custom_tooltip = {
+				text = MR_SAFARI_EXPEDITION_MALARIA_PREVENTION_TRIGGER_TT
+				has_technology_researched = malaria_prevention
+			}
+			custom_tooltip = {
+				text = MR_CENTRAL_PLANNING_TECH_TRIGGER_TT
+				has_technology_researched = central_planning
+			}
 		}
 		#Level 6 Trigger
 		trigger_if = {
 			limit = { has_modifier = panum_medical_techniques_level_5_modifier }
-			mr_gui_has_antitoxins_tech_trigger = yes
-			mr_gui_has_combustion_engine_tech_trigger = yes
+			custom_tooltip = {
+				text = MR_ANTITOXINS_TECH_TRIGGER_TT
+				has_technology_researched = panum_antitoxins_tech
+			}
+			custom_tooltip = {
+				text = MR_AERONAUTICAL_ENGINEER_COMBUSTION_ENGINE_TECH_TRIGGER_TT
+				has_technology_researched = combustion_engine
+			}
 		}
 		#Level 7 Trigger
 		trigger_if = {
 			limit = { has_modifier = panum_medical_techniques_level_6_modifier }
-			mr_gui_has_antibiotics_tech_trigger = yes
-			mr_gui_has_military_aviation_tech_trigger = yes
+			custom_tooltip = {
+				text = MR_ANTIBIOTICS_TECH_TRIGGER_TT
+				has_technology_researched = antibiotics
+			}
+			custom_tooltip = {
+				text = MR_ELECTRICAL_ENGINEER_MILITARY_AVIATION_TECH_TRIGGER_TT
+				has_technology_researched = military_aviation
+			}
 		}
 
     }
