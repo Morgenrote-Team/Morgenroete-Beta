@@ -21053,6 +21053,278 @@ panum.1064 = {
 	}
 }
 
+##################################################################################################
+
+######Spanish Flu######
+
+#Panum 1100: Spanish Flu
+panum.1100 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.1100.t
+
+	desc = panum.1100.d
+
+	flavor = panum.1100.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_spanish_flu.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_spanish_flu_trigger = yes
+		}
+		NOT = {
+			has_journal_entry = je_panum_spanish_flu
+		}
+	}
+
+	immediate = {
+		panum_set_spanish_flu_state_effect = yes
+		if = {
+			limit = {
+				NOT = { is_country_type = decentralized }
+			}
+			add_journal_entry = {
+				type = je_panum_spanish_flu
+			}
+		}
+	}
+
+	option = {	#Spanish Flu
+		name = panum.1100.g
+		default_option = yes
+	}
+
+	after = {
+		every_scope_state = {
+			state_region = {
+				start_harvest_condition = panum_spanish_flu_condition
+			}
+		}
+	}
+}
+
+#Panum 1101: Spanish Flu - Historical Start
+panum.1101 = {
+	dlc = dlc_morgenrote
+
+	placement = scope:panum_disease_state
+
+	type = country_event
+
+	title = panum.1101.t
+
+	desc = panum.1101.d
+
+	flavor = panum.1101.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_spanish_flu.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		has_game_rule = panum_historical_spanish_flu_rule
+		NOT = {
+			has_global_variable = panum_spanish_flu_pandemic_global_var
+		}
+		game_date >= 1918.1.1 #Patient Zero; however, Spanish Flu started way earlier
+		any_scope_state = {
+			state_region = s:STATE_TOLEDO #Spanish Flu did not start in Spain, but we get the name from here
+		}
+	}
+
+	immediate = {
+		set_global_variable = panum_spanish_flu_pandemic_global_var
+		country_definition = {
+			set_global_variable = {
+				name = panum_spanish_flu_originator_country
+				value = this
+			}
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_TOLEDO
+			}
+			save_scope_as = panum_disease_state
+			set_variable = panum_spanish_flu_originator_state
+		}
+		add_journal_entry = {
+			type = je_panum_spanish_flu
+		}
+	}
+
+	option = {	#Spanish Flu Pandemic started
+		name = panum.1101.g
+		default_option = yes
+		scope:panum_disease_state = {
+			state_region = {
+				start_harvest_condition = panum_spanish_flu_condition
+			}
+		}
+	}
+
+	after = {
+		every_scope_state = {
+			state_region = {
+				start_harvest_condition = panum_spanish_flu_condition
+			}
+		}
+	}
+}
+
+#Panum 1102: Spanish Flu - Dyanmic Start
+panum.1102 = {
+	dlc = dlc_morgenrote
+
+	placement = scope:panum_disease_state
+
+	type = country_event
+
+	title = panum.1102.t
+
+	desc = panum.1102.d
+
+	flavor = panum.1102.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_spanish_flu.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		has_game_rule = panum_dynamic_spanish_flu_rule
+		NOT = {
+			has_global_variable = panum_spanish_flu_pandemic_global_var
+		}
+		game_date >= 1905.1.1
+		game_date < 1920.1.1
+		country_rank >= rank_value:major_power
+		any_scope_state = {
+			is_incorporated = yes
+			OR = {
+				is_production_method_active = {
+					building_type = building_railway
+					production_method = pm_electric_trains
+				}
+				is_production_method_active = {
+					building_type = building_railway
+					production_method = pm_diesel_trains
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = panum_spanish_flu_pandemic_global_var
+		country_definition = {
+			set_global_variable = {
+				name = panum_spanish_flu_originator_country
+				value = this
+			}
+		}
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				OR = {
+					is_production_method_active = {
+						building_type = building_railway
+						production_method = pm_electric_trains
+					}
+					is_production_method_active = {
+						building_type = building_railway
+						production_method = pm_diesel_trains
+					}
+				}
+			}
+			save_scope_as = panum_disease_state
+			set_variable = panum_spanish_flu_originator_state
+		}
+		add_journal_entry = {
+			type = je_panum_spanish_flu
+		}
+	}
+
+	option = {	#Spanish Flu Pandemic started
+		name = panum.1101.g
+		default_option = yes
+		scope:panum_disease_state = {
+			state_region = {
+				start_harvest_condition = panum_spanish_flu_condition
+			}
+		}
+	}
+
+	after = {
+		every_scope_state = {
+			state_region = {
+				start_harvest_condition = panum_spanish_flu_condition
+			}
+		}
+	}
+}
+
+#Panum 1120: Spanish Flu over
+panum.1120 = {
+	dlc = dlc_morgenrote
+
+	placement = scope:panum_disease_state
+
+	type = country_event
+
+	title = panum.1120.t
+
+	desc = panum.1120.d
+
+	flavor = panum.1120.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_spanish_flu.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Spanish Flu Pandemic end
+		name = panum.1120.g
+		default_option = yes
+	}
+
+	after = {
+	}
+}
+
 ########################################################################################################################
 
 ####### MEDICAL CONGRESS #######
