@@ -9,7 +9,7 @@ Spanish Flu Rework:
 - c) No Flu: There will be no pandemic.
 - Spanish Flu will not have waves, but is a constant condition which may stay 60 to 100 weeks.
 - Government Response (now: Pandemic Policy) is done via Physician GUI instead decisions.
-- Pandemic Policy is active for a year; however, you can change it after 6 months.
+- Pandemic Policy is active until you change it; however, you only can change it after at least 6 months.
 - Pandemic Policy needs Central Planning tech.
 - Lockdown costs 10 authority for each state, measures cost 5 authority for each state.
 - States with measures/lockdown have the chance to gain the "pandemic fading" modifier after some weeks/months, depending on harsher or milder modifiers.
