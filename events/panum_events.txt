@@ -21286,6 +21286,216 @@ panum.1102 = {
 	}
 }
 
+#Panum 1103: Pandemic Policy
+panum.1103 = {
+	type = country_event
+	placement = ROOT
+
+	title = panum.1103.t
+	desc = plague.5.d
+	flavor = plague.5.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_spanish_flu.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	duration = 3
+
+	immediate = {
+	}
+
+	option = { # lockdown!
+		name = plague.5.a
+		custom_tooltip = panum.1103.a.tt
+		set_variable = {
+			name = panum_spanish_flu_lockdown_var
+		}
+		every_scope_state = {
+			limit = {
+				panum_state_has_spanish_flu_trigger = yes
+			}
+			add_modifier = {
+				name = panum_spanish_flu_lockdown_modifier
+				months = 12
+			}
+			if = {
+				limit = {
+					has_modifier = panum_spanish_flu_measures_modifier
+				}
+				remove_modifier = panum_spanish_flu_measures_modifier
+			}			
+			if = {
+				limit = {
+					has_variable = panum_spanish_flu_measures_var
+				}
+				remove_variable = panum_spanish_flu_measures_var
+			}
+		}
+	}
+	option = { # social distancing and masks
+		name = plague.5.b
+		default_option = yes
+		custom_tooltip = panum.1103.b.tt
+		set_variable = {
+			name = panum_spanish_flu_measures_var
+		}
+		every_scope_state = {
+			limit = {
+				panum_state_has_spanish_flu_trigger = yes
+			}
+			add_modifier = {
+				name = panum_spanish_flu_measures_modifier
+				months = 12
+			}
+			if = {
+				limit = {
+					has_modifier = panum_spanish_flu_lockdown_modifier
+				}
+				remove_modifier = panum_spanish_flu_lockdown_modifier
+			}			
+			if = {
+				limit = {
+					has_variable = panum_spanish_flu_lockdown_var
+				}
+				remove_variable = panum_spanish_flu_lockdown_var
+			}
+		}
+	}
+	option = { # think about the economy!
+		name = plague.5.c
+		custom_tooltip = panum.1103.c.tt
+		remove_variable = panum_spanish_flu_measures_var
+		remove_variable = panum_spanish_flu_lockdown_var
+		every_scope_state = {
+			limit = {
+				OR = {
+					has_modifier = panum_spanish_flu_lockdown_modifier
+					has_modifier = panum_spanish_flu_measures_modifier
+				}
+			}
+			if = {
+				limit = {
+					has_modifier = panum_spanish_flu_lockdown_modifier
+				}
+				remove_modifier = panum_spanish_flu_lockdown_modifier
+			}
+			else = {
+				remove_modifier = panum_spanish_flu_measures_modifier
+			}
+		}
+	}
+}
+
+#Panum 1104: Pandemic fading
+panum.1104 = {
+	type = country_event
+	placement = scope:panum_flu_fading_state
+
+	title = panum.1104.t
+	desc = panum.1104.d
+	flavor = panum.1104.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_spanish_flu.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	duration = 3
+
+	trigger = {
+		any_scope_state = {
+			OR = {
+				has_modifier = panum_spanish_flu_lockdown_modifier
+				has_modifier = panum_spanish_flu_measures_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				OR = {
+					has_modifier = panum_spanish_flu_lockdown_modifier
+					has_modifier = panum_spanish_flu_measures_modifier
+				}
+			}
+			save_scope_as = panum_flu_fading_state
+		}
+	}
+
+	option = { # lockdown!
+		name = panum.1104.g
+		scope:panum_flu_fading_state = {
+			add_modifier = {
+				name = panum_spanish_flu_fading_modifier
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			any_scope_state = {
+				has_modifier = panum_spanish_flu_lockdown_modifier
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 1105: Pandemic disappearing
+panum.1105 = {
+	type = country_event
+	placement = scope:panum_flu_disappearing_state
+
+	title = panum.1105.t
+	desc = panum.1105.d
+	flavor = panum.1105.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_spanish_flu.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	duration = 3
+
+	trigger = {
+		any_scope_state = {
+			has_modifier = panum_spanish_flu_fading_modifier
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				OR = {
+					has_modifier = panum_spanish_flu_lockdown_modifier
+					has_modifier = panum_spanish_flu_measures_modifier
+				}
+			}
+			save_scope_as = panum_flu_disappearing_state
+		}
+	}
+
+	option = { # lockdown!
+		name = panum.1105.g
+		scope:panum_flu_disappearing_state = {
+			remove_modifier = panum_spanish_flu_fading_modifier
+			finish_harvest_condition = panum_spanish_flu_condition
+		}
+	}
+}
+
 #Panum 1120: Spanish Flu over
 panum.1120 = {
 	dlc = dlc_morgenrote
