@@ -10,6 +10,10 @@ Spanish Flu Rework:
 - Spanish Flu will not have waves, but is a constant condition which may stay 60 to 100 weeks.
 - Government Response is done via Physician GUI instead decisions.
 
+Psychiatry:
+- Physicians with Psychiatrist trait can found a Mental Asylum.
+- Added Mental Asylum building with PMs based on psychiatry/psychology techs.
+
 Quality of Life:
 - Technology tooltips now show you the tooltipable technology.
 
