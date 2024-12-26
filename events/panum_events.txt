@@ -21496,6 +21496,406 @@ panum.1105 = {
 	}
 }
 
+#Panum 1107: Pandemic impacts war support
+panum.1107 = {
+	type = country_event
+	placement = scope:panum_disease_state
+
+	title = panum.1107.t
+	desc = panum.1107.d
+	flavor = panum.1107.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_spanish_flu.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		is_at_war = yes
+		any_scope_state = {
+			is_incorporated = yes
+			panum_state_has_spanish_flu_trigger = yes
+		}
+		any_interest_group = {
+			is_in_government = no
+			NOT = { has_modifier = plague_war }
+			leader = {
+				has_ideology = ideology:ideology_pacifist
+			}
+		}
+	}
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				panum_state_has_spanish_flu_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+		random_interest_group = {
+			limit = {
+				is_in_government = no
+				NOT = { has_modifier = plague_war }
+				leader = {
+					has_ideology = ideology:ideology_pacifist
+				}
+			}
+			save_scope_as = pacifist_ig
+			leader = {
+				save_scope_as = pacifist_leader
+			}
+		}
+	}
+
+	cancellation_trigger = {
+		has_global_variable = panum_spanish_flu_pandemic_over_global_var
+	}
+
+	option = { # gain turmoil
+		name = panum.1107.g
+		default_option = yes
+		scope:panum_disease_state = {
+			add_radicals_in_state = {
+				value = medium_radicals
+			}
+		}
+		scope:pacifist_ig = {
+			add_modifier = {
+				name = plague_war
+				months = 24
+			}
+		}
+	}
+	option = { # propaganda and reassurance
+		name = panum.1107.h
+		trigger = {
+			has_technology_researched = mass_propaganda
+			institution_investment_level = {
+				institution = institution_health_system
+				value >= 3
+			}
+		}
+		highlighted_option = yes
+		scope:panum_disease_state = {
+			add_radicals_in_state = {
+				value = small_radicals
+			}
+		}
+		scope:pacifist_ig = {
+			add_modifier = {
+				name = plague_war
+				months = 12
+			}
+		}
+	}
+	option = { # censorship
+		name = panum.1107.i
+		trigger = {
+			OR = {
+				has_law = law_type:law_censorship
+				has_law = law_type:law_outlawed_dissent
+			}
+		}
+		highlighted_option = yes
+		scope:panum_disease_state = {
+			add_radicals_in_state = {
+				value = small_radicals
+			}
+		}
+		scope:pacifist_ig = {
+			add_modifier = {
+				name = plague_war
+				months = 12
+			}
+		}
+	}
+}
+
+#Panum 1108: Poverty and evictions
+panum.1108 = {
+	type = country_event
+	placement = scope:panum_disease_state
+
+	title = panum.1108.t
+	desc = panum.1108.d
+	flavor = panum.1108.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_spanish_flu.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		any_scope_state = {
+			is_incorporated = yes
+			panum_state_has_spanish_flu_trigger = yes
+			OR = {
+				has_modifier = panum_spanish_flu_lockdown_modifier
+				has_modifier = panum_spanish_flu_measures_modifier
+			}
+			state_unemployment_rate >= 0.2
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				panum_state_has_spanish_flu_trigger = yes
+				OR = {
+					has_modifier = panum_spanish_flu_lockdown_modifier
+					has_modifier = panum_spanish_flu_measures_modifier
+				}
+				state_unemployment_rate >= 0.2
+			}
+			save_scope_as = panum_disease_state
+		}
+		ig:ig_landowners = {
+			save_scope_as = landowner_ig
+		}
+	}
+
+	cancellation_trigger = {
+		has_global_variable = panum_spanish_flu_pandemic_over_global_var
+	}
+
+	option = { # rent freeze and eviction ban
+		name = panum.1108.a
+		scope:landowner_ig = {
+			add_modifier = {
+				name = plague_eviction_ban
+				months = 12
+			}
+		}
+		if = {
+			limit = {
+				any_interest_group = {
+					leader = {
+						has_ideology = ideology:ideology_anarchist
+					}
+				}
+			}
+			every_interest_group = {
+				limit = {
+					has_ideology = ideology:ideology_anarchist
+				}
+				add_modifier = plague_eviction_ban_anarchist
+			}
+		}
+	}
+
+	option = { # Rely on social security
+		name = panum.1108.b
+		trigger = {
+			institution_investment_level = {
+				institution = institution_social_security
+				value = 3
+			}
+		}
+		highlighted_option = yes
+		add_modifier = {
+			name = plague_welfare_cost
+			months = 12
+		}
+		if = {
+			limit = {
+				any_interest_group = {
+					leader = {
+						OR = {
+							has_ideology = ideology:ideology_vanguardist
+							has_ideology = ideology:ideology_communist
+							has_ideology = ideology:ideology_social_democrat
+						}
+					}
+				}
+			}
+			every_interest_group = {
+				limit = {
+					leader = {
+						OR = {
+							has_ideology = ideology:ideology_vanguardist
+							has_ideology = ideology:ideology_communist
+							has_ideology = ideology:ideology_social_democrat
+						}
+					}
+				}
+				add_modifier = {
+					name = plague_welfare_reliance
+					months = 12
+				}
+			}
+		}
+	}
+	option = { # We don't care about poor people
+		name = panum.1108.c
+		default_option = yes
+		scope:panum_disease_state = {
+			add_radicals_in_state = {
+				value = medium_radicals
+				strata = lower
+			}
+		}
+		if = {
+			limit = {
+				any_interest_group = {
+					leader = {
+						OR = {
+							has_ideology = ideology:ideology_vanguardist
+							has_ideology = ideology:ideology_communist
+							has_ideology = ideology:ideology_social_democrat
+							has_ideology = ideology:ideology_anarchist
+						}
+					}
+				}
+			}
+			every_interest_group = {
+				limit = {
+					leader = {
+						OR = {
+							has_ideology = ideology:ideology_vanguardist
+							has_ideology = ideology:ideology_communist
+							has_ideology = ideology:ideology_social_democrat
+							has_ideology = ideology:ideology_anarchist
+						}
+					}
+				}
+				add_modifier = {
+					name = plague_no_poverty_measures
+					months = 12
+				}
+			}
+		}
+	}
+}
+
+#Panum 1109: Resistance to pandemic measures
+panum.1109 = {
+	type = country_event
+	placement = ROOT
+
+	title = panum.1109.t
+	desc = panum.1109.d
+	flavor = panum.1109.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_spanish_flu.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		OR = {
+			has_variable = panum_spanish_flu_measures_var
+			has_variable = panum_spanish_flu_lockdown_var
+		}
+		any_scope_state = {
+			panum_state_has_spanish_flu_trigger = yes
+			OR = {
+				has_modifier = panum_spanish_flu_lockdown_modifier
+				has_modifier = panum_spanish_flu_measures_modifier
+			}
+			is_incorporated = yes
+		}
+		any_interest_group = {
+			has_ideology = ideology:ideology_laissez_faire
+			is_in_government = no
+		}
+	}
+
+	immediate = {
+		random_interest_group = {
+			limit = {
+				has_ideology = ideology:ideology_laissez_faire
+				is_in_government = no
+			}
+			save_scope_as = anti_mask_ig
+			leader = {
+				save_scope_as = anti_mask_ig_leader
+			}
+		}
+	}
+
+	cancellation_trigger = {
+		has_global_variable = panum_spanish_flu_pandemic_over_global_var
+	}
+	
+	option = { # Ignore their demands
+		name = panum.1109.g
+		default_option = yes
+		scope:anti_mask_ig = {
+			add_modifier = {
+				name = anti_mask_ignored
+				months = 12
+			}
+		}
+	}
+	option = { # Cave in to demands
+		name = panum.1109.h
+		remove_variable = panum_spanish_flu_measures_var
+		remove_variable = panum_spanish_flu_lockdown_var
+		every_scope_state = {
+			limit = {
+				OR = {
+					has_modifier = panum_spanish_flu_lockdown_modifier
+					has_modifier = panum_spanish_flu_measures_modifier
+				}
+			}
+			remove_modifier = panum_spanish_flu_lockdown_modifier
+			remove_modifier = panum_spanish_flu_measures_modifier
+		}
+		scope:anti_mask_ig = {
+			add_modifier = {
+				name = anti_mask_appeased
+				months = 12
+			}
+		}
+		add_modifier = {
+			name = panum_recent_pandemic_policy_change_modifier
+			days = 180
+		}
+	}
+	option = { # Discredit their movement with science
+		name = panum.1109.i
+		trigger = {
+			panum_has_physician = yes
+			panum_has_miasma_theory_trigger = no
+		}
+		highlighted_option = yes
+		scope:anti_mask_ig = {
+			add_modifier = {
+				name = anti_mask_discredited
+				months = 12
+			}
+		}
+	}
+}
+
 #Panum 1120: Spanish Flu over
 panum.1120 = {
 	dlc = dlc_morgenrote
