@@ -14,6 +14,7 @@ Spanish Flu Rework:
 - Lockdown costs 10 authority for each state, measures cost 5 authority for each state.
 - States with measures/lockdown have the chance to gain the "pandemic fading" modifier after some weeks/months, depending on harsher or milder modifiers.
 - States with a "pandemic fading" modifier have a chance to lose the Spanish flu condition earlier.
+- Having high health care insitution (>=4), high medical techniques tier (>=6) or a famous physician will give a higher chance for the two events mentioned above.
 - Anti-Mask League can be discredited only with an experienced/famous Physician and Germ Theory.
 
 Psychiatry:
