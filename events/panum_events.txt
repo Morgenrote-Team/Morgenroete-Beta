@@ -21106,14 +21106,6 @@ panum.1100 = {
 		name = panum.1100.g
 		default_option = yes
 	}
-
-	after = {
-		every_scope_state = {
-			state_region = {
-				start_harvest_condition = panum_spanish_flu_condition
-			}
-		}
-	}
 }
 
 #Panum 1101: Spanish Flu - Historical Start
@@ -21175,14 +21167,6 @@ panum.1101 = {
 		name = panum.1101.g
 		default_option = yes
 		scope:panum_disease_state = {
-			state_region = {
-				start_harvest_condition = panum_spanish_flu_condition
-			}
-		}
-	}
-
-	after = {
-		every_scope_state = {
 			state_region = {
 				start_harvest_condition = panum_spanish_flu_condition
 			}
@@ -21278,11 +21262,6 @@ panum.1102 = {
 	}
 
 	after = {
-		every_scope_state = {
-			state_region = {
-				start_harvest_condition = panum_spanish_flu_condition
-			}
-		}
 	}
 }
 
@@ -21320,7 +21299,6 @@ panum.1103 = {
 			}
 			add_modifier = {
 				name = panum_spanish_flu_lockdown_modifier
-				months = 12
 			}
 			if = {
 				limit = {
@@ -21349,7 +21327,6 @@ panum.1103 = {
 			}
 			add_modifier = {
 				name = panum_spanish_flu_measures_modifier
-				months = 12
 			}
 			if = {
 				limit = {
@@ -21411,6 +21388,10 @@ panum.1104 = {
 
 	trigger = {
 		any_scope_state = {
+			NOT = {
+				has_modifier = panum_spanish_flu_fading_modifier
+			}
+			panum_state_has_spanish_flu_trigger = yes
 			OR = {
 				has_modifier = panum_spanish_flu_lockdown_modifier
 				has_modifier = panum_spanish_flu_measures_modifier
@@ -21442,8 +21423,20 @@ panum.1104 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			any_scope_state = {
-				has_modifier = panum_spanish_flu_lockdown_modifier
+			has_variable = panum_spanish_flu_lockdown_var
+			add = 1
+		}
+		modifier = {
+			has_variable = panum_physician_var
+			var:panum_physician_var ?= {
+				has_trait = panum_physician_famous
+			}
+			add = 1
+		}
+		modifier = {
+			institution_investment_level = {
+				institution = institution_health_system
+				value >= 4
 			}
 			add = 1
 		}
@@ -21471,11 +21464,16 @@ panum.1105 = {
 
 	trigger = {
 		any_scope_state = {
+			panum_state_has_spanish_flu_trigger = yes
 			has_modifier = panum_spanish_flu_fading_modifier
 		}
 	}
 
 	immediate = {
+		add_modifier = {
+			name = panum_recent_pandemic_policy_change_modifier
+			days = 180
+		}
 		random_scope_state = {
 			limit = {
 				OR = {
@@ -21491,7 +21489,32 @@ panum.1105 = {
 		name = panum.1105.g
 		scope:panum_flu_disappearing_state = {
 			remove_modifier = panum_spanish_flu_fading_modifier
-			finish_harvest_condition = panum_spanish_flu_condition
+			set_variable = panum_recent_spanish_flu_var
+			state_region = {
+				finish_harvest_condition = panum_spanish_flu_condition
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = panum_spanish_flu_lockdown_var
+			add = 1
+		}
+		modifier = {
+			has_variable = panum_physician_var
+			var:panum_physician_var ?= {
+				has_trait = panum_physician_famous
+			}
+			add = 1
+		}
+		modifier = {
+			institution_investment_level = {
+				institution = institution_health_system
+				value >= 4
+			}
+			add = 1
 		}
 	}
 }
@@ -21678,7 +21701,7 @@ panum.1108 = {
 	}
 
 	option = { # rent freeze and eviction ban
-		name = panum.1108.a
+		name = panum.1108.g
 		scope:landowner_ig = {
 			add_modifier = {
 				name = plague_eviction_ban
@@ -21703,7 +21726,7 @@ panum.1108 = {
 	}
 
 	option = { # Rely on social security
-		name = panum.1108.b
+		name = panum.1108.h
 		trigger = {
 			institution_investment_level = {
 				institution = institution_social_security
@@ -21745,7 +21768,7 @@ panum.1108 = {
 		}
 	}
 	option = { # We don't care about poor people
-		name = panum.1108.c
+		name = panum.1108.i
 		default_option = yes
 		scope:panum_disease_state = {
 			add_radicals_in_state = {
