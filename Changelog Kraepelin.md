@@ -27,5 +27,11 @@ Quality of Life:
 Changes:
 - Scania has now a (normal) Formation, representing Kristianstad Basin.
 
+GUI:
+- Added various rankings to the academic rankings. You can change between them by clicking a button in the tooltip window.
+
 Fixes
 - Fixed locs using diphteria instead of diphtheria.
+- If the Morgenröte Button somehow gets removed, it will get added back after a month.
+- Various small loc fixes.
+- Pathogen and Vaccine Clues should now be visible and not stay at 0 no matter what you do.
