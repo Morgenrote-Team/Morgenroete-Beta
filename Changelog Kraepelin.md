@@ -20,6 +20,7 @@ Spanish Flu Rework:
 Psychiatry:
 - Physicians with Psychiatrist trait can found a Mental Asylum.
 - Added Mental Asylum building with PMs based on psychiatry/psychology techs.
+- Characters (politicians, rulers, agitators) with psychological afflictions, addictions or dementia (senile) can be commissioned to the Mental Asylum. This may cause a bit uproar, but not as much as exiling them (they ARE mentally ill, after all).
 
 Quality of Life:
 - Technology tooltips now show you the tooltipable technology.
