@@ -35,3 +35,4 @@ Fixes
 - If the Morgenröte Button somehow gets removed, it will get added back after a month.
 - Various small loc fixes.
 - Pathogen and Vaccine Clues should now be visible and not stay at 0 no matter what you do.
+- Events with exploding mines will no longer remove all the mines and instead add some negative throughput.
