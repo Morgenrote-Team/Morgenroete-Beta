@@ -15701,22 +15701,16 @@ panum.800 = {
 			has_global_variable = panum_third_plague_global_var
 		}
 		game_date >= 1894.1.1 #Third Wave started way earlier, but we begin with the Hong Kong outbreak to give enough time to develop antitoxins
-		any_scope_state = { #Historically Yunnan, but we make it a little bit more random
-			OR = {
-				region = sr:region_indochina
-				region = sr:region_south_china
-				region = sr:region_north_china
-				region = sr:region_bengal
-			}
+		any_scope_state = {
+			state_region = s:STATE_YUNNAN
 		}
-		panum_country_can_have_plague_trigger = yes
 	}
 
 	immediate = {
 		set_global_variable = panum_third_plague_global_var
 		random_scope_state = {
 			limit = {
-				panum_state_can_have_plague_trigger = yes
+				state_region = s:STATE_YUNNAN
 			}
 			save_scope_as = panum_disease_state
 		}
@@ -15728,10 +15722,8 @@ panum.800 = {
 	option = {	#Plague!
 		name = panum.800.g
 		default_option = yes
-		scope:panum_disease_state = {
-			state_region = {
-				start_harvest_condition = panum_plague_condition
-			}
+		s:STATE_YUNNAN = {
+			start_harvest_condition = panum_plague_condition
 		}
 		hidden_effect = {
 			if = {
@@ -15845,6 +15837,12 @@ panum.804 = {
 	}
 
 	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_YUNNAN
+			}
+			save_scope_as = panum_disease_state
+		}
 		random_country = {
 			limit = {
 				has_journal_entry = je_panum_plague
@@ -19291,8 +19289,14 @@ panum.1001 = {
 			has_global_variable = panum_polio_epidemic_global_var
 		}
 		game_date >= 1886.1.1 #Historically, polio began to become an epidemic disease around the late 19th century. The date is a little earlier because otherwise it coincides too closely with the plague
+		has_technology_researched = modern_sewerage
+		institution_investment_level = {
+			institution	= institution_health_system
+			value >= 1
+		}
 		any_scope_state = {
-			panum_state_can_have_polio_trigger = yes
+			average_sol <= 35
+			total_urbanization >= 1000
 		}
 	}
 
