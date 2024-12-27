@@ -34,6 +34,8 @@ GUI:
 Fixes
 - Physicians should not research different descriptions and treatments at once.
 - Fixed locs using diphteria instead of diphtheria.
+- Plague should work as intended now.
+- Polio should work as intended now.
 - If the Morgenröte Button somehow gets removed, it will get added back after a month.
 - Various small loc fixes.
 - Pathogen and Vaccine Clues should now be visible and not stay at 0 no matter what you do.
