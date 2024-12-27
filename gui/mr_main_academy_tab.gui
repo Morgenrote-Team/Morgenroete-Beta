@@ -4856,18 +4856,67 @@ types academy_view
 														MR_TooltipRankingType = {
 															blockoverride "ranking_on_finish" {
 																on_finish = "[GetScriptedGui('mr_specimen_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
+																on_finish = "[GetVariableSystem.Set('mr_naturalist_ranking', 'specimens')]" #Shows the skeleton ranking
+															}
+															blockoverride "buttons_visible" {
+																visible = yes
+															}
+															blockoverride "button_1_content" {
+																enabled = "[Not( GetVariableSystem.HasValue('mr_naturalist_ranking', 'specimens') )]"
+																text = "MR_SPECIMENS"
+																tooltip = "MR_RANKING_BY_SPECIMENS"
+									
+																onclick = "[GetVariableSystem.Set('mr_naturalist_ranking', 'specimens')]"
+															}
+															blockoverride "button_2_content" {
+																enabled = "[Not( GetVariableSystem.HasValue('mr_naturalist_ranking', 'zoo_animals') )]"
+																text = "MR_ZOO_ANIMALS"
+																tooltip = "MR_RANKING_BY_ZOO_ANIMALS"
+									
+																onclick = "[GetVariableSystem.Set('mr_naturalist_ranking', 'zoo_animals')]"
+															}
+															blockoverride "button_3_content" {
+																enabled = "[Not( GetVariableSystem.HasValue('mr_naturalist_ranking', 'animal_documentations') )]"
+																text = "MR_ANIMAL_DOCUMENTATIONS"
+																tooltip = "MR_RANKING_BY_ANIMAL_DOCUMENTATIONS"
+									
+																onclick = "[GetVariableSystem.Set('mr_naturalist_ranking', 'animal_documentations')]"
 															}
 															blockoverride "text_1" {
 																raw_text = "NATURALIST_SPECIMEN_RANKING_HEADER"
 															}
 															blockoverride "ranking_1_visible" {
-																visible = yes
+																visible = "[GetVariableSystem.HasValue('mr_naturalist_ranking', 'specimens')]"
 															}
 															blockoverride "ranking_1_datamodel" {
 																datamodel = "[GetGlobalList('mr_specimen_ranking_global_list')]"
 															}
 															blockoverride "ranking_variable_used_1" {
-																raw_text = "[Country.MakeScope.GetVariable('dubois_specimen').GetValue|*V0]"
+																raw_text = "[Country.MakeScope.GetVariable('dubois_specimen').GetValue|V*0]"
+															}
+															blockoverride "text_2" {
+																raw_text = "NATURALIST_ZOO_ANIMALS_RANKING_HEADER"
+															}
+															blockoverride "ranking_2_visible" {
+																visible = "[GetVariableSystem.HasValue('mr_naturalist_ranking', 'zoo_animals')]"
+															}
+															blockoverride "ranking_2_datamodel" {
+																datamodel = "[GetGlobalList('mr_zoo_animal_ranking_global_list')]"
+															}
+															blockoverride "ranking_variable_used_2" {
+																raw_text = "[Country.MakeScope.GetVariable('dubois_zoo_animal_total').GetValue|V0]"
+															}
+															blockoverride "text_3" {
+																raw_text = "NATURALIST_ANIMAL_DOCUMENTATIONS_RANKING_HEADER"
+															}
+															blockoverride "ranking_3_visible" {
+																visible = "[GetVariableSystem.HasValue('mr_naturalist_ranking', 'animal_documentations')]"
+															}
+															blockoverride "ranking_3_datamodel" {
+																datamodel = "[GetGlobalList('mr_animal_documentation_ranking_global_list')]"
+															}
+															blockoverride "ranking_variable_used_3" {
+																raw_text = "[Country.MakeScope.GetVariable('dubois_country_num_animal_documentation_var').GetValue|V0]"
 															}
 														}
 													}
