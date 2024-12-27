@@ -31,6 +31,7 @@ GUI:
 - Added various rankings to the academic rankings. You can change between them by clicking a button in the tooltip window.
 
 Fixes
+- Physicians should not research different descriptions and treatments at once.
 - Fixed locs using diphteria instead of diphtheria.
 - If the Morgenröte Button somehow gets removed, it will get added back after a month.
 - Various small loc fixes.
