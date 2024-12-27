@@ -26,3 +26,6 @@ Quality of Life:
 
 Changes:
 - Scania has now a (normal) Formation, representing Kristianstad Basin.
+
+Fixes
+- Fixed locs using diphteria instead of diphtheria.
