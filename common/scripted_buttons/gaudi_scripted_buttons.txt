@@ -393,6 +393,60 @@ tesla_topographic_map_project_new_priority_button = {
 	}
 }
 
+######IRRIGATION PROJECT######
+
+tesla_irrigation_project_new_priority_button = {
+	name = "tesla_topographic_map_project_new_priority_button"
+	desc = "tesla_topographic_map_project_new_priority_button_desc"
+
+	possible = {
+		custom_tooltip = {
+			text = MR_ALREADY_PRIORITIZING_STATES_TRIGGER_TT
+			NOT = {
+				has_variable = mr_irrigation_state_prioritizing_window_active_var
+			}
+		}
+	}
+
+	effect = {
+		clear_variable_list = states_for_irrigation_improvement_variable_list
+		ordered_scope_state = {
+			limit = {
+				tesla_state_region_has_no_irrigation_system = yes
+			}
+			order_by = tesla_state_total_agriculture_level_value
+			max = 1000
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = states_for_irrigation_improvement_variable_list
+					target = prev
+				}
+			}
+		}
+		#This is used to remove elements from the prioritized list from the new list
+		if = {
+			limit = { has_variable_list = prioritized_states_for_irrigation_improvement_variable_list }
+			every_in_list = {
+				variable = prioritized_states_for_irrigation_improvement_variable_list
+				root = {
+					remove_list_variable = {
+						name = states_for_irrigation_improvement_variable_list
+						target = prev
+					}
+				}
+			}
+		}
+		#Activates the window
+		set_variable = mr_irrigation_state_prioritizing_window_active_var
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
 ######ADDITIONAL SUPPORT FOR THE CIVIL ENGINEER######
 
 gaudi_additional_support_for_civil_engineer_button = {
