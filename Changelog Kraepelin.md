@@ -25,6 +25,7 @@ Spanish Flu Rework:
 
 Quality of Life:
 - Technology tooltips now show you the tooltipable technology.
+- In the Medicine window it is now indicated whether you have the technology required for the treatment or not.
 
 Changes:
 - Scania has now a (normal) Formation, representing Kristianstad Basin.
