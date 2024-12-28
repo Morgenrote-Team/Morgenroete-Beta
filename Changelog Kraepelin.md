@@ -4,6 +4,7 @@ Psychiatry:
 - Physicians with Psychiatrist trait can found a Mental Asylum.
 - Added Mental Asylum building with PMs based on psychiatry/psychology techs.
 - Characters (politicians, rulers, agitators) with psychological afflictions, addictions or dementia (senile) can be commissioned to the Mental Asylum. This may cause a bit uproar, but not as much as exiling them (they ARE mentally ill, after all).
+- Rework of Treatment Success chance for treating psychological affliction, opium addiction, alcoholic, shellshocked. Asylum, Asylum PMs and Psychotherapeutic Points play a major role.
 
 Spanish Flu Rework:
 - Spanish Flu is now a harvest condition like every other disease.
