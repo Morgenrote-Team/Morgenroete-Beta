@@ -1,5 +1,11 @@
 Changelog for 2.3.5 "Kraepelin"
 
+Medicine:
+- Free Physician (with surgeon trait) for the first nation which invents Triage.
+- Free Physician (with psychiatrist trait) for the first nation which invents Psychiatry.
+- Free Physician (with epidemiologist trait) for the first nation which invents Quinine.
+- Free Physician (with military physician trait) for the first nation which invents Modern Nursing.
+
 Psychiatry:
 - Physicians with Psychiatrist trait can found a Mental Asylum.
 - Added Mental Asylum building with PMs based on psychiatry/psychology techs.
