@@ -1,5 +1,10 @@
 Changelog for 2.3.5 "Kraepelin"
 
+Psychiatry:
+- Physicians with Psychiatrist trait can found a Mental Asylum.
+- Added Mental Asylum building with PMs based on psychiatry/psychology techs.
+- Characters (politicians, rulers, agitators) with psychological afflictions, addictions or dementia (senile) can be commissioned to the Mental Asylum. This may cause a bit uproar, but not as much as exiling them (they ARE mentally ill, after all).
+
 Spanish Flu Rework:
 - Spanish Flu is now a harvest condition like every other disease.
 - Spanish Flu spreads automatically, no spread events.
@@ -16,11 +21,6 @@ Spanish Flu Rework:
 - States with a "pandemic fading" modifier have a chance to lose the Spanish flu condition earlier.
 - Having high health care insitution (>=4), high medical techniques tier (>=6) or a famous physician will give a higher chance for the two events mentioned above.
 - Anti-Mask League can be discredited only with an experienced/famous Physician and Germ Theory.
-
-Psychiatry:
-- Physicians with Psychiatrist trait can found a Mental Asylum.
-- Added Mental Asylum building with PMs based on psychiatry/psychology techs.
-- Characters (politicians, rulers, agitators) with psychological afflictions, addictions or dementia (senile) can be commissioned to the Mental Asylum. This may cause a bit uproar, but not as much as exiling them (they ARE mentally ill, after all).
 
 Quality of Life:
 - Technology tooltips now show you the tooltipable technology.
