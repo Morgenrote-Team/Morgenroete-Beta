@@ -31,6 +31,7 @@ Changes:
 
 GUI:
 - Added various rankings to the academic rankings. You can change between them by clicking a button in the tooltip window.
+- If you use the Community Mod Framework the Alerts will work again.
 
 Fixes
 - Physicians should not research different descriptions and treatments at once.
