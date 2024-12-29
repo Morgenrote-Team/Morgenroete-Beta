@@ -6568,3 +6568,58 @@ panum_add_x_psycho_points_effect = {
 		add = scope:psycho_points_amount
 	}
 }
+
+panum_monthly_psychotherapeutic_progress_effect = {
+	if = { #Effect only gets executed if there is either a psychotherapeutic tech, a mental asylum, or a psychiatrist
+		limit = {
+			OR = {
+				has_technology_researched = psychiatry
+				has_technology_researched = psychoanalysis
+				has_technology_researched = behaviorism
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_panum_asylum
+					}
+				}
+				AND = {
+					panum_has_physician = yes
+					var:panum_physician_var ?= {
+						has_trait = panum_psychiatrist
+					}
+				}
+			}
+		}
+		#Set up
+		if = {
+			limit = { NOT = { has_variable = panum_psycho_points_var } }
+			set_variable = {
+				name = panum_psycho_points_var
+				value = 0
+			}
+		}
+
+		### Actual calculation done in script_value ###
+		if = {
+			limit = { panum_psychiatry_points_value > 0 }
+			set_variable = {
+				name = panum_estimated_monthly_psychotherapeutic_progress_var
+				value = panum_psychiatry_points_value
+			}
+		}
+		else = {
+			set_variable = {
+				name = panum_estimated_monthly_psychotherapeutic_progress_var
+				value = 0
+			}
+		}
+
+		#Add monthly variable to the total variable
+		if = {
+			limit = { var:panum_estimated_monthly_psychotherapeutic_progress_var > 0 }
+			change_variable = {
+				name = panum_psycho_points_var
+				add = var:panum_estimated_monthly_psychotherapeutic_progress_var
+			}
+		}
+	}
+}
