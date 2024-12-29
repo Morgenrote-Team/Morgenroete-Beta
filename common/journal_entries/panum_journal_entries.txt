@@ -776,6 +776,9 @@ je_panum_spanish_flu = {
 	group = je_group_panum_medicine
 
 	on_monthly_pulse = {
+		events = {
+			panum.1110 #Panum 1110: The Doctor and the Pandemic
+		}
 		random_events = {
 			10 = 0
 			1 = panum.1106 #Panum 1106: Pandemic victim
@@ -818,6 +821,74 @@ je_panum_spanish_flu = {
 	}
 
 	should_be_pinned_by_default = yes
+
+	weight = 50
+}
+
+je_panum_spanish_flu_research = {
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	group = je_group_panum_medicine
+
+	complete = {
+		NOT = {
+			any_scope_state = {
+				panum_state_has_spanish_flu_trigger = yes
+			}
+		}
+	}
+
+	on_complete = {
+		custom_tooltip = {
+			text = je_panum_spanish_flu_research_complete_tt
+			if = {
+				limit = {
+					has_technology_researched = antibiotics
+					var:panum_physician_var.var:panum_physician_experience >= 250
+					theiler_has_microbiologist = yes
+					panum_has_miasma_theory_trigger = no
+				}
+				trigger_event = {
+					id = panum.1111 #Pathogen
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					has_technology_researched = panum_antitoxins_tech
+					var:panum_physician_var.var:panum_physician_experience >= 200
+				}
+				trigger_event = {
+					id = panum.1112 #Origin
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					var:panum_physician_var.var:panum_physician_experience >= 150
+				}
+				trigger_event = {
+					id = panum.1113 #Treatment
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					var:panum_physician_var.var:panum_physician_experience >= 100
+				}
+				trigger_event = {
+					id = panum.1114 #Description
+					days = { 7 14 }
+				}
+			}
+			else = {
+				trigger_event = {
+					id = panum.1115 #Nothing
+					days = { 7 14 }
+				}
+			}
+		}
+	}
 
 	weight = 50
 }
