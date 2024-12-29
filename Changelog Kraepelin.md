@@ -27,6 +27,8 @@ Spanish Flu Rework:
 - States with measures/lockdown have the chance to gain the "pandemic fading" modifier after some weeks/months, depending on harsher or milder modifiers.
 - States with a "pandemic fading" modifier have a chance to lose the Spanish flu condition earlier.
 - Having high health care insitution (>=4), high medical techniques tier (>=6) or a famous physician will give a higher chance for the two events mentioned above.
+- If the country has a physician, he can try to fight the pandmeic and lessen the impact, or research the pandemic.
+- Possible outcomes of pandemic research: Discovery of the Pathogen (only with biologist!), Disocvery of the origin, Tretament, Description or nothing.
 - Anti-Mask League can be discredited only with an experienced/famous Physician and Germ Theory.
 
 Quality of Life:
