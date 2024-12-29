@@ -34,6 +34,9 @@ Spanish Flu Rework:
 - Possible outcomes of pandemic research: Discovery of the Pathogen (only with biologist!), Disocvery of the origin, Treatment, Description or nothing.
 - Anti-Mask League can be discredited only with an experienced/famous Physician and Germ Theory.
 
+Characters:
+- Added DNA to more characters.
+
 Quality of Life:
 - Technology tooltips now show you the tooltipable technology.
 - In the Medicine window it is now indicated whether you have the technology required for the treatment or not.
