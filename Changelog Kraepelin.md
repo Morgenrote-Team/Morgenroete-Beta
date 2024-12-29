@@ -11,6 +11,9 @@ Psychiatry:
 - Added Mental Asylum building with PMs based on psychiatry/psychology techs.
 - Characters (politicians, rulers, agitators) with psychological afflictions, addictions or dementia (senile) can be commissioned to the Mental Asylum. This may cause a bit uproar, but not as much as exiling them (they ARE mentally ill, after all).
 - Rework of Treatment Success chance for treating psychological affliction, opium addiction, alcoholic, shellshocked. Asylum, Asylum PMs and Psychotherapeutic Points play a major role.
+- Introduced Psychotherapeutic Points (PPs). PPs can be gained monthly having a psychiatrist, psychiatric/psychological technologies or a mental asylum. They can also be gained via event. Maximum: 1000 PP.
+- Added four different Psychological Schools via Journal Entries. A country can only found one school. To get one, you need a psychiatrist, the right technology and PPs.
+- With a certain amount of PPs, your chances for a succesfull psychological treatment success rises.
 
 Spanish Flu Rework:
 - Spanish Flu is now a harvest condition like every other disease.
