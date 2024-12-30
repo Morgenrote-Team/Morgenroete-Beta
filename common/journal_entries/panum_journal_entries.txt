@@ -244,6 +244,8 @@ je_panum_medical_system_project = {
 			1 = panum.2112 #Panum 2112: Diagram of Causes of Mortality
 			1 = panum.2113 #Panum 2113: Omnis cellula e cellula
 			1 = panum.2114 #Panum 2114: Born criminal
+
+			1 = panum.2131 #Panum 2131: A Plate to win
 		}
 	}
 
@@ -4223,8 +4225,11 @@ je_panum_yellow_fever_treatment = {
 	invalid = {
 		custom_tooltip = {
 			text = je_physician_dies_tt
-			NOT = {
-				has_variable = panum_physician_var
+			OR = {
+				NOT = {
+					has_variable = panum_physician_var
+				}
+				has_variable = panum_yellow_fever_vaccine_path_var
 			}
 		}
 	}
@@ -6113,4 +6118,134 @@ je_panum_behaviorism = {
 	}
 
 	weight = 30
+}
+
+################################################################################################################################
+
+je_panum_yellow_fever_vaccine = {
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	group = je_group_panum_medicine
+
+	on_weekly_pulse = {
+		random_events = {
+			30 = 0
+
+			#Starting Events
+			10 = panum.561 #Panum 561: The Path to a Vaccine?
+			5 = panum.562 #Panum 562: The Orphanage
+			5 = panum.563 #Panum 563: The Old Blood/The Tribesmen
+			5 = panum.564 #Panum 564: The Nature of the Foe
+			5 = panum.565 #Panum 565: Untreatable?
+
+			#Final Events
+			5 = panum.566 #Panum 566: The First Crack
+			5 = panum.567 #Panum 567: The Secret of Serum
+			5 = panum.568 #Panum 568: The Prototype
+			5 = panum.569 #Panum 569: A New Subject
+			5 = panum.570 #Panum 570: The Second Prototype
+
+		}
+	}
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_yellow_fever_vaccine_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_yellow_fever_vaccine_clues_var
+				value = 0
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_yellow_fever_vaccine_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_yellow_fever_vaccine_clues_var
+				value = 0
+			}
+		}
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_panum_yellow_fever_vaccine_fail
+			has_variable = panum_physician_yellow_fever_fail_var
+		}
+    }
+
+	on_fail = {
+		remove_variable = panum_yellow_fever_vaccine_path_var
+		panum_remove_active_variables_effect = yes
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_panum_yellow_fever_treatment_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = panum.574
+			popup = yes
+		}
+		remove_variable = panum_yellow_fever_vaccine_path_var
+		panum_remove_active_variables_effect = yes
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_yellow_fever_vaccine_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_physician_dies_tt
+		}
+	}
+
+	on_invalid = {
+		panum_remove_active_variables_effect = yes
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
 }
