@@ -5,6 +5,8 @@ Medicine:
 - Free Physician (with psychiatrist trait) for the first nation which invents Psychiatry.
 - Free Physician (with epidemiologist trait) for the first nation which invents Quinine.
 - Free Physician (with military physician trait) for the first nation which invents Modern Nursing.
+- If your physician should have the biologist or microbiologist trait (which is rare, but not impossible), he may invent a yellow fever vaccine when searching a treatment for this disease. Be careful, however, this is a risky thing and may end in disaster.
+- Added Achievement: A Biologist's Job?
 
 Psychiatry:
 - Physicians with Psychiatrist trait can found a Mental Asylum.
@@ -30,9 +32,10 @@ Spanish Flu Rework:
 - States with measures/lockdown have the chance to gain the "pandemic fading" modifier after some weeks/months, depending on harsher or milder modifiers.
 - States with a "pandemic fading" modifier have a chance to lose the Spanish flu condition earlier.
 - Having high health care insitution (>=4), high medical techniques tier (>=6) or a famous physician will give a higher chance for the two events mentioned above.
-- If the country has a physician, he can try to fight the pandmeic and lessen the impact, or research the pandemic.
+- If the country has a physician, he can try to fight the pandemic and lessen the impact, or research the pandemic.
 - Possible outcomes of pandemic research: Discovery of the Pathogen (only with biologist!), Disocvery of the origin, Treatment, Description or nothing.
 - Anti-Mask League can be discredited only with an experienced/famous Physician and Germ Theory.
+- Added Achievement: The Pathogen of Pathogens.
 
 Characters:
 - Added DNA to more characters.
