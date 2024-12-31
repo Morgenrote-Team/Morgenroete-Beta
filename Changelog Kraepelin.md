@@ -46,9 +46,11 @@ Quality of Life:
 
 Changes:
 - Scania has now a (normal) Formation, representing Kristianstad Basin.
-- Added Grey's adjustments for oil, electirc and chemical company, adding synthetic oil and synthetic rubber factories.
+- Added Grey's adjustments for oil, electric and chemical company, adding synthetic oil and synthetic rubber factories.
 
 GUI:
+- Added Psychiatry&Psychology in Medical Faculty GUI.
+- Added Medical Innovations in Medical Faculty GUI.
 - Added various rankings to the academic rankings. You can change between them by clicking a button in the tooltip window.
 - If you use the Community Mod Framework the Alerts will work again.
 
