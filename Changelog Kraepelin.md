@@ -5,7 +5,7 @@ Medicine:
 - Free Physician (with psychiatrist trait) for the first nation which invents Psychiatry.
 - Free Physician (with epidemiologist trait) for the first nation which invents Quinine.
 - Free Physician (with military physician trait) for the first nation which invents Modern Nursing.
-- If your physician should have the biologist or microbiologist trait (which is rare, but not impossible), he may invent a yellow fever vaccine when searching a treatment for this disease. Be careful, however, this is a risky thing and may end in disaster.
+- If your physician has the biologist or microbiologist trait (which is rare, but not impossible), he may invent a yellow fever vaccine when searching a treatment for this disease. Be careful, however, this is a risky thing and may end in disaster.
 - Added Achievement: A Biologist's Job?
 
 Psychiatry:
