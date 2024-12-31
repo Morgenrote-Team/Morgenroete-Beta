@@ -39,6 +39,7 @@ Spanish Flu Rework:
 
 Characters:
 - Added DNA to more characters.
+- Added Philosopher Trait for Characters.
 
 Quality of Life:
 - Technology tooltips now show you the tooltipable technology.
