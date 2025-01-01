@@ -50,6 +50,7 @@ Quality of Life:
 Changes:
 - Scania has now a (normal) Formation, representing Kristianstad Basin.
 - Added Grey's adjustments for oil, electric and chemical company, adding synthetic oil and synthetic rubber factories.
+- Added some good recquirements in the Observatory PMs.
 
 Cultures:
 - Cultures modified in Morgenröte now use a slightly better mix of hair colors, hair and beards.
