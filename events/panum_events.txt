@@ -28838,7 +28838,7 @@ panum.2600 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+	icon = "gfx/interface/icons/event_icons/event_psychiatry.dds"
 
 	trigger = {
 	}
@@ -28890,7 +28890,7 @@ panum.2601 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+	icon = "gfx/interface/icons/event_icons/event_psychiatry.dds"
 
 	immediate = {
 		remove_variable = panum_physician_character_asylum_button_active
@@ -28983,7 +28983,7 @@ panum.2612 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+	icon = "gfx/interface/icons/event_icons/event_psychiatry.dds"
 
 	trigger = {
 	}
@@ -29020,7 +29020,7 @@ panum.2613 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+	icon = "gfx/interface/icons/event_icons/event_psychiatry.dds"
 
 	trigger = {
 	}
@@ -29057,7 +29057,7 @@ panum.2614 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+	icon = "gfx/interface/icons/event_icons/event_psychiatry.dds"
 
 	trigger = {
 	}
@@ -29094,7 +29094,7 @@ panum.2615 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+	icon = "gfx/interface/icons/event_icons/event_psychiatry.dds"
 
 	trigger = {
 	}
@@ -29110,6 +29110,296 @@ panum.2615 = {
 		dubois_add_x_academy_progress = {
 			AMOUNT = 60
 		}
+	}
+	after = {
+	}
+}
+
+#Panum 2621: The Concept of Anxiety
+panum.2621 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2621.t
+	desc = panum.2621.d
+	flavor = panum.2621.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_new_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_psychiatry.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_concept_of_anxiety_global_var
+		}
+		game_date >= 1844.1.1
+		game_date < 1850.1.1
+		ROOT ?= c:DEN
+	}
+
+	immediate = {
+		set_global_variable = panum_concept_of_anxiety_global_var
+		create_manzoni_kirkegaard_soren_effect = yes
+	}
+
+	option = {
+		name = panum.2621.g #One of Denmark's greatest minds.
+		default_option = yes
+		elgar_small_add_technology = yes
+		manzoni_add_x_literary_tradition_unscaled_effect = { AMOUNT = 25 }
+		panum_add_x_psycho_points_effect = { AMOUNT = 25 }
+	}
+
+	option = {
+		name = panum.2621.h #Kierkegaard will become Denmark's new national writer.
+		trigger = {
+			is_player = yes
+		}
+		manzoni_set_new_writer_as_writer_effect = yes
+	}
+
+	after = {
+		writer_experience_gain_effect = { AMOUNT = 200 }
+		manzoni_add_x_bestseller_character_effect = { AMOUNT = 1 }
+	}
+}
+
+#Panum 2622: The Strange Cause of Phineas Gage
+panum.2622 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:panum_phineas_gage_state
+
+	title = panum.2622.t
+	desc = panum.2622.d
+	flavor = panum.2622.f
+
+	gui_window = event_window_2char
+
+	left_icon = scope:panum_physician_scope
+	right_icon = scope:panum_phineas_gage
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_psychiatry.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_phineas_gage_global_var
+		}
+		NOT = {
+			has_technology_researched = psychoanalysis
+		}
+		has_technology_researched = psychiatry
+		var:panum_physician_var ?= {
+			has_trait = panum_psychiatrist
+		}
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_railway
+				level = 0
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = panum_phineas_gage_global_var
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_railway
+					level = 0
+				}
+			}
+			save_scope_as = panum_phineas_gage_state
+		}
+		var:panum_physician_var ?= {
+			save_scope_as = panum_physician_scope
+		}
+		create_character = {
+			female = no
+			save_scope_as = panum_phineas_gage
+		}
+		scope:panum_phineas_gage = {
+			place_character_in_void = 120
+		}
+	}
+
+	option = {
+		name = panum.2622.g #So the psyche and brain areas are connected?
+		default_option = yes
+		panum_small_add_technology = yes
+		panum_add_x_psycho_points_effect = { AMOUNT = 50 }
+	}
+
+	after = {
+		scope:panum_phineas_gage = {
+			free_character_from_void = no
+		}
+	}
+}
+
+#Panum 2623: Transcultural Psychology
+panum.2623 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2623.t
+	desc = panum.2623.d
+	flavor = panum.2623.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_psychiatry.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_transcultural_psychology_global_var
+		}
+		has_technology_researched = psychoanalysis
+		var:panum_physician_var ?= {
+			has_trait = panum_psychiatrist
+		}
+		any_scope_state = {
+			OR = {
+				state_is_in_africa = yes
+				state_is_in_southeast_asia = yes
+			}
+			is_incorporated = no
+		}
+	}
+
+	immediate = {
+		set_global_variable = panum_transcultural_psychology_global_var
+		var:panum_physician_var ?= {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {
+		name = panum.2623.g #Apparently some neuroses are related to cultural backgrounds.
+		default_option = yes
+		physician_experience_gain_effect = { AMOUNT = 15 }
+		panum_add_x_psycho_points_effect = { AMOUNT = 50 }
+	}
+	after = {
+	}
+}
+
+#Panum 2624: Drugs
+panum.2624 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2624.t
+	desc = panum.2624.d
+	flavor = panum.2624.f
+
+	gui_window = event_window_2char
+
+	left_icon = scope:panum_physician_scope
+	right_icon = scope:mendelejew_chemist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_psychiatry.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_drugs_global_var
+		}
+		has_technology_researched = antibiotics
+		var:panum_physician_var ?= {
+			has_trait = panum_psychiatrist
+		}
+		mendelejew_has_chemist = yes
+	}
+
+	immediate = {
+		set_global_variable = panum_drugs_global_var
+		var:panum_physician_var ?= {
+			save_scope_as = panum_physician_scope
+		}
+		var:mendelejew_chemist_var ?= {
+			save_scope_as = mendelejew_chemist_scope
+		}
+	}
+
+	option = {
+		name = panum.2624.g #Lysergic acid diethylamide? What is it?
+		default_option = yes
+		panum_add_x_psycho_points_effect = { AMOUNT = 100 }
+	}
+
+	option = {
+		name = panum.2624.h #Our soldiers could benefit from some armored chocolate.
+		add_modifier = {
+			name = panum_metamphetamine_army_modifier
+			years = 10
+		}
+	}
+
+	after = {
+	}
+}
+
+#Panum 2625: Psychophysics
+panum.2625 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2625.t
+	desc = panum.2625.d
+	flavor = panum.2625.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_psychiatry.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_transcultural_psychology_global_var
+		}
+		has_technology_researched = psychiatry
+		any_scope_building = {
+			has_active_production_method = pm_dubois_university_mathematics
+		}
+		var:panum_physician_var ?= {
+			has_trait = panum_psychiatrist
+		}
+	}
+
+	immediate = {
+		set_global_variable = panum_transcultural_psychology_global_var
+		var:panum_physician_var ?= {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {
+		name = panum.2625.g #I didn't understand a word, but the bonuses look good!
+		default_option = yes
+		panum_small_add_technology = yes
+		physician_experience_gain_effect = { AMOUNT = 15 }
+		panum_add_x_psycho_points_effect = { AMOUNT = 50 }
 	}
 	after = {
 	}
