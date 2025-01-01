@@ -50,11 +50,15 @@ Changes:
 - Scania has now a (normal) Formation, representing Kristianstad Basin.
 - Added Grey's adjustments for oil, electric and chemical company, adding synthetic oil and synthetic rubber factories.
 
+Cultures:
+- Cultures modified in Morgenröte now use NeoMexilio's Ethnicities. Thank you NeoMexilio!
+
 GUI:
 - Added Psychiatry&Psychology in Medical Faculty GUI.
 - Added Medical Innovations in Medical Faculty GUI.
 - Added various rankings to the academic rankings. You can change between them by clicking a button in the tooltip window.
-- If you use the Community Mod Framework the Alerts will work again.
+- The Alerts work again.
+- The Community Mod Framework is now required. A window will inform you, if you do not have it active.
 
 Fixes
 - Physicians should not research different descriptions and treatments at once.
