@@ -51,7 +51,7 @@ Changes:
 - Added Grey's adjustments for oil, electric and chemical company, adding synthetic oil and synthetic rubber factories.
 
 Cultures:
-- Cultures modified in Morgenröte now use NeoMexilio's Ethnicities. Thank you NeoMexilio!
+- Cultures modified in Morgenröte now use a slightly better mix of hair colors, hair and beards.
 
 GUI:
 - Added Psychiatry&Psychology in Medical Faculty GUI.
