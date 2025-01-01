@@ -73,4 +73,4 @@ Fixes
 - Events with exploding mines will no longer remove all the mines and instead add some negative throughput.
 - Edison can no longer spawn as a politician, so you won't have two Edisons anymore.
 - Fixed a bug that ignored you promoting a specific scientist, if you no longer have a matching specialized university.
-- Psychiatrist, Psyhcologist and Surgeon Traits show their treatment success chance.
+- Psychiatrist, Psychologist and Surgeon Traits show their treatment success chance.
