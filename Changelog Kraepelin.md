@@ -42,6 +42,9 @@ Characters:
 - Added DNA to more characters.
 - Added Philosopher Trait for Characters.
 - Added Psychologist Trait for Characters.
+- Added Physicians for Sweden.
+- Added Gustaf de Laval as potential engineer for Sweden.
+- Updated character information for Swedish rulers.
 
 Quality of Life:
 - Technology tooltips now show you the tooltipable technology.
