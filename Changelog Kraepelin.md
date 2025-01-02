@@ -55,6 +55,7 @@ Changes:
 - Scania has now a (normal) Formation, representing Kristianstad Basin.
 - Added Grey's adjustments for oil, electric and chemical company, adding synthetic oil and synthetic rubber factories.
 - Added some electricity as a requirement in some Observatory PMs.
+- Added Game Rule to distribute uranium in 20 historic or random states at game start.
 
 Cultures:
 - Cultures modified in Morgenröte now use a slightly better mix of hair colors, hair and beards.
