@@ -79,3 +79,4 @@ Fixes
 - Edison can no longer spawn as a politician, so you won't have two Edisons anymore.
 - Fixed a bug that ignored you promoting a specific scientist, if you no longer have a matching specialized university.
 - Psychiatrist, Psychologist and Surgeon Traits show their treatment success chance.
+- South Tyrol/Trentino will not starve at game start.
