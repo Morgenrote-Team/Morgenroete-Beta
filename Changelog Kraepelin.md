@@ -7,6 +7,7 @@ Medicine:
 - Free Physician (with military physician trait) for the first nation which invents Modern Nursing.
 - If your physician has the biologist or microbiologist trait (which is rare, but not impossible), he may invent a yellow fever vaccine when searching a treatment for this disease. Be careful, however, this is a risky thing and may end in disaster.
 - Added Achievement: A Biologist's Job?
+- AI will use Medical Research, Medical Techniques, Military Medicine and Medical Expansion from now on.
 
 Psychiatry:
 - Physicians with Psychiatrist trait can found a Mental Asylum.
