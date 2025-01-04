@@ -10,32 +10,6 @@ mr_has_car_racer_sgui = {
 	}
 }
 
-#MR_AUTORACING_FOUND_AUTOMOBILE_CLUB_BUTTON
-mr_autoracing_found_automobile_club_button = {
-    scope = country
-	is_shown = {
-		NOT = {
-			has_variable = vikelas_automobile_club_var
-		}
-	}
-    is_valid = {
-		mr_gui_has_combustion_engine_tech_trigger = yes
-    }
-    effect = {
-		set_variable = vikelas_automobile_club_var
-		hidden_effect = {
-			if = {
-				limit = { has_variable = vikelas_automobile_club_var }
-				create_new_racer_effect = yes
-				vikelas_set_new_racer_as_racer_effect = yes
-			}
-		}
-		trigger_event = {
-			id = vikelas.501
-		}
-    }
-}
-
 #MR_AUTORACING_LONG_DISTANCE_BUTTON
 mr_autoracing_long_distance_button = {
     scope = country
@@ -68,6 +42,32 @@ mr_autoracing_long_distance_button = {
     }
 }
 
+#MR_AUTORACING_FOUND_AUTOMOBILE_CLUB_BUTTON
+mr_autoracing_found_automobile_club_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = vikelas_automobile_club_var
+		}
+	}
+    is_valid = {
+		mr_gui_has_combustion_engine_tech_trigger = yes
+    }
+    effect = {
+		set_variable = vikelas_automobile_club_var
+		hidden_effect = {
+			if = {
+				limit = { has_variable = vikelas_automobile_club_var }
+				create_new_racer_effect = yes
+				vikelas_set_new_racer_as_racer_effect = yes
+			}
+		}
+		trigger_event = {
+			id = vikelas.501
+		}
+    }
+}
+
 #MR_AUTORACING_FOUND_GRAND_PRIX_BUTTON
 mr_autoracing_found_grand_prix_button = {
 	scope = country
@@ -90,15 +90,27 @@ mr_autoracing_found_grand_prix_button = {
 		}
 	}
 	effect = {
+		custom_tooltip = vikelas_become_aiacr_president_tt
 		set_global_variable = vikelas_autoracing_grand_prix_founded_var
+		set_global_variable = {
+			name = vikelas_num_grand_prix_tracks_global_var
+			value = 1
+		}
+		set_variable = vikelas_aiacr_founding_country_var
 		capital = {
 			create_building = {
 				building = building_vikelas_aiacr
 				level = 1
 			}
+			state_region = {
+				set_global_variable = { #This is used in the GUI to display the state
+            		name = vikelas_aiacr_seat_global_var
+           			value = this
+        		}
+			}
 		}
 		trigger_event = {
-			id = vikelas.507
+			id = vikelas.502
 			popup = yes
 		}
 	}
@@ -165,4 +177,92 @@ mr_autoracing_race_track_button = {
 	effect = {
 		vikelas_add_circuit_effect = yes
 	}
+}
+
+#MR_AUTORACING_RACE_TRACK_APPLY_BUTTON
+mr_autoracing_race_track_apply_button = {
+	scope = country
+	is_shown = {
+		any_scope_building = {
+			is_building_type = building_vikelas_circuit
+		}
+		has_global_variable = vikelas_autoracing_grand_prix_founded_var
+		global_var:vikelas_num_grand_prix_tracks_global_var < 5
+	}
+	is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_ENGINEER_TT
+			global_var:vikelas_num_grand_prix_tracks_global_var < 5
+		}
+		custom_tooltip = {
+			text = MR_HAS_RACE_TRACK_TT
+			any_scope_building = {
+				is_building_type = building_vikelas_circuit
+			}
+		}
+	}
+	effect = {
+		random_scope_state = {
+			limit = {
+				has_building = building_vikelas_circuit
+			}
+			activate_production_method = {
+				building_type = building_vikelas_circuit
+				production_method = pm_vikelas_grand_prix_circuit
+			}
+		}
+		custom_tooltip = {
+			text = vikelas_add_1_grand_prix_track_tt
+			change_global_variable = {
+				name = vikelas_num_grand_prix_tracks_global_var
+				add = 1
+			}
+			random_country = {
+				limit = {
+					has_variable = vikelas_aiacr_founding_country_var
+				}
+				trigger_event = {
+					id = vikelas.504
+				}
+			}
+		}
+	}
+}
+
+#MR_AIACR_PRESIDENT_BUTTON
+mr_aiacr_president_button = {
+    scope = country
+	is_shown = {
+		has_global_variable = vikelas_autoracing_grand_prix_founded_var
+		has_variable = vikelas_automobile_club_var
+		NOT = {
+			any_country = {
+				has_variable = vikelas_aiacr_founding_country_var
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_AIACR_CONTROLS_HQ_TRIGGER_TT
+			any_scope_state = {
+				has_building = building_vikelas_aiacr
+			}
+		}
+		custom_tooltip = {
+			text = MR_IOC_FOUNDATION_PEACE_TRIGGER_TT
+			is_at_war = no
+		}
+    }
+    effect = {
+		custom_tooltip = {
+			text = vikelas_become_aiacr_president_tt
+			set_variable = vikelas_aiacr_founding_country_var
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
