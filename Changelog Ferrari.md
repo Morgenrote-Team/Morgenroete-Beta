@@ -9,3 +9,7 @@ Rapanui
 GUI:
 - The Vanilla GUI windows now close properly when the Morgenröte GUI is opened.
 - Made the buttons of the Physician slightly smaller so the buttons are ordered better.
+
+Fixes:
+- You should no longer be spawned with an informative Event about Polio.
+- Your Physician will no longer suddenly become free if the Germ Theory is proven.
