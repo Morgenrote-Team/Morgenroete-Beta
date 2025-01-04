@@ -410,16 +410,23 @@ create_new_racer_effect = {
 				trait_generation = {
 					add_random_trait = personality
 					random_list = {
-						20 = {}
-						40 = { add_trait = brave }
-						40 = { add_trait = ambitious }
+						1 = { add_trait = vikelas_speedster_racer }
+						1 = { add_trait = panum_enduring_racer }
+						1 = { add_trait = vikelas_prudent_racer }
 					}
 					random_list = {
-						20 = {}
-						35 = { add_trait = engineer }
-						35 = { add_trait = gaudi_mechanical_engineer }
-						5 = { add_trait = explorer }
-						5 = { add_trait = erudite }
+						10 = {}
+						15 = { add_trait = gaudi_mechanical_engineer }
+						10 = { add_trait = explorer }
+						10 = { add_trait = surveyor }
+						10 = { add_trait = ambitious }
+						10 = { add_trait = persistent }
+						10 = { add_trait = cautious }
+						5 = { add_trait = literary }
+						5 = { add_trait = lepsius_archaeologist }
+						5 = { add_trait = dubois_naturalist }
+						5 = { add_trait = panum_physician }
+						5 = { add_trait = mendelejew_chemist }
 					}
 					random_list = {
 						80 = {}
@@ -572,6 +579,166 @@ racer_experience_gain_effect = { #adds XP to the Racer
 						id = vikelas.590
 						popup = yes
 					}
+				}
+			}
+		}
+	}
+}
+
+######Mechanic######
+
+#This effect kills the current mechanic
+kill_mechanic_effect = {
+	var:vikelas_mechanic_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = vikelas_mechanic_var
+}
+
+#This effect kills the current mechanic and creates a new one
+kill_and_replace_mechanic_effect = {
+	kill_mechanic_effect = yes
+	create_new_mechanic_effect = yes
+	vikelas_set_new_mechanic_as_mechanic_effect = yes
+}
+
+# Creates a new Mechanic without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
+create_new_mechanic_effect = {
+	random_list = {
+		1 = { #Random Mechanic
+			create_character = {
+				save_scope_as = vikelas_new_mechanic_scope
+				age = { 18 30 }
+				trait_generation = {
+					add_random_trait = personality
+					add_trait = gaudi_mechanical_engineer
+					random_list = {
+						85 = {}
+						5 = { add_trait = alcoholic }
+						5 = { add_trait = opium_addiction }
+						5 = { add_trait = cocaine_addiction }
+					}
+				}
+			}
+
+			scope:vikelas_new_mechanic_scope = {
+				add_trait = vikelas_mechanic
+				set_variable = mr_is_mechanic_var
+				mechanic_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = vikelas_new_mechanic_var
+				value = scope:vikelas_new_mechanic_scope
+			}
+		}
+	}
+
+	var:vikelas_new_mechanic_var = {
+		save_scope_as = vikelas_new_mechanic_scope
+	}
+}
+
+# Set new Mechanic as official Mechanic
+vikelas_set_new_mechanic_as_mechanic_effect = {
+	custom_tooltip = {
+		text = vikelas_replace_mechanic_with_new_mechanic_tt
+	
+		if = {
+			limit = {
+				has_variable = vikelas_mechanic_var
+			}
+			var:vikelas_mechanic_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = vikelas_mechanic_var
+			value = scope:vikelas_new_mechanic_scope
+		}
+
+		remove_variable = vikelas_new_mechanic_var
+	}
+}
+
+# Remove new Mechanic
+vikelas_remove_new_mechanic_effect = {
+	scope:vikelas_new_mechanic_scope = {
+		free_character_from_void = no
+	}
+
+	remove_variable = vikelas_new_mechanic_var
+}
+
+# Used to set up the Experience of a character 
+mechanic_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = vikelas_mechanic_experience
+			}
+		}
+		if = {
+			limit = {
+				age > 20
+			}
+			set_variable = {
+				name = vikelas_mechanic_experience
+				value = age
+			}
+			change_variable = {
+				name = vikelas_mechanic_experience
+				subtract = 20
+			}
+			change_variable = {
+				name = vikelas_mechanic_experience
+				multiply = 10
+			}
+		}
+		else = {
+			set_variable = {
+				name = vikelas_mechanic_experience
+				value = 0
+			}
+		}
+	}
+}
+
+#Mechanic Experience gain
+mechanic_experience_gain_effect = { #adds XP to the Mechanic
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = vikelas_mechanic_var #should only add experience if there actually is a Painter
+		}
+		custom_tooltip = {
+			text = vikelas_mechanic_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:vikelas_mechanic_var = { #Fallback to make sure there are no errors if the Painter does not have the variable yet
+							has_variable = vikelas_mechanic_experience
+						}
+					}
+				}
+				var:vikelas_mechanic_var = { #Sets the experience in case it was not set yet
+					mechanic_experience_set_up_effect = yes
+				}
+			}
+			var:vikelas_mechanic_var = {
+				change_variable = {
+					name = vikelas_mechanic_experience
+					add = $AMOUNT$
 				}
 			}
 		}
