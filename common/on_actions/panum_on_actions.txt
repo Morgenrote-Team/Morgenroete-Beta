@@ -31,6 +31,12 @@ on_yearly_pulse_country = {
 	}
 }
 
+on_yearly_pulse = {
+	on_actions = {
+		panum_on_yearly_pulse
+	}
+}
+
 on_battle_lost = {
 	on_actions = {
 		panum_on_battle_lost
@@ -107,7 +113,6 @@ panum_on_yearly_pulse_country = {
 	events = {
 		panum.101 #Panum 101: Third Cholera Pandemic
 		panum.800 #Panum 800: Third Plague Wave starts
-		panum.1001 #Panum 1001: Polio becomes Epidemic
 
 		panum.1101 #Panum 1101: Spanish Flu Pancemic (historical)
 
@@ -128,6 +133,48 @@ panum_on_yearly_pulse_country = {
 		2 = panum.2124 #Panum 2124: Doctor introduces Anthropologist
 
 		1 = panum.1102 #Panum 1102: Spanish Flu Pancemic (dynamic)
+	}
+}
+
+panum_on_yearly_pulse = {
+	effect = {
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = panum_polio_epidemic_global_var
+				}
+				game_date >= 1886.1.1 #Historically, polio began to become an epidemic disease around the late 19th century. The date is a little earlier because otherwise it coincides too closely with the plague
+				any_country = {
+					has_technology_researched = modern_sewerage
+					institution_investment_level = {
+						institution	= institution_health_system
+						value >= 1
+					}
+					any_scope_state = {
+						average_sol <= 35
+						total_urbanization >= 1000
+					}
+				}
+			}
+
+			random_country = {
+				limit = {
+					has_technology_researched = modern_sewerage
+					institution_investment_level = {
+						institution	= institution_health_system
+						value >= 1
+					}
+					any_scope_state = {
+						average_sol <= 35
+						total_urbanization >= 1000
+					}
+				}
+				trigger_event = {
+					id = panum.1001 #Panum 1001: Polio becomes Epidemic
+					days = { 1 60 }
+				}
+			}
+		}
 	}
 }
 
