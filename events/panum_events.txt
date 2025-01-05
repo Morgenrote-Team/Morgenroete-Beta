@@ -29397,6 +29397,74 @@ panum.2625 = {
 	}
 }
 
+#Panum 2626: The Dr. [ROOT.Var('panum_physician_var').GetCharacter.GetFullName] Show
+panum.2626 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2626.t
+	desc = panum.2626.d
+	flavor = panum.2626.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_psychiatry.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = panum_dr_frasier_crane_var
+		}
+		has_technology_researched = radio
+		var:panum_physician_var ?= {
+			OR = {
+				has_trait = panum_psychiatrist
+				has_trait = panum_psychologist
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = panum_dr_frasier_crane_var
+		var:panum_physician_var ?= {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {
+		name = panum.2626.g #This is Dr. Frasier Crane.
+		default_option = yes
+		physician_experience_gain_effect = { AMOUNT = 10 }
+		panum_add_x_psycho_points_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				var:panum_physician_var ?= {
+					NOT = {
+						has_trait = panum_psychiatrist
+					}
+				}
+			}
+			add_trait = panum_psychiatrist
+		}
+		if = {
+			limit = {
+				var:panum_physician_var ?= {
+					NOT = {
+						has_trait = panum_psychologist
+					}
+				}
+			}
+			add_trait = panum_psychologist
+		}
+	}
+	after = {
+	}
+}
+
 ########################################################################################################################################
 
 #Panum 3000: The Red Cross
