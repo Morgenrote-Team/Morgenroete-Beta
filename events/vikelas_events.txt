@@ -6276,40 +6276,7 @@ vikelas.501 = {
 
 	option = {
 		name = vikelas.501.g #We need experienced engineers.
-		trigger = {
-			gaudi_has_engineer = yes
-		}
-		mechanical_engineer_experience_gain_effect = {
-			AMOUNT = 50
-		}
-	}
-
-	option = {
-		name = vikelas.501.h #We need advanced technology.
-		default_option = yes
 		tesla_mechanical_engineering_small_add_technology = yes
-	}
-
-	option = {
-		name = vikelas.501.i #We need more cars.
-		trigger = {
-			any_scope_building = {
-				is_building_type = building_motor_industry
-				has_active_production_method = pm_automobile_production
-			}
-		}
-		random_scope_state = {
-			limit = {
-				any_scope_building = {
-					is_building_type = building_motor_industry
-					has_active_production_method = pm_automobile_production
-				}
-			}
-			add_modifier = {
-				name = vikelas_automobile_euphoria_modifier
-				years = 5
-			}
-		}
 	}
 
 	after = {
@@ -6573,7 +6540,7 @@ vikelas.506 = {
 	}
 }
 
-#Vikelas 511: Long Distance Race
+#Vikelas 511: City-to-City Race
 vikelas.511 = {
 	dlc = dlc_morgenrote
 
@@ -6582,6 +6549,402 @@ vikelas.511 = {
 	title = vikelas.511.t
 	desc = vikelas.511.d
 	flavor = vikelas.511.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_renault.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	cooldown = {
+		months = 18
+	}
+
+	trigger = {
+		NOR = {
+			has_global_variable = vikelas_autoracing_grand_prix_founded_var
+			has_global_variable = vikelas_city_race_ongoing_global_var
+			any_country = {
+				has_modifier = vikelas_city_race_modifier
+			}
+		}
+		has_variable = vikelas_automobile_club_var
+		#any_scope_building = {
+		#	is_building_type = building_manzoni_publishing_industry
+		#	level = 3
+		#}
+		any_scope_state = {
+			is_incorporated = yes
+			count >= 2
+		}
+	}
+
+	immediate = {
+		set_global_variable = vikelas_city_race_ongoing_global_var
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+			}
+			save_scope_as = vikelas_city_race_start_state
+		}
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				NOT = {
+					this = scope:vikelas_city_race_start_state
+				}
+			}
+			save_scope_as = vikelas_city_race_goal_state
+		}
+	}
+
+	option = {
+		name = vikelas.512.g #
+		default_option = yes
+		custom_tooltip = vikelas.512.tt
+		hidden_effect = {
+			vikelas_city_race_qualification_effect = yes
+		}
+		add_modifier = {
+			name = vikelas_city_race_modifier
+			days = 365
+		}
+	}
+
+	option = {
+		trigger = {
+			is_player = yes
+		}
+		name = vikelas.512.h #This is too dangerous!
+		add_modifier = {
+			name = vikelas_city_race_modifier
+			days = 365
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				has_variable = vikelas_automobile_club_var
+				has_variable = vikelas_racer_var
+				NOT = {
+					ROOT = this
+				}
+			}
+			trigger_event = {
+				id = vikelas.512
+			}
+		}
+		trigger_event = {
+			id = vikelas.520
+			days = 10
+		}
+	}
+}
+
+#Vikelas 512: Invitation to City Race
+vikelas.512 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.512.t
+	desc = vikelas.512.d
+	flavor = vikelas.511.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_renault.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = vikelas_city_race_modifier
+			}
+			save_scope_as = vikelas_race_country
+		}
+	}
+
+	option = {
+		name = vikelas.512.g #
+		default_option = yes
+		custom_tooltip = vikelas.512.tt
+		hidden_effect = {
+			vikelas_city_race_qualification_effect = yes
+		}
+	}
+
+	option = {
+		trigger = {
+			is_player = yes
+		}
+		name = vikelas.512.h #This is too dangerous!
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 520: City-to-City Race ends
+vikelas.520 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	immediate = {
+		remove_global_variable = vikelas_city_race_ongoing_global_var
+		vikelas_city_race_winner_effect = yes
+		vikelas_racecar_custom_effect = yes
+		scope:vikelas_first_winner_scope = {
+			var:vikelas_racer_var = {
+				save_scope_as = vikelas_racer_1_scope
+			}
+		}
+		scope:vikelas_second_winner_scope = {
+			var:vikelas_racer_var = {
+				save_scope_as = vikelas_racer_2_scope
+			}
+		}
+		scope:vikelas_third_winner_scope = {
+			var:vikelas_racer_var = {
+				save_scope_as = vikelas_racer_3_scope
+			}
+		}
+		random_country = {
+			limit = {
+				has_modifier = vikelas_city_race_modifier
+			}
+			save_scope_as = vikelas_race_country
+		}
+		scope:vikelas_first_winner_scope = {
+			trigger_event = {
+				id = vikelas.521
+			}
+		}
+		scope:vikelas_second_winner_scope = {
+			trigger_event = {
+				id = vikelas.522
+			}
+		}
+		scope:vikelas_third_winner_scope = {
+			trigger_event = {
+				id = vikelas.523
+			}
+		}
+		every_country = {
+			limit = {
+				has_variable = vikelas_city_race_qualified_var
+				NOR = {
+					this = scope:vikelas_first_winner_scope
+					this = scope:vikelas_second_winner_scope
+					this = scope:vikelas_third_winner_scope
+				}
+			}
+			trigger_event = {
+				id = vikelas.524
+			}
+		}
+	}
+}
+
+#Vikelas 521: City-to-City: 1st Place
+vikelas.521 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.521.t
+	desc = vikelas.521.d
+	flavor = vikelas.520.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_renault.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		vikelas_racecar_custom_effect = yes
+	}
+
+	option = {
+		name = vikelas.520.g #Champagne!
+		remove_variable = vikelas_city_race_qualified_var
+		tesla_mechanical_engineering_small_add_technology = yes
+		vikelas_add_x_mechanical_innovation_effect = {
+				AMOUNT = 30
+			}
+		scope:vikelas_first_winner_scope = {
+			racer_experience_gain_effect = {
+				AMOUNT = 25
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 522: City-to-City: 2nd Place
+vikelas.522 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.522.t
+	desc = vikelas.522.d
+	flavor = vikelas.520.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_renault.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.522.g #Champagne!
+		remove_variable = vikelas_city_race_qualified_var
+		vikelas_add_x_mechanical_innovation_effect = {
+				AMOUNT = 20
+			}
+		scope:vikelas_first_winner_scope = {
+			racer_experience_gain_effect = {
+				AMOUNT = 20
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 523: City-to-City: 3rd Place
+vikelas.523 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.523.t
+	desc = vikelas.523.d
+	flavor = vikelas.520.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_renault.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.522.g #Champagne!
+		remove_variable = vikelas_city_race_qualified_var
+		vikelas_add_x_mechanical_innovation_effect = {
+				AMOUNT = 10
+			}
+		scope:vikelas_first_winner_scope = {
+			racer_experience_gain_effect = {
+				AMOUNT = 15
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 524: City-to-City: End
+vikelas.524 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.524.t
+	desc = vikelas.524.d
+	flavor = vikelas.520.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_renault.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.522.g #Champagne!
+		remove_variable = vikelas_city_race_qualified_var
+		vikelas_add_x_mechanical_innovation_effect = {
+				AMOUNT = 5
+			}
+		scope:vikelas_first_winner_scope = {
+			racer_experience_gain_effect = {
+				AMOUNT = 10
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 531: Long Distance Race
+vikelas.531 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.531.t
+	desc = vikelas.531.d
+	flavor = vikelas.531.f
 
 	duration = 3
 
@@ -6601,7 +6964,7 @@ vikelas.511 = {
 	}
 
 	option = {
-		name = vikelas.511.g #
+		name = vikelas.531.g #
 		add_journal_entry = {
 			type = je_vikelas_long_distance_race
 		}
@@ -6611,8 +6974,8 @@ vikelas.511 = {
 	}
 }
 
-#Vikelas 522: Grand Prix Ends
-vikelas.522 = {
+#Vikelas 551: Grand Prix Ends
+vikelas.551 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
@@ -6699,8 +7062,8 @@ vikelas.522 = {
 	}
 }
 
-#Vikelas 523: Grand Prix Ends (Notification for player)
-vikelas.523 = {
+#Vikelas 552: Grand Prix Ends (Notification for player)
+vikelas.552 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
@@ -6916,5 +7279,73 @@ vikelas.592 = {
 		default_option = yes
 
 		custom_tooltip = vikelas.592_tt
+	}
+}
+
+#Vikelas 593: Fatal racing accident
+vikelas.593 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.593.t
+
+	desc = vikelas.593.d
+
+	flavor = vikelas.593.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_crash.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#A Tragedy!
+		name = vikelas.593.g
+		default_option = yes
+		kill_and_replace_racer_effect = yes
+	}
+}
+
+#Vikelas 594: Car Breakdown
+vikelas.594 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.594.t
+
+	desc = vikelas.594.d
+
+	flavor = vikelas.594.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_breakdown.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Bad luck.
+		name = vikelas.594.g
 	}
 }
