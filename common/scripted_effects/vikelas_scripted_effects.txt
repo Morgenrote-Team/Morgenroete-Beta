@@ -1090,6 +1090,184 @@ vikelas_ioc_board_members_effect = {
 
 ######################################################################
 
+#This generates a custom number for the Race Car to make it unique
+vikelas_racecar_custom_effect = {
+	remove_variable = vikelas_racecar_letter_randomizer_var
+	remove_variable = vikelas_racecar_first_number_randomizer_var
+	remove_variable = vikelas_racecar_second_number_randomizer_var
+	remove_variable = vikelas_racecar_third_number_randomizer_var
+	#Sets up a variable that sets the Letter of the Race Car
+	set_variable = {
+		name = vikelas_racecar_letter_randomizer_var
+		value = { 1 26 }
+	}
+	round_variable = {
+		name = vikelas_racecar_letter_randomizer_var
+		nearest = 1
+	}
+	#Sets up a variable that sets the first number of the Race Car
+	set_variable = {
+		name = vikelas_racecar_first_number_randomizer_var
+		value = { 1 10 }
+	}
+	round_variable = {
+		name = vikelas_racecar_first_number_randomizer_var
+		nearest = 1
+	}
+	#Sets up a variable that sets the second number of the Race Car
+	set_variable = {
+		name = vikelas_racecar_second_number_randomizer_var
+		value = { 1 10 }
+	}
+	round_variable = {
+		name = vikelas_racecar_second_number_randomizer_var
+		nearest = 1
+	}
+	#Sets up a variable that sets the third number of the Race Car
+	set_variable = {
+		name = vikelas_racecar_third_number_randomizer_var
+		value = { 1 10 }
+	}
+	round_variable = {
+		name = vikelas_racecar_third_number_randomizer_var
+		nearest = 1
+	}
+}
+
+vikelas_add_x_mechanical_innovation_effect = {
+	# Amount = amount of Mechanical Innovation to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = mechanical_innovation_amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = vikelas_add_x_mechanical_innovation_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = vikelas_add_x_mechanical_innovation_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = vikelas_add_x_mechanical_innovation_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Mechanical Innovation
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = vikelas_mechanical_innovation_var
+			}
+		}
+		set_variable = {
+			name = vikelas_mechanical_innovation_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = vikelas_mechanical_innovation_var
+		add = scope:mechanical_innovation_amount
+	}
+}
+
+######CITY RACE######
+
+vikelas_city_race_qualification_effect = {
+	#Car Crash Chance: Racer risks crash if speed is higher than safety
+	if = {
+		limit = {
+			vikelas_autorace_racer_speed_value > vikelas_autorace_racer_safety_value
+		}
+		random_list = {
+			65 = {
+				set_variable = vikelas_city_race_qualified_var
+			}
+			35 = {
+				trigger_event = {
+					id = vikelas.593
+					days = 80
+				}
+			}
+		}
+	}
+	#Arrival Chance: Racer arrives depending on reliability
+	else_if = {
+		limit = {
+			vikelas_autorace_racer_speed_value > vikelas_autorace_racer_reliability_value
+		}
+		random_list = {
+			50 = {
+				set_variable = vikelas_city_race_qualified_var
+			}
+			50 = {
+				trigger_event = {
+					id = vikelas.594
+					days = 80
+				}
+			}
+		}
+	}
+	else = {
+		set_variable = vikelas_city_race_qualified_var
+	}
+}
+
+vikelas_city_race_winner_effect = {
+	#Removes the GLOBAL ranking variables
+	remove_global_variable = vikelas_city_race_place_1_global_var 
+	remove_global_variable = vikelas_city_race_place_2_global_var 
+	remove_global_variable = vikelas_city_race_place_3_global_var 
+
+	ordered_country = {
+		limit = {
+			has_variable = vikelas_city_race_qualified_var
+		}
+		order_by = var:vikelas_autorace_racer_speed_value
+		max = 3 #Limits the list to the three top countries
+		check_range_bounds = no #prevents errors
+
+		#This part checks one after another whether the the first, second, etc. ranked countries are saved already.
+		#Luckily the ordered_country effect iterates through the countries one after another.
+		#So the first country gets saved to the first variable but as that variable now is set,
+		# the second country gets saved to the second variable and so on.
+		if = {
+			limit = {
+				NOT = { 
+					has_global_variable = vikelas_city_race_place_1_global_var 
+				}
+			}
+			set_global_variable = {
+				name = vikelas_city_race_place_1_global_var 
+				value = this
+			}
+			save_scope_as = vikelas_first_winner_scope
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_city_race_place_2_global_var  }
+			}
+			set_global_variable = {
+				name = vikelas_city_race_place_2_global_var
+				value = this
+			}
+			save_scope_as = vikelas_second_winner_scope
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_city_race_place_3_global_var  }
+			}
+			set_global_variable = {
+				name = vikelas_city_race_place_3_global_var
+				value = this
+			}
+			save_scope_as = vikelas_third_winner_scope
+		}
+	}
+}
+
 ######GRAND PRIX######
 
 #This determines the three fastest racers
