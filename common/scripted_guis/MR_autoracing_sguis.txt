@@ -94,7 +94,7 @@ mr_autoracing_found_grand_prix_button = {
 		set_global_variable = vikelas_autoracing_grand_prix_founded_var
 		set_global_variable = {
 			name = vikelas_num_grand_prix_tracks_global_var
-			value = 1
+			value = 0
 		}
 		set_variable = vikelas_aiacr_founding_country_var
 		capital = {
@@ -190,12 +190,15 @@ mr_autoracing_race_track_apply_button = {
 			is_building_type = building_vikelas_circuit
 		}
 		has_global_variable = vikelas_autoracing_grand_prix_founded_var
-		global_var:vikelas_num_grand_prix_tracks_global_var < 5
+		global_var:vikelas_num_grand_prix_tracks_global_var <= 5
+		NOT = {
+			has_variable = vikelas_aiacr_founding_country_var
+		}
 	}
 	is_valid = {
 		custom_tooltip = {
-			text = MR_HAS_ENGINEER_TT
-			global_var:vikelas_num_grand_prix_tracks_global_var < 5
+			text = MR_MAXIMUM_5_RACE_TRACKS_TT
+			global_var:vikelas_num_grand_prix_tracks_global_var <= 5
 		}
 		custom_tooltip = {
 			text = MR_HAS_RACE_TRACK_TT
@@ -227,6 +230,48 @@ mr_autoracing_race_track_apply_button = {
 				trigger_event = {
 					id = vikelas.504
 				}
+			}
+		}
+	}
+}
+
+#MR_AUTORACING_RACE_TRACK_DECLARE_BUTTON
+mr_autoracing_race_track_declare_button = {
+	scope = country
+	is_shown = {
+		any_scope_building = {
+			is_building_type = building_vikelas_circuit
+		}
+		has_global_variable = vikelas_autoracing_grand_prix_founded_var
+		has_variable = vikelas_aiacr_founding_country_var
+	}
+	is_valid = {
+		custom_tooltip = {
+			text = MR_IS_AIACR_PRESIDENT_TT
+			has_variable = vikelas_aiacr_founding_country_var
+		}
+		custom_tooltip = {
+			text = MR_HAS_RACE_TRACK_TT
+			any_scope_building = {
+				is_building_type = building_vikelas_circuit
+			}
+		}
+	}
+	effect = {
+		random_scope_state = {
+			limit = {
+				has_building = building_vikelas_circuit
+			}
+			activate_production_method = {
+				building_type = building_vikelas_circuit
+				production_method = pm_vikelas_grand_prix_circuit
+			}
+		}
+		custom_tooltip = {
+			text = vikelas_add_1_grand_prix_track_tt
+			change_global_variable = {
+				name = vikelas_num_grand_prix_tracks_global_var
+				add = 1
 			}
 		}
 	}
