@@ -508,7 +508,7 @@ vikelas_automobile_industry_score = {
 
 ##############################################################################################################
 
-### Racer Effect ###
+### Racer Values ###
 
 #Reliability Value from Character Traits
 vikelas_autorace_racer_reliability_value = {
@@ -844,7 +844,7 @@ vikelas_autorace_racer_speed_value = {
 	}
 }
 
-### Mechanic Effect ###
+### Mechanic Values ###
 
 #Reliability Value from Mechanic Additions
 vikelas_autorace_mechanic_reliability_value = {
@@ -961,181 +961,93 @@ vikelas_autorace_mechanic_speed_value = {
 	}
 }
 
-##############################################################################################################
+### Monthly Mechanical Innovation
 
-#This value is used to create a ranking of the top three winner nations of the Grand Prix Races
-vikelas_grand_prix_success_value = {
-	#Adds the total level of automobile factories of the country as base value
-	value = vikelas_automobile_industry_score
-	#Bonus for racer experience (Champion gets 100)
+vikelas_monthly_mechanical_innovation_value = {
+	value = 0 #base value
+	#Mechanic
 	if = {
 		limit = {
-			var:vikelas_racer_var = {
-				var:vikelas_racer_experience >= 25
-			}
+			has_variable = vikelas_mechanic_var
 		}
-		add = 10
+		add = 1
 	}
+	#Engineer is Mechanic
 	if = {
 		limit = {
-			var:vikelas_racer_var = {
-				var:vikelas_racer_experience >= 50
+			has_variable = gaudi_engineer_var
+			var:gaudi_engineer_var ?= {
+				has_trait = gaudi_mechanical_engineer
 			}
 		}
-		add = 15
+		add = 0.2
 	}
+	#Leading Producer of Automobiles
 	if = {
 		limit = {
-			var:vikelas_racer_var = {
-				var:vikelas_racer_experience >= 100
-			}
+			leading_producer_of = g:automobiles
 		}
-		add = 20
+		add = 0.2
 	}
-	if = {
-		limit = {
-			var:vikelas_racer_var = {
-				var:vikelas_racer_experience >= 150
-			}
-		}
-		add = 25
-	}
-	if = {
-		limit = {
-			var:vikelas_racer_var = {
-				var:vikelas_racer_experience >= 150
-			}
-		}
-		add = 30
-	}
-	#Our Mechanic is the magician and multiplies the sum of industrial power and racer ability
-	if = {
-		limit = {
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience < 100
-			}
-		}
-		multiply = 1.1
-	}
-	if = {
-		limit = {
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience >= 100
-			}
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience < 125
-			}
-		}
-		multiply = 1.2
-	}
-	if = {
-		limit = {
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience >= 125
-			}
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience < 150
-			}
-		}
-		multiply = 1.3
-	}
-	if = {
-		limit = {
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience >= 150
-			}
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience < 175
-			}
-		}
-		multiply = 1.4
-	}
-	if = {
-		limit = {
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience >= 175
-			}
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience < 200
-			}
-		}
-		multiply = 1.5
-	}
-	if = {
-		limit = {
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience >= 200
-			}
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience < 225
-			}
-		}
-		multiply = 1.6
-	}
-	if = {
-		limit = {
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience >= 225
-			}
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience < 250
-			}
-		}
-		multiply = 1.7
-	}
-	if = {
-		limit = {
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience >= 250
-			}
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience < 275
-			}
-		}
-		multiply = 1.8
-	}
-	if = {
-		limit = {
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience >= 275
-			}
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience < 300
-			}
-		}
-		multiply = 1.9
-	}
-	if = {
-		limit = {
-			var:gaudi_engineer_var = {
-				var:gaudi_mechanical_engineer_experience >= 300
-			}
-		}
-		multiply = 2
-	}
-	#Flat bonus for Compression Ignition
-	if = {
-		limit = {
-			has_technology_researched = compression_ignition
-		}
-		add = 15
-	}
-	#Flat bonus for the host
+	#Modern Paddock
 	if = {
 		limit = {
 			any_scope_state = {
-				has_modifier = vikelas_grand_prix_hosting_modifier
+				is_production_method_active = {
+					building_type = building_vikelas_circuit
+					production_method = pm_vikelas_modern_paddock
+				}
 			}
 		}
-		add = 20
+		add = 0.2
 	}
-	#Reserved for Event effects
-	#if = {
-	#	limit = {
-	#		has_variable = vikelas_cheating_cyclist_var
-	#	}
-	#	add = 10
-	#}
-	#This is used to randomize the result
-	multiply = { 0.9 1.1 }
+	#Basic Paddock
+	if = {
+		limit = {
+			any_scope_state = {
+				is_production_method_active = {
+					building_type = building_vikelas_circuit
+					production_method = pm_vikelas_basic_paddock
+				}
+			}
+		}
+		add = 0.1
+	}
+	#Engine Industry
+	if = {
+		limit = {
+			country_has_building_type_levels = {  
+				target = bt:building_motor_industry  
+				value  >= 10
+			}
+		}
+		add = 0.1
+	}
+	if = {
+		limit = {
+			country_has_building_type_levels = {  
+				target = bt:building_motor_industry  
+				value  >= 20
+			}
+		}
+		add = 0.2
+	}
+	if = {
+		limit = {
+			country_has_building_type_levels = {  
+				target = bt:building_motor_industry  
+				value  >= 30
+			}
+		}
+		add = 0.3
+	}
+	if = {
+		limit = {
+			country_has_building_type_levels = {  
+				target = bt:building_motor_industry  
+				value  >= 40
+			}
+		}
+		add = 0.4
+	}
 }
