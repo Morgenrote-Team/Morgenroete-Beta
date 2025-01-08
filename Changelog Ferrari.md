@@ -1,7 +1,9 @@
 Changelog for 2.3.6 "Ferrari"
 
 Races:
+- Added Race Circuit Building with 3 Production Method Groups.
 - Added Streamliners Tech.
+- Added random City-to-City Races from the invention of the Combustion Engine until the introduction of Grand Prixs.
 
 Rapanui:
 - Rapanui people will not starve to death.
