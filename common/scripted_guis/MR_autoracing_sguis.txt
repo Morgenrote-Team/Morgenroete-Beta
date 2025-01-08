@@ -18,6 +18,7 @@ mr_autoracing_long_distance_button = {
 	}
     is_valid = {
 		mr_gui_has_combustion_engine_tech_trigger = yes
+		mr_gui_has_organized_sports_tech_trigger = yes
 		custom_tooltip = {
 			text = MR_AUTORACING_LONG_DISTANCE_MODIFIER_TRIGGER_TT
 			NOR = {
@@ -68,12 +69,12 @@ mr_autoracing_found_automobile_club_button = {
     }
 }
 
-#MR_AUTORACING_FOUND_GRAND_PRIX_BUTTON
-mr_autoracing_found_grand_prix_button = {
+#MR_AUTORACING_FOUND_AIACR_BUTTON
+mr_autoracing_found_aiacr_button = {
 	scope = country
 	is_shown = {
 		NOT = {
-			has_global_variable = vikelas_autoracing_grand_prix_founded_var
+			has_global_variable = vikelas_autoracing_aiacr_founded_var
 		}
 		has_variable = vikelas_automobile_club_var
 	}
@@ -81,21 +82,16 @@ mr_autoracing_found_grand_prix_button = {
 		mr_gui_has_combustion_engine_tech_trigger = yes
 		mr_gui_has_organized_sports_tech_trigger = yes
 		custom_tooltip = {
-			text = MR_AUTORACING_FOUND_GRAND_PRIX_BUTTON_TRIGGER_TT
+			text = MR_AUTORACING_FOUND_AIACR_BUTTON_TRIGGER_TT
 			any_country = {
 				has_variable = vikelas_automobile_club_var
-				has_technology_researched = organized_sports
-				count >= 5
+				count >= 10
 			}
 		}
 	}
 	effect = {
 		custom_tooltip = vikelas_become_aiacr_president_tt
-		set_global_variable = vikelas_autoracing_grand_prix_founded_var
-		set_global_variable = {
-			name = vikelas_num_grand_prix_tracks_global_var
-			value = 0
-		}
+		set_global_variable = vikelas_aiacr_founded_var
 		set_variable = vikelas_aiacr_founding_country_var
 		capital = {
 			create_building = {
@@ -109,9 +105,103 @@ mr_autoracing_found_grand_prix_button = {
         		}
 			}
 		}
-		trigger_event = {
-			id = vikelas.502
-			popup = yes
+		hidden_effect = {
+			every_country = {
+				limit = {
+					has_variable = vikelas_automobile_club_var
+				}
+				trigger_event = {
+					id = vikelas.503
+				}
+			}
+		}
+	}
+}
+
+#MR_AUTORACING_RACE_TRACK_BUTTON
+mr_autoracing_race_track_button = {
+	scope = country
+	is_shown = {
+		NOT = {
+			any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_vikelas_circuit
+				}
+			}
+		}
+		has_variable = vikelas_automobile_club_var
+	}
+	is_valid = {
+		mr_gui_has_combustion_engine_tech_trigger = yes
+		mr_gui_has_paved_roads_tech_trigger = yes
+	}
+	effect = {
+		vikelas_add_circuit_effect = yes
+	}
+}
+
+#MR_AUTORACING_FOUND_GRAND_PRIX_BUTTON
+mr_autoracing_found_grand_prix_button = {
+	scope = country
+	is_shown = {
+		NOT = {
+			has_global_variable = vikelas_autoracing_grand_prix_founded_var
+		}
+		has_global_variable = vikelas_autoracing_aiacr_founded_var
+		has_variable = vikelas_automobile_club_var
+	}
+	is_valid = {
+		mr_gui_has_combustion_engine_tech_trigger = yes
+		mr_gui_has_organized_sports_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_HAS_RACE_TRACK_TT
+			any_scope_building = {
+				is_building_type = building_vikelas_circuit
+			}
+		}
+		custom_tooltip = {
+			text = MR_AUTORACING_FOUND_GRAND_PRIX_BUTTON_TRIGGER_TT
+			any_country = {
+				has_variable = vikelas_automobile_club_var
+				has_technology_researched = organized_sports
+				count >= 5
+			}
+		}
+	}
+	effect = {
+		set_global_variable = vikelas_autoracing_grand_prix_founded_var
+		set_variable = vikelas_gp_founder_var
+		random_scope_state = {
+			limit = {
+				has_building = building_vikelas_circuit
+			}
+			activate_production_method = {
+				building_type = building_vikelas_circuit
+				production_method = pm_vikelas_grand_prix_circuit
+			}
+			state_region = {
+				set_global_variable = { #This is used in the GUI to display the state
+            		name = vikelas_grand_prix_circuit_1_global_var
+           			value = this
+        		}
+			}
+		}
+		custom_tooltip = {
+			text = vikelas_add_1_grand_prix_track_tt
+			change_global_variable = {
+				name = vikelas_num_grand_prix_tracks_global_var
+				add = 1
+			}
+		}
+		hidden_effect = {
+			every_country = {
+				limit = {
+					has_variable = vikelas_automobile_club_var
+				}
+				trigger_event = {
+					id = vikelas.502
+				}
+			}
 		}
 	}
 }
@@ -126,6 +216,10 @@ mr_autoracing_found_team_button = {
 		has_variable = vikelas_automobile_club_var
 	}
 	is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_RACER_TT
+			has_variable = vikelas_racer_var
+		}
 		custom_tooltip = {
 			text = MR_HAS_ENGINEER_TT
 			gaudi_has_engineer = yes
@@ -216,6 +310,50 @@ mr_autoracing_race_track_apply_button = {
 				building_type = building_vikelas_circuit
 				production_method = pm_vikelas_grand_prix_circuit
 			}
+			if = {
+				limit = {
+					has_global_variable = vikelas_grand_prix_circuit_1_global_var
+				}
+				state_region = {
+					set_global_variable = { #This is used in the GUI to display the state
+						name = vikelas_grand_prix_circuit_2_global_var
+						value = this
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_global_variable = vikelas_grand_prix_circuit_2_global_var
+				}
+				state_region = {
+					set_global_variable = { #This is used in the GUI to display the state
+						name = vikelas_grand_prix_circuit_3_global_var
+						value = this
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_global_variable = vikelas_grand_prix_circuit_3_global_var
+				}
+				state_region = {
+					set_global_variable = { #This is used in the GUI to display the state
+						name = vikelas_grand_prix_circuit_4_global_var
+						value = this
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_global_variable = vikelas_grand_prix_circuit_4_global_var
+				}
+				state_region = {
+					set_global_variable = { #This is used in the GUI to display the state
+						name = vikelas_grand_prix_circuit_5_global_var
+						value = this
+					}
+				}
+			}
 		}
 		custom_tooltip = {
 			text = vikelas_add_1_grand_prix_track_tt
@@ -265,6 +403,12 @@ mr_autoracing_race_track_declare_button = {
 			activate_production_method = {
 				building_type = building_vikelas_circuit
 				production_method = pm_vikelas_grand_prix_circuit
+			}
+			state_region = {
+				set_global_variable = { #This is used in the GUI to display the state
+					name = vikelas_grand_prix_circuit_aiacr_global_var
+					value = this
+				}
 			}
 		}
 		custom_tooltip = {
