@@ -1383,6 +1383,7 @@ vikelas_add_grand_prix_victory_effect = {
 			add = 1
 		}
 		vikelas_replace_grand_prix_prestige_modifier_effect = yes
+		vikelas_add_x_seasonal_gp_effect = { AMOUNT = 1 }
 	}
 }
 
@@ -1812,6 +1813,152 @@ vikelas_convert_mechanical_innovation_to_research_effect = {
 	}
 	else = {
 		dubois_add_x_academy_progress = { AMOUNT = 50 }
+	}
+}
+
+###########################################################################
+
+### Statistics ###
+
+vikelas_add_x_race_points_effect = {
+	# Amount = amount of Race Points to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = race_points_amount
+		value = $AMOUNT$
+	}
+
+	#This part adds the AMOUNT of Race Points
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = vikelas_race_points_var
+			}
+		}
+		set_variable = {
+			name = vikelas_race_points_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = vikelas_race_points_var
+		add = scope:race_points_amount
+	}
+}
+
+vikelas_add_x_seasonal_gp_effect = {
+	# Amount = amount of Race Points to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = seasonal_gp_amount
+		value = $AMOUNT$
+	}
+
+	#This part adds the AMOUNT of Race Points
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = vikelas_seasonal_gp_var
+			}
+		}
+		set_variable = {
+			name = vikelas_seasonal_gp_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = vikelas_seasonal_gp_var
+		add = scope:seasonal_gp_amount
+	}
+}
+
+vikelas_reset_grand_prix_statistics_effect = {
+	every_country = {
+		limit = {
+			has_variable = vikelas_automobile_club_var
+		}
+		set_variable = {
+			name = vikelas_race_points_var
+			value = 0
+		}
+		set_variable = {
+			name = vikelas_seasonal_gp_var
+			value = 0
+		}
+	}
+}
+
+vikelas_grand_prix_championship_effect = {
+	#Removes the GLOBAL ranking variables
+	remove_global_variable = vikelas_grand_prix_championship_place_1_global_var 
+	remove_global_variable = vikelas_grand_prix_championship_place_2_global_var 
+	remove_global_variable = vikelas_grand_prix_championship_place_3_global_var
+	remove_global_variable = vikelas_grand_prix_championship_place_4_global_var 
+	remove_global_variable = vikelas_grand_prix_championship_place_5_global_var 
+
+	ordered_country = {
+		limit = {
+			has_variable = vikelas_race_points_var
+			var:vikelas_race_points_var >= 1
+		}
+		order_by = var:vikelas_race_points_var
+		max = 5 #Limits the list to the three top countries
+		check_range_bounds = no #prevents errors
+
+		#This part checks one after another whether the the first, second, etc. ranked countries are saved already.
+		#Luckily the ordered_country effect iterates through the countries one after another.
+		#So the first country gets saved to the first variable but as that variable now is set,
+		# the second country gets saved to the second variable and so on.
+		if = {
+			limit = {
+				NOT = { 
+					has_global_variable = vikelas_grand_prix_championship_place_1_global_var 
+				}
+			}
+			set_global_variable = {
+				name = vikelas_grand_prix_championship_place_1_global_var 
+				value = this
+			}
+			save_scope_as = vikelas_first_winner_scope
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_grand_prix_championship_place_2_global_var  }
+			}
+			set_global_variable = {
+				name = vikelas_grand_prix_championship_place_2_global_var
+				value = this
+			}
+			save_scope_as = vikelas_second_winner_scope
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_grand_prix_championship_place_3_global_var  }
+			}
+			set_global_variable = {
+				name = vikelas_grand_prix_championship_place_3_global_var
+				value = this
+			}
+			save_scope_as = vikelas_third_winner_scope
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_grand_prix_championship_place_4_global_var  }
+			}
+			set_global_variable = {
+				name = vikelas_grand_prix_championship_place_4_global_var
+				value = this
+			}
+			save_scope_as = vikelas_fourth_winner_scope
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_grand_prix_championship_place_5_global_var  }
+			}
+			set_global_variable = {
+				name = vikelas_grand_prix_championship_place_5_global_var
+				value = this
+			}
+			save_scope_as = vikelas_fifth_winner_scope
+		}
 	}
 }
 
