@@ -7399,6 +7399,15 @@ vikelas.550 = {
 	immediate = {
 		if = {
 			limit = {
+				NOT = {
+					has_global_variable = vikelas_grand_prix_statistics_global_var
+				}
+			}
+			set_global_variable = vikelas_grand_prix_statistics_global_var
+		}
+
+		if = {
+			limit = {
 				has_global_variable = vikelas_grand_prix_circuit_aiacr_global_var
 			}
 			random_country = {
@@ -7493,6 +7502,20 @@ vikelas.550 = {
 				}
 			}
 		}
+		if = {
+			limit = {
+				has_global_variable = vikelas_grand_prix_circuit_1_global_var
+			}
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				trigger_event = {
+					id = vikelas.558
+					days = 365 #Capodanno
+				}
+			}
+		}
 	}
 }
 
@@ -7545,6 +7568,52 @@ vikelas.551 = {
 	}
 }
 
+#Vikelas 558: Race Statistics
+vikelas.558 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.558.t
+	desc = vikelas.558.d
+	flavor = vikelas.558.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_ascari.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+		has_global_variable = vikelas_grand_prix_statistics_global_var
+	}
+
+	immediate = {
+		vikelas_grand_prix_championship_effect = yes
+		scope:vikelas_first_winner_scope = {
+			var:vikelas_race_points_var = {
+				save_scope_as = vikelas_first_winner_points_scope
+			}
+			var:vikelas_seasonal_gp_var = {
+				save_scope_as = vikelas_first_winner_victories_scope
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.558.g #
+		default_option = yes
+	}
+
+	after = {
+		vikelas_reset_grand_prix_statistics_effect = yes
+	}
+}
+
 #Vikelas 560: Grand Prix Ends (hidden)
 vikelas.560 = {
 	dlc = dlc_morgenrote
@@ -7582,6 +7651,9 @@ vikelas.560 = {
 			mechanic_experience_gain_effect = {
 				AMOUNT = 20
 			}
+			vikelas_add_x_race_points_effect = {
+				AMOUNT = 8
+			}
 			remove_variable = vikelas_grand_prix_race_qualified_var
 		}
 		scope:vikelas_second_winner_scope = {
@@ -7594,6 +7666,9 @@ vikelas.560 = {
 			}
 			mechanic_experience_gain_effect = {
 				AMOUNT = 15
+			}
+			vikelas_add_x_race_points_effect = {
+				AMOUNT = 6
 			}
 			remove_variable = vikelas_grand_prix_race_qualified_var
 		}
@@ -7608,6 +7683,9 @@ vikelas.560 = {
 			mechanic_experience_gain_effect = {
 				AMOUNT = 10
 			}
+			vikelas_add_x_race_points_effect = {
+				AMOUNT = 4
+			}
 			remove_variable = vikelas_grand_prix_race_qualified_var
 		}
 		every_country = {
@@ -7619,7 +7697,7 @@ vikelas.560 = {
 					this = scope:vikelas_third_winner_scope
 				}
 			}
-			post_notification = vikelas_autorace_grand_prix_information_notification
+			post_notification = vikelas_autorace_grand_prix_information_place_notification
 			vikelas_add_x_mechanical_innovation_effect = {
 				AMOUNT = 10
 			}
@@ -7628,6 +7706,9 @@ vikelas.560 = {
 			}
 			mechanic_experience_gain_effect = {
 				AMOUNT = 5
+			}
+			vikelas_add_x_race_points_effect = {
+				AMOUNT = 2
 			}
 			remove_variable = vikelas_grand_prix_race_qualified_var
 		}
@@ -7667,12 +7748,12 @@ vikelas.561 = {
 		name = vikelas.561.g #Champagne!
 		random_scope_state = {
 			limit = {
-				any_scope_building = building_vikelas_circuit
+				has_building = building_vikelas_circuit
 			}
 			add_loyalists_in_state = {
 				value = 0.01
 			}
-			add_lradicals_in_state = {
+			add_radicals_in_state = {
 				value = -0.01
 			}
 		}
