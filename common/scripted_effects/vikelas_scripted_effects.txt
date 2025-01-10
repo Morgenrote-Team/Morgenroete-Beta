@@ -1279,6 +1279,11 @@ vikelas_city_race_winner_effect = {
 ######GRAND PRIX######
 
 vikelas_grand_prix_race_qualification_effect = {
+	#Add one Grand Prix
+	change_variable = {
+		name = vikelas_grand_prix_number_var
+		add = 1
+	}
 	#Car Crash Chance: Racer risks crash if speed is higher than safety
 	if = {
 		limit = {
@@ -1395,82 +1400,6 @@ vikelas_replace_grand_prix_prestige_modifier_effect = {
 		add_modifier = {
 			name = vikelas_grand_prix_prestige_modifier
 			multiplier = root.var:vikelas_grand_prix_victories_var #Multiplies the base prestige per victory (15) with the number of victories
-		}
-	}
-}
-
-######ENDURANCE RACE######
-
-#This determines the three fastest racers
-vikelas_endurance_race_winner_effect = {
-	#Removes the GLOBAL ranking variables
-	remove_global_variable = vikelas_endurance_race_place_1_global_var 
-	remove_global_variable = vikelas_endurance_race_place_2_global_var 
-	remove_global_variable = vikelas_endurance_race_place_3_global_var 
-
-	#If ROOT has 250 or more points, it will win the race
-	if = {
-		limit = {
-			var:vikelas_endurance_race_success_value >= 250
-		}
-		save_scope_as = vikelas_first_winner_scope
-		save_scope_as = vikelas_second_winner_scope
-		save_scope_as = vikelas_third_winner_scope
-	}
-
-	#If ROOT does not have at least 250 points, it may still win if it has more points than other countries with an automobile club.
-	#It will also win if there is no other country with an automobile club.
-	#If not, ROOT will only arrive second.
-	else = {
-		ordered_country = {
-			limit = {
-				has_variable = vikelas_automobile_club_var
-			}
-			order_by = var:vikelas_endurance_race_success_value
-			max = 10 #Limits the list to the three top countries
-			check_range_bounds = no #prevents errors
-	
-			#This part checks one after another whether the the first, second, etc. ranked countries are saved already.
-			#Luckily the ordered_country effect iterates through the countries one after another.
-			#So the first country gets saved to the first variable but as that variable now is set,
-			# the second country gets saved to the second variable and so on.
-			#AI Country will only win if it did not win any endurance race in the last two years
-			if = {
-				limit = {
-					NOT = { 
-						has_global_variable = vikelas_endurance_race_place_1_global_var 
-					}
-					NOT = {
-						is_player = no
-						has_modifier = vikelas_endurance_race_victory_modifier
-					}
-				}
-				set_global_variable = {
-					name = vikelas_endurance_race_place_1_global_var 
-					value = this
-				}
-				save_scope_as = vikelas_first_winner_scope
-			}
-			else_if = {
-				limit = {
-					ROOT = this
-				}
-				set_global_variable = {
-					name = vikelas_endurance_race_place_2_global_var
-					value = this
-				}
-				save_scope_as = vikelas_second_winner_scope
-			}
-			else_if = {
-				limit = {
-					ROOT = this
-				}
-				set_global_variable = {
-					name = vikelas_endurance_race_place_3_global_var
-					value = this
-				}
-				save_scope_as = vikelas_third_winner_scope
-			}
 		}
 	}
 }
