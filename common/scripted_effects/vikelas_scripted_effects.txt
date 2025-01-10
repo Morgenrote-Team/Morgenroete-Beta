@@ -1175,6 +1175,7 @@ vikelas_add_x_mechanical_innovation_effect = {
 
 ######CITY RACE######
 
+#This effect determines which racers may get a position in a City-to-City Race (or get a crash/breakdown)
 vikelas_city_race_qualification_effect = {
 	#Car Crash Chance: Racer risks crash if speed is higher than safety
 	if = {
@@ -1223,6 +1224,7 @@ vikelas_city_race_qualification_effect = {
 	}
 }
 
+#This effect determines the three fastest racers in a City-to-City Race
 vikelas_city_race_winner_effect = {
 	#Removes the GLOBAL ranking variables
 	remove_global_variable = vikelas_city_race_place_1_global_var 
@@ -1278,6 +1280,7 @@ vikelas_city_race_winner_effect = {
 
 ######GRAND PRIX######
 
+#This effect determines which racers may get a position in a Grand Prix Race (or get a crash/breakdown)
 vikelas_grand_prix_race_qualification_effect = {
 	#Add one Grand Prix
 	change_variable = {
@@ -1326,6 +1329,7 @@ vikelas_grand_prix_race_qualification_effect = {
 	}
 }
 
+#This effect determines the three fastest racers in a Grand Prix Race
 vikelas_grand_prix_race_winner_effect = {
 	#Removes the GLOBAL ranking variables
 	remove_global_variable = vikelas_grand_prix_race_place_1_global_var 
@@ -1400,6 +1404,111 @@ vikelas_replace_grand_prix_prestige_modifier_effect = {
 		add_modifier = {
 			name = vikelas_grand_prix_prestige_modifier
 			multiplier = root.var:vikelas_grand_prix_victories_var #Multiplies the base prestige per victory (15) with the number of victories
+		}
+	}
+}
+
+######ENDURANCE RACE######
+
+#This effect determines which racers may get a position in a Endurance Race (or get a crash/breakdown)
+vikelas_endurance_race_qualification_effect = {
+	#Add one Endurance Race
+	change_variable = {
+		name = vikelas_endurance_race_number_var
+		add = 1
+	}
+	#Car Crash Chance: Racer risks crash if speed is higher than safety
+	if = {
+		limit = {
+			vikelas_autorace_speed_value > vikelas_autorace_safety_value
+		}
+		random_list = {
+			65 = {
+				set_variable = vikelas_endurance_race_qualified_var
+			}
+			35 = {
+				trigger_event = {
+					id = vikelas.593
+					days = 80
+				}
+			}
+		}
+	}
+	#Arrival Chance: Racer arrives depending on reliability
+	else_if = {
+		limit = {
+			vikelas_autorace_speed_value > vikelas_autorace_reliability_value
+		}
+		random_list = {
+			50 = {
+				set_variable = vikelas_endurance_race_qualified_var
+			}
+			50 = {
+				trigger_event = {
+					id = vikelas.594
+					days = 80
+				}
+			}
+		}
+	}
+	else = {
+		set_variable = vikelas_endurance_race_qualified_var
+		random_list = {
+			#2 = { trigger_event = { id = vikelas.513 days = 15 } }
+		}
+	}
+}
+
+#This effect determines the three winners in a Endurance Race
+vikelas_endurance_race_winner_effect = {
+	#Removes the GLOBAL ranking variables
+	remove_global_variable = vikelas_endurance_race_place_1_global_var 
+	remove_global_variable = vikelas_endurance_race_place_2_global_var 
+	remove_global_variable = vikelas_endurance_race_place_3_global_var 
+
+	ordered_country = {
+		limit = {
+			has_variable = vikelas_endurance_race_qualified_var
+		}
+		order_by = vikelas_autorace_reliability_value
+		max = 3 #Limits the list to the three top countries
+		check_range_bounds = no #prevents errors
+
+		#This part checks one after another whether the the first, second, etc. ranked countries are saved already.
+		#Luckily the ordered_country effect iterates through the countries one after another.
+		#So the first country gets saved to the first variable but as that variable now is set,
+		# the second country gets saved to the second variable and so on.
+		if = {
+			limit = {
+				NOT = { 
+					has_global_variable = vikelas_endurance_race_place_1_global_var 
+				}
+			}
+			set_global_variable = {
+				name = vikelas_endurance_race_place_1_global_var 
+				value = this
+			}
+			save_scope_as = vikelas_first_winner_scope
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_endurance_race_place_2_global_var  }
+			}
+			set_global_variable = {
+				name = vikelas_endurance_race_place_2_global_var
+				value = this
+			}
+			save_scope_as = vikelas_second_winner_scope
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_endurance_race_place_3_global_var  }
+			}
+			set_global_variable = {
+				name = vikelas_endurance_race_place_3_global_var
+				value = this
+			}
+			save_scope_as = vikelas_third_winner_scope
 		}
 	}
 }
