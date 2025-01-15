@@ -7415,6 +7415,698 @@ vikelas.531 = {
 	}
 }
 
+#Vikelas 532: Normal Progress
+vikelas.532 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	trigger = {
+		NOT = {
+			has_variable = vikelas_ongoing_endurance_race_event_var
+		}
+	}
+
+	immediate = {
+		vikelas_add_x_endurance_race_progress_effect = {
+			AMOUNT = 1
+		}
+	}
+}
+
+#Vikelas 533: Tire Damage
+vikelas.533 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.533.t
+	desc = vikelas.533.d
+	flavor = vikelas.533.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_alfa.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = vikelas_ongoing_endurance_race_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_ongoing_endurance_race_event_var
+	}
+
+	option = {
+		name = vikelas.533.g #What a shame
+		default_option = yes
+		add_modifier = {
+			name = vikelas_autorace_endurance_speed_decrease_modifier
+			days = 60
+		}
+	}
+
+	after = {
+		remove_variable = vikelas_ongoing_endurance_race_event_var
+		vikelas_add_x_endurance_race_progress_effect = {
+			AMOUNT = 1
+		}
+	}
+}
+
+#Vikelas 534: The Railway Crossing
+vikelas.534 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.534.t
+	desc = vikelas.534.d
+	flavor = vikelas.534.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_passo.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = vikelas_ongoing_endurance_race_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_ongoing_endurance_race_event_var
+	}
+
+	option = {
+		name = vikelas.534.g #Drive through the barrier quickly!
+		default_option = yes
+		random_list = {
+			90 = {}
+			10 = {
+				remove_variable = vikelas_endurance_race_qualified_var
+				trigger_event = {
+					id = vikelas.593
+				}
+				hidden_effect = {
+					set_variable = {
+						name = vikelas_endurance_race_progress_var
+						value = 8
+					}
+				}
+			}
+		}
+	}
+
+	after = {
+		remove_variable = vikelas_ongoing_endurance_race_event_var
+		vikelas_add_x_endurance_race_progress_effect = {
+			AMOUNT = 1
+		}
+	}
+}
+
+#Vikelas 535: Overtaking Maneuver
+vikelas.535 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.555.t
+	desc = vikelas.555.d
+	flavor = vikelas.555.f
+
+	duration = 1
+
+	gui_window = event_window_2char
+
+	left_icon = scope:vikelas_racer_1_scope
+	right_icon = scope:vikelas_racer_2_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = vikelas_ongoing_endurance_race_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_ongoing_endurance_race_event_var
+		random_country = {
+			limit = {
+				has_variable = vikelas_endurance_race_qualified_var
+				NOT = {
+					ROOT = this
+				}
+			}
+			save_scope_as = vikelas_race_country_scope
+			var:vikelas_racer_var ?= {
+				save_scope_as = vikelas_racer_2_scope
+			}
+		}
+		var:vikelas_racer_var ?= {
+			save_scope_as = vikelas_racer_1_scope
+		}
+	}
+
+	option = {
+		name = vikelas.555.g #Forza!
+		random_list = {
+			50 = {
+				modifier = {
+					if = {
+						limit = {
+							scope:vikelas_race_country_scope = {
+								vikelas_autorace_racer_speed_value < root.vikelas_autorace_racer_speed_value
+							}
+						}
+						add = 15
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_1_scope= {
+								has_trait = vikelas_racer_champion
+							}
+						}
+						add = 10
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_1_scope = {
+								has_trait = vikelas_speedster_racer
+							}
+						}
+						add = 5
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_1_scope= {
+								has_trait = brave
+							}
+						}
+						add = 5
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_1_scope= {
+								has_trait = ambitious
+							}
+						}
+						add = 5
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_1_scope= {
+								has_trait = reckless
+							}
+						}
+						add = 5
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_1_scope= {
+								has_trait = persistent
+							}
+						}
+						add = 5
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_1_scope= {
+								has_trait = cautious
+							}
+						}
+						add = -5
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_1_scope= {
+								has_trait = tactful
+							}
+						}
+						add = -5
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_1_scope= {
+								OR = {
+									has_trait = wounded
+									has_trait = opium_addiction
+									has_trait = psychological_affliction
+								}
+							}
+						}
+						add = -5
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_1_scope= {
+								OR = {
+									has_trait = shellshocked
+									has_trait = senile
+									has_trait = alcoholic
+								}
+							}
+						}
+						add = -10
+					}
+				}
+				trigger_event = {
+					id = vikelas.536
+					days = 1
+				}
+			}
+			50 = {
+				modifier = {
+					if = {
+						limit = {
+							scope:vikelas_race_country_scope = {
+								vikelas_autorace_racer_speed_value > root.vikelas_autorace_racer_speed_value
+							}
+						}
+						add = 15
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_2_scope = {
+								has_trait = vikelas_racer_champion
+							}
+						}
+						add = 10
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_2_scope = {
+								has_trait = vikelas_speedster_racer
+							}
+						}
+						add = 5
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_2_scope = {
+								has_trait = brave
+							}
+						}
+						add = 5
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_2_scope = {
+								has_trait = ambitious
+							}
+						}
+						add = 5
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_2_scope = {
+								has_trait = reckless
+							}
+						}
+						add = 5
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_2_scope = {
+								has_trait = persistent
+							}
+						}
+						add = 5
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_2_scope = {
+								has_trait = cautious
+							}
+						}
+						add = -5
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_2_scope = {
+								has_trait = tactful
+							}
+						}
+						add = -5
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_2_scope = {
+								OR = {
+									has_trait = wounded
+									has_trait = opium_addiction
+									has_trait = psychological_affliction
+								}
+							}
+						}
+						add = -5
+					}
+					if = {
+						limit = {
+							scope:vikelas_racer_2_scope = {
+								OR = {
+									has_trait = shellshocked
+									has_trait = senile
+									has_trait = alcoholic
+								}
+							}
+						}
+						add = -10
+					}
+				}
+				trigger_event = {
+					id = vikelas.537
+					days = 1
+				}
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.555.h #This is too risky.
+		default_option = yes
+	}
+
+	after = {
+		remove_variable = vikelas_ongoing_endurance_race_event_var
+		vikelas_add_x_endurance_race_progress_effect = {
+			AMOUNT = 1
+		}
+	}
+}
+
+#Vikelas 536: Overtaking Maneuver succeeds
+vikelas.536 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.556.t
+	desc = vikelas.556.d
+	flavor = vikelas.556.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_porsche.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.556.g #Fantastic!
+		default_option = yes
+		racer_experience_gain_effect = {
+			AMOUNT = 10
+		}
+		vikelas_add_x_mechanical_innovation_effect = {
+			AMOUNT = 5
+		}
+		add_modifier = {
+			name = vikelas_autorace_endurance_speed_large_increase_modifier
+			days = 60
+		}
+	}
+
+	after = {
+		vikelas_add_x_endurance_race_progress_effect = {
+			AMOUNT = 1
+		}
+	}
+}
+
+#Vikelas 537: Overtaking Maneuver fails
+vikelas.537 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.557.t
+	desc = vikelas.557.d
+	flavor = vikelas.557.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_breakdown.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.557.g #What a shame
+		default_option = yes
+		add_modifier = {
+			name = vikelas_autorace_endurance_speed_decrease_modifier
+			days = 60
+		}
+	}
+
+	after = {
+		vikelas_add_x_endurance_race_progress_effect = {
+			AMOUNT = 1
+		}
+	}
+}
+
+#Vikelas 538: Wolves and Revolvers
+vikelas.538 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.538.t
+	desc = vikelas.538.d
+	flavor = vikelas.538.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_pericoloso.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = vikelas_ongoing_endurance_race_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_ongoing_endurance_race_event_var
+	}
+
+	option = {
+		name = vikelas.538.g #
+		random_list = {
+			25 = {
+				add_modifier = {
+					name = vikelas_autorace_endurance_speed_increase_modifier
+					days = 60
+				}
+			}
+			75 = {
+				add_modifier = {
+					name = vikelas_autorace_endurance_speed_large_decrease_modifier
+					days = 60
+				}
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.538.h #
+		add_modifier = {
+			name = vikelas_autorace_endurance_speed_decrease_modifier
+			days = 60
+		}
+	}
+
+	option = {
+		name = vikelas.538.i #
+		trigger = {
+			NOT = {
+				has_variable = dubois_zoo_animal_wolf
+			}
+		}
+		default_option = yes
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		add_modifier = {
+			name = dubois_zoo_transport_modifier
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.152
+				days = { 30 60 }
+			}
+		}
+	}
+
+	after = {
+		remove_variable = vikelas_ongoing_endurance_race_event_var
+		vikelas_add_x_endurance_race_progress_effect = {
+			AMOUNT = 1
+		}
+	}
+}
+
+#Vikelas 539: Racing car drives into spectators!
+vikelas.539 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.539.t
+	desc = vikelas.539.d
+	flavor = vikelas.539.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_pericoloso.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = vikelas_ongoing_endurance_race_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_ongoing_endurance_race_event_var
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+			}
+			save_scope_as = vikelas_disaster_state
+		}
+	}
+
+	option = {
+		name = vikelas.539.g #What a shame
+		default_option = yes
+		scope:vikelas_disaster_state = {
+			add_radicals_in_state = {
+				value = 0.01
+			}
+			add_modifier = {
+				name = vikelas_autorace_disaster_modifier
+				years = 2
+			}
+		}
+	}
+
+	after = {
+		remove_variable = vikelas_ongoing_endurance_race_event_var
+		vikelas_add_x_endurance_race_progress_effect = {
+			AMOUNT = 1
+		}
+	}
+}
+
+#Vikelas 540: New Average Speed Record
+vikelas.540 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.540.t
+	desc = vikelas.540.d
+	flavor = vikelas.540.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_bugatti.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = vikelas_ongoing_endurance_race_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_ongoing_endurance_race_event_var
+	}
+
+	option = {
+		name = vikelas.513.g #Fantastic!
+		default_option = yes
+		add_modifier = {
+			name = vikelas_autorace_endurance_speed_increase_modifier
+			days = 60
+		}
+	}
+
+	after = {
+		remove_variable = vikelas_ongoing_endurance_race_event_var
+		vikelas_add_x_endurance_race_progress_effect = {
+			AMOUNT = 1
+		}
+	}
+}
+
 #Vikelas 541: Endurance Race Ends
 vikelas.541 = {
 	dlc = dlc_morgenrote
@@ -7452,7 +8144,7 @@ vikelas.541 = {
 		}
 		scope:vikelas_first_winner_scope = {
 			post_notification = vikelas_autorace_endurance_race_first_place_notification
-			vikelas_add_endurance_victory_effect = yes
+			vikelas_add_endurance_race_victory_effect = yes
 			vikelas_add_x_mechanical_innovation_effect = {
 				AMOUNT = 100
 			}
@@ -7482,6 +8174,9 @@ vikelas.541 = {
 				AMOUNT = 10
 			}
 			remove_variable = vikelas_endurance_race_qualified_var
+		}
+		ROOT = {
+			save_scope_as = vikelas_endurance_race_country_scope
 		}
 	}
 
@@ -7541,6 +8236,204 @@ vikelas.542 = {
 	}
 
 	after = {
+	}
+}
+
+#Vikelas 543: A little help for a friend?
+vikelas.543 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.516.t
+	desc = vikelas.516.d
+	flavor = vikelas.516.f
+
+	duration = 1
+
+	gui_window = event_window_2char
+
+	left_icon = scope:vikelas_racer_1_scope
+	right_icon = scope:vikelas_racer_2_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = vikelas_ongoing_endurance_race_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_ongoing_endurance_race_event_var
+		random_country = {
+			limit = {
+				has_variable = vikelas_endurance_race_qualified_var
+				NOT = {
+					ROOT = this
+				}
+			}
+			save_scope_as = vikelas_race_country_scope
+			var:vikelas_racer_var ?= {
+				save_scope_as = vikelas_racer_2_scope
+			}
+		}
+		var:vikelas_racer_var ?= {
+			save_scope_as = vikelas_racer_1_scope
+		}
+	}
+
+	option = {
+		name = vikelas.516.g #RACER should stop and help.
+		add_modifier = {
+			name = vikelas_autorace_endurance_speed_decrease_modifier
+		}
+		change_infamy = -2
+		scope:vikelas_race_country_scope = {
+			change_relations = {
+				country = ROOT 
+				value = 10
+			}
+		}
+		racer_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	option = {
+		name = vikelas.516.h #Haha!
+		default_option = yes
+		scope:vikelas_race_country_scope = {
+			change_relations = {
+				country = ROOT 
+				value = -5
+			}
+		}
+	}
+
+	after = {
+		remove_variable = vikelas_ongoing_endurance_race_event_var
+		vikelas_add_x_endurance_race_progress_effect = {
+			AMOUNT = 1
+		}
+	}
+}
+
+#Vikelas 544: Engine problems
+vikelas.544 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.517.t
+	desc = vikelas.517.d
+	flavor = vikelas.517.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_alfa.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = vikelas_ongoing_endurance_race_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_ongoing_endurance_race_event_var
+	}
+
+	option = {
+		trigger = {
+			var:vikelas_mechanical_innovation_var >= 5
+		}
+		name = vikelas.517.g #Use all available mechanical fine-tuning measures
+		default_option = yes
+		vikelas_add_x_mechanical_innovation_effect = {
+			AMOUNT = -5
+		}
+	}
+
+	option = {
+		name = vikelas.517.h #The car has to survive the race like this.
+		add_modifier = {
+			name = vikelas_autorace_city_speed_decrease_modifier
+		}
+	}
+
+	after = {
+		remove_variable = vikelas_ongoing_endurance_race_event_var
+		vikelas_add_x_endurance_race_progress_effect = {
+			AMOUNT = 1
+		}
+	}
+}
+
+#Vikelas 545: Fan Gathering
+vikelas.545 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.545.t
+	desc = vikelas.545.d
+	flavor = vikelas.545.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_mille.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = vikelas_ongoing_endurance_race_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_ongoing_endurance_race_event_var
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+			}
+			save_scope_as = vikelas_fan_state
+		}
+	}
+
+	option = {
+		name = vikelas.545.g #Great!
+		default_option = yes
+		scope:vikelas_fan_state = {
+			add_loyalists_in_state = {
+				value = 0.01
+			}
+		}
+	}
+
+	after = {
+		remove_variable = vikelas_ongoing_endurance_race_event_var
+		vikelas_add_x_endurance_race_progress_effect = {
+			AMOUNT = 1
+		}
 	}
 }
 
