@@ -7384,7 +7384,7 @@ vikelas.531 = {
 	duration = 3
 
 	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_continental.dds"
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_miglia.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -7412,6 +7412,138 @@ vikelas.531 = {
 			}
 			vikelas_endurance_race_qualification_effect = yes
 		}
+	}
+}
+
+#Vikelas 541: Endurance Race Ends
+vikelas.541 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.541.t
+	desc = vikelas.541.d
+	flavor = vikelas.541.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_mille.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		remove_global_variable = vikelas_endurance_race_ongoing_global_var
+		remove_modifier = vikelas_autorace_endurance_speed_increase_modifier
+		remove_modifier = vikelas_autorace_endurance_speed_decrease_modifier
+		remove_modifier = vikelas_autorace_endurance_speed_large_increase_modifier
+		remove_modifier = vikelas_autorace_endurance_speed_large_decrease_modifier
+		vikelas_endurance_race_winner_effect = yes
+		scope:vikelas_first_winner_scope = {
+			var:vikelas_racer_var = {
+				save_scope_as = vikelas_racer_1_scope
+			}
+		}
+		scope:vikelas_first_winner_scope = {
+			post_notification = vikelas_autorace_endurance_first_place_notification
+			vikelas_add_endurance_victory_effect = yes
+			vikelas_add_x_mechanical_innovation_effect = {
+				AMOUNT = 100
+			}
+			racer_experience_gain_effect = {
+				AMOUNT = 50
+			}
+			mechanic_experience_gain_effect = {
+				AMOUNT = 25
+			}
+			remove_variable = vikelas_endurance_race_qualified_var
+		}
+		every_country = {
+			limit = {
+				has_variable = vikelas_endurance_race_qualified_var
+				NOT = {
+					this = scope:vikelas_first_winner_scope
+				}
+			}
+			post_notification = vikelas_autorace_endurance_information_place_notification
+			vikelas_add_x_mechanical_innovation_effect = {
+				AMOUNT = 10
+			}
+			racer_experience_gain_effect = {
+				AMOUNT = 10
+			}
+			mechanic_experience_gain_effect = {
+				AMOUNT = 5
+			}
+			vikelas_add_x_race_points_effect = {
+				AMOUNT = 2
+			}
+			remove_variable = vikelas_endurance_race_qualified_var
+		}
+	}
+
+	option = {
+		name = vikelas.561.g #Champagne!
+		remove_modifier = vikelas_endurance_race_hosting_modifier
+		add_modifier = {
+			name = vikelas_endurance_race_hosted_modifier
+			years = 3
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				NOT = {
+					has_modifier = vikelas_endurance_race_victory_modifier
+				}
+			}
+			scope:vikelas_first_winner_scope = {
+				trigger_event = {
+					id = vikelas.542
+				}
+			}
+		}
+	}
+}
+
+#Vikelas 542: Endurance Race Ends - Notification for Winner
+vikelas.542 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.541.t
+	desc = vikelas.542.d
+	flavor = vikelas.541.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_mille.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.561.g #Champagne!
+	}
+
+	after = {
 	}
 }
 
