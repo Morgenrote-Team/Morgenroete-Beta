@@ -1414,8 +1414,14 @@ vikelas_endurance_race_qualification_effect = {
 		name = vikelas_endurance_race_number_var
 		add = 1
 	}
-	#Car Crash Chance: Racer risks crash if speed is higher than safety
+	#Host Chance: Host will neither crash nor break
 	if = {
+		limit = {
+			has_modifier = 
+		}
+	}
+	#Car Crash Chance: Racer risks crash if speed is higher than safety
+	else_if = {
 		limit = {
 			vikelas_autorace_speed_value > vikelas_autorace_safety_value
 		}
@@ -1426,7 +1432,7 @@ vikelas_endurance_race_qualification_effect = {
 			25 = {
 				trigger_event = {
 					id = vikelas.593
-					days = 60
+					days = 30
 				}
 			}
 		}
@@ -1443,7 +1449,7 @@ vikelas_endurance_race_qualification_effect = {
 			65 = {
 				trigger_event = {
 					id = vikelas.594
-					days = 60
+					days = 30
 				}
 			}
 		}
@@ -1501,6 +1507,46 @@ vikelas_add_endurance_race_victory_effect = {
 	add_modifier = {
 		name = vikelas_endurance_race_victory_modifier
 		years = 2
+	}
+}
+
+#This effect add Endurance Race Progress
+vikelas_add_x_endurance_race_progress_effect = {
+	# Amount = amount of Endurance Race Progress to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = endurance_race_progress_amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = vikelas_add_x_endurance_race_progress_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = vikelas_add_x_endurance_race_progress_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = vikelas_add_x_endurance_race_progress_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Endurance Race Progress
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = vikelas_endurance_race_progress_var
+			}
+		}
+		set_variable = {
+			name = vikelas_endurance_race_progress_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = vikelas_endurance_race_progress_var
+		add = scope:endurance_race_progress_amount
 	}
 }
 
