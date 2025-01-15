@@ -28,3 +28,5 @@ GUI:
 Fixes:
 - Your Physician will no longer suddenly become free if the Germ Theory is proven.
 - "World with Santa Claus" only gives 1% Society Research Bonus (instead of 10%).
+- Fixed various localizations.
+- The Navy Research button should work properly again.
