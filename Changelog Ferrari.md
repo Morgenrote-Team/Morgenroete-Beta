@@ -30,3 +30,4 @@ Fixes:
 - "World with Santa Claus" only gives 1% Society Research Bonus (instead of 10%).
 - Fixed various localizations.
 - The Navy Research button should work properly again.
+- Promoting a scientist is now only possible if a constructed university has the correct focus. You are no longer able to use the specialization of universities under construction.
