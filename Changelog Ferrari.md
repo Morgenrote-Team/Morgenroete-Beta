@@ -32,3 +32,4 @@ Fixes:
 - The Navy Research button should work properly again.
 - Promoting a scientist is now only possible if a constructed university has the correct focus. You are no longer able to use the specialization of universities under construction.
 - Promoting a artists is now only possible if a constructed arts academy has the correct focus. You are no longer able to use the specialization of arts academies under construction.
+- Airline Companies can be established again.
