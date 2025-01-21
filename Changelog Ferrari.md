@@ -3,7 +3,7 @@ Changelog for 2.3.6 "Ferrari"
 Races:
 - Added Race Circuit Building with 3 Production Method Groups.
 - Added Streamliners Tech.
-- - Added new Character: Racer.
+- Added new Character: Racer.
 - Added random City-to-City Races from the invention of the Combustion Engine until the introduction of Grand Prixs.
 - Victory chance depends on Racer values, like traits and experience. Game creates value for racer raliability, racer safety and racer speed.
 - If speed is higher than safety, a fatal crash can occur. If speed is higher than relibaility, a breakdown can happen. Racers without crash or breakdown are qualified to win a race; fastes racer will win city-to-city-race.
