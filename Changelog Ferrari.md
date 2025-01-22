@@ -3,6 +3,7 @@ Changelog for 2.3.6 "Ferrari"
 Races:
 - Added Race Circuit Building with 3 Production Method Groups.
 - Added Streamliners Tech.
+- Added new Character: Racer.
 - Added random City-to-City Races from the invention of the Combustion Engine until the introduction of Grand Prixs.
 - Victory chance depends on Racer values, like traits and experience. Game creates value for racer raliability, racer safety and racer speed.
 - If speed is higher than safety, a fatal crash can occur. If speed is higher than relibaility, a breakdown can happen. Racers without crash or breakdown are qualified to win a race; fastes racer will win city-to-city-race.
@@ -15,6 +16,8 @@ Races:
 - Grand Prix Races are hidden races, you get a notification when your driver wins/arrives. Only the host of a race gets a special random event.
 - Victory chance depends on Racer values and Mechanic values.
 - If speed is higher than safety, a fatal crash can occur. If speed is higher than relibaility, a breakdown can happen. Racers without crash or breakdown are qualified to win a race; fastes racer will win Grand Prix Race.
+- Added Endurance Races which can be held by countries via action. Endurance Races have a JE and events for the host. Reliability is more important in Endurance Races than speed. There is only one winner, not three.
+- Historical Events for Le Mans, Targa Florio and Semmering-Bergrennen.
 
 Rapanui:
 - Rapanui people will not starve to death.
