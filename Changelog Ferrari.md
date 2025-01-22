@@ -7,3 +7,4 @@ Fixes:
 - Paleontologists now need the Paleontology Tech instead of the Modern Archaeology Tech to be promoted.
 - Fixed the Zoo extension Alert.
 - The Mental Asylum can be constructed again.
+- 0 old children no longer gain the athlete trait.
