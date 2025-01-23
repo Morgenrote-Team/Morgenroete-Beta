@@ -9,3 +9,4 @@ Fixes:
 - The Mental Asylum can be constructed again.
 - 0 old children no longer gain the athlete trait.
 - If you are on a Expedition to Assyria, the button will now correctly show the Assyrian icon.
+- You will no longer be able to overtake a ghost in the endurance race.
