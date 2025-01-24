@@ -11,3 +11,7 @@ Fixes:
 - If you are on a Expedition to Assyria, the button will now correctly show the Assyrian icon.
 - You will no longer be able to overtake a ghost in the endurance race.
 - Engineers should be busy again, if they get replaced during a project.
+- Astronomers should now be busy if they get replaced but have an ongoing project.
+
+Performance:
+- Improved some triggers to improve the performance slightly.
