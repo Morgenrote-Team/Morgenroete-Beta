@@ -4,7 +4,7 @@ Quality of Life:
 - Tooltips that tell you, how much literary, musical or painting tradition you need will show you the current amount you have.
 
 Changes:
-- Lowered the Kill rate modifier of the advanced arms mobilization option.
+- Lowered the Kill rate modifier of the advanced weapons mobilization option.
 
 Fixes:
 - Paleontologists now need the Paleontology Tech instead of the Modern Archaeology Tech to be promoted.
