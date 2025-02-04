@@ -6,6 +6,7 @@ Changes:
 - Lowered the Kill rate modifier of the advanced weapons mobilization option.
 
 Fixes:
+- Cave State Traits should now be added properly again.
 - Decreased the power of some PBI modifiers.
 - Racers will no longer constantly become famous racers.
 - Engineers should be busy again, if they get replaced during a project.
