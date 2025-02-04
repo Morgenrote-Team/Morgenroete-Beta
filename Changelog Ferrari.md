@@ -7,6 +7,7 @@ Changes:
 
 Fixes:
 - Decreased the power of some PBI modifiers.
+- Racers will no longer constantly become famous racers.
 - Engineers should be busy again, if they get replaced during a project.
 - Astronomers should now be busy if they get replaced but have an ongoing project.
 - Chemists should now be busy if they get replaced but have an ongoing project.
