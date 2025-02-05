@@ -85,146 +85,152 @@ dubois_breeding_multiplier = {
 #This is used as the goal value for the paleontological excavation progress
 dubois_dinosaur_excavation_finding_progress_goal_value = 240
 
+dubois_paleontology_monthly_progress_value = {
+	#Paleontologist
+	if = {
+		limit = {
+			has_variable = dubois_paleontologist_var
+		}
+		add = {
+			desc = "dubois_paleontology_progress_has_paleontologist_value_tt"
+			value = 1
+		}
+		add = {
+			desc = "dubois_paleontology_progress_paleontologist_experience_value_tt"
+			value = {
+				value = var:dubois_paleontologist_var.var:dubois_paleontologist_experience
+				divide = 100
+				max = 3
+			}
+		}
+		### Traits of Paleontologist ###
+		#Geologist
+		if = {
+			limit = {
+				var:dubois_paleontologist_var = {
+					has_trait = dubois_geologist
+				}
+			}
+			desc = "dubois_paleontology_progress_paleontologist_geologist_trait_value_tt"
+			add = 0.5
+		}
+
+		#Surveyor
+		if = {
+			limit = {
+				var:dubois_paleontologist_var = {
+					has_trait = surveyor
+				}
+			}
+			desc = "dubois_paleontology_progress_paleontologist_surveyor_trait_value_tt"
+			add = 0.25
+		}
+
+		#Innovative
+		if = {
+			limit = {
+				var:dubois_paleontologist_var = {
+					has_trait = innovative
+				}
+			}
+			desc = "dubois_paleontology_progress_paleontologist_innovative_trait_value_tt"
+			add = 0.1
+		}
+
+		#Meticulous
+		if = {
+			limit = {
+				var:dubois_paleontologist_var = {
+					has_trait = meticulous
+				}
+			}
+			desc = "dubois_paleontology_progress_paleontologist_meticulous_trait_value_tt"
+			add = 0.1
+		}
+
+		#Persistent
+		if = {
+			limit = {
+				var:dubois_paleontologist_var = {
+					has_trait = persistent
+				}
+			}
+			desc = "dubois_paleontology_progress_paleontologist_persistent_trait_value_tt"
+			add = 0.1
+		}
+
+		#Reckless
+		if = {
+			limit = {
+				var:dubois_paleontologist_var = {
+					has_trait = reckless
+				}
+			}
+			desc = "dubois_paleontology_progress_paleontologist_reckless_trait_value_tt"
+			add = -0.1
+		}
+
+		#Bad Trait
+		if = {
+			limit = {
+				var:dubois_paleontologist_var = {
+					OR = {
+						has_trait = alcoholic
+						has_trait = opium_addiction
+						has_trait = cocaine_addiction
+						has_trait = psychological_affliction
+						has_trait = senile
+					}
+				}
+			}
+			desc = "dubois_paleontology_progress_paleontologist_bad_trait_value_tt"
+			add = -0.5
+		}	
+	}
+
+	#Paleontology tech
+	if = {
+		limit = {
+			has_technology_researched = dubois_paleontology_tech
+		}
+		desc = "dubois_paleontology_progress_paleontology_tech_value_tt"
+		add = 1
+	}
+
+	#Natural History Universities
+	if = {
+		limit = {
+			any_scope_building = {
+				level > 0
+				has_active_production_method = pm_dubois_university_natural_history
+			}
+		}
+		desc = "dubois_paleontology_progress_paleontology_tech_value_tt"
+		add = academics_natural_university_multiplier_tiny
+	}
+
+	#There is no negative progress
+	min = 0
+}
+
 dubois_dinosaur_excavation_find_monthly_progress_value = {
-	if = { #Checks if Dinosaur Bones are even possible
-		limit = { dubois_has_potential_dinosaur_bone = yes }
-
-		#Paleontologist
-		if = {
-			limit = {
-				has_variable = dubois_paleontologist_var
+	if = {
+		limit = {
+			
+			NOR = { #The Progress should only be granted if the paleontologist is not currently travelling or excavating
+				has_modifier = dubois_paleontologist_travell_to_location_modifier
+				has_journal_entry = je_dubois_dinosaur_excavation
 			}
-			add = {
-				desc = "dubois_paleontology_progress_has_paleontologist_value_tt"
-				value = 1
-			}
-			add = {
-				desc = "dubois_paleontology_progress_paleontologist_experience_value_tt"
-				value = {
-					value = var:dubois_paleontologist_var.var:dubois_paleontologist_experience
-					divide = 100
-					max = 3
-				}
-			}
-			### Traits of Paleontologist ###
-			#Geologist
-			if = {
-				limit = {
-					var:dubois_paleontologist_var = {
-						has_trait = dubois_geologist
-					}
-				}
-				desc = "dubois_paleontology_progress_paleontologist_geologist_trait_value_tt"
-				add = 0.5
-			}
-
-			#Surveyor
-			if = {
-				limit = {
-					var:dubois_paleontologist_var = {
-						has_trait = surveyor
-					}
-				}
-				desc = "dubois_paleontology_progress_paleontologist_surveyor_trait_value_tt"
-				add = 0.25
-			}
-	
-			#Innovative
-			if = {
-				limit = {
-					var:dubois_paleontologist_var = {
-						has_trait = innovative
-					}
-				}
-				desc = "dubois_paleontology_progress_paleontologist_innovative_trait_value_tt"
-				add = 0.1
-			}
-	
-			#Meticulous
-			if = {
-				limit = {
-					var:dubois_paleontologist_var = {
-						has_trait = meticulous
-					}
-				}
-				desc = "dubois_paleontology_progress_paleontologist_meticulous_trait_value_tt"
-				add = 0.1
-			}
-	
-			#Persistent
-			if = {
-				limit = {
-					var:dubois_paleontologist_var = {
-						has_trait = persistent
-					}
-				}
-				desc = "dubois_paleontology_progress_paleontologist_persistent_trait_value_tt"
-				add = 0.1
-			}
-	
-			#Reckless
-			if = {
-				limit = {
-					var:dubois_paleontologist_var = {
-						has_trait = reckless
-					}
-				}
-				desc = "dubois_paleontology_progress_paleontologist_reckless_trait_value_tt"
-				add = -0.1
-			}
-	
-			#Bad Trait
-			if = {
-				limit = {
-					var:dubois_paleontologist_var = {
-						OR = {
-							has_trait = alcoholic
-							has_trait = opium_addiction
-							has_trait = cocaine_addiction
-							has_trait = psychological_affliction
-							has_trait = senile
-						}
-					}
-				}
-				desc = "dubois_paleontology_progress_paleontologist_bad_trait_value_tt"
-				add = -0.5
-			}	
 		}
-
-		#Paleontology tech
-		if = {
-			limit = {
-				has_technology_researched = dubois_paleontology_tech
-			}
-			desc = "dubois_paleontology_progress_paleontology_tech_value_tt"
-			add = 1
-		}
-
-		#Natural History Universities
-		if = {
-			limit = {
-				any_scope_building = {
-					level > 0
-					has_active_production_method = pm_dubois_university_natural_history
-				}
-			}
-			desc = "dubois_paleontology_progress_paleontology_tech_value_tt"
-			add = academics_natural_university_multiplier_tiny
-		}
-
-		#There is no negative progress
-		min = 0
 	}
-	else = {
-		value = 0
-	}
+	value = dubois_paleontology_monthly_progress_value
 }
 
 ### Used for the AI in mr.3 to calculate less ###
 dubois_dinosaur_excavation_find_yearly_progress_value = {
 	#basically multiplies the base value by 11 (months)
 	# Why 11? The AI does not have use the JE and therefore uses 1 year less, this helps evening the odds
-	value = dubois_dinosaur_excavation_find_monthly_progress_value
+	value = dubois_paleontology_monthly_progress_value
 	multiply = 11
 }
 
