@@ -155,6 +155,7 @@ je_dubois_paleontological_expedition = {
 
 	group = je_group_dubois_nature
 
+	scripted_progress_bar = dubois_paleontology_dinosaur_excavation_set_up_progress_bar
 	scripted_progress_bar = dubois_paleontology_dinosaur_excavation_progress_bar
 
 	on_yearly_pulse = {
@@ -193,29 +194,73 @@ je_dubois_paleontological_expedition = {
 			}
 			#Actual Notification
 			post_notification = dubois_paleontological_report_notification
+
+			#Replaces the cost modifier
+			scope:journal_entry = {
+				remove_modifier = dubois_paleontological_research_modifier
+				add_modifier = {
+					name = dubois_paleontological_research_modifier
+					multiplier = money_amount_multiplier_very_small
+				}
+			}
 		}
 	}
 
 	on_monthly_pulse = {
 		effect = {
+			#Adds the modifier that allows the second progress bar to raise
+			if = {
+				limit = {
+					NOT = {
+						scope:journal_entry = {
+							has_modifier = dubois_established_paleontological_expedition_modifier
+						}
+					}
+					scope:journal_entry = {
+						"scripted_bar_progress(dubois_paleontology_dinosaur_excavation_set_up_progress_bar)" >= 12
+					}
+				}
+
+				#Adds the modifier
+				scope:journal_entry = {
+					add_modifier = {
+						name = dubois_established_paleontological_expedition_modifier
+					}
+				}
+				#Makes the Paleontologist no longer busy
+				if = {
+					limit = {
+						var:dubois_paleontologist_var = {
+							is_busy = yes
+						}
+					}
+					var:dubois_paleontologist_var = {
+						set_character_busy_and_immortal = no
+					}
+				}
+			}
+
+			#Activates the Bone JE
 			if = {
 				limit = {
 					dubois_has_potential_dinosaur_bone = yes #Only get progress if dinosaur bones are possible
-					NOR = { #The Progress should only be granted if the paleontologist is not currently travelling or excavating
-						has_modifier = dubois_paleontologist_travell_to_location_modifier
+					NOT = { #The Progress should only be granted if the paleontologist is not currently travelling or excavating
 						has_journal_entry = je_dubois_dinosaur_excavation
+					}
+					scope:journal_entry = {
+						has_modifier = dubois_established_paleontological_expedition_modifier
 					}
 				}
 
 				#Triggers the event if the excavation progress is big enough
 				if = {
 					limit = {
-						je:je_dubois_paleontological_expedition = {
+						scope:journal_entry = {
 							"scripted_bar_progress(dubois_paleontology_dinosaur_excavation_progress_bar)" >= dubois_dinosaur_excavation_finding_progress_goal_value
 						}
 						dubois_has_potential_dinosaur_bone = yes
 					}
-					je:je_dubois_paleontological_expedition = {
+					scope:journal_entry = {
 						set_bar_progress = {
 							value = 0
 							name = dubois_paleontology_dinosaur_excavation_progress_bar
@@ -269,14 +314,13 @@ je_dubois_paleontological_expedition = {
 	invalid = {
 		OR = {
 			dubois_has_paleontologist = no
-			NOT = {
-				has_modifier = dubois_paleontological_research_modifier
-			}
+			has_variable = dubois_paleontological_expedition_recall_var
 		}
 	}
 
 	on_invalid = {
 		remove_variable = dubois_dinosaur_excavation_finding_estimated_progress
+		remove_variable = dubois_paleontological_expedition_recall_var
 	}
 
 	should_be_pinned_by_default = yes
@@ -332,7 +376,7 @@ je_dubois_dinosaur_excavation = {
 		OR = {
 			dubois_has_paleontologist = no
 			NOT = {
-				has_modifier = dubois_paleontological_research_modifier
+				has_journal_entry = je_dubois_paleontological_expedition
 			}
 		}
 	}
