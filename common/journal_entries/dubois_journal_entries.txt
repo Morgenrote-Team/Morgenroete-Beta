@@ -155,238 +155,96 @@ je_dubois_paleontological_expedition = {
 
 	group = je_group_dubois_nature
 
-	scripted_progress_bar = dubois_paleontology_dinosaur_excavation_set_up_progress_bar
-	scripted_progress_bar = dubois_paleontology_dinosaur_excavation_progress_bar
-
-	scripted_button = dubois_stop_paleontological_expedition_button
-
-	status_desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					
-					scope:journal_entry = {
-						"scripted_bar_progress(dubois_paleontology_dinosaur_excavation_set_up_progress_bar)" < 12
-					}
-				}
-				desc = je_dubois_paleontological_expedition_establishment
-			}
-			triggered_desc = {
-				trigger = {
-					scope:journal_entry = {
-						has_modifier = dubois_established_paleontological_expedition_modifier
-					}
-					Not = { has_journal_entry = je_dubois_dinosaur_excavation }
-				}
-				desc = je_dubois_paleontological_expedition_active
-			}
-			triggered_desc = {
-				trigger = {
-					has_journal_entry = je_dubois_dinosaur_excavation
-				}
-				desc = je_dubois_paleontological_expedition_paused
-			}
-		}
-	}
-
-	on_yearly_pulse = {
-		effect = {
-			#Random Special Fossil Events (Makes sure they get executed randomly during the year
-			trigger_event = {
-				on_action  = dubois_on_yearly_pulse_special_fossil_events
-				months = { 1 11 }
-			}
-
-			#Random Progress Events (Makes sure they get executed randomly during the year
-			if = {
-				limit = { dubois_has_potential_dinosaur_bone = yes }
-				trigger_event = {
-					on_action  = dubois_on_yearly_pulse_paleontological_expedition
-					months = { 1 11 }
-				}
-			}
-
-			#Paleontological Report: adds regular fossils and notifies the player about the total amount of yearly fossils.
-			dubois_add_x_fossils_effect = { AMOUNT = dubois_yearly_regular_fossils_value }
-			#Sets the variable for the notification
-			if = {
-				limit = {
-					has_variable = dubois_yearly_fossils_var
-				}
-				set_variable = {
-					name = dubois_fossils_notification_var
-					value = var:dubois_yearly_fossils_var
-					months = 2
-				}
-				set_variable = {
-					name = dubois_yearly_fossils_var
-					value = 0
-				}
-			}
-			#Actual Notification
-			post_notification = dubois_paleontological_report_notification
-
-			#Replaces the cost modifier
-			scope:journal_entry = {
-				remove_modifier = dubois_paleontological_research_modifier
-				add_modifier = {
-					name = dubois_paleontological_research_modifier
-					multiplier = money_amount_multiplier_very_small
-				}
-			}
-		}
-	}
+	scripted_progress_bar = dubois_paleontological_expedition_progress_bar
 
 	on_monthly_pulse = {
 		effect = {
-			#Adds the modifier that allows the second progress bar to raise
-			if = {
-				limit = {
-					NOT = {
-						scope:journal_entry = {
-							has_modifier = dubois_established_paleontological_expedition_modifier
-						}
-					}
-					scope:journal_entry = {
-						"scripted_bar_progress(dubois_paleontology_dinosaur_excavation_set_up_progress_bar)" >= 12
-					}
-				}
-
-				#Adds the modifier
-				scope:journal_entry = {
-					add_modifier = {
-						name = dubois_established_paleontological_expedition_modifier
-					}
-				}
-				#Makes the Paleontologist no longer busy
-				if = {
-					limit = {
-						var:dubois_paleontologist_var = {
-							is_busy = yes
-						}
-					}
-					var:dubois_paleontologist_var = {
-						set_character_busy_and_immortal = no
-					}
-				}
-				#Removes the Country Variable
-				var:dubois_paleontologist_var = {
-					remove_variable = dubois_paleontologist_in_north_america_var
-					remove_variable = dubois_paleontologist_in_south_america_var
-					remove_variable = dubois_paleontologist_in_europe_var
-					remove_variable = dubois_paleontologist_in_africa_var
-					remove_variable = dubois_paleontologist_in_asia_var
-					remove_variable = dubois_paleontologist_in_australia_var
-					remove_variable = dubois_paleontologist_in_local_var
-				}
-			}
-
-			#Activates the Bone JE
-			if = {
-				limit = {
-					dubois_has_potential_dinosaur_bone = yes #Only get progress if dinosaur bones are possible
-					NOT = { #The Progress should only be granted if the paleontologist is not currently travelling or excavating
-						has_journal_entry = je_dubois_dinosaur_excavation
-					}
-					scope:journal_entry = {
-						has_modifier = dubois_established_paleontological_expedition_modifier
-					}
-				}
-
-				#Triggers the event if the excavation progress is big enough
-				if = {
-					limit = {
-						scope:journal_entry = {
-							"scripted_bar_progress(dubois_paleontology_dinosaur_excavation_progress_bar)" >= dubois_dinosaur_excavation_finding_progress_goal_value
-						}
-						dubois_has_potential_dinosaur_bone = yes
-					}
-					scope:journal_entry = {
-						set_bar_progress = {
-							value = 0
-							name = dubois_paleontology_dinosaur_excavation_progress_bar
-						}
-					}
-					trigger_event = dubois.211
-				}
-			}
-
-			#estimates the amount of fossils that will be found this year
 			set_variable = {
-				name = dubois_estimated_regular_fossils_year_var
-				value = dubois_yearly_regular_fossils_value
-				days = 40
+				name = dubois_paleontological_expedition_estimated_progress
+				value = dubois_paleontology_monthly_progress_value
+			}
+			trigger_event = {
+				on_action  = dubois_on_monthly_pulse_paleontological_expedition
+				days = { 1 31 }
 			}
 		}
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
-			save_scope_as = dubois_paleontologist_scope
-		}
 		set_variable = {
-			name = dubois_dinosaur_excavation_finding_estimated_progress
+			name = dubois_paleontological_expedition_estimated_progress
 			value = dubois_paleontology_monthly_progress_value
-		}
-		set_variable = {
-			name = dubois_estimated_regular_fossils_year_var
-			value = dubois_yearly_regular_fossils_value
-			days = 40
 		}
 	}
 
 	complete = {
-		trigger_if = {
-			limit = { dubois_has_potential_dinosaur_bone = yes }
-			custom_tooltip = {
-				text = je_dubois_paleontological_expedition_goal_tt
-				always = no
-			}
-		}
 		custom_tooltip = {
-			text = je_dubois_paleontological_expedition_invalid_loc
-			always = no
+			text = je_dubois_paleontological_expedition_goal_tt
+			scope:journal_entry = {
+				"scripted_bar_progress(dubois_paleontological_expedition_progress_bar)" >= 50
+			}
 		}
 	}
 
 	on_complete = {
-	}
-
-	invalid = {
-		OR = {
-			dubois_has_paleontologist = no
-			has_variable = dubois_paleontological_expedition_recall_var
-		}
-	}
-
-	on_invalid = {
-		remove_variable = dubois_dinosaur_excavation_finding_estimated_progress
-		remove_variable = dubois_paleontological_expedition_recall_var
-		var:dubois_paleontologist_var ?= {
-			if = {
-				limit = {
-					OR = {
-						has_variable = dubois_paleontologist_in_north_america_var
-						has_variable = dubois_paleontologist_in_south_america_var
-						has_variable = dubois_paleontologist_in_europe_var
-						has_variable = dubois_paleontologist_in_africa_var
-						has_variable = dubois_paleontologist_in_asia_var
-						has_variable = dubois_paleontologist_in_australia_var
-						has_variable = dubois_paleontologist_in_local_var
-					}
+		#This effect is used to make sure the excavation is set up in the right continent.
+		if = {
+			limit = {
+				scope:journal_entry = {
+					has_modifier = dubois_paleontological_expedition_africa_modifier
 				}
-
-				#Sets Paleontologist to no longer be busy.
-				set_character_busy_and_immortal = no
-				remove_variable = dubois_paleontologist_in_north_america_var
-				remove_variable = dubois_paleontologist_in_south_america_var
-				remove_variable = dubois_paleontologist_in_europe_var
-				remove_variable = dubois_paleontologist_in_africa_var
-				remove_variable = dubois_paleontologist_in_asia_var
-				remove_variable = dubois_paleontologist_in_australia_var
-				remove_variable = dubois_paleontologist_in_local_var
 			}
+			set_variable = dubois_expedition_in_africa_var
 		}
+		else_if = {
+			limit = {
+				scope:journal_entry = {
+					has_modifier = dubois_paleontological_expedition_asia_modifier
+				}
+			}
+			set_variable = dubois_expedition_in_asia_var
+		}
+		else_if = {
+			limit = {
+				scope:journal_entry = {
+					has_modifier = dubois_paleontological_expedition_australia_modifier
+				}
+			}
+			set_variable = dubois_expedition_in_australia_var
+		}
+		else_if = {
+			limit = {
+				scope:journal_entry = {
+					has_modifier = dubois_paleontological_expedition_europe_modifier
+				}
+			}
+			set_variable = dubois_expedition_in_europe_var
+		}
+		else_if = {
+			limit = {
+				scope:journal_entry = {
+					has_modifier = dubois_paleontological_expedition_north_america_modifier
+				}
+			}
+			set_variable = dubois_expedition_in_north_america_var
+		}
+		else_if = {
+			limit = {
+				scope:journal_entry = {
+					has_modifier = dubois_paleontological_expedition_south_america_modifier
+				}
+			}
+			set_variable = dubois_expedition_in_south_america_var
+		}
+		else_if = {
+			limit = {
+				scope:journal_entry = {
+					has_modifier = dubois_paleontological_expedition_local_modifier
+				}
+			}
+			set_variable = dubois_expedition_local_var
+		}
+		#TODO: Add Event to fire
 	}
 
 	should_be_pinned_by_default = yes
@@ -406,7 +264,15 @@ je_dubois_dinosaur_excavation = {
 
 	group = je_group_dubois_nature
 
-	scripted_progress_bar = dubois_paleontology_dinosaur_bone_excavation_progress_bar
+	on_yearly_pulse = {
+		effect = {
+			#Random Special Fossil Events (Makes sure they get executed randomly during the year
+			trigger_event = {
+				on_action  = dubois_on_yearly_pulse_special_fossil_events
+				months = { 1 11 }
+			}
+		}
+	}
 
 	on_monthly_pulse = {
 		random_events = {
