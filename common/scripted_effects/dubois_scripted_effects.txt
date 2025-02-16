@@ -12540,6 +12540,52 @@ dubois_start_paleontological_expedition_effect = {
 	}
 }
 
+######Expedition######
+
+#Start Expedition
+#LOCATION = location of the excavation, e.g. africa
+dubois_start_x_paleontological_excavation_effect = {
+	#Removes one Paleontological Team
+	dubois_use_paleontological_team_effect = yes
+
+	#Adds the JE
+	add_journal_entry = {
+		type = je_dubois_dinosaur_excavation_$LOCATION$
+	}
+	je:je_dubois_dinosaur_excavation_$LOCATION$ ?= {
+		add_modifier = {
+			name = dubois_paleontological_excavation_cost_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+	}
+	show_as_tooltip = {
+		add_modifier = {
+			name = dubois_paleontological_excavation_cost_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+	}
+}
+
+#Yearly Expedition Effect
+# Triggers Special Fossil Events
+# Updates the cost modifier
+dubois_paleontological_excavation_yearly_effect ={
+	#Random Special Fossil Events (Makes sure they get executed randomly during the year
+	trigger_event = {
+		on_action  = dubois_on_yearly_pulse_special_fossil_events
+		months = { 1 11 }
+	}
+
+	#Replaces the Modifier to update the costs
+	scope:journal_entry = {
+		remove_modifier = dubois_paleontological_excavation_cost_modifier
+		add_modifier = {
+			name = dubois_paleontological_excavation_cost_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+	}
+}
+
 ###Determine the fossils and bones at the end of an Expedition###
 
 dubois_paleontological_expedition_succes_value_effect = {
