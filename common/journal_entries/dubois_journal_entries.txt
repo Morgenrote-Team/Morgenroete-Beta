@@ -160,14 +160,61 @@ je_dubois_paleontological_expedition = {
 
 	on_monthly_pulse = {
 		effect = {
+			#Monthly Events
 			trigger_event = {
 				on_action  = dubois_on_monthly_pulse_paleontological_expedition
 				days = { 1 31 }
+			}
+
+			#Monthly change of success chance
+			set_variable = {
+				name = dubois_paleontological_expedition_positive_effect_chance_var
+				value = dubois_paleontological_expedition_positive_effect_chance_value
+			}
+			set_variable = {
+				name = dubois_paleontological_expedition_negative_effect_chance_var
+				value = dubois_paleontological_expedition_negative_effect_chance_value
+			}
+
+			#Monthly Success change
+			random_list = {
+				#Positive Change
+				0 = {
+					dubois_add_x_paleontological_expedition_success_effect = { AMOUNT = 1 }
+
+					modifier = {
+						add = {
+							value = dubois_paleontological_expedition_positive_effect_chance_value
+							multiply = 100
+						}
+					}
+				}
+
+				#Negative Change
+				0 = {
+					dubois_add_x_paleontological_expedition_success_effect = { AMOUNT = -1 }
+
+					modifier = {
+						add = {
+							value = dubois_paleontological_expedition_negative_effect_chance_value
+							multiply = 100
+						}
+					}
+				}
 			}
 		}
 	}
 
 	immediate = {
+		#Set success chance
+		set_variable = {
+			name = dubois_paleontological_expedition_positive_effect_chance_var
+			value = dubois_paleontological_expedition_positive_effect_chance_value
+		}
+		set_variable = {
+			name = dubois_paleontological_expedition_negative_effect_chance_var
+			value = dubois_paleontological_expedition_negative_effect_chance_value
+		}
 	}
 
 	complete = {
@@ -238,11 +285,23 @@ je_dubois_paleontological_expedition = {
 			set_variable = dubois_expedition_local_var
 		}
 
+		#Paleontologist Experience gain
+		paleontologist_experience_gain_effect = { AMOUNT = 10 }
+
+		#Frees Paleontologist
+		var:dubois_paleontologist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+
 		#Saves the succes value
 		dubois_paleontological_expedition_succes_value_effect = yes
 
 		#Event that actually adds the fossils/bones and allows to establish an excavation.
 		trigger_event = dubois.241
+
+		#Removes Variables that are no longer necessary
+		remove_variable = dubois_paleontological_expedition_positive_effect_chance_var
+		remove_variable = dubois_paleontological_expedition_negative_effect_chance_var
 	}
 
 	should_be_pinned_by_default = yes
