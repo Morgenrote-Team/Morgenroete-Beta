@@ -181,20 +181,26 @@ dubois_paleontological_expedition_starting_success_chance_value = {
 #This is used as the goal value for the paleontological excavation progress
 dubois_dinosaur_excavation_finding_progress_goal_value = 240
 
-dubois_paleontological_expedition_positive_effect_chance_value = {
+dubois_paleontology_monthly_progress_value = {
 	value = 0
 
 	#Paleontologist
 	if = {
 		limit = {
 			has_variable = dubois_paleontologist_var
+			#Checks if there is progress from an active Paleontologist
+			dubois_paleontological_progress_from_active_paleontologist_trigger = yes
 		}
-		add = 0.3
 		add = {
+			desc = "dubois_paleontology_progress_has_paleontologist_value_tt"
+			value = 1
+		}
+		add = {
+			desc = "dubois_paleontology_progress_paleontologist_experience_value_tt"
 			value = {
 				value = var:dubois_paleontologist_var.var:dubois_paleontologist_experience
-				divide = 1000
-				max = 0.3
+				divide = 100
+				max = 3
 			}
 		}
 		### Traits of Paleontologist ###
@@ -205,7 +211,10 @@ dubois_paleontological_expedition_positive_effect_chance_value = {
 					has_trait = dubois_geologist
 				}
 			}
-			add = 0.1
+			add = {
+				desc = "dubois_paleontology_progress_paleontologist_geologist_trait_value_tt"
+				value = 0.5
+			}
 		}
 
 		#Surveyor
@@ -215,7 +224,10 @@ dubois_paleontological_expedition_positive_effect_chance_value = {
 					has_trait = surveyor
 				}
 			}
-			add = 0.05
+			add = {
+				desc = "dubois_paleontology_progress_paleontologist_surveyor_trait_value_tt"
+				value = 0.25
+			}
 		}
 
 		#Innovative
@@ -225,7 +237,10 @@ dubois_paleontological_expedition_positive_effect_chance_value = {
 					has_trait = innovative
 				}
 			}
-			add = 0.05
+			add = {
+				desc = "dubois_paleontology_progress_paleontologist_innovative_trait_value_tt"
+				value = 0.1
+			}
 		}
 
 		#Meticulous
@@ -235,7 +250,10 @@ dubois_paleontological_expedition_positive_effect_chance_value = {
 					has_trait = meticulous
 				}
 			}
-			add = 0.05
+			add = {
+				desc = "dubois_paleontology_progress_paleontologist_meticulous_trait_value_tt"
+				value = 0.1
+			}
 		}
 
 		#Persistent
@@ -245,7 +263,10 @@ dubois_paleontological_expedition_positive_effect_chance_value = {
 					has_trait = persistent
 				}
 			}
-			add = 0.05
+			add = {
+				desc = "dubois_paleontology_progress_paleontologist_persistent_trait_value_tt"
+				value = 0.1
+			}
 		}
 
 		#Reckless
@@ -255,7 +276,10 @@ dubois_paleontological_expedition_positive_effect_chance_value = {
 					has_trait = reckless
 				}
 			}
-			add = -0.1
+			add = {
+				desc = "dubois_paleontology_progress_paleontologist_reckless_trait_value_tt"
+				value = -0.1
+			}
 		}
 
 		#Bad Trait
@@ -271,7 +295,10 @@ dubois_paleontological_expedition_positive_effect_chance_value = {
 					}
 				}
 			}
-			add = -0.4
+			add = {
+				desc = "dubois_paleontology_progress_paleontologist_bad_trait_value_tt"
+				value = -0.5
+			}
 		}	
 	}
 
@@ -280,7 +307,10 @@ dubois_paleontological_expedition_positive_effect_chance_value = {
 		limit = {
 			has_technology_researched = dubois_paleontology_tech
 		}
-		add = 0.2
+		add = {
+			desc = "dubois_paleontology_progress_paleontology_tech_value_tt"
+			value = 1
+		}
 	}
 
 	#Natural History Universities
@@ -292,19 +322,21 @@ dubois_paleontological_expedition_positive_effect_chance_value = {
 			}
 		}
 		add = {
-			value = academics_num_natural_universities
-			multiply = 0.01
+			desc = "dubois_paleontology_progress_specialized_universities_value_tt"
+			value = academics_natural_university_multiplier_tiny
 		}
 	}
 
 	#There is no negative progress
-	min = 0.1
-	max = 0.9
+	min = 0
 }
 
-dubois_paleontological_expedition_negative_effect_chance_value = {
-	value = 1
-	subtract = dubois_paleontological_expedition_positive_effect_chance_value
+### Used for the AI in mr.3 to calculate less ###
+dubois_dinosaur_excavation_find_yearly_progress_value = {
+	#basically multiplies the base value by 11 (months)
+	# Why 11? The AI does not have use the JE and therefore uses 1 year less, this helps evening the odds
+	value = dubois_paleontology_monthly_progress_value
+	multiply = 11
 }
 
 #Divides the experience of the paleontologist by 100
@@ -320,7 +352,7 @@ dubois_paleontologist_experience_divided_100_value = {
 dubois_yearly_regular_fossils_value = {
 	if = {
 		limit = {
-		#	has_journal_entry = 
+			has_journal_entry = 
 		}
 
 		#base fossils
