@@ -14,6 +14,10 @@
 
 ### Dubois ###
 
+ dubois_add_x_progress_minus_x_tt: "Lose [SCOPE.GetValue('progress_amount')|0+] #V Paleontological Success#!."
+ dubois_add_x_progress_0_tt: "Gain no #V Paleontological Success#!."
+ dubois_add_x_progress_plus_x_tt: "Gain [SCOPE.GetValue('progress_amount')|0+] #V Paleontological Success#!."
+
  je_dubois_paleontological_expedition: "[ROOT.GetCountry.GetCustom('dubois_paleontological_expedition_je_location_type')]Paleontological Expedition" #please replace
  je_dubois_paleontological_expedition_reason: "The Paleontologist is conducting a [concept_dubois_paleontological_expedition].\n$mr_divider_for_je$\nFinishing the Expedition will take 12 months. Once finished you will gain [Concept('concept_dubois_fossil','$concept_dubois_fossils$')] and [Concept('concept_dubois_dinosaur_bone','$concept_dubois_dinosaur_bones$')] depending on the #V Success#! value of the Expedition.\n$mr_divider_for_je$\nEach month a small amount of #V Success Chance#! is added. Additionally random events can add or subtract Success.\n\nCurrent estimated monthly progress: #underline #tooltip:[GetRawTextTooltipTag('je_dubois_paleontological_expedition_monthly_progress_tt')] [GetPlayer.MakeScope.Var('dubois_paleontological_expedition_estimated_progress_var').GetValue|2+] #!#!\n$mr_divider_for_je$\nYou will be able to set up a [concept_dubois_paleontological_excavation] if you have a free [concept_dubois_paleontological_team]. An Excavation will passively produce more Fossils and Bones.\n$mr_divider_for_je$\nCurrent estimated yield from the Expedition:\n\n" #please replace
 
@@ -37,7 +41,7 @@
  je_dubois_paleontological_expedition_yearly_fossils_natural_history_5_levels_loc: "\n#default_text #p 2 Fossil#! for  for #V 1 or more [GetBuildingType('building_university').GetName] levels#! with a [concept_pm_academics_university_natural_history] (Maximum of 3 Fossils for 10 or more levels).#!" #please replace
  je_dubois_paleontological_expedition_yearly_fossils_natural_history_loc: "\n#default_text #p 1 Fossil#! for  for #V 1 or more [GetBuildingType('building_university').GetName] levels#! with a [concept_pm_academics_university_natural_history] (Maximum of 3 Fossils for 10 or more levels).#!" #please replace
  je_dubois_paleontological_expedition_yearly_fossils_natural_history_inactive_loc: "\n#default_text 1 Fossil for a University with a Natural History Focus (Maximum of 3 Fossils for 10 or more levels).#!" #please replace
- je_dubois_paleontological_expedition_monthly_progress_tt: "#V Factors influencing the Paleontologists monthly progress:#![GetPlayer.GetCustom('je_dubois_paleontological_expedition_active_paleontologist_progress_type')][GetPlayer.GetCustom('je_dubois_paleontological_expedition_paleontologist_experience_progress_type')][GetPlayer.GetCustom('dubois_paleontological_expedition_paleontology_tech_type')][GetPlayer.GetCustom('dubois_paleontological_expedition_geologist_trait_type')][GetPlayer.GetCustom('dubois_paleontological_expedition_surveyor_trait_type')][GetPlayer.GetCustom('dubois_paleontological_expedition_innovative_trait_type')][GetPlayer.GetCustom('dubois_paleontological_expedition_meticulous_trait_type')][GetPlayer.GetCustom('dubois_paleontological_expedition_persistent_trait_type')][GetPlayer.GetCustom('dubois_paleontological_expedition_reckless_trait_type')][GetPlayer.GetCustom('dubois_paleontological_expedition_bad_trait_type')][GetPlayer.GetCustom('academics_natural_university_multiplier_tiny_tt_type')]" #please replace
+ je_dubois_paleontological_expedition_monthly_progress_tt: "#V Factors influencing the Expeditions's monthly success:#![GetPlayer.GetCustom('je_dubois_paleontological_expedition_active_paleontologist_progress_type')][GetPlayer.GetCustom('je_dubois_paleontological_expedition_paleontologist_experience_progress_type')][GetPlayer.GetCustom('dubois_paleontological_expedition_paleontology_tech_type')][GetPlayer.GetCustom('dubois_paleontological_expedition_geologist_trait_type')][GetPlayer.GetCustom('dubois_paleontological_expedition_surveyor_trait_type')][GetPlayer.GetCustom('dubois_paleontological_expedition_innovative_trait_type')][GetPlayer.GetCustom('dubois_paleontological_expedition_meticulous_trait_type')][GetPlayer.GetCustom('dubois_paleontological_expedition_persistent_trait_type')][GetPlayer.GetCustom('dubois_paleontological_expedition_reckless_trait_type')][GetPlayer.GetCustom('dubois_paleontological_expedition_bad_trait_type')][GetPlayer.GetCustom('academics_natural_university_multiplier_tiny_tt_type')]" #please replace
 
  dubois_paleontological_expedition_progress_bar: "Expedition"
  dubois_paleontological_expedition_progress_bar_desc: "Expedition Progress: [JournalEntry.GetCurrentBarProgress(ScriptedProgressBar.Self)|1%] ([JournalEntry.GetCurrentBarValue(ScriptedProgressBar.Self)|1]/12)"
@@ -163,6 +167,7 @@
 
  dubois_had_expedition_modifier: "Recent Paleontological Expedition"
  dubois_paleontologist_on_excavation_modifier: "Paleontologist on Excavation"
+ dubois_paleontologist_had_recent_excavation: "Paleontologist unavailable for Excavations"
 
  dubois_send_paleontologist_to_excavation_button: "Send Paleontologist"
  dubois_send_paleontologist_to_excavation_button_desc: "Send your [concept_dubois_paleontologist] to the [concept_dubois_paleontological_excavation].\nA present Paleontologist will raise the amount of [Concept('concept_dubois_fossil','$concept_dubois_fossils$')] and [Concept('concept_dubois_dinosaur_bone','$concept_dubois_dinosaur_bones$')] from the Excavation.\n\nYou can always recall the Paleontologist but he will be unable to go back to an Excavation for one year."
@@ -172,6 +177,7 @@
 
  dubois_recall_excavation_button: "Recall Team"
  dubois_recall_excavation_button_desc: "Recall you [concept_dubois_paleontological_team] from the [concept_dubois_paleontological_excavation]. This will remove the Paleontological Excavation."
+ dubois_recall_paleontological_excavation_tt: "Removes this [concept_dubois_paleontological_excavation] Journal Entry. #V Note:#! It takes a day to recall the excavation."
 
  dubois.201.d: "Prof. [ROOT.Var('dubois_paleontologist_var').GetCharacter.GetLastName] is ready to set up a paleontological expedition."
 
@@ -198,7 +204,9 @@
  MR_PALEONTOLOGY_SECOND_TEAM_BUTTON: "Second Paleontological Team"
  MR_PALEONTOLOGY_SECOND_TEAM_BUTTON_TT: "#T Second Paleontological Team#!\nCreate a [concept_dubois_paleontological_team]. You can use Paleontological Teams to set up [Concept('concept_dubois_paleontological_excavation','$concept_dubois_paleontological_excavations$')]\n\n[ScriptedGui.BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 
- MR_NO_RECENT_PALEONTOLOGICAL_EXPEDITION_TRIGGER: "#default_text [GetPlayer.GetName] did #V not recently send a [concept_dubois_paleontological_expedition]#! ([GetPlayer.GetName] does not have the $dubois_had_expedition_modifier$ Modifier).#!"
+ MR_NO_RECENT_PALEONTOLOGICAL_EXPEDITION_TRIGGER: "#default_text [GetPlayer.GetName] did #V not recently send a [concept_dubois_paleontological_expedition]#! ([GetPlayer.GetName] does not have the #V $dubois_had_expedition_modifier$#! Modifier).#!"
+
+ MR_PALEONTOLOGIST_NO_RECENT_EXCAVATION_TRIGGER: "#default_text Your [concept_dubois_paleontologist] was not recently on a [concept_dubois_paleontological_excavation] (does not have the #V $dubois_had_expedition_modifier$#! Modifier).#!"
 
 ### Klimt ###
  klimt.2.t: "[GetPlayer.MakeScope.Var('klimt_painter_var').GetCharacter.GetLastName] commits [GetPlayer.MakeScope.Var('klimt_painter_var').GetCharacter.GetHerselfHimself] to a Style" #please replace
