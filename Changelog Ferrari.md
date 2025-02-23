@@ -19,6 +19,8 @@ Fixes:
 - Composers should now stop their projects if they get replaced.
 - Writers should now stop their projects if they get replaced.
 - Painters should now stop their projects if they get replaced.
+- All Rankings should now be displayed similarly.
+- The event to build a Sanatorium should now work properly again.
 
 Performance:
 - Improved some triggers to improve the performance slightly.
