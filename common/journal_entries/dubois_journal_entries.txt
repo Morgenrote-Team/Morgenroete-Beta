@@ -992,29 +992,53 @@ je_dubois_mount_dinosaur_skeleton = {
 	}
 
 	on_complete = {
-		random_list = {
-			0 = {
-				modifier = {
-					add = dubois_probability_perfect_dinosaur_skeleton_reconstruction_value
+		dubois_mount_dinosaur_choose_quality_effect = yes
+	}
+
+	weight = 25
+}
+
+je_dubois_remount_dinosaur_skeleton = {
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	group = je_group_dubois_nature
+
+	scripted_progress_bar = dubois_dinosaur_mounting_progress_bar
+
+	on_monthly_pulse = {
+		effect = {
+			#JE uses value to to keep calculations from script value down
+			scope:journal_entry = {
+				set_variable = {
+					name = dubois_mounting_estimated_monthly_progress_var
+					value = root.dubois_paleontology_progress_value
 				}
-				#Perfect Skeleton
-				trigger_event = dubois.2044
-			}
-			0 = {
-				modifier = {
-					add = dubois_probability_imperfect_dinosaur_skeleton_reconstruction_value
-				}
-				#Imperfect Skeleton
-				trigger_event = dubois.2045
-			}
-			0 = {
-				modifier = {
-					add = dubois_probability_poor_dinosaur_skeleton_reconstruction_value
-				}
-				#Poor Skeleton
-				trigger_event = dubois.2046
 			}
 		}
+	}
+
+	immediate = {
+		#JE uses value to to keep calculations from script value down
+		scope:journal_entry = {
+			set_variable = {
+				name = dubois_mounting_estimated_monthly_progress_var
+				value = root.dubois_paleontology_progress_value
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_dubois_mount_dinosaur_skeleton_goal_tt
+			scope:journal_entry = {
+				"scripted_bar_progress(dubois_dinosaur_mounting_progress_bar)" >= 6
+			}
+		}
+	}
+
+	on_complete = {
+		dubois_remount_dinosaur_choose_quality_effect = yes
 	}
 
 	weight = 25

@@ -9430,6 +9430,58 @@ dubois_add_dinosaur_skeleton = {
    custom_tooltip = dubois_add_dinosaur_skeleton_tt
 }
 
+dubois_mount_dinosaur_choose_quality_effect = {
+	random_list = {
+		0 = {
+			modifier = {
+				add = dubois_probability_perfect_dinosaur_skeleton_reconstruction_value
+			}
+			#Perfect Skeleton
+			trigger_event = dubois.2044
+		}
+		0 = {
+			modifier = {
+				add = dubois_probability_imperfect_dinosaur_skeleton_reconstruction_value
+			}
+			#Imperfect Skeleton
+			trigger_event = dubois.2045
+		}
+		0 = {
+			modifier = {
+				add = dubois_probability_poor_dinosaur_skeleton_reconstruction_value
+			}
+			#Poor Skeleton
+			trigger_event = dubois.2046
+		}
+	}
+}
+
+dubois_remount_dinosaur_choose_quality_effect = {
+	random_list = {
+		0 = {
+			modifier = {
+				add = dubois_probability_perfect_dinosaur_skeleton_reconstruction_value
+			}
+			#Perfect Skeleton
+			trigger_event = dubois.2101
+		}
+		0 = {
+			modifier = {
+				add = dubois_probability_imperfect_dinosaur_skeleton_reconstruction_value
+			}
+			#Imperfect Skeleton
+			trigger_event = dubois.2102
+		}
+		0 = {
+			modifier = {
+				add = dubois_probability_poor_dinosaur_skeleton_reconstruction_value
+			}
+			#Poor Skeleton
+			trigger_event = dubois.2103
+		}
+	}
+}
+
 dubois_add_perfect_dinosaur_skeleton = {
 	dubois_change_dinosaur_rating = {
 		AMOUNT = "2"
@@ -11239,87 +11291,18 @@ dubois_add_poor_dinosaur_skeleton = {
 ######Dinosaur Remount######
 
 dubois_remount_dinosaur_effect = {
-	random_list = {
-		25 = {
-			modifier = {
-				if = {
-					limit = {
-						var:dubois_paleontologist_var = {
-							var:dubois_paleontologist_experience >= 175
-						}
-					}
-					add = 25
-				}
-				if = {
-					limit = {
-						var:dubois_paleontologist_var = {
-							var:dubois_paleontologist_experience >= 200
-						}
-					}
-					add = 25
-				}
-				if = {
-					limit = {
-						var:dubois_paleontologist_var = {
-							var:dubois_paleontologist_experience >= 250
-						}
-					}
-					add = 50
-				}
-			}
-			#Better Remount
-			trigger_event = {
-				id = dubois.2101
-				days = { 180 200 }
-			}
-		}
-		40 = {
-			modifier = {
-				if = {
-					limit = {
-						var:dubois_paleontologist_var = {
-							has_trait = dubois_paleontologist_famous
-						}
-					}
-					add = -100
-				}
-			}
-			#No change Remount
-			trigger_event = {
-				id = dubois.2102
-				days = { 180 200 }
-			}
-		}
-		35 = {
-			modifier = {
-				if = {
-					limit = {
-						var:dubois_paleontologist_var = {
-							var:dubois_paleontologist_experience <= 99
-						}
-					}
-					add = 50
-				}
-				if = {
-					limit = {
-						var:dubois_paleontologist_var = {
-							OR = {
-								has_trait = dubois_paleontologist_experienced
-								has_trait = dubois_paleontologist_famous
-							}
-						}
-					}
-					add = -100
-				}
-			}
-			#Worse Remount
-			trigger_event = {
-				id = dubois.2103
-				days = { 180 200 }
-			}
+	var:dubois_paleontologist_var ?= {
+		set_character_busy_and_immortal = yes
+	}
+	add_journal_entry = {
+		type = je_dubois_remount_dinosaur_skeleton
+	}
+	je:je_dubois_remount_dinosaur_skeleton = {
+		add_modifier = {
+			name = dubois_remount_$DINOSAUR$_modifier
 		}
 	}
-	custom_tooltip = dubois_remount_dinosaur_tt
+	set_variable = dubois_remount_$DINOSAUR$_var
 }
 
 dubois_add_better_dinosaur_skeleton = {
