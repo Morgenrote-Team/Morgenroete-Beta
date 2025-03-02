@@ -755,6 +755,162 @@ dubois_yearly_regular_fossils_from_local_excavation_value = {
 
 ############################################################################
 
+#This value is used to determine how well the Dinosaur Skeleton was mounted
+dubois_probability_positive_dinosaur_skeleton_reconstruction_value = {
+	### Paleontologist ###
+	if = {
+		limit = {
+			dubois_has_paleontologist_no_tooltip_trigger = yes
+		}
+
+		### Experience ###
+		if = {
+			limit = {
+				var:dubois_paleontologist_var = {
+					has_variable = dubois_paleontologist_experience
+				}
+			}
+			add = {
+				value = var:dubois_paleontologist_var.var:dubois_paleontologist_experience
+				divide = 10
+				multiply = 2
+				max = 60
+			}
+		}
+		### Traits ###
+		#Persistent
+		if = {
+			limit = {
+				var:dubois_paleontologist_var = {
+					has_trait = persistent
+				}
+			}
+
+			add = 5
+		}
+		#Innovative
+		if = {
+			limit = {
+				var:dubois_paleontologist_var = {
+					has_trait = innovative
+				}
+			}
+
+			add = 5
+		}
+		#Meticulous
+		if = {
+			limit = {
+				var:dubois_paleontologist_var = {
+					has_trait = meticulous
+				}
+			}
+
+			add = 5
+		}
+		#Senile
+		if = {
+			limit = {
+				var:dubois_paleontologist_var = {
+					has_trait = senile
+				}
+			}
+
+			subtract = 40
+		}
+		#Negative Traits
+		if = {
+			limit = {
+				var:dubois_paleontologist_var = {
+					OR = {
+						has_trait = alcoholic
+						has_trait = opium_addiction
+						has_trait = cocaine_addiction
+						has_trait = grifter
+						has_trait = expensive_tastes
+					}
+				}
+			}
+			subtract = 10
+		}
+	}
+
+	### Technology ###
+	if = {
+		limit = {
+			has_technology_researched = dubois_paleontology_tech
+		}
+		add = 10
+	}
+
+	### Natural History Universities
+	#Each Natural History University adds 2%
+	add = {
+		value = academics_num_natural_universities
+		multiply = 2
+	}
+
+	### Maximum and Minimum
+	max = 99 #There should always be a tiny chance for a negative outcome
+	min = 1 #There should always be a tiny chance for a positive outcome
+}
+
+#This value is used to determine the chance of a perfect skeleton
+dubois_percentage_perfect_dinosaur_skeleton_reconstruction_value = {
+	value = 0.33
+	if = {
+		limit = {
+			var:dubois_paleontologist_var ?= {
+				var:dubois_paleontologist_experience >= 175
+			}
+		}
+		add = 0.165
+	}
+	if = {
+		limit = {
+			var:dubois_paleontologist_var ?= {
+				var:dubois_paleontologist_experience >= 200
+			}
+		}
+		add = 0.165
+	}
+	if = {
+		limit = {
+			var:dubois_paleontologist_var ?= {
+				var:dubois_paleontologist_experience >= 250
+			}
+		}
+		add = 0.2
+	}
+}
+
+#This value determines the chance of a imperfect skeleton
+# 1 - Chance for Perfect = Chance for Imperfect
+dubois_percentage_imperfect_dinosaur_skeleton_reconstruction_value = {
+	value = 1
+	subtract = dubois_percentage_perfect_dinosaur_skeleton_reconstruction_value
+}
+
+#This value is the final chance for a perfect skeleton
+dubois_probability_perfect_dinosaur_skeleton_reconstruction_value = {
+	value = dubois_probability_positive_dinosaur_skeleton_reconstruction_value
+	multiply = dubois_percentage_perfect_dinosaur_skeleton_reconstruction_value
+}
+
+#This value is the final chance for a imperfect skeleton
+dubois_probability_imperfect_dinosaur_skeleton_reconstruction_value = {
+	value = dubois_probability_positive_dinosaur_skeleton_reconstruction_value
+	multiply = dubois_percentage_imperfect_dinosaur_skeleton_reconstruction_value
+}
+
+#This value is the final chance for a poor skeleton
+dubois_probability_poor_dinosaur_skeleton_reconstruction_value = {
+	value = 100
+	subtract = dubois_probability_positive_dinosaur_skeleton_reconstruction_value
+}
+
+############################################################################
+
 #This value determines the rating of a naturalist
 dubois_naturalist_character_rating_value = {
 	### Experience: 1 point per 50 Experience ###
