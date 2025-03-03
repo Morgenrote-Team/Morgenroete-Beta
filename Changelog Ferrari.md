@@ -16,6 +16,7 @@ Fixes:
 - Chemists should now be busy if they get replaced but have an ongoing project.
 - Geologists should now be busy if they get replaced but have an ongoing project.
 - Naturalists should now be busy if they get replaced but have an ongoing project.
+- Paleontologists should now be busy if they get replaced but have an ongoing project.
 - Composers should now stop their projects if they get replaced.
 - Writers should now stop their projects if they get replaced.
 - Painters should now stop their projects if they get replaced.
