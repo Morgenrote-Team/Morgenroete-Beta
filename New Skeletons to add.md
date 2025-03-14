@@ -1,4 +1,3 @@
-Mosasaurus
 Plesiosaurus
 Megalodon
 Basilosaurus
