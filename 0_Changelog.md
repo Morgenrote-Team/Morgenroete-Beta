@@ -1,4 +1,4 @@
-Changelog for 2.3.7a "Marsh"
+Changelog for 2.3.7b "Marsh"
 
 Fixes:
 - Various localization fixes.
