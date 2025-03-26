@@ -4266,3 +4266,128 @@ dubois_paleontologist_project_active_trigger = {
 		}
 	}
 }
+
+### Triggers for Paleontology Automation ###
+
+#Does this country use Paleontology Automation?
+dubois_is_paleontology_automated_trigger = {
+	OR = {
+		is_ai = yes
+		has_variable = dubois_paleontology_automation_var
+	}
+}
+
+#Is automated construction of Dinosaur Skeleton possible?
+dubois_paleontology_automation_build_skeleton_possible_trigger = {
+	var:dubois_paleontologist_var ?= {
+		is_busy = no
+		NOT = {
+			has_modifier = dubois_exhausted_paleontologist_modifier
+		}
+	}
+	dubois_paleontology_mounting_skeletons_possible_trigger = yes
+}
+
+#Are automated expeditions possible?
+dubois_paleontology_automation_expedition_possible_trigger = {
+	#Checks if country is able to afford Expedition
+	mr_can_afford_very_small_money_multiplier_trigger = yes
+	#Checks if the country does not have an expedition or had one recently
+	NOR = {
+		has_journal_entry = je_dubois_paleontological_expedition
+		has_modifier = dubois_had_expedition_modifier
+	}
+	#Checks if the country has access to a formation
+	OR = {
+		dubois_has_formation = yes
+		any_country = {
+			has_diplomatic_pact = {
+				who = ROOT
+				type = paleontological_license
+			}				
+			dubois_has_formation = yes
+		}
+	}
+}
+
+#Is automated remount of Dinosaur Skeleton possible?
+dubois_paleontology_automation_remount_skeleton_possible_trigger = {
+	var:dubois_paleontologist_var ?= {
+		is_busy = no
+		NOT = {
+			has_modifier = dubois_exhausted_paleontologist_modifier
+		}
+	}
+
+	dubois_has_imperfect_dinosaur_skeleton_no_tooltip_trigger = yes
+}
+
+#Is Cretaceous Scenery possible?
+dubois_paleontology_automation_cretaceous_scenery_possible_trigger = {
+	#Can afford the scenery
+	gold_reserves >= 50000
+	#Does not have an ongoing scenery or the finished scenery
+	NOR = {
+		has_variable = dubois_cretaceous_scenery_var
+		has_journal_entry = je_prehistoric_scenery
+	}
+	#Enough Geological Knowledge
+	global_var:agassiz_geological_knowledge_global_var > 1
+	#Available University
+	any_scope_building = {
+		is_building_type = building_university
+		NOR = {
+			has_modifier = dubois_cretaceous_scenery_modifier
+			has_modifier = dubois_jurassic_scenery_modifier
+			has_modifier = dubois_triassic_scenery_modifier
+		}
+	}
+}
+
+#Is Jurassic Scenery possible?
+dubois_paleontology_automation_jurassic_scenery_possible_trigger = {
+	#Can afford the scenery
+	gold_reserves >= 50000
+	#Already has the Cretaceous scenery
+	has_variable = dubois_cretaceous_scenery_var
+	#Does not have an ongoing scenery or the finished scenery
+	NOR = {
+		has_variable = dubois_jurassic_scenery_var
+		has_journal_entry = je_prehistoric_scenery
+	}
+	#Enough Geological Knowledge
+	global_var:agassiz_geological_knowledge_global_var > 5
+	#Available University
+	any_scope_building = {
+		is_building_type = building_university
+		NOR = {
+			has_modifier = dubois_cretaceous_scenery_modifier
+			has_modifier = dubois_jurassic_scenery_modifier
+			has_modifier = dubois_triassic_scenery_modifier
+		}
+	}
+}
+
+#Is Triassic Scenery possible?
+dubois_paleontology_automation_triassic_scenery_possible_trigger = {
+	#Can afford the scenery
+	gold_reserves >= 50000
+	#Already has the Jurassic scenery
+	has_variable = dubois_jurassic_scenery_var
+	#Does not have an ongoing scenery or the finished scenery
+	NOR = {
+		has_variable = dubois_triassic_scenery_var
+		has_journal_entry = je_prehistoric_scenery
+	}
+	#Enough Geological Knowledge
+	global_var:agassiz_geological_knowledge_global_var > 10
+	#Available University
+	any_scope_building = {
+		is_building_type = building_university
+		NOR = {
+			has_modifier = dubois_cretaceous_scenery_modifier
+			has_modifier = dubois_jurassic_scenery_modifier
+			has_modifier = dubois_triassic_scenery_modifier
+		}
+	}
+}

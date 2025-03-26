@@ -767,26 +767,17 @@ ai_naturalist_effect = {
 # - Build Dioramas
 # - Systemizing fossils
 
-ai_paleontologist_effect = {
+ai_paleontologist_automation_effect = {
 	if = {
 		limit = {
-			OR = {
-				is_ai = yes
-				has_variable = dubois_paleontology_automation_var
-			}
+			dubois_is_paleontology_automated_trigger = yes
 			dubois_has_active_paleontologist_no_tooltip_trigger = yes
 		}
 	
 		#Build Skeletons
 		if = {
 			limit = {
-				var:dubois_paleontologist_var ?= {
-					is_busy = no
-					NOT = {
-						has_modifier = dubois_exhausted_paleontologist_modifier
-					}
-				}
-				dubois_paleontology_mounting_skeletons_possible_trigger = yes
+				dubois_paleontology_automation_build_skeleton_possible_trigger = yes
 			}
 	
 			random_list = {
@@ -858,24 +849,7 @@ ai_paleontologist_effect = {
 		#Paleontological Expedition
 		else_if = {
 			limit = {
-				#Checks if country is able to afford Expedition
-				mr_can_afford_very_small_money_multiplier_trigger = yes
-				#Checks if the country does not have an expedition or had one recently
-				NOR = {
-					has_journal_entry = je_dubois_paleontological_expedition
-					has_modifier = dubois_had_expedition_modifier
-				}
-				#Checks if the country has access to a formation
-				OR = {
-					dubois_has_formation = yes
-					any_country = {
-						has_diplomatic_pact = {
-							who = ROOT
-							type = paleontological_license
-						}				
-						dubois_has_formation = yes
-					}
-				}
+				dubois_paleontology_automation_expedition_possible_trigger = yes
 			}
 	
 			#Chooses the adequate place for excavations
@@ -884,7 +858,7 @@ ai_paleontologist_effect = {
 				1 = {
 					trigger = { dubois_dinosaur_research_in_north_america = yes }
 	
-					scope:dubois_paleontologist_scope = {
+					var:dubois_paleontologist_var = {
 						set_character_busy_and_immortal = yes
 						set_variable = dubois_paleontologist_in_north_america_var
 					}
@@ -925,7 +899,7 @@ ai_paleontologist_effect = {
 				1 = {
 					trigger = { dubois_dinosaur_research_in_south_america = yes }
 	
-					scope:dubois_paleontologist_scope = {
+					var:dubois_paleontologist_var = {
 						set_character_busy_and_immortal = yes
 						set_variable = dubois_paleontologist_in_south_america_var
 					}
@@ -966,7 +940,7 @@ ai_paleontologist_effect = {
 				1 = {
 					trigger = { dubois_dinosaur_research_in_europe = yes }
 	
-					scope:dubois_paleontologist_scope = {
+					var:dubois_paleontologist_var = {
 						set_character_busy_and_immortal = yes
 						set_variable = dubois_paleontologist_in_europe_var
 					}
@@ -1004,7 +978,7 @@ ai_paleontologist_effect = {
 				1 = {
 					trigger = { dubois_dinosaur_research_in_africa = yes }
 	
-					scope:dubois_paleontologist_scope = {
+					var:dubois_paleontologist_var = {
 						set_character_busy_and_immortal = yes
 						set_variable = dubois_paleontologist_in_africa_var
 					}
@@ -1042,7 +1016,7 @@ ai_paleontologist_effect = {
 				1 = {
 					trigger = { dubois_dinosaur_research_in_asia = yes }
 	
-					scope:dubois_paleontologist_scope = {
+					var:dubois_paleontologist_var = {
 						set_character_busy_and_immortal = yes
 						set_variable = dubois_paleontologist_in_asia_var
 					}
@@ -1087,7 +1061,7 @@ ai_paleontologist_effect = {
 				1 = {
 					trigger = { dubois_dinosaur_research_in_australia = yes }
 	
-					scope:dubois_paleontologist_scope = {
+					var:dubois_paleontologist_var = {
 						set_character_busy_and_immortal = yes
 						set_variable = dubois_paleontologist_in_australia_var
 					}
@@ -1128,7 +1102,7 @@ ai_paleontologist_effect = {
 				1 = {
 					trigger = { dubois_small_paleontological_research_possible = yes }
 	
-					scope:dubois_paleontologist_scope = {
+					var:dubois_paleontologist_var = {
 						set_character_busy_and_immortal = yes
 						set_variable = dubois_paleontologist_in_local_var
 					}
@@ -1160,14 +1134,7 @@ ai_paleontologist_effect = {
 		#Remounting Dinosaur Skeletons
 		else_if = {
 			limit = {
-				var:dubois_paleontologist_var ?= {
-					is_busy = no
-					NOT = {
-						has_modifier = dubois_exhausted_paleontologist_modifier
-					}
-				}
-
-				dubois_has_imperfect_dinosaur_skeleton_no_tooltip_trigger = yes
+				dubois_paleontology_automation_remount_skeleton_possible_trigger = yes
 			}
 
 			#List chooses a random Dinosaur
@@ -1374,24 +1341,7 @@ ai_paleontologist_effect = {
 		#Cretaceous scenery
 		else_if = {
 			limit = {
-				#Can afford the scenery
-				gold_reserves >= 50000
-				#Does not have an ongoing scenery or the finished scenery
-				NOR = {
-					has_variable = dubois_cretaceous_scenery_var
-					has_journal_entry = je_prehistoric_scenery
-				}
-				#Enough Geological Knowledge
-				global_var:agassiz_geological_knowledge_global_var > 1
-				#Available University
-				any_scope_building = {
-					is_building_type = building_university
-					NOR = {
-						has_modifier = dubois_cretaceous_scenery_modifier
-						has_modifier = dubois_jurassic_scenery_modifier
-						has_modifier = dubois_triassic_scenery_modifier
-					}
-				}
+				dubois_paleontology_automation_cretaceous_scenery_possible_trigger = yes
 			}
 
 			#Removes costs
@@ -1411,26 +1361,7 @@ ai_paleontologist_effect = {
 		#Jurassic scenery
 		else_if = {
 			limit = {
-				#Can afford the scenery
-				gold_reserves >= 50000
-				#Already has the Cretaceous scenery
-				has_variable = dubois_cretaceous_scenery_var
-				#Does not have an ongoing scenery or the finished scenery
-				NOR = {
-					has_variable = dubois_jurassic_scenery_var
-					has_journal_entry = je_prehistoric_scenery
-				}
-				#Enough Geological Knowledge
-				global_var:agassiz_geological_knowledge_global_var > 5
-				#Available University
-				any_scope_building = {
-					is_building_type = building_university
-					NOR = {
-						has_modifier = dubois_cretaceous_scenery_modifier
-						has_modifier = dubois_jurassic_scenery_modifier
-						has_modifier = dubois_triassic_scenery_modifier
-					}
-				}
+				dubois_paleontology_automation_jurassic_scenery_possible_trigger = yes
 			}
 
 			#Removes costs
@@ -1450,26 +1381,7 @@ ai_paleontologist_effect = {
 		#Triasic scenery
 		else_if = {
 			limit = {
-				#Can afford the scenery
-				gold_reserves >= 50000
-				#Already has the Jurassic scenery
-				has_variable = dubois_jurassic_scenery_var
-				#Does not have an ongoing scenery or the finished scenery
-				NOR = {
-					has_variable = dubois_triassic_scenery_var
-					has_journal_entry = je_prehistoric_scenery
-				}
-				#Enough Geological Knowledge
-				global_var:agassiz_geological_knowledge_global_var > 10
-				#Available University
-				any_scope_building = {
-					is_building_type = building_university
-					NOR = {
-						has_modifier = dubois_cretaceous_scenery_modifier
-						has_modifier = dubois_jurassic_scenery_modifier
-						has_modifier = dubois_triassic_scenery_modifier
-					}
-				}
+				dubois_paleontology_automation_triassic_scenery_possible_trigger = yes
 			}
 
 			#Removes costs
