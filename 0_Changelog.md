@@ -1,5 +1,8 @@
 Changelog for 2.3.7a "Marsh"
 
+Paleontology:
+- Added two general skeletons: Basilosaurus and Plesiosaurus
+
 Fixes:
 - Various localization fixes.
 - Babies and children should no longer criticize books.
