@@ -78,7 +78,7 @@ pius.101 = {
 			years = 7
 		}
 		scope:pius_marian_apparition_state = {
-			add_loyalists_in_state = {
+			add_radicals_in_state = {
 				strata = lower
 				religion = rel:catholic
 				value = large_radicals
@@ -144,7 +144,7 @@ pius.102 = {
 			years = 7
 		}
 		scope:pius_marian_apparition_state = {
-			add_loyalists_in_state = {
+			add_radicals_in_state = {
 				strata = lower
 				religion = rel:catholic
 				value = large_radicals
@@ -210,7 +210,7 @@ pius.103 = {
 			years = 7
 		}
 		scope:pius_marian_apparition_state = {
-			add_loyalists_in_state = {
+			add_radicals_in_state = {
 				strata = lower
 				religion = rel:catholic
 				value = large_radicals
@@ -276,10 +276,183 @@ pius.104 = {
 			years = 7
 		}
 		scope:pius_marian_apparition_state = {
-			add_loyalists_in_state = {
+			add_radicals_in_state = {
 				strata = lower
 				religion = rel:catholic
 				value = large_radicals
+			}
+		}
+	}
+}
+
+#Pius 105: The Apparition of 'RANDOM_SCOPE_STATE'
+pius.105 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = pius.105.t
+    desc = pius.105.d
+	flavor = pius.105.f
+
+	placement = scope:pius_marian_apparition_state
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/pius_pictures/pius_maria_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_pope.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = pius_had_random_marian_apparition_var
+		}
+		global_var:number_of_random_marian_apparitions < 5
+		any_scope_state = {
+			total_urbanization >= 500
+			is_incorporated = yes
+			is_capital = no
+			religion_percent_state = {
+				target = rel:catholic
+				value >= 0.35
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = pius_had_random_marian_apparition_var
+		change_global_variable = {
+			name = number_of_random_marian_apparitions
+			add = 1
+		}
+		random_scope_state = {
+			limit = {
+				total_urbanization >= 500
+				is_incorporated = yes
+				is_capital = no
+				religion_percent_state = {
+					target = rel:catholic
+					value >= 0.35
+				}
+			}
+			save_scope_as = pius_marian_apparition_state
+		}
+	}
+
+	option = { #A Heavenly Warning.
+		default_option = yes
+		name = pius.105.g
+		add_modifier = {
+			name = pius_approved_marian_apparition_modifier
+			years = 5
+		}
+		scope:pius_marian_apparition_state = {
+			add_loyalists_in_state = {
+				strata = lower
+				religion = rel:catholic
+				value = small_radicals
+			}
+		}
+	}
+
+	option = { #Remain Rational.
+		name = pius.105.h
+		add_modifier = {
+			name = pius_denied_marian_apparition_modifier
+			years = 5
+		}
+		scope:pius_marian_apparition_state = {
+			add_radicals_in_state = {
+				strata = lower
+				religion = rel:catholic
+				value = medium_radicals
+			}
+		}
+	}
+}
+
+### Negative Marian Events ###
+
+#Pius 111: The Procession
+pius.111 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = pius.111.t
+    desc = pius.111.d
+	flavor = pius.111.f
+
+	placement = scope:pius_marian_apparition_state
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/pius_pictures/pius_maria_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_pope.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Let them pray.
+		default_option = yes
+		name = pius.111.g
+		remove_modifier = {
+			name = pius_denied_marian_apparition_modifier
+		}
+		remove_modifier = {
+			name = pius_denied_great_marian_apparition_modifier
+		}
+		scope:pius_marian_apparition_state = {
+			add_loyalists_in_state = {
+				strata = lower
+				religion = rel:catholic
+				value = small_radicals
+			}
+		}
+	}
+
+	option = { #Observe quietly.
+		name = pius.111.h
+		hidden_effect = {
+			random_list = {
+				2 = {}
+				8 = {
+					trigger_event = {
+						id = pius.113
+						days = { 20 40 }
+					}
+				}
+			}
+		}
+	}
+
+	option = { #Disperse them by force.
+		name = pius.111.i
+		add_modifier = {
+			name = pius_action_against_marian_procession_modifier
+			years = 3
+		}
+		hidden_effect = {
+			random_list = {
+				1 = {}
+				9 = {
+					trigger_event = {
+						id = pius.112
+						days = { 20 40 }
+					}
+				}
 			}
 		}
 	}
