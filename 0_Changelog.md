@@ -15,6 +15,9 @@ Bicycles:
 - JE for Great Bicycle Races (known as Tour de France or Giro d'Italia). Will only trigger if the safety bicycle was invented somewhere.
 - After the first race, six different bike race events may appear randomly at irregular intervals.
 
+Artusi:
+- Added a possible event for Italy about the Artusi, Italy's most important collection of recipes in this time period and a base for a national cuisine.
+
 Changes:
 - When the Papal State forms Italy, it will no longer be known as "Kingdom of Heaven" but "Apostolic Kingdom of Italy", which would be much more historical.
 - Moved Hot Air Balloon Reconnaissance Mobiliziation from Reconnaissance to Air Reconnaissance.
