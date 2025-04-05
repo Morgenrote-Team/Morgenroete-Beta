@@ -16,6 +16,7 @@ Bicycles:
 - After the first race, six different bike race events may appear randomly at irregular intervals.
 
 Changes:
+- When the Papal State forms Italy, it will no longer be known as "Kingdom of Heaven" but "Apostolic Kingdom of Italy", which would be much more historical.
 - Moved Hot Air Balloon Reconnaissance Mobiliziation from Reconnaissance to Air Reconnaissance.
 - Renamd MR Balloon Reconnassaince Mobilization to Early Balloon Reconaissance to differentiate it more form the Vanilla Balloon Reconnaissance.
 - Moved Aircraft Reconaissance Mobilization to Aircraft.
