@@ -913,3 +913,207 @@ mechanic_experience_gain_effect = { #adds XP to the Mechanic
 		}
 	}
 }
+
+#####COACH######
+
+#This effect kills the current Coach
+kill_coach_effect = {
+	var:vikelas_coach_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = vikelas_coach_var
+}
+
+#This effect kills the current Coach and creates a new one
+kill_and_replace_coach_effect = {
+	kill_coach_effect = yes
+	create_new_coach_effect = yes
+	vikelas_set_new_coach_as_coach_effect = yes
+}
+
+# Creates a new Coach without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
+create_new_coach_effect = {
+	random_list = {
+		1 = { #Random Coach
+			create_character = {
+				save_scope_as = vikelas_new_coach_scope
+				age = { 25 45 }
+				trait_generation = {
+					add_random_trait = personality
+					random_list = {
+						10 = {}
+						5 = { add_trait = brave }
+						5 = { add_trait = ambitious }
+						5 = { add_trait = persistent }
+						5 = { add_trait = cautious }
+						5 = { add_trait = reckless }
+						5 = { add_trait = tactful }
+						5 = { add_trait = meticulous }
+						5 = { add_trait = ruthless }
+						5 = { add_trait = wrathful }
+						5 = { add_trait = reserved }
+						5 = { add_trait = pious }
+					}
+					random_list = {
+						80 = {}
+						5 = { add_trait = alcoholic }
+						5 = { add_trait = opium_addiction }
+						5 = { add_trait = cocaine_addiction }
+						5 = { add_trait = expensive_tastes }
+					}
+				}
+			}
+
+			scope:vikelas_new_coach_scope = {
+				add_trait = vikelas_coach
+				set_variable = mr_is_coach_var
+				coach_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = vikelas_new_coach_var
+				value = scope:vikelas_new_coach_scope
+			}
+		}
+	}
+
+	var:vikelas_new_coach_var = {
+		save_scope_as = vikelas_new_coach_scope
+	}
+}
+
+# Set new coach as official coach
+vikelas_set_new_coach_as_coach_effect = {
+	custom_tooltip = {
+		text = vikelas_replace_coach_with_new_coach_tt
+	
+		if = {
+			limit = {
+				has_variable = vikelas_coach_var
+			}
+			var:vikelas_coach_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = vikelas_coach_var
+			value = scope:vikelas_new_coach_scope
+		}
+
+		remove_variable = vikelas_new_coach_var
+	}
+}
+
+# Remove new coach
+vikelas_remove_new_coach_effect = {
+	scope:vikelas_new_coach_scope = {
+		free_character_from_void = no
+	}
+
+	remove_variable = vikelas_new_coach_var
+}
+
+# Used to set up the Experience of a character 
+coach_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = vikelas_coach_experience
+			}
+		}
+		if = {
+			limit = {
+				age > 20
+			}
+			set_variable = {
+				name = vikelas_coach_experience
+				value = age
+			}
+			change_variable = {
+				name = vikelas_coach_experience
+				subtract = 20
+			}
+			change_variable = {
+				name = vikelas_coach_experience
+				multiply = 10
+			}
+		}
+		else = {
+			set_variable = {
+				name = vikelas_coach_experience
+				value = 0
+			}
+		}
+		if = { #Adds the Famous coach Trait if Experience is above 150
+			limit = {
+				var:vikelas_coach_experience >= 150
+				NOT = {
+					has_trait = vikelas_coach_senior
+				}
+			}
+			remove_trait = vikelas_coach
+			add_trait = vikelas_coach_senior
+		}
+	}
+}
+
+#coach Experience gain
+coach_experience_gain_effect = { #adds XP to the coach
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = vikelas_coach_var #should only add experience if there actually is a Painter
+		}
+		custom_tooltip = {
+			text = vikelas_coach_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:vikelas_coach_var = { #Fallback to make sure there are no errors if the Painter does not have the variable yet
+							has_variable = vikelas_coach_experience
+						}
+					}
+				}
+				var:vikelas_coach_var = { #Sets the experience in case it was not set yet
+					coach_experience_set_up_effect = yes
+				}
+			}
+			var:vikelas_coach_var = {
+				change_variable = {
+					name = vikelas_coach_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+		if = {
+			limit = {
+				var:vikelas_coach_var = {
+					var:vikelas_coach_experience >= 150
+					NOT = {
+						has_trait = vikelas_coach_senior
+					}
+				}
+			}
+			root = {
+				var:vikelas_coach_var = {
+					remove_trait = vikelas_coach
+					add_trait = vikelas_coach_senior
+				}
+				trigger_event = {
+					id = vikelas.690
+					popup = yes
+				}
+			}
+		}
+	}
+}
