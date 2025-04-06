@@ -52,3 +52,58 @@ khaldun_reorganize_library_button = {
 		}
 	}
 }
+
+#Accquire modern books from other countries
+# Costs money and requires good relations with a great power, adds more publications, progress and a small modifier to your country.
+khaldun_accquire_modern_books_button = {
+	name = "khaldun_accquire_modern_books_button"
+	desc = "khaldun_accquire_modern_books_button_desc"
+
+	visible = {
+		NOT = {
+			scope:journal_entry = {
+				has_variable = khaldun_accquire_modern_books_var
+			}
+		}
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = khaldun_reorganize_library_finished_tt
+			scope:journal_entry = {
+				has_variable = khaldun_reorganize_library_var
+			}
+		}
+		any_country = {
+			has_diplomatic_relevance = root
+			country_rank >= rank_value:major_power
+			"relations(root)" >= relations_threshold:cordial
+		}
+	}
+
+	effect = {
+		add_treasury = -100000
+		scope:journal_entry = {
+			set_variable = khaldun_accquire_modern_books_var
+		}
+		manzoni_add_x_publications_country_effect = { AMOUNT = 5000 }
+		khaldun_add_x_center_of_learning_progress_effect = {
+			AMOUNT = 50
+			JE_TARGET = scope:journal_entry
+			BAR_TARGET = khaldun_al_qarawiyyin_progress_bar
+		}
+	}
+
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = {
+				gold_reserves >= 100000
+				scope:journal_entry = {
+					"scripted_bar_progress(khaldun_al_qarawiyyin_progress_bar)" >= 500
+				}
+			}
+			add = 100
+		}
+	}
+}
