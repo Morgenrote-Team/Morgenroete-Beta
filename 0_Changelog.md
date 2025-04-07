@@ -25,6 +25,9 @@ Bicycles:
 - JE for Great Bicycle Races (known as Tour de France or Giro d'Italia). Will only trigger if the safety bicycle was invented somewhere.
 - After the first race, six different bike race events may appear randomly at irregular intervals.
 
+Basketball:
+- Added JE, Event and Modifier for the invention of Basketball.
+
 Artusi:
 - Added a possible event for Italy about the Artusi, Italy's most important collection of recipes in this time period and a base for a national cuisine.
 
