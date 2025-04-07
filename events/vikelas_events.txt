@@ -5908,150 +5908,6 @@ vikelas.401 = {
 	}
 }
 
-#Vikelas 402: FIFA World Cuop in $COUNTRY$
-vikelas.402 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = vikelas.402.t
-	desc = vikelas.402.d
-	flavor = vikelas.402.f
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_sports.dds"
-
-	trigger = {
-	}
-
-	immediate = {
-		random_country = {
-			limit = {
-				has_modifier = vikelas_fifa_worldcup_host_modifier
-			}
-			save_scope_as = vikelas_fifa_host_scope
-		}
-	}
-
-	option = {
-		name = vikelas.402.g #May the better one win!
-		default_option = yes
-
-		ai_chance = {
-			base = 90
-		}
-	}
-
-	after = {
-	}
-}
-
-#Vikelas 403: FIFA World Cuop in $COUNTRY$ ends
-vikelas.403 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = vikelas.403.t
-	desc = {
-		triggered_desc = {
-			trigger = {
-				has_variable = vikelas_fifa_quarterfinals_var
-			}
-			desc = vikelas.403.d_quarter
-		}
-		triggered_desc = {
-			trigger = {
-				has_variable = vikelas_fifa_semifinals_var
-			}
-			desc = vikelas.403.d_semi
-		}
-		triggered_desc = {
-			trigger = {
-				has_variable = vikelas_fifa_final_var
-			}
-			desc = vikelas.403.d_final
-		}
-		triggered_desc = {
-			trigger = {
-				has_modifier = vikelas_fifa_champion_modifier
-			}
-			desc = vikelas.403.d_champion
-		}
-	}
-	flavor = vikelas.403.f
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_association.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_sports.dds"
-
-	trigger = {
-	}
-
-	immediate = {
-		if = {
-			limit = {
-				NOT = {
-					has_modifier = vikelas_fifa_champion_modifier
-				}
-			}
-			random_list = {
-				1 = { set_variable = vikelas_fifa_quarterfinals_var }
-				1 = { set_variable = vikelas_fifa_semifinals_var }
-				1 = { set_variable = vikelas_fifa_final_var }
-			}
-		}
-		random_country = {
-			limit = {
-				has_modifier = vikelas_fifa_worldcup_host_modifier
-			}
-			save_scope_as = vikelas_fifa_host_scope
-		}
-		random_country = {
-			limit = {
-				has_modifier = vikelas_fifa_champion_modifier
-			}
-			save_scope_as = vikelas_fifa_champion_scope
-		}
-	}
-
-	option = {
-		name = vikelas.403.g #This sport has never been important.
-		trigger = {
-			NOT = {
-				has_modifier = vikelas_fifa_champion_modifier
-			}
-		}
-	}
-
-	option = {
-		name = vikelas.403.h #We are the champions.
-		trigger = {
-			has_modifier = vikelas_fifa_champion_modifier
-		}
-		default_option = yes
-		add_loyalists = {
-			value = 0.05
-		}
-	}
-
-	after = {
-	}
-}
-
 #Vikelas 410: New World Cup, hidden host
 vikelas.410 = {
 	dlc = dlc_morgenrote
@@ -6202,6 +6058,13 @@ vikelas.412 = {
 		coach_experience_gain_effect = {
 			AMOUNT = 30
 		}
+		var:vikelas_coach_var = {
+			set_variable = vikelas_coach_world_championship_var
+			set_variable = {
+				name = vikelas_coach_world_championship_year_var
+				value = year
+			}
+		}
 	}
 
 	after = {
@@ -6247,6 +6110,13 @@ vikelas.413 = {
 		}
 		coach_experience_gain_effect = {
 			AMOUNT = 20
+		}
+		var:vikelas_coach_var = {
+			set_variable = vikelas_coach_vice_world_championship_var
+			set_variable = {
+				name = vikelas_coach_vice_world_championship_year_var
+				value = year
+			}
 		}
 	}
 
@@ -6300,6 +6170,66 @@ vikelas.414 = {
 	after = {
 	}
 }
+
+#Vikelas 421: International football match (hidden)
+vikelas.421 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		has_variable = vikelas_football_association_var
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = vikelas_football_association_var
+				NOT = {
+					this = ROOT
+				}
+			}
+			save_scope_as = vikelas_football_rival_scope
+		}
+		if = {
+			limit = {
+				vikelas_national_football_team_game_value > scope:vikelas_football_rival_scope.vikelas_national_football_team_game_value
+			}
+			coach_experience_gain_effect = {
+				AMOUNT = 10
+			}
+		}
+		if = {
+			limit = {
+				vikelas_national_football_team_game_value < scope:vikelas_football_rival_scope.vikelas_national_football_team_game_value
+			}
+			scope:vikelas_football_rival_scope = {
+				coach_experience_gain_effect = {
+					AMOUNT = 10
+				}
+			}
+		}
+		if = {
+			limit = {
+				vikelas_national_football_team_game_value = scope:vikelas_football_rival_scope.vikelas_national_football_team_game_value
+			}
+			coach_experience_gain_effect = {
+				AMOUNT = 10
+			}
+			scope:vikelas_football_rival_scope = {
+				coach_experience_gain_effect = {
+					AMOUNT = 5
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
 
 #Vikelas 490: [Scope] is now a famous Coach
 vikelas.490 = {
