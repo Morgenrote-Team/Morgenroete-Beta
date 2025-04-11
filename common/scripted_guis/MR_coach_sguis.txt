@@ -1,0 +1,240 @@
+﻿### SPORTS BUTTONS ###
+
+#by Lord R & Marco Dandolo
+
+#MR_HIRE_COACH
+mr_hire_coach_button = {
+    scope = country
+	
+	is_shown = {
+		has_global_variable = vikelas_fifa_founded_global_var
+	}
+
+    is_valid = {
+		mr_gui_has_organized_sports_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_NO_RECENT_COACH_TRIGGER_TT
+			NOT = {
+				has_modifier = vikelas_hired_coach_recently_modifier
+			}
+		}
+    }
+
+    effect = {
+		if = {
+			limit = {
+				has_variable = vikelas_coach_var
+			}
+			kill_coach_effect = yes
+		}
+		add_modifier = {
+			name = vikelas_hired_coach_recently_modifier
+			years = 3
+		}
+		trigger_event = {
+			id = vikelas.495
+			popup = yes
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_FIFA_BUTTON
+mr_fifa_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_global_variable = vikelas_fifa_founded_global_var
+		}
+		has_variable = vikelas_football_country_var
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_FIFA_TRIGGER_TT
+			any_country = {
+				has_variable = vikelas_football_association_var
+				count >= 6
+			}
+		}
+		mr_gui_has_organized_sports_tech_trigger = yes
+    }
+    effect = {
+		custom_tooltip = vikelas_become_fifa_president_tt
+		set_global_variable = vikelas_fifa_founded_global_var
+		set_variable = vikelas_fifa_founding_country_var
+		capital = {
+			create_building = {
+				building = building_vikelas_fifa
+				level = 1
+			}
+			state_region = {
+				set_global_variable = { #This is used in the GUI to display the state
+            		name = vikelas_fifa_seat_global_var
+           			value = this
+        		}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = vikelas_fifa_president_global_var
+				value = ROOT
+			}
+		}
+		every_country = {
+			limit = {
+				has_variable = vikelas_football_association_var
+			}
+			trigger_event = {
+				id = vikelas.401
+			}
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_FIFA_PRESIDENT_BUTTON
+mr_fifa_president_button = {
+    scope = country
+	is_shown = {
+		has_global_variable = vikelas_fifa_founded_global_var
+		has_variable = vikelas_football_association_var
+		NOT = {
+			any_country = {
+				has_variable = vikelas_fifa_founding_country_var
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_FIFA_CONTROLS_HQ_TRIGGER_TT
+			any_scope_state = {
+				has_building = building_vikelas_fifa
+			}
+		}
+		custom_tooltip = {
+			text = MR_IOC_FOUNDATION_PEACE_TRIGGER_TT
+			is_at_war = no
+		}
+    }
+    effect = {
+		custom_tooltip = {
+			text = vikelas_become_fifa_president_tt
+			set_variable = vikelas_fifa_founding_country_var
+		}
+		country_definition = {
+			set_global_variable = {
+				name = vikelas_fifa_president_global_var
+				value = ROOT
+			}
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_WORLDCUP_BUTTON
+vikelas_football_worldcup_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_global_variable = vikelas_football_worldcup_global_var
+		}
+		has_global_variable = vikelas_fifa_founded_global_var
+		has_variable = vikelas_football_country_var
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_FOOTBALL_WORLDCUP_FOOTBALL_ASSOCIATION_TRIGGER_TT
+			any_country = {
+				has_variable = vikelas_football_association_var
+				count >= 10
+			}
+		}
+		mr_gui_has_mass_culture_tech_trigger = yes
+		mr_gui_has_organized_sports_tech_trigger = yes
+    }
+    effect = {
+		set_global_variable = vikelas_football_worldcup_global_var
+		set_global_variable = {
+			name = vikelas_num_football_worldcup_global_var
+			value = 0
+		}
+		set_variable = {
+			name = vikelas_recent_fifa_host_var
+			years = 20
+		}
+		add_modifier = {
+			name = vikelas_fifa_worldcup_host_modifier
+			days = 365
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = vikelas.410
+				days = 1
+			}
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_SCHOOL_SPORTS_BUTTON
+mr_school_sport_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = vikelas_school_sport_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_SCHOOL_SPORTS_PUBLIC_SCHOOLS_TRIGGER_TT
+			has_law = law_type:law_public_schools
+		}
+		custom_tooltip = {
+			text = MR_SCHOOL_SPORTS_IG_ATHLETE_LEADER_TRIGGER_TT
+			any_interest_group = {
+				is_in_government = yes
+				leader = {
+					has_trait = vikelas_athlete
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_SCHOOL_SPORTS_SPORTS_FACILITIES_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_government_administration
+				has_active_production_method = pm_vikelas_sports_facilities
+			}
+		}
+		mr_gui_has_theory_of_evolution_tech_trigger = yes
+		mr_gui_has_organized_sports_tech_trigger = yes
+    }
+    effect = {
+		set_variable = vikelas_school_sport_var
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
