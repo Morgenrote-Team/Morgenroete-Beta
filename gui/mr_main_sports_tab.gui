@@ -1066,7 +1066,285 @@ types sports_view
 							}
 						}
 
-						sports_placeholder = {
+						#National Coach
+						sports_widget_with_character = {
+							blockoverride "role_icon" {
+								texture = "gfx/interface/icons/character_role_icons/vikelas_racer_role.dds"
+							}
+							blockoverride "role_tooltip" {
+								tooltip = "GUI_NATIONAL_COACH_TT"
+							}
+							blockoverride "role_name" {
+								text = "NATIONAL_COACH_HEADER_TEXT"
+							}
+							blockoverride "achievements_icon_visibility" {
+								visible = no
+							} 
+							blockoverride "character" {
+								datacontext = "[GetPlayer.MakeScope.Var('vikelas_coach_var').GetCharacter]"
+							}
+							blockoverride "character_visible" {
+								visible = "[GetScriptedGui('mr_has_coach_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "no_character_visible" {
+								visible = "[Not( GetScriptedGui('mr_has_coach_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "character_name" {
+								text = "[GetPlayer.GetCustom('sports_has_coach_gui_type')]"
+							}
+							blockoverride "character_traits" {
+								datacontext = "[GetPlayer.MakeScope.Var('vikelas_coach_var').GetCharacter]"
+								datamodel = "[Character.AccessTraits]"
+							}
+							blockoverride "values" {
+								min = 0
+								max = 150
+								value = "[GetPlayer.MakeScope.Var('vikelas_coach_var').GetVariable('vikelas_coach_experience').GetValue]"
+							}
+							blockoverride "experience_tooltip" {
+								tooltip = "MR_COACH_EXPERIENECE_TT"
+							}
+							blockoverride "experience_bar_text" {
+								text = "[GetPlayer.GetCustom('GUI_vikelas_coach_experience_text_type')]"
+							}
+							blockoverride "small_box_content" {
+								widget = {
+									#This Icon allows an overview of the 10 Nations with the most Grand Prix Victories
+									#The values are set up with scripted_effects from GUI_scripted_effects.txt when the screen is opened
+									#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+									#used in the mr_GUI_l_english.yml file to display the global variables.
+									size = { 30 30 }
+									parentanchor = top|right
+									position = { 5 -5 }
+									
+									icon = {
+										size = { 100% 100% }
+										texture = "gfx/interface/backgrounds/round_button_bg.dds"
+										block "enabled" {}
+									}
+									icon = {
+										size = { 100% 100% }
+										texture = "gfx/interface/buttons/button_icons/list.dds"
+										block "enabled" {}
+										tooltipwidget = {
+											MR_TooltipRankingType = {
+												blockoverride "ranking_on_finish" {
+													on_finish = "[GetScriptedGui('mr_grand_prix_victories_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
+												}
+												blockoverride "text_1" {
+													raw_text = "RACER_GRAND_PRIX_VICTORIES_RANKING_HEADER"
+												}
+												blockoverride "ranking_1_visible" {
+													visible = yes
+												}
+												blockoverride "ranking_1_datamodel" {
+													datamodel = "[GetGlobalList('mr_grand_prix_victories_ranking_global_list')]"
+												}
+												blockoverride "ranking_variable_used_1" {
+													raw_text = "[Country.MakeScope.GetVariable('vikelas_grand_prix_victories_var').GetValue|*V0]"
+												}
+											}
+										}
+									}
+								}
+
+								flowcontainer = {
+									direction = vertical
+									ignoreinvisible = yes
+									spacing = 8
+									margin = { 25 20 }
+
+									textbox = {
+										position = { 15 10 }
+										#Information about Car Racing
+										text = "MR_CAR_RACING_INFORMATION"
+										parentanchor = top|left
+										maximumsize = { 255 310 }
+										autoresize = yes
+										multiline = yes
+										using = fontsize_xl
+									}
+
+									textbox = {
+										position = { 15 10 }
+										visible = "[GetScriptedGui('mr_paddock_aiacr_founded_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										#Board Members
+										text = "MR_AIACR_BOARD_INFORMATION"
+										parentanchor = top|left
+										maximumsize = { 255 310 }
+										autoresize = yes
+										multiline = yes
+										using = fontsize_xl
+									}
+								}
+							}
+							blockoverride "big_box_content" {
+								flowcontainer = {
+									direction = vertical
+									parentanchor = hcenter
+									ignoreinvisible = yes
+									spacing = 8
+									margin = { 15 15 }
+
+									### Car Racer Activities ###
+									flowcontainer = {
+										direction = horizontal
+										parentanchor = hcenter
+										ignoreinvisible = yes
+										spacing = 4
+
+										#Allow Racer to Race button
+										button_icon_round = {
+											size = { 45 45 }
+
+											datacontext = "[GetScriptedGui('mr_autoracing_participation_button')]"
+											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											tooltip = "MR_AUTORACING_PARTICIPATION_BUTTON_TT"
+											blockoverride "icon" {
+												texture = "gfx/interface/icons/GUI_icons/GUI_vikelas_racer_participation_yes_button.dds"
+											}
+											blockoverride "icon_size" {
+												size = { 65% 65% }
+											}
+										}
+
+										#Disallow Racer to Race button
+										button_icon_round = {
+											size = { 45 45 }
+
+											datacontext = "[GetScriptedGui('mr_autoracing_no_participation_button')]"
+											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											tooltip = "MR_AUTORACING_NO_PARTICIPATION_BUTTON_TT"
+											blockoverride "icon" {
+												texture = "gfx/interface/icons/GUI_icons/GUI_vikelas_racer_participation_no_button.dds"
+											}
+											blockoverride "icon_size" {
+												size = { 65% 65% }
+											}
+										}
+									}
+
+									### Other Buttons ###
+									button = {
+										#Found Automobile Club
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_AUTORACING_FOUND_AUTOMOBILE_CLUB_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_autoracing_found_automobile_club_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_AUTORACING_FOUND_AUTOMOBILE_CLUB_BUTTON_TT"
+									}
+									button = {
+										#Organize Endurance Race
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_AUTORACING_LONG_DISTANCE_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_autoracing_long_distance_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_AUTORACING_LONG_DISTANCE_BUTTON_TT"
+									}
+									button = {
+										#Found AIACR
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_AUTORACING_FOUND_AIACR_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_autoracing_found_aiacr_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_AUTORACING_FOUND_AIACR_BUTTON_TT"
+									}
+									button = {
+										#Found Grand Prix Racing
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_AUTORACING_FOUND_GRAND_PRIX_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_autoracing_found_grand_prix_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_AUTORACING_FOUND_GRAND_PRIX_BUTTON_TT"
+									}
+									button = {
+										#Found Autoracing Team
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_AUTORACING_FOUND_TEAM_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_autoracing_found_team_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_AUTORACING_FOUND_TEAM_BUTTON_TT"
+									}
+									button = {
+										#Build a Race Track
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_AUTORACING_RACE_TRACK_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_autoracing_race_track_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_AUTORACING_RACE_TRACK_BUTTON_TT"
+									}
+									button = {
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_AUTORACING_RACE_TRACK_APPLY_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_autoracing_race_track_apply_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_AUTORACING_RACE_TRACK_APPLY_BUTTON_TT"
+									}
+									button = {
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_AUTORACING_RACE_TRACK_DECLARE_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_autoracing_race_track_declare_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_AUTORACING_RACE_TRACK_DECLARE_BUTTON_TT"
+									}
+									button = {
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_AIACR_PRESIDENT_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_aiacr_president_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_AIACR_PRESIDENT_BUTTON_TT"
+									}
+								}
+							}
 						}
 					}
 				}
