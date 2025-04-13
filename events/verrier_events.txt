@@ -7336,7 +7336,7 @@ verrier.300 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	cooldown = { 
 		years = 3
@@ -7368,7 +7368,57 @@ verrier.301 = {
 	desc = verrier.301.d
 	flavor = verrier.301.f
 
-	placement = scope:rapanui_pacific_expedition_location
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_venus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_astronomer_var = {
+			set_variable = verrier_astronomer_observed_venus_transit_var
+		}
+	}
+
+	option = {
+		name = verrier.301.g #Excellent
+		astronomer_experience_gain_effect = {
+			AMOUNT = 25
+		}
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 5
+		}
+		verrier_medium_add_technology = yes
+		add_modifier = {
+			name = rapanui_venus_transit_modifier
+			years = 7
+		}
+	}
+
+	after = {
+	}
+}
+
+#Verrier 311: Venus Transit Preparation 1874
+verrier.311 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.311.t
+	desc = verrier.311.d
+	flavor = verrier.311.f
 
 	duration = 3
 
@@ -7378,42 +7428,213 @@ verrier.301 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
-
-	cooldown = { 
-		years = 3
-	}
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	trigger = {
-		year = 1874
-		month = 10 # November. The trigger for months is on a 0-11 scale.
-		var:verrier_astronomer_var = {
-			has_variable = rapanui_scientist_var
-		}
 	}
 
 	immediate = {
-		set_rapanui_expedition_leader_effect = yes
-		set_rapanui_scientist_effect = yes
-		rapanui_pacific_expedition_location_effect = yes
-		scope:rapanui_scientist = {
-			set_variable = verrier_astronomer_observed_venus_transit_var
+		ROOT = {
+			save_scope_as = verrier_venus_transit_leader
+		}
+		if = {
+			limit = {
+				any_country = {
+					is_subject_of = ROOT
+					any_scope_state = {
+						verrier_venus_transit_1874_region = yes
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					is_subject_of = ROOT
+					any_scope_state = {
+						verrier_venus_transit_1874_region = yes
+					}
+				}
+				save_scope_as = venus_transit_subject_country
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					is_subject = no
+					has_diplomatic_relevance = ROOT
+					NOT = {
+						has_modifier = verrier_foreign_venus_expedition_modifier
+					}
+					any_scope_state = {
+						is_incorporated = yes
+						verrier_venus_transit_1874_region = yes
+					}
+					relations:root >= relations_threshold:cordial
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_relevance = ROOT
+					NOT = {
+						has_modifier = verrier_foreign_venus_expedition_modifier
+					}
+					any_scope_state = {
+						is_incorporated = yes
+						verrier_venus_transit_1874_region = yes
+					}
+					relations:root >= relations_threshold:cordial
+					is_subject = no
+					is_revolutionary = no
+					is_at_war = no
+				}
+				save_scope_as = venus_transit_foreign_country
+			}
 		}
 	}
 
 	option = {
-		name = verrier.301.g #Excellent
-		verrier_add_x_astronomical_objects_effect = {
-			AMOUNT = 5
+		name = verrier.311.g #Venus at home
+		default_option = yes
+		trigger = {
+			any_scope_state = {
+				is_incorporated = yes
+				verrier_venus_transit_1874_region = yes
+			}
 		}
-		verrier_large_add_technology = yes
 		add_modifier = {
-			name = rapanui_venus_transit_modifier
-			years = 10
+			name = verrier_venus_transit_preparation_modifier
+			multiplier = money_amount_multiplier_very_small
+			years = 2
+		}
+		add_journal_entry = {
+			type = je_verrier_venus_transit_1874
+			target = scope:verrier_venus_transit_leader
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = verrier.311.h #Venus vassal expedition
+		trigger = {
+			any_country = {
+				is_subject_of = ROOT
+				any_scope_state = {
+					verrier_venus_transit_1874_region = yes
+				}
+			}
+		}
+		add_modifier = {
+			name = verrier_venus_transit_preparation_modifier
+			multiplier = money_amount_multiplier_small
+			years = 2
+		}
+		add_journal_entry = {
+			type = je_verrier_venus_transit_1874
+			target = scope:venus_transit_subject_country
+		}
+		scope:venus_transit_subject_country = {
+			trigger_event = {
+				id = verrier.319
+			}
+		}
+
+		ai_chance = {
+			base = 20
+		}
+	}
+
+	option = {
+		name = verrier.311.i #Venus foreign expedition
+		trigger = {
+			any_country = {
+				has_diplomatic_relevance = ROOT
+				NOT = {
+					has_modifier = verrier_foreign_venus_expedition_modifier
+				}
+				any_scope_state = {
+					is_incorporated = yes
+					verrier_venus_transit_1874_region = yes
+				}
+				relations:root >= relations_threshold:cordial
+				is_subject = no
+				is_revolutionary = no
+				is_at_war = no
+			}
+		}
+		add_modifier = {
+			name = verrier_venus_transit_preparation_modifier
+			multiplier = money_amount_multiplier_medium
+			years = 2
+		}
+		add_modifier = {
+			name = verrier_venus_transit_diplomacy_modifier
+			years = 2
+		}
+		add_journal_entry = {
+			type = je_verrier_venus_transit_1874
+			target = scope:venus_transit_foreign_country
+		}
+		scope:venus_transit_foreign_country = {
+			trigger_event = {
+				id = verrier.319
+			}
+		}
+
+		ai_chance = {
+			base = 4
+		}
+	}
+
+	option = {
+		name = verrier.312.j #I changed my mind.
+		trigger = {
+			is_player = yes
 		}
 	}
 
 	after = {
+		remove_variable = verrier_venus_transit_select_var
+	}
+}
+
+#Verrier 319: Foreign Venus Transit Expedition
+verrier.319 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.319.t
+	desc = verrier.319.d
+	flavor = verrier.319.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_venus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = verrier.319.g #Welcome!
+		default_option = yes
+		add_modifier = {
+
+		}
+	}
+
+	after = {
+		remove_variable = verrier_venus_transit_select_var
 	}
 }
 
