@@ -7318,14 +7318,14 @@ verrier.200 = {
 
 ######Venus Transit######
 
-#Verrier 300: Notification for Venus Transit in 1872
-verrier.300 = {
+#Verrier 308: Notification for Venus Transit in 1872
+verrier.308 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = verrier.300.t
-	desc = verrier.300.d
+	title = verrier.308.t
+	desc = verrier.308.d
 	flavor = verrier.300.f
 
 	duration = 3
@@ -7351,22 +7351,22 @@ verrier.300 = {
 	}
 
 	option = {
-		name = verrier.300.g #We should outfit an expedition
+		name = verrier.308.g #We should outfit an expedition
 	}
 
 	after = {
 	}
 }
 
-#Verrier 301: Venus Transit 1874
-verrier.301 = {
+#Verrier 309: Notification for Venus Transit in 1880
+verrier.309 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = verrier.301.t
-	desc = verrier.301.d
-	flavor = verrier.301.f
+	title = verrier.309.t
+	desc = verrier.309.d
+	flavor = verrier.309.f
 
 	duration = 3
 
@@ -7383,27 +7383,15 @@ verrier.301 = {
 	}
 
 	trigger = {
+		is_player = yes
 	}
 
 	immediate = {
-		verrier_astronomer_var = {
-			set_variable = verrier_astronomer_observed_venus_transit_var
-		}
+		
 	}
 
 	option = {
-		name = verrier.301.g #Excellent
-		astronomer_experience_gain_effect = {
-			AMOUNT = 25
-		}
-		verrier_add_x_astronomical_objects_effect = {
-			AMOUNT = 5
-		}
-		verrier_medium_add_technology = yes
-		add_modifier = {
-			name = rapanui_venus_transit_modifier
-			years = 7
-		}
+		name = verrier.308.g #We should outfit an expedition
 	}
 
 	after = {
@@ -7509,6 +7497,9 @@ verrier.311 = {
 			type = je_verrier_venus_transit_1874
 			target = scope:verrier_venus_transit_leader
 		}
+		verrier_add_x_verrier_venus_success_effect = {
+			AMOUNT = 1
+		}
 
 		ai_chance = {
 			base = 100
@@ -7537,6 +7528,28 @@ verrier.311 = {
 		scope:venus_transit_subject_country = {
 			trigger_event = {
 				id = verrier.319
+			}
+		}
+		hidden_effect = {
+			random_list = {
+				1 = {
+					trigger_event = {
+						id = verrier.322
+						days = { 30 60 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = verrier.323
+						days = { 30 60 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = verrier.324
+						days = { 30 60 }
+					}
+				}
 			}
 		}
 
@@ -7581,6 +7594,40 @@ verrier.311 = {
 				id = verrier.319
 			}
 		}
+		hidden_effect = {
+			random_list = {
+				1 = {
+					trigger_event = {
+						id = verrier.321
+						days = { 30 60 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = verrier.322
+						days = { 30 60 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = verrier.323
+						days = { 30 60 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = verrier.324
+						days = { 30 60 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = verrier.325
+						days = { 30 60 }
+					}
+				}
+			}
+		}
 
 		ai_chance = {
 			base = 4
@@ -7588,7 +7635,255 @@ verrier.311 = {
 	}
 
 	option = {
-		name = verrier.312.j #I changed my mind.
+		name = verrier.311.j #I changed my mind.
+		trigger = {
+			is_player = yes
+		}
+	}
+
+	after = {
+		remove_variable = verrier_venus_transit_select_var
+	}
+}
+
+#Verrier 312: Venus Transit Preparation 1882
+verrier.312 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.311.t
+	desc = verrier.311.d
+	flavor = verrier.311.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_venus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		ROOT = {
+			save_scope_as = verrier_venus_transit_leader
+		}
+		if = {
+			limit = {
+				any_country = {
+					is_subject_of = ROOT
+					any_scope_state = {
+						verrier_venus_transit_1882_region = yes
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					is_subject_of = ROOT
+					any_scope_state = {
+						verrier_venus_transit_1882_region = yes
+					}
+				}
+				save_scope_as = venus_transit_subject_country
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					is_subject = no
+					has_diplomatic_relevance = ROOT
+					NOT = {
+						has_modifier = verrier_foreign_venus_expedition_modifier
+					}
+					any_scope_state = {
+						is_incorporated = yes
+						verrier_venus_transit_1882_region = yes
+					}
+					relations:root >= relations_threshold:cordial
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_relevance = ROOT
+					NOT = {
+						has_modifier = verrier_foreign_venus_expedition_modifier
+					}
+					any_scope_state = {
+						is_incorporated = yes
+						verrier_venus_transit_1882_region = yes
+					}
+					relations:root >= relations_threshold:cordial
+					is_subject = no
+					is_revolutionary = no
+					is_at_war = no
+				}
+				save_scope_as = venus_transit_foreign_country
+			}
+		}
+	}
+
+	option = {
+		name = verrier.311.g #Venus at home
+		default_option = yes
+		trigger = {
+			any_scope_state = {
+				is_incorporated = yes
+				verrier_venus_transit_1882_region = yes
+			}
+		}
+		add_modifier = {
+			name = verrier_venus_transit_preparation_modifier
+			multiplier = money_amount_multiplier_very_small
+			years = 2
+		}
+		add_journal_entry = {
+			type = je_verrier_venus_transit_1882
+			target = scope:verrier_venus_transit_leader
+		}
+		verrier_add_x_verrier_venus_success_effect = {
+			AMOUNT = 1
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = verrier.311.h #Venus vassal expedition
+		trigger = {
+			any_country = {
+				is_subject_of = ROOT
+				any_scope_state = {
+					verrier_venus_transit_1882_region = yes
+				}
+			}
+		}
+		add_modifier = {
+			name = verrier_venus_transit_preparation_modifier
+			multiplier = money_amount_multiplier_small
+			years = 2
+		}
+		add_journal_entry = {
+			type = je_verrier_venus_transit_1882
+			target = scope:venus_transit_subject_country
+		}
+		scope:venus_transit_subject_country = {
+			trigger_event = {
+				id = verrier.319
+			}
+		}
+		hidden_effect = {
+			random_list = {
+				1 = {
+					trigger_event = {
+						id = verrier.322
+						days = { 30 60 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = verrier.323
+						days = { 30 60 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = verrier.324
+						days = { 30 60 }
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 20
+		}
+	}
+
+	option = {
+		name = verrier.311.i #Venus foreign expedition
+		trigger = {
+			any_country = {
+				has_diplomatic_relevance = ROOT
+				NOT = {
+					has_modifier = verrier_foreign_venus_expedition_modifier
+				}
+				any_scope_state = {
+					is_incorporated = yes
+					verrier_venus_transit_1882_region = yes
+				}
+				relations:root >= relations_threshold:cordial
+				is_subject = no
+				is_revolutionary = no
+				is_at_war = no
+			}
+		}
+		add_modifier = {
+			name = verrier_venus_transit_preparation_modifier
+			multiplier = money_amount_multiplier_medium
+			years = 2
+		}
+		add_modifier = {
+			name = verrier_venus_transit_diplomacy_modifier
+			years = 2
+		}
+		add_journal_entry = {
+			type = je_verrier_venus_transit_1882
+			target = scope:venus_transit_foreign_country
+		}
+		scope:venus_transit_foreign_country = {
+			trigger_event = {
+				id = verrier.319
+			}
+		}
+		hidden_effect = {
+			random_list = {
+				1 = {
+					trigger_event = {
+						id = verrier.321
+						days = { 30 60 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = verrier.322
+						days = { 30 60 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = verrier.323
+						days = { 30 60 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = verrier.324
+						days = { 30 60 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = verrier.325
+						days = { 30 60 }
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 4
+		}
+	}
+
+	option = {
+		name = verrier.311.j #I changed my mind.
 		trigger = {
 			is_player = yes
 		}
@@ -7629,12 +7924,689 @@ verrier.319 = {
 		name = verrier.319.g #Welcome!
 		default_option = yes
 		add_modifier = {
-
+			name = verrier_foreign_venus_expedition_modifier
+			years = 5
 		}
 	}
 
 	after = {
 		remove_variable = verrier_venus_transit_select_var
+	}
+}
+
+#Verrier 321: Tempest over the Transit
+verrier.321 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.321.t
+	desc = verrier.321.d
+	flavor = verrier.321.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_storm.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = verrier.321.g #Carry on
+		default_option = yes
+		verrier_add_x_verrier_venus_success_effect = {
+			AMOUNT = -1
+		}
+	}
+
+	after = {
+	}
+}
+
+#Verrier 322: Unexpected Lights
+verrier.322 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.322.t
+	desc = verrier.322.d
+	flavor = verrier.322.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_cluster.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = verrier.322.g #Carry on
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 3
+		}
+	}
+
+	after = {
+	}
+}
+
+#Verrier 323: A Garden Between the Stars
+verrier.323 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.323.t
+	desc = verrier.323.d
+	flavor = verrier.323.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_indonesia_panorama.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = verrier.323.g #Carry on
+		default_option = yes
+		dubois_add_x_specimen_effect = { AMOUNT = 5000 }
+	}
+
+	after = {
+	}
+}
+
+#Verrier 324: Stone Beyond Time
+verrier.324 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.324.t
+	desc = verrier.324.d
+	flavor = verrier.324.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_minerals.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = verrier.324.g #Carry on
+		default_option = yes
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+	}
+}
+
+#Verrier 325: Barriers Beneath the Sky
+verrier.325 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.325.t
+	desc = verrier.325.d
+	flavor = verrier.325.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/oriental/lepsius_oriental_problems.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = verrier.325.g #Carry on
+		default_option = yes
+		add_treasury = -20000
+	}
+
+	after = {
+	}
+}
+
+#Verrier 340: Observatory Ready
+verrier.340 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.340.t
+	desc = verrier.340.d
+	flavor = verrier.340.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1881.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = verrier.340.g #Carry on
+		if = {
+			limit = {
+				var:verrier_astronomer_var ?= {
+					var:verrier_astronomer_experience >= 300
+				}
+			}
+			verrier_add_x_verrier_venus_success_effect = {
+				AMOUNT = 5
+			}
+		}
+		else_if = {
+			limit = {
+				var:verrier_astronomer_var ?= {
+					var:verrier_astronomer_experience < 300
+					var:verrier_astronomer_experience >= 200
+				}
+			}
+			verrier_add_x_verrier_venus_success_effect = {
+				AMOUNT = 4
+			}
+		}
+		else_if = {
+			limit = {
+				var:verrier_astronomer_var ?= {
+					var:verrier_astronomer_experience < 200
+					var:verrier_astronomer_experience >= 150
+				}
+			}
+			verrier_add_x_verrier_venus_success_effect = {
+				AMOUNT = 3
+			}
+		}
+		else_if = {
+			limit = {
+				var:verrier_astronomer_var ?= {
+					var:verrier_astronomer_experience < 150
+					var:verrier_astronomer_experience >= 100
+				}
+			}
+			verrier_add_x_verrier_venus_success_effect = {
+				AMOUNT = 2
+			}
+		}
+		else = {
+			verrier_add_x_verrier_venus_success_effect = {
+				AMOUNT = 1
+			}
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				gaudi_has_engineer = yes
+			}
+			trigger_event = {
+				id = verrier.341
+				days = { 20 40 }
+			}
+		}
+		else_if = {
+			limit = {
+				has_technology_researched = verrier_electromagnetism_tech
+			}
+			trigger_event = {
+				id = verrier.342
+				days = { 20 40 }
+			}
+		}
+	}
+}
+
+#Verrier 341: The Quiet Adjustment
+verrier.341 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.341.t
+	desc = verrier.341.d
+	flavor = verrier.341.f
+
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:verrier_astronomer_scope
+	right_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		verrier_has_astronomer = yes
+		gaudi_has_engineer = yes
+	}
+
+	immediate = {
+		var:verrier_astronomer_var ?= {
+			save_scope_as = verrier_astronomer_scope
+		}
+		var:gaudi_engineer_var ?= {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {
+		name = verrier.341.g #Carry on
+		verrier_add_x_verrier_venus_success_effect = {
+			AMOUNT = 2
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				has_technology_researched = verrier_electromagnetism_tech
+			}
+			trigger_event = {
+				id = verrier.342
+				days = { 20 40 }
+			}
+		}
+	}
+}
+
+#Verrier 342: The Equation of Clarity
+verrier.342 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.342.t
+	desc = verrier.342.d
+	flavor = verrier.342.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_fraunhofer_lines.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = verrier.342.g #Carry on
+		verrier_add_x_verrier_venus_success_effect = {
+			AMOUNT = 1
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				gaudi_has_engineer = yes
+			}
+			trigger_event = {
+				id = verrier.341
+				days = { 20 40 }
+			}
+		}
+		else_if = {
+			limit = {
+				has_technology_researched = verrier_electromagnetism_tech
+			}
+			trigger_event = {
+				id = verrier.342
+				days = { 20 40 }
+			}
+		}
+	}
+}
+
+#Verrier 351: Venus Transit 1874
+verrier.351 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.351.t
+	desc = verrier.351.d
+	flavor = verrier.351.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_venus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			set_variable = verrier_astronomer_observed_venus_transit_var
+		}
+	}
+
+	option = {
+		name = verrier.351.g #Excellent
+		astronomer_experience_gain_effect = {
+			AMOUNT = 25
+		}
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 5
+		}
+		verrier_medium_add_technology = yes
+		add_modifier = {
+			name = rapanui_venus_transit_modifier
+			multiplier = root.var:verrier_venus_transit_success_var
+			years = 7
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = verrier_venus_transit_film_global_var
+				}
+				has_technology_researched = film
+			}
+			trigger_event = {
+				id = verrier.354
+			}
+		}
+	}
+}
+
+#Verrier 352: Venus Transit 1882
+verrier.352 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.352.t
+	desc = verrier.352.d
+	flavor = verrier.352.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_venus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			set_variable = verrier_astronomer_observed_venus_transit_var
+		}
+	}
+
+	option = {
+		name = verrier.352.g #Excellent
+		astronomer_experience_gain_effect = {
+			AMOUNT = 25
+		}
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 5
+		}
+		verrier_medium_add_technology = yes
+		add_modifier = {
+			name = rapanui_venus_transit_modifier
+			multiplier = root.var:verrier_venus_transit_success_var
+			years = 7
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = verrier_venus_transit_film_global_var
+				}
+				has_technology_researched = film
+			}
+			trigger_event = {
+				id = verrier.354
+			}
+		}
+		if = {
+			limit = {
+				exists = c:USA
+				c:USA = root
+				has_variable = elgar_composer_var
+				NOT = {
+					has_variable = elgar_sousa_transit_of_venus_var
+				}
+			}
+			trigger_event = {
+				id = verrier.355
+			}
+		}
+	}
+}
+
+#Verrier 353: Clouds on the Horizon
+verrier.353 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.353.t
+	desc = verrier.353.d
+	flavor = verrier.353.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_venus_clouds.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			set_variable = verrier_astronomer_observed_venus_transit_var
+		}
+		random_list = {
+			2 = {
+				verrier_add_x_verrier_venus_success_effect = {
+					AMOUNT = -2
+				}
+			}
+			1 = {
+				verrier_add_x_verrier_venus_success_effect = {
+					AMOUNT = -3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = verrier.353.g #Carry on
+		astronomer_experience_gain_effect = {
+			AMOUNT = 10
+		}
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 2
+		}
+		verrier_small_add_technology = yes
+		add_modifier = {
+			name = rapanui_venus_transit_modifier
+			multiplier = root.var:verrier_venus_transit_success_var
+			years = 5
+		}
+	}
+}
+
+#Verrier 354: A Moving Shadow
+verrier.354 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.354.t
+	desc = verrier.354.d
+	flavor = verrier.354.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:verrier_astronomer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = verrier_venus_transit_film_global_var
+		}
+		has_technology_researched = film
+	}
+
+	immediate = {
+		set_global_variable = verrier_venus_transit_film_global_var
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	option = {
+		name = verrier.354.g #Carry on
+		verrier_medium_add_technology = yes
+	}
+}
+
+#Verrier 355: The March of Venus
+verrier.355 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.355.t
+	desc = verrier.355.d
+	flavor = verrier.355.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:elgar_composer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+		exists = c:USA
+		c:USA = root
+		has_variable = elgar_composer_var
+		NOT = {
+			has_variable = elgar_sousa_transit_of_venus_var
+		}
+	}
+
+	immediate = {
+		set_variable = elgar_sousa_transit_of_venus_var
+		var:elgar_composer_var = {
+			save_scope_as = elgar_composer_scope
+		}
+	}
+
+	option = {
+		name = verrier.355.g #Carry on
+		elgar_add_x_music_tradition_unscaled_effect = { AMOUNT = 10 }
+		composer_experience_gain_effect = { AMOUNT = 5 }
 	}
 }
 
