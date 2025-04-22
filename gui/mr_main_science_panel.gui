@@ -1,0 +1,1412 @@
+types mr_main_science_panel_types {
+
+	type mr_main_science_panel = fullscreen_block_window {
+		name = "mr_main_science_panel"
+		datacontext = "[GetMetaPlayer.GetPlayedOrObservedCountry]"
+
+		visible = "[Or(GetVariableSystem.HasValue('com_open_window', 'mr_sidebar_button_science_sgui'), GetVariableSystem.HasValue('com_alert_action', Localize('mr_science_panel_alert')))]"
+
+		blockoverride "animation_state_block" {
+			state = {
+				name = _show
+				# Close open panel before showing this one
+				on_start = "[InformationPanelBar.ClosePanel]"
+				on_start = "[MapListPanelManager.CloseCurrentPanel]"
+				on_start = "[GetVariableSystem.Set('mr_science_tab', 'mathematics')]"
+				# Fullscreen panels hide topbar
+				on_finish = "[GetVariableSystem.Set('com_fullscreen', 'com_fullscreen')]"
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/markets"
+				}
+				start_sound = {
+					soundeffect = "snapshot:/Dynamic/mute_world_80"
+				}
+				start_sound = {
+					soundeffect = "snapshot:/Dynamic/mute_vfx_war_100"
+				}
+			}
+
+			state = {
+				name = _hide
+				on_finish = "[GetVariableSystem.Clear('com_fullscreen')]"
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/markets_stop"
+				}
+			}
+		}
+
+		blockoverride "window_header_name"
+		{
+			text = ACADEMY_OF_SCIENCE_VIEW_NAME
+			default_format = "#bold"
+		}
+
+		block "back_button_fullscreen" {
+			back_button_large = {
+				position = { 11 15 }
+				parentanchor = top|left
+				onclick = "[GetVariableSystem.Clear('com_open_window')]"
+				onclick = "[GetVariableSystem.Clear('com_alert_action')]"
+				input_action = "back"
+			}
+
+			close_button_large = {
+				name = "tutorial_highlight_close_button"
+				parentanchor = top|right
+				onclick = "[GetVariableSystem.Clear('com_open_window')]"
+				onclick = "[GetVariableSystem.Clear('com_alert_action')]"
+				shortcut = "close_window"
+				position = { -55 116 }
+			}
+		}
+
+		blockoverride "close_button_position" {
+			visible = no
+		}
+
+		blockoverride "fixed_top" {
+			tab_buttons_fullscreen = {
+				# Mathematical-Technical
+				blockoverride "first_button" {
+					text = "mr_science_tab_mathematics"
+				}
+				blockoverride "first_button_tooltip" {
+					tooltip = "GUI_ACADEMY_OF_SCIENCE_OPEN_TT"
+				}
+				blockoverride "first_button_background" {
+					background = {
+						margin = { 0 -2 }
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Red
+						alpha = 0.5
+					}
+				}
+				blockoverride "first_button_click" {
+					onclick = "[GetVariableSystem.Set('mr_science_tab', 'mathematics')]"
+				}
+				blockoverride "first_button_visibility" {
+					visible = "[GetVariableSystem.HasValue('mr_science_tab', 'mathematics')]"
+				}
+				blockoverride "first_button_visibility_checked" {
+					visible = "[Not(GetVariableSystem.HasValue('mr_science_tab', 'mathematics'))]"
+				}
+				blockoverride "first_button_selected" {
+					text = "mr_science_tab_mathematics"
+				}
+				blockoverride "first_button_background_selected" {
+					background = {
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Red
+						alpha = 0.5
+					}
+				}
+
+				# Natural History
+				blockoverride "second_button" {
+					text = "mr_science_tab_natural_history"
+				}
+				blockoverride "second_button_tooltip" {
+					tooltip = "GUI_ARTS_OVERVIEW_VIEW_TT"
+				}
+				blockoverride "second_button_background" {
+					background = {
+						margin = { 0 -2 }
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Blue
+						alpha = 0.5
+					}
+				}
+				blockoverride "second_button_click" {
+					onclick = "[GetVariableSystem.Set('mr_science_tab', 'natural_history')]"
+				}
+				blockoverride "second_button_visibility" {
+					visible = "[GetVariableSystem.HasValue('mr_science_tab', 'natural_history')]"
+				}
+				blockoverride "second_button_visibility_checked" {
+					visible = "[Not(GetVariableSystem.HasValue('mr_science_tab', 'natural_history'))]"
+				}
+				blockoverride "second_button_selected" {
+					text = "mr_science_tab_natural_history"
+				}
+				blockoverride "second_button_background_selected" {
+					background = {
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Blue
+						alpha = 0.5
+					}
+				}
+
+				# Humanities-Anthropological
+				blockoverride "third_button" {
+					text = "mr_science_tab_humanities"
+				}
+				blockoverride "third_button_tooltip" {
+					tooltip = "GUI_SPORTS_OVERVIEW_VIEW_TT"
+				}
+				blockoverride "third_button_background" {
+					background = {
+						margin = { 0 -2 }
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Green
+						alpha = 0.5
+					}
+				}
+				blockoverride "third_button_click" {
+					onclick = "[GetVariableSystem.Set('mr_science_tab', 'humanities')]"
+				}
+				blockoverride "third_button_visibility" {
+					visible = "[GetVariableSystem.HasValue('mr_science_tab', 'humanities')]"
+				}
+				blockoverride "third_button_visibility_checked" {
+					visible = "[Not(GetVariableSystem.HasValue('mr_science_tab', 'humanities'))]"
+				}
+				blockoverride "third_button_selected" {
+					text = "mr_science_tab_humanities"
+				}
+				blockoverride "third_button_background_selected" {
+					background = {
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Green
+						alpha = 0.5
+					}
+				}
+			}
+		}
+
+		blockoverride "scrollarea_content" {
+			mr_science_mathematics = {
+				blockoverride "view_visibility" {
+					visible = "[GetVariableSystem.HasValue('mr_science_tab', 'mathematics')]"
+				}
+			}
+		}
+	}
+
+	type mr_science_mathematics = mr_science_view {
+		blockoverride "view_content" {
+			mr_academic_engineer = {}
+			mr_academic_chemist = {}
+		}
+	}
+
+	type mr_academic_engineer = mr_academic_full {
+		blockoverride "academic" {
+			datacontext = "[Country.MakeScope.Var('gaudi_engineer_var')]"
+		}
+		blockoverride "role_icon" {
+			texture = "gfx/interface/icons/character_role_icons/gaudi_engineer_role.dds"
+		}
+		blockoverride "role_tooltip" {
+			tooltip = "[concept_gaudi_engineer_desc]"
+		}
+		blockoverride "role_name" {
+			text = "ENGINEERING_HEADER_TEXT"
+		}
+		blockoverride "character_name" {
+			text = "[GetPlayer.GetCustom('academics_has_engineer_gui_type')]"
+		}
+		blockoverride "scientist_achievement_tooltip" {
+			tooltip = "MR_ENGINEER_ACHIEVEMENTS_TT"
+		}
+		blockoverride "experience_bar" {
+			green_progressbar_horizontal = { #Civil Engineer
+				parentanchor = bottom|left
+				position = { 15 -60 }
+				size = { 250 35 }
+				datacontext = "[GetScriptedGui('gaudi_civil_engineer_experience_bar_visibility_sgui')]"
+				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				blockoverride "values" {
+					min = 0
+					max = 300
+					value = "[GetPlayer.MakeScope.Var('gaudi_engineer_var').GetVariable('gaudi_civil_engineer_experience').GetValue]"
+					tooltip = "[GetPlayer.GetCustom('GUI_gaudi_civil_engineer_experience_type')]"
+				}
+				textbox = {
+					text = "[GetPlayer.GetCustom('GUI_gaudi_civil_engineer_experience_text_type')]"
+					position = { 0 0 }
+					parentanchor = center
+					autoresize = yes
+					using = fontsize_xl
+				}
+			}
+			green_progressbar_horizontal = { #Mechanical Engineer
+				parentanchor = bottom|left
+				position = { 15 -60 }
+				size = { 250 35 }
+				datacontext = "[GetScriptedGui('gaudi_mechanical_engineer_experience_bar_visibility_sgui')]"
+				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				blockoverride "values" {
+					min = 0
+					max = 300
+					value = "[GetPlayer.MakeScope.Var('gaudi_engineer_var').GetVariable('gaudi_mechanical_engineer_experience').GetValue]"
+					tooltip = "[GetPlayer.GetCustom('GUI_gaudi_mechanical_engineer_experience_type')]"
+				}
+				textbox = {
+					text = "[GetPlayer.GetCustom('GUI_gaudi_mechanical_engineer_experience_text_type')]"
+					position = { 0 0 }
+					parentanchor = center
+					autoresize = yes
+					using = fontsize_xl
+				}
+			}
+			green_progressbar_horizontal = { #Military Engineer
+				parentanchor = bottom|left
+				position = { 15 -60 }
+				size = { 250 35 }
+				datacontext = "[GetScriptedGui('gaudi_military_engineer_experience_bar_visibility_sgui')]"
+				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				blockoverride "values" {
+					min = 0
+					max = 300
+					value = "[GetPlayer.MakeScope.Var('gaudi_engineer_var').GetVariable('gaudi_military_engineer_experience').GetValue]"
+					tooltip = "[GetPlayer.GetCustom('GUI_gaudi_military_engineer_experience_type')]"
+				}
+				textbox = {
+					text = "[GetPlayer.GetCustom('GUI_gaudi_military_engineer_experience_text_type')]"
+					position = { 0 0 }
+					parentanchor = center
+					autoresize = yes
+					using = fontsize_xl
+				}
+			}
+			green_progressbar_horizontal = { #Electrical Engineer
+				parentanchor = bottom|left
+				position = { 15 -60 }
+				size = { 250 35 }
+				datacontext = "[GetScriptedGui('gaudi_electrical_engineer_experience_bar_visibility_sgui')]"
+				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				blockoverride "values" {
+					min = 0
+					max = 300
+					value = "[GetPlayer.MakeScope.Var('gaudi_engineer_var').GetVariable('gaudi_electrical_engineer_experience').GetValue]"
+					tooltip = "[GetPlayer.GetCustom('GUI_gaudi_electrical_engineer_experience_type')]"
+				}
+				textbox = {
+					text = "[GetPlayer.GetCustom('GUI_gaudi_electrical_engineer_experience_text_type')]"
+					position = { 0 0 }
+					parentanchor = center
+					autoresize = yes
+					using = fontsize_xl
+				}
+			}
+			green_progressbar_horizontal = { #Aeronautical Engineer
+				parentanchor = bottom|left
+				position = { 15 -60 }
+				size = { 250 35 }
+				datacontext = "[GetScriptedGui('gaudi_aeronautical_engineer_experience_bar_visibility_sgui')]"
+				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				blockoverride "values" {
+					min = 0
+					max = 300
+					value = "[GetPlayer.MakeScope.Var('gaudi_engineer_var').GetVariable('gaudi_aeronautical_engineer_experience').GetValue]"
+					tooltip = "[GetPlayer.GetCustom('GUI_gaudi_aeronautical_engineer_experience_type')]"
+				}
+				textbox = {
+					text = "[GetPlayer.GetCustom('GUI_gaudi_aeronautical_engineer_experience_text_type')]"
+					position = { 0 0 }
+					parentanchor = center
+					autoresize = yes
+					using = fontsize_xl
+				}
+			}
+		}
+		blockoverride "academic_data_header_text" {
+			text = mr_science_engineer_data_header
+		}
+		blockoverride "academic_data_content" {
+			mr_academic_data_text = {
+				# Geomagnetic Research Data
+				text = "GEOMAGNETIC_RESEARCH_VAR"
+			}
+			mr_academic_data_text = {
+				# Splendid Architecture Points
+				text = "SPLENDID_ARCHITECTURE_VAR"
+			}
+		}
+		blockoverride "visit_button" {
+			text = "VISIT_SCIENTIFIC_SOCIETY_BUTTON"
+			datacontext = "[GetScriptedGui('mr_visit_scientific_society')]"
+			onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+			enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+			tooltip = "VISIT_SCIENTIFIC_SOCIETY_BUTTON_TT"
+		}
+		blockoverride "big_box_background" {
+		}
+		blockoverride "big_box_content" {
+			vbox = {
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+
+				tab_buttons = {
+					margin_bottom = -4
+					blockoverride "first_button" {
+						text = "gaudi_civil_engineer"
+					}
+					blockoverride "first_button_tooltip" {
+						tooltip = "concept_gaudi_civil_engineer_desc"
+					}
+					blockoverride "first_button_click" {
+						onclick = "[GetVariableSystem.Set('mr_science_engineer_tab', 'civil')]"
+					}
+					blockoverride "first_button_visibility" {
+						visible = "[Or(GetVariableSystem.HasValue('mr_science_engineer_tab', 'civil'), Not(GetVariableSystem.Exists('mr_science_engineer_tab')))]"
+					}
+					blockoverride "first_button_visibility_checked" {
+						visible = "[And(Not(GetVariableSystem.HasValue('mr_science_engineer_tab', 'civil')), GetVariableSystem.Exists('mr_science_engineer_tab'))]"
+					}
+					blockoverride "first_button_selected" {
+						text = "gaudi_civil_engineer"
+					}
+					blockoverride "first_button_icon" {
+					}
+
+					blockoverride "second_button" {
+						text = "gaudi_mechanical_engineer"
+					}
+					blockoverride "second_button_tooltip" {
+						tooltip = "concept_gaudi_mechanical_engineer_desc"
+					}
+					blockoverride "second_button_click" {
+						onclick = "[GetVariableSystem.Set('mr_science_engineer_tab', 'mechanical')]"
+					}
+					blockoverride "second_button_visibility" {
+						visible = "[GetVariableSystem.HasValue('mr_science_engineer_tab', 'mechanical')]"
+					}
+					blockoverride "second_button_visibility_checked" {
+						visible = "[Not(GetVariableSystem.HasValue('mr_science_engineer_tab', 'mechanical'))]"
+					}
+					blockoverride "second_button_selected" {
+						text = "gaudi_mechanical_engineer"
+					}
+
+					blockoverride "third_button" {
+						text = "gaudi_military_engineer"
+					}
+					blockoverride "third_button_tooltip" {
+						tooltip = "concept_gaudi_military_engineer_desc"
+					}
+					blockoverride "third_button_click" {
+						onclick = "[GetVariableSystem.Set('mr_science_engineer_tab', 'military')]"
+					}
+					blockoverride "third_button_visibility" {
+						visible = "[GetVariableSystem.HasValue('mr_science_engineer_tab', 'military')]"
+					}
+					blockoverride "third_button_visibility_checked" {
+						visible = "[Not(GetVariableSystem.HasValue('mr_science_engineer_tab', 'military'))]"
+					}
+					blockoverride "third_button_selected" {
+						text = "gaudi_military_engineer"
+					}
+
+					blockoverride "fourth_button" {
+						text = "gaudi_electrical_engineer"
+					}
+					blockoverride "fourth_button_tooltip" {
+						tooltip = "concept_gaudi_electrical_engineer_desc"
+					}
+					blockoverride "fourth_button_click" {
+						onclick = "[GetVariableSystem.Set('mr_science_engineer_tab', 'electrical')]"
+					}
+					blockoverride "fourth_button_visibility" {
+						visible = "[GetVariableSystem.HasValue('mr_science_engineer_tab', 'electrical')]"
+					}
+					blockoverride "fourth_button_visibility_checked" {
+						visible = "[Not(GetVariableSystem.HasValue('mr_science_engineer_tab', 'electrical'))]"
+					}
+					blockoverride "fourth_button_selected" {
+						text = "gaudi_electrical_engineer"
+					}
+
+					blockoverride "fifth_button" {
+						text = "gaudi_aeronautical_engineer"
+					}
+					blockoverride "fifth_button_tooltip" {
+						tooltip = "concept_gaudi_aeronautical_engineer_desc"
+					}
+					blockoverride "fifth_button_click" {
+						onclick = "[GetVariableSystem.Set('mr_science_engineer_tab', 'aeronautical')]"
+					}
+					blockoverride "fifth_button_visibility" {
+						visible = "[GetVariableSystem.HasValue('mr_science_engineer_tab', 'aeronautical')]"
+					}
+					blockoverride "fifth_button_visibility_checked" {
+						visible = "[Not(GetVariableSystem.HasValue('mr_science_engineer_tab', 'aeronautical'))]"
+					}
+					blockoverride "fifth_button_selected" {
+						text = "gaudi_aeronautical_engineer"
+					}
+				}
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+					background = {
+						using = simple_frame
+					}
+
+					mr_academic_engineer_tab = {
+						blockoverride "tab_visibility" {
+							# Default Tab
+							visible = "[Or(GetVariableSystem.HasValue('mr_science_engineer_tab', 'civil'), Not(GetVariableSystem.Exists('mr_science_engineer_tab')))]"
+						}
+						blockoverride "tab_buttons" {
+							# Civil Engineer Research
+							mr_academic_project_button = {
+								text = MR_CIVIL_ENGINEER_RESEARCH_BUTTON
+								datacontext = "[GetScriptedGui('mr_civil_engineer_research_button')]"
+								tooltip = "MR_CIVIL_ENGINEER_RESEARCH_BUTTON_TT"
+							}
+
+							# Civil Engineer Infrastructure Project
+							mr_academic_project_button = {
+								text = MR_CIVIL_ENGINEER_INFRASTRUCTURE_BUTTON
+								datacontext = "[GetScriptedGui('mr_civil_engineer_infrastructure_button')]"
+								tooltip = "MR_CIVIL_ENGINEER_INFRASTRUCTURE_BUTTON_TT"
+							}
+
+							# Civil Engineer Railway Project
+							mr_academic_project_button = {
+								text = mr_civil_engineer_railway_button
+								datacontext = "[GetScriptedGui('mr_civil_engineer_railway_button')]"
+								tooltip = "MR_CIVIL_ENGINEER_RAILWAY_BUTTON_TT"
+							}
+
+							# Civil Engineer Irrigation Project
+							mr_academic_project_button = {
+								text = mr_civil_engineer_irrigation_button
+								datacontext = "[GetScriptedGui('mr_civil_engineer_irrigation_button')]"
+								tooltip = "MR_CIVIL_ENGINEER_IRRIGATION_BUTTON_TT"
+							}
+
+							# Civil Engineer Construction Project
+							mr_academic_project_button = {
+								text = MR_CIVIL_ENGINEER_CONSTRUCTION_BUTTON
+								datacontext = "[GetScriptedGui('mr_civil_engineer_construction_button')]"
+								tooltip = "MR_CIVIL_ENGINEER_CONSTRUCTION_BUTTON_TT"
+							}
+
+							# Civil Engineer Topographic Map Project
+							mr_academic_project_button = {
+								text = MR_CIVIL_ENGINEER_TOPOGRAPHIC_MAP_BUTTON
+								datacontext = "[GetScriptedGui('mr_civil_engineer_topographic_map_button')]"
+								tooltip = "MR_CIVIL_ENGINEER_TOPOGRAPHIC_MAP_BUTTON_TT"
+							}
+						}
+						blockoverride "tab_button_context" {
+							datacontext = "[GetScriptedGui('mr_civil_engineer_research_button')]"
+						}
+						blockoverride "tab_desc" {
+							text = MR_CHANGE_TO_CIVIL_EGINEER_BUTTON_TT
+						}
+						blockoverride "tab_button_specialize" {
+							datacontext = "[GetScriptedGui('mr_civil_engineer_research_button')]"
+							text = mr_civil_engineer_button
+							tooltip = "MR_CHANGE_TO_CIVIL_EGINEER_BUTTON_TT"
+						}
+					}
+
+					mr_academic_engineer_tab = {
+						blockoverride "tab_visibility" {
+							visible = "[GetVariableSystem.HasValue('mr_science_engineer_tab', 'mechanical')]"
+						}
+						blockoverride "tab_buttons" {
+							# Mechanical Engineer Research
+							mr_academic_project_button = {
+								text = MR_MECHANICAL_ENGINEER_RESEARCH_BUTTON
+								datacontext = "[GetScriptedGui('mr_mechanical_engineer_research_button')]"
+								tooltip = "MR_MECHANICAL_ENGINEER_RESEARCH_BUTTON_TT"
+							}
+
+							# Mechanical Engineer New Locomotives Project
+							mr_academic_project_button = {
+								text = MR_MECHANICAL_ENGINEER_LOCOMOTIVES_BUTTON
+								datacontext = "[GetScriptedGui('mr_mechanical_engineer_locomotives_button')]"
+								tooltip = "MR_MECHANICAL_ENGINEER_LOCOMOTIVES_BUTTON_TT"
+							}
+
+							# Mechanical Engineer Industries Project
+							mr_academic_project_button = {
+								text = MR_MECHANICAL_ENGINEER_INDUSTRIES_BUTTON
+								datacontext = "[GetScriptedGui('mr_mechanical_engineer_industries_button')]"
+								tooltip = "MR_MECHANICAL_ENGINEER_INDUSTRIES_BUTTON_TT"
+							}
+
+							# Mechanical Engineer Mechanical Computer Project
+							mr_academic_project_button = {
+								text = MR_MECHANICAL_ENGINEER_MECHANICAL_COMPUTER_BUTTON
+								datacontext = "[GetScriptedGui('mr_mechanical_engineer_mechanical_computer_button')]"
+								tooltip = "MR_MECHANICAL_ENGINEER_MECHANICAL_COMPUTER_BUTTON_TT"
+							}
+						}
+						blockoverride "tab_button_context" {
+							datacontext = "[GetScriptedGui('gaudi_change_to_mechanical_engineer_button')]"
+						}
+						blockoverride "tab_desc" {
+							text = MR_CHANGE_TO_MECHANICAL_EGINEER_BUTTON_TT
+						}
+						blockoverride "tab_button_specialize" {
+							text = mr_mechanical_engineer_button
+							tooltip = "MR_CHANGE_TO_MECHANICAL_EGINEER_BUTTON_TT"
+						}
+					}
+
+					mr_academic_engineer_tab = {
+						blockoverride "tab_visibility" {
+							visible = "[GetVariableSystem.HasValue('mr_science_engineer_tab', 'military')]"
+						}
+						blockoverride "tab_buttons" {
+							# Military Engineer Military Research Project
+							mr_academic_project_button = {
+								text = MR_MILITARY_ENGINEER_RESEARCH_BUTTON
+								datacontext = "[GetScriptedGui('mr_military_engineer_research_button')]"
+								tooltip = "MR_MILITARY_ENGINEER_RESEARCH_BUTTON_TT"
+							}
+
+							# Military Engineer Naval Research Project
+							mr_academic_project_button = {
+								text = MR_MILITARY_ENGINEER_NAVAL_RESEARCH_BUTTON
+								datacontext = "[GetScriptedGui('mr_military_engineer_naval_research_button')]"
+								tooltip = "MR_MILITARY_ENGINEER_NAVAL_RESEARCH_BUTTON_TT"
+							}
+
+							# Military Engineer Advanced Defences Project
+							mr_academic_project_button = {
+								text = MR_MILITARY_ENGINEER_ADVANCED_DEFENCE_BUTTON
+								datacontext = "[GetScriptedGui('mr_military_engineer_advanced_defence_button')]"
+								tooltip = "MR_MILITARY_ENGINEER_ADVANCED_DEFENCE_BUTTON_TT"
+							}
+
+							# Military Engineer Advanced Weapons Project
+							mr_academic_project_button = {
+								text = MR_MILITARY_ENGINEER_ADVANCED_WEAPONS_BUTTON
+								datacontext = "[GetScriptedGui('mr_military_engineer_advanced_weapons_button')]"
+								tooltip = "MR_MILITARY_ENGINEER_ADVANCED_DEFENCE_BUTTON_TT"
+							}
+
+							# Military Engineer Advanced Tanks Project
+							mr_academic_project_button = {
+								text = MR_MILITARY_ENGINEER_ADVANCED_TANKS_BUTTON
+								datacontext = "[GetScriptedGui('mr_military_engineer_advanced_tanks_button')]"
+								tooltip = "MR_MILITARY_ENGINEER_ADVANCED_TANKS_BUTTON_TT"
+							}
+						}
+						blockoverride "tab_button_context" {
+							datacontext = "[GetScriptedGui('gaudi_change_to_military_engineer_button')]"
+						}
+						blockoverride "tab_desc" {
+							text = MR_CHANGE_TO_MILITARY_EGINEER_BUTTON_TT
+						}
+						blockoverride "tab_button_specialize" {
+							text = mr_military_engineer_button
+							tooltip = "MR_CHANGE_TO_MILITARY_EGINEER_BUTTON_TT"
+						}
+					}
+
+					mr_academic_engineer_tab = {
+						blockoverride "tab_visibility" {
+							visible = "[GetVariableSystem.HasValue('mr_science_engineer_tab', 'electrical')]"
+						}
+						blockoverride "tab_buttons" {
+							# Electrical Engineer Research Project
+							mr_academic_project_button = {
+								datacontext = "[GetScriptedGui('mr_electrical_engineer_research_button')]"
+								text = MR_ELECTRICAL_ENGINEER_RESEARCH_BUTTON
+								tooltip = "MR_ELECTRICAL_ENGINEER_RESEARCH_BUTTON_TT"
+							}
+							# Electrical Engineer Magnetic Research Project
+							mr_academic_project_button = {
+								datacontext = "[GetScriptedGui('mr_electrical_engineer_magnetic_research_station_button')]"
+								text = MR_ELECTRICAL_ENGINEER_MAGNETIC_RESEARCH_STATION_BUTTON
+								tooltip = "MR_ELECTRICAL_ENGINEER_MAGNETIC_RESEARCH_STATION_BUTTON_TT"
+							}
+							# Electrical Engineer Telegraph Project
+							mr_academic_project_button = {
+								datacontext = "[GetScriptedGui('mr_electrical_engineer_telegraph_button')]"
+								text = MR_ELECTRICAL_ENGINEER_TELEGRAPH_BUTTON
+								tooltip = "MR_ELECTRICAL_ENGINEER_TELEGRAPH_BUTTON_TT"
+							}
+							# Electrical Engineer Radio Project
+							mr_academic_project_button = {
+								datacontext = "[GetScriptedGui('mr_electrical_engineer_radio_button')]"
+								text = MR_ELECTRICAL_ENGINEER_RADIO_BUTTON
+								tooltip = "MR_ELECTRICAL_ENGINEER_RADIO_BUTTON_TT"
+							}
+							# Electrical Engineer Radio Project
+							mr_academic_project_button = {
+								datacontext = "[GetScriptedGui('mr_electrical_engineer_radio_button')]"
+								text = MR_ELECTRICAL_ENGINEER_RADIO_BUTTON
+								tooltip = "MR_ELECTRICAL_ENGINEER_RADIO_BUTTON_TT"
+							}
+							# Electrical Engineer Magnetic Ressource 1
+							mr_academic_project_button = {
+								datacontext = "[GetScriptedGui('mr_electrical_engineer_magnetic_ressource_1_button')]"
+								text = MR_ELECTRICAL_ENGINEER_MAGNETIC_RESSOURCE_1_BUTTON
+								tooltip = "MR_ELECTRICAL_ENGINEER_MAGNETIC_RESSOURCE_1_BUTTON_TT"
+							}
+							# Electrical Engineer Magnetic Ressource 2
+							mr_academic_project_button = {
+								datacontext = "[GetScriptedGui('mr_electrical_engineer_magnetic_ressource_2_button')]"
+								text = MR_ELECTRICAL_ENGINEER_MAGNETIC_RESSOURCE_2_BUTTON
+								tooltip = "MR_ELECTRICAL_ENGINEER_MAGNETIC_RESSOURCE_2_BUTTON_TT"
+							}
+							# Electrical Engineer Magnetic Ressource 3
+							mr_academic_project_button = {
+								datacontext = "[GetScriptedGui('mr_electrical_engineer_magnetic_ressource_3_button')]"
+								text = MR_ELECTRICAL_ENGINEER_MAGNETIC_RESSOURCE_3_BUTTON
+								tooltip = "MR_ELECTRICAL_ENGINEER_MAGNETIC_RESSOURCE_3_BUTTON_TT"
+							}
+						}
+						blockoverride "tab_desc" {
+							text = MR_CHANGE_TO_ELECTRICAL_EGINEER_BUTTON_TT
+						}
+						blockoverride "tab_button_context" {
+							datacontext = "[GetScriptedGui('gaudi_change_to_electrical_engineer_button')]"
+						}
+						blockoverride "tab_button_specialize" {
+							text = mr_electrical_engineer_button
+							tooltip = "MR_CHANGE_TO_ELECTRICAL_EGINEER_BUTTON_TT"
+						}
+					}
+
+					mr_academic_engineer_tab = {
+						blockoverride "tab_visibility" {
+							visible = "[GetVariableSystem.HasValue('mr_science_engineer_tab', 'aeronautical')]"
+						}
+						blockoverride "tab_buttons" {
+							# Aeronautical Engineer Research Project
+							mr_academic_project_button = {
+								text = MR_AERONAUTICAL_ENGINEER_RESEARCH_BUTTON
+								datacontext = "[GetScriptedGui('mr_aeronautical_engineer_research_button')]"
+								tooltip = "MR_AERONAUTICAL_ENGINEER_RESEARCH_BUTTON_TT"
+							}
+							# Aeronautical Engineer Airport Project
+							mr_academic_project_button = {
+								text = MR_AERONAUTICAL_ENGINEER_AIRPORT_BUTTON
+								datacontext = "[GetScriptedGui('mr_aeronautical_engineer_airport_button')]"
+								tooltip = "MR_AERONAUTICAL_ENGINEER_AIRPORT_BUTTON_TT"
+							}
+							# Aeronautical Engineer Advanced Aircraft Project
+							mr_academic_project_button = {
+								text = MR_AERONAUTICAL_ENGINEER_ADVANCED_AIRCRAFTS_BUTTON
+								datacontext = "[GetScriptedGui('mr_aeronautical_engineer_advanced_aicrafts_button')]"
+								tooltip = "MR_AERONAUTICAL_ENGINEER_ADVANCED_AIRCRAFTS_BUTTON_TT"
+							}
+							# Aeronautical Engineer Speed Airplane Project
+							mr_academic_project_button = {
+								text = MR_AERONAUTICAL_ENGINEER_SPEED_AIRPLANE_BUTTON
+								datacontext = "[GetScriptedGui('mr_aeronautical_engineer_speed_airplane_button')]"
+								tooltip = "MR_AERONAUTICAL_ENGINEER_SPEED_AIRPLANE_BUTTON_TT"
+							}
+							# Aeronautical Engineer Giant Airplane Project
+							mr_academic_project_button = {
+								text = MR_AERONAUTICAL_ENGINEER_GIANT_AIRPLANE_BUTTON
+								datacontext = "[GetScriptedGui('mr_aeronautical_engineer_giant_airplane_button')]"
+								tooltip = "MR_AERONAUTICAL_ENGINEER_GIANT_AIRPLANE_BUTTON_TT"
+							}
+							# Aeronautical Engineer Giant Zeppelin Project
+							mr_academic_project_button = {
+								text = MR_AERONAUTICAL_ENGINEER_GIANT_ZEPPELIN_BUTTON
+								datacontext = "[GetScriptedGui('mr_aeronautical_engineer_giant_zeppelin_button')]"
+								tooltip = "MR_AERONAUTICAL_ENGINEER_GIANT_ZEPPELIN_BUTTON_TT"
+							}
+						}
+						blockoverride "tab_desc" {
+							text = MR_CHANGE_TO_AERONAUTICAL_EGINEER_BUTTON_TT
+						}
+						blockoverride "tab_button_context" {
+							datacontext = "[GetScriptedGui('gaudi_change_to_aeronautical_engineer_button')]"
+						}
+						blockoverride "tab_button_specialize" {
+							text = mr_aeronautical_engineer_button
+							tooltip = "MR_CHANGE_TO_AERONAUTICAL_EGINEER_BUTTON_TT"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	type mr_academic_chemist = mr_academic_full {
+		blockoverride "academic" {
+			datacontext = "[Country.MakeScope.Var('mendelejew_chemist_var')]"
+		}
+		blockoverride "role_icon" {
+			texture = "gfx/interface/icons/character_role_icons/mendelejew_chemist_role.dds"
+		}
+		blockoverride "role_tooltip" {
+			tooltip = "[concept_mendelejew_chemist_desc]"
+		}
+		blockoverride "role_name" {
+			text = "CHEMISTRY_HEADER_TEXT"
+		}
+		blockoverride "character_name" {
+			text = "[GetPlayer.GetCustom('academics_has_chemist_gui_type')]"
+		}
+		blockoverride "scientist_achievement_tooltip" {
+			tooltip = "MR_CHEMIST_ACHIEVEMENTS_TT"
+		}
+		blockoverride "values" {
+			min = 0
+			max = 300
+			value = "[Scope.Var('mendelejew_chemist_experience').GetValue]"
+		}
+		blockoverride "experience_tooltip" {
+			tooltip = "[GetPlayer.GetCustom('GUI_mendelejew_chemist_experience_type')]"
+		}
+		blockoverride "experience_bar_text" {
+			text = "[GetPlayer.GetCustom('GUI_mendelejew_chemist_experience_text_type')]"
+		}
+		blockoverride "academic_ranking_visible" {
+			visible = yes
+		}
+		blockoverride "academic_ranking" {
+			MR_TooltipRankingType = {
+				blockoverride "ranking_on_finish" {
+					on_finish = "[GetScriptedGui('mr_chemistry_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
+					on_finish = "[GetVariableSystem.Set('mr_chemistry_ranking', 'chemical_score')]"
+				}
+				blockoverride "buttons_visible" {
+					visible = yes
+				}
+				blockoverride "button_1_content" {
+					enabled = "[Not( GetVariableSystem.HasValue('mr_chemistry_ranking', 'chemical_score') )]"
+					text = "MR_CHEMICAL_SCORE"
+					tooltip = "MR_RANKING_BY_CHEMICAL_SCORE"
+
+					onclick = "[GetVariableSystem.Set('mr_chemistry_ranking', 'chemical_score')]"
+				}
+				blockoverride "button_2_content" {
+					enabled = "[Not( GetVariableSystem.HasValue('mr_chemistry_ranking', 'theorized_elements') )]"
+					text = "MR_THEORIZED_ELEMENTS"
+					tooltip = "MR_RANKING_BY_THEORIZED_ELEMENTS"
+
+					onclick = "[GetVariableSystem.Set('mr_chemistry_ranking', 'theorized_elements')]"
+				}
+				blockoverride "button_3_content" {
+					enabled = "[Not( GetVariableSystem.HasValue('mr_chemistry_ranking', 'discovered_elements') )]"
+					text = "MR_DISCOVERED_ELEMENTS"
+					tooltip = "MR_RANKING_BY_DISCOVERED_ELEMENTS"
+
+					onclick = "[GetVariableSystem.Set('mr_chemistry_ranking', 'discovered_elements')]"
+				}
+				blockoverride "button_4_content" {
+					enabled = "[Not( GetVariableSystem.HasValue('mr_chemistry_ranking', 'isolated_elements') )]"
+					text = "MR_ISOLATED_ELEMENTS"
+					tooltip = "MR_RANKING_BY_ISOLATED_ELEMENTS"
+
+					onclick = "[GetVariableSystem.Set('mr_chemistry_ranking', 'isolated_elements')]"
+				}
+				blockoverride "text_1" {
+					raw_text = "CHEMIST_RANKING_HEADER"
+				}
+				blockoverride "ranking_1_visible" {
+					visible = "[GetVariableSystem.HasValue('mr_chemistry_ranking', 'chemical_score')]"
+				}
+				blockoverride "ranking_1_datamodel" {
+					datamodel = "[GetGlobalList('mr_chemical_ranking_global_list')]"
+				}
+				blockoverride "ranking_variable_used_1" {
+					raw_text = "[Country.MakeScope.GetVariable('mendelejew_chemical_score_country_var').GetValue|V0]"
+				}
+				blockoverride "text_2" {
+					raw_text = "ASTRONOMY_THEORIZED_ELEMENTS_RANKING_HEADER"
+				}
+				blockoverride "ranking_2_visible" {
+					visible = "[GetVariableSystem.HasValue('mr_chemistry_ranking', 'theorized_elements')]"
+				}
+				blockoverride "ranking_2_datamodel" {
+					datamodel = "[GetGlobalList('mr_theorized_element_ranking_global_list')]"
+				}
+				blockoverride "ranking_variable_used_2" {
+					raw_text = "[Country.MakeScope.GetVariable('mendelejew_theorized_elements_country_number_var').GetValue|V0]"
+				}
+				blockoverride "text_3" {
+					raw_text = "ASTRONOMY_DISCOVERED_ELEMENTS_RANKING_HEADER"
+				}
+				blockoverride "ranking_3_visible" {
+					visible = "[GetVariableSystem.HasValue('mr_chemistry_ranking', 'discovered_elements')]"
+				}
+				blockoverride "ranking_3_datamodel" {
+					datamodel = "[GetGlobalList('mr_discovered_element_ranking_global_list')]"
+				}
+				blockoverride "ranking_variable_used_3" {
+					raw_text = "[Country.MakeScope.GetVariable('mendelejew_discovered_elements_country_number_var').GetValue|V0]"
+				}
+				blockoverride "text_4" {
+					raw_text = "ASTRONOMY_ISOLATED_ELEMENTS_RANKING_HEADER"
+				}
+				blockoverride "ranking_4_visible" {
+					visible = "[GetVariableSystem.HasValue('mr_chemistry_ranking', 'isolated_elements')]"
+				}
+				blockoverride "ranking_4_datamodel" {
+					datamodel = "[GetGlobalList('mr_isolated_element_ranking_global_list')]"
+				}
+				blockoverride "ranking_variable_used_4" {
+					raw_text = "[Country.MakeScope.GetVariable('mendelejew_isolated_elements_country_number_var').GetValue|V0]"
+				}
+			}
+		}
+		blockoverride "academic_data_header_text" {
+			text = mr_science_chemist_data_header
+		}
+		blockoverride "academic_data_content" {
+			mr_academic_data_text = {
+				#Theorized Elements of Total theorized Elements
+				text = "TOTAL_THEORIZED_ELEMENTS_VAR"
+				tooltip = "TOTAL_THEORIZED_ELEMENTS_VAR_TT"
+			}
+			mr_academic_data_text = {
+				#Discovered Elements of Total discovered Elements
+				text = "TOTAL_DISCOVERED_ELEMENTS_VAR"
+				tooltip = "TOTAL_DISCOVERED_ELEMENTS_VAR_TT"
+			}
+			mr_academic_data_text = {
+				#Isolated Elements of Total isolated Elements
+				text = "TOTAL_ISOLATED_ELEMENTS_VAR"
+				tooltip = "TOTAL_ISOLATED_ELEMENTS_VAR_TT"
+			}
+		}
+		blockoverride "visit_button" {
+			text = "[GetPlayer.GetCustom('mendelejew_periodic_table_name_choser_type')]"
+			onclick = "[GetVariableSystem.Set( 'mr_window_tab', 'academy_periodic_table' )]"
+			tooltip = "VISIT_PERIODIC_TABLE_BUTTON_TT"
+		}
+		blockoverride "big_box_background" {
+		}
+		blockoverride "big_box_content" {
+			vbox = {
+				margin_left = -20
+				margin_right = 10
+				layoutpolicy_vertical = expanding
+
+				tab_buttons = {
+					maximumsize = { 270 0 }
+					margin_bottom = -4
+					blockoverride "first_button" {
+						text = mr_science_chemist_tab_research
+					}
+					blockoverride "first_button_tooltip" {
+						tooltip = "concept_gaudi_civil_engineer_desc"
+					}
+					blockoverride "first_button_click" {
+						onclick = "[GetVariableSystem.Set('mr_science_chemist_tab', 'research')]"
+					}
+					blockoverride "first_button_visibility" {
+						visible = "[Or(GetVariableSystem.HasValue('mr_science_chemist_tab', 'research'), Not(GetVariableSystem.Exists('mr_science_chemist_tab')))]"
+					}
+					blockoverride "first_button_visibility_checked" {
+						visible = "[And(Not(GetVariableSystem.HasValue('mr_science_chemist_tab', 'research')), GetVariableSystem.Exists('mr_science_chemist_tab'))]"
+					}
+					blockoverride "first_button_selected" {
+						text = mr_science_chemist_tab_research
+					}
+					blockoverride "first_button_icon" {
+					}
+
+					blockoverride "second_button" {
+						text = mr_science_chemist_tab_synthetics
+					}
+					blockoverride "second_button_tooltip" {
+						tooltip = "concept_gaudi_mechanical_engineer_desc"
+					}
+					blockoverride "second_button_click" {
+						onclick = "[GetVariableSystem.Set('mr_science_chemist_tab', 'synthetics')]"
+					}
+					blockoverride "second_button_visibility" {
+						visible = "[GetVariableSystem.HasValue('mr_science_chemist_tab', 'synthetics')]"
+					}
+					blockoverride "second_button_visibility_checked" {
+						visible = "[Not(GetVariableSystem.HasValue('mr_science_chemist_tab', 'synthetics'))]"
+					}
+					blockoverride "second_button_selected" {
+						text = mr_science_chemist_tab_synthetics
+					}
+				}
+				hbox = {
+					layoutpolicy_vertical = expanding
+					margin = { 20 20 }
+					background = {
+						using = simple_frame
+					}
+					vbox = {
+						visible = "[Or(GetVariableSystem.HasValue('mr_science_chemist_tab', 'research'), Not(GetVariableSystem.Exists('mr_science_chemist_tab')))]"
+						layoutpolicy_vertical = expanding
+						spacing = 7
+						minimumsize = { 270 0 }
+
+						# Theorize Element
+						mr_academic_project_button = {
+							text = "mr_science_chemist_theory_button_text"
+							datacontext = "[GetScriptedGui('mr_chemist_theory_button')]"
+							tooltip = "MR_CHEMIST_THEORY_BUTTON"
+						}
+
+						# Discover Element
+						mr_academic_project_button = {
+							text = "mr_science_chemist_discover_button_text"
+							datacontext = "[GetScriptedGui('mr_chemist_discovery_button')]"
+							tooltip = "MR_CHEMIST_DISCOVERY_BUTTON"
+						}
+
+						# Isolate Element
+						mr_academic_project_button = {
+							text = "mr_science_chemist_isolation_button_text"
+							datacontext = "[GetScriptedGui('mr_chemist_isolation_button')]"
+							tooltip = "MR_CHEMIST_ISOLATION_BUTTON"
+						}
+
+						expand = {}
+					}
+					vbox = {
+						visible = "[GetVariableSystem.HasValue('mr_science_chemist_tab', 'synthetics')]"
+						layoutpolicy_vertical = expanding
+						spacing = 7
+						minimumsize = { 270 0 }
+
+						# Improve Synthetics
+						mr_academic_project_button = {
+							text = "mr_science_chemist_synthetics_button_text"
+							datacontext = "[GetScriptedGui('mr_chemist_synthetics_button')]"
+							tooltip = "MR_CHEMIST_SYNTHETICS_BUTTON"
+						}
+
+						# Improve Fertilizer
+						mr_academic_project_button = {
+							text = "mr_science_chemist_fertilizers_button_text"
+							datacontext = "[GetScriptedGui('mr_chemist_fertilizer_button')]"
+							tooltip = "MR_CHEMIST_FERTILIZER_BUTTON"
+						}
+
+						# Improve Explosives
+						mr_academic_project_button = {
+							text = "mr_science_chemist_explosives_button_text"
+							datacontext = "[GetScriptedGui('mr_chemist_explosives_button')]"
+							tooltip = "MR_CHEMIST_EXPLOSIVES_BUTTON"
+						}
+
+						# Synthetic Oil
+						mr_academic_project_button = {
+							text = "MR_CHEMIST_SYNTHETIC_OIL_BUTTON"
+							datacontext = "[GetScriptedGui('mr_chemist_synthetic_oil_button')]"
+							tooltip = "MR_CHEMIST_SYNTHETIC_OIL_BUTTON_TT"
+						}
+
+						# Synthetic Rubber
+						mr_academic_project_button = {
+							text = "MR_CHEMIST_SYNTHETIC_RUBBER_BUTTON"
+							datacontext = "[GetScriptedGui('mr_chemist_synthetic_rubber_button')]"
+							tooltip = "MR_CHEMIST_SYNTHETIC_RUBBER_BUTTON_TT"
+						}
+
+						expand = {}
+					}
+				}
+
+				hbox = {
+					margin_top = 20
+					margin_left = 20
+					mr_academic_project_button = {
+						blockoverride "size" {
+							size = { 310 50 }
+						}
+						text = "mr_science_general_stop_project"
+						datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
+						tooltip = "MR_STOP_ENGINEERING_PROJECT_BUTTON_TT" #TODO
+					}
+				}
+			}
+
+			hbox = {
+				background = {
+					using = entry_bg_simple
+				}
+				layoutpolicy_vertical = expanding
+				layoutpolicy_horizontal = expanding
+
+				vbox = {
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+
+					textbox = {
+						datacontext = "[GetScriptedGui('mr_chemist_congress_button')]"
+						maximumsize = { 800 -1 }
+						margin = { 20 20 }
+						autoresize = yes
+						multiline = yes
+						text = "mr_science_chemist_congress_desc"
+					}
+
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+
+						button = {
+							using = default_button_primary_big_action
+							size = { 300 50 }
+							text = "MR_CHEMIST_CONGRESS_BUTTON"
+							tooltip = "MR_CHEMIST_CONGRESS_BUTTON_TT"
+							datacontext = "[GetScriptedGui('mr_chemist_congress_button')]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	type mr_academic_engineer_tab = hbox {
+		block "tab_visibility" {
+			visible = no
+		}
+		layoutpolicy_horizontal = expanding
+		layoutpolicy_vertical = expanding
+		margin = { 20 20 }
+
+		vbox = {
+			layoutpolicy_vertical = expanding
+			spacing = 7
+			minimumsize = { 270 0 }
+
+			# Stop engineering project
+			mr_academic_project_button = {
+				text = "mr_science_general_stop_project"
+				datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]"
+				tooltip = "MR_STOP_ENGINEERING_PROJECT_BUTTON_TT"
+			}
+
+			block "tab_buttons" {
+			}
+
+			expand = {}
+		}
+
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			background = {
+				using = entry_bg_simple
+			}
+
+			vbox = {
+				block "tab_button_context" {}
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+
+				textbox = {
+					maximumsize = { 800 -1 }
+					margin = { 20 20 }
+					autoresize = yes
+					multiline = yes
+					block "tab_desc" {
+						raw_text = "tab_desc"
+						default_format = "#r"
+					}
+				}
+
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+
+					button = {
+						using = default_button_primary_big_action
+						size = { 300 50 }
+						block "tab_button_specialize" {
+							raw_text = "tab_button_specialize"
+							default_format = "#r"
+						}
+						onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+				}
+			}
+		}
+
+	}
+
+	type mr_science_view = vbox {
+		size = { 100% 100% }
+		spacing = 20
+		margin = { 20 10 }
+
+		block "view_visibility" {
+			visible = no
+		}
+
+		block "view_content" {
+
+		}
+	}
+
+	type mr_academic_full = hbox {
+		size = { 100% 410 }
+		spacing = 20
+		margin = { 20 20 }
+		layoutpolicy_horizontal = expanding
+		block "academic" {
+			#datacontext = "[Country.Var('gaudi_engineer_var')]"
+		}
+
+		background = {
+			using = entry_bg
+		}
+
+		widget = {
+			size = { 300 450 }
+
+			mr_academic_character = {}
+
+			default_header_clean_faded = {
+				position = { 14 306 }
+				size = { 250 40 }
+				blockoverride "text" {}
+				textbox = {
+					block "character_name" {
+						text = "ARCHAEOLOGY_HEADER_TEXT"
+					}
+					parentanchor = center
+					position = { 5 -2 }
+					autoresize = yes
+					max_width = 190
+					elide = right
+					using = fontsize_large
+				}
+			}
+
+			widget = {
+				parentanchor = left
+				size = { 65 65 }
+				position = { 10 10 }
+				icon = {
+					size = { 100% 100% }
+					block "role_icon" {
+						# texture = ""
+					}
+					block "role_tooltip" {}
+				}
+			}
+
+			textbox = {
+				block "role_name" {
+					text = "ARCHAEOLOGY_HEADER_TEXT"
+				}
+				position = { 82 23 }
+				parentanchor = left
+				autoresize = yes
+				max_width = 196
+				elide = right
+				block "fontsize_role" {
+					using = fontsize_mega
+				}
+			}
+
+			block "experience_bar" {
+				visible = yes
+				green_progressbar_horizontal = {
+					parentanchor = bottom|left
+					position = { 15 -60 }
+					size = { 250 35 }
+					block "experience_bar_visibility" {
+						visible = yes
+					}
+					blockoverride "values" {
+						block "values"
+						{
+							min = 0
+							max = 300
+							value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('dubois_academy_progress').GetValue)]"
+						}
+						block "experience_tooltip" {}
+					}
+					textbox = {
+						block "experience_bar_text" {
+							text = "MR_EXPERIENCE"
+						}
+						position = { 0 0 }
+						parentanchor = center
+						autoresize = yes
+						using = fontsize_xl
+					}
+				}
+			}
+
+
+			widget = { #Displays the Traits of the character
+				size = { 250 40 }
+				parentanchor = bottom|left
+				position = { 15 -10 }
+
+				overlappingitembox = {
+					minimumsize = { 250 42 }
+					maximumsize = { 250 42 }
+
+					block "character_traits"
+					{
+						datamodel = "[Scope.GetCharacter.AccessTraits]"
+					}
+
+					item = {
+						icon = {
+							size = { 30 42 }
+							texture = "[CharacterTrait.GetTexture]"
+							using = tooltip_above
+
+							tooltipwidget = {
+								FancyTooltip_CharacterTrait = {}
+							}
+						}
+					}
+				}
+			}
+
+			widget = { #This Icon displays the achievements of the Scientist
+				#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+				#used in the mr_GUI_l_english.yml file to display the correct Achievements.
+				size = { 35 35 }
+				parentanchor = bottom|left
+				position = { 10 -107 }
+				block "achievements_icon_visibility" {
+					visible = yes
+				}
+
+				icon = {
+					size = { 100% 100% }
+					texture = "gfx/interface/backgrounds/round_button_bg.dds"
+					block "enabled" {}
+				}
+				icon = {
+					size = { 100% 100% }
+					texture = "gfx/interface/icons/GUI_icons/GUI_scientist_achievements_button.dds"
+					block "enabled" {}
+					block "scientist_achievement_tooltip" {}
+				}
+			}
+		}
+
+		widget = {
+			size = { 290 450 }
+
+			#Center Box
+			widget = {
+				size = { 290 380 }
+				background = {
+					using = simple_frame
+				}
+
+				widget = {
+					#This Icon allows an overview of the 10 Nations with the highest Element Ranking
+					#GUI_on_actions.txt sets the values up with two scripted_effects from GUI_scripted_effects.txt
+					#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+					#used in the mr_GUI_l_english.yml file to display the global variables.
+					block "academic_ranking_visible" {
+						visible = no
+					}
+					size = { 30 30 }
+					parentanchor = top|right
+					position = { 5 -5 }
+
+					icon = {
+						size = { 100% 100% }
+						texture = "gfx/interface/backgrounds/round_button_bg.dds"
+						block "enabled" {}
+					}
+					icon = {
+						size = { 100% 100% }
+						texture = "gfx/interface/buttons/button_icons/list.dds"
+						block "enabled" {}
+						tooltipwidget = {
+							block "academic_ranking" {}
+						}
+					}
+				}
+
+				flowcontainer = {
+					direction = vertical
+					ignoreinvisible = yes
+					spacing = 8
+					margin = { 2 0 }
+
+					default_header_clean_faded = {
+						blockoverride "size" {
+							size = { 286 40 }
+						}
+						blockoverride "text" {
+							block "academic_data_header_text" {
+								raw_text = "academic_data_header_text"
+								default_format = "#r"
+							}
+						}
+					}
+
+					flowcontainer = {
+						margin = { 23 8 }
+						spacing = 8
+						direction = vertical
+						block "academic_data_content" {}
+					}
+				}
+			}
+
+			button = {
+				parentanchor = bottom
+				using = default_button_primary_big_action
+				size = { 290 50 }
+				block "visit_button" {
+					raw_text = "visit_button"
+					default_format = "#r"
+				}
+				using = fontsize_large
+			}
+		}
+
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			block "big_box_background" {
+				background = {
+					using = simple_frame
+				}
+			}
+			block "big_box_content" {
+			}
+		}
+	}
+
+	type mr_academic_character = widget {
+		size = { 250 300 }
+
+		# Character Portrait
+		mr_character_portrait_base = {
+			position = { 30 45 }
+			block "character_visible" {
+				visible = "[Scope.IsSet]"
+			}
+		}
+		mr_no_character = {
+			position = { 30 65 }
+			block "no_character_visible" {
+				visible = "[Not(Scope.IsSet)]"
+			}
+		}
+	}
+
+	type mr_academic_project_button = button {
+		using = default_button_primary_big_action
+		block "size" {
+			size = { 250 45 }
+		}
+		onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+	}
+
+	type mr_academic_data_text = textbox {
+		parentanchor = top|left
+		maximumsize = { 255 310 }
+		autoresize = yes
+		multiline = yes
+		using = fontsize_xl
+	}
+
+}
