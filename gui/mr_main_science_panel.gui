@@ -186,6 +186,7 @@ types mr_main_science_panel_types {
 		blockoverride "view_content" {
 			mr_academic_engineer = {}
 			mr_academic_chemist = {}
+			mr_academic_astronomer = {}
 		}
 	}
 
@@ -745,8 +746,6 @@ types mr_main_science_panel_types {
 			tooltip = "MR_CHEMIST_ACHIEVEMENTS_TT"
 		}
 		blockoverride "values" {
-			min = 0
-			max = 300
 			value = "[Scope.Var('mendelejew_chemist_experience').GetValue]"
 		}
 		blockoverride "experience_tooltip" {
@@ -759,89 +758,91 @@ types mr_main_science_panel_types {
 			visible = yes
 		}
 		blockoverride "academic_ranking" {
-			MR_TooltipRankingType = {
-				blockoverride "ranking_on_finish" {
-					on_finish = "[GetScriptedGui('mr_chemistry_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
-					on_finish = "[GetVariableSystem.Set('mr_chemistry_ranking', 'chemical_score')]"
-				}
-				blockoverride "buttons_visible" {
-					visible = yes
-				}
-				blockoverride "button_1_content" {
-					enabled = "[Not( GetVariableSystem.HasValue('mr_chemistry_ranking', 'chemical_score') )]"
-					text = "MR_CHEMICAL_SCORE"
-					tooltip = "MR_RANKING_BY_CHEMICAL_SCORE"
+			tooltipwidget = {
+				MR_TooltipRankingType = {
+					blockoverride "ranking_on_finish" {
+						on_finish = "[GetScriptedGui('mr_chemistry_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
+						on_finish = "[GetVariableSystem.Set('mr_chemistry_ranking', 'chemical_score')]"
+					}
+					blockoverride "buttons_visible" {
+						visible = yes
+					}
+					blockoverride "button_1_content" {
+						enabled = "[Not( GetVariableSystem.HasValue('mr_chemistry_ranking', 'chemical_score') )]"
+						text = "MR_CHEMICAL_SCORE"
+						tooltip = "MR_RANKING_BY_CHEMICAL_SCORE"
 
-					onclick = "[GetVariableSystem.Set('mr_chemistry_ranking', 'chemical_score')]"
-				}
-				blockoverride "button_2_content" {
-					enabled = "[Not( GetVariableSystem.HasValue('mr_chemistry_ranking', 'theorized_elements') )]"
-					text = "MR_THEORIZED_ELEMENTS"
-					tooltip = "MR_RANKING_BY_THEORIZED_ELEMENTS"
+						onclick = "[GetVariableSystem.Set('mr_chemistry_ranking', 'chemical_score')]"
+					}
+					blockoverride "button_2_content" {
+						enabled = "[Not( GetVariableSystem.HasValue('mr_chemistry_ranking', 'theorized_elements') )]"
+						text = "MR_THEORIZED_ELEMENTS"
+						tooltip = "MR_RANKING_BY_THEORIZED_ELEMENTS"
 
-					onclick = "[GetVariableSystem.Set('mr_chemistry_ranking', 'theorized_elements')]"
-				}
-				blockoverride "button_3_content" {
-					enabled = "[Not( GetVariableSystem.HasValue('mr_chemistry_ranking', 'discovered_elements') )]"
-					text = "MR_DISCOVERED_ELEMENTS"
-					tooltip = "MR_RANKING_BY_DISCOVERED_ELEMENTS"
+						onclick = "[GetVariableSystem.Set('mr_chemistry_ranking', 'theorized_elements')]"
+					}
+					blockoverride "button_3_content" {
+						enabled = "[Not( GetVariableSystem.HasValue('mr_chemistry_ranking', 'discovered_elements') )]"
+						text = "MR_DISCOVERED_ELEMENTS"
+						tooltip = "MR_RANKING_BY_DISCOVERED_ELEMENTS"
 
-					onclick = "[GetVariableSystem.Set('mr_chemistry_ranking', 'discovered_elements')]"
-				}
-				blockoverride "button_4_content" {
-					enabled = "[Not( GetVariableSystem.HasValue('mr_chemistry_ranking', 'isolated_elements') )]"
-					text = "MR_ISOLATED_ELEMENTS"
-					tooltip = "MR_RANKING_BY_ISOLATED_ELEMENTS"
+						onclick = "[GetVariableSystem.Set('mr_chemistry_ranking', 'discovered_elements')]"
+					}
+					blockoverride "button_4_content" {
+						enabled = "[Not( GetVariableSystem.HasValue('mr_chemistry_ranking', 'isolated_elements') )]"
+						text = "MR_ISOLATED_ELEMENTS"
+						tooltip = "MR_RANKING_BY_ISOLATED_ELEMENTS"
 
-					onclick = "[GetVariableSystem.Set('mr_chemistry_ranking', 'isolated_elements')]"
-				}
-				blockoverride "text_1" {
-					raw_text = "CHEMIST_RANKING_HEADER"
-				}
-				blockoverride "ranking_1_visible" {
-					visible = "[GetVariableSystem.HasValue('mr_chemistry_ranking', 'chemical_score')]"
-				}
-				blockoverride "ranking_1_datamodel" {
-					datamodel = "[GetGlobalList('mr_chemical_ranking_global_list')]"
-				}
-				blockoverride "ranking_variable_used_1" {
-					raw_text = "[Country.MakeScope.GetVariable('mendelejew_chemical_score_country_var').GetValue|V0]"
-				}
-				blockoverride "text_2" {
-					raw_text = "ASTRONOMY_THEORIZED_ELEMENTS_RANKING_HEADER"
-				}
-				blockoverride "ranking_2_visible" {
-					visible = "[GetVariableSystem.HasValue('mr_chemistry_ranking', 'theorized_elements')]"
-				}
-				blockoverride "ranking_2_datamodel" {
-					datamodel = "[GetGlobalList('mr_theorized_element_ranking_global_list')]"
-				}
-				blockoverride "ranking_variable_used_2" {
-					raw_text = "[Country.MakeScope.GetVariable('mendelejew_theorized_elements_country_number_var').GetValue|V0]"
-				}
-				blockoverride "text_3" {
-					raw_text = "ASTRONOMY_DISCOVERED_ELEMENTS_RANKING_HEADER"
-				}
-				blockoverride "ranking_3_visible" {
-					visible = "[GetVariableSystem.HasValue('mr_chemistry_ranking', 'discovered_elements')]"
-				}
-				blockoverride "ranking_3_datamodel" {
-					datamodel = "[GetGlobalList('mr_discovered_element_ranking_global_list')]"
-				}
-				blockoverride "ranking_variable_used_3" {
-					raw_text = "[Country.MakeScope.GetVariable('mendelejew_discovered_elements_country_number_var').GetValue|V0]"
-				}
-				blockoverride "text_4" {
-					raw_text = "ASTRONOMY_ISOLATED_ELEMENTS_RANKING_HEADER"
-				}
-				blockoverride "ranking_4_visible" {
-					visible = "[GetVariableSystem.HasValue('mr_chemistry_ranking', 'isolated_elements')]"
-				}
-				blockoverride "ranking_4_datamodel" {
-					datamodel = "[GetGlobalList('mr_isolated_element_ranking_global_list')]"
-				}
-				blockoverride "ranking_variable_used_4" {
-					raw_text = "[Country.MakeScope.GetVariable('mendelejew_isolated_elements_country_number_var').GetValue|V0]"
+						onclick = "[GetVariableSystem.Set('mr_chemistry_ranking', 'isolated_elements')]"
+					}
+					blockoverride "text_1" {
+						raw_text = "CHEMIST_RANKING_HEADER"
+					}
+					blockoverride "ranking_1_visible" {
+						visible = "[GetVariableSystem.HasValue('mr_chemistry_ranking', 'chemical_score')]"
+					}
+					blockoverride "ranking_1_datamodel" {
+						datamodel = "[GetGlobalList('mr_chemical_ranking_global_list')]"
+					}
+					blockoverride "ranking_variable_used_1" {
+						raw_text = "[Country.MakeScope.GetVariable('mendelejew_chemical_score_country_var').GetValue|V0]"
+					}
+					blockoverride "text_2" {
+						raw_text = "ASTRONOMY_THEORIZED_ELEMENTS_RANKING_HEADER"
+					}
+					blockoverride "ranking_2_visible" {
+						visible = "[GetVariableSystem.HasValue('mr_chemistry_ranking', 'theorized_elements')]"
+					}
+					blockoverride "ranking_2_datamodel" {
+						datamodel = "[GetGlobalList('mr_theorized_element_ranking_global_list')]"
+					}
+					blockoverride "ranking_variable_used_2" {
+						raw_text = "[Country.MakeScope.GetVariable('mendelejew_theorized_elements_country_number_var').GetValue|V0]"
+					}
+					blockoverride "text_3" {
+						raw_text = "ASTRONOMY_DISCOVERED_ELEMENTS_RANKING_HEADER"
+					}
+					blockoverride "ranking_3_visible" {
+						visible = "[GetVariableSystem.HasValue('mr_chemistry_ranking', 'discovered_elements')]"
+					}
+					blockoverride "ranking_3_datamodel" {
+						datamodel = "[GetGlobalList('mr_discovered_element_ranking_global_list')]"
+					}
+					blockoverride "ranking_variable_used_3" {
+						raw_text = "[Country.MakeScope.GetVariable('mendelejew_discovered_elements_country_number_var').GetValue|V0]"
+					}
+					blockoverride "text_4" {
+						raw_text = "ASTRONOMY_ISOLATED_ELEMENTS_RANKING_HEADER"
+					}
+					blockoverride "ranking_4_visible" {
+						visible = "[GetVariableSystem.HasValue('mr_chemistry_ranking', 'isolated_elements')]"
+					}
+					blockoverride "ranking_4_datamodel" {
+						datamodel = "[GetGlobalList('mr_isolated_element_ranking_global_list')]"
+					}
+					blockoverride "ranking_variable_used_4" {
+						raw_text = "[Country.MakeScope.GetVariable('mendelejew_isolated_elements_country_number_var').GetValue|V0]"
+					}
 				}
 			}
 		}
@@ -1027,7 +1028,6 @@ types mr_main_science_panel_types {
 					layoutpolicy_vertical = expanding
 
 					textbox = {
-						datacontext = "[GetScriptedGui('mr_chemist_congress_button')]"
 						maximumsize = { 800 -1 }
 						margin = { 20 20 }
 						autoresize = yes
@@ -1039,15 +1039,275 @@ types mr_main_science_panel_types {
 						layoutpolicy_horizontal = expanding
 						layoutpolicy_vertical = expanding
 
-						button = {
-							using = default_button_primary_big_action
-							size = { 300 50 }
+						#Chemist Congress
+						mr_academic_project_button = {
+							blockoverride "size" {
+								size = { 300 50 }
+							}
 							text = "MR_CHEMIST_CONGRESS_BUTTON"
-							tooltip = "MR_CHEMIST_CONGRESS_BUTTON_TT"
 							datacontext = "[GetScriptedGui('mr_chemist_congress_button')]"
-							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-							enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-							visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							tooltip = "MR_CHEMIST_CONGRESS_BUTTON_TT"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	type mr_academic_astronomer = mr_academic_full {
+		blockoverride "academic" {
+			datacontext = "[Country.MakeScope.Var('verrier_astronomer_var')]"
+		}
+		blockoverride "role_icon" {
+			texture = "gfx/interface/icons/character_role_icons/verrier_astronomer_role.dds"
+		}
+		blockoverride "role_tooltip" {
+			tooltip = "[concept_verrier_astronomer_desc]"
+		}
+		blockoverride "role_name" {
+			text = "ASTRONOMY_HEADER_TEXT"
+		}
+		blockoverride "character_name" {
+			text = "[GetPlayer.GetCustom('academics_has_astronomer_gui_type')]"
+		}
+		blockoverride "scientist_achievement_tooltip" {
+			tooltip = "MR_ASTRONOMER_ACHIEVEMENTS_TT"
+		}
+		blockoverride "values" {
+			value = "[GetPlayer.MakeScope.Var('verrier_astronomer_var').GetVariable('verrier_astronomer_experience').GetValue]"
+		}
+		blockoverride "experience_tooltip" {
+			tooltip = "[GetPlayer.GetCustom('GUI_verrier_astronomer_experience_type')]"
+		}
+		blockoverride "experience_bar_text" {
+			text = "[GetPlayer.GetCustom('GUI_verrier_astronomer_experience_text_type')]"
+		}
+		blockoverride "academic_ranking_visible" {
+			visible = yes
+		}
+		blockoverride "academic_ranking" {
+			tooltipwidget = {
+				MR_TooltipRankingType = {
+					blockoverride "ranking_on_finish" {
+						on_finish = "[GetScriptedGui('mr_astronomy_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
+						on_finish = "[GetVariableSystem.Set('mr_astronomer_ranking', 'astronomical_prestige')]"
+					}
+					blockoverride "buttons_visible" {
+						visible = yes
+					}
+					blockoverride "button_1_content" {
+						enabled = "[Not( GetVariableSystem.HasValue('mr_astronomer_ranking', 'astronomical_prestige') )]"
+						text = "MR_ASTRONOMICAL_PRESTIGE"
+						tooltip = "MR_RANKING_BY_ASTRONOMICAL_PRESTIGE"
+
+						onclick = "[GetVariableSystem.Set('mr_astronomer_ranking', 'astronomical_prestige')]"
+					}
+					blockoverride "button_2_content" {
+						enabled = "[Not( GetVariableSystem.HasValue('mr_astronomer_ranking', 'planets') )]"
+						text = "MR_PLANETS"
+						tooltip = "MR_RANKING_BY_PLANETS"
+
+						onclick = "[GetVariableSystem.Set('mr_astronomer_ranking', 'planets')]"
+					}
+					blockoverride "button_3_content" {
+						enabled = "[Not( GetVariableSystem.HasValue('mr_astronomer_ranking', 'moons') )]"
+						text = "MR_MOONS"
+						tooltip = "MR_RANKING_BY_MOONS"
+
+						onclick = "[GetVariableSystem.Set('mr_astronomer_ranking', 'moons')]"
+					}
+					blockoverride "button_4_content" {
+						enabled = "[Not( GetVariableSystem.HasValue('mr_astronomer_ranking', 'astronomical_objects') )]"
+						text = "MR_ASTRONOMICAL_OBJECTS"
+						tooltip = "MR_RANKING_BY_ASTRONOMICAL_OBJECTS"
+
+						onclick = "[GetVariableSystem.Set('mr_astronomer_ranking', 'astronomical_objects')]"
+					}
+					blockoverride "text_1" {
+						raw_text = "ASTRONOMY_ASTRONOMICAL_PRESTIGE_RANKING_HEADER"
+					}
+					blockoverride "ranking_1_visible" {
+						visible = "[GetVariableSystem.HasValue('mr_astronomer_ranking', 'astronomical_prestige')]"
+					}
+					blockoverride "ranking_1_datamodel" {
+						datamodel = "[GetGlobalList('mr_astronomical_prestige_ranking_global_list')]"
+					}
+					blockoverride "ranking_variable_used_1" {
+						raw_text = "[Country.MakeScope.GetVariable('verrier_astronomical_prestige_var').GetValue|V0]"
+					}
+					blockoverride "text_2" {
+						raw_text = "ASTRONOMY_PLANETS_RANKING_HEADER"
+					}
+					blockoverride "ranking_2_visible" {
+						visible = "[GetVariableSystem.HasValue('mr_astronomer_ranking', 'planets')]"
+					}
+					blockoverride "ranking_2_datamodel" {
+						datamodel = "[GetGlobalList('mr_planets_ranking_global_list')]"
+					}
+					blockoverride "ranking_variable_used_2" {
+						raw_text = "[Country.MakeScope.GetVariable('verrier_num_discovered_planets_var').GetValue|V0]"
+					}
+					blockoverride "text_3" {
+						raw_text = "ASTRONOMY_MOONS_RANKING_HEADER"
+					}
+					blockoverride "ranking_3_visible" {
+						visible = "[GetVariableSystem.HasValue('mr_astronomer_ranking', 'moons')]"
+					}
+					blockoverride "ranking_3_datamodel" {
+						datamodel = "[GetGlobalList('mr_moons_ranking_global_list')]"
+					}
+					blockoverride "ranking_variable_used_3" {
+						raw_text = "[Country.MakeScope.GetVariable('verrier_num_discovered_moons_var').GetValue|V0]"
+					}
+					blockoverride "text_4" {
+						raw_text = "ASTRONOMY_RANKING_HEADER"
+					}
+					blockoverride "ranking_4_visible" {
+						visible = "[GetVariableSystem.HasValue('mr_astronomer_ranking', 'astronomical_objects')]"
+					}
+					blockoverride "ranking_4_datamodel" {
+						datamodel = "[GetGlobalList('mr_astronomical_objects_ranking_global_list')]"
+					}
+					blockoverride "ranking_variable_used_4" {
+						raw_text = "[Country.MakeScope.GetVariable('verrier_astronomical_objects').GetValue|V0]"
+					}
+				}
+			}
+		}
+		blockoverride "academic_data_header_text" {
+			text = mr_science_astronomer_data_header
+		}
+		blockoverride "academic_data_content" {
+			mr_academic_data_text = {
+				#Total Number of Planets
+				text = "NUMBER_PLANETS_VAR"
+				tooltip = "NUMBER_PLANETS_VAR_TT"
+			}
+			mr_academic_data_text = {
+				#Total Number of Moons
+				text = "NUMBER_MOONS_VAR"
+				tooltip = "NUMBER_MOONS_VAR_TT"
+			}
+			mr_academic_data_text = {
+				#Great Comets
+				text = "COMETS_VAR"
+				tooltip = "COMETS_VAR_TT"
+			}
+			mr_academic_data_text = {
+				#Total Number of Meteorites
+				text = "NUMBER_METEORITES_VAR"
+				tooltip = "NUMBER_METEORITES_VAR_TT"
+			}
+			flowcontainer = {
+				direction = horizontal
+				maximumsize = { 255 310 }
+				spacing = 8
+
+				mr_academic_data_text = {
+					#Astronomical Objects of Total Astronomical Objects
+					text = "TOTAL_ASTRONOMICAL_OBJECTS_VAR"
+					tooltip = "TOTAL_ASTRONOMICAL_OBJECTS_VAR_TT"
+				}
+				mr_academic_data_text = {
+					#yearly estimated number of Astronomical Object
+					text = "MR_YEARLY_ASTRONOMICAL_OBJECTS"
+					tooltip = "MR_YEARLY_ASTRONOMICAL_OBJECTS_TT"
+				}
+				expand = {}
+			}
+			mr_academic_data_text = {
+				#Lunar Fotos
+				text = "MOON_PHOTO_VAR"
+				tooltip = "MOON_PHOTO_VAR_TT"
+			}
+		}
+		blockoverride "visit_button" {
+			text = "VISIT_OBSERVATORY_BUTTON"
+			onclick = "[GetVariableSystem.Set( 'mr_window_tab', 'academy_planetarium' )]"
+			tooltip = "VISIT_OBSERVATORY_BUTTON_TT"
+		}
+		blockoverride "big_box_content" {
+			margin = { 25 25 }
+			vbox = {
+				layoutpolicy_vertical = expanding
+				spacing = 7
+				margin_right = 10
+				minimumsize = { 270 0 }
+
+				mr_academic_project_button = {
+					text = "mr_science_general_stop_project"
+					datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
+					tooltip = "MR_STOP_ENGINEERING_PROJECT_BUTTON_TT" #TODO
+				}
+
+				# Search for Satellites
+				mr_academic_project_button = {
+					text = "mr_science_astronomer_discover_satellites_button"
+					datacontext = "[GetScriptedGui('mr_astronomer_discover_satellites_button')]"
+					tooltip = "MR_ASTRONOMER_DISCOVER_SATELLITES_BUTTON_TT"
+				}
+
+				# Moon Photos
+				mr_academic_project_button = {
+					text = "mr_science_astronomer_moon_map_button"
+					datacontext = "[GetScriptedGui('mr_astronomer_moon_map_button')]"
+					tooltip = "MR_ASTRONOMER_MOON_MAP_BUTTON_TT"
+				}
+
+				expand = {}
+			}
+
+			hbox = {
+				background = {
+					using = entry_bg_simple
+				}
+				layoutpolicy_vertical = expanding
+				layoutpolicy_horizontal = expanding
+
+				vbox = {
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+
+					textbox = {
+						maximumsize = { 800 -1 }
+						margin = { 20 20 }
+						autoresize = yes
+						multiline = yes
+						text = "mr_science_astronomer_congress_desc"
+					}
+
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+
+						#Congress on Asteroids
+						mr_academic_project_button = {
+							blockoverride "size" {
+								size = { 300 50 }
+							}
+							text = "MR_ASTEROID_CONGRESS_BUTTON"
+							datacontext = "[GetScriptedGui('mr_asteroid_congress_button')]"
+							tooltip = "MR_ASTEROID_CONGRESS_BUTTON_TT"
+						}
+
+						#Carte de Ciel
+						mr_academic_project_button = {
+							blockoverride "size" {
+								size = { 300 50 }
+							}
+							text = "MR_CARTE_DE_CIEL_CONGRESS_BUTTON"
+							datacontext = "[GetScriptedGui('mr_carte_congress_button')]"
+							tooltip = "MR_CARTE_DE_CIEL_CONGRESS_BUTTON_TT"
+						}
+
+						#Great Debate
+						mr_academic_project_button = {
+							blockoverride "size" {
+								size = { 300 50 }
+							}
+							text = "MR_GREAT_DEBATE_CONGRESS_BUTTON"
+							datacontext = "[GetScriptedGui('mr_great_debate_congress_button')]"
+							tooltip = "MR_GREAT_DEBATE_CONGRESS_BUTTON_TT"
 						}
 					}
 				}
@@ -1211,10 +1471,9 @@ types mr_main_science_panel_types {
 						visible = yes
 					}
 					blockoverride "values" {
-						block "values"
-						{
-							min = 0
-							max = 300
+						min = 0
+						max = 300
+						block "values" {
 							value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('dubois_academy_progress').GetValue)]"
 						}
 						block "experience_tooltip" {}
@@ -1295,10 +1554,6 @@ types mr_main_science_panel_types {
 				}
 
 				widget = {
-					#This Icon allows an overview of the 10 Nations with the highest Element Ranking
-					#GUI_on_actions.txt sets the values up with two scripted_effects from GUI_scripted_effects.txt
-					#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
-					#used in the mr_GUI_l_english.yml file to display the global variables.
 					block "academic_ranking_visible" {
 						visible = no
 					}
@@ -1315,9 +1570,7 @@ types mr_main_science_panel_types {
 						size = { 100% 100% }
 						texture = "gfx/interface/buttons/button_icons/list.dds"
 						block "enabled" {}
-						tooltipwidget = {
-							block "academic_ranking" {}
-						}
+						block "academic_ranking" {}
 					}
 				}
 
