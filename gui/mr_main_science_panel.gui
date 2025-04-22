@@ -85,10 +85,10 @@ types mr_main_science_panel_types {
 					onclick = "[GetVariableSystem.Set('mr_science_tab', 'mathematics')]"
 				}
 				blockoverride "first_button_visibility" {
-					visible = "[GetVariableSystem.HasValue('mr_science_tab', 'mathematics')]"
+					visible = "[Or(GetVariableSystem.HasValue('mr_science_tab', 'mathematics'), Not(GetVariableSystem.Exists('mr_science_tab')))]"
 				}
 				blockoverride "first_button_visibility_checked" {
-					visible = "[Not(GetVariableSystem.HasValue('mr_science_tab', 'mathematics'))]"
+					visible = "[And(Not(GetVariableSystem.HasValue('mr_science_tab', 'mathematics')), GetVariableSystem.Exists('mr_science_tab'))]"
 				}
 				blockoverride "first_button_selected" {
 					text = "mr_science_tab_mathematics"
@@ -174,19 +174,16 @@ types mr_main_science_panel_types {
 		}
 
 		blockoverride "scrollarea_content" {
-			mr_science_mathematics = {
+			mr_science_view = {
 				blockoverride "view_visibility" {
-					visible = "[GetVariableSystem.HasValue('mr_science_tab', 'mathematics')]"
+					visible = "[Or(GetVariableSystem.HasValue('mr_science_tab', 'mathematics'), Not(GetVariableSystem.Exists('mr_science_tab')))]"
+				}
+				blockoverride "view_content" {
+					mr_academic_engineer = {}
+					mr_academic_chemist = {}
+					mr_academic_astronomer = {}
 				}
 			}
-		}
-	}
-
-	type mr_science_mathematics = mr_science_view {
-		blockoverride "view_content" {
-			mr_academic_engineer = {}
-			mr_academic_chemist = {}
-			mr_academic_astronomer = {}
 		}
 	}
 
@@ -201,7 +198,7 @@ types mr_main_science_panel_types {
 			tooltip = "[concept_gaudi_engineer_desc]"
 		}
 		blockoverride "role_name" {
-			text = "ENGINEERING_HEADER_TEXT"
+			raw_text = "[Country.GetCustom('gaudi_engineer_role_name')]"
 		}
 		blockoverride "character_name" {
 			text = "[GetPlayer.GetCustom('academics_has_engineer_gui_type')]"
@@ -1368,9 +1365,10 @@ types mr_main_science_panel_types {
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
 
-					button = {
-						using = default_button_primary_big_action
-						size = { 300 50 }
+					mr_academic_project_button = {
+						blockoverride "size" {
+							size = { 300 50 }
+						}
 						block "tab_button_specialize" {
 							raw_text = "tab_button_specialize"
 							default_format = "#r"
@@ -1388,7 +1386,7 @@ types mr_main_science_panel_types {
 	type mr_science_view = vbox {
 		size = { 100% 100% }
 		spacing = 20
-		margin = { 20 10 }
+		margin = { 20 20 }
 
 		block "view_visibility" {
 			visible = no
@@ -1436,8 +1434,8 @@ types mr_main_science_panel_types {
 
 			widget = {
 				parentanchor = left
-				size = { 65 65 }
-				position = { 10 10 }
+				size = { 55 55 }
+				position = { -30 -30 }
 				icon = {
 					size = { 100% 100% }
 					block "role_icon" {
@@ -1449,12 +1447,15 @@ types mr_main_science_panel_types {
 
 			textbox = {
 				block "role_name" {
-					text = "ARCHAEOLOGY_HEADER_TEXT"
+					raw_text = "role_name"
+					default_format = "#r"
 				}
-				position = { 82 23 }
+				position = { -10 23 }
 				parentanchor = left
 				autoresize = yes
-				max_width = 196
+				maximumsize = { 300 -1 }
+				minimumsize = { 300 -1 }
+				align = center
 				elide = right
 				block "fontsize_role" {
 					using = fontsize_mega
