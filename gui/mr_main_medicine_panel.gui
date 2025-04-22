@@ -1,0 +1,1978 @@
+types mr_main_science_panel_types {
+
+	type mr_main_medicine_panel = fullscreen_block_window {
+		name = "mr_main_medicine_panel"
+		datacontext = "[GetMetaPlayer.GetPlayedOrObservedCountry]"
+
+		visible = "[GetVariableSystem.HasValue('com_open_window', 'mr_academic_medicine')]"
+
+		blockoverride "animation_state_block" {
+			state = {
+				name = _show
+				# Close open panel before showing this one
+				on_start = "[InformationPanelBar.ClosePanel]"
+				on_start = "[MapListPanelManager.CloseCurrentPanel]"
+				# Fullscreen panels hide topbar
+				on_finish = "[GetVariableSystem.Set('com_fullscreen', 'com_fullscreen')]"
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/markets"
+				}
+				start_sound = {
+					soundeffect = "snapshot:/Dynamic/mute_world_80"
+				}
+				start_sound = {
+					soundeffect = "snapshot:/Dynamic/mute_vfx_war_100"
+				}
+			}
+
+			state = {
+				name = _hide
+				on_start = "[GetVariableSystem.Clear('com_fullscreen')]"
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/markets_stop"
+				}
+			}
+		}
+
+		blockoverride "window_header_name" {
+			text = MEDICINE_HEADER
+			default_format = "#bold"
+		}
+
+		block "back_button_fullscreen" {
+			back_button_large = {
+				position = { 11 15 }
+				parentanchor = top|left
+				onclick = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_science_sgui')]"
+				onclick = "[GetVariableSystem.Set('mr_science_tab', 'humanities')]"
+				tooltip = "MR_RETURN_ACADEMY_OF_SCIENCE_TT"
+				input_action = "back"
+			}
+
+			close_button_large = {
+				name = "tutorial_highlight_close_button"
+				parentanchor = top|right
+				onclick = "[GetVariableSystem.Clear('com_open_window')]"
+				onclick = "[GetVariableSystem.Clear('com_alert_action')]"
+				shortcut = "close_window"
+				position = { -55 116 }
+			}
+		}
+
+		blockoverride "close_button_position" {
+			visible = no
+		}
+
+		blockoverride "fixed_top" {
+			flowcontainer = {
+				minimumsize = { 100% -1 }
+				margin_top = 20
+
+				button = {
+					#Button to get back to the Academy of Science
+					using = default_button_primary_big_action
+					size = { 250 40 }
+					raw_text = "MR_RETURN_ACADEMY_OF_SCIENCE"
+					using = fontsize_medium
+					onclick = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_science_sgui')]"
+					onclick = "[GetVariableSystem.Set('mr_science_tab', 'humanities')]"
+					tooltip = "MR_RETURN_ACADEMY_OF_SCIENCE_TT"
+				}
+			}
+		}
+
+		blockoverride "scrollarea_content" {
+			flowcontainer = {
+				minimumsize = { 100% -1 }
+				margin = { 0 20 }
+				margin_left = 20
+				spacing = 10
+
+				#Diseases Research
+				widget = {
+					size = { 910 720 }
+					parentanchor = left
+
+					background = {
+						using = entry_bg_simple
+					}
+
+					default_header_clean = {
+						size = { 910 50 }
+						position = { 1 -3 }
+						blockoverride "text" {
+						}
+						textbox = {
+							text = "DISEASES_HEADER_TEXT"
+							parentanchor = center
+							position = { 0 0 }
+							autoresize = yes
+							max_width = 190
+							elide = right
+							using = fontsize_xxl
+						}
+					}
+
+					widget = {
+						size = { 570 660 }
+						position = { 10 50 }
+						background = {
+							using = entry_bg_simple
+						}
+						#Cholera
+						academics_medicine_diseases_catalogue_overview = {
+							blockoverride "main_visibility" {
+								visible = "[GetScriptedGui('mr_physician_cholera_catalogue_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "disease_name" {
+								text = "MR_CHOLERA_CATALOGUE_BUTTON"
+							}
+							blockoverride "disease_description" {
+								text = "MR_CHOLERA_DESCRIPTION_LOC"
+							}
+							blockoverride "disease_technology" {
+								text = "MR_CHOLERA_REQUIRED_TECHNOLOGY_LOC"
+							}
+							blockoverride "disease_healthcare_level" {
+								text = "MR_CHOLERA_REQUIRED_HEALTHCARE_LEVEL_LOC"
+							}
+							blockoverride "disease_type" {
+								text = "MR_PANUM_TRANSREGIONAL_DISEASE_LOC"
+							}
+							blockoverride "first_description" {
+								text = "MR_CHOLERA_FIRST_DESCRIPTION_LOC"
+								visible = "[GetScriptedGui('mr_physician_cholera_first_description_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "first_treatment" {
+								text = "MR_CHOLERA_FIRST_TREATMENT_LOC"
+								visible = "[GetScriptedGui('mr_physician_cholera_first_treatment_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_discovery" {
+								text = "MR_CHOLERA_DISCOVERER_LOC"
+								visible = "[GetScriptedGui('mr_physician_cholera_pathogen_discovered_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_invention" {
+								text = "MR_CHOLERA_INVENTOR_LOC"
+								visible = "[GetScriptedGui('mr_physician_cholera_vaccine_invented_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_finished" {
+								text = "MR_CHOLERA_DESCRIPTION_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_cholera_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_cholera_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "description_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_cholera_description_clues_var').GetValue)]"
+							}
+							blockoverride "description_bar_text" {
+								text = "MR_CHOLERA_DESCRIPTION_CLUES"
+							}
+							blockoverride "treatment_finished" {
+								text = "MR_CHOLERA_TREATMENT_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_cholera_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "treatment_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_cholera_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "treatment_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_cholera_treatment_clues_var').GetValue)]"
+							}
+							blockoverride "treatment_bar_text" {
+								text = "MR_CHOLERA_TREATMENT_CLUES"
+							}
+							blockoverride "pathogen_finished" {
+								text = "MR_CHOLERA_PATHOGEN_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_cholera_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_cholera_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "pathogen_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_cholera_pathogen_clues_var').GetValue)]"
+							}
+							blockoverride "pathogen_bar_text" {
+								text = "MR_CHOLERA_PATHOGEN_CLUES"
+							}
+							blockoverride "vaccine_finished" {
+								text = "MR_CHOLERA_VACCINE_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_cholera_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_cholera_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "vaccine_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_cholera_vaccine_clues_var').GetValue)]"
+							}
+							blockoverride "vaccine_bar_text" {
+								text = "MR_CHOLERA_VACCINE_CLUES"
+							}
+						}
+						#Diphtheria
+						academics_medicine_diseases_catalogue_overview = {
+							blockoverride "main_visibility" {
+								visible = "[GetScriptedGui('mr_physician_diphteria_catalogue_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "disease_name" {
+								text = "MR_DIPHTERIA_CATALOGUE_BUTTON"
+							}
+							blockoverride "disease_description" {
+								text = "MR_DIPHTERIA_DESCRIPTION_LOC"
+							}
+							blockoverride "disease_technology" {
+								text = "MR_DIPHTERIA_REQUIRED_TECHNOLOGY_LOC"
+							}
+							blockoverride "disease_healthcare_level" {
+								text = "MR_DIPHTERIA_REQUIRED_HEALTHCARE_LEVEL_LOC"
+							}
+							blockoverride "disease_type" {
+								text = "MR_PANUM_LOCAL_DISEASE_LOC"
+							}
+							blockoverride "first_description" {
+								text = "MR_DIPHTERIA_FIRST_DESCRIPTION_LOC"
+								visible = "[GetScriptedGui('mr_physician_diphteria_first_description_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "first_treatment" {
+								text = "MR_DIPHTERIA_FIRST_TREATMENT_LOC"
+								visible = "[GetScriptedGui('mr_physician_diphteria_first_treatment_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_discovery" {
+								text = "MR_DIPHTERIA_DISCOVERER_LOC"
+								visible = "[GetScriptedGui('mr_physician_diphteria_pathogen_discovered_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_invention" {
+								text = "MR_DIPHTERIA_INVENTOR_LOC"
+								visible = "[GetScriptedGui('mr_physician_diphteria_vaccine_invented_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_finished" {
+								text = "MR_DIPHTERIA_DESCRIPTION_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_diphteria_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_diphteria_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "description_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_diphteria_description_clues_var').GetValue)]"
+							}
+							blockoverride "description_bar_text" {
+								text = "MR_DIPHTERIA_DESCRIPTION_CLUES"
+							}
+							blockoverride "treatment_finished" {
+								text = "MR_DIPHTERIA_TREATMENT_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_diphteria_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "treatment_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_diphteria_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "treatment_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_diphteria_treatment_clues_var').GetValue)]"
+							}
+							blockoverride "treatment_bar_text" {
+								text = "MR_DIPHTERIA_TREATMENT_CLUES"
+							}
+							blockoverride "pathogen_finished" {
+								text = "MR_DIPHTERIA_PATHOGEN_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_diphteria_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_diphteria_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "pathogen_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_diphteria_pathogen_clues_var').GetValue)]"
+							}
+							blockoverride "pathogen_bar_text" {
+								text = "MR_DIPHTERIA_PATHOGEN_CLUES"
+							}
+							blockoverride "vaccine_finished" {
+								text = "MR_DIPHTERIA_VACCINE_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_diphteria_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_diphteria_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "vaccine_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_diphteria_vaccine_clues_var').GetValue)]"
+							}
+							blockoverride "vaccine_bar_text" {
+								text = "MR_DIPHTERIA_VACCINE_CLUES"
+							}
+						}
+						#Measles
+						academics_medicine_diseases_catalogue_overview = {
+							blockoverride "main_visibility" {
+								visible = "[GetScriptedGui('mr_physician_measles_catalogue_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "disease_name" {
+								text = "MR_MEASLES_CATALOGUE_BUTTON"
+							}
+							blockoverride "disease_description" {
+								text = "MR_MEASLES_DESCRIPTION_LOC"
+							}
+							blockoverride "disease_technology" {
+								text = "MR_MEASLES_REQUIRED_TECHNOLOGY_LOC"
+							}
+							blockoverride "disease_healthcare_level" {
+								text = "MR_MEASLES_REQUIRED_HEALTHCARE_LEVEL_LOC"
+							}
+							blockoverride "disease_type" {
+								text = "MR_PANUM_REGIONAL_DISEASE_LOC"
+							}
+							blockoverride "first_description" {
+								text = "MR_MEASLES_FIRST_DESCRIPTION_LOC"
+								visible = "[GetScriptedGui('mr_physician_measles_first_description_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "first_treatment" {
+								text = "MR_MEASLES_FIRST_TREATMENT_LOC"
+								visible = "[GetScriptedGui('mr_physician_measles_first_treatment_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_discovery" {
+								text = "MR_MEASLES_DISCOVERER_LOC"
+								visible = "[GetScriptedGui('mr_physician_measles_pathogen_discovered_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_invention" {
+								text = "MR_MEASLES_INVENTOR_LOC"
+								visible = "[GetScriptedGui('mr_physician_measles_vaccine_invented_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_finished" {
+								text = "MR_MEASLES_DESCRIPTION_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_measles_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_measles_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "description_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_measles_description_clues_var').GetValue)]"
+							}
+							blockoverride "description_bar_text" {
+								text = "MR_MEASLES_DESCRIPTION_CLUES"
+							}
+							blockoverride "treatment_finished" {
+								text = "MR_MEASLES_TREATMENT_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_measles_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "treatment_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_measles_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "treatment_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_measles_treatment_clues_var').GetValue)]"
+							}
+							blockoverride "treatment_bar_text" {
+								text = "MR_MEASLES_TREATMENT_CLUES"
+							}
+							blockoverride "pathogen_finished" {
+								text = "MR_MEASLES_PATHOGEN_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_measles_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_measles_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "pathogen_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_measles_pathogen_clues_var').GetValue)]"
+							}
+							blockoverride "pathogen_bar_text" {
+								text = "MR_MEASLES_PATHOGEN_CLUES"
+							}
+							blockoverride "vaccine_finished" {
+								text = "MR_MEASLES_VACCINE_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_measles_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_measles_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "vaccine_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_measles_vaccine_clues_var').GetValue)]"
+							}
+							blockoverride "vaccine_bar_text" {
+								text = "MR_MEASLES_VACCINE_CLUES"
+							}
+						}
+						#Plague
+						academics_medicine_diseases_catalogue_overview = {
+							blockoverride "main_visibility" {
+								visible = "[GetScriptedGui('mr_physician_plague_catalogue_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "disease_name" {
+								text = "MR_PLAGUE_CATALOGUE_BUTTON"
+							}
+							blockoverride "disease_description" {
+								text = "MR_PLAGUE_DESCRIPTION_LOC"
+							}
+							blockoverride "disease_technology" {
+								text = "MR_PLAGUE_REQUIRED_TECHNOLOGY_LOC"
+							}
+							blockoverride "disease_healthcare_level" {
+								text = "MR_PLAGUE_REQUIRED_HEALTHCARE_LEVEL_LOC"
+							}
+							blockoverride "disease_type" {
+								text = "MR_PANUM_TRANSREGIONAL_DISEASE_LOC"
+							}
+							blockoverride "first_description" {
+								text = "MR_PLAGUE_FIRST_DESCRIPTION_LOC"
+								visible = "[GetScriptedGui('mr_physician_plague_first_description_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "first_treatment" {
+								text = "MR_PLAGUE_FIRST_TREATMENT_LOC"
+								visible = "[GetScriptedGui('mr_physician_plague_first_treatment_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_discovery" {
+								text = "MR_PLAGUE_DISCOVERER_LOC"
+								visible = "[GetScriptedGui('mr_physician_plague_pathogen_discovered_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_invention" {
+								text = "MR_PLAGUE_INVENTOR_LOC"
+								visible = "[GetScriptedGui('mr_physician_plague_vaccine_invented_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_finished" {
+								text = "MR_PLAGUE_DESCRIPTION_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_plague_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_plague_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "description_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_plague_description_clues_var').GetValue)]"
+							}
+							blockoverride "description_bar_text" {
+								text = "MR_PLAGUE_DESCRIPTION_CLUES"
+							}
+							blockoverride "treatment_finished" {
+								text = "MR_PLAGUE_TREATMENT_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_plague_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "treatment_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_plague_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "treatment_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_plague_treatment_clues_var').GetValue)]"
+							}
+							blockoverride "treatment_bar_text" {
+								text = "MR_PLAGUE_TREATMENT_CLUES"
+							}
+							blockoverride "pathogen_finished" {
+								text = "MR_PLAGUE_PATHOGEN_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_plague_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_plague_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "pathogen_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_plague_pathogen_clues_var').GetValue)]"
+							}
+							blockoverride "pathogen_bar_text" {
+								text = "MR_PLAGUE_PATHOGEN_CLUES"
+							}
+							blockoverride "vaccine_finished" {
+								text = "MR_PLAGUE_VACCINE_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_plague_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_plague_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "vaccine_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_plague_vaccine_clues_var').GetValue)]"
+							}
+							blockoverride "vaccine_bar_text" {
+								text = "MR_PLAGUE_VACCINE_CLUES"
+							}
+						}
+						#Polio
+						academics_medicine_diseases_catalogue_overview = {
+							blockoverride "main_visibility" {
+								visible = "[GetScriptedGui('mr_physician_polio_catalogue_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "disease_name" {
+								text = "MR_POLIO_CATALOGUE_BUTTON"
+							}
+							blockoverride "disease_description" {
+								text = "MR_POLIO_DESCRIPTION_LOC"
+							}
+							blockoverride "disease_technology" {
+								text = "MR_POLIO_REQUIRED_TECHNOLOGY_LOC"
+							}
+							blockoverride "disease_healthcare_level" {
+								text = "MR_POLIO_REQUIRED_HEALTHCARE_LEVEL_LOC"
+							}
+							blockoverride "disease_type" {
+								text = "MR_PANUM_LOCAL_DISEASE_LOC"
+							}
+							blockoverride "first_description" {
+								text = "MR_POLIO_FIRST_DESCRIPTION_LOC"
+								visible = "[GetScriptedGui('mr_physician_polio_first_description_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "first_treatment" {
+								text = "MR_POLIO_FIRST_TREATMENT_LOC"
+								visible = "[GetScriptedGui('mr_physician_polio_first_treatment_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_discovery" {
+								text = "MR_POLIO_DISCOVERER_LOC"
+								visible = "[GetScriptedGui('mr_physician_polio_pathogen_discovered_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_invention" {
+								text = "MR_POLIO_INVENTOR_LOC"
+								visible = "[GetScriptedGui('mr_physician_polio_vaccine_invented_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_finished" {
+								text = "MR_POLIO_DESCRIPTION_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_polio_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_polio_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "description_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_polio_description_clues_var').GetValue)]"
+							}
+							blockoverride "description_bar_text" {
+								text = "MR_POLIO_DESCRIPTION_CLUES"
+							}
+							blockoverride "treatment_finished" {
+								text = "MR_POLIO_TREATMENT_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_polio_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "treatment_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_polio_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "treatment_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_polio_treatment_clues_var').GetValue)]"
+							}
+							blockoverride "treatment_bar_text" {
+								text = "MR_POLIO_TREATMENT_CLUES"
+							}
+							blockoverride "pathogen_finished" {
+								text = "MR_POLIO_PATHOGEN_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_polio_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_polio_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "pathogen_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_polio_pathogen_clues_var').GetValue)]"
+							}
+							blockoverride "pathogen_bar_text" {
+								text = "MR_POLIO_PATHOGEN_CLUES"
+							}
+							blockoverride "vaccine_finished" {
+								text = "MR_POLIO_VACCINE_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_polio_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_polio_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "vaccine_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_polio_vaccine_clues_var').GetValue)]"
+							}
+							blockoverride "vaccine_bar_text" {
+								text = "MR_POLIO_VACCINE_CLUES"
+							}
+						}
+						#Scarlet
+						academics_medicine_diseases_catalogue_overview = {
+							blockoverride "main_visibility" {
+								visible = "[GetScriptedGui('mr_physician_scarlet_catalogue_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "disease_name" {
+								text = "MR_SCARLET_CATALOGUE_BUTTON"
+							}
+							blockoverride "disease_description" {
+								text = "MR_SCARLET_DESCRIPTION_LOC"
+							}
+							blockoverride "disease_technology" {
+								text = "MR_SCARLET_REQUIRED_TECHNOLOGY_LOC"
+							}
+							blockoverride "disease_healthcare_level" {
+								text = "MR_SCARLET_REQUIRED_HEALTHCARE_LEVEL_LOC"
+							}
+							blockoverride "disease_type" {
+								text = "MR_PANUM_LOCAL_DISEASE_LOC"
+							}
+							blockoverride "first_description" {
+								text = "MR_SCARLET_FIRST_DESCRIPTION_LOC"
+								visible = "[GetScriptedGui('mr_physician_scarlet_first_description_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "first_treatment" {
+								text = "MR_SCARLET_FIRST_TREATMENT_LOC"
+								visible = "[GetScriptedGui('mr_physician_scarlet_first_treatment_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_discovery" {
+								text = "MR_SCARLET_DISCOVERER_LOC"
+								visible = "[GetScriptedGui('mr_physician_scarlet_pathogen_discovered_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_invention" {
+								text = "MR_SCARLET_INVENTOR_LOC"
+								visible = "[GetScriptedGui('mr_physician_scarlet_vaccine_invented_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_finished" {
+								text = "MR_SCARLET_DESCRIPTION_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_scarlet_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_scarlet_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "description_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_scarlet_description_clues_var').GetValue)]"
+							}
+							blockoverride "description_bar_text" {
+								text = "MR_SCARLET_DESCRIPTION_CLUES"
+							}
+							blockoverride "treatment_finished" {
+								text = "MR_SCARLET_TREATMENT_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_scarlet_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "treatment_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_scarlet_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "treatment_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_scarlet_treatment_clues_var').GetValue)]"
+							}
+							blockoverride "treatment_bar_text" {
+								text = "MR_SCARLET_TREATMENT_CLUES"
+							}
+							blockoverride "pathogen_finished" {
+								text = "MR_SCARLET_PATHOGEN_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_scarlet_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_scarlet_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "pathogen_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_scarlet_pathogen_clues_var').GetValue)]"
+							}
+							blockoverride "pathogen_bar_text" {
+								text = "MR_SCARLET_PATHOGEN_CLUES"
+							}
+							blockoverride "vaccine_finished" {
+								text = "MR_SCARLET_VACCINE_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_scarlet_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_scarlet_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "vaccine_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_scarlet_vaccine_clues_var').GetValue)]"
+							}
+							blockoverride "vaccine_bar_text" {
+								text = "MR_SCARLET_VACCINE_CLUES"
+							}
+						}
+						#Smallpox
+						academics_medicine_diseases_catalogue_overview = {
+							blockoverride "main_visibility" {
+								visible = "[GetScriptedGui('mr_physician_smallpox_catalogue_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "disease_name" {
+								text = "MR_SMALLPOX_CATALOGUE_BUTTON"
+							}
+							blockoverride "disease_description" {
+								text = "MR_SMALLPOX_DESCRIPTION_LOC"
+							}
+							blockoverride "disease_technology" {
+								text = "MR_SMALLPOX_REQUIRED_TECHNOLOGY_LOC"
+							}
+							blockoverride "disease_healthcare_level" {
+								text = "MR_SMALLPOX_REQUIRED_HEALTHCARE_LEVEL_LOC"
+							}
+							blockoverride "disease_type" {
+								text = "MR_PANUM_TRANSREGIONAL_DISEASE_LOC"
+							}
+							blockoverride "first_description" {
+								text = "MR_SMALLPOX_FIRST_DESCRIPTION_LOC"
+								visible = "[GetScriptedGui('mr_physician_smallpox_first_description_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "first_treatment" {
+								text = "MR_SMALLPOX_FIRST_TREATMENT_LOC"
+								visible = "[GetScriptedGui('mr_physician_smallpox_first_treatment_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_discovery" {
+								text = "MR_SMALLPOX_DISCOVERER_LOC"
+								visible = "[GetScriptedGui('mr_physician_smallpox_pathogen_discovered_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_invention" {
+								text = "MR_SMALLPOX_INVENTOR_LOC"
+								visible = "[GetScriptedGui('mr_physician_smallpox_vaccine_invented_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_finished" {
+								text = "MR_SMALLPOX_DESCRIPTION_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_smallpox_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_smallpox_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "description_bar_min_max" {
+								min = 0
+								max = 4
+							}
+							blockoverride "description_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_smallpox_description_clues_var').GetValue)]"
+							}
+							blockoverride "description_bar_text" {
+								text = "MR_SMALLPOX_DESCRIPTION_CLUES"
+							}
+							blockoverride "treatment_finished" {
+								text = "MR_SMALLPOX_TREATMENT_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_smallpox_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "treatment_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_smallpox_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "treatment_bar_min_max" {
+								min = 0
+								max = 3
+							}
+							blockoverride "treatment_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_smallpox_treatment_clues_var').GetValue)]"
+							}
+							blockoverride "treatment_bar_text" {
+								text = "MR_SMALLPOX_TREATMENT_CLUES"
+							}
+							blockoverride "pathogen_finished" {
+								text = "MR_SMALLPOX_PATHOGEN_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_smallpox_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_smallpox_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "pathogen_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_smallpox_pathogen_clues_var').GetValue)]"
+							}
+							blockoverride "pathogen_bar_text" {
+								text = "MR_SMALLPOX_PATHOGEN_CLUES"
+							}
+							blockoverride "vaccine_finished" {
+								text = "MR_SMALLPOX_VACCINE_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_smallpox_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_smallpox_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "vaccine_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_smallpox_vaccine_clues_var').GetValue)]"
+							}
+							blockoverride "vaccine_bar_text" {
+								text = "MR_SMALLPOX_VACCINE_CLUES"
+							}
+						}
+						#Tuberculosis
+						academics_medicine_diseases_catalogue_overview = {
+							blockoverride "main_visibility" {
+								visible = "[GetScriptedGui('mr_physician_tuberculosis_catalogue_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "disease_name" {
+								text = "MR_TUBERCULOSIS_CATALOGUE_BUTTON"
+							}
+							blockoverride "disease_description" {
+								text = "MR_TUBERCULOSIS_DESCRIPTION_LOC"
+							}
+							blockoverride "disease_technology" {
+								text = "MR_TUBERCULOSIS_REQUIRED_TECHNOLOGY_LOC"
+							}
+							blockoverride "disease_healthcare_level" {
+								text = "MR_TUBERCULOSIS_REQUIRED_HEALTHCARE_LEVEL_LOC"
+							}
+							blockoverride "disease_type" {
+								text = "MR_PANUM_REGIONAL_DISEASE_LOC"
+							}
+							blockoverride "first_description" {
+								text = "MR_TUBERCULOSIS_FIRST_DESCRIPTION_LOC"
+								visible = "[GetScriptedGui('mr_physician_tuberculosis_first_description_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "first_treatment" {
+								text = "MR_TUBERCULOSIS_FIRST_TREATMENT_LOC"
+								visible = "[GetScriptedGui('mr_physician_tuberculosis_first_treatment_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_discovery" {
+								text = "MR_TUBERCULOSIS_DISCOVERER_LOC"
+								visible = "[GetScriptedGui('mr_physician_tuberculosis_pathogen_discovered_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_invention" {
+								text = "MR_TUBERCULOSIS_INVENTOR_LOC"
+								visible = "[GetScriptedGui('mr_physician_tuberculosis_vaccine_invented_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_finished" {
+								text = "MR_TUBERCULOSIS_DESCRIPTION_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_tuberculosis_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_tuberculosis_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "description_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_tuberculosis_description_clues_var').GetValue)]"
+							}
+							blockoverride "description_bar_text" {
+								text = "MR_TUBERCULOSIS_DESCRIPTION_CLUES"
+							}
+							blockoverride "treatment_finished" {
+								text = "MR_TUBERCULOSIS_TREATMENT_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_tuberculosis_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "treatment_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_tuberculosis_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "treatment_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_tuberculosis_treatment_clues_var').GetValue)]"
+							}
+							blockoverride "treatment_bar_text" {
+								text = "MR_TUBERCULOSIS_TREATMENT_CLUES"
+							}
+							blockoverride "pathogen_finished" {
+								text = "MR_TUBERCULOSIS_PATHOGEN_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_tuberculosis_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_tuberculosis_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "pathogen_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_tuberculosis_pathogen_clues_var').GetValue)]"
+							}
+							blockoverride "pathogen_bar_text" {
+								text = "MR_TUBERCULOSIS_PATHOGEN_CLUES"
+							}
+							blockoverride "vaccine_finished" {
+								text = "MR_TUBERCULOSIS_VACCINE_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_tuberculosis_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_tuberculosis_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "vaccine_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_tuberculosis_vaccine_clues_var').GetValue)]"
+							}
+							blockoverride "vaccine_bar_text" {
+								text = "MR_TUBERCULOSIS_VACCINE_CLUES"
+							}
+						}
+						#Typhus
+						academics_medicine_diseases_catalogue_overview = {
+							blockoverride "main_visibility" {
+								visible = "[GetScriptedGui('mr_physician_typhus_catalogue_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "disease_name" {
+								text = "MR_TYPHUS_CATALOGUE_BUTTON"
+							}
+							blockoverride "disease_description" {
+								text = "MR_TYPHUS_DESCRIPTION_LOC"
+							}
+							blockoverride "disease_technology" {
+								text = "MR_TYPHUS_REQUIRED_TECHNOLOGY_LOC"
+							}
+							blockoverride "disease_healthcare_level" {
+								text = "MR_TYPHUS_REQUIRED_HEALTHCARE_LEVEL_LOC"
+							}
+							blockoverride "disease_type" {
+								text = "MR_PANUM_TRANSREGIONAL_DISEASE_LOC"
+							}
+							blockoverride "first_description" {
+								text = "MR_TYPHUS_FIRST_DESCRIPTION_LOC"
+								visible = "[GetScriptedGui('mr_physician_typhus_first_description_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "first_treatment" {
+								text = "MR_TYPHUS_FIRST_TREATMENT_LOC"
+								visible = "[GetScriptedGui('mr_physician_typhus_first_treatment_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_discovery" {
+								text = "MR_TYPHUS_DISCOVERER_LOC"
+								visible = "[GetScriptedGui('mr_physician_typhus_pathogen_discovered_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_invention" {
+								text = "MR_TYPHUS_INVENTOR_LOC"
+								visible = "[GetScriptedGui('mr_physician_typhus_vaccine_invented_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_finished" {
+								text = "MR_TYPHUS_DESCRIPTION_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_typhus_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_typhus_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "description_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_typhus_description_clues_var').GetValue)]"
+							}
+							blockoverride "description_bar_text" {
+								text = "MR_TYPHUS_DESCRIPTION_CLUES"
+							}
+							blockoverride "treatment_finished" {
+								text = "MR_TYPHUS_TREATMENT_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_typhus_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "treatment_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_typhus_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "treatment_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_typhus_treatment_clues_var').GetValue)]"
+							}
+							blockoverride "treatment_bar_text" {
+								text = "MR_TYPHUS_TREATMENT_CLUES"
+							}
+							blockoverride "pathogen_finished" {
+								text = "MR_TYPHUS_PATHOGEN_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_typhus_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_typhus_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "pathogen_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_typhus_pathogen_clues_var').GetValue)]"
+							}
+							blockoverride "pathogen_bar_text" {
+								text = "MR_TYPHUS_PATHOGEN_CLUES"
+							}
+							blockoverride "vaccine_finished" {
+								text = "MR_TYPHUS_VACCINE_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_typhus_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_typhus_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "vaccine_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_typhus_vaccine_clues_var').GetValue)]"
+							}
+							blockoverride "vaccine_bar_text" {
+								text = "MR_TYPHUS_VACCINE_CLUES"
+							}
+						}
+						#Yellow Fever
+						academics_medicine_diseases_catalogue_overview = {
+							blockoverride "main_visibility" {
+								visible = "[GetScriptedGui('mr_physician_yellow_fever_catalogue_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "disease_name" {
+								text = "MR_YELLOW_FEVER_CATALOGUE_BUTTON"
+							}
+							blockoverride "disease_description" {
+								text = "MR_YELLOW_FEVER_DESCRIPTION_LOC"
+							}
+							blockoverride "disease_technology" {
+								text = "MR_YELLOW_FEVER_REQUIRED_TECHNOLOGY_LOC"
+							}
+							blockoverride "disease_healthcare_level" {
+								text = "MR_YELLOW_FEVER_REQUIRED_HEALTHCARE_LEVEL_LOC"
+							}
+							blockoverride "disease_type" {
+								text = "MR_PANUM_REGIONAL_DISEASE_LOC"
+							}
+							blockoverride "first_description" {
+								text = "MR_YELLOW_FEVER_FIRST_DESCRIPTION_LOC"
+								visible = "[GetScriptedGui('mr_physician_yellow_fever_first_description_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "first_treatment" {
+								text = "MR_YELLOW_FEVER_FIRST_TREATMENT_LOC"
+								visible = "[GetScriptedGui('mr_physician_yellow_fever_first_treatment_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_discovery" {
+								text = "MR_YELLOW_FEVER_DISCOVERER_LOC"
+								visible = "[GetScriptedGui('mr_physician_yellow_fever_pathogen_discovered_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_invention" {
+								text = "MR_YELLOW_FEVER_INVENTOR_LOC"
+								visible = "[GetScriptedGui('mr_physician_yellow_fever_vaccine_invented_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_finished" {
+								text = "MR_YELLOW_FEVER_DESCRIPTION_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_yellow_fever_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "description_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_yellow_fever_description_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "description_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_yellow_fever_description_clues_var').GetValue)]"
+							}
+							blockoverride "description_bar_text" {
+								text = "MR_YELLOW_FEVER_DESCRIPTION_CLUES"
+							}
+							blockoverride "treatment_finished" {
+								text = "MR_YELLOW_FEVER_TREATMENT_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_yellow_fever_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "treatment_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_yellow_fever_treatment_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "treatment_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_yellow_fever_treatment_clues_var').GetValue)]"
+							}
+							blockoverride "treatment_bar_text" {
+								text = "MR_YELLOW_FEVER_TREATMENT_CLUES"
+							}
+							blockoverride "pathogen_finished" {
+								text = "MR_YELLOW_FEVER_PATHOGEN_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_yellow_fever_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "pathogen_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_yellow_fever_pathogen_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "pathogen_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_yellow_fever_pathogen_clues_var').GetValue)]"
+							}
+							blockoverride "pathogen_bar_text" {
+								text = "MR_YELLOW_FEVER_PATHOGEN_CLUES"
+							}
+							blockoverride "vaccine_finished" {
+								text = "MR_YELLOW_FEVER_VACCINE_FINISHED_LOC"
+								visible = "[GetScriptedGui('mr_physician_yellow_fever_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "vaccine_bar_visibility" {
+								visible = "[Not( GetScriptedGui('mr_physician_yellow_fever_vaccine_in_country_finished_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "vaccine_bar_values" {
+								value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('theiler_yellow_fever_vaccine_clues_var').GetValue)]"
+							}
+							blockoverride "vaccine_bar_text" {
+								text = "MR_YELLOW_FEVER_VACCINE_CLUES"
+							}
+						}
+
+					}
+
+					widget = {
+						size = { 310 660 }
+						position = { 590 50 }
+
+						background = {
+							using = entry_bg_simple
+						}
+
+						vbox = {
+							max_width = 290
+							layoutpolicy_vertical = expanding
+							spacing = 5
+							margin = { 10 10 }
+
+							#Cholera
+							academics_medicine_diseases_catalogue_button = {
+								blockoverride "datacontext_arrow" {
+									datacontext = "[GetScriptedGui('mr_physician_cholera_catalogue_active_sgui')]"
+								}
+								blockoverride "text_button" {
+									raw_text = "MR_CHOLERA_CATALOGUE_BUTTON"
+								}
+								blockoverride "datacontext_button" {
+									datacontext = "[GetScriptedGui('mr_physician_cholera_catalogue_button_sgui')]"
+								}
+								blockoverride "tooltip_button" {
+									tooltip = "MR_CHOLERA_CATALOGUE_BUTTON_TT"
+								}
+							}
+
+							#Diphteria
+							academics_medicine_diseases_catalogue_button = {
+								blockoverride "datacontext_arrow" {
+									datacontext = "[GetScriptedGui('mr_physician_diphteria_catalogue_active_sgui')]"
+								}
+								blockoverride "text_button" {
+									raw_text = "MR_DIPHTERIA_CATALOGUE_BUTTON"
+								}
+								blockoverride "datacontext_button" {
+									datacontext = "[GetScriptedGui('mr_physician_diphteria_catalogue_button_sgui')]"
+								}
+								blockoverride "tooltip_button" {
+									tooltip = "MR_DIPHTERIA_CATALOGUE_BUTTON_TT"
+								}
+							}
+
+							#Measles
+							academics_medicine_diseases_catalogue_button = {
+								blockoverride "datacontext_arrow" {
+									datacontext = "[GetScriptedGui('mr_physician_measles_catalogue_active_sgui')]"
+								}
+								blockoverride "text_button" {
+									raw_text = "MR_MEASLES_CATALOGUE_BUTTON"
+								}
+								blockoverride "datacontext_button" {
+									datacontext = "[GetScriptedGui('mr_physician_measles_catalogue_button_sgui')]"
+								}
+								blockoverride "tooltip_button" {
+									tooltip = "MR_MEASLES_CATALOGUE_BUTTON_TT"
+								}
+							}
+
+							#Plague
+							academics_medicine_diseases_catalogue_button = {
+								blockoverride "datacontext_arrow" {
+									datacontext = "[GetScriptedGui('mr_physician_plague_catalogue_active_sgui')]"
+								}
+								blockoverride "text_button" {
+									raw_text = "MR_PLAGUE_CATALOGUE_BUTTON"
+								}
+								blockoverride "datacontext_button" {
+									datacontext = "[GetScriptedGui('mr_physician_plague_catalogue_button_sgui')]"
+								}
+								blockoverride "tooltip_button" {
+									tooltip = "MR_PLAGUE_CATALOGUE_BUTTON_TT"
+								}
+							}
+
+							#Polio
+							academics_medicine_diseases_catalogue_button = {
+								blockoverride "datacontext_arrow" {
+									datacontext = "[GetScriptedGui('mr_physician_polio_catalogue_active_sgui')]"
+								}
+								blockoverride "text_button" {
+									raw_text = "MR_POLIO_CATALOGUE_BUTTON"
+								}
+								blockoverride "datacontext_button" {
+									datacontext = "[GetScriptedGui('mr_physician_polio_catalogue_button_sgui')]"
+								}
+								blockoverride "tooltip_button" {
+									tooltip = "MR_POLIO_CATALOGUE_BUTTON_TT"
+								}
+							}
+
+							#Scarlet
+							academics_medicine_diseases_catalogue_button = {
+								blockoverride "datacontext_arrow" {
+									datacontext = "[GetScriptedGui('mr_physician_scarlet_catalogue_active_sgui')]"
+								}
+								blockoverride "text_button" {
+									raw_text = "MR_SCARLET_CATALOGUE_BUTTON"
+								}
+								blockoverride "datacontext_button" {
+									datacontext = "[GetScriptedGui('mr_physician_scarlet_catalogue_button_sgui')]"
+								}
+								blockoverride "tooltip_button" {
+									tooltip = "MR_SCARLET_CATALOGUE_BUTTON_TT"
+								}
+							}
+
+							#Smallpox
+							academics_medicine_diseases_catalogue_button = {
+								blockoverride "datacontext_arrow" {
+									datacontext = "[GetScriptedGui('mr_physician_smallpox_catalogue_active_sgui')]"
+								}
+								blockoverride "text_button" {
+									raw_text = "MR_SMALLPOX_CATALOGUE_BUTTON"
+								}
+								blockoverride "datacontext_button" {
+									datacontext = "[GetScriptedGui('mr_physician_smallpox_catalogue_button_sgui')]"
+								}
+								blockoverride "tooltip_button" {
+									tooltip = "MR_SMALLPOX_CATALOGUE_BUTTON_TT"
+								}
+							}
+
+							#Tuberculosis
+							academics_medicine_diseases_catalogue_button = {
+								blockoverride "datacontext_arrow" {
+									datacontext = "[GetScriptedGui('mr_physician_tuberculosis_catalogue_active_sgui')]"
+								}
+								blockoverride "text_button" {
+									raw_text = "MR_TUBERCULOSIS_CATALOGUE_BUTTON"
+								}
+								blockoverride "datacontext_button" {
+									datacontext = "[GetScriptedGui('mr_physician_tuberculosis_catalogue_button_sgui')]"
+								}
+								blockoverride "tooltip_button" {
+									tooltip = "MR_TUBERCULOSIS_CATALOGUE_BUTTON_TT"
+								}
+							}
+
+							#Typhus
+							academics_medicine_diseases_catalogue_button = {
+								blockoverride "datacontext_arrow" {
+									datacontext = "[GetScriptedGui('mr_physician_typhus_catalogue_active_sgui')]"
+								}
+								blockoverride "text_button" {
+									raw_text = "MR_TYPHUS_CATALOGUE_BUTTON"
+								}
+								blockoverride "datacontext_button" {
+									datacontext = "[GetScriptedGui('mr_physician_typhus_catalogue_button_sgui')]"
+								}
+								blockoverride "tooltip_button" {
+									tooltip = "MR_TYPHUS_CATALOGUE_BUTTON_TT"
+								}
+							}
+
+							#Yellow Fever
+							academics_medicine_diseases_catalogue_button = {
+								blockoverride "datacontext_arrow" {
+									datacontext = "[GetScriptedGui('mr_physician_yellow_fever_catalogue_active_sgui')]"
+								}
+								blockoverride "text_button" {
+									raw_text = "MR_YELLOW_FEVER_CATALOGUE_BUTTON"
+								}
+								blockoverride "datacontext_button" {
+									datacontext = "[GetScriptedGui('mr_physician_yellow_fever_catalogue_button_sgui')]"
+								}
+								blockoverride "tooltip_button" {
+									tooltip = "MR_YELLOW_FEVER_CATALOGUE_BUTTON_TT"
+								}
+							}
+
+							expand = {}
+						}
+					}
+				}
+
+				flowcontainer = {
+					direction = vertical
+					ignoreinvisible = yes
+					spacing = 10
+
+					#Red Cross
+					widget = {
+						size = { 880 300 }
+						parentanchor = left
+
+						background = {
+							using = entry_bg_simple
+						}
+
+						default_header_clean = {
+							size = { 880 50 }
+							position = { 1 -3 }
+							blockoverride "text" {
+							}
+							textbox = {
+								text = "RED_CROSS_HEADER_TEXT"
+								parentanchor = center
+								position = { 0 0 }
+								autoresize = yes
+								max_width = 190
+								elide = right
+								using = fontsize_xxl
+							}
+						}
+
+						flowcontainer = {
+							direction = vertical
+							ignoreinvisible = yes
+							spacing = 10
+
+							widget = {
+								size = { 880 40 }
+							}
+
+							flowcontainer = {
+								direction = horizontal
+								parentanchor = top|hcenter
+								ignoreinvisible = yes
+								spacing = 30
+
+								widget = {
+									size = { 250 170 }
+
+									textbox = {
+										text = "MR_RED_CROSS_SEAT"
+										position = { 0 65 }
+										max_width = 250
+										autoresize = yes
+										elide = right
+										using = fontsize_large
+									}
+
+									textbox = {
+										text = "MR_RED_CROSS_MEMBERS"
+										position = { 0 105 }
+										max_width = 250
+										autoresize = yes
+										elide = right
+										using = fontsize_large
+									}
+								}
+
+								widget = {
+									size = { 250 190 }
+
+									icon = {
+										visible = yes
+										parentanchor = center
+										size = { 172 190 }
+										texture = "gfx/interface/icons/GUI_icons/GUI_panum_red_cross_logo.dds"
+									}
+								}
+
+								flowcontainer = {
+									direction = vertical
+									ignoreinvisible = yes
+									spacing = 20
+
+									parentanchor = vcenter|right
+
+									#Propose first Convention
+									button = {
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_PROPOSE_FIRST_CONVENTION_BUTTON"
+										using = fontsize_medium
+
+										datacontext = "[GetScriptedGui('mr_propose_first_convention_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_PROPOSE_FIRST_CONVENTION_BUTTON_TT"
+									}
+
+									#Propose second Convention
+									button = {
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_PROPOSE_SECOND_CONVENTION_BUTTON"
+										using = fontsize_medium
+
+										datacontext = "[GetScriptedGui('mr_propose_second_convention_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_PROPOSE_SECOND_CONVENTION_BUTTON_TT"
+									}
+
+									#Propose third Convention
+									button = {
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_PROPOSE_THIRD_CONVENTION_BUTTON"
+										using = fontsize_medium
+
+										datacontext = "[GetScriptedGui('mr_propose_third_convention_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_PROPOSE_THIRD_CONVENTION_BUTTON_TT"
+									}
+
+									#Leave Red Cross
+									button = {
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_LEAVE_RED_CROSS_BUTTON"
+										using = fontsize_medium
+
+										datacontext = "[GetScriptedGui('mr_leave_red_cross_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_LEAVE_RED_CROSS_BUTTON_TT"
+									}
+								}
+							}
+
+							#Convention Buttons
+							flowcontainer = {
+								direction = horizontal
+								ignoreinvisible = yes
+								parentanchor = hcenter
+								spacing = 30
+
+								#Sign first Convention
+								button = {
+									using = default_button_primary_big_action
+									size = { 250 40 }
+									raw_text = "MR_SIGN_FIRST_CONVENTION_BUTTON"
+									using = fontsize_medium
+
+									datacontext = "[GetScriptedGui('mr_sign_first_convention_button')]"
+									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									tooltip = "MR_SIGN_FIRST_CONVENTION_BUTTON_TT"
+								}
+
+								#Break first Convention
+								button = {
+									using = default_button_primary_big_action
+									size = { 250 40 }
+									raw_text = "MR_ABOLISH_FIRST_CONVENTION_BUTTON"
+									using = fontsize_medium
+
+									datacontext = "[GetScriptedGui('mr_abolish_first_convention_button')]"
+									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									tooltip = "MR_ABOLISH_FIRST_CONVENTION_BUTTON_TT"
+								}
+
+								#Sign second Convention
+								button = {
+									using = default_button_primary_big_action
+									size = { 250 40 }
+									raw_text = "MR_SIGN_SECOND_CONVENTION_BUTTON"
+									using = fontsize_medium
+
+									datacontext = "[GetScriptedGui('mr_sign_second_convention_button')]"
+									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									tooltip = "MR_SIGN_SECOND_CONVENTION_BUTTON_TT"
+								}
+
+								#Break second Convention
+								button = {
+									using = default_button_primary_big_action
+									size = { 250 40 }
+									raw_text = "MR_ABOLISH_SECOND_CONVENTION_BUTTON"
+									using = fontsize_medium
+
+									datacontext = "[GetScriptedGui('mr_abolish_second_convention_button')]"
+									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									tooltip = "MR_ABOLISH_SECOND_CONVENTION_BUTTON_TT"
+								}
+
+
+								#Sign third Convention
+								button = {
+									using = default_button_primary_big_action
+									size = { 250 40 }
+									raw_text = "MR_SIGN_THIRD_CONVENTION_BUTTON"
+									using = fontsize_medium
+
+									datacontext = "[GetScriptedGui('mr_sign_third_convention_button')]"
+									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									tooltip = "MR_SIGN_THIRD_CONVENTION_BUTTON_TT"
+								}
+
+								#Break third Convention
+								button = {
+									using = default_button_primary_big_action
+									size = { 250 40 }
+									raw_text = "MR_ABOLISH_THIRD_CONVENTION_BUTTON"
+									using = fontsize_medium
+
+									datacontext = "[GetScriptedGui('mr_abolish_third_convention_button')]"
+									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									tooltip = "MR_ABOLISH_THIRD_CONVENTION_BUTTON_TT"
+								}
+							}
+						}
+					}
+
+					#Psychiatry & Psychology
+					widget = {
+						size = { 880 200 }
+						parentanchor = left
+
+						background = {
+							using = entry_bg_simple
+						}
+
+						default_header_clean = {
+							size = { 880 50 }
+							position = { 1 -3 }
+							blockoverride "text" {
+							}
+							textbox = {
+								text = "PSYCHIATRY_PSYCHOLOGY_HEADER_TEXT"
+								parentanchor = center
+								position = { 0 0 }
+								autoresize = yes
+								max_width = 300
+								elide = right
+								using = fontsize_xxl
+							}
+						}
+
+						flowcontainer = {
+							position = { 0 55 }
+							ignoreinvisible = yes
+							margin_left = 10
+							spacing = 50
+
+							flowcontainer = {
+								margin_top = 12
+								direction = vertical
+								ignoreinvisible = yes
+								spacing = 15
+
+								textbox = {
+									text = "MR_PSYCHOTHERAPEUTIC_LEVEL"
+									parentanchor = top|hcenter
+									max_width = 250
+									autoresize = yes
+									elide = right
+									using = fontsize_xl
+								}
+
+								green_progressbar_horizontal = {
+									size = { 410 35 }
+									blockoverride "values" {
+										min = 0
+										max = 1000
+										value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('panum_psycho_points_var').GetValue)]"
+									}
+									textbox = {
+										text = "MR_PSYCHOTHERAPEUTIC_POINTS"
+										position = { 10 4 }
+										parentanchor = left
+										autoresize = yes
+										using = fontsize_large
+									}
+									tooltip = "MR_PSYCHOTHERAPEUTIC_POINTS_TT"
+								}
+
+								textbox = {
+									text = "MR_BASIC_SUCCESS_CHANCE_PSYCHOLOGY"
+									max_update_rate = 100 #We don't want the script value to reevaluate every frame
+									parentanchor = top|hcenter
+									max_width = 410
+									autoresize = yes
+									elide = right
+									using = fontsize_large
+								}
+							}
+
+							flowcontainer = {
+								#	margin_top = 12
+								direction = vertical
+								ignoreinvisible = yes
+								spacing = 4
+
+								textbox = {
+									text = "MR_PSYCHOLOGICAL_SCHOOLS"
+									parentanchor = top|hcenter
+									max_width = 420
+									autoresize = yes
+									elide = right
+									using = fontsize_xl
+								}
+
+								textbox = {
+									text = "MR_FUNCTIONALISM"
+									parentanchor = top|left
+									size = { 400 22 }
+									elide = right
+									using = fontsize_medium
+								}
+
+								textbox = {
+									text = "MR_PSYCHOANALYSIS"
+									parentanchor = top|left
+									size = { 400 22 }
+									elide = right
+									using = fontsize_medium
+								}
+
+								textbox = {
+									text = "MR_ANALYTICAL_PSYCHOLOGY"
+									parentanchor = top|left
+									size = { 400 22 }
+									elide = right
+									using = fontsize_medium
+								}
+
+								textbox = {
+									text = "MR_BEHAVIORISM"
+									parentanchor = top|left
+									size = { 400 22 }
+									elide = right
+									using = fontsize_medium
+								}
+							}
+						}
+					}
+
+					#Medical Innovations
+					widget = {
+						size = { 880 200 }
+						parentanchor = left
+
+						background = {
+							using = entry_bg_simple
+						}
+
+						default_header_clean = {
+							size = { 880 50 }
+							position = { 1 -3 }
+							blockoverride "text" {
+							}
+							textbox = {
+								text = "MEDICAL_INNOVATIONS_HEADER_TEXT"
+								parentanchor = center
+								position = { 0 0 }
+								autoresize = yes
+								max_width = 300
+								elide = right
+								using = fontsize_xxl
+							}
+						}
+
+						flowcontainer = {
+							ignoreinvisible = yes
+							spacing = 50
+							margin_left = 25
+							position = { 0 50 }
+
+							textbox = {
+								text = "MR_MEDICAL_INNOVATION_NAME"
+								parentanchor = top|left
+								size = { 250 25 }
+								elide = right
+								using = fontsize_xl
+							}
+
+							textbox = {
+								text = "MR_MEDICAL_INNOVATION_COUNTRY"
+								parentanchor = top|left
+								size = { 250 25 }
+								elide = right
+								using = fontsize_xl
+							}
+
+							textbox = {
+								text = "MR_MEDICAL_INNOVATION_YEAR"
+								parentanchor = top|left
+								size = { 250 25 }
+								elide = right
+								using = fontsize_xl
+							}
+						}
+
+						scrollbox = {
+							size = { 880 119 }
+							position = { 0 80 }
+
+							scrollbarpolicy_horizontal = always_off
+							scrollbarpolicy_vertical = as_needed
+
+							scrollbar_vertical = {
+								using = Scrollbar_Vertical
+							}
+
+							blockoverride "scrollbox_content" {
+								flowcontainer = {
+									margin_top = -8
+									margin_bottom = -8
+									margin_left = 10
+									direction = vertical
+									ignoreinvisible = yes
+									spacing = 2
+
+									flowcontainer = {
+										visible = "[GetScriptedGui('mr_aspirin_invented_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										ignoreinvisible = yes
+										spacing = 50
+
+										textbox = {
+											text = "MR_ASPIRIN_NAME"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_ASPIRIN_COUNTRY"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_ASPIRIN_YEAR"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+									}
+
+									flowcontainer = {
+										visible = "[GetScriptedGui('mr_bloodtypes_invented_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										ignoreinvisible = yes
+										spacing = 50
+
+										textbox = {
+											text = "MR_BLOODTYPES_NAME"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_BLOODTYPES_COUNTRY"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_BLOODTYPES_YEAR"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+									}
+
+									flowcontainer = {
+										visible = "[GetScriptedGui('mr_cardiopulmonary_bypass_invented_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										ignoreinvisible = yes
+										spacing = 50
+
+										textbox = {
+											text = "MR_CARDIPULMONARY_BYPASS_NAME"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_CARDIPULMONARY_BYPASS_COUNTRY"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_CARDIPULMONARY_BYPASS_YEAR"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+									}
+
+									flowcontainer = {
+										visible = "[GetScriptedGui('mr_chemotherapy_invented_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										ignoreinvisible = yes
+										spacing = 50
+
+										textbox = {
+											text = "MR_CHEMOTHERAPY_NAME"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_CHEMOTHERAPY_COUNTRY"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_CHEMOTHERAPY_YEAR"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+									}
+
+									flowcontainer = {
+										visible = "[GetScriptedGui('mr_endoscope_invented_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										ignoreinvisible = yes
+										spacing = 50
+
+										textbox = {
+											text = "MR_ENDOSCOPE_NAME"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_ENDOSCOPE_COUNTRY"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_ENDOSCOPE_YEAR"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+									}
+
+									flowcontainer = {
+										visible = "[GetScriptedGui('mr_ecg_invented_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										ignoreinvisible = yes
+										spacing = 50
+
+										textbox = {
+											text = "MR_ECG_NAME"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_ECG_COUNTRY"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_ECG_YEAR"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+									}
+
+									flowcontainer = {
+										visible = "[GetScriptedGui('mr_iron_lungs_invented_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										ignoreinvisible = yes
+										spacing = 50
+
+										textbox = {
+											text = "MR_IRON_LUNG_NAME"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_IRON_LUNG_COUNTRY"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_IRON_LUNG_YEAR"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+									}
+
+									flowcontainer = {
+										visible = "[GetScriptedGui('mr_ophthalmoscope_invented_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										ignoreinvisible = yes
+										spacing = 50
+
+										textbox = {
+											text = "MR_OPHTHALMOSCOPE_NAME"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_OPHTHALMOSCOPE_COUNTRY"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_OPHTHALMOSCOPE_YEAR"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+									}
+
+									flowcontainer = {
+										visible = "[GetScriptedGui('mr_stereotactic_method_invented_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										ignoreinvisible = yes
+										spacing = 50
+
+										textbox = {
+											text = "MR_STEREOCRATIC_METHOD_NAME"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_STEREOCRATIC_METHOD_COUNTRY"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_STEREOCRATIC_METHOD_YEAR"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+									}
+
+									flowcontainer = {
+										visible = "[GetScriptedGui('mr_transplantation_invented_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										ignoreinvisible = yes
+										spacing = 50
+
+										textbox = {
+											text = "MR_TRANSPLANTATION_NAME"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_TRANSPLANTATION_COUNTRY"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_TRANSPLANTATION_YEAR"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+									}
+
+									flowcontainer = {
+										visible = "[GetScriptedGui('mr_xray_invented_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										ignoreinvisible = yes
+										spacing = 50
+
+										textbox = {
+											text = "MR_XRAY_NAME"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_XRAY_COUNTRY"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+
+										textbox = {
+											text = "MR_XRAY_YEAR"
+											parentanchor = top|left
+											size = { 250 25 }
+											elide = right
+											using = fontsize_large
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+}
