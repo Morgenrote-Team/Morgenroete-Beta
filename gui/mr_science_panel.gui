@@ -1,3 +1,6 @@
+@panel_button_width = 250
+@panel_text_width = 250
+
 types mr_main_science_panel_types {
 
 	type mr_science_panel = fullscreen_block_window {
@@ -217,9 +220,19 @@ types mr_main_science_panel_types {
 						visible = "[GetVariableSystem.HasValue('mr_science_tab', 'natural_history')]"
 					}
 					blockoverride "view_content" {
-						mr_academic_geologist = {}
-						mr_academic_paleontologist = {}
-						mr_academic_naturalist = {}
+						hbox = {
+							layoutpolicy_horizontal = expanding
+							spacing = 10
+							mr_academic_geologist = {}
+							expand = {}
+							mr_academic_paleontologist = {}
+						}
+						hbox = {
+							layoutpolicy_horizontal = expanding
+							spacing = 10
+							mr_academic_naturalist = {}
+							expand = {}
+						}
 					}
 				}
 				mr_science_view = {
@@ -234,6 +247,14 @@ types mr_main_science_panel_types {
 				}
 			}
 		}
+
+		background = {
+			using = illu_alpha
+			fittype = center
+			texture = "gfx/interface/illustrations/tech_tree/illustration_tech_society.dds"
+			using = default_content_fade
+		}
+
 	}
 
 	type mr_academic_engineer = mr_academic_full {
@@ -256,9 +277,10 @@ types mr_main_science_panel_types {
 			tooltip = "MR_ENGINEER_ACHIEVEMENTS_TT"
 		}
 		blockoverride "experience_bar" {
-			green_progressbar_horizontal = { #Civil Engineer
+			# Civil Engineer
+			green_progressbar_horizontal = {
 				parentanchor = bottom|left
-				position = { 15 -60 }
+				position = { 15 -56 }
 				size = { 250 35 }
 				datacontext = "[GetScriptedGui('gaudi_civil_engineer_experience_bar_visibility_sgui')]"
 				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
@@ -276,9 +298,10 @@ types mr_main_science_panel_types {
 					using = fontsize_xl
 				}
 			}
-			green_progressbar_horizontal = { #Mechanical Engineer
+			# Mechanical Engineer
+			green_progressbar_horizontal = {
 				parentanchor = bottom|left
-				position = { 15 -60 }
+				position = { 15 -56 }
 				size = { 250 35 }
 				datacontext = "[GetScriptedGui('gaudi_mechanical_engineer_experience_bar_visibility_sgui')]"
 				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
@@ -296,9 +319,10 @@ types mr_main_science_panel_types {
 					using = fontsize_xl
 				}
 			}
-			green_progressbar_horizontal = { #Military Engineer
+			# Military Engineer
+			green_progressbar_horizontal = {
 				parentanchor = bottom|left
-				position = { 15 -60 }
+				position = { 15 -56 }
 				size = { 250 35 }
 				datacontext = "[GetScriptedGui('gaudi_military_engineer_experience_bar_visibility_sgui')]"
 				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
@@ -316,9 +340,10 @@ types mr_main_science_panel_types {
 					using = fontsize_xl
 				}
 			}
-			green_progressbar_horizontal = { #Electrical Engineer
+			# Electrical Engineer
+			green_progressbar_horizontal = {
 				parentanchor = bottom|left
-				position = { 15 -60 }
+				position = { 15 -56 }
 				size = { 250 35 }
 				datacontext = "[GetScriptedGui('gaudi_electrical_engineer_experience_bar_visibility_sgui')]"
 				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
@@ -336,9 +361,10 @@ types mr_main_science_panel_types {
 					using = fontsize_xl
 				}
 			}
-			green_progressbar_horizontal = { #Aeronautical Engineer
+			# Aeronautical Engineer
+			green_progressbar_horizontal = {
 				parentanchor = bottom|left
-				position = { 15 -60 }
+				position = { 15 -56 }
 				size = { 250 35 }
 				datacontext = "[GetScriptedGui('gaudi_aeronautical_engineer_experience_bar_visibility_sgui')]"
 				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
@@ -361,12 +387,12 @@ types mr_main_science_panel_types {
 			text = mr_science_engineer_data_header
 		}
 		blockoverride "academic_data_content" {
+			# Geomagnetic Research Data
 			mr_academic_data_text = {
-				# Geomagnetic Research Data
 				text = "GEOMAGNETIC_RESEARCH_VAR"
 			}
+			# Splendid Architecture Points
 			mr_academic_data_text = {
-				# Splendid Architecture Points
 				text = "SPLENDID_ARCHITECTURE_VAR"
 			}
 		}
@@ -1625,60 +1651,49 @@ types mr_main_science_panel_types {
 			tooltip = "VISIT_MINERAL_CABINET_BUTTON_TT"
 		}
 		blockoverride "big_box_content" {
-			margin = { 0 0 }
-			vbox = {
-				margin_left = -20
-				margin_right = 10
-				layoutpolicy_vertical = expanding
+			mr_academic_interactions = {
+				blockoverride "tabs" {
+					tab_buttons = {
+						using = mr_academic_interaction_tab_properties
+						blockoverride "first_button" {
+							text = mr_science_geologist_tab_research
+						}
+						blockoverride "first_button_click" {
+							onclick = "[GetVariableSystem.Set('mr_science_geologist_tab', 'research')]"
+						}
+						blockoverride "first_button_visibility" {
+							visible = "[Or(GetVariableSystem.HasValue('mr_science_geologist_tab', 'research'), Not(GetVariableSystem.Exists('mr_science_geologist_tab')))]"
+						}
+						blockoverride "first_button_visibility_checked" {
+							visible = "[And(Not(GetVariableSystem.HasValue('mr_science_geologist_tab', 'research')), GetVariableSystem.Exists('mr_science_geologist_tab'))]"
+						}
+						blockoverride "first_button_selected" {
+							text = mr_science_geologist_tab_research
+						}
 
-				tab_buttons = {
-					margin_left = 20
-					maximumsize = { 320 0 }
-					margin_bottom = -4
-					blockoverride "first_button" {
-						text = mr_science_geologist_tab_research
-					}
-					blockoverride "first_button_click" {
-						onclick = "[GetVariableSystem.Set('mr_science_geologist_tab', 'research')]"
-					}
-					blockoverride "first_button_visibility" {
-						visible = "[Or(GetVariableSystem.HasValue('mr_science_geologist_tab', 'research'), Not(GetVariableSystem.Exists('mr_science_geologist_tab')))]"
-					}
-					blockoverride "first_button_visibility_checked" {
-						visible = "[And(Not(GetVariableSystem.HasValue('mr_science_geologist_tab', 'research')), GetVariableSystem.Exists('mr_science_geologist_tab'))]"
-					}
-					blockoverride "first_button_selected" {
-						text = mr_science_geologist_tab_research
-					}
-
-					blockoverride "second_button" {
-						text = mr_science_geologist_tab_industry
-					}
-					blockoverride "second_button_click" {
-						onclick = "[GetVariableSystem.Set('mr_science_geologist_tab', 'industry')]"
-					}
-					blockoverride "second_button_visibility" {
-						visible = "[GetVariableSystem.HasValue('mr_science_geologist_tab', 'industry')]"
-					}
-					blockoverride "second_button_visibility_checked" {
-						visible = "[Not(GetVariableSystem.HasValue('mr_science_geologist_tab', 'industry'))]"
-					}
-					blockoverride "second_button_selected" {
-						text = mr_science_geologist_tab_industry
+						blockoverride "second_button" {
+							text = mr_science_geologist_tab_industry
+						}
+						blockoverride "second_button_click" {
+							onclick = "[GetVariableSystem.Set('mr_science_geologist_tab', 'industry')]"
+						}
+						blockoverride "second_button_visibility" {
+							visible = "[GetVariableSystem.HasValue('mr_science_geologist_tab', 'industry')]"
+						}
+						blockoverride "second_button_visibility_checked" {
+							visible = "[Not(GetVariableSystem.HasValue('mr_science_geologist_tab', 'industry'))]"
+						}
+						blockoverride "second_button_selected" {
+							text = mr_science_geologist_tab_industry
+						}
 					}
 				}
-				hbox = {
-					layoutpolicy_vertical = expanding
-					margin = { 20 20 }
-					background = {
-						using = simple_frame
-					}
+				blockoverride "tab_content" {
 					vbox = {
 						visible = "[Or(GetVariableSystem.HasValue('mr_science_geologist_tab', 'research'), Not(GetVariableSystem.Exists('mr_science_geologist_tab')))]"
 						layoutpolicy_vertical = expanding
 						spacing = 7
-						minimumsize = { 270 0 }
-
+						minimumsize = { @panel_button_width 0 }
 						# Geological Research
 						mr_academic_project_button = {
 							text = "mr_science_geologist_research_button"
@@ -1714,13 +1729,27 @@ types mr_main_science_panel_types {
 							tooltip = "MR_MINERAL_CABINET_BUTTON_TT"
 						}
 
+						# Symposium
+						mr_academic_project_button = {
+							text = "MR_GEOLOGIST_PALEONTOLOGIST_SYMPOSIUM_BUTTON"
+							datacontext = "[GetScriptedGui('mr_geologist_paleontologist_symposium_button')]"
+							tooltip = "MR_GEOLOGIST_PALEONTOLOGIST_SYMPOSIUM_BUTTON_TT"
+						}
+
+						# Tectonics Congress Button
+						mr_academic_project_button = {
+							text = "MR_GEOLOGIST_TECTONICS_CONGRESS_BUTTON"
+							datacontext = "[GetScriptedGui('mr_geologist_tectonics_congress_button')]"
+							tooltip = "MR_GEOLOGIST_TECTONICS_CONGRESS_BUTTON_TT"
+						}
+
 						expand = {}
 					}
 					vbox = {
 						visible = "[GetVariableSystem.HasValue('mr_science_geologist_tab', 'industry')]"
 						layoutpolicy_vertical = expanding
 						spacing = 7
-						minimumsize = { 270 0 }
+						minimumsize = { @panel_button_width 0 }
 
 						# Ore Vein
 						mr_academic_project_button = {
@@ -1739,71 +1768,8 @@ types mr_main_science_panel_types {
 						expand = {}
 					}
 				}
-
-				hbox = {
-					margin_top = 20
-					margin_left = 20
-					mr_academic_project_button = {
-						blockoverride "size" {
-							size = { 310 50 }
-						}
-						text = "mr_science_general_stop_project"
-						datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
-						tooltip = "MR_STOP_ENGINEERING_PROJECT_BUTTON_TT" #TODO
-					}
-				}
-			}
-
-			hbox = {
-				background = {
-					using = entry_bg_simple
-				}
-				layoutpolicy_vertical = expanding
-				layoutpolicy_horizontal = expanding
-
-				vbox = {
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-
-					vbox = {
-						layoutpolicy_horizontal = expanding
-						layoutpolicy_vertical = expanding
-						textbox = {
-							maximumsize = { 800 -1 }
-							margin = { 20 20 }
-							autoresize = yes
-							multiline = yes
-							text = "mr_science_geologist_congress_desc"
-						}
-						expand = {}
-					}
-
-					hbox = {
-						maximumsize = { -1 60 }
-						margin = { 20 20 }
-						layoutpolicy_horizontal = expanding
-						layoutpolicy_vertical = expanding
-
-						# Symposium
-						mr_academic_project_button = {
-							blockoverride "size" {
-								size = { 300 50 }
-							}
-							text = "MR_GEOLOGIST_PALEONTOLOGIST_SYMPOSIUM_BUTTON"
-							datacontext = "[GetScriptedGui('mr_geologist_paleontologist_symposium_button')]"
-							tooltip = "MR_GEOLOGIST_PALEONTOLOGIST_SYMPOSIUM_BUTTON_TT"
-						}
-
-						# Tectonics Congress Button
-						mr_academic_project_button = {
-							blockoverride "size" {
-								size = { 300 50 }
-							}
-							text = "MR_GEOLOGIST_TECTONICS_CONGRESS_BUTTON"
-							datacontext = "[GetScriptedGui('mr_geologist_tectonics_congress_button')]"
-							tooltip = "MR_GEOLOGIST_TECTONICS_CONGRESS_BUTTON_TT"
-						}
-					}
+				blockoverride "stop_context" {
+					datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
 				}
 			}
 		}
@@ -1947,76 +1913,65 @@ types mr_main_science_panel_types {
 			tooltip = "VISIT_PALEONTOLOGICAL_COLLECTION_BUTTON_TT"
 		}
 		blockoverride "big_box_content" {
-			margin = { 0 0 }
-			vbox = {
-				margin_left = -20
-				margin_right = 10
-				layoutpolicy_vertical = expanding
+			mr_academic_interactions = {
+				blockoverride "tabs" {
+					tab_buttons = {
+						using = mr_academic_interaction_tab_properties
+						blockoverride "first_button" {
+							text = mr_science_paleontologist_tab_research
+						}
+						blockoverride "first_button_click" {
+							onclick = "[GetVariableSystem.Set('mr_science_paleontologist_tab', 'research')]"
+						}
+						blockoverride "first_button_visibility" {
+							visible = "[Or(GetVariableSystem.HasValue('mr_science_paleontologist_tab', 'research'), Not(GetVariableSystem.Exists('mr_science_paleontologist_tab')))]"
+						}
+						blockoverride "first_button_visibility_checked" {
+							visible = "[And(Not(GetVariableSystem.HasValue('mr_science_paleontologist_tab', 'research')), GetVariableSystem.Exists('mr_science_paleontologist_tab'))]"
+						}
+						blockoverride "first_button_selected" {
+							text = mr_science_paleontologist_tab_research
+						}
 
-				tab_buttons = {
-					margin_left = 20
-					maximumsize = { 320 0 }
-					margin_bottom = -4
-					blockoverride "first_button" {
-						text = mr_science_paleontologist_tab_research
-					}
-					blockoverride "first_button_click" {
-						onclick = "[GetVariableSystem.Set('mr_science_paleontologist_tab', 'research')]"
-					}
-					blockoverride "first_button_visibility" {
-						visible = "[Or(GetVariableSystem.HasValue('mr_science_paleontologist_tab', 'research'), Not(GetVariableSystem.Exists('mr_science_paleontologist_tab')))]"
-					}
-					blockoverride "first_button_visibility_checked" {
-						visible = "[And(Not(GetVariableSystem.HasValue('mr_science_paleontologist_tab', 'research')), GetVariableSystem.Exists('mr_science_paleontologist_tab'))]"
-					}
-					blockoverride "first_button_selected" {
-						text = mr_science_paleontologist_tab_research
-					}
+						blockoverride "second_button" {
+							text = mr_science_paleontologist_tab_fossils
+						}
+						blockoverride "second_button_click" {
+							onclick = "[GetVariableSystem.Set('mr_science_paleontologist_tab', 'fossils')]"
+						}
+						blockoverride "second_button_visibility" {
+							visible = "[GetVariableSystem.HasValue('mr_science_paleontologist_tab', 'fossils')]"
+						}
+						blockoverride "second_button_visibility_checked" {
+							visible = "[Not(GetVariableSystem.HasValue('mr_science_paleontologist_tab', 'fossils'))]"
+						}
+						blockoverride "second_button_selected" {
+							text = mr_science_paleontologist_tab_fossils
+						}
 
-					blockoverride "second_button" {
-						text = mr_science_paleontologist_tab_fossils
-					}
-					blockoverride "second_button_click" {
-						onclick = "[GetVariableSystem.Set('mr_science_paleontologist_tab', 'fossils')]"
-					}
-					blockoverride "second_button_visibility" {
-						visible = "[GetVariableSystem.HasValue('mr_science_paleontologist_tab', 'fossils')]"
-					}
-					blockoverride "second_button_visibility_checked" {
-						visible = "[Not(GetVariableSystem.HasValue('mr_science_paleontologist_tab', 'fossils'))]"
-					}
-					blockoverride "second_button_selected" {
-						text = mr_science_paleontologist_tab_fossils
-					}
-
-					blockoverride "third_button" {
-						text = mr_science_paleontologist_tab_scenes
-					}
-					blockoverride "third_button_click" {
-						onclick = "[GetVariableSystem.Set('mr_science_paleontologist_tab', 'scene')]"
-					}
-					blockoverride "third_button_visibility" {
-						visible = "[GetVariableSystem.HasValue('mr_science_paleontologist_tab', 'scene')]"
-					}
-					blockoverride "third_button_visibility_checked" {
-						visible = "[Not(GetVariableSystem.HasValue('mr_science_paleontologist_tab', 'scene'))]"
-					}
-					blockoverride "third_button_selected" {
-						text = mr_science_paleontologist_tab_scenes
+						blockoverride "third_button" {
+							text = mr_science_paleontologist_tab_scenes
+						}
+						blockoverride "third_button_click" {
+							onclick = "[GetVariableSystem.Set('mr_science_paleontologist_tab', 'scene')]"
+						}
+						blockoverride "third_button_visibility" {
+							visible = "[GetVariableSystem.HasValue('mr_science_paleontologist_tab', 'scene')]"
+						}
+						blockoverride "third_button_visibility_checked" {
+							visible = "[Not(GetVariableSystem.HasValue('mr_science_paleontologist_tab', 'scene'))]"
+						}
+						blockoverride "third_button_selected" {
+							text = mr_science_paleontologist_tab_scenes
+						}
 					}
 				}
-				hbox = {
-					layoutpolicy_vertical = expanding
-					margin = { 20 0 }
-					margin_top = 20
-					background = {
-						using = simple_frame
-					}
+				blockoverride "tab_content" {
 					vbox = {
 						visible = "[Or(GetVariableSystem.HasValue('mr_science_paleontologist_tab', 'research'), Not(GetVariableSystem.Exists('mr_science_paleontologist_tab')))]"
 						layoutpolicy_vertical = expanding
 						spacing = 7
-						minimumsize = { 270 0 }
+						minimumsize = { @panel_button_width 0 }
 
 						# Paleontological Expedition
 						mr_academic_project_button = {
@@ -2039,13 +1994,20 @@ types mr_main_science_panel_types {
 							tooltip = "MR_PALEONTOLOGY_SECOND_TEAM_BUTTON_TT"
 						}
 
+						# Extinction Congress
+						mr_academic_project_button = {
+							text = "MR_EXTINCTION_CONGRESS_BUTTON"
+							datacontext = "[GetScriptedGui('mr_extinction_congress_button')]"
+							tooltip = "MR_EXTINCTION_CONGRESS_BUTTON_TT"
+						}
+
 						expand = {}
 					}
 					vbox = {
 						visible = "[GetVariableSystem.HasValue('mr_science_paleontologist_tab', 'fossils')]"
 						layoutpolicy_vertical = expanding
 						spacing = 7
-						minimumsize = { 270 0 }
+						minimumsize = { @panel_button_width 0 }
 
 						# Systemize Fossils
 						mr_academic_project_button = {
@@ -2088,7 +2050,7 @@ types mr_main_science_panel_types {
 						visible = "[GetVariableSystem.HasValue('mr_science_paleontologist_tab', 'scene')]"
 						layoutpolicy_vertical = expanding
 						spacing = 7
-						minimumsize = { 270 0 }
+						minimumsize = { @panel_button_width 0 }
 
 						# Cretaceous Scenery
 						mr_academic_project_button = {
@@ -2114,61 +2076,8 @@ types mr_main_science_panel_types {
 						expand = {}
 					}
 				}
-
-				hbox = {
-					margin_top = 20
-					margin_left = 20
-					mr_academic_project_button = {
-						blockoverride "size" {
-							size = { 310 50 }
-						}
-						text = "mr_science_general_stop_project"
-						datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
-						tooltip = "MR_STOP_ENGINEERING_PROJECT_BUTTON_TT" #TODO
-					}
-				}
-			}
-
-			hbox = {
-				background = {
-					using = entry_bg_simple
-				}
-				layoutpolicy_vertical = expanding
-				layoutpolicy_horizontal = expanding
-
-				vbox = {
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-
-					vbox = {
-						layoutpolicy_horizontal = expanding
-						layoutpolicy_vertical = expanding
-						textbox = {
-							maximumsize = { 800 -1 }
-							margin = { 20 20 }
-							autoresize = yes
-							multiline = yes
-							text = "mr_science_paleontologist_congress_desc"
-						}
-						expand = {}
-					}
-
-					hbox = {
-						maximumsize = { -1 60 }
-						margin = { 20 20 }
-						layoutpolicy_horizontal = expanding
-						layoutpolicy_vertical = expanding
-
-						# Extinction Congress
-						mr_academic_project_button = {
-							blockoverride "size" {
-								size = { 300 50 }
-							}
-							text = "MR_EXTINCTION_CONGRESS_BUTTON"
-							datacontext = "[GetScriptedGui('mr_extinction_congress_button')]"
-							tooltip = "MR_EXTINCTION_CONGRESS_BUTTON_TT"
-						}
-					}
+				blockoverride "stop_context" {
+					datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
 				}
 			}
 		}
@@ -2305,59 +2214,49 @@ types mr_main_science_panel_types {
 			tooltip = "VISIT_ZOO_BUTTON_TT"
 		}
 		blockoverride "big_box_content" {
-			margin = { 0 0 }
-			vbox = {
-				margin_left = -20
-				margin_right = 10
-				layoutpolicy_vertical = expanding
+			mr_academic_interactions = {
+				blockoverride "tabs" {
+					tab_buttons = {
+						using = mr_academic_interaction_tab_properties
+						blockoverride "first_button" {
+							text = mr_science_naturalist_tab_fauna
+						}
+						blockoverride "first_button_click" {
+							onclick = "[GetVariableSystem.Set('mr_science_naturalist_tab', 'fauna')]"
+						}
+						blockoverride "first_button_visibility" {
+							visible = "[Or(GetVariableSystem.HasValue('mr_science_naturalist_tab', 'fauna'), Not(GetVariableSystem.Exists('mr_science_naturalist_tab')))]"
+						}
+						blockoverride "first_button_visibility_checked" {
+							visible = "[And(Not(GetVariableSystem.HasValue('mr_science_naturalist_tab', 'fauna')), GetVariableSystem.Exists('mr_science_naturalist_tab'))]"
+						}
+						blockoverride "first_button_selected" {
+							text = mr_science_naturalist_tab_fauna
+						}
 
-				tab_buttons = {
-					margin_left = 20
-					maximumsize = { 320 0 }
-					margin_bottom = -4
-					blockoverride "first_button" {
-						text = mr_science_naturalist_tab_fauna
-					}
-					blockoverride "first_button_click" {
-						onclick = "[GetVariableSystem.Set('mr_science_naturalist_tab', 'fauna')]"
-					}
-					blockoverride "first_button_visibility" {
-						visible = "[Or(GetVariableSystem.HasValue('mr_science_naturalist_tab', 'fauna'), Not(GetVariableSystem.Exists('mr_science_naturalist_tab')))]"
-					}
-					blockoverride "first_button_visibility_checked" {
-						visible = "[And(Not(GetVariableSystem.HasValue('mr_science_naturalist_tab', 'fauna')), GetVariableSystem.Exists('mr_science_naturalist_tab'))]"
-					}
-					blockoverride "first_button_selected" {
-						text = mr_science_naturalist_tab_fauna
-					}
-
-					blockoverride "second_button" {
-						text = mr_science_naturalist_tab_flora
-					}
-					blockoverride "second_button_click" {
-						onclick = "[GetVariableSystem.Set('mr_science_naturalist_tab', 'flora')]"
-					}
-					blockoverride "second_button_visibility" {
-						visible = "[GetVariableSystem.HasValue('mr_science_naturalist_tab', 'flora')]"
-					}
-					blockoverride "second_button_visibility_checked" {
-						visible = "[Not(GetVariableSystem.HasValue('mr_science_naturalist_tab', 'flora'))]"
-					}
-					blockoverride "second_button_selected" {
-						text = mr_science_naturalist_tab_flora
+						blockoverride "second_button" {
+							text = mr_science_naturalist_tab_flora
+						}
+						blockoverride "second_button_click" {
+							onclick = "[GetVariableSystem.Set('mr_science_naturalist_tab', 'flora')]"
+						}
+						blockoverride "second_button_visibility" {
+							visible = "[GetVariableSystem.HasValue('mr_science_naturalist_tab', 'flora')]"
+						}
+						blockoverride "second_button_visibility_checked" {
+							visible = "[Not(GetVariableSystem.HasValue('mr_science_naturalist_tab', 'flora'))]"
+						}
+						blockoverride "second_button_selected" {
+							text = mr_science_naturalist_tab_flora
+						}
 					}
 				}
-				hbox = {
-					layoutpolicy_vertical = expanding
-					margin = { 20 20 }
-					background = {
-						using = simple_frame
-					}
+				blockoverride "tab_content" {
 					vbox = {
 						visible = "[Or(GetVariableSystem.HasValue('mr_science_naturalist_tab', 'fauna'), Not(GetVariableSystem.Exists('mr_science_naturalist_tab')))]"
 						layoutpolicy_vertical = expanding
 						spacing = 7
-						minimumsize = { 270 0 }
+						minimumsize = { @panel_button_width 0 }
 
 						# Document Native Wildlife
 						mr_academic_project_button = {
@@ -2422,11 +2321,18 @@ types mr_main_science_panel_types {
 							tooltip = "MR_EXTEND_ZOO_LARGE_BUTTON_TT"
 						}
 
-						# Expand Zoo Famopus
+						# Expand Zoo Famous
 						mr_academic_project_button = {
 							text = "MR_EXTEND_ZOO_FAMOUS_BUTTON"
 							datacontext = "[GetScriptedGui('mr_extend_zoo_famous_button')]"
 							tooltip = "MR_EXTEND_ZOO_FAMOUS_BUTTON_TT"
+						}
+
+						# Hippocampus Congress
+						mr_academic_project_button = {
+							text = "MR_HIPPOCAMPUS_CONGRESS_BUTTON"
+							datacontext = "[GetScriptedGui('mr_hippocampus_congress_button')]"
+							tooltip = "MR_HIPPOCAMPUS_CONGRESS_BUTTON_TT"
 						}
 
 						expand = {}
@@ -2435,7 +2341,7 @@ types mr_main_science_panel_types {
 						visible = "[GetVariableSystem.HasValue('mr_science_naturalist_tab', 'flora')]"
 						layoutpolicy_vertical = expanding
 						spacing = 7
-						minimumsize = { 270 0 }
+						minimumsize = { @panel_button_width 0 }
 
 						# Botanical Expedition
 						mr_academic_project_button = {
@@ -2475,61 +2381,8 @@ types mr_main_science_panel_types {
 						expand = {}
 					}
 				}
-
-				hbox = {
-					margin_top = 20
-					margin_left = 20
-					mr_academic_project_button = {
-						blockoverride "size" {
-							size = { 310 50 }
-						}
-						text = "mr_science_general_stop_project"
-						datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
-						tooltip = "MR_STOP_ENGINEERING_PROJECT_BUTTON_TT" #TODO
-					}
-				}
-			}
-
-			hbox = {
-				background = {
-					using = entry_bg_simple
-				}
-				layoutpolicy_vertical = expanding
-				layoutpolicy_horizontal = expanding
-
-				vbox = {
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-
-					vbox = {
-						layoutpolicy_horizontal = expanding
-						layoutpolicy_vertical = expanding
-						textbox = {
-							maximumsize = { 800 -1 }
-							margin = { 20 20 }
-							autoresize = yes
-							multiline = yes
-							text = "mr_science_naturalist_congress_desc"
-						}
-						expand = {}
-					}
-
-					hbox = {
-						maximumsize = { -1 60 }
-						margin = { 20 20 }
-						layoutpolicy_horizontal = expanding
-						layoutpolicy_vertical = expanding
-
-						# Hippocampus Congress
-						mr_academic_project_button = {
-							blockoverride "size" {
-								size = { 300 50 }
-							}
-							text = "MR_HIPPOCAMPUS_CONGRESS_BUTTON"
-							datacontext = "[GetScriptedGui('mr_hippocampus_congress_button')]"
-							tooltip = "MR_HIPPOCAMPUS_CONGRESS_BUTTON_TT"
-						}
-					}
+				blockoverride "stop_context" {
+					datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
 				}
 			}
 		}
@@ -3748,7 +3601,7 @@ types mr_main_science_panel_types {
 		layoutpolicy_vertical = expanding
 		layoutpolicy_horizontal = expanding
 		spacing = 20
-		margin = { 20 20 }
+		margin = { 30 30 }
 
 		block "view_visibility" {
 			visible = no
@@ -4154,10 +4007,8 @@ types mr_main_science_panel_types {
 	}
 
 	type mr_academic_full = hbox {
-		size = { 100% 410 }
 		spacing = 20
-		margin = { 20 20 }
-		layoutpolicy_horizontal = expanding
+		margin = { 10 10 }
 		block "academic" {
 			#datacontext = "[Country.Var('gaudi_engineer_var')]"
 		}
@@ -4167,7 +4018,7 @@ types mr_main_science_panel_types {
 		}
 
 		widget = {
-			size = { 300 450 }
+			size = { 280 440 }
 
 			mr_academic_character = {}
 
@@ -4177,7 +4028,8 @@ types mr_main_science_panel_types {
 				blockoverride "text" {}
 				textbox = {
 					block "character_name" {
-						text = "ARCHAEOLOGY_HEADER_TEXT"
+						raw_text = "character_name"
+						default_format = "#r"
 					}
 					parentanchor = center
 					position = { 5 -2 }
@@ -4191,7 +4043,7 @@ types mr_main_science_panel_types {
 			widget = {
 				parentanchor = left
 				size = { 55 55 }
-				position = { -30 -30 }
+				position = { -15 -15 }
 				icon = {
 					size = { 100% 100% }
 					block "role_icon" {
@@ -4222,7 +4074,7 @@ types mr_main_science_panel_types {
 				visible = yes
 				green_progressbar_horizontal = {
 					parentanchor = bottom|left
-					position = { 15 -60 }
+					position = { 15 -56 }
 					size = { 250 35 }
 					block "experience_bar_visibility" {
 						visible = yes
@@ -4282,7 +4134,7 @@ types mr_main_science_panel_types {
 			widget = {
 				size = { 35 35 }
 				parentanchor = bottom|left
-				position = { 10 -107 }
+				position = { 10 -97 }
 				block "achievements_icon_visibility" {
 					visible = yes
 				}
@@ -4302,11 +4154,11 @@ types mr_main_science_panel_types {
 		}
 
 		widget = {
-			size = { 290 450 }
+			size = { @panel_text_width 440 }
 
 			#Center Box
 			widget = {
-				size = { 290 380 }
+				size = { @panel_text_width 380 }
 				background = {
 					using = simple_frame
 				}
@@ -4340,7 +4192,7 @@ types mr_main_science_panel_types {
 
 					default_header_clean_faded = {
 						blockoverride "size" {
-							size = { 286 40 }
+							size = { @panel_text_width 40 }
 						}
 						blockoverride "text" {
 							block "academic_data_header_text" {
@@ -4351,7 +4203,7 @@ types mr_main_science_panel_types {
 					}
 
 					flowcontainer = {
-						margin = { 23 8 }
+						margin = { 15 8 }
 						spacing = 8
 						direction = vertical
 						block "academic_data_content" {}
@@ -4362,7 +4214,7 @@ types mr_main_science_panel_types {
 			button = {
 				parentanchor = bottom
 				using = default_button_primary_big_action
-				size = { 290 50 }
+				size = { @panel_text_width 50 }
 				block "visit_button" {
 					raw_text = "visit_button"
 					default_format = "#r"
@@ -4375,6 +4227,40 @@ types mr_main_science_panel_types {
 			layoutpolicy_horizontal = expanding
 			layoutpolicy_vertical = expanding
 			block "big_box_content" {}
+		}
+	}
+
+	type mr_academic_interactions = vbox {
+		margin_left = -20
+		margin_right = 10
+		layoutpolicy_vertical = expanding
+
+		block "tabs" {}
+		hbox = {
+			minimumsize = { @panel_button_width 0 }
+			layoutpolicy_vertical = expanding
+			margin = { 10 0 }
+			margin_top = 20
+			background = {
+				using = simple_frame
+			}
+			block "tab_content" {}
+		}
+
+		hbox = {
+			margin_top = 10
+			margin_left = 20
+			mr_academic_project_button = {
+				blockoverride "size" {
+					size = { @[panel_button_width + 20] 50 }
+				}
+				text = "mr_science_general_stop_project"
+				block "stop_context" {
+					#datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]"
+				}
+				tooltip = "mr_science_general_stop_project_tt"
+				using = fontsize_xl
+			}
 		}
 	}
 
@@ -4402,7 +4288,7 @@ types mr_main_science_panel_types {
 	type mr_academic_project_button = button {
 		using = default_button_primary_big_action
 		block "size" {
-			size = { 250 45 }
+			size = { @[panel_button_width - 20] 45 }
 		}
 		onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).End)]"
 		enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
@@ -4423,7 +4309,7 @@ types mr_main_science_panel_types {
 
 	type mr_academic_data_text = textbox {
 		parentanchor = top|left
-		maximumsize = { 255 310 }
+		maximumsize = { @[panel_text_width - 30] 310 }
 		autoresize = yes
 		multiline = yes
 		block "font_size" {
@@ -4431,4 +4317,10 @@ types mr_main_science_panel_types {
 		}
 	}
 
+}
+
+template mr_academic_interaction_tab_properties = {
+	maximumsize = { @[panel_button_width + 20] 0 }
+	margin_bottom = -4
+	margin_left = 20
 }
