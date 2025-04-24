@@ -1,0 +1,79 @@
+﻿
+############################
+# KHALDUN JOURNAL ENTRIES  #
+############################
+
+#by Lord R
+
+############################
+
+###### al-Qarawiyyin ######
+
+je_khaldun_al_qarawiyyin = {
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	should_be_pinned_by_default = yes
+
+	scripted_progress_bar = khaldun_al_qarawiyyin_progress_bar
+
+	scripted_button = khaldun_reorganize_library_button
+	scripted_button = khaldun_accquire_modern_books_button
+
+	group = je_group_academics_academia
+
+	can_deactivate = yes
+
+	is_shown_when_inactive = {
+		NOR = {
+			s:STATE_FEZ = {
+				has_variable = khaldun_al_qarawiyyin_university_var
+			}
+		}
+		religion = { has_discrimination_trait = muslim }
+	}
+
+	possible = {
+		has_state_in_state_region = STATE_FEZ
+	}
+
+	immediate = {
+	}
+
+	complete = {
+		any_scope_building = {
+			state = {
+				state_region = s:STATE_FEZ
+			}
+			is_building_type = building_university
+			level >= 5
+		}
+		custom_tooltip = {
+			text = je_khaldun_al_qarawiyyin_bar_goal_tt
+
+			scope:journal_entry = {
+				"scripted_bar_progress(khaldun_al_qarawiyyin_progress_bar)" >= 2000
+			}
+		}
+	}
+
+	on_complete = {
+		s:STATE_FEZ = {
+			set_variable = khaldun_al_qarawiyyin_university_var
+		}
+		random_scope_building = {
+			limit = {
+				state = {
+					state_region = s:STATE_FEZ
+				}
+				is_building_type = building_university
+			}
+
+			add_modifier = {
+				name = khaldun_al_qarawiyyin_center_of_learning_modifier
+			}
+		}
+		trigger_event = khaldun.101
+	}
+
+	weight = 20
+}

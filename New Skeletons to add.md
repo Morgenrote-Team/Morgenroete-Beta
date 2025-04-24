@@ -1,3 +1,0 @@
-Plesiosaurus
-Megalodon
-Basilosaurus

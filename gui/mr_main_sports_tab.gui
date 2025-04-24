@@ -1066,7 +1066,170 @@ types sports_view
 							}
 						}
 
-						sports_placeholder = {
+						#National Coach
+						sports_widget_with_character = {
+							blockoverride "role_icon" {
+								texture = "gfx/interface/icons/character_role_icons/vikelas_coach_role.dds"
+							}
+							blockoverride "role_tooltip" {
+								tooltip = "[concept_vikelas_coach_desc]"
+							}
+							blockoverride "role_name" {
+								text = "NATIONAL_COACH_HEADER_TEXT"
+							}
+							blockoverride "achievements_icon_visibility" {
+								visible = no
+							} 
+							blockoverride "character" {
+								datacontext = "[GetPlayer.MakeScope.Var('vikelas_coach_var').GetCharacter]"
+							}
+							blockoverride "character_visible" {
+								visible = "[GetScriptedGui('mr_has_coach_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "no_character_visible" {
+								visible = "[Not( GetScriptedGui('mr_has_coach_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
+							blockoverride "character_name" {
+								text = "[GetPlayer.GetCustom('sports_has_coach_gui_type')]"
+							}
+							blockoverride "character_traits" {
+								datacontext = "[GetPlayer.MakeScope.Var('vikelas_coach_var').GetCharacter]"
+								datamodel = "[Character.AccessTraits]"
+							}
+							blockoverride "values" {
+								min = 0
+								max = 150
+								value = "[GetPlayer.MakeScope.Var('vikelas_coach_var').GetVariable('vikelas_coach_experience').GetValue]"
+							}
+							blockoverride "experience_tooltip" {
+								tooltip = "MR_COACH_EXPERIENECE_TT"
+							}
+							blockoverride "experience_bar_text" {
+								text = "[GetPlayer.GetCustom('GUI_vikelas_coach_experience_text_type')]"
+							}
+							blockoverride "small_box_content" {
+								widget = {
+									#This Icon allows an overview of the 10 Nations with the most Grand Prix Victories
+									#The values are set up with scripted_effects from GUI_scripted_effects.txt when the screen is opened
+									#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+									#used in the mr_GUI_l_english.yml file to display the global variables.
+									size = { 30 30 }
+									parentanchor = top|right
+									position = { 5 -5 }
+									visible = no #TODO: Reactivate if necessary
+									
+									icon = {
+										size = { 100% 100% }
+										texture = "gfx/interface/backgrounds/round_button_bg.dds"
+										block "enabled" {}
+									}
+									icon = {
+										size = { 100% 100% }
+										texture = "gfx/interface/buttons/button_icons/list.dds"
+										block "enabled" {}
+										tooltipwidget = {
+											MR_TooltipRankingType = {
+												blockoverride "ranking_on_finish" {
+													on_finish = "[GetScriptedGui('mr_grand_prix_victories_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
+												}
+												blockoverride "text_1" {
+													raw_text = "RACER_GRAND_PRIX_VICTORIES_RANKING_HEADER"
+												}
+												blockoverride "ranking_1_visible" {
+													visible = yes
+												}
+												blockoverride "ranking_1_datamodel" {
+													datamodel = "[GetGlobalList('mr_grand_prix_victories_ranking_global_list')]"
+												}
+												blockoverride "ranking_variable_used_1" {
+													raw_text = "[Country.MakeScope.GetVariable('vikelas_grand_prix_victories_var').GetValue|*V0]"
+												}
+											}
+										}
+									}
+								}
+
+								flowcontainer = {
+									direction = vertical
+									ignoreinvisible = yes
+									spacing = 8
+									margin = { 25 20 }
+
+									textbox = {
+										position = { 15 10 }
+										#Information about the National Coach and FIFA
+										text = "MR_COACH_INFORMATION"
+										parentanchor = top|left
+										maximumsize = { 255 310 }
+										autoresize = yes
+										multiline = yes
+										using = fontsize_large
+									}
+								}
+							}
+							blockoverride "big_box_content" {
+								flowcontainer = {
+									direction = vertical
+									parentanchor = hcenter
+									ignoreinvisible = yes
+									spacing = 8
+									margin = { 15 15 }
+
+									### Other Buttons ###
+									button = {
+										#Hire Coach
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_HIRE_COACH"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_hire_coach_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_HIRE_COACH_TT"
+									}
+									button = {
+										#Found FIFA
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_FIFA_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_fifa_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_FIFA_BUTTON_TT"
+									}
+									button = {
+										#Found AIACR
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_FIFA_PRESIDENT_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_fifa_president_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_FIFA_PRESIDENT_BUTTON_TT"
+									}
+									button = {
+										#Found Grand Prix Racing
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_WORLDCUP_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('vikelas_football_worldcup_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_WORLDCUP_BUTTON_TT"
+									}
+								}
+							}
 						}
 					}
 				}
