@@ -7,6 +7,13 @@ types mr_main_science_panel_types {
         name = "mr_science_panel"
         datacontext = "[GetMetaPlayer.GetPlayedOrObservedCountry]"
 
+        background = {
+            using = illu_alpha
+            fittype = center
+            texture = "gfx/interface/illustrations/tech_tree/illustration_tech_society.dds"
+            using = default_content_fade
+        }
+
         visible = "[Or(GetVariableSystem.HasValue('com_open_window', 'mr_sidebar_button_science_sgui'), GetVariableSystem.HasValue('com_alert_action', Localize('mr_science_panel_alert')))]"
 
         blockoverride "animation_state_block" {
@@ -251,8 +258,13 @@ types mr_main_science_panel_types {
                         visible = "[Or(GetVariableSystem.HasValue('mr_science_tab', 'general'), Not(GetVariableSystem.Exists('mr_science_tab')))]"
                     }
                     blockoverride "view_content" {
-                        mr_academic_promote = {}
-                        mr_academic_scientific_focus = {}
+                        hbox = {
+                            layoutpolicy_horizontal = expanding
+                            spacing = 10
+                            mr_academic_promote = {}
+                            expand = {}
+                            mr_academic_scientific_focus = {}
+                        }
                         mr_academic_expeditions = {}
                     }
                 }
@@ -314,14 +326,6 @@ types mr_main_science_panel_types {
                 }
             }
         }
-
-        background = {
-            using = illu_alpha
-            fittype = center
-            texture = "gfx/interface/illustrations/tech_tree/illustration_tech_society.dds"
-            using = default_content_fade
-        }
-
     }
 
     type mr_academic_engineer = mr_academic_full {
@@ -1068,6 +1072,8 @@ types mr_main_science_panel_types {
         }
         blockoverride "big_box_content" {
             mr_academic_interactions = {
+                visible = "[Not(GetScriptedGui('mr_setting_academic_compact').IsValid(GuiScope.SetRoot(Country.MakeScope).End))]"
+
                 blockoverride "tabs" {
                     tab_buttons = {
 						maximumsize = { @[panel_button_width + 20 ] 0 }
@@ -1134,6 +1140,13 @@ types mr_main_science_panel_types {
                             tooltip = "MR_CHEMIST_ISOLATION_BUTTON"
                         }
 
+                        # Chemist Congress
+                        mr_academic_project_button = {
+                            text = "MR_CHEMIST_CONGRESS_BUTTON"
+                            datacontext = "[GetScriptedGui('mr_chemist_congress_button')]"
+                            tooltip = "MR_CHEMIST_CONGRESS_BUTTON_TT"
+                        }
+
                         expand = {}
                     }
                     vbox = {
@@ -1178,6 +1191,327 @@ types mr_main_science_panel_types {
                         }
 
                         expand = {}
+                    }
+                }
+                blockoverride "stop_context" {
+                    datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
+                }
+            }
+            mr_academic_interactions_simple = {
+                visible = "[GetScriptedGui('mr_setting_academic_compact').IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+
+                blockoverride "content" {
+                    margin_bottom = 20
+                    hbox = {
+                        spacing = 4
+
+                        # Theorize Element
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_chemist_theory_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_CHEMIST_THEORY_BUTTON"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_chemist_theorizing_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_chemist_theorize_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_chemist_theorize_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_CHEMIST_THEORIZE_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+                                texture = "gfx/interface/icons/GUI_icons/GUI_chemist_theorizing_button.dds"
+                                visible = "[GetScriptedGui('mr_chemist_theorize_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Discover Element
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_chemist_discovery_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_CHEMIST_DISCOVERY_BUTTON"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_chemist_discovering_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_chemist_discovery_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_chemist_discovery_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_CHEMIST_DISCOVERY_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+                                texture = "gfx/interface/icons/GUI_icons/GUI_chemist_discovering_button.dds"
+                                visible = "[GetScriptedGui('mr_chemist_discovery_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Isolate Element
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_chemist_isolation_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_CHEMIST_ISOLATION_BUTTON"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_chemist_isolating_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_chemist_isolation_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_chemist_isolation_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_CHEMIST_ISOLATION_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 32 32 }
+                                texture = "gfx/interface/icons/GUI_icons/GUI_chemist_isolating_button.dds"
+                                visible = "[GetScriptedGui('mr_chemist_isolation_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+                    }
+                    hbox = {
+                        spacing = 4
+
+                        # Improve Fertilizer
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_chemist_fertilizer_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_CHEMIST_FERTILIZER_BUTTON"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_chemist_improve_fertilizer_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_chemist_fertilizer_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_chemist_fertilizer_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_CHEMIST_FERTILIZER_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+                                texture = "gfx/interface/icons/GUI_icons/GUI_chemist_improve_fertilizer_button.dds"
+                                visible = "[GetScriptedGui('mr_chemist_fertilizer_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Improve Explosives
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_chemist_explosives_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_CHEMIST_EXPLOSIVES_BUTTON"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_chemist_improve_explosives_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_chemist_explosives_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_chemist_explosives_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_CHEMIST_EXPLOSIVES_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+                                texture = "gfx/interface/icons/GUI_icons/GUI_chemist_improve_explosives_button.dds"
+                                visible = "[GetScriptedGui('mr_chemist_explosives_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Improve Synthetics
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_chemist_synthetics_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_CHEMIST_SYNTHETICS_BUTTON"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_chemist_improve_synthetics_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_chemist_synthetics_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_chemist_synthetics_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_CHEMIST_SYNTHETICS_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 32 32 }
+                                texture = "gfx/interface/icons/GUI_icons/GUI_chemist_improve_synthetics_button.dds"
+                                visible = "[GetScriptedGui('mr_chemist_synthetics_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+                    }
+
+                    expand = {}
+
+                    # Synthetic Oil
+                    mr_academic_project_button = {
+                        text = "MR_CHEMIST_SYNTHETIC_OIL_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_chemist_synthetic_oil_button')]"
+                        tooltip = "MR_CHEMIST_SYNTHETIC_OIL_BUTTON_TT"
+                    }
+
+                    # Synthetic Rubber
+                    mr_academic_project_button = {
+                        text = "MR_CHEMIST_SYNTHETIC_RUBBER_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_chemist_synthetic_rubber_button')]"
+                        tooltip = "MR_CHEMIST_SYNTHETIC_RUBBER_BUTTON_TT"
+                    }
+
+                    # Chemist Congress
+                    mr_academic_project_button = {
+                        text = "MR_CHEMIST_CONGRESS_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_chemist_congress_button')]"
+                        tooltip = "MR_CHEMIST_CONGRESS_BUTTON_TT"
                     }
                 }
                 blockoverride "stop_context" {
@@ -1583,6 +1917,8 @@ types mr_main_science_panel_types {
         }
         blockoverride "big_box_content" {
             mr_academic_interactions = {
+                visible = "[Not(GetScriptedGui('mr_setting_academic_compact').IsValid(GuiScope.SetRoot(Country.MakeScope).End))]"
+
                 blockoverride "tabs" {
                     tab_buttons = {
 						maximumsize = { @[panel_button_width + 20 ] 0 }
@@ -1699,6 +2035,331 @@ types mr_main_science_panel_types {
                         }
 
                         expand = {}
+                    }
+                }
+                blockoverride "stop_context" {
+                    datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
+                }
+            }
+            mr_academic_interactions_simple = {
+                visible = "[GetScriptedGui('mr_setting_academic_compact').IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+
+                blockoverride "content" {
+                    margin_bottom = 20
+                    hbox = {
+                        spacing = 4
+
+                        # Geological Research
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_geologist_geological_research_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_GEOLOGIST_GEOLOGICAL_RESEARCH_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_geologist_geological_research_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_geologist_geological_research_stop_button').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            # Geological Research Recall
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_geologist_geological_research_stop_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_GEOLOGIST_GEOLOGICAL_RESEARCH_STOP_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_geologist_geological_research_stop_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+                        }
+
+                        # Volcano Expedition
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_geologist_volcano_expedition_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_GEOLOGIST_VOLCANO_EXPEDITION_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_geologist_volcano_expedition_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 65% 65% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_geologist_volcano_expedition_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_geologist_volcano_expedition_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_GEOLOGIST_VOLCANO_EXPEDITION_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 29 29 }
+                                texture = "gfx/interface/icons/GUI_icons/GUI_geologist_volcano_expedition_button.dds"
+                                visible = "[GetScriptedGui('mr_geologist_volcano_expedition_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Underwater Mountain Expedition
+                        widget = {
+                            size = { 50 50 }
+                            visible = "[GetScriptedGui('mr_geologist_underwater_mountains_button').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_geologist_underwater_mountains_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_GEOLOGIST_UNDERWATER_MOUNTAINS_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_geologist_underwater_mountain_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 65% 65% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_geologist_underwater_mountains_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_geologist_underwater_mountains_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_GEOLOGIST_UNDERWATER_MOUNTAINS_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 29 29 }
+                                texture = "gfx/interface/icons/GUI_icons/GUI_geologist_underwater_mountain_button.dds"
+                                visible = "[GetScriptedGui('mr_geologist_underwater_mountains_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Age of Earth
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_geologist_age_earth_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_GEOLOGIST_AGE_EARTH_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_geologist_age_earth_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_geologist_age_earth_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_geologist_age_earth_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_GEOLOGIST_AGE_EARTH_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+                                texture = "gfx/interface/icons/GUI_icons/GUI_geologist_age_earth_button.dds"
+                                visible = "[GetScriptedGui('mr_geologist_age_earth_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+                    }
+                    hbox = {
+                        spacing = 4
+
+                        # Ore Vein
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_geologist_ore_vein_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_GEOLOGIST_ORE_VEIN_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_geologist_ore_vein_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_geologist_ore_vein_stop_button').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            # Ore Vein Recall
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_geologist_ore_vein_stop_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_GEOLOGIST_ORE_VEIN_STOP_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_geologist_ore_vein_stop_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+                        }
+
+                        # Oil
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_geologist_oil_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_GEOLOGIST_OIL_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_geologist_oil_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_geologist_oil_stop_button').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            # Oil Recall
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_geologist_oil_stop_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_GEOLOGIST_OIL_STOP_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_geologist_oil_stop_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+                        }
+                    }
+
+                    expand = {}
+
+                    # Mineral Cabinet Button
+                    mr_academic_project_button = {
+                        text = "MR_MINERAL_CABINET_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_mineral_cabinet_button')]"
+                        tooltip = "MR_MINERAL_CABINET_BUTTON_TT"
+                    }
+
+                    # Symposium
+                    mr_academic_project_button = {
+                        text = "MR_GEOLOGIST_PALEONTOLOGIST_SYMPOSIUM_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_geologist_paleontologist_symposium_button')]"
+                        tooltip = "MR_GEOLOGIST_PALEONTOLOGIST_SYMPOSIUM_BUTTON_TT"
+                    }
+
+                    # Tectonics Congress Button
+                    mr_academic_project_button = {
+                        text = "MR_GEOLOGIST_TECTONICS_CONGRESS_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_geologist_tectonics_congress_button')]"
+                        tooltip = "MR_GEOLOGIST_TECTONICS_CONGRESS_BUTTON_TT"
                     }
                 }
                 blockoverride "stop_context" {
@@ -1847,6 +2508,8 @@ types mr_main_science_panel_types {
         }
         blockoverride "big_box_content" {
             mr_academic_interactions = {
+                visible = "[Not(GetScriptedGui('mr_setting_academic_compact').IsValid(GuiScope.SetRoot(Country.MakeScope).End))]"
+
                 blockoverride "tabs" {
                     tab_buttons = {
 						maximumsize = { @[panel_button_width + 20 ] 0 }
@@ -2015,6 +2678,401 @@ types mr_main_science_panel_types {
                     datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
                 }
             }
+            mr_academic_interactions_simple = {
+                visible = "[GetScriptedGui('mr_setting_academic_compact').IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+
+                blockoverride "content" {
+                    margin_bottom = 20
+                    hbox = {
+                        spacing = 4
+
+                        # Paleontological Expedition
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_paleontological_expedition_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_PALEONTOLOGICAL_EXPEDITION_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_paleontological_expedition_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_paleontological_expedition_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_paleontological_expedition_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_PALEONTOLOGICAL_EXPEDITION_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_dubois_paleontological_expedition_button.dds"
+                                visible = "[GetScriptedGui('mr_paleontological_expedition_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Mount Skeleton
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_mount_skeleton_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_MOUNT_SKELETON_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_construct_skeleton_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_mount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_mount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_MOUNT_SKELETON_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_dubois_construct_skeleton_button.dds"
+                                visible = "[GetScriptedGui('mr_mount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Remount Dinosaur Skeleton
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_remount_skeleton_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_REMOUNT_SKELETON_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_remount_skeleton_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 60% 60% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_remount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_remount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_REMOUNT_SKELETON_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 27 27 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_dubois_remount_skeleton_button.dds"
+                                visible = "[GetScriptedGui('mr_remount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Systemize Fossils
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_systemize_fossils_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_SYSTEMIZE_FOSSILS_BUTTON_TRIGGER"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_paleontologist_systemize_fossils_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_systemize_fossils_stop_button').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            # Stop systemizing fossils
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_systemize_fossils_stop_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_SYSTEMIZE_FOSSILS_BUTTON_STOP_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_paleontologist_systemize_fossils_stop_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+                        }
+                    }
+                    hbox = {
+                        spacing = 4
+
+                        # Cretaceous Scenery
+                        widget = {
+                            size = { 50 50 }
+                            visible = "[GetScriptedGui('mr_prehistoric_scenery_cretaceous_button_visible').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_prehistoric_scenery_cretaceous_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_CRETACEOUS_SCENERY_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_paleontologist_prehistoric_scenery_cretaceous_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_prehistoric_scenery_cretaceous_stop_button').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            # Stop Cretaceous Scenery
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_prehistoric_scenery_cretaceous_stop_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_CRETACEOUS_SCENERY_BUTTON_STOP_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_paleontologist_prehistoric_scenery_cretaceous_stop_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+                        }
+
+                        # Jurassic Scenery
+                        widget = {
+                            size = { 50 50 }
+                            visible = "[GetScriptedGui('mr_prehistoric_scenery_jurassic_button_visible').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_prehistoric_scenery_jurassic_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_JURASSIC_SCENERY_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_paleontologist_prehistoric_scenery_jurassic_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_prehistoric_scenery_jurassic_stop_button').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            # Stop Jurassic Scenery
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_prehistoric_scenery_jurassic_stop_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_JURASSIC_SCENERY_BUTTON_STOP_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_paleontologist_prehistoric_scenery_jurassic_stop_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+                        }
+
+                        # Triassic Scenery
+                        widget = {
+                            size = { 50 50 }
+                            visible = "[GetScriptedGui('mr_prehistoric_scenery_triassic_button_visible').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_prehistoric_scenery_triassic_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_TRIASSIC_SCENERY_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_paleontologist_prehistoric_scenery_triassic_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_prehistoric_scenery_triassic_stop_button').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            # Stop Jurassic Scenery
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_prehistoric_scenery_triassic_stop_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_TRIASSIC_SCENERY_BUTTON_STOP_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_paleontologist_prehistoric_scenery_triassic_stop_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+                        }
+                    }
+
+                    expand = {}
+
+                    # First Paleontological Team
+                    mr_academic_project_button = {
+                        text = "MR_PALEONTOLOGY_FIRST_TEAM_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_paleontological_expedition_button')]"
+                        tooltip = "MR_PALEONTOLOGY_FIRST_TEAM_BUTTON_TT"
+                    }
+
+                    # Second Paleontological Team
+                    mr_academic_project_button = {
+                        text = "MR_PALEONTOLOGY_SECOND_TEAM_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_paleontology_second_team_button')]"
+                        tooltip = "MR_PALEONTOLOGY_SECOND_TEAM_BUTTON_TT"
+                    }
+
+                    # Transform Fossils into a Bone
+                    mr_academic_project_button = {
+                        text = "MR_TRANSFORM_FOSSILS_TO_BONES_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_transform_fossils_to_bones_button')]"
+                        tooltip = "MR_TRANSFORM_FOSSILS_TO_BONES_BUTTON_TT"
+                    }
+
+                    # Paleontological Collection
+                    mr_academic_project_button = {
+                        text = "mr_science_paleontologist_create_collection_button"
+                        datacontext = "[GetScriptedGui('mr_paleontological_collection_button')]"
+                        tooltip = "MR_PALEONTOLOGICAL_COLECTION_BUTTON_TT"
+                    }
+
+                    # Extinction Congress
+                    mr_academic_project_button = {
+                        text = "MR_EXTINCTION_CONGRESS_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_extinction_congress_button')]"
+                        tooltip = "MR_EXTINCTION_CONGRESS_BUTTON_TT"
+                    }
+                }
+                blockoverride "stop_context" {
+                    datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
+                }
+            }
         }
     }
 
@@ -2150,6 +3208,8 @@ types mr_main_science_panel_types {
         }
         blockoverride "big_box_content" {
             mr_academic_interactions = {
+                visible = "[Not(GetScriptedGui('mr_setting_academic_compact').IsValid(GuiScope.SetRoot(Country.MakeScope).End))]"
+
                 blockoverride "tabs" {
                     tab_buttons = {
 						maximumsize = { @[panel_button_width + 20 ] 0 }
@@ -2322,6 +3382,382 @@ types mr_main_science_panel_types {
                     datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
                 }
             }
+            mr_academic_interactions_simple = {
+                visible = "[GetScriptedGui('mr_setting_academic_compact').IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+
+                blockoverride "content" {
+                    margin_bottom = 20
+                    hbox = {
+                        spacing = 4
+
+                        # Document Native Wildlife
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_animal_documentation_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_ANIMAL_DOCUMENTATION_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_document_native_animal_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 90% 90% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_animal_documentation_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_animal_documentation_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_ANIMAL_DOCUMENTATION_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 40 40 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_dubois_document_native_animal_button.dds"
+                                visible = "[GetScriptedGui('mr_animal_documentation_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Heia Safari
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_safari_expedition_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_SAFARI_EXPEDITION_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_heia_safari_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_safari_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_safari_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_SAFARI_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_dubois_heia_safari_button.dds"
+                                visible = "[GetScriptedGui('mr_safari_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Catch local Animals
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_zoological_expedition_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_ZOOLOGICAL_EXPEDITION_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_local_animals_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_zoological_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_zoological_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_ZOOLOGICAL_EXPEDITION_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_dubois_local_animals_button.dds"
+                                visible = "[GetScriptedGui('mr_zoological_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Botanical Expedition
+                        widget = {
+                            size = { 50 50 }
+
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_botanical_expedition_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_BOTANICAL_EXPEDITION_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_botanical_expedition_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            # Botanical Expedition Recall
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('gaudi_aeronautical_engineer_experience_bar_visibility_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            # Botanical Expedition Recall
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_botanical_expedition_recall_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_BOTANICAL_EXPEDITION_RECALL_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_botanical_expedition_button_recall.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+                        }
+                    }
+                    hbox = {
+                        spacing = 4
+
+                        # Improve Forestry
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_naturalist_improve_forestry_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_NATURALIST_IMPROVE_FORESTRY_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_improve_forestry_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_improve_forestry_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_improve_forestry_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_IMPROVE_FORESTRY_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_dubois_improve_forestry_button.dds"
+                                visible = "[GetScriptedGui('mr_improve_forestry_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Improve Rubber Plantation
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_naturalist_improve_rubber_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_NATURALIST_IMPROVE_RUBBER_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_dubois_improve_rubber_plantation_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_improve_rubber_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_improve_rubber_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_IMPROVE_RUBBER_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_dubois_improve_rubber_plantation_button.dds"
+                                visible = "[GetScriptedGui('mr_improve_rubber_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+                    }
+
+                    expand = {}
+
+                    # Ban Animal Export
+                    mr_academic_project_button = {
+                        text = "MR_BAN_ANIMAL_EXPORT_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_ban_animal_export_button')]"
+                        tooltip = "MR_BAN_ANIMAL_EXPORT_BUTTON_TT"
+                    }
+
+                    # Allow Animal Export
+                    mr_academic_project_button = {
+                        text = "MR_ALLOW_ANIMAL_EXPORT_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_allow_animal_export_button')]"
+                        tooltip = "MR_ALLOW_ANIMAL_EXPORT_BUTTON_TT"
+                    }
+
+                    # Expand Zoo Small
+                    mr_academic_project_button = {
+                        text = "MR_EXTEND_ZOO_SMALL_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_extend_zoo_small_button')]"
+                        tooltip = "MR_EXTEND_ZOO_SMALL_BUTTON_TT"
+                    }
+
+                    # Expand Zoo Medium
+                    mr_academic_project_button = {
+                        text = "MR_EXTEND_ZOO_MEDIUM_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_extend_zoo_medium_button')]"
+                        tooltip = "MR_EXTEND_ZOO_MEDIUM_BUTTON_TT"
+                    }
+
+                    # Expand Zoo Large
+                    mr_academic_project_button = {
+                        text = "MR_EXTEND_ZOO_LARGE_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_extend_zoo_large_button')]"
+                        tooltip = "MR_EXTEND_ZOO_LARGE_BUTTON_TT"
+                    }
+
+                    # Expand Zoo Famous
+                    mr_academic_project_button = {
+                        text = "MR_EXTEND_ZOO_FAMOUS_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_extend_zoo_famous_button')]"
+                        tooltip = "MR_EXTEND_ZOO_FAMOUS_BUTTON_TT"
+                    }
+
+                    # Breed Animals
+                    mr_academic_project_button = {
+                        text = "MR_BREEDING_ANIMALS_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_breeding_animals_button')]"
+                        tooltip = "MR_BREEDING_ANIMALS_BUTTON_TT"
+                    }
+
+                    # Hippocampus Congress
+                    mr_academic_project_button = {
+                        text = "MR_HIPPOCAMPUS_CONGRESS_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_hippocampus_congress_button')]"
+                        tooltip = "MR_HIPPOCAMPUS_CONGRESS_BUTTON_TT"
+                    }
+
+                    # Botanical Garden
+                    mr_academic_project_button = {
+                        text = "MR_SPECIMEN_GARDEN_BUTTON"
+                        datacontext = "[GetScriptedGui('dubois_specimen_garden_button')]"
+                        tooltip = "MR_SPECIMEN_GARDEN_BUTTON_TT"
+                    }
+
+                    # Specimen Collection
+                    mr_academic_project_button = {
+                        text = "MR_SPECIMEN_COLLECTION_BUTTON"
+                        datacontext = "[GetScriptedGui('dubois_specimen_collection_button')]"
+                        tooltip = "MR_SPECIMEN_COLLECTION_BUTTON_TT"
+                    }
+                }
+                blockoverride "stop_context" {
+                    datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
+                }
+            }
         }
     }
 
@@ -2482,6 +3918,8 @@ types mr_main_science_panel_types {
         }
         blockoverride "big_box_content" {
             mr_academic_interactions = {
+                visible = "[Not(GetScriptedGui('mr_setting_academic_compact').IsValid(GuiScope.SetRoot(Country.MakeScope).End))]"
+
                 blockoverride "tabs" {
                     tab_buttons = {
 						maximumsize = { @[panel_button_width + 20 ] 0 }
@@ -2679,6 +4117,508 @@ types mr_main_science_panel_types {
                         }
 
                         expand = {}
+                    }
+                }
+                blockoverride "stop_context" {
+                    datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
+                }
+            }
+            mr_academic_interactions_simple = {
+                visible = "[GetScriptedGui('mr_setting_academic_compact').IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+
+                blockoverride "content" {
+                    margin_top = 10
+                    margin_bottom = 10
+                    hbox = {
+                        spacing = 4
+
+                        # Describe Diseases (local)
+                        widget = {
+                            size = { 40 40 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                visible = "[Not( GetScriptedGui('mr_physician_describe_disease_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+                                parentanchor = center
+                                size = { 40 40 }
+
+                                datacontext = "[GetScriptedGui('mr_physician_describe_disease_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_PHYSICIAN_DESCRIBE_DISEASE_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_panum_describe_disease_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 110% 110% }
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_physician_describe_disease_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 40 40 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_physician_describe_disease_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_PHYSICIAN_DESCRIBE_DISEASE_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 28 28 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_panum_describe_disease_button.dds"
+                                visible = "[GetScriptedGui('mr_physician_describe_disease_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Find Treatment (local)
+                        widget = {
+                            size = { 40 40 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                visible = "[Not( GetScriptedGui('mr_physician_find_treatment_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+                                parentanchor = center
+                                size = { 40 40 }
+
+                                datacontext = "[GetScriptedGui('mr_physician_find_treatment_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_PHYSICIAN_FIND_TREATMENT_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_panum_find_treatment_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 110% 110% }
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_physician_find_treatment_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 40 40 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_physician_find_treatment_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_PHYSICIAN_FIND_TREATMENT_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 28 28 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_panum_find_treatment_button.dds"
+                                visible = "[GetScriptedGui('mr_physician_find_treatment_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Describe Diseases (foreign)
+                        widget = {
+                            size = { 40 40 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                visible = "[Not( GetScriptedGui('mr_physician_describe_disease_foreign_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+                                parentanchor = center
+                                size = { 40 40 }
+
+                                datacontext = "[GetScriptedGui('mr_physician_describe_disease_foreign_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_PHYSICIAN_DESCRIBE_DISEASE_FOREIGN_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_panum_describe_disease_foreign_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 110% 110%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_physician_describe_disease_foreign_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 40 40 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_physician_describe_disease_foreign_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_PHYSICIAN_DESCRIBE_DISEASE_FOREIGN_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 28 28 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_panum_describe_disease_foreign_button.dds"
+                                visible = "[GetScriptedGui('mr_physician_describe_disease_foreign_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Find Treatment (foreign)
+                        widget = {
+                            size = { 40 40 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                visible = "[Not( GetScriptedGui('mr_physician_find_treatment_foreign_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+                                parentanchor = center
+                                size = { 40 40 }
+
+                                datacontext = "[GetScriptedGui('mr_physician_find_treatment_foreign_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_PHYSICIAN_FIND_TREATMENT_FOREIGN_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_panum_find_treatment_foreign_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 110% 110% }
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_physician_find_treatment_foreign_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 40 40 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_physician_find_treatment_foreign_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_PHYSICIAN_FIND_TREATMENT_FOREIGN_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 28 28 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_panum_find_treatment_foreign_button.dds"
+                                visible = "[GetScriptedGui('mr_physician_find_treatment_foreign_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+                    }
+                    hbox = {
+                        spacing = 4
+
+                        # Treat Character
+                        widget = {
+                            size = { 40 40 }
+
+                            #Button itself
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 40 40 }
+
+                                datacontext = "[GetScriptedGui('mr_physician_character_treatment_button_sgui')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_PHYSICIAN_CHARACTER_TREATMENT_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_panum_treatment_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+                        }
+
+                        # Expand Medical System
+                        widget = {
+                            size = { 40 40 }
+
+                            #Button itself
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 40 40 }
+
+                                datacontext = "[GetScriptedGui('mr_physician_expand_medical_system_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_PHYSICIAN_EXPAND_MEDICAL_SYSTEM_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_panum_expand_medical_service_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 110% 110%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_physician_expand_medical_system_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 40 40 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_physician_expand_medical_system_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_PHYSICIAN_EXPAND_MEDICAL_SYSTEM_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 28 28 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_panum_expand_medical_service_button.dds"
+                                visible = "[GetScriptedGui('mr_physician_expand_medical_system_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Medical Research
+                        widget = {
+                            size = { 40 40 }
+
+                            #Button itself
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 40 40 }
+
+                                datacontext = "[GetScriptedGui('mr_physician_medical_research_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_PHYSICIAN_MEDICAL_RESEARCH_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_panum_medical_research_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 110% 110%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_physician_medical_research_stop_button').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            # Medical Research Recall
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 40 40 }
+
+                                datacontext = "[GetScriptedGui('mr_physician_medical_research_stop_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_PHYSICIAN_MEDICAL_RESEARCH_STOP_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_panum_medical_research_stop_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+                        }
+
+                        # Medical Techniques
+                        widget = {
+                            size = { 40 40 }
+
+                            #Button itself
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 40 40 }
+
+                                datacontext = "[GetScriptedGui('mr_physician_introduce_medical_techniques_level_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_PHYSICIAN_INTRODUCE_MEDICAL_TECHNIQUES_LEVEL_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_panum_medical_technique_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 110% 110%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_physician_introduce_medical_techniques_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            # Checks Active State
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 40 40 }
+
+                                datacontext = "[GetScriptedGui('mr_physician_introduce_medical_techniques_active')]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_PHYSICIAN_INTRODUCE_MEDICAL_TECHNIQUES_LEVEL_BUTTON_ACTIVE_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_panum_medical_technique_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+                        }
+
+                        # Improve Military Medicine
+                        widget = {
+                            size = { 40 40 }
+
+                            #Button itself
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 40 40 }
+
+                                datacontext = "[GetScriptedGui('mr_physician_improve_military_medicine_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_PHYSICIAN_IMPROVE_MILITARY_MEDICINE_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_panum_improve_military_medicine_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 110% 110%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_physician_improve_military_medicine_active').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            # Checks Active State
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 40 40 }
+
+                                datacontext = "[GetScriptedGui('mr_physician_improve_military_medicine_active')]"
+                                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_PHYSICIAN_IMPROVE_MILITARY_MEDICINE_BUTTON_ACTIVE_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_panum_improve_military_medicine_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+                        }
+                    }
+
+                    expand = {}
+
+                    # Recruit Physician
+                    mr_academic_project_button = {
+                        text = "MR_RECRUIT_PHYSICIAN_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_recruit_physician_button')]"
+                        tooltip = "MR_RECRUIT_PHYSICIAN_BUTTON_TT"
+                        blockoverride "size" {
+                            size = { @[panel_button_width - 20] 35 }
+                        }
+                    }
+
+                    # Medical Congress
+                    mr_academic_project_button = {
+                        text = "MR_MEDICAL_CONGRESS_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_medical_congress_button')]"
+                        tooltip = "MR_MEDICAL_CONGRESS_BUTTON_TT"
+                        blockoverride "size" {
+                            size = { @[panel_button_width - 20] 35 }
+                        }
+                    }
+
+                    # Red Cross button
+                    mr_academic_project_button = {
+                        text = "MR_RED_CROSS_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_red_cross_button')]"
+                        tooltip = "MR_RED_CROSS_BUTTON_TT"
+                        blockoverride "size" {
+                            size = { @[panel_button_width - 20] 35 }
+                        }
+                    }
+
+                    # Join Red Cross button
+                    mr_academic_project_button = {
+                        text = "MR_JOIN_RED_CROSS_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_join_red_cross_button')]"
+                        tooltip = "MR_JOIN_RED_CROSS_BUTTON_TT"
+                        blockoverride "size" {
+                            size = { @[panel_button_width - 20] 35 }
+                        }
+                    }
+
+                    # Found Asylum
+                    mr_academic_project_button = {
+                        text = "MR_FOUND_ASYLUM_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_found_asylum_button')]"
+                        tooltip = "MR_FOUND_ASYLUM_BUTTON_TT"
+                        blockoverride "size" {
+                            size = { @[panel_button_width - 20] 35 }
+                        }
+                    }
+
+                    # Send character to Asylum
+                    mr_academic_project_button = {
+                        text = "MR_SEND_CHARACTER_TO_ASYLUM_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_send_character_to_asylum_button_sgui')]"
+                        tooltip = "MR_SEND_CHARACTER_TO_ASYLUM_BUTTON_TT"
+                        blockoverride "size" {
+                            size = { @[panel_button_width - 20] 35 }
+                        }
+                    }
+
+                    # First Vaccine
+                    mr_academic_project_button = {
+                        text = "MR_FIRST_VACCINE_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_first_vaccine_button')]"
+                        tooltip = "MR_FIRST_VACCINE_BUTTON_TT"
+                        blockoverride "size" {
+                            size = { @[panel_button_width - 20] 35 }
+                        }
+                    }
+
+                    # Pandemic Policy
+                    mr_academic_project_button = {
+                        text = "MR_PANDEMIC_POLICY_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_pandemic_policy_button')]"
+                        tooltip = "MR_PANDEMIC_POLICY_BUTTON_TT"
+                        blockoverride "size" {
+                            size = { @[panel_button_width - 20] 35 }
+                        }
                     }
                 }
                 blockoverride "stop_context" {
@@ -2954,6 +4894,8 @@ types mr_main_science_panel_types {
         }
         blockoverride "big_box_content" {
             mr_academic_interactions = {
+                visible = "[Not(GetScriptedGui('mr_setting_academic_compact').IsValid(GuiScope.SetRoot(Country.MakeScope).End))]"
+
                 blockoverride "tabs" {
                     tab_buttons = {
 						maximumsize = { @[panel_button_width + 20 ] 0 }
@@ -3102,15 +5044,15 @@ types mr_main_science_panel_types {
                         # Inspect Excavation
                         mr_academic_project_button = {
                             text = "MR_INSPECT_EXCAVATION_BUTTON"
-                            datacontext = "[GetScriptedGui('mr_cancel_excavation_button')]"
+                            datacontext = "[GetScriptedGui('mr_inspect_excavation_button')]"
                             tooltip = "MR_INSPECT_EXCAVATION_BUTTON_TT"
                         }
 
-                        # Inspect Excavation
+                        # Cancel Excavation
                         mr_academic_project_button = {
-                            text = "MR_INSPECT_EXCAVATION_BUTTON"
-                            datacontext = "[GetScriptedGui('mr_inspect_excavation_button')]"
-                            tooltip = "MR_INSPECT_EXCAVATION_BUTTON_TT"
+                            text = "MR_CANCEL_EXCAVATION_BUTTON"
+                            datacontext = "[GetScriptedGui('mr_cancel_excavation_button')]"
+                            tooltip = "MR_CANCEL_EXCAVATION_BUTTON_TT"
                         }
 
                         # Local Excavation
@@ -3154,12 +5096,14 @@ types mr_main_science_panel_types {
                             datacontext = "[GetScriptedGui('mr_exodus_congress_button')]"
                             tooltip = "MR_EXODUS_CONGRESS_BUTTON_TT"
                         }
+
                         # Civilization Congress
                         mr_academic_project_button = {
                             text = "MR_CIVILIZATION_CONGRESS_BUTTON"
                             datacontext = "[GetScriptedGui('mr_civilization_congress_button')]"
                             tooltip = "MR_CIVILIZATION_CONGRESS_BUTTON_TT"
                         }
+
                         # Troy Congress
                         mr_academic_project_button = {
                             text = "MR_TROY_CONGRESS_BUTTON"
@@ -3168,6 +5112,487 @@ types mr_main_science_panel_types {
                         }
 
                         expand = {}
+                    }
+                }
+                blockoverride "stop_context" {
+                    datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
+                }
+            }
+            mr_academic_interactions_simple = {
+                visible = "[GetScriptedGui('mr_setting_academic_compact').IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+
+                blockoverride "content" {
+                    margin_top = 10
+                    margin_bottom = 10
+                    hbox = {
+                        spacing = 4
+
+                        # Upper Egypt
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                visible = "[Not( GetScriptedGui('mr_upper_egypt_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_upper_egypt_expedition_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_UPPER_EGYPT_EXPEDITION_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_upper_egypt_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_upper_egypt_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_upper_egypt_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_UPPER_EGYPT_EXPEDITION_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_upper_egypt_button.dds"
+                                visible = "[GetScriptedGui('mr_upper_egypt_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Lower Egypt
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                visible = "[Not( GetScriptedGui('mr_lower_egypt_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_lower_egypt_expedition_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_LOWER_EGYPT_EXPEDITION_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_lower_egypt_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_lower_egypt_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_lower_egypt_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_LOWER_EGYPT_EXPEDITION_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_lower_egypt_button.dds"
+                                visible = "[GetScriptedGui('mr_lower_egypt_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Babylonia
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                visible = "[Not( GetScriptedGui('mr_babylonia_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_babylonia_expedition_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_BABYLONIA_EXPEDITION_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_babylonia_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_babylonia_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_babylonia_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_BABYLONIA_EXPEDITION_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_babylonia_button.dds"
+                                visible = "[GetScriptedGui('mr_babylonia_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Assyria
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                visible = "[Not( GetScriptedGui('mr_assyria_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_assyria_expedition_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_ASSYRIA_EXPEDITION_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_assyria_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_assyria_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_assyria_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_ASSYRIA_EXPEDITION_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_assyria_button.dds"
+                                visible = "[GetScriptedGui('mr_assyria_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+                    }
+                    hbox = {
+                        spacing = 4
+
+                        # Argolis
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                visible = "[Not( GetScriptedGui('mr_argolis_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_argolis_expedition_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_ARGOLIS_EXPEDITION_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_argolis_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 68% 68% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_argolis_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_argolis_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_ARGOLIS_EXPEDITION_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_argolis_button.dds"
+                                visible = "[GetScriptedGui('mr_argolis_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Crete
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                visible = "[Not( GetScriptedGui('mr_crete_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_crete_expedition_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_CRETE_EXPEDITION_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_crete_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_crete_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_crete_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_CRETE_EXPEDITION_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_crete_button.dds"
+                                visible = "[GetScriptedGui('mr_crete_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Yucatán
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                visible = "[Not( GetScriptedGui('mr_yucatan_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_yucatan_expedition_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_YUCATAN_EXPEDITION_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_yucatan_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_yucatan_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_yucatan_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_YUCATAN_EXPEDITION_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_yucatan_button.dds"
+                                visible = "[GetScriptedGui('mr_yucatan_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Peru
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                visible = "[Not( GetScriptedGui('mr_peru_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_peru_expedition_button')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                                tooltip = "MR_PERU_EXPEDITION_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_peru_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 75% 75% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100%}
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_peru_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_peru_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+                                tooltip = "MR_PERU_EXPEDITION_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 34 34 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_peru_button.dds"
+                                visible = "[GetScriptedGui('mr_peru_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                            }
+                        }
+                    }
+
+                    expand = {}
+
+                    # Inspect Excavation
+                    mr_academic_project_button = {
+                        text = "MR_INSPECT_EXCAVATION_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_inspect_excavation_button')]"
+                        tooltip = "MR_INSPECT_EXCAVATION_BUTTON_TT"
+                    }
+
+                    # Cancel Excavation
+                    mr_academic_project_button = {
+                        text = "MR_CANCEL_EXCAVATION_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_cancel_excavation_button')]"
+                        tooltip = "MR_CANCEL_EXCAVATION_BUTTON_TT"
+                    }
+
+                    # Local Excavation
+                    mr_academic_project_button = {
+                        text = "MR_LOCAL_EXCAVATION_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_local_excavation_button')]"
+                        tooltip = "MR_LOCAL_EXCAVATION_BUTTON_TT"
+                    }
+
+                    # First Archaeological Team
+                    mr_academic_project_button = {
+                        text = "MR_FIRST_EXCAVATION_TEAM_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_first_excavation_team_button')]"
+                        tooltip = "MR_FIRST_EXCAVATION_TEAM_BUTTON_TT"
+                    }
+
+                    # Second Archaeological Team
+                    mr_academic_project_button = {
+                        text = "MR_SECOND_EXCAVATION_TEAM_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_second_excavation_team_button')]"
+                        tooltip = "MR_SECOND_EXCAVATION_TEAM_BUTTON_TT"
+                    }
+
+                    # Third Archaeological Team
+                    mr_academic_project_button = {
+                        text = "MR_THIRD_EXCAVATION_TEAM_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_third_excavation_team_button')]"
+                        tooltip = "MR_THIRD_EXCAVATION_TEAM_BUTTON_TT"
+                    }
+
+                    # Fourth Archaeological Team
+                    mr_academic_project_button = {
+                        text = "MR_FOURTH_EXCAVATION_TEAM_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_fourth_excavation_team_button')]"
+                        tooltip = "MR_FOURTH_EXCAVATION_TEAM_BUTTON_TT"
+                    }
+
+                    # Exodus Congress
+                    mr_academic_project_button = {
+                        text = "MR_EXODUS_CONGRESS_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_exodus_congress_button')]"
+                        tooltip = "MR_EXODUS_CONGRESS_BUTTON_TT"
+                    }
+
+                    # Civilization Congress
+                    mr_academic_project_button = {
+                        text = "MR_CIVILIZATION_CONGRESS_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_civilization_congress_button')]"
+                        tooltip = "MR_CIVILIZATION_CONGRESS_BUTTON_TT"
+                    }
+
+                    # Troy Congress
+                    mr_academic_project_button = {
+                        text = "MR_TROY_CONGRESS_BUTTON"
+                        datacontext = "[GetScriptedGui('mr_troy_congress_button')]"
+                        tooltip = "MR_TROY_CONGRESS_BUTTON_TT"
                     }
                 }
                 blockoverride "stop_context" {
@@ -3402,7 +5827,7 @@ types mr_main_science_panel_types {
                             raw_text = "general_header_text"
                             default_format = "#r"
                         }
-                        using = fontsize_large
+                        using = fontsize_mega
                         align = center
                         elide = right
                     }
@@ -3411,48 +5836,13 @@ types mr_main_science_panel_types {
         }
 
         hbox = {
-            margin = { 20 20 }
+            margin = { 10 20 }
             spacing = 20
             layoutpolicy_horizontal = expanding
             layoutpolicy_vertical = expanding
 
-            hbox = {
-                layoutpolicy_horizontal = expanding
-                layoutpolicy_vertical = expanding
-                margin = { 20 20 }
-                background = {
-                    using = entry_bg_simple
-                }
+            block "content" {
 
-                vbox = {
-                    layoutpolicy_horizontal = expanding
-                    layoutpolicy_vertical = expanding
-
-                    block "big_box_content" {}
-                }
-            }
-
-            vbox = {
-                layoutpolicy_vertical = expanding
-                background = {
-                    using = simple_frame
-                }
-
-                block "center_box_content" {
-                    visible = no
-                }
-            }
-
-            vbox = {
-                layoutpolicy_vertical = expanding
-                margin = { 20 20 }
-                minimumsize = { 400 -1 }
-                maximumsize = { 400 -1 }
-                background = {
-                    using = simple_frame
-                }
-
-                block "small_box_content" {}
             }
         }
     }
@@ -3461,238 +5851,474 @@ types mr_main_science_panel_types {
         blockoverride "general_header_text" {
             text = mr_academic_promote_header
         }
-        blockoverride "small_box_content" {
-            spacing = 7
-
-            # Promote Engineer
-            mr_academic_project_button = {
-                default_format = "#o"
-                text = ENGINEERING_HEADER_TEXT
-                datacontext = "[GetScriptedGui('mr_academics_promote_engineer')]"
-                tooltip = "MR_PROMOTE_ENGINEER_TT"
-                blockoverride "size" {
-                    size = { 350 45 }
-                }
-            }
-            # Promote Chemist
-            mr_academic_project_button = {
-                default_format = "#o"
-                text = "CHEMISTRY_HEADER_TEXT"
-                datacontext = "[GetScriptedGui('mr_academics_promote_chemist')]"
-                tooltip = "MR_PROMOTE_CHEMIST_TT"
-                blockoverride "size" {
-                    size = { 350 45 }
-                }
-            }
-            # Promote Astronomer
-            mr_academic_project_button = {
-                default_format = "#o"
-                text = "ASTRONOMY_HEADER_TEXT"
-                datacontext = "[GetScriptedGui('mr_academics_promote_astronomer')]"
-                tooltip = "MR_PROMOTE_ASTRONOMER_TT"
-                blockoverride "size" {
-                    size = { 350 45 }
-                }
-            }
-            # Promote Geologist
-            mr_academic_project_button = {
-                default_format = "#g"
-                text = "GEOLOGY_HEADER_TEXT"
-                datacontext = "[GetScriptedGui('mr_academics_promote_geologist')]"
-                tooltip = "MR_PROMOTE_GEOLOGIST_TT"
-                blockoverride "size" {
-                    size = { 350 45 }
-                }
-            }
-            # Promote Paleontologist
-            mr_academic_project_button = {
-                default_format = "#g"
-                text = "PALEONTOLOGY_HEADER_TEXT"
-                datacontext = "[GetScriptedGui('mr_academics_promote_paleontologist')]"
-                tooltip = "MR_PROMOTE_PALEONTOLOGIST_TT"
-                blockoverride "size" {
-                    size = { 350 45 }
-                }
-            }
-            # Promote Naturalist
-            mr_academic_project_button = {
-                default_format = "#g"
-                text = "NATURALIST_HEADER_TEXT"
-                datacontext = "[GetScriptedGui('mr_academics_promote_naturalist')]"
-                tooltip = "MR_PROMOTE_NATURALIST_TT"
-                blockoverride "size" {
-                    size = { 350 45 }
-                }
-            }
-            # Promote Physician
-            mr_academic_project_button = {
-                default_format = "#blue"
-                text = "PHYSICIAN_HEADER_TEXT"
-                datacontext = "[GetScriptedGui('mr_academics_promote_physician_sgui')]"
-                tooltip = "MR_PROMOTE_PHYSICIAN_TT"
-                blockoverride "size" {
-                    size = { 350 45 }
-                }
-            }
-            # Promote Archaeologist
-            mr_academic_project_button = {
-                default_format = "#blue"
-                text = "ARCHAEOLOGY_HEADER_TEXT"
-                datacontext = "[GetScriptedGui('mr_academics_promote_archaeologist')]"
-                tooltip = "MR_PROMOTE_ARCHAEOLOGIST_TT"
-                blockoverride "size" {
-                    size = { 350 45 }
-                }
-            }
-            # Promote Anthropologist
-            mr_academic_project_button = {
-                default_format = "#blue"
-                text = "ANTHRAPOLOGY_HEADER_TEXT"
-                datacontext = "[GetScriptedGui('mr_academics_promote_anthropologist')]"
-                tooltip = "MR_PROMOTE_ANTHROPOLOGIST_TT"
-                blockoverride "size" {
-                    size = { 350 45 }
-                }
-            }
-        }
-        blockoverride "center_box_content" {
-            margin = { 20 0 }
-            margin_bottom = 23
+        blockoverride "content" {
             spacing = 20
-            minimumsize = { 400 -1 }
-            maximumsize = { 400 -1 }
-            background = {
-                using = simple_frame
-            }
-
-            default_header_clean_faded = {
-                maximumsize = { 400 -1 }
-                blockoverride "text" {
-                    text = "PROGRESS_TO_NEXT_ACADEMIC"
-                }
-                blockoverride "text_size" {
-                    using = fontsize_mega
-                }
-                blockoverride "size" {
-                    size = { 400 50 }
-                }
-            }
 
             vbox = {
-                layoutpolicy_vertical = expanding
-
-                expand = {}
-
-                textbox = {
-                    maximumsize = { 400 -1 }
-                    minimumsize = { 400 -1 }
-                    text = "CURRENT_ACADEMIC_SUPPORT"
-                    autoresize = yes
-                    multiline = yes
-                    using = fontsize_xl
-                    align = center
-                }
-
-                expand = {}
-
-                green_progressbar_horizontal = {
-                    size = { 400 35 }
-                    blockoverride "values" {
-                        min = 0
-                        max = 360
-                        value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('dubois_academy_progress').GetValue)]"
-                    }
-                    tooltip = "MR_ACADEMIC_PROGRESS_BAR_TT"
-                    textbox = {
-                        text = "MR_ACADEMY_PROGRESS_VALUES"
-                        size = { 400 35 }
-                        using = fontsize_xl
-                        align = center
-                    }
-                }
-            }
-        }
-        blockoverride "big_box_content" {
-            textbox = {
                 layoutpolicy_horizontal = expanding
-                autoresize = yes
-                multiline = yes
-                text = mr_academic_promote_desc
+                spacing = 30
+                hbox = {
+                    layoutpolicy_horizontal = expanding
+                    spacing = 20
+                    vbox = {
+                        margin_left = 20
+                        spacing = 25
+                        # Promote Engineer
+                        mr_academic_icon_button = {
+                            blockoverride "button_content" {
+                                default_format = "#o"
+                                text = ENGINEERING_HEADER_TEXT
+                                datacontext = "[GetScriptedGui('mr_academics_promote_engineer')]"
+                                tooltip = "MR_PROMOTE_ENGINEER_TT"
+                            }
+                            blockoverride "icon_size" {
+                                size = { 100% 100% }
+                            }
+                            blockoverride "size" {
+                                size = { 250 45 }
+                            }
+                            blockoverride "icon" {
+                                texture = "gfx/interface/icons/character_role_icons/gaudi_engineer_role.dds"
+                            }
+                            blockoverride "icon_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_academics_engineer_is_promoted_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                            }
+                        }
+                        # Promote Chemist
+                        mr_academic_icon_button = {
+                            blockoverride "button_content" {
+                                default_format = "#o"
+                                text = "CHEMISTRY_HEADER_TEXT"
+                                datacontext = "[GetScriptedGui('mr_academics_promote_chemist')]"
+                                tooltip = "MR_PROMOTE_CHEMIST_TT"
+                            }
+                            blockoverride "icon_size" {
+                                size = { 100% 100% }
+                            }
+                            blockoverride "size" {
+                                size = { 250 45 }
+                            }
+                            blockoverride "icon" {
+                                texture = "gfx/interface/icons/character_role_icons/mendelejew_chemist_role.dds"
+                            }
+                            blockoverride "icon_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_academics_chemist_is_promoted_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                            }
+                        }
+                        # Promote Astronomer
+                        mr_academic_icon_button = {
+                            blockoverride "button_content" {
+                                default_format = "#o"
+                                text = "ASTRONOMY_HEADER_TEXT"
+                                datacontext = "[GetScriptedGui('mr_academics_promote_astronomer')]"
+                                tooltip = "MR_PROMOTE_ASTRONOMER_TT"
+                            }
+                            blockoverride "icon_size" {
+                                size = { 100% 100% }
+                            }
+                            blockoverride "size" {
+                                size = { 250 45 }
+                            }
+                            blockoverride "icon" {
+                                texture = "gfx/interface/icons/character_role_icons/verrier_astronomer_role.dds"
+                            }
+                            blockoverride "icon_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_academics_astronomer_is_promoted_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                            }
+                        }
+                    }
+                    vbox = {
+                        margin_left = 20
+                        spacing = 25
+                        # Promote Geologist
+                        mr_academic_icon_button = {
+                            blockoverride "button_content" {
+                                default_format = "#g"
+                                text = "GEOLOGY_HEADER_TEXT"
+                                datacontext = "[GetScriptedGui('mr_academics_promote_geologist')]"
+                                tooltip = "MR_PROMOTE_GEOLOGIST_TT"
+                            }
+                            blockoverride "icon_size" {
+                                size = { 100% 100% }
+                            }
+                            blockoverride "size" {
+                                size = { 250 45 }
+                            }
+                            blockoverride "icon" {
+                                texture = "gfx/interface/icons/character_role_icons/mr_geologist_role.dds"
+                            }
+                            blockoverride "icon_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_academics_geologist_is_promoted_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                            }
+                        }
+                        # Promote Paleontologist
+                        mr_academic_icon_button = {
+                            blockoverride "button_content" {
+                                default_format = "#g"
+                                text = "PALEONTOLOGY_HEADER_TEXT"
+                                datacontext = "[GetScriptedGui('mr_academics_promote_paleontologist')]"
+                                tooltip = "MR_PROMOTE_PALEONTOLOGIST_TT"
+                            }
+                            blockoverride "icon_size" {
+                                size = { 100% 100% }
+                            }
+                            blockoverride "size" {
+                                size = { 250 45 }
+                            }
+                            blockoverride "icon" {
+                                texture = "gfx/interface/icons/character_role_icons/dubois_paleontologist_role.dds"
+                            }
+                            blockoverride "icon_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_academics_paleontologist_is_promoted_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                            }
+                        }
+                        # Promote Naturalist
+                        mr_academic_icon_button = {
+                            blockoverride "button_content" {
+                                default_format = "#g"
+                                text = "NATURALIST_HEADER_TEXT"
+                                datacontext = "[GetScriptedGui('mr_academics_promote_naturalist')]"
+                                tooltip = "MR_PROMOTE_NATURALIST_TT"
+                            }
+                            blockoverride "icon_size" {
+                                size = { 100% 100% }
+                            }
+                            blockoverride "size" {
+                                size = { 250 45 }
+                            }
+                            blockoverride "icon" {
+                                texture = "gfx/interface/icons/character_role_icons/dubois_naturalist_role.dds"
+                            }
+                            blockoverride "icon_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_academics_naturalist_is_promoted_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                            }
+                        }
+                    }
+                    vbox = {
+                        margin_left = 20
+                        spacing = 25
+                        # Promote Physician
+                        mr_academic_icon_button = {
+                            blockoverride "button_content" {
+                                default_format = "#blue"
+                                text = "PHYSICIAN_HEADER_TEXT"
+                                datacontext = "[GetScriptedGui('mr_academics_promote_physician_sgui')]"
+                                tooltip = "MR_PROMOTE_PHYSICIAN_TT"
+                            }
+                            blockoverride "icon_size" {
+                                size = { 100% 100% }
+                            }
+                            blockoverride "size" {
+                                size = { 250 45 }
+                            }
+                            blockoverride "icon" {
+                                texture = "gfx/interface/icons/character_role_icons/panum_physician_role.dds"
+                            }
+                            blockoverride "icon_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_academics_physician_is_promoted_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                            }
+                        }
+                        # Promote Archaeologist
+                        mr_academic_icon_button = {
+                            blockoverride "button_content" {
+                                default_format = "#blue"
+                                text = "ARCHAEOLOGY_HEADER_TEXT"
+                                datacontext = "[GetScriptedGui('mr_academics_promote_archaeologist')]"
+                                tooltip = "MR_PROMOTE_ARCHAEOLOGIST_TT"
+                            }
+                            blockoverride "icon_size" {
+                                size = { 100% 100% }
+                            }
+                            blockoverride "size" {
+                                size = { 250 45 }
+                            }
+                            blockoverride "icon" {
+                                texture = "gfx/interface/icons/character_role_icons/lepsius_archaeologist_role.dds"
+                            }
+                            blockoverride "icon_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_academics_archaeologist_is_promoted_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                            }
+                        }
+                        # Promote Anthropologist
+                        mr_academic_icon_button = {
+                            blockoverride "button_content" {
+                                default_format = "#blue"
+                                text = "ANTHRAPOLOGY_HEADER_TEXT"
+                                datacontext = "[GetScriptedGui('mr_academics_promote_anthropologist')]"
+                                tooltip = "MR_PROMOTE_ANTHROPOLOGIST_TT"
+                            }
+                            blockoverride "icon_size" {
+                                size = { 100% 100% }
+                            }
+                            blockoverride "size" {
+                                size = { 250 45 }
+                            }
+                            blockoverride "icon" {
+                                texture = "gfx/interface/icons/character_role_icons/lepsius_anthropologist_role.dds"
+                            }
+                            blockoverride "icon_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_academics_anthropologist_is_promoted_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                            }
+                        }
+                    }
+                }
+
+                container = {
+                    vbox = {
+                        layoutpolicy_horizontal = expanding
+                        margin = { 20 0 }
+                        margin_bottom = 23
+                        spacing = 20
+                        background = {
+                            using = simple_frame
+                        }
+
+                        default_header_clean_faded = {
+                            layoutpolicy_horizontal = expanding
+                            blockoverride "text" {
+                                text = "PROGRESS_TO_NEXT_ACADEMIC"
+                            }
+                            blockoverride "text_size" {
+                                using = fontsize_xxl
+                            }
+                            blockoverride "size" {
+                                size = { 100% 50 }
+                            }
+                        }
+
+                        vbox = {
+                            spacing = 20
+                            layoutpolicy_horizontal = expanding
+                            layoutpolicy_vertical = expanding
+
+                            textbox = {
+                                layoutpolicy_horizontal = expanding
+                                text = "CURRENT_ACADEMIC_SUPPORT"
+                                autoresize = yes
+                                multiline = yes
+                                using = fontsize_xl
+                                align = center
+                            }
+
+                            hbox = {
+                                spacing = 20
+                                layoutpolicy_horizontal = expanding
+
+                                mr_academic_icon_button = {
+                                    blockoverride "button_content" {
+                                        datacontext = "[GetScriptedGui('mr_academics_academy_investment')]"
+                                        text = mr_academic_promote_invest
+                                        tooltip = "MR_ACADEMICS_PROMOTE_UNIVERSITY_INVESTMENT_TT"
+                                    }
+                                    blockoverride "size" {
+                                        size = { 200 45 }
+                                    }
+                                    blockoverride "icon" {
+                                        texture = "gfx/interface/icons/generic_icons/coin_icon_13.dds"
+                                    }
+                                    blockoverride "icon_highlight_visible" {
+                                        visible = "[GetScriptedGui('mr_academics_academy_investment_is_active_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                                    }
+                                }
+
+                                green_progressbar_horizontal = {
+                                    layoutpolicy_horizontal = expanding
+                                    blockoverride "values" {
+                                        min = 0
+                                        max = 360
+                                        value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('dubois_academy_progress').GetValue)]"
+                                    }
+                                    tooltip = "MR_ACADEMIC_PROGRESS_BAR_TT"
+                                    textbox = {
+                                        text = "MR_ACADEMY_PROGRESS_VALUES"
+                                        size = { 100% 100% }
+                                        using = fontsize_xl
+                                        align = center
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            expand = {}
         }
     }
 
     type mr_academic_scientific_focus = mr_academic_general {
+        layoutpolicy_vertical = expanding
         blockoverride "general_header_text" {
             text = ACADEMIC_FOCUS_TEXT
         }
-        blockoverride "small_box_content" {
-            spacing = 7
+        blockoverride "content" {
+            spacing = 20
 
-            # Avantgarde Intelligentsia
-            mr_academic_project_button = {
-                text = mr_science_general_focus_avantgarde_button
-                datacontext = "[GetScriptedGui('mr_academics_change_to_avantgarde_school')]"
-                tooltip = "MR_ACADEMICS_AVANTGARDE_TT"
-                blockoverride "size" {
-                    size = { 350 45 }
-                }
-            }
-            # Practical Academia
-            mr_academic_project_button = {
-                text = "mr_science_general_focus_practical_button"
-                datacontext = "[GetScriptedGui('mr_academics_change_to_practical_school')]"
-                tooltip = "MR_ACADEMICS_PRACTICAL_TT"
-                blockoverride "size" {
-                    size = { 350 45 }
-                }
-            }
-            # Military-Industrial Complex
-            mr_academic_project_button = {
-                text = "mr_science_general_focus_military_button"
-                datacontext = "[GetScriptedGui('mr_academics_change_to_military_school')]"
-                tooltip = "MR_ACADEMICS_MILITARY_TT"
-                blockoverride "size" {
-                    size = { 350 45 }
-                }
-            }
-            # Business Schools & Tycoon Capitalism
-            mr_academic_project_button = {
-                text = "mr_science_general_focus_business_button"
-                datacontext = "[GetScriptedGui('mr_academics_change_to_business_school')]"
-                tooltip = "MR_ACADEMICS_BUSINESS_TT"
-                blockoverride "size" {
-                    size = { 350 45 }
-                }
-            }
-            # Sea Power & Merchant Marine
-            mr_academic_project_button = {
-                text = "mr_science_general_focus_seapower_button"
-                datacontext = "[GetScriptedGui('mr_academics_change_to_seapower_school')]"
-                tooltip = "MR_ACADEMICS_SEAPOWER_TT"
-                blockoverride "size" {
-                    size = { 350 45 }
-                }
-            }
-            # Useful Ivory Tower
-            mr_academic_project_button = {
-                text = "mr_science_general_focus_useful_button"
-                datacontext = "[GetScriptedGui('mr_academics_change_to_useful_school')]"
-                tooltip = "MR_ACADEMICS_USEFUL_TT"
-                blockoverride "size" {
-                    size = { 350 45 }
-                }
-            }
-        }
-        blockoverride "big_box_content" {
-            textbox = {
+            vbox = {
                 layoutpolicy_horizontal = expanding
-                autoresize = yes
-                multiline = yes
-                text = mr_science_general_focus_desc
+                layoutpolicy_vertical = expanding
+                spacing = 30
+                vbox = {
+                    spacing = 25
+
+                    hbox = {
+                        layoutpolicy_horizontal = expanding
+                        spacing = 20
+                        margin_left = 20
+
+                        # Avantgarde Intelligentsia
+                        mr_academic_icon_button = {
+                            blockoverride "button_content" {
+                                text = mr_science_general_focus_avantgarde_button
+                                datacontext = "[GetScriptedGui('mr_academics_change_to_avantgarde_school')]"
+                                tooltip = "MR_ACADEMICS_AVANTGARDE_TT"
+                            }
+                            blockoverride "size" {
+                                size = { 380 45 }
+                            }
+                            blockoverride "icon" {
+                                texture = "gfx/interface/icons/focus_icons/focus_avantgarde_intelligentsia.dds"
+                            }
+                            blockoverride "icon_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_academics_avantgarde_school_active_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                            }
+                        }
+                        # Practical Academia
+                        mr_academic_icon_button = {
+                            blockoverride "button_content" {
+                                text = "mr_science_general_focus_practical_button"
+                                datacontext = "[GetScriptedGui('mr_academics_change_to_practical_school')]"
+                                tooltip = "MR_ACADEMICS_PRACTICAL_TT"
+                            }
+                            blockoverride "size" {
+                                size = { 380 45 }
+                            }
+                            blockoverride "icon" {
+                                texture = "gfx/interface/icons/focus_icons/focus_practical_academia.dds"
+                            }
+                            blockoverride "icon_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_academics_practical_school_active_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                            }
+                        }
+                    }
+                    hbox = {
+                        layoutpolicy_horizontal = expanding
+                        spacing = 20
+                        margin_left = 20
+
+                        # Military-Industrial Complex
+                        mr_academic_icon_button = {
+                            blockoverride "button_content" {
+                                text = "mr_science_general_focus_military_button"
+                                datacontext = "[GetScriptedGui('mr_academics_change_to_military_school')]"
+                                tooltip = "MR_ACADEMICS_MILITARY_TT"
+                            }
+                            blockoverride "size" {
+                                size = { 380 45 }
+                            }
+                            blockoverride "icon" {
+                                texture = "gfx/interface/icons/focus_icons/focus_military_industrial_complex.dds"
+                            }
+                            blockoverride "icon_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_academics_military_school_active_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                            }
+                        }
+
+                        # Business Schools & Tycoon Capitalism
+                        mr_academic_icon_button = {
+                            blockoverride "button_content" {
+                                text = "mr_science_general_focus_business_button"
+                                datacontext = "[GetScriptedGui('mr_academics_change_to_business_school')]"
+                                tooltip = "MR_ACADEMICS_BUSINESS_TT"
+                            }
+                            blockoverride "size" {
+                                size = { 380 45 }
+                            }
+                            blockoverride "icon" {
+                                texture = "gfx/interface/icons/focus_icons/focus_business_tycoon.dds"
+                            }
+                            blockoverride "icon_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_academics_business_school_active_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                            }
+                        }
+                    }
+                    hbox = {
+                        layoutpolicy_horizontal = expanding
+                        spacing = 20
+                        margin_left = 20
+
+                        # Sea Power & Merchant Marine
+                        mr_academic_icon_button = {
+                            blockoverride "button_content" {
+                                text = "mr_science_general_focus_seapower_button"
+                                datacontext = "[GetScriptedGui('mr_academics_change_to_seapower_school')]"
+                                tooltip = "MR_ACADEMICS_SEAPOWER_TT"
+                            }
+                            blockoverride "size" {
+                                size = { 380 45 }
+                            }
+                            blockoverride "icon" {
+                                texture = "gfx/interface/icons/focus_icons/focus_merchant_marine.dds"
+                            }
+                            blockoverride "icon_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_academics_seapower_school_active_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                            }
+                        }
+
+                        # Useful Ivory Tower
+                        mr_academic_icon_button = {
+                            blockoverride "button_content" {
+                                text = "mr_science_general_focus_useful_button"
+                                datacontext = "[GetScriptedGui('mr_academics_change_to_useful_school')]"
+                                tooltip = "MR_ACADEMICS_USEFUL_TT"
+                            }
+                            blockoverride "size" {
+                                size = { 380 45 }
+                            }
+                            blockoverride "icon" {
+                                texture = "gfx/interface/icons/focus_icons/focus_useful_ivory_tower.dds"
+                            }
+                            blockoverride "icon_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_academics_useful_school_active_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                            }
+                        }
+                    }
+                }
+
+                vbox = {
+                    layoutpolicy_horizontal = expanding
+                    layoutpolicy_vertical = expanding
+                    margin = { 20 0 }
+                    margin_bottom = 23
+                    spacing = 20
+                    background = {
+                        using = simple_frame
+                    }
+
+                    default_header_clean_faded = {
+                        layoutpolicy_horizontal = expanding
+                        blockoverride "text" {
+                            text = "mr_science_general_focus_active_header"
+                        }
+                        blockoverride "text_size" {
+                            using = fontsize_xxl
+                        }
+                        blockoverride "size" {
+                            size = { 100% 50 }
+                        }
+                    }
+
+
+                    textbox = {
+                        layoutpolicy_horizontal = expanding
+                        text = "[Country.GetCustom('academics_scientific_focus_gui_type')]"
+                        autoresize = yes
+                        multiline = yes
+                        using = fontsize_xl
+                        align = center
+                    }
+
+                    expand = {}
+                }
             }
-            expand = {}
         }
     }
 
@@ -3992,7 +6618,7 @@ types mr_main_science_panel_types {
 				}
 				size = { 30 30 }
 				parentanchor = top|right
-				position = { 5 -5 }
+				position = { 7 -4 }
 
 				icon = {
 					size = { 100% 100% }
@@ -4164,7 +6790,7 @@ types mr_main_science_panel_types {
             minimumsize = { @panel_button_width 0 }
             layoutpolicy_vertical = expanding
             margin = { 10 0 }
-            margin_top = 20
+            margin_top = 10
             background = {
                 using = simple_frame
             }
@@ -4220,6 +6846,7 @@ types mr_main_science_panel_types {
     }
 
     type mr_academic_project_button = button {
+        block "button_content" {}
         using = default_button_primary_big_action
         block "size" {
             size = { @[ panel_button_width - 20 ] 45 }
@@ -4229,7 +6856,67 @@ types mr_main_science_panel_types {
         visible = "[ScriptedGui.IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
     }
 
+    type mr_academic_icon_button = widget {
+        block "size" {
+            size = { @[ panel_button_width - 20 ] 45 }
+        }
+        mr_academic_project_button = {}
+        icon = {
+            enabled = yes
+            parentanchor = left|vcenter
+            position = { -10 0 }
+            size = { 60 60 }
+            block "background" {
+                texture = "gfx/interface/backgrounds/round_button_bg.dds"
+            }
+            icon = {
+                parentanchor = center
+                block "icon_size" {
+                    size = { 60% 60% }
+                }
+                block "icon" {
+                    #texture = ""
+                }
+            }
+            icon = {
+                block "icon_highlight_visible" {
+                    visible = no
+                }
+                size = { 62 62 }
+                using = highlighted_circle_selection_big
+            }
+        }
+    }
+
+    type mr_academic_round_icon_button = widget {
+        size = { 60 60 }
+        mr_academic_round_project_button = {
+            blockoverride "size" {
+                size = { 60 60 }
+            }
+            blockoverride "icon" {}
+        }
+        icon = {
+            parentanchor = center
+            block "icon_size" {
+                size = { 60% 60% }
+            }
+            block "icon" {
+                #texture = ""
+            }
+        }
+        icon = {
+            parentanchor = center
+            block "icon_highlight_visible" {
+                visible = no
+            }
+            size = { 62 62 }
+            using = highlighted_circle_selection_big
+        }
+    }
+
     type mr_academic_round_project_button = button_icon_round {
+        block "button_content" {}
         block "size" {
             size = { 50 50 }
         }
