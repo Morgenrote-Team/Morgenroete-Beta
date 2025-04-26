@@ -3,10 +3,27 @@
 
 types mr_main_shared_types {
 
+    type mr_shared_tab_fullscreen = vbox {
+        layoutpolicy_vertical = expanding
+        layoutpolicy_horizontal = expanding
+        spacing = 20
+        margin = { 30 30 }
+
+        block "view_visibility" {
+            visible = no
+        }
+
+        block "view_content" {
+
+        }
+
+        expand = {}
+    }
+
     type mr_shared_occupation = hbox {
         # Overridable Blocks
         ## Required:
-        # - occupation_character_context - Needs a Character scope set as datacontext
+        # - occupation_character_context - Needs a Character scope set as data context
         # - occupation_role_icon
         # - occupation_role_name
         # - occupation_experience_value
@@ -16,11 +33,15 @@ types mr_main_shared_types {
         # - occupation_character_name - Default: Normal Character Name
         # - occupation_role_tooltip - Default: empty
         # - occupation_experience_value_bar_visibility - Default: yes
+        # - occupation_experience_range - Default: 0 to 300
+        # - occupation_experience_tooltip - Default: empty
         # - occupation_achievements_icon_visibility - Default: yes
+        # - occupation_achievement_tooltip - Default: empty
         # - occupation_data_content - Default: empty
         # - occupation_ranking_visible - Default: no
         # - occupation_ranking - Default: empty
         # - big_box_content - Default: empty
+        # - visit_button - Default: empty
 
         spacing = 10
         margin = { 15 20 }
@@ -42,8 +63,9 @@ types mr_main_shared_types {
                 size = { 250 40 }
                 blockoverride "text" {}
                 textbox = {
+                    visible = "[Scope.IsSet]"
                     block "occupation_character_name" {
-                        text = "[Scope.GetCharacter.GetName]"
+                        text = "[Scope.GetCharacter.GetFullName]"
                     }
                     parentanchor = center
                     position = { 5 -2 }
@@ -94,12 +116,14 @@ types mr_main_shared_types {
                         visible = yes
                     }
                     blockoverride "values" {
-                        min = 0
-                        max = 300
+                        block "occupation_experience_range" {
+                            min = 0
+                            max = 300
+                        }
                         block "occupation_experience_value" {
                             value = "[FixedPointToFloat(Country.MakeScope.Var('dubois_academy_progress').GetValue)]"
                         }
-                        block "experience_tooltip" {}
+                        block "occupation_experience_tooltip" {}
                     }
                     textbox = {
                         block "occupation_experience_bar_text" {
@@ -159,7 +183,7 @@ types mr_main_shared_types {
                     size = { 100% 100% }
                     texture = "gfx/interface/icons/GUI_icons/GUI_scientist_achievements_button.dds"
                     block "enabled" {}
-                    block "scientist_achievement_tooltip" {}
+                    block "occupation_achievement_tooltip" {}
                 }
             }
         }
@@ -199,14 +223,12 @@ types mr_main_shared_types {
                         }
                     }
 
-                    container = {
+                    vbox = {
                         layoutpolicy_horizontal = expanding
-                        flowcontainer = {
-                            margin = { 15 10 }
-                            spacing = 8
-                            direction = vertical
-                            block "occupation_data_content" {}
-                        }
+                        margin = { 15 10 }
+                        spacing = 8
+
+                        block "occupation_data_content" {}
                     }
 
                     expand = {}
@@ -226,12 +248,10 @@ types mr_main_shared_types {
                 button = {
                     using = default_button_primary_big_action
                     size = { @panel_text_width 50 }
-                    block "visit_button_visibility" {
-                        visible = yes
-                    }
                     block "visit_button" {
                         raw_text = "visit_button"
                         default_format = "#r"
+                        visible = no
                     }
                     using = fontsize_large
                 }
@@ -326,6 +346,9 @@ types mr_main_shared_types {
         }
 
         hbox = {
+            block "stop_project_visibility" {
+                visible = yes
+            }
             margin_top = 10
             margin_left = 20
             mr_shared_project_button = {
@@ -631,7 +654,6 @@ types mr_main_shared_types {
     }
 
     type mr_shared_data_text = textbox {
-        parentanchor = top|left
         maximumsize = { @[ panel_text_width - 30 ] -1 }
         layoutpolicy_horizontal = expanding
         autoresize = yes
