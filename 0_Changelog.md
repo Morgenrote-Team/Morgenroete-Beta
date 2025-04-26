@@ -3,7 +3,7 @@ Changelog for 2.3.8
 Visual:
 - Added a Paleontology inspired Theme (thanks to Bahmut from the Manaflow mod!)
 - Added two new geological features to the map: The Steamboat Rock in the USA and the Cliff of Lyme Regis in Southern England.
-- Added two Paleontology themed Papermap objects: An Ammonite and a Belemnite
+- Added three Paleontology themed Papermap objects: An Ammonite, a Belemnite and a Coprolite with tools.
 - Added a Morgenröte Coin
 
 Paleontology:
