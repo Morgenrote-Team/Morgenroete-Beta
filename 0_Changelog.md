@@ -39,6 +39,14 @@ FIFA:
 - Eight Countries with the highest Team Value will be qualified for World Cup. The country with the highest GAME VALUE (Team Value + Coach) will win the World Cup.
 - You can change your coach, usurp the FIFA Presidency and start a school sports program, too.
 
+Venus Transit:
+- Venus Transit has now its own Scientific Expeditions Button.
+- Venus Transit can happen in 1874 and 1882.
+- The player will be notified when an expedition is possible.
+- Depending on location, an expedition is necessary; when the country is in the zone of a Venus Transit, it can observe it directly. The zones have their own concept (so you can have a look at it).
+- 6 possible events when doing an expedition to a country within a Venus Transit Zone. If the expedition is a subject of the country, no negative events will occur.
+- Additional events, experience of astronomer and luck will be crucial for the success of the observation. A higher success will give a better modifier after the observation.
+
 Bicycles:
 - Bicycle Relay Mobilization Option was added to the Reconnaissance. This is an earlier option before Motorized Infantry. Needs rubber.
 - Two events concenring the evolution of the bicycle. Under certain circumstances, a mechanical engineer can invent the safety bicycle.
