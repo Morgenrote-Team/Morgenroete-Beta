@@ -1,0 +1,468 @@
+@panel_button_width = 370
+@panel_text_width = 300
+
+types mr_main_arts_panel_types {
+
+    type mr_arts_panel = fullscreen_block_window {
+        name = "mr_arts_panel"
+        datacontext = "[GetMetaPlayer.GetPlayedOrObservedCountry]"
+
+        background = {
+            using = illu_alpha
+            fittype = center
+            texture = "gfx/interface/illustrations/tech_tree/illustration_tech_society.dds"
+            using = default_content_fade
+        }
+
+        visible = "[GetVariableSystem.HasValue('com_open_window', 'mr_sidebar_button_arts_sgui')]"
+
+        blockoverride "animation_state_block" {
+            state = {
+                name = _show
+                # Close open panel before showing this one
+                on_start = "[InformationPanelBar.ClosePanel]"
+                on_start = "[MapListPanelManager.CloseCurrentPanel]"
+                # Fullscreen panels hide topbar
+                on_finish = "[GetVariableSystem.Set('com_fullscreen', 'com_fullscreen')]"
+                start_sound = {
+                    soundeffect = "event:/SFX/UI/SideBar/markets"
+                }
+                start_sound = {
+                    soundeffect = "snapshot:/Dynamic/mute_world_80"
+                }
+                start_sound = {
+                    soundeffect = "snapshot:/Dynamic/mute_vfx_war_100"
+                }
+            }
+
+            state = {
+                name = _hide
+                on_start = "[GetVariableSystem.Clear('com_fullscreen')]"
+                on_finish = "[GetVariableSystem.Clear('mr_arts_tab')]"
+                start_sound = {
+                    soundeffect = "event:/SFX/UI/SideBar/markets_stop"
+                }
+            }
+        }
+
+        blockoverride "window_header_name" {
+            text = ARTS_VIEW_NAME
+            default_format = "#bold"
+        }
+
+        blockoverride "back_button_fullscreen" {
+            back_button_large = {
+                position = { 11 15 }
+                parentanchor = top|left
+                onclick = "[GetVariableSystem.Clear('com_open_window')]"
+                onclick = "[GetVariableSystem.Clear('com_alert_action')]"
+                onclick = "[GetVariableSystem.Clear('com_fullscreen')]"
+                input_action = "back"
+            }
+        }
+
+        close_button_large = {
+            name = "tutorial_highlight_close_button"
+            parentanchor = top|right
+            onclick = "[GetVariableSystem.Clear('com_open_window')]"
+            onclick = "[GetVariableSystem.Clear('com_alert_action')]"
+            onclick = "[GetVariableSystem.Clear('com_fullscreen')]"
+            shortcut = "close_window"
+            position = { -56 115 }
+        }
+
+        blockoverride "close_button_position" {
+            visible = no
+        }
+
+        blockoverride "fixed_top" {
+            tab_buttons_fullscreen = {
+                # General
+                blockoverride "first_button" {
+                    text = "mr_arts_tab_general"
+                }
+                blockoverride "first_button_click" {
+                    onclick = "[GetVariableSystem.Set('mr_arts_tab', 'main')]"
+                }
+                blockoverride "first_button_visibility" {
+                    visible = "[Or(
+									GetVariableSystem.HasValue('mr_arts_tab', 'main'),
+									Not(GetVariableSystem.Exists('mr_arts_tab'))
+								)]"
+                }
+                blockoverride "first_button_visibility_checked" {
+                    visible = "[And(
+									Not(GetVariableSystem.HasValue('mr_arts_tab', 'main')),
+									GetVariableSystem.Exists('mr_arts_tab')
+								)]"
+                }
+                blockoverride "first_button_selected" {
+                    text = "mr_arts_tab_general"
+                }
+
+                # Mathematical-Technical
+                blockoverride "second_button" {
+                    text = "mr_arts_tab_artists"
+                }
+                blockoverride "second_button_click" {
+                    onclick = "[GetVariableSystem.Set('mr_arts_tab', 'artists')]"
+                }
+                blockoverride "second_button_visibility" {
+                    visible = "[GetVariableSystem.HasValue('mr_arts_tab', 'artists')]"
+                }
+                blockoverride "second_button_visibility_checked" {
+                    visible = "[Not(GetVariableSystem.HasValue('mr_arts_tab', 'artists'))]"
+                }
+                blockoverride "second_button_selected" {
+                    text = "mr_arts_tab_artists"
+                }
+            }
+        }
+
+        blockoverride "scrollarea_content" {
+            vbox = {
+                layoutpolicy_vertical = expanding
+                layoutpolicy_horizontal = expanding
+
+                mr_shared_tab_fullscreen = {
+                    blockoverride "view_visibility" {
+                        visible = "[Or(GetVariableSystem.HasValue('mr_arts_tab', 'main'), Not(GetVariableSystem.Exists('mr_arts_tab')))]"
+                    }
+                    blockoverride "view_content" {
+                        mr_academic_expeditions = {}
+                    }
+                }
+
+                mr_shared_tab_fullscreen = {
+                    blockoverride "view_visibility" {
+                        visible = "[GetVariableSystem.HasValue('mr_arts_tab', 'artists')]"
+                    }
+                    blockoverride "view_content" {
+                        mr_artist_composer = {}
+                    }
+                }
+            }
+        }
+    }
+
+    type mr_artist_composer = mr_shared_occupation {
+        layoutpolicy_horizontal = expanding
+        blockoverride "occupation_character_context" {
+            datacontext = "[Country.MakeScope.Var('elgar_composer_var')]"
+        }
+        blockoverride "occupation_role_icon" {
+            texture = "gfx/interface/icons/character_role_icons/elgar_composer_role.dds"
+        }
+        blockoverride "occupation_role_tooltip" {
+            tooltip = "[concept_elgar_composer_desc]"
+        }
+        blockoverride "occupation_role_name" {
+            text = "COMPOSER_HEADER_TEXT"
+        }
+        blockoverride "occupation_character_name" {
+            text = "[Country.GetCustom('artists_has_composer_gui_type')]"
+        }
+        blockoverride "character_animation" {
+            portrait_texture = "[Character.GetAnimatedPortrait('characters_portrait_environment', 'mr_camera_torso_composer', 'mr_test_idle', GetPortraitRenderSize(PdxGuiWidget.Self))]"
+        }
+        blockoverride "occupation_achievement_tooltip" {
+            tooltip = "MR_COMPOSER_ACHIEVEMENTS_TT"
+        }
+        blockoverride "occupation_experience_value" {
+            value = "[Scope.Var('elgar_composer_experience').GetValue]"
+        }
+        blockoverride "occupation_experience_range" {
+            min = 0
+            max = 500
+        }
+        blockoverride "occupation_experience_tooltip" {
+            tooltip = "[Country.GetCustom('GUI_elgar_composer_experience_type')]"
+        }
+        blockoverride "occupation_experience_bar_text" {
+            text = "[Country.GetCustom('GUI_elgar_composer_experience_text_type')]"
+        }
+        blockoverride "occupation_ranking_visible" {
+            visible = yes
+        }
+        blockoverride "occupation_ranking" {
+            tooltipwidget = {
+                MR_TooltipRankingType = {
+                    blockoverride "ranking_on_finish" {
+                        on_finish = "[GetScriptedGui('mr_musical_tradition_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
+                    }
+                    blockoverride "text_1" {
+                        raw_text = "COMPOSER_MUSICAL_TRADITION_RANKING_HEADER"
+                    }
+                    blockoverride "ranking_1_visible" {
+                        visible = yes
+                    }
+                    blockoverride "ranking_1_datamodel" {
+                        datamodel = "[GetGlobalList('mr_musical_tradition_ranking_global_list')]"
+                    }
+                    blockoverride "ranking_variable_used_1" {
+                        raw_text = "[Country.MakeScope.GetVariable('elgar_music_tradition').GetValue|*V0]"
+                    }
+                }
+            }
+        }
+        blockoverride "occupation_data_size" {
+            size = { @panel_text_width 440 }
+        }
+        blockoverride "occupation_data_header_text" {
+            text = mr_artist_composer_data_header
+        }
+        blockoverride "occupation_data_content" {
+            hbox = {
+                spacing = 8
+
+                # Musical Tradition
+                mr_shared_data_text = {
+                    text = "MUSICAL_TRADITION_VAR"
+                    tooltip = "MUSICAL_TRADITION_VAR_TT"
+                }
+
+                # Yearly Musical Tradition
+                mr_shared_data_text = {
+                    text = "MR_YEARLY_MUSICAL_TRADITION"
+                    tooltip = "MR_YEARLY_MUSICAL_TRADITION_TT"
+                }
+
+                expand = {}
+            }
+            # Composer Compositions
+            mr_shared_data_text = {
+                blockoverride "size" {
+                    layoutpolicy_horizontal = growing
+                }
+                visible = "[Scope.IsSet]"
+                text = "MR_TOTAL_COMPOSITIONS_COMPOSER"
+            }
+            # Composer Masterworks
+            mr_shared_data_text = {
+                blockoverride "size" {
+                    layoutpolicy_horizontal = growing
+                }
+                visible = "[Scope.IsSet]"
+                text = "MR_TOTAL_MASTERWORKS_COMPOSER"
+            }
+            # Composer Ranking
+            mr_shared_data_text = {
+                blockoverride "size" {
+                    layoutpolicy_horizontal = growing
+                }
+                text = "RANKING_COMPOSER_TOP_5"
+            }
+        }
+        blockoverride "visit_button" {
+            text = "MR_VISIT_OPERA_BUTTON"
+            datacontext = "[GetScriptedGui('mr_visit_opera_gui_button')]"
+            onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+            enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+            tooltip = "MR_VISIT_OPERA_BUTTON_TT"
+        }
+        blockoverride "big_box_content" {
+            mr_shared_interactions = {
+                blockoverride "interaction_size" {
+                    size = { @[ panel_button_width + 20 ] 50 }
+                }
+                blockoverride "tabs" {
+                    tab_buttons = {
+                        maximumsize = { @[ panel_button_width + 20 ] 0 }
+                        margin_bottom = -4
+                        margin_left = 20
+                        blockoverride "first_button" {
+                            text = mr_artist_composer_tab_composer
+                        }
+                        blockoverride "first_button_click" {
+                            onclick = "[GetVariableSystem.Set('mr_artist_composer_tab', 'composer')]"
+                        }
+                        blockoverride "first_button_visibility" {
+                            visible = "[Or(GetVariableSystem.HasValue('mr_artist_composer_tab', 'composer'), Not(GetVariableSystem.Exists('mr_artist_composer_tab')))]"
+                        }
+                        blockoverride "first_button_visibility_checked" {
+                            visible = "[And(Not(GetVariableSystem.HasValue('mr_artist_composer_tab', 'composer')), GetVariableSystem.Exists('mr_artist_composer_tab'))]"
+                        }
+                        blockoverride "first_button_selected" {
+                            text = mr_artist_composer_tab_composer
+                        }
+
+                        blockoverride "second_button" {
+                            text = mr_artist_composer_tab_nation
+                        }
+                        blockoverride "second_button_click" {
+                            onclick = "[GetVariableSystem.Set('mr_artist_composer_tab', 'nation')]"
+                        }
+                        blockoverride "second_button_visibility" {
+                            visible = "[GetVariableSystem.HasValue('mr_artist_composer_tab', 'nation')]"
+                        }
+                        blockoverride "second_button_visibility_checked" {
+                            visible = "[Not(GetVariableSystem.HasValue('mr_artist_composer_tab', 'nation'))]"
+                        }
+                        blockoverride "second_button_selected" {
+                            text = mr_artist_composer_tab_nation
+                        }
+                    }
+                }
+                blockoverride "tab_content" {
+                    vbox = {
+                        visible = "[Or(GetVariableSystem.HasValue('mr_artist_composer_tab', 'composer'), Not(GetVariableSystem.Exists('mr_artist_composer_tab')))]"
+                        layoutpolicy_vertical = expanding
+                        spacing = 7
+                        minimumsize = { @panel_button_width 0 }
+
+                        # Compose a Musical Work
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_compose_a_work_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "mr_artist_composer_compose_button_text"
+                                tooltip = "MR_COMPOSE_A_WORK_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_stop_composing_a_work_button').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                        }
+
+                        # Conduct a Season
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_conduct_a_season_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "mr_artist_composer_season_button_text"
+                                tooltip = "MR_CONDUCT_A_SEASON_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_conducting_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                        }
+
+                        # Go on a Music Tour
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_go_on_a_music_tour_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "mr_artist_composer_tour_button_text"
+                                tooltip = "MR_GO_ON_A_MUSIC_TOUR_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_music_tour_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                        }
+
+                        # Compose a Masterwork
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_create_a_masterpiece_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "mr_artist_composer_masterwork_button_text"
+                                tooltip = "MR_CREATE_A_MASTERPIECE_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_stop_creating_masterwork_button').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                        }
+
+                        expand = {}
+                    }
+                    vbox = {
+                        visible = "[GetVariableSystem.HasValue('mr_artist_composer_tab', 'nation')]"
+                        layoutpolicy_vertical = expanding
+                        spacing = 7
+                        minimumsize = { @panel_button_width 0 }
+
+                        # Mozart Monument
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_mozart_monument_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_MOZART_MONUMENT_BUTTON"
+                                tooltip = "MR_MOZART_MONUMENT_BUTTON_TT"
+                            }
+                        }
+
+                        # Beethoven Monument
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_beethoven_monument_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_BEETHOVEN_MONUMENT_BUTTON"
+                                tooltip = "MR_BEETHOVEN_MONUMENT_BUTTON_TT"
+                            }
+                        }
+
+                        # Compose a national anthem
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_anthem_music_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ANTHEM_MUSIC_BUTTON"
+                                tooltip = "MR_ANTHEM_MUSIC_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_chemist_synthetics_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                        }
+
+                        # National Broadcasting Channel
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_nbc_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_NBC_BUTTON"
+                                tooltip = "MR_NBC_BUTTON_TT"
+                            }
+                        }
+
+                        # National Broadcasting Channel License
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_nbc_licence_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_NBC_LICENCE_BUTTON"
+                                tooltip = "MR_NBC_LICENCE_BUTTON_TT"
+                            }
+                        }
+
+                        # German Music Association
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_german_music_association_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_GERMAN_MUSIC_ASSOCIATION_BUTTON"
+                                tooltip = "MR_GERMAN_MUSIC_ASSOCIATION_BUTTON_TT"
+                            }
+                        }
+
+                        expand = {}
+                    }
+                }
+                blockoverride "stop_context" {
+                    datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]" #TODO
+                }
+            }
+
+            expand = {}
+        }
+    }
+
+}
