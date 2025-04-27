@@ -1,4 +1,4 @@
-Changelog for 2.3.8
+Changelog for 2.3.8 "Flammarion"
 
 Visual:
 - Added a Paleontology inspired Theme (thanks to Bahmut from the Manaflow mod!)
