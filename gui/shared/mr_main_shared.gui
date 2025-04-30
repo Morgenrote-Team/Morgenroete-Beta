@@ -1,4 +1,4 @@
-@panel_button_width = 250
+@panel_button_width = 290
 @panel_text_width = 250
 
 types mr_main_shared_types {
@@ -7,7 +7,7 @@ types mr_main_shared_types {
         layoutpolicy_vertical = expanding
         layoutpolicy_horizontal = expanding
         spacing = 20
-        margin = { 30 30 }
+        margin = { 20 20 }
 
         block "view_visibility" {
             visible = no
@@ -44,7 +44,7 @@ types mr_main_shared_types {
         # - visit_button - Default: empty
 
         spacing = 10
-        margin = { 15 20 }
+        margin = { 0 20 }
         block "occupation_character_context" {
             #datacontext = "[Country.Var('gaudi_engineer_var')]"
         }
@@ -54,7 +54,7 @@ types mr_main_shared_types {
         }
 
         widget = {
-            size = { 260 440 }
+            size = { 270 440 }
 
             mr_shared_character = {}
 
@@ -79,7 +79,7 @@ types mr_main_shared_types {
             widget = {
                 parentanchor = left
                 size = { 55 55 }
-                position = { -23 -27 }
+                position = { -10 -27 }
                 icon = {
                     size = { 100% 100% }
                     block "occupation_role_icon" {
@@ -288,11 +288,14 @@ types mr_main_shared_types {
     }
 
     type mr_shared_interactions = vbox {
-        margin_right = 10
+        block "interaction_size" {}
         layoutpolicy_vertical = expanding
+        layoutpolicy_horizontal = expanding
+        margin = { 10 0 }
 
         block "tabs" {}
         hbox = {
+            layoutpolicy_horizontal = expanding
             minimumsize = { @panel_button_width 0 }
             layoutpolicy_vertical = expanding
             margin = { 10 0 }
@@ -305,35 +308,35 @@ types mr_main_shared_types {
         }
 
         hbox = {
+            layoutpolicy_horizontal = expanding
             margin_top = 10
-            margin_left = 20
-            mr_shared_project_button = {
+            button = {
+                block "interaction_size" {
+                    minimumsize = { @[panel_button_width + 20] 50 }
+                }
                 block "stop_context" {
                     #datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]"
                 }
-                blockoverride "button_content" {
-                    text = "mr_science_general_stop_project"
-                    tooltip = "mr_science_general_stop_project_tt"
-                    using = fontsize_xl
-                }
-                blockoverride "size" {
-                    block "interaction_size" {
-                        size = { @[ panel_button_width + 20 ] 50 }
-                    }
-                }
+                using = default_button_primary_big_action
+                text = "mr_science_general_stop_project"
+                tooltip = "mr_science_general_stop_project_tt"
+                using = fontsize_xl
+                onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).End)]"
+                enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
             }
-
-            expand = {}
         }
     }
 
     type mr_shared_interactions_simple = vbox {
-        margin_right = 10
+        block "interaction_size" {}
         layoutpolicy_vertical = expanding
+        layoutpolicy_horizontal = expanding
+        margin = { 10 0 }
 
         hbox = {
             minimumsize = { @panel_button_width 0 }
             layoutpolicy_vertical = expanding
+            layoutpolicy_horizontal = expanding
             margin = { 10 0 }
             margin_top = 10
             background = {
@@ -342,6 +345,7 @@ types mr_main_shared_types {
             vbox = {
                 minimumsize = { @panel_button_width 0 }
                 layoutpolicy_vertical = expanding
+                layoutpolicy_horizontal = expanding
                 spacing = 7
 
                 widget = {
@@ -353,25 +357,24 @@ types mr_main_shared_types {
         }
 
         hbox = {
+            layoutpolicy_horizontal = expanding
             block "stop_project_visibility" {
                 visible = yes
             }
             margin_top = 10
-            margin_left = 20
-            mr_shared_project_button = {
+            button = {
+                block "interaction_size" {
+                    minimumsize = { @[panel_button_width + 20] 50 }
+                }
                 block "stop_context" {
                     #datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]"
                 }
-                blockoverride "button_content" {
-                    text = "mr_science_general_stop_project"
-                    tooltip = "mr_science_general_stop_project_tt"
-                    using = fontsize_xl
-                }
-                blockoverride "size" {
-                    block "interaction_size" {
-                        size = { @[ panel_button_width + 20 ] 50 }
-                    }
-                }
+                using = default_button_primary_big_action
+                text = "mr_science_general_stop_project"
+                tooltip = "mr_science_general_stop_project_tt"
+                using = fontsize_xl
+                onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).End)]"
+                enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
             }
         }
     }
@@ -383,7 +386,9 @@ types mr_main_shared_types {
         }
         button = {
             block "button_content" {}
-            using = default_button_primary_big_action
+            block "button_style" {
+                using = default_button_primary_big_action
+            }
             block "size" {
                 size = { @[ panel_button_width - 20 ] 45 }
             }
@@ -403,6 +408,77 @@ types mr_main_shared_types {
                 spriteborder = { 60 60 }
                 frame = 3
                 using = frame_small_mask
+            }
+        }
+    }
+
+    type mr_shared_activity_button = widget {
+        visible = "[ScriptedGui.IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+        block "size" {
+            size = { @[ panel_button_width - 60 ] 45 }
+        }
+        flowcontainer = {
+            layoutpolicy_horizontal = expanding
+            righttoleft = yes
+            widget = {
+                block "size" {
+                    size = { @[ panel_button_width - 60 ] 45 }
+                }
+                layoutpolicy_vertical = expanding
+                layoutpolicy_horizontal = expanding
+                button = {
+                    margin_left = 35
+                    align = left
+                    block "button_content" {}
+                    block "button_style" {
+                        using = default_button_action
+                    }
+                    block "button_size" {
+                        size = { @[ panel_button_width - 40 ] 45 }
+                    }
+                    onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).End)]"
+                    enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+                }
+                icon = {
+                    position = { 0 0 }
+                    block "button_size" {
+                        size = { @[ panel_button_width - 40 ] 45 }
+                    }
+                    block "button_highlight_visible" {
+                        visible = no
+                    }
+                    background = {
+                        texture = "gfx/interface/buttons/glow_button_border.dds"
+                        spriteType = CorneredStretched
+                        framesize = { 150 150 }
+                        spriteborder = { 60 60 }
+                        frame = 3
+                        #using = frame_small_mask
+                    }
+                    background = {
+                        using = highlighted_square_selection
+                        margin = { 2 2 }
+                    }
+                }
+                icon = {
+                    parentanchor = left|vcenter
+                    position = { -10 0 }
+                    size = { 30 30 }
+                    block "button_icon" {
+                        texture = "gfx/interface/icons/GUI_icons/GUI_chemist_theorizing_button.dds"
+                    }
+                    background = {
+                        margin = { 10 10 }
+                        texture = "gfx/interface/backgrounds/round_button_bg.dds"
+                    }
+                    background = {
+                        margin = { 10 10 }
+                        block "button_highlight_visible" {
+                            visible = no
+                        }
+                        using = highlighted_circle_selection_big
+                    }
+                }
             }
         }
     }
@@ -433,7 +509,7 @@ types mr_main_shared_types {
                 block "icon_highlight_visible" {
                     visible = no
                 }
-                size = { 62 62 }
+                size = { 100% 100% }
                 using = highlighted_circle_selection_big
             }
         }
