@@ -15,3 +15,4 @@ General:
 
 Fixes:
 - The Famous Racer Event should no longer pop up all the time.
+- The Archaeologist should hopefully not be busy for eternity anymore.
