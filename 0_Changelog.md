@@ -1,4 +1,4 @@
-Changelog for 2.3.8 "Flammarion"
+Changelog for 2.3.8 "XXX"
 
 Visual:
 
@@ -16,3 +16,5 @@ General:
 Fixes:
 - The Famous Racer Event should no longer pop up all the time.
 - The Archaeologist should hopefully not be busy for eternity anymore.
+- Fixed option texts in various Paleontology events.
+- Fixed Ralph DePalma.
