@@ -12,6 +12,7 @@ Visual:
 
 General:
 - Reworked experience gain effects to be less prone to bugs.
+- Morgenröte Objectives should now be displayed in front of vanilla objectives.
 
 Fixes:
 - The Famous Racer Event should no longer pop up all the time.
