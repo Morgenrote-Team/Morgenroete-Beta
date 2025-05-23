@@ -1127,6 +1127,79 @@ types mr_main_arts_panel_types {
         }
     }
 
+    type mr_artist_cultural_tradition_button = button {
+        block "button_context" {}
+        size = { 200 300 }
+        enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+        onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).End)]"
+
+        # Glow when available
+        widget = {
+            visible = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+            size = { 215 315 }
+            parentanchor = center
+            icon = {
+                name = ui_event_glow_animation
+                using = ui_event_glow
+                using = frame_small_mask
+                alpha = 0
+
+                state = {
+                    trigger_on_create = yes
+                    name = 1
+                    next = 2
+                    alpha = 0.4
+                    duration = 1
+                    using = Animation_Curve_Default
+                }
+                state = {
+                    name = 2
+                    next = 1
+                    alpha = 0.05
+                    duration = 1
+                    using = Animation_Curve_Default
+                }
+            }
+        }
+
+        mr_artist_cultural_tradition = {
+            blockoverride "context" {
+                block "button_context" {}
+            }
+        }
+
+        state = {
+            name = _mouse_enter
+            on_start = "[PdxGuiWidget.FindChild('background').TriggerAnimation('enter')]"
+        }
+
+        state = {
+            name = _mouse_leave
+            on_start = "[PdxGuiWidget.FindChild('background').TriggerAnimation('leave')]"
+        }
+
+        icon = {
+            name = background
+            size = { 200 300 }
+            visible = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+            texture = "gfx/interface/buttons/glow_button_border.dds"
+            spriteType = CorneredStretched
+            framesize = { 150 150 }
+            spriteborder = { 60 60 }
+            frame = 3
+            using = frame_small_mask
+            alpha = 0
+            state = {
+                name = "enter"
+                alpha = 1
+            }
+            state = {
+                name = "leave"
+                alpha = 0
+            }
+        }
+    }
+
     type mr_artist_cultural_tradition = widget {
         size = { 200 300 }
         block "context" {}
@@ -1219,58 +1292,80 @@ types mr_main_arts_panel_types {
                         using = fontsize_xxl
                     }
                 }
+                hbox = {
+                    spacing = 20
 
-                # Impressionism
-                mr_shared_left_icon_button = {
-                    blockoverride "button_content" {
-                        text = MR_IMPRESSIONISM_BUTTON
-                        datacontext = "[GetScriptedGui('mr_impressionism_button')]"
-                        tooltip = "MR_IMPRESSIONISM_BUTTON_TT"
+                    textbox = {
+                        raw_text = "[concept_elgar_musical_tradition]"
+                        autoresize = yes
+                        using = fontsize_xxl
                     }
-                    blockoverride "size" {
-                        size = { 380 45 }
+                    hbox = {
+                        spacing = 5
+
+                        textbox = {
+                            text = "MUSICAL_TRADITION_VAR"
+                            tooltip = "MUSICAL_TRADITION_VAR_TT"
+                            autoresize = yes
+                            using = fontsize_xxl
+                        }
+                        textbox = {
+                            text = "MR_YEARLY_MUSICAL_TRADITION"
+                            tooltip = "MR_YEARLY_MUSICAL_TRADITION_TT"
+                            autoresize = yes
+                            using = fontsize_xxl
+                        }
                     }
-                    blockoverride "icon_size" {
-                        size = { 100% 100% }
+                }
+                hbox = {
+                    spacing = 20
+
+                    textbox = {
+                        raw_text = "[concept_manzoni_literary_tradition]"
+                        autoresize = yes
+                        using = fontsize_xxl
                     }
-                    blockoverride "icon" {
-                        texture = "gfx/interface/icons/state_trait_icons/state_trait_artists_center_impressionism.dds"
+                    hbox = {
+                        spacing = 5
+
+                        textbox = {
+                            text = "LITERARY_TRADITION_VAR"
+                            tooltip = "LITERARY_TRADITION_VAR_TT"
+                            autoresize = yes
+                            using = fontsize_xxl
+                        }
+                        textbox = {
+                            text = "MR_YEARLY_LITERARY_TRADITION"
+                            tooltip = "MR_YEARLY_LITERARY_TRADITION_TT"
+                            autoresize = yes
+                            using = fontsize_xxl
+                        }
                     }
                 }
 
-                # Expressionism
-                mr_shared_left_icon_button = {
-                    blockoverride "button_content" {
-                        text = "MR_EXPRESSIONISM_BUTTON"
-                        datacontext = "[GetScriptedGui('mr_expressionism_button')]"
-                        tooltip = "MR_EXPRESSIONISM_BUTTON_TT"
-                    }
-                    blockoverride "size" {
-                        size = { 380 45 }
-                    }
-                    blockoverride "icon_size" {
-                        size = { 100% 100% }
-                    }
-                    blockoverride "icon" {
-                        texture = "gfx/interface/icons/state_trait_icons/state_trait_artists_center_expressionism.dds"
-                    }
-                }
+                hbox = {
+                    spacing = 20
 
-                # Art Nouveau
-                mr_shared_left_icon_button = {
-                    blockoverride "button_content" {
-                        text = "MR_ART_NOUVEAU_BUTTON"
-                        datacontext = "[GetScriptedGui('mr_art_nouveau_button')]"
-                        tooltip = "MR_ART_NOUVEAU_BUTTON_TT"
+                    textbox = {
+                        raw_text = "[concept_klimt_painting_tradition]"
+                        autoresize = yes
+                        using = fontsize_xxl
                     }
-                    blockoverride "size" {
-                        size = { 380 45 }
-                    }
-                    blockoverride "icon_size" {
-                        size = { 100% 100% }
-                    }
-                    blockoverride "icon" {
-                        texture = "gfx/interface/icons/state_trait_icons/state_trait_artists_center_art_nouveau.dds"
+                    hbox = {
+                        spacing = 5
+
+                        textbox = {
+                            text = "PAINTING_TRADITION_VAR"
+                            tooltip = "PAINTING_TRADITION_VAR_TT"
+                            autoresize = yes
+                            using = fontsize_xxl
+                        }
+                        textbox = {
+                            text = "MR_YEARLY_PAINTING_TRADITION"
+                            tooltip = "MR_YEARLY_PAINTING_TRADITION_TT"
+                            autoresize = yes
+                            using = fontsize_xxl
+                        }
                     }
                 }
             }
@@ -1518,15 +1613,15 @@ types mr_main_arts_panel_types {
                             texture = "gfx/interface/icons/GUI_icons/cultural_traditions/mr_irrationalism.dds"
                         }
                     }
-                    mr_artist_cultural_tradition = {
-                        blockoverride "context" {
-                            datacontext = "[GetScriptedGui('mr_impressionism_inactive')]"
+                    mr_artist_cultural_tradition_button = {
+                        blockoverride "button_context" {
+                            datacontext = "[GetScriptedGui('mr_impressionism_button')]"
                         }
                         blockoverride "tooltip_active" {
                             tooltip = "ARTISTS_IIMPRESSIONISM_ACTIVE_TT"
                         }
                         blockoverride "tooltip_inactive" {
-                            tooltip = "ARTISTS_IIMPRESSIONISM_INACTIVE_TT"
+                            tooltip = "MR_IMPRESSIONISM_BUTTON_TT"
                         }
                         blockoverride "tradition_header" {
                             text = "mr_arts_tradition_impressionism"
@@ -1535,15 +1630,15 @@ types mr_main_arts_panel_types {
                             texture = "gfx/interface/icons/GUI_icons/cultural_traditions/mr_impressionism.dds"
                         }
                     }
-                    mr_artist_cultural_tradition = {
-                        blockoverride "context" {
-                            datacontext = "[GetScriptedGui('mr_expressionism_inactive')]"
+                    mr_artist_cultural_tradition_button = {
+                        blockoverride "button_context" {
+                            datacontext = "[GetScriptedGui('mr_expressionism_button')]"
                         }
                         blockoverride "tooltip_active" {
                             tooltip = "ARTISTS_EXPRESSIONISM_ACTIVE_TT"
                         }
                         blockoverride "tooltip_inactive" {
-                            tooltip = "ARTISTS_EXPRESSIONISM_INACTIVE_TT"
+                            tooltip = "MR_EXPRESSIONISM_BUTTON_TT"
                         }
                         blockoverride "tradition_header" {
                             text = "mr_arts_tradition_expressionism"
@@ -1552,15 +1647,15 @@ types mr_main_arts_panel_types {
                             texture = "gfx/interface/icons/GUI_icons/cultural_traditions/mr_expressionism.dds"
                         }
                     }
-                    mr_artist_cultural_tradition = {
-                        blockoverride "context" {
-                            datacontext = "[GetScriptedGui('mr_art_nouveau_inactive')]"
+                    mr_artist_cultural_tradition_button = {
+                        blockoverride "button_context" {
+                            datacontext = "[GetScriptedGui('mr_art_nouveau_button')]"
                         }
                         blockoverride "tooltip_active" {
                             tooltip = "ARTISTS_ART_NOUVEAU_ACTIVE_TT"
                         }
                         blockoverride "tooltip_inactive" {
-                            tooltip = "ARTISTS_ART_NOUVEAU_INACTIVE_TT"
+                            tooltip = "MR_ART_NOUVEAU_BUTTON_TT"
                         }
                         blockoverride "tradition_header" {
                             text = "mr_arts_tradition_art_nouveau"
