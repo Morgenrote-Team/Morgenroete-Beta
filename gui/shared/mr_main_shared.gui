@@ -1,0 +1,626 @@
+@panel_button_width = 290
+@panel_text_width = 250
+
+types mr_main_shared_types {
+
+    type mr_shared_tab_fullscreen = vbox {
+        layoutpolicy_vertical = expanding
+        layoutpolicy_horizontal = expanding
+        spacing = 20
+        margin = { 20 20 }
+
+        block "view_visibility" {
+            visible = no
+        }
+
+        block "view_content" {
+
+        }
+
+        expand = {}
+    }
+
+    type mr_shared_occupation = hbox {
+        # Overridable Blocks
+        ## Required:
+        # - occupation_character_context - Needs a Character scope set as data context
+        # - occupation_role_icon
+        # - occupation_role_name
+        # - occupation_experience_value
+        # - occupation_data_header_text
+        # - occupation_ranking
+        ## Optional:
+        # - occupation_character_name - Default: Normal Character Name
+        # - occupation_role_tooltip - Default: empty
+        # - occupation_experience_value_bar_visibility - Default: yes
+        # - occupation_experience_range - Default: 0 to 300
+        # - occupation_experience_tooltip - Default: empty
+        # - occupation_achievements_icon_visibility - Default: yes
+        # - occupation_achievement_tooltip - Default: empty
+        # - occupation_data_content - Default: empty
+        # - occupation_ranking_visible - Default: no
+        # - occupation_ranking - Default: empty
+        # - big_box_content - Default: empty
+        # - visit_button - Default: empty
+
+        spacing = 10
+        margin = { 0 20 }
+        block "occupation_character_context" {
+            #datacontext = "[Country.Var('gaudi_engineer_var')]"
+        }
+
+        background = {
+            using = entry_bg
+        }
+
+        widget = {
+            name =  "mr_tutorial_highlight_shared_character_widget"
+            size = { 270 440 }
+
+            mr_shared_character = {}
+
+            default_header_clean_faded = {
+                position = { 14 306 }
+                size = { 250 40 }
+                blockoverride "text" {}
+                textbox = {
+                    name =  "mr_tutorial_highlight_occupation_character_name"
+                    #visible = "[Scope.IsSet]"
+                    block "occupation_character_name" {
+                        text = "[Scope.GetCharacter.GetFullName]"
+                    }
+                    parentanchor = center
+                    position = { 5 -2 }
+                    autoresize = yes
+                    max_width = 190
+                    elide = right
+                    using = fontsize_large
+                }
+            }
+
+            widget = {
+                parentanchor = left
+                size = { 55 55 }
+                position = { -10 -27 }
+                icon = {
+                    size = { 100% 100% }
+                    block "occupation_role_icon" {
+                        # texture = ""
+                    }
+                    block "occupation_role_tooltip" {}
+                }
+            }
+
+            textbox = {
+                block "occupation_role_name" {
+                    raw_text = "occupation_role_name"
+                    default_format = "#r"
+                }
+                position = { -10 23 }
+                parentanchor = left
+                autoresize = yes
+                maximumsize = { 300 -1 }
+                minimumsize = { 300 -1 }
+                align = center
+                elide = right
+                block "occupation_role_fontsize" {
+                    using = fontsize_mega
+                }
+            }
+
+            block "experience_bar" {
+                visible = yes
+                green_progressbar_horizontal = {
+                    name =  "mr_tutorial_highlight_experience_bar"
+                    parentanchor = bottom|left
+                    position = { 15 -51 }
+                    size = { 250 35 }
+                    block "occupation_experience_value_bar_visibility" {
+                        visible = yes
+                    }
+                    blockoverride "values" {
+                        block "occupation_experience_range" {
+                            min = 0
+                            max = 300
+                        }
+                        block "occupation_experience_value" {
+                            value = "[FixedPointToFloat(Country.MakeScope.Var('dubois_academy_progress').GetValue)]"
+                        }
+                        block "occupation_experience_tooltip" {}
+                    }
+                    textbox = {
+                        block "occupation_experience_bar_text" {
+                            text = "MR_EXPERIENCE"
+                        }
+                        position = { 0 0 }
+                        parentanchor = center
+                        autoresize = yes
+                        using = fontsize_xl
+                    }
+                }
+            }
+
+            # Displays the Traits of the character
+            widget = {
+                size = { 250 40 }
+                parentanchor = bottom|left
+                position = { 15 0 }
+
+                overlappingitembox = {
+                    minimumsize = { 250 42 }
+                    maximumsize = { 250 42 }
+
+                    datamodel = "[Scope.GetCharacter.AccessTraits]"
+
+                    item = {
+                        icon = {
+                            size = { 30 42 }
+                            texture = "[CharacterTrait.GetTexture]"
+                            using = tooltip_above
+
+                            tooltipwidget = {
+                                FancyTooltip_CharacterTrait = {}
+                            }
+                        }
+                    }
+                }
+            }
+
+            # This Icon displays the achievements of the Scientist
+            # The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+            # used in the mr_GUI_l_english.yml file to display the correct Achievements.
+            widget = {
+                name =  "mr_tutorial_highlight_achievements_widget"
+                size = { 35 35 }
+                parentanchor = bottom|left
+                position = { 10 -97 }
+                block "occupation_achievements_icon_visibility" {
+                    visible = yes
+                }
+
+                icon = {
+                    size = { 100% 100% }
+                    texture = "gfx/interface/backgrounds/round_button_bg.dds"
+                    block "enabled" {}
+                }
+                icon = {
+                    size = { 100% 100% }
+                    texture = "gfx/interface/icons/GUI_icons/GUI_scientist_achievements_button.dds"
+                    block "enabled" {}
+                    block "occupation_achievement_tooltip" {}
+                }
+            }
+        }
+
+        widget = {
+            name =  "mr_tutorial_highlight_shared_occupation_data_widget"
+            block "occupation_data_size" {
+                size = { @panel_text_width 440 }
+            }
+
+            vbox = {
+                layoutpolicy_vertical = expanding
+                layoutpolicy_horizontal = expanding
+                spacing = 10
+
+                vbox = {
+                    layoutpolicy_vertical = expanding
+                    layoutpolicy_horizontal = expanding
+                    spacing = 8
+                    margin = { 2 0 }
+                    background = {
+                        using = simple_frame
+                    }
+
+                    default_header_clean_faded = {
+                        blockoverride "size" {
+                            minimumsize = { @panel_text_width 40 }
+                            layoutpolicy_horizontal = growing
+                        }
+                        blockoverride "text" {
+                            block "occupation_data_header_text" {
+                                raw_text = "occupation_data_header_text"
+                                default_format = "#r"
+                            }
+                        }
+                    }
+
+                    vbox = {
+                        layoutpolicy_horizontal = expanding
+                        margin = { 15 10 }
+                        spacing = 8
+
+                        block "occupation_data_content" {}
+                    }
+
+                    expand = {}
+                }
+
+                button = {
+                    using = default_button_primary_big_action
+                    minimumsize = { @panel_text_width 50 }
+                    layoutpolicy_horizontal = growing
+                    block "extra_button" {
+                        raw_text = "extra_button"
+                        default_format = "#r"
+                        visible = no
+                    }
+                    using = fontsize_large
+                }
+
+                button = {
+                    name =  "mr_tutorial_highlight_visit_button"
+                    using = default_button_primary_big_action
+                    minimumsize = { @panel_text_width 50 }
+                    layoutpolicy_horizontal = growing
+                    block "visit_button" {
+                        raw_text = "visit_button"
+                        default_format = "#r"
+                        visible = no
+                    }
+                    using = fontsize_large
+                }
+            }
+
+            widget = {
+                name =  "mr_tutorial_highlight_ranking_widget"
+                block "occupation_ranking_visible" {
+                    visible = no
+                }
+                size = { 30 30 }
+                parentanchor = top|right
+                position = { 7 -4 }
+
+                icon = {
+                    size = { 100% 100% }
+                    texture = "gfx/interface/backgrounds/round_button_bg.dds"
+                    block "enabled" {}
+                }
+                icon = {
+                    size = { 100% 100% }
+                    texture = "gfx/interface/buttons/button_icons/list.dds"
+                    block "enabled" {}
+                    block "occupation_ranking" {}
+                }
+            }
+        }
+
+        hbox = {
+            layoutpolicy_horizontal = expanding
+            layoutpolicy_vertical = expanding
+            block "big_box_content" {}
+        }
+
+        expand = {}
+    }
+
+    type mr_shared_interactions = vbox {
+        name =  "mr_tutorial_highlight_shared_interactions"
+        block "interaction_size" {}
+        layoutpolicy_vertical = expanding
+        layoutpolicy_horizontal = expanding
+        margin = { 10 0 }
+
+        block "tabs" {}
+        hbox = {
+            layoutpolicy_horizontal = expanding
+            minimumsize = { @panel_button_width 0 }
+            layoutpolicy_vertical = expanding
+            margin = { 10 0 }
+            margin_top = 20
+            background = {
+                using = simple_frame
+            }
+
+            block "tab_content" {}
+        }
+
+        hbox = {
+            layoutpolicy_horizontal = expanding
+            margin_top = 10
+            button = {
+                block "interaction_size" {
+                    minimumsize = { @[panel_button_width + 20] 50 }
+                }
+                block "stop_context" {
+                    #datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]"
+                }
+                using = default_button_primary_big_action
+                text = "mr_science_general_stop_project"
+                tooltip = "mr_science_general_stop_project_tt"
+                using = fontsize_xl
+                onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).End)]"
+                visible = "[ScriptedGui.IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+            }
+        }
+    }
+
+    type mr_shared_interactions_simple = vbox {
+        name =  "mr_tutorial_highlight_shared_interactions"
+        block "interaction_size" {}
+        layoutpolicy_vertical = expanding
+        layoutpolicy_horizontal = expanding
+        margin = { 10 0 }
+
+        hbox = {
+            minimumsize = { @panel_button_width 0 }
+            layoutpolicy_vertical = expanding
+            layoutpolicy_horizontal = expanding
+            margin = { 10 0 }
+            margin_top = 10
+            background = {
+                using = simple_frame
+            }
+            vbox = {
+                minimumsize = { @panel_button_width 0 }
+                layoutpolicy_vertical = expanding
+                layoutpolicy_horizontal = expanding
+                spacing = 7
+
+                widget = {
+                    size = { @[ panel_button_width - 20 ] 0 }
+                }
+
+                block "content" {}
+            }
+        }
+
+        hbox = {
+            layoutpolicy_horizontal = expanding
+            block "stop_project_visibility" {
+                visible = yes
+            }
+            margin_top = 10
+            button = {
+                block "interaction_size" {
+                    minimumsize = { @[panel_button_width + 20] 50 }
+                }
+                block "stop_context" {
+                    #datacontext = "[GetScriptedGui('mr_stop_engineering_project_button')]"
+                }
+                using = default_button_primary_big_action
+                text = "mr_science_general_stop_project"
+                tooltip = "mr_science_general_stop_project_tt"
+                using = fontsize_xl
+                onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).End)]"
+                visible = "[ScriptedGui.IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+            }
+        }
+    }
+
+    type mr_shared_project_button = widget {
+        visible = "[ScriptedGui.IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+        block "size" {
+            size = { @[ panel_button_width - 20 ] 45 }
+        }
+        button = {
+            block "button_content" {}
+            block "button_style" {
+                using = default_button_primary_big_action
+            }
+            block "size" {
+                size = { @[ panel_button_width - 20 ] 45 }
+            }
+            onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).End)]"
+            enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+        }
+        icon = {
+            size = { 102% 110% }
+            block "button_highlight_visible" {
+                visible = no
+            }
+            using = highlighted_square_selection
+            background = {
+                texture = "gfx/interface/buttons/glow_button_border.dds"
+                spriteType = CorneredStretched
+                framesize = { 150 150 }
+                spriteborder = { 60 60 }
+                frame = 3
+                using = frame_small_mask
+            }
+        }
+    }
+
+    type mr_shared_activity_button = widget {
+        visible = "[ScriptedGui.IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+        block "size" {
+            size = { @[ panel_button_width - 60 ] 45 }
+        }
+        flowcontainer = {
+            layoutpolicy_horizontal = expanding
+            righttoleft = yes
+            widget = {
+                block "size" {
+                    size = { @[ panel_button_width - 60 ] 45 }
+                }
+                layoutpolicy_vertical = expanding
+                layoutpolicy_horizontal = expanding
+                button = {
+                    margin_left = 35
+                    align = left
+                    block "button_content" {}
+                    block "button_style" {
+                        using = default_button_action
+                    }
+                    block "button_size" {
+                        size = { @[ panel_button_width - 40 ] 45 }
+                    }
+                    onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).End)]"
+                    enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+                }
+                icon = {
+                    position = { 0 0 }
+                    block "button_size" {
+                        size = { @[ panel_button_width - 40 ] 45 }
+                    }
+                    block "button_highlight_visible" {
+                        visible = no
+                    }
+                    background = {
+                        texture = "gfx/interface/buttons/glow_button_border.dds"
+                        spriteType = CorneredStretched
+                        framesize = { 150 150 }
+                        spriteborder = { 60 60 }
+                        frame = 3
+                        #using = frame_small_mask
+                    }
+                    background = {
+                        using = highlighted_square_selection
+                        margin = { 2 2 }
+                    }
+                }
+                icon = {
+                    parentanchor = left|vcenter
+                    position = { -10 0 }
+                    size = { 30 30 }
+                    block "button_icon" {
+                        texture = "gfx/interface/icons/GUI_icons/GUI_chemist_theorizing_button.dds"
+                    }
+                    background = {
+                        margin = { 10 10 }
+                        texture = "gfx/interface/backgrounds/round_button_bg.dds"
+                    }
+                    background = {
+                        margin = { 10 10 }
+                        block "button_highlight_visible" {
+                            visible = no
+                        }
+                        using = highlighted_circle_selection_big
+                    }
+                }
+            }
+        }
+    }
+
+    type mr_shared_left_icon_button = widget {
+        block "size" {
+            size = { @[ panel_button_width - 20 ] 45 }
+        }
+        mr_shared_project_button = {}
+        icon = {
+            enabled = yes
+            parentanchor = left|vcenter
+            position = { -10 0 }
+            size = { 60 60 }
+            block "background" {
+                texture = "gfx/interface/backgrounds/round_button_bg.dds"
+            }
+            icon = {
+                parentanchor = center
+                block "icon_size" {
+                    size = { 60% 60% }
+                }
+                block "icon" {
+                    #texture = ""
+                }
+            }
+            icon = {
+                block "icon_highlight_visible" {
+                    visible = no
+                }
+                size = { 100% 100% }
+                using = highlighted_circle_selection_big
+            }
+        }
+    }
+
+    type mr_shared_round_icon_button = widget {
+        size = { 60 60 }
+        mr_shared_round_button = {
+            blockoverride "size" {
+                size = { 60 60 }
+            }
+            blockoverride "icon" {}
+        }
+        icon = {
+            parentanchor = center
+            block "icon_size" {
+                size = { 60% 60% }
+            }
+            block "icon" {
+                #texture = ""
+            }
+        }
+        icon = {
+            parentanchor = center
+            block "icon_highlight_visible" {
+                visible = no
+            }
+            size = { 62 62 }
+            using = highlighted_circle_selection_big
+        }
+    }
+
+    type mr_shared_round_button = button_icon_round {
+        block "button_content" {}
+        block "size" {
+            size = { 50 50 }
+        }
+        blockoverride "icon_size" {
+            size = { 65% 65% }
+        }
+        onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).End)]"
+        enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+        visible = "[ScriptedGui.IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+    }
+
+    type mr_shared_data_text = textbox {
+        block "size" {
+            maximumsize = { @[ panel_text_width - 30 ] -1 }
+        }
+        layoutpolicy_horizontal = expanding
+        autoresize = yes
+        multiline = yes
+        block "font_size" {
+            using = fontsize_xl
+        }
+    }
+
+    type mr_shared_basic_box = vbox {
+        layoutpolicy_horizontal = expanding
+
+        using = entry_bg_fancy
+
+        default_header_clean = {
+            blockoverride "header_mask" {
+                using = frame_small_mask_top
+            }
+            blockoverride "size" {
+                layoutpolicy_horizontal = growing
+                size = { 0 50 }
+            }
+
+            blockoverride "textbox" {
+                hbox = {
+                    margin = { 20 0 }
+
+                    textbox = {
+                        layoutpolicy_horizontal = expanding
+                        size = { 0 40 }
+                        block "general_header_text" {
+                            raw_text = "general_header_text"
+                            default_format = "#r"
+                        }
+                        using = fontsize_mega
+                        align = center
+                        elide = right
+                    }
+                }
+            }
+        }
+
+        hbox = {
+            margin = { 10 20 }
+            spacing = 20
+            layoutpolicy_horizontal = expanding
+            layoutpolicy_vertical = expanding
+
+            block "content" {
+
+            }
+        }
+    }
+
+}

@@ -1,0 +1,1679 @@
+@panel_button_width = 370
+@panel_text_width = 300
+
+types mr_main_arts_panel_types {
+
+    type mr_arts_panel = fullscreen_block_window {
+        name = "mr_arts_panel"
+        datacontext = "[GetMetaPlayer.GetPlayedOrObservedCountry]"
+
+        background = {
+            using = illu_alpha
+            fittype = center
+            texture = "gfx/interface/illustrations/tech_tree/illustration_tech_society.dds"
+            using = default_content_fade
+        }
+
+        visible = "[GetVariableSystem.HasValue('com_open_window', 'mr_sidebar_button_arts_sgui')]"
+
+        blockoverride "animation_state_block" {
+            state = {
+                name = _show
+                # Close open panel before showing this one
+                on_start = "[InformationPanelBar.ClosePanel]"
+                on_start = "[MapListPanelManager.CloseCurrentPanel]"
+                # Fullscreen panels hide topbar
+                on_finish = "[GetVariableSystem.Set('com_fullscreen', 'com_fullscreen')]"
+                start_sound = {
+                    soundeffect = "event:/SFX/UI/SideBar/markets"
+                }
+                start_sound = {
+                    soundeffect = "snapshot:/Dynamic/mute_world_80"
+                }
+                start_sound = {
+                    soundeffect = "snapshot:/Dynamic/mute_vfx_war_100"
+                }
+            }
+
+            state = {
+                name = _hide
+                on_start = "[GetVariableSystem.Clear('com_fullscreen')]"
+                on_finish = "[GetVariableSystem.Clear('mr_arts_tab')]"
+                start_sound = {
+                    soundeffect = "event:/SFX/UI/SideBar/markets_stop"
+                }
+            }
+        }
+
+        blockoverride "window_header_name" {
+            text = ARTS_VIEW_NAME
+            default_format = "#bold"
+        }
+
+        blockoverride "back_button_fullscreen" {
+            back_button_large = {
+                position = { 11 15 }
+                parentanchor = top|left
+                onclick = "[GetVariableSystem.Clear('com_open_window')]"
+                onclick = "[GetVariableSystem.Clear('com_alert_action')]"
+                onclick = "[GetVariableSystem.Clear('com_fullscreen')]"
+                input_action = "back"
+            }
+        }
+
+        close_button_large = {
+            name = "tutorial_highlight_close_button"
+            parentanchor = top|right
+            onclick = "[GetVariableSystem.Clear('com_open_window')]"
+            onclick = "[GetVariableSystem.Clear('com_alert_action')]"
+            onclick = "[GetVariableSystem.Clear('com_fullscreen')]"
+            shortcut = "close_window"
+            position = { -56 115 }
+        }
+
+        blockoverride "close_button_position" {
+            visible = no
+        }
+
+        blockoverride "fixed_top" {
+            tab_buttons_fullscreen = {
+                name = "mr_tutorial_highlight_arts_tab_bar"
+                # General
+                blockoverride "first_button" {
+                    text = "mr_arts_tab_general"
+                }
+                blockoverride "first_button_background" {
+                    background = {
+                        margin = { 0 -2 }
+                        using = fade_bottom_entry_fancy_header_colored
+                        using = Color_Purple
+                        alpha = 0.5
+                    }
+                }
+                blockoverride "first_button_click" {
+                    onclick = "[GetVariableSystem.Set('mr_arts_tab', 'main')]"
+                }
+                blockoverride "first_button_visibility" {
+                    visible = "[Or(
+									GetVariableSystem.HasValue('mr_arts_tab', 'main'),
+									Not(GetVariableSystem.Exists('mr_arts_tab'))
+								)]"
+                }
+                blockoverride "first_button_visibility_checked" {
+                    visible = "[And(
+									Not(GetVariableSystem.HasValue('mr_arts_tab', 'main')),
+									GetVariableSystem.Exists('mr_arts_tab')
+								)]"
+                }
+                blockoverride "first_button_selected" {
+                    text = "mr_arts_tab_general"
+                }
+                blockoverride "first_button_background_selected" {
+                    background = {
+                        using = fade_bottom_entry_fancy_header_colored
+                        using = Color_Purple
+                        alpha = 0.5
+                    }
+                }
+
+                # Artists
+                blockoverride "second_button" {
+                    name = "mr_tutorial_highlight_arts_tab_artists"
+                    text = "mr_arts_tab_artists"
+                }
+                blockoverride "second_button_background" {
+                    background = {
+                        margin = { 0 -2 }
+                        using = fade_bottom_entry_fancy_header_colored
+                        using = Color_Purple
+                        alpha = 0.5
+                    }
+                }
+                blockoverride "second_button_click" {
+                    onclick = "[GetVariableSystem.Set('mr_arts_tab', 'artists')]"
+                }
+                blockoverride "second_button_visibility" {
+                    visible = "[GetVariableSystem.HasValue('mr_arts_tab', 'artists')]"
+                }
+                blockoverride "second_button_visibility_checked" {
+                    visible = "[Not(GetVariableSystem.HasValue('mr_arts_tab', 'artists'))]"
+                }
+                blockoverride "second_button_selected" {
+                    text = "mr_arts_tab_artists"
+                }
+                blockoverride "second_button_background_selected" {
+                    background = {
+                        using = fade_bottom_entry_fancy_header_colored
+                        using = Color_Purple
+                        alpha = 0.5
+                    }
+                }
+            }
+        }
+
+        blockoverride "scrollarea_content" {
+            vbox = {
+                layoutpolicy_vertical = expanding
+                layoutpolicy_horizontal = expanding
+
+                mr_shared_tab_fullscreen = {
+                    blockoverride "view_visibility" {
+                        visible = "[Or(GetVariableSystem.HasValue('mr_arts_tab', 'main'), Not(GetVariableSystem.Exists('mr_arts_tab')))]"
+                    }
+                    blockoverride "view_content" {
+                        hbox = {
+                            layoutpolicy_horizontal = expanding
+                            spacing = 10
+                            mr_arts_nation = {}
+                            expand = {}
+                            mr_arts_promote = {}
+                        }
+                        mr_cultural_traditions = {}
+                    }
+                }
+
+                mr_shared_tab_fullscreen = {
+                    blockoverride "view_visibility" {
+                        visible = "[GetVariableSystem.HasValue('mr_arts_tab', 'artists')]"
+                    }
+                    blockoverride "view_content" {
+                        mr_artist_composer = {}
+                        mr_artist_writer = {}
+                        mr_artist_painter = {}
+                    }
+                }
+            }
+        }
+    }
+
+    type mr_artist_composer = mr_shared_occupation {
+        name = "mr_tutorial_highlight_artist_composer"
+        layoutpolicy_horizontal = expanding
+        blockoverride "occupation_character_context" {
+            datacontext = "[Country.MakeScope.Var('elgar_composer_var')]"
+        }
+        blockoverride "occupation_role_icon" {
+            texture = "gfx/interface/icons/character_role_icons/elgar_composer_role.dds"
+        }
+        blockoverride "occupation_role_tooltip" {
+            tooltip = "[concept_elgar_composer_desc]"
+        }
+        blockoverride "occupation_role_name" {
+            text = "COMPOSER_HEADER_TEXT"
+        }
+        blockoverride "occupation_character_name" {
+            text = "[Country.GetCustom('artists_has_composer_gui_type')]"
+        }
+        blockoverride "character_animation" {
+            portrait_texture = "[Character.GetAnimatedPortrait('characters_portrait_environment', 'mr_camera_torso_composer', 'mr_test_idle', GetPortraitRenderSize(PdxGuiWidget.Self))]"
+        }
+        blockoverride "occupation_achievement_tooltip" {
+            tooltip = "MR_COMPOSER_ACHIEVEMENTS_TT"
+        }
+        blockoverride "occupation_experience_value" {
+            value = "[Scope.Var('elgar_composer_experience').GetValue]"
+        }
+        blockoverride "occupation_experience_range" {
+            min = 0
+            max = 500
+        }
+        blockoverride "occupation_experience_tooltip" {
+            tooltip = "[Country.GetCustom('GUI_elgar_composer_experience_type')]"
+        }
+        blockoverride "occupation_experience_bar_text" {
+            text = "[Country.GetCustom('GUI_elgar_composer_experience_text_type')]"
+        }
+        blockoverride "occupation_ranking_visible" {
+            visible = yes
+        }
+        blockoverride "occupation_ranking" {
+            tooltipwidget = {
+                MR_TooltipRankingType = {
+                    blockoverride "ranking_on_finish" {
+                        on_finish = "[GetScriptedGui('mr_musical_tradition_ranking_sgui').Execute( GuiScope.SetRoot( Country.MakeScope ).End )]" #Resets the Ranking
+                    }
+                    blockoverride "text_1" {
+                        raw_text = "COMPOSER_MUSICAL_TRADITION_RANKING_HEADER"
+                    }
+                    blockoverride "ranking_1_visible" {
+                        visible = yes
+                    }
+                    blockoverride "ranking_1_datamodel" {
+                        datamodel = "[GetGlobalList('mr_musical_tradition_ranking_global_list')]"
+                    }
+                    blockoverride "ranking_variable_used_1" {
+                        raw_text = "[Country.MakeScope.GetVariable('elgar_music_tradition').GetValue|*V0]"
+                    }
+                }
+            }
+        }
+        blockoverride "occupation_data_size" {
+            size = { @panel_text_width 440 }
+        }
+        blockoverride "occupation_data_header_text" {
+            text = mr_artist_composer_data_header
+        }
+        blockoverride "occupation_data_content" {
+            spacing = 5
+            hbox = {
+                spacing = 8
+
+                # Musical Tradition
+                mr_shared_data_text = {
+                    text = "MUSICAL_TRADITION_VAR"
+                    tooltip = "MUSICAL_TRADITION_VAR_TT"
+                }
+
+                # Yearly Musical Tradition
+                mr_shared_data_text = {
+                    text = "MR_YEARLY_MUSICAL_TRADITION"
+                    tooltip = "MR_YEARLY_MUSICAL_TRADITION_TT"
+                }
+
+                expand = {}
+            }
+            # Composer Compositions
+            mr_shared_data_text = {
+                blockoverride "size" {
+                    layoutpolicy_horizontal = growing
+                }
+                visible = "[Scope.IsSet]"
+                text = "MR_TOTAL_COMPOSITIONS_COMPOSER"
+            }
+            # Composer Masterworks
+            mr_shared_data_text = {
+                blockoverride "size" {
+                    layoutpolicy_horizontal = growing
+                }
+                visible = "[Scope.IsSet]"
+                text = "MR_TOTAL_MASTERWORKS_COMPOSER"
+            }
+            # Composer Ranking
+            mr_shared_data_text = {
+                blockoverride "size" {
+                    layoutpolicy_horizontal = growing
+                }
+                text = "RANKING_COMPOSER_TOP_5"
+            }
+        }
+        blockoverride "visit_button" {
+            text = "MR_VISIT_OPERA_BUTTON"
+            datacontext = "[GetScriptedGui('mr_visit_opera_gui_button')]"
+            onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+            enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+            tooltip = "MR_VISIT_OPERA_BUTTON_TT"
+        }
+        blockoverride "big_box_content" {
+            mr_shared_interactions = {
+                blockoverride "interaction_size" {
+                    minimumsize = { @[ panel_button_width + 20 ] 50 }
+                    maximumsize = { @[ panel_button_width + 20 ] -1 }
+                }
+                blockoverride "tabs" {
+                    tab_buttons = {
+                        maximumsize = { @[ panel_button_width + 20 ] 0 }
+                        margin_bottom = -4
+                        blockoverride "first_button" {
+                            text = mr_artist_composer_tab_composer
+                        }
+                        blockoverride "first_button_click" {
+                            onclick = "[GetVariableSystem.Set('mr_artist_composer_tab', 'composer')]"
+                        }
+                        blockoverride "first_button_visibility" {
+                            visible = "[Or(GetVariableSystem.HasValue('mr_artist_composer_tab', 'composer'), Not(GetVariableSystem.Exists('mr_artist_composer_tab')))]"
+                        }
+                        blockoverride "first_button_visibility_checked" {
+                            visible = "[And(Not(GetVariableSystem.HasValue('mr_artist_composer_tab', 'composer')), GetVariableSystem.Exists('mr_artist_composer_tab'))]"
+                        }
+                        blockoverride "first_button_selected" {
+                            text = mr_artist_composer_tab_composer
+                        }
+
+                        blockoverride "second_button" {
+                            text = mr_artist_composer_tab_nation
+                        }
+                        blockoverride "second_button_click" {
+                            onclick = "[GetVariableSystem.Set('mr_artist_composer_tab', 'nation')]"
+                        }
+                        blockoverride "second_button_visibility" {
+                            visible = "[GetVariableSystem.HasValue('mr_artist_composer_tab', 'nation')]"
+                        }
+                        blockoverride "second_button_visibility_checked" {
+                            visible = "[Not(GetVariableSystem.HasValue('mr_artist_composer_tab', 'nation'))]"
+                        }
+                        blockoverride "second_button_selected" {
+                            text = mr_artist_composer_tab_nation
+                        }
+                    }
+                }
+                blockoverride "tab_content" {
+                    vbox = {
+                        visible = "[Or(GetVariableSystem.HasValue('mr_artist_composer_tab', 'composer'), Not(GetVariableSystem.Exists('mr_artist_composer_tab')))]"
+                        layoutpolicy_vertical = expanding
+                        spacing = 7
+                        minimumsize = { @panel_button_width 0 }
+
+                        # Compose a Musical Work
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_compose_a_work_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "mr_artist_composer_compose_button_text"
+                                tooltip = "MR_COMPOSE_A_WORK_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_stop_composing_a_work_button').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_composer_composing_button.dds"
+                            }
+                        }
+
+                        # Conduct a Season
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_conduct_a_season_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "mr_artist_composer_season_button_text"
+                                tooltip = "MR_CONDUCT_A_SEASON_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_conducting_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_composer_conducting_button.dds"
+                            }
+                        }
+
+                        # Go on a Music Tour
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_go_on_a_music_tour_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "mr_artist_composer_tour_button_text"
+                                tooltip = "MR_GO_ON_A_MUSIC_TOUR_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_music_tour_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_composer_musical_tour_button.dds"
+                            }
+                        }
+
+                        # Compose a Masterwork
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_create_a_masterpiece_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "mr_artist_composer_masterwork_button_text"
+                                tooltip = "MR_CREATE_A_MASTERPIECE_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_stop_creating_masterwork_button').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_composer_composing_masterwork_button.dds"
+                            }
+                        }
+
+                        expand = {}
+                    }
+                    vbox = {
+                        visible = "[GetVariableSystem.HasValue('mr_artist_composer_tab', 'nation')]"
+                        layoutpolicy_vertical = expanding
+                        spacing = 7
+                        minimumsize = { @panel_button_width 0 }
+
+                        # Mozart Monument
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_mozart_monument_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_MOZART_MONUMENT_BUTTON"
+                                tooltip = "MR_MOZART_MONUMENT_BUTTON_TT"
+                            }
+                        }
+
+                        # Beethoven Monument
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_beethoven_monument_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_BEETHOVEN_MONUMENT_BUTTON"
+                                tooltip = "MR_BEETHOVEN_MONUMENT_BUTTON_TT"
+                            }
+                        }
+
+                        # Compose a national anthem
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_anthem_music_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ANTHEM_MUSIC_BUTTON"
+                                tooltip = "MR_ANTHEM_MUSIC_BUTTON_TT"
+                            }
+                        }
+
+                        # National Broadcasting Channel
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_nbc_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_NBC_BUTTON"
+                                tooltip = "MR_NBC_BUTTON_TT"
+                            }
+                        }
+
+                        # National Broadcasting Channel License
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_nbc_licence_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_NBC_LICENCE_BUTTON"
+                                tooltip = "MR_NBC_LICENCE_BUTTON_TT"
+                            }
+                        }
+
+                        # German Music Association
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_german_music_association_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_GERMAN_MUSIC_ASSOCIATION_BUTTON"
+                                tooltip = "MR_GERMAN_MUSIC_ASSOCIATION_BUTTON_TT"
+                            }
+                        }
+
+                        expand = {}
+                    }
+                }
+                blockoverride "stop_context" {
+                    datacontext = "[GetScriptedGui('mr_stop_composing_a_work_button')]"
+                }
+            }
+            mr_artist_character_box = {
+                name = "mr_tutorial_highlight_travelling_composers_box"
+                blockoverride "artist_characters_header" {
+                    text = "MR_TRAVELLING_COMPOSERS"
+                }
+                blockoverride "artist_character_list" {
+                    datamodel = "[GetGlobalList('mr_travelling_composer_global_list')]"
+                }
+                blockoverride "artist_character_experience_value" {
+                    value = "[FixedPointToFloat(Character.MakeScope.GetVariable('elgar_composer_experience').GetValue)]"
+                }
+                blockoverride "artist_character_name" {
+                    text = "[Character.GetCustom('elgar_composer_rating_new_composer_icon_type')] [Character.GetLastName]"
+                }
+                blockoverride "artist_character_experience_tooltip" {
+                    tooltip = "MR_TRAVELLING_COMPOSER_EXPERIENCE_TOOLTIP"
+                }
+                blockoverride "artist_character_experience_bar_text" {
+                    text = "[Character.GetCustom('GUI_elgar_travelling_composer_experience_text_type')]"
+                }
+                blockoverride "artist_character_interaction" {
+                    datacontext = "[GetScriptedGui('mr_invite_composer_button')]"
+                    onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_composer', Scope.GetCharacter.MakeScope).End)]"
+                    enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_composer', Scope.GetCharacter.MakeScope).End)]"
+                    text = "MR_INVITE_COMPOSER_BUTTON"
+                    tooltip = "MR_INVITE_COMPOSER_BUTTON_TT"
+                }
+            }
+            expand = {}
+        }
+    }
+
+    type mr_artist_writer = mr_shared_occupation {
+        layoutpolicy_horizontal = expanding
+        blockoverride "occupation_character_context" {
+            datacontext = "[Country.MakeScope.Var('manzoni_writer_var')]"
+        }
+        blockoverride "occupation_role_icon" {
+            texture = "gfx/interface/icons/character_role_icons/manzoni_writer_role.dds"
+        }
+        blockoverride "occupation_role_tooltip" {
+            tooltip = "[concept_manzoni_writer_desc]"
+        }
+        blockoverride "occupation_role_name" {
+            text = "WRITER_HEADER_TEXT"
+        }
+        blockoverride "occupation_character_name" {
+            text = "[Country.GetCustom('artists_has_writer_gui_type')]"
+        }
+        blockoverride "character_animation" {
+            portrait_texture = "[Character.GetAnimatedPortrait('characters_portrait_environment', 'mr_camera_torso_writer', 'mr_test_idle', GetPortraitRenderSize(PdxGuiWidget.Self))]"
+        }
+        blockoverride "achievements_icon_visibility" {
+            visible = no
+        }
+        blockoverride "occupation_experience_value" {
+            value = "[Scope.Var('manzoni_writer_experience').GetValue]"
+        }
+        blockoverride "occupation_experience_range" {
+            min = 0
+            max = 500
+        }
+        blockoverride "occupation_experience_tooltip" {
+            tooltip = "[Country.GetCustom('GUI_manzoni_writer_experience_type')]"
+        }
+        blockoverride "occupation_experience_bar_text" {
+            text = "[Country.GetCustom('GUI_manzoni_writer_experience_text_type')]"
+        }
+        blockoverride "occupation_ranking_visible" {
+            visible = yes
+        }
+        blockoverride "occupation_ranking" {
+            tooltipwidget = {
+                MR_TooltipRankingType = {
+                    blockoverride "ranking_on_finish" {
+                        on_finish = "[GetScriptedGui('mr_literary_tradition_ranking_sgui').Execute( GuiScope.SetRoot( Country.MakeScope ).End )]" #Resets the Ranking
+                    }
+                    blockoverride "text_1" {
+                        raw_text = "WRITER_LITERARY_TRADITION_RANKING_HEADER"
+                    }
+                    blockoverride "ranking_1_visible" {
+                        visible = yes
+                    }
+                    blockoverride "ranking_1_datamodel" {
+                        datamodel = "[GetGlobalList('mr_literary_tradition_ranking_global_list')]"
+                    }
+                    blockoverride "ranking_variable_used_1" {
+                        raw_text = "[Country.MakeScope.GetVariable('manzoni_literary_tradition_var').GetValue|*V0]"
+                    }
+                }
+            }
+        }
+        blockoverride "occupation_data_size" {
+            size = { @panel_text_width 440 }
+        }
+        blockoverride "occupation_data_header_text" {
+            text = mr_artist_writer_data_header
+        }
+        blockoverride "occupation_data_content" {
+            hbox = {
+                spacing = 8
+
+                # Literary Tradition
+                mr_shared_data_text = {
+                    text = "LITERARY_TRADITION_VAR"
+                    tooltip = "LITERARY_TRADITION_VAR_TT"
+                }
+
+                # Yearly Literary Tradition
+                mr_shared_data_text = {
+                    text = "MR_YEARLY_LITERARY_TRADITION"
+                    tooltip = "MR_YEARLY_LITERARY_TRADITION_TT"
+                }
+
+                expand = {}
+            }
+            # Current Genre
+            mr_shared_data_text = {
+                blockoverride "size" {
+                    layoutpolicy_horizontal = growing
+                }
+                text = "MR_CURRENT_GENRE_LOC"
+            }
+            # Writer Genre
+            mr_shared_data_text = {
+                blockoverride "size" {
+                    layoutpolicy_horizontal = growing
+                }
+                text = "MR_WRITER_GENRE_LOC"
+                visible = "[Scope.IsSet]"
+            }
+            # Bestsellers Writer
+            mr_shared_data_text = {
+                blockoverride "size" {
+                    layoutpolicy_horizontal = growing
+                }
+                text = "MANZONI_BESTSELLERS_WRITER"
+                visible = "[Scope.IsSet]"
+            }
+            # Bestsellers Country
+            mr_shared_data_text = {
+                blockoverride "size" {
+                    layoutpolicy_horizontal = growing
+                }
+                text = "MANZONI_BESTSELLERS_COUNTRY"
+                visible = "[Scope.IsSet]"
+            }
+            # Publications Country
+            mr_shared_data_text = {
+                blockoverride "size" {
+                    layoutpolicy_horizontal = growing
+                }
+                text = "MANZONI_PUBLICATIONS_COUNTRY"
+                visible = "[Scope.IsSet]"
+            }
+        }
+        blockoverride "visit_button" {
+            text = "MR_VISIT_LIBRARY_BUTTON"
+            datacontext = "[GetScriptedGui('mr_visit_library_gui_button')]"
+            onclick = "[ScriptedGui.Execute( GuiScope.SetRoot(Country.MakeScope).End )]"
+            enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot(Country.MakeScope).End )]"
+            tooltip = "MR_VISIT_LIBRARY_BUTTON_TT"
+        }
+        blockoverride "big_box_content" {
+            mr_shared_interactions_simple = {
+                blockoverride "interaction_size" {
+                    minimumsize = { @[ panel_button_width + 20 ] 50 }
+                    maximumsize = { @[ panel_button_width + 20 ] -1 }
+                }
+                blockoverride "content" {
+                    vbox = {
+                        layoutpolicy_horizontal = expanding
+                        layoutpolicy_vertical = expanding
+                        minimumsize = { @panel_button_width 0 }
+                        spacing = 7
+
+                        # Newspaper Novel
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_newspaper_novel_button')]"
+                            blockoverride "button_content" {
+                                text = "mr_artist_writer_newspaper_novel_button_text"
+                                tooltip = "MR_NEWSPAPER_NOVEL_BUTTON_TT"
+                            }
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_newspaper_novel_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_writer_newspaper_novel_button.dds"
+                            }
+                        }
+                        # Reading Tour
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_reading_tour_button')]"
+                            blockoverride "button_content" {
+                                text = "mr_artist_writer_reading_tour_button_text"
+                                tooltip = "MR_READING_TOUR_BUTTON_TT"
+                            }
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_reading_tour_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_writer_reading_tour_button.dds"
+                            }
+                        }
+                        # Write text for a National Anthem
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_anthem_text_button')]"
+                            blockoverride "button_content" {
+                                text = "MR_ANTHEM_TEXT_BUTTON"
+                                tooltip = "MR_ANTHEM_TEXT_BUTTON_TT"
+                            }
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                        }
+
+                        expand = {}
+                    }
+                }
+                blockoverride "stop_context" {
+                    datacontext = "[GetScriptedGui('mr_stop_writer_project_button')]"
+                }
+            }
+            mr_artist_character_box = {
+                blockoverride "artist_characters_header" {
+                    text = "MR_LOCAL_WRITERS"
+                }
+                blockoverride "artist_character_list" {
+                    datamodel = "[Country.MakeScope.GetList('mr_local_writers_list')]"
+                }
+                blockoverride "artist_character_experience_value" {
+                    value = "[FixedPointToFloat(Character.MakeScope.GetVariable('manzoni_writer_experience').GetValue)]"
+                }
+                blockoverride "artist_character_name" {
+                    text = "[Character.GetCustom('GUI_manzoni_local_writer_experience_text_type')]"
+                }
+                blockoverride "artist_character_experience_tooltip" {
+                    tooltip = "MR_TRAVELLING_COMPOSER_EXPERIENCE_TOOLTIP"
+                }
+                blockoverride "artist_character_experience_bar_text" {
+                    text = "[Character.GetCustom('GUI_elgar_travelling_composer_experience_text_type')]"
+                }
+                blockoverride "artist_character_interaction" {
+                    datacontext = "[GetScriptedGui('mr_invite_writer_button')]"
+                    onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_writer', Scope.GetCharacter.MakeScope).End)]"
+                    enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_writer', Scope.GetCharacter.MakeScope).End)]"
+                    text = "MR_INVITE_WRITER_BUTTON"
+                    tooltip = "MR_INVITE_WRITER_BUTTON_TT"
+                }
+            }
+            expand = {}
+        }
+    }
+
+    type mr_artist_painter = mr_shared_occupation {
+        layoutpolicy_horizontal = expanding
+        blockoverride "occupation_character_context" {
+            datacontext = "[Country.MakeScope.Var('klimt_painter_var')]"
+        }
+        blockoverride "occupation_role_icon" {
+            texture = "gfx/interface/icons/character_role_icons/klimt_painter_role.dds"
+        }
+        blockoverride "occupation_role_tooltip" {
+            tooltip = "[concept_klimt_painter_desc]"
+        }
+        blockoverride "occupation_role_name" {
+            text = "PAINTER_HEADER_TEXT"
+        }
+        blockoverride "occupation_character_name" {
+            text = "[Country.GetCustom('artists_has_painter_gui_type')]"
+        }
+        blockoverride "character_animation" {
+            portrait_texture = "[Character.GetAnimatedPortrait('characters_portrait_environment', 'mr_camera_torso_painter', 'mr_test_idle', GetPortraitRenderSize(PdxGuiWidget.Self))]"
+        }
+        blockoverride "occupation_achievement_tooltip" {
+            tooltip = "MR_PAINTER_ACHIEVEMENTS_TT"
+        }
+        blockoverride "occupation_experience_value" {
+            value = "[Scope.Var('klimt_painter_experience').GetValue]"
+        }
+        blockoverride "occupation_experience_range" {
+            min = 0
+            max = 500
+        }
+        blockoverride "occupation_experience_tooltip" {
+            tooltip = "[Country.GetCustom('GUI_klimt_painter_experience_type')]"
+        }
+        blockoverride "occupation_experience_bar_text" {
+            text = "[Country.GetCustom('GUI_klimt_painter_experience_text_type')]"
+        }
+        blockoverride "occupation_ranking_visible" {
+            visible = yes
+        }
+        blockoverride "occupation_ranking" {
+            tooltipwidget = {
+                MR_TooltipRankingType = {
+                    blockoverride "ranking_on_finish" {
+                        on_finish = "[GetScriptedGui('mr_painting_tradition_ranking_sgui').Execute( GuiScope.SetRoot( Country.MakeScope ).End )]" #Resets the Ranking
+                    }
+                    blockoverride "text_1" {
+                        raw_text = "PAINTER_PAINTING_TRADITION_RANKING_HEADER"
+                    }
+                    blockoverride "ranking_1_visible" {
+                        visible = yes
+                    }
+                    blockoverride "ranking_1_datamodel" {
+                        datamodel = "[GetGlobalList('mr_painting_tradition_ranking_global_list')]"
+                    }
+                    blockoverride "ranking_variable_used_1" {
+                        raw_text = "[Country.MakeScope.GetVariable('klimt_painting_tradition_var').GetValue|*V0]"
+                    }
+                }
+            }
+        }
+        blockoverride "occupation_data_size" {
+            size = { @panel_text_width 440 }
+        }
+        blockoverride "occupation_data_header_text" {
+            text = mr_artist_painter_data_header
+        }
+        blockoverride "occupation_data_content" {
+            hbox = {
+                spacing = 8
+
+                # Painting Tradition
+                mr_shared_data_text = {
+                    text = "PAINTING_TRADITION_VAR"
+                    tooltip = "PAINTING_TRADITION_VAR_TT"
+                }
+
+                # Yearly Painting Tradition
+                mr_shared_data_text = {
+                    text = "MR_YEARLY_PAINTING_TRADITION"
+                    tooltip = "MR_YEARLY_PAINTING_TRADITION_TT"
+                }
+
+                expand = {}
+            }
+            # Total Masterworks of Country
+            mr_shared_data_text = {
+                blockoverride "size" {
+                    layoutpolicy_horizontal = growing
+                }
+                text = "MR_TOTAL_MASTERWORKS_COUNTRY"
+                tooltip = "MR_TOTAL_MASTERWORKS_COUNTRY_TT"
+            }
+            # Painter Ranking
+            mr_shared_data_text = {
+                blockoverride "size" {
+                    layoutpolicy_horizontal = growing
+                }
+                text = "RANKING_PAINTER_TOP_5"
+            }
+        }
+        blockoverride "visit_button" {
+            text = "MR_VISIT_GALLERY_BUTTON"
+            datacontext = "[GetScriptedGui('mr_visit_gallery_gui_button')]"
+            onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+            enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+            tooltip = "MR_VISIT_GALLERY_BUTTON_TT"
+        }
+        blockoverride "big_box_content" {
+            mr_shared_interactions_simple = {
+                blockoverride "interaction_size" {
+                    minimumsize = { @[ panel_button_width + 20 ] 50 }
+                    maximumsize = { @[ panel_button_width + 20 ] -1 }
+                }
+                blockoverride "content" {
+                    vbox = {
+                        layoutpolicy_horizontal = expanding
+                        layoutpolicy_vertical = expanding
+                        minimumsize = { @panel_button_width 0 }
+                        spacing = 7
+
+                        # Painter Trip
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_painter_trip_button')]"
+                            blockoverride "button_content" {
+                                text = "mr_artist_painter_trip_button_text"
+                                tooltip = "MR_PAINTER_TRIP_BUTTON_TT"
+                            }
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_painter_trip_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_painter_trip_button.dds"
+                            }
+                        }
+                        # Vernissage
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_vernissage_button')]"
+                            blockoverride "button_content" {
+                                text = "mr_artist_painter_vernissage_button_text"
+                                tooltip = "MR_VERNISSAGE_BUTTON_TT"
+                            }
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_reading_tour_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_painter_vernissage_button.dds"
+                            }
+                        }
+                        # Acquire a Masterwork
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_acquire_masterwork_button')]"
+                            blockoverride "button_content" {
+                                text = "MR_ACQUIRE_MASTERWORK_BUTTON"
+                                tooltip = "MR_ACQUIRE_MASTERWORK_BUTTON_TT"
+                            }
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                        }
+
+                        expand = {}
+                    }
+                }
+                blockoverride "stop_context" {
+                    datacontext = "[GetScriptedGui('mr_stop_painter_project_button')]"
+                }
+            }
+            mr_artist_character_box = {
+                blockoverride "artist_characters_header" {
+                    text = "MR_INDEPENDENT_PAINTER"
+                }
+                blockoverride "artist_character_list" {
+                    datamodel = "[GetGlobalList('mr_independent_painter_global_list')]"
+                }
+                blockoverride "artist_character_experience_value" {
+                    value = "[FixedPointToFloat(Character.MakeScope.GetVariable('klimt_painter_experience').GetValue)]"
+                }
+                blockoverride "artist_character_visible" {
+                    datacontext = "[GetScriptedGui('mr_independent_painter_visible_sgui')]"
+                    visible = "[ScriptedGui.IsShown(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_painter', Scope.GetCharacter.MakeScope).End)]"
+                }
+                blockoverride "artist_character_name" {
+                    text = "[Character.GetCustom('klimt_painter_rating_new_painter_icon_type')] [Character.GetLastName]"
+                }
+                blockoverride "artist_character_experience_tooltip" {
+                    tooltip = "MR_INDEPENDENT_PAINTER_EXPERIENCE_TOOLTIP"
+                }
+                blockoverride "artist_character_experience_bar_text" {
+                    text = "[Character.GetCustom('GUI_klimt_independent_painter_experience_text_type')]"
+                }
+                blockoverride "artist_character_interaction" {
+                    datacontext = "[GetScriptedGui('mr_invite_painter_button')]"
+                    onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_painter', Scope.GetCharacter.MakeScope).End)]"
+                    enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_painter', Scope.GetCharacter.MakeScope).End)]"
+                    text = "MR_INVITE_INDEPENDENT_PAINTER"
+                    tooltip = "MR_INVITE_INDEPENDENT_PAINTER_TT"
+                }
+            }
+            expand = {}
+        }
+    }
+
+    type mr_artist_character_box = hbox {
+        layoutpolicy_horizontal = expanding
+        layoutpolicy_vertical = expanding
+
+        background = {
+            using = simple_frame
+        }
+
+        vbox = {
+            layoutpolicy_horizontal = expanding
+            layoutpolicy_vertical = expanding
+            margin = { 15 15 }
+            margin_top = 0
+
+            default_header_clean_faded = {
+                layoutpolicy_horizontal = expanding
+                blockoverride "text" {
+                    block "artist_characters_header" {
+                        raw_text = "artist_characters_header"
+                        default_format = "#r"
+                    }
+                }
+            }
+
+            fullscreen_scrollarea = {
+                layoutpolicy_horizontal = expanding
+                layoutpolicy_vertical = expanding
+
+                scrollbarpolicy_horizontal = as_needed
+                scrollbarpolicy_vertical = always_off
+
+                background = {}
+
+                scrollbar_horizontal = {
+                    using = Scrollbar_Horizontal
+                }
+
+                blockoverride "scrollarea_content" {
+                    hbox = {
+                        margin_bottom = 15
+                        layoutpolicy_horizontal = expanding
+                        layoutpolicy_vertical = expanding
+                        spacing = 18
+                        block "artist_character_list" {
+                            textbox = {
+                                layoutpolicy_horizontal = expanding
+                                layoutpolicy_vertical = expanding
+                                raw_text = "artist_character_list"
+                                default_format = "#r"
+                                align = center
+                                autoresize = yes
+                                using = fontsize_mega
+                            }
+                            #datamodel = "[GetGlobalList('mr_travelling_composer_global_list')]"
+                        }
+
+                        item = {
+                            vbox = {
+                                spacing = 10
+                                margin = { 10 10 }
+                                minimumsize = { 220 340 }
+                                datacontext = "[Scope.GetCharacter]"
+                                using = entry_bg_fancy
+                                block "artist_character_visible" {}
+
+                                # Character Portrait
+                                character_portrait_medium_torso = {
+                                    blockoverride "show_hat" {}
+                                    blockoverride "tooltip" {} #TODO Remove when Tooltip doesn't cause error anymore
+                                    blockoverride "portrait_icons" {} #TODO Remove when Tooltip doesn't cause error anymore
+                                    blockoverride "portrait_button" {} #TODO Remove when Tooltip doesn't cause error anymore
+                                }
+
+                                # Name
+                                default_header_clean_faded = {
+                                    size = { 160 40 }
+                                    blockoverride "text" {
+                                        block "artist_character_name" {
+                                            text = "[Character.GetLastName]"
+                                        }
+                                    }
+                                }
+
+                                # Experience
+                                green_progressbar_horizontal = {
+                                    size = { 160 25 }
+                                    blockoverride "values" {
+                                        block "artist_character_experience_range" {
+                                            min = 0
+                                            max = 500
+                                        }
+                                        block "artist_character_experience_value" {
+                                            value = 0
+                                        }
+                                        block "artist_character_experience_tooltip" {}
+                                    }
+                                    textbox = {
+                                        block "artist_character_experience_bar_text" {
+                                            raw_text = "Undefined"
+                                            default_format = "#r"
+                                        }
+                                        parentanchor = center
+                                        autoresize = yes
+                                        using = fontsize_large
+                                    }
+                                }
+
+                                button = {
+                                    # Invite Composer
+                                    using = default_button_primary_big_action
+                                    size = { 170 40 }
+                                    using = fontsize_medium
+                                    block "artist_character_interaction" {
+                                        raw_text = "Undefined"
+                                        default_format = "#r"
+                                        onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_composer', Scope.GetCharacter.MakeScope).End)]"
+                                        enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_composer', Scope.GetCharacter.MakeScope).End)]"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    type mr_artist_cultural_tradition_button = button {
+        block "button_context" {}
+        size = { 200 300 }
+        enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+        onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).End)]"
+
+        # Glow when available
+        widget = {
+            visible = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+            size = { 215 315 }
+            parentanchor = center
+            icon = {
+                name = ui_event_glow_animation
+                using = ui_event_glow
+                using = frame_small_mask
+                alpha = 0
+
+                state = {
+                    trigger_on_create = yes
+                    name = 1
+                    next = 2
+                    alpha = 0.4
+                    duration = 1
+                    using = Animation_Curve_Default
+                }
+                state = {
+                    name = 2
+                    next = 1
+                    alpha = 0.05
+                    duration = 1
+                    using = Animation_Curve_Default
+                }
+            }
+        }
+
+        mr_artist_cultural_tradition = {
+            blockoverride "context" {
+                block "button_context" {}
+            }
+        }
+
+        state = {
+            name = _mouse_enter
+            on_start = "[PdxGuiWidget.FindChild('background').TriggerAnimation('enter')]"
+        }
+
+        state = {
+            name = _mouse_leave
+            on_start = "[PdxGuiWidget.FindChild('background').TriggerAnimation('leave')]"
+        }
+
+        icon = {
+            name = background
+            size = { 200 300 }
+            visible = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).End)]"
+            texture = "gfx/interface/buttons/glow_button_border.dds"
+            spriteType = CorneredStretched
+            framesize = { 150 150 }
+            spriteborder = { 60 60 }
+            frame = 3
+            using = frame_small_mask
+            alpha = 0
+            state = {
+                name = "enter"
+                alpha = 1
+            }
+            state = {
+                name = "leave"
+                alpha = 0
+            }
+        }
+    }
+
+    type mr_artist_cultural_tradition = widget {
+        size = { 200 300 }
+        block "context" {}
+        block "tradition_tooltip" {}
+        background = {
+            using = frame_small
+        }
+
+        widget = {
+            size = { 100% 100% }
+
+            background = {
+                block "tradition_background" {
+                    #texture = "gfx/interface/icons/objectives/sandbox.dds"
+                }
+                fittype = centercrop
+                spriteType = Corneredstretched
+                using = frame_small_mask
+            }
+
+            background = {
+                visible = "[ScriptedGui.IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                texture = "gfx/frontend/interface/colors/black.dds"
+                fittype = centercrop
+                spriteType = Corneredstretched
+                alpha = 0.8
+                using = frame_small_mask
+            }
+
+            background = {
+                using = frame_small
+            }
+        }
+
+        widget = {
+            visible = "[Not(ScriptedGui.IsShown(GuiScope.SetRoot(Country.MakeScope).End))]"
+            size = { 100% 100% }
+            parentanchor = center
+            block "tooltip_active" {}
+        }
+
+        widget = {
+            visible = "[ScriptedGui.IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+            size = { 100% 100% }
+            parentanchor = center
+            block "tooltip_inactive" {}
+        }
+
+        default_header_clean = {
+            parentanchor = top
+            layoutpolicy_horizontal = expanding
+            blockoverride "text" {
+                block "tradition_header" {
+                    raw_text = "tradition_header"
+                    default_format = "#r"
+                }
+            }
+            blockoverride "header_mask" {
+                using = frame_small_mask_top
+            }
+            blockoverride "size" {
+                size = { 100% 50 }
+            }
+        }
+    }
+
+    type mr_arts_nation = mr_shared_basic_box {
+        name  = "mr_tutorial_highlight_arts_nation"
+        layoutpolicy_horizontal = expanding
+        layoutpolicy_vertical = expanding
+        blockoverride "general_header_text" {
+            text = mr_artist_nation_header
+        }
+        blockoverride "content" {
+            vbox = {
+                spacing = 30
+                layoutpolicy_horizontal = expanding
+                # Art Prestige
+                hbox = {
+                    spacing = 40
+
+                    textbox = {
+                        text = "MR_ART_TRADITION"
+                        tooltip = "MR_ART_TRADITION_TT"
+                        autoresize = yes
+                        using = fontsize_xxl
+                    }
+                    textbox = {
+                        text = "MR_ART_PRESTIGE"
+                        autoresize = yes
+                        using = fontsize_xxl
+                    }
+                }
+                hbox = {
+                    spacing = 20
+
+                    textbox = {
+                        raw_text = "[concept_elgar_musical_tradition]"
+                        autoresize = yes
+                        using = fontsize_xxl
+                    }
+                    hbox = {
+                        spacing = 5
+
+                        textbox = {
+                            text = "MUSICAL_TRADITION_VAR"
+                            tooltip = "MUSICAL_TRADITION_VAR_TT"
+                            autoresize = yes
+                            using = fontsize_xxl
+                        }
+                        textbox = {
+                            text = "MR_YEARLY_MUSICAL_TRADITION"
+                            tooltip = "MR_YEARLY_MUSICAL_TRADITION_TT"
+                            autoresize = yes
+                            using = fontsize_xxl
+                        }
+                    }
+                }
+                hbox = {
+                    spacing = 20
+
+                    textbox = {
+                        raw_text = "[concept_manzoni_literary_tradition]"
+                        autoresize = yes
+                        using = fontsize_xxl
+                    }
+                    hbox = {
+                        spacing = 5
+
+                        textbox = {
+                            text = "LITERARY_TRADITION_VAR"
+                            tooltip = "LITERARY_TRADITION_VAR_TT"
+                            autoresize = yes
+                            using = fontsize_xxl
+                        }
+                        textbox = {
+                            text = "MR_YEARLY_LITERARY_TRADITION"
+                            tooltip = "MR_YEARLY_LITERARY_TRADITION_TT"
+                            autoresize = yes
+                            using = fontsize_xxl
+                        }
+                    }
+                }
+
+                hbox = {
+                    spacing = 20
+
+                    textbox = {
+                        raw_text = "[concept_klimt_painting_tradition]"
+                        autoresize = yes
+                        using = fontsize_xxl
+                    }
+                    hbox = {
+                        spacing = 5
+
+                        textbox = {
+                            text = "PAINTING_TRADITION_VAR"
+                            tooltip = "PAINTING_TRADITION_VAR_TT"
+                            autoresize = yes
+                            using = fontsize_xxl
+                        }
+                        textbox = {
+                            text = "MR_YEARLY_PAINTING_TRADITION"
+                            tooltip = "MR_YEARLY_PAINTING_TRADITION_TT"
+                            autoresize = yes
+                            using = fontsize_xxl
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    type mr_arts_promote = mr_shared_basic_box {
+        name = "mr_tutorial_highlight_arts_promote"
+        blockoverride "general_header_text" {
+            text = mr_artist_promote_header
+        }
+        blockoverride "content" {
+            spacing = 20
+
+            vbox = {
+                layoutpolicy_horizontal = expanding
+                layoutpolicy_vertical = expanding
+                spacing = 30
+                margin = { 15 0 }
+
+                vbox = {
+                    layoutpolicy_horizontal = expanding
+                    margin = { 20 0 }
+                    margin_bottom = 20
+                    spacing = 20
+                    background = {
+                        using = simple_frame
+                    }
+
+                    default_header_clean_faded = {
+                        layoutpolicy_horizontal = expanding
+                        blockoverride "text" {
+                            text = "PROGRESS_TO_NEXT_ARTIST"
+                        }
+                        blockoverride "text_size" {
+                            using = fontsize_xxl
+                        }
+                        blockoverride "size" {
+                            size = { 100% 50 }
+                        }
+                    }
+
+                    vbox = {
+                        spacing = 20
+                        layoutpolicy_horizontal = expanding
+                        layoutpolicy_vertical = expanding
+
+                        textbox = {
+                            layoutpolicy_horizontal = expanding
+                            text = "CURRENT_ARTISTIC_PROGRESS"
+                            autoresize = yes
+                            multiline = yes
+                            using = fontsize_xl
+                            align = center
+                        }
+
+                        hbox = {
+                            spacing = 20
+                            layoutpolicy_horizontal = expanding
+
+                            mr_shared_left_icon_button = {
+                                blockoverride "button_content" {
+                                    datacontext = "[GetScriptedGui('mr_patron_of_the_arts')]"
+                                    text = mr_artist_promote_patronize
+                                    tooltip = "MR_PATRON_OF_THE_ARTS_BUTTON_TT"
+                                }
+                                blockoverride "size" {
+                                    size = { 200 45 }
+                                }
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/generic_icons/coin_icon_13.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 50% 50% }
+                                }
+                                blockoverride "icon_highlight_visible" {
+                                    visible = "[GetScriptedGui('mr_artists_patron_of_the_arts_is_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                                }
+                            }
+
+                            green_progressbar_horizontal = {
+                                layoutpolicy_horizontal = expanding
+                                blockoverride "values" {
+                                    min = 0
+                                    max = 1000
+                                    value = "[FixedPointToFloat(Country.MakeScope.Var('artists_artistic_progress_var').GetValue)]"
+                                }
+                                tooltip = "MR_ARTISTIC_PROGRESS_BAR_TT"
+                                textbox = {
+                                    text = "MR_ARTISTIC_PROGRESS_VALUES"
+                                    size = { 100% 100% }
+                                    using = fontsize_xl
+                                    align = center
+                                }
+                            }
+                        }
+                    }
+                }
+
+                hbox = {
+                    layoutpolicy_horizontal = expanding
+                    layoutpolicy_vertical = expanding
+                    spacing = 20
+                    # Promote Composer
+                    mr_shared_left_icon_button = {
+                        blockoverride "button_content" {
+                            text = COMPOSER_HEADER_TEXT
+                            datacontext = "[GetScriptedGui('mr_artists_promote_composer_sgui')]"
+                            tooltip = "MR_PROMOTE_COMPOSER_TT"
+                        }
+                        blockoverride "icon_size" {
+                            size = { 100% 100% }
+                        }
+                        blockoverride "size" {
+                            size = { 250 45 }
+                        }
+                        blockoverride "icon" {
+                            texture = "gfx/interface/icons/character_role_icons/elgar_composer_role.dds"
+                        }
+                        blockoverride "icon_highlight_visible" {
+                            visible = "[GetScriptedGui('mr_artists_composer_is_promoted_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                        }
+                    }
+                    # Promote Writer
+                    mr_shared_left_icon_button = {
+                        blockoverride "button_content" {
+                            text = "WRITER_HEADER_TEXT"
+                            datacontext = "[GetScriptedGui('mr_artists_promote_writer_sgui')]"
+                            tooltip = "MR_PROMOTE_WRITER_TT"
+                        }
+                        blockoverride "icon_size" {
+                            size = { 100% 100% }
+                        }
+                        blockoverride "size" {
+                            size = { 250 45 }
+                        }
+                        blockoverride "icon" {
+                            texture = "gfx/interface/icons/character_role_icons/manzoni_writer_role.dds"
+                        }
+                        blockoverride "icon_highlight_visible" {
+                            visible = "[GetScriptedGui('mr_artists_pwriter_is_promoted_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                        }
+                    }
+                    # Promote Painter
+                    mr_shared_left_icon_button = {
+                        blockoverride "button_content" {
+                            text = "PAINTER_HEADER_TEXT"
+                            datacontext = "[GetScriptedGui('mr_artists_promote_painter_sgui')]"
+                            tooltip = "MR_PROMOTE_PAINTER_TT"
+                        }
+                        blockoverride "icon_size" {
+                            size = { 100% 100% }
+                        }
+                        blockoverride "size" {
+                            size = { 250 45 }
+                        }
+                        blockoverride "icon" {
+                            texture = "gfx/interface/icons/character_role_icons/klimt_painter_role.dds"
+                        }
+                        blockoverride "icon_highlight_visible" {
+                            visible = "[GetScriptedGui('mr_artists_painter_is_promoted_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    type mr_cultural_traditions = mr_shared_basic_box {
+        name  = "mr_tutorial_highlight_cultural_traditions"
+        blockoverride "general_header_text" {
+            text = mr_arts_tradition_header
+        }
+        blockoverride "content" {
+            vbox = {
+                spacing = 30
+                layoutpolicy_horizontal = expanding
+
+                hbox = {
+                    layoutpolicy_horizontal = expanding
+                    spacing = 20
+                    mr_artist_cultural_tradition = {
+                        blockoverride "context" {
+                            datacontext = "[GetScriptedGui('mr_classicism_inactive')]"
+                        }
+                        blockoverride "tooltip_active" {
+                            tooltip = "ARTISTS_CLASSICISM_ACTIVE_TT"
+                        }
+                        blockoverride "tooltip_inactive" {
+                            tooltip = "ARTISTS_CLASSICISM_INACTIVE_TT"
+                        }
+                        blockoverride "tradition_header" {
+                            text = "mr_arts_tradition_classicism"
+                        }
+                        blockoverride "tradition_background" {
+                            texture = "gfx/interface/icons/GUI_icons/cultural_traditions/mr_classicism.dds"
+                        }
+                    }
+                    mr_artist_cultural_tradition = {
+                        blockoverride "context" {
+                            datacontext = "[GetScriptedGui('mr_romanticism_inactive')]"
+                        }
+                        blockoverride "tooltip_active" {
+                            tooltip = "ARTISTS_ROMANTICISM_ACTIVE_TT"
+                        }
+                        blockoverride "tooltip_inactive" {
+                            tooltip = "ARTISTS_ROMANTICISM_INACTIVE_TT"
+                        }
+                        blockoverride "tradition_header" {
+                            text = "mr_arts_tradition_romanticism"
+                        }
+                        blockoverride "tradition_background" {
+                            texture = "gfx/interface/icons/GUI_icons/cultural_traditions/mr_romanticism.dds"
+                        }
+                    }
+                    mr_artist_cultural_tradition = {
+                        blockoverride "context" {
+                            datacontext = "[GetScriptedGui('mr_realism_inactive')]"
+                        }
+                        blockoverride "tooltip_active" {
+                            tooltip = "ARTISTS_REALISM_ACTIVE_TT"
+                        }
+                        blockoverride "tooltip_inactive" {
+                            tooltip = "ARTISTS_REALISM_INACTIVE_TT"
+                        }
+                        blockoverride "tradition_header" {
+                            text = "mr_arts_tradition_realism"
+                        }
+                        blockoverride "tradition_background" {
+                            texture = "gfx/interface/icons/GUI_icons/cultural_traditions/mr_realism.dds"
+                        }
+                    }
+                    mr_artist_cultural_tradition = {
+                        blockoverride "context" {
+                            datacontext = "[GetScriptedGui('mr_irrationalism_inactive')]"
+                        }
+                        blockoverride "tooltip_active" {
+                            tooltip = "ARTISTS_IRRATIONALISM_ACTIVE_TT"
+                        }
+                        blockoverride "tooltip_inactive" {
+                            tooltip = "ARTISTS_IRRATIONALISM_INACTIVE_TT"
+                        }
+                        blockoverride "tradition_header" {
+                            text = "mr_arts_tradition_irrationalism"
+                        }
+                        blockoverride "tradition_background" {
+                            texture = "gfx/interface/icons/GUI_icons/cultural_traditions/mr_irrationalism.dds"
+                        }
+                    }
+                    mr_artist_cultural_tradition_button = {
+                        blockoverride "button_context" {
+                            datacontext = "[GetScriptedGui('mr_impressionism_button')]"
+                        }
+                        blockoverride "tooltip_active" {
+                            tooltip = "ARTISTS_IIMPRESSIONISM_ACTIVE_TT"
+                        }
+                        blockoverride "tooltip_inactive" {
+                            tooltip = "MR_IMPRESSIONISM_BUTTON_TT"
+                        }
+                        blockoverride "tradition_header" {
+                            text = "mr_arts_tradition_impressionism"
+                        }
+                        blockoverride "tradition_background" {
+                            texture = "gfx/interface/icons/GUI_icons/cultural_traditions/mr_impressionism.dds"
+                        }
+                    }
+                    mr_artist_cultural_tradition_button = {
+                        blockoverride "button_context" {
+                            datacontext = "[GetScriptedGui('mr_expressionism_button')]"
+                        }
+                        blockoverride "tooltip_active" {
+                            tooltip = "ARTISTS_EXPRESSIONISM_ACTIVE_TT"
+                        }
+                        blockoverride "tooltip_inactive" {
+                            tooltip = "MR_EXPRESSIONISM_BUTTON_TT"
+                        }
+                        blockoverride "tradition_header" {
+                            text = "mr_arts_tradition_expressionism"
+                        }
+                        blockoverride "tradition_background" {
+                            texture = "gfx/interface/icons/GUI_icons/cultural_traditions/mr_expressionism.dds"
+                        }
+                    }
+                    mr_artist_cultural_tradition_button = {
+                        blockoverride "button_context" {
+                            datacontext = "[GetScriptedGui('mr_art_nouveau_button')]"
+                        }
+                        blockoverride "tooltip_active" {
+                            tooltip = "ARTISTS_ART_NOUVEAU_ACTIVE_TT"
+                        }
+                        blockoverride "tooltip_inactive" {
+                            tooltip = "MR_ART_NOUVEAU_BUTTON_TT"
+                        }
+                        blockoverride "tradition_header" {
+                            text = "mr_arts_tradition_art_nouveau"
+                        }
+                        blockoverride "tradition_background" {
+                            texture = "gfx/interface/icons/GUI_icons/cultural_traditions/mr_art_nouveau.dds"
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}

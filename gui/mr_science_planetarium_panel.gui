@@ -1,0 +1,1023 @@
+types mr_main_science_panel_types {
+
+	type mr_science_planetarium_panel = fullscreen_block_window {
+		name = "mr_science_planetarium_panel"
+		datacontext = "[GetMetaPlayer.GetPlayedOrObservedCountry]"
+
+		visible = "[GetVariableSystem.HasValue('com_open_window', 'mr_academic_planetarium')]"
+
+		blockoverride "animation_state_block" {
+			state = {
+				name = _show
+				# Close open panel before showing this one
+				on_start = "[InformationPanelBar.ClosePanel]"
+				on_start = "[MapListPanelManager.CloseCurrentPanel]"
+				# Fullscreen panels hide topbar
+				on_finish = "[GetVariableSystem.Set('com_fullscreen', 'com_fullscreen')]"
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/markets"
+				}
+				start_sound = {
+					soundeffect = "snapshot:/Dynamic/mute_world_80"
+				}
+				start_sound = {
+					soundeffect = "snapshot:/Dynamic/mute_vfx_war_100"
+				}
+			}
+
+			state = {
+				name = _hide
+				on_start = "[GetVariableSystem.Clear('com_fullscreen')]"
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/markets_stop"
+				}
+			}
+		}
+
+		blockoverride "window_header_name" {
+			text = PLANETARIUM_HEADER
+			default_format = "#bold"
+		}
+
+		blockoverride "back_button_fullscreen" {
+			back_button_large = {
+				position = { 11 15 }
+				parentanchor = top|left
+				onclick = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_science_sgui')]"
+				onclick = "[GetVariableSystem.Set('mr_science_tab', 'mathematics')]"
+				tooltip = "MR_RETURN_ACADEMY_OF_SCIENCE_TT"
+				input_action = "back"
+			}
+		}
+
+		close_button_large = {
+			name = "tutorial_highlight_close_button"
+			parentanchor = top|right
+			onclick = "[GetVariableSystem.Clear('com_open_window')]"
+			onclick = "[GetVariableSystem.Clear('com_alert_action')]"
+			onclick = "[GetVariableSystem.Clear('com_fullscreen')]"
+			shortcut = "close_window"
+			position = { -56 115 }
+		}
+
+		blockoverride "close_button_position" {
+			visible = no
+		}
+
+		blockoverride "fixed_top" {
+			flowcontainer = {
+				minimumsize = { 100% -1 }
+				margin_top = 20
+
+				button = {
+					#Button to get back to the Academy of Science
+					using = default_button_primary_big_action
+					size = { 250 40 }
+					raw_text = "MR_RETURN_ACADEMY_OF_SCIENCE"
+					using = fontsize_medium
+					onclick = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_science_sgui')]"
+					onclick = "[GetVariableSystem.Set('mr_science_tab', 'mathematics')]"
+					tooltip = "MR_RETURN_ACADEMY_OF_SCIENCE_TT"
+				}
+			}
+		}
+
+		blockoverride "scrollarea_content" {
+			flowcontainer = {
+				minimumsize = { 100% -1 }
+				margin = { 0 20 }
+				margin_left = 20
+				spacing = 20
+
+				#Solar System
+				widget = {
+					size = { 650 700 }
+					#position = { 20 55 }
+					parentanchor = left
+
+					background = {
+						using = entry_bg_simple
+					}
+
+					default_header_clean = {
+						size = { 648 50 }
+						position = { 1 -3 }
+						blockoverride "text" {
+						}
+						textbox = {
+							text = "SOLAR_SYSTEM_HEADER_TEXT"
+							parentanchor = center
+							position = { 0 0 }
+							autoresize = yes
+							max_width = 190
+							elide = right
+							using = fontsize_xxl
+						}
+					}
+
+					widget = {
+						size = { 650 650 }
+						position = { 0 50 }
+
+						#Historical Planet Orbits
+						icon = {
+							visible = yes
+							size = { 95% 95% }
+							parentanchor = center
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_00_original_orbit.dds"
+						}
+
+						#Orbit Uranus
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_uranus_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 95% 95% }
+							parentanchor = center
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_7_orbit_uranus.dds"
+						}
+
+						#Orbit Neptune
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_neptune_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 95% 95% }
+							parentanchor = center
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_8_orbit_neptune.dds"
+						}
+
+						#Orbit Pluto
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_pluto_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 95% 95% }
+							parentanchor = center
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_9_orbit_pluto.dds"
+						}
+
+						#Objects Layer 1
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_objects_tier_1_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 300 300 }
+							position = { 146 205 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_X_objects_layer_1.dds"
+						}
+
+						#Objects Layer 2
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_objects_tier_2_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 300 300 }
+							position = { 146 205 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_X_objects_layer_2.dds"
+						}
+
+						#Objects Layer 3
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_objects_tier_3_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 300 300 }
+							position = { 146 205 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_X_objects_layer_3.dds"
+						}
+
+						#Objects Layer 4
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_objects_tier_4_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 300 300 }
+							position = { 146 205 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_X_objects_layer_4.dds"
+						}
+
+						#Orbit Comet
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_comet_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 245 200 }
+							position = { 10 230 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_X_comet_orbit.dds"
+						}
+
+						#Comet
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_comet_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 75 75 }
+							position = { 95 200 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_X_comet.dds"
+							tooltip = "[Country.GetCustom('verrier_comet_name_for_gui_type')]"
+						}
+
+						#Ceres
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_pallas_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 15 15 }
+							position = { 260 470 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_10_ceres.dds"
+							tooltip = "[Country.GetCustom('verrier_ceres_considered_planet_type')]"
+						}
+
+						#Ceres demoted
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_ceres_no_planet_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 12 12 }
+							position = { 262 472 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_X_planet_greyed_out.dds"
+						}
+
+						#Pallas
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_ceres_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 15 15 }
+							position = { 390 430 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_11_pallas.dds"
+							tooltip = "[Country.GetCustom('verrier_pallas_considered_planet_type')]"
+						}
+
+						#Pallas demoted
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_pallas_no_planet_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 12 12 }
+							position = { 392 432 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_X_planet_greyed_out.dds"
+						}
+
+						#Vesta
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_vesta_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 15 15 }
+							position = { 360 250 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_12_vesta.dds"
+							tooltip = "[Country.GetCustom('verrier_vesta_considered_planet_type')]"
+						}
+
+						#Vesta demoted
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_vesta_no_planet_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 12 12 }
+							position = { 362 252 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_X_planet_greyed_out.dds"
+						}
+
+						#Juno
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_juno_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 15 15 }
+							position = { 390 360 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_13_juno.dds"
+							tooltip = "[Country.GetCustom('verrier_juno_considered_planet_type')]"
+						}
+
+						#Juno demoted
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_juno_no_planet_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 12 12 }
+							position = { 392 362 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_X_planet_greyed_out.dds"
+						}
+
+						#Astraea
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_astraea_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 15 15 }
+							position = { 180 370 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_14_astraea.dds"
+							tooltip = "[Country.GetCustom('verrier_astraea_considered_planet_type')]"
+						}
+
+						#Astraea demoted
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_astraea_no_planet_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 12 12 }
+							position = { 182 372 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_X_planet_greyed_out.dds"
+						}
+
+						#Sun
+						icon = {
+							visible = yes
+							size = { 50 50 }
+							position = { 269 328 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_0_sun.dds"
+							tooltip = "PLANETARIUM_SUN_TT"
+						}
+
+						#Mercury
+						icon = {
+							visible = yes
+							size = { 17 17 }
+							position = { 314 364 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_1_mercury.dds"
+							tooltip = "verrier.100.mercury"
+						}
+
+						#Venus
+						icon = {
+							visible = yes
+							size = { 17 17 }
+							position = { 282 296 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_2_venus.dds"
+							tooltip = "verrier.100.venus"
+						}
+
+						#Earth
+						icon = {
+							visible = yes
+							size = { 17 17 }
+							position = { 228 320 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_3_earth.dds"
+							tooltip = "verrier.100.earth"
+						}
+
+						#Moon
+						icon = {
+							visible = yes
+							size = { 11 11 }
+							position = { 218 314 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_3a_moon.dds"
+							tooltip = "PLANETARIUM_MOON_TT"
+						}
+
+						#Mars
+						icon = {
+							visible = yes
+							size = { 17 17 }
+							position = { 230 407 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_4_mars.dds"
+							tooltip = "verrier.100.mars"
+						}
+
+						#Jupiter
+						icon = {
+							visible = yes
+							size = { 27 27 }
+							position = { 192 220 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5_jupiter.dds"
+							tooltip = "verrier.100.jupiter"
+						}
+
+						#Saturn
+						icon = {
+							visible = yes
+							size = { 32 32 }
+							position = { 164 480 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_6_saturn.dds"
+							tooltip = "verrier.100.saturn"
+						}
+
+						#Uranus
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_uranus_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 25 25 }
+							position = { 502 320 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_7_uranus.dds"
+							tooltip = "[Country.GetCustom('verrier_uranus_considered_planet_type')]"
+						}
+
+						#Neptune
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_neptune_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 23 23 }
+							position = { 300 74 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_8_neptune.dds"
+							tooltip = "[Country.GetCustom('verrier_neptune_considered_planet_type')]"
+						}
+
+						#Pluto
+						icon = {
+							visible = "[GetScriptedGui('mr_planetarium_pluto_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							size = { 17 17 }
+							position = { 500 80 }
+							texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_9_pluto.dds"
+							tooltip = "[Country.GetCustom('verrier_pluto_considered_planet_type')]"
+						}
+					}
+				}
+
+				flowcontainer = {
+					direction = vertical
+					spacing = 20
+
+					#Satellites
+					widget = {
+						size = { 1130 280 }
+						parentanchor = left
+
+						background = {
+							using = entry_bg_simple
+						}
+
+						default_header_clean = {
+							size = { 1128 50 }
+							position = { 1 -3 }
+							blockoverride "text" {
+							}
+							textbox = {
+								text = "PLANETARIUM_SATELLITES_HEADER"
+								parentanchor = center
+								position = { 0 0 }
+								autoresize = yes
+								max_width = 190
+								elide = right
+								using = fontsize_xl
+							}
+						}
+
+						flowcontainer = {
+							position = { 0 46 }
+							maximumsize = { 1130 230 }
+							ignoreinvisible = yes
+							spacing = 10
+							margin_top = 10
+							margin_left = 15
+
+							#Earth
+							widget = {
+								parentanchor = left
+								size = { 175 210 }
+
+								background = {
+									using = entry_bg_simple
+								}
+
+								textbox = {
+									text = "PLANETARIUM_EARTH"
+									parentanchor = left
+									position = { 15 5 }
+									autoresize = yes
+									max_width = 190
+									elide = right
+									using = fontsize_large
+								}
+
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									layoutpolicy_vertical = expanding
+									spacing = 20
+
+
+									expand = {}
+
+									#Earth
+									icon = {
+										visible = yes
+										size = { 60 60 }
+										texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_3_earth.dds"
+										tooltip = "verrier.100.earth"
+									}
+
+									#Moon
+									icon = {
+										visible = yes
+										size = { 30 30 }
+										texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_3a_moon.dds"
+										tooltip = "PLANETARIUM_MOON_TT"
+									}
+
+									expand = {}
+								}
+							}
+
+							#Mars
+							widget = {
+								visible = "[GetScriptedGui('mr_planetarium_mars_moons_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+								parentanchor = left
+								size = { 175 210 }
+
+								background = {
+									using = entry_bg_simple
+								}
+
+								textbox = {
+									text = "PLANETARIUM_MARS"
+									parentanchor = left
+									position = { 15 5 }
+									autoresize = yes
+									max_width = 190
+									elide = right
+									using = fontsize_large
+								}
+
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									layoutpolicy_vertical = expanding
+									spacing = 15
+
+
+									expand = {}
+
+									#Mars
+									icon = {
+										visible = yes
+										size = { 50 50 }
+										texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_2_venus.dds"
+										tooltip = "verrier.100.mars"
+									}
+
+									#Phobos - Mars I
+									icon = {
+										visible = "[GetScriptedGui('mr_planetarium_phobos_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+										size = { 15 15 }
+										texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5g_elara.dds"
+										tooltip = "PLANETARIUM_PHOBOS_TT"
+									}
+
+									#Deimos - Mars II
+									icon = {
+										visible = "[GetScriptedGui('mr_planetarium_deimos_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+										size = { 15 15 }
+										texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5f_himalia.dds"
+										tooltip = "PLANETARIUM_DEIMOS_TT"
+									}
+
+									expand = {}
+								}
+							}
+
+							#Jupiter
+							widget = {
+								parentanchor = left
+								size = { 175 210 }
+
+								background = {
+									using = entry_bg_simple
+								}
+
+								textbox = {
+									text = "PLANETARIUM_JUPITER"
+									parentanchor = left
+									position = { 15 5 }
+									autoresize = yes
+									max_width = 190
+									elide = right
+									using = fontsize_large
+								}
+
+
+								#Jupiter
+								icon = {
+									visible = yes
+									parentanchor = left
+									size = { 65 65 }
+									position = { 5 140 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5_jupiter.dds"
+									tooltip = "verrier.100.jupiter"
+								}
+
+								#Io - Jupiter I
+								icon = {
+									visible = yes
+									parentanchor = left
+									size = { 15 15 }
+									position = { 50 125 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5a_io.dds"
+									tooltip = "PLANETARIUM_IO_TT"
+								}
+
+								#Europa - Jupiter II
+								icon = {
+									visible = yes
+									parentanchor = left
+									size = { 15 15 }
+									position = { 70 125 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5b_europa.dds"
+									tooltip = "PLANETARIUM_EUROPA_TT"
+								}
+
+								#Ganymede - Jupiter III
+								icon = {
+									visible = yes
+									parentanchor = left
+									size = { 15 15 }
+									position = { 70 103 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_1_mercury.dds"
+									tooltip = "PLANETARIUM_GANYMEDE_TT"
+								}
+
+								#Callisto - Jupiter IV
+								icon = {
+									visible = yes
+									parentanchor = left
+									size = { 15 15 }
+									position = { 90 103 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5d_callisto.dds"
+									tooltip = "PLANETARIUM_CALLISTO_TT"
+								}
+
+								#Amalthea - Jupiter V
+								icon = {
+									visible = "[GetScriptedGui('mr_planetarium_amalthea_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = left
+									size = { 15 15 }
+									position = { 90 81 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5e_amalthea.dds"
+									tooltip = "PLANETARIUM_AMALTHEA_TT"
+								}
+
+								#Himalia - Jupiter VI
+								icon = {
+									visible = "[GetScriptedGui('mr_planetarium_himalia_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = left
+									size = { 15 15 }
+									position = { 110 81 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5f_himalia.dds"
+									tooltip = "PLANETARIUM_HIMALIA_TT"
+								}
+
+								#Elara - Jupiter VII
+								icon = {
+									visible = "[GetScriptedGui('mr_planetarium_elara_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = left
+									size = { 15 15 }
+									position = { 110 59 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5g_elara.dds"
+									tooltip = "PLANETARIUM_ELARA_TT"
+								}
+
+								#Pasiphae - Jupiter VIII
+								icon = {
+									visible = "[GetScriptedGui('mr_planetarium_pasiphae_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = left
+									size = { 15 15 }
+									position = { 130 59 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5h_pasiphae.dds"
+									tooltip = "PLANETARIUM_PASIPHAE_TT"
+								}
+
+								#Sinope - Jupiter IX
+								icon = {
+									visible = "[GetScriptedGui('mr_planetarium_sinope_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = left
+									size = { 15 15 }
+									position = { 130 37 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5a_io.dds"
+									tooltip = "PLANETARIUM_SINOPE_TT"
+								}
+
+								#Lysithea - Jupiter X
+								icon = {
+									visible = "[GetScriptedGui('mr_planetarium_lysithea_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = left
+									size = { 15 15 }
+									position = { 150 37 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5g_elara.dds"
+									tooltip = "PLANETARIUM_LYSITHEA_TT"
+									mirror = vertical
+								}
+
+								#Carme - Jupiter XI
+								icon = {
+									visible = "[GetScriptedGui('mr_planetarium_carme_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = left
+									size = { 15 15 }
+									position = { 150 15 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_3a_moon.dds"
+									tooltip = "PLANETARIUM_CARME_TT"
+								}
+
+							}
+
+							#Saturn
+							widget = {
+								parentanchor = left
+								size = { 175 210 }
+
+								background = {
+									using = entry_bg_simple
+								}
+
+								textbox = {
+									text = "PLANETARIUM_SATURN"
+									parentanchor = left
+									position = { 15 5 }
+									autoresize = yes
+									max_width = 190
+									elide = right
+									using = fontsize_large
+								}
+
+								#Saturn
+								icon = {
+									visible = yes
+									parentanchor = left
+									size = { 60 60 }
+									position = { 5 145 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_6_saturn.dds"
+									tooltip = "verrier.100.saturn"
+								}
+
+								#Mimas - Saturn I
+								icon = {
+									visible = "[GetScriptedGui('mr_planetarium_mimas_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = left
+									size = { 15 15 }
+									position = { 50 143 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_1_mercury.dds"
+									tooltip = "PLANETARIUM_MIMAS_TT"
+								}
+
+								#Enceladus - Saturn II
+								icon = {
+									visible = "[GetScriptedGui('mr_planetarium_enceladus_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = left
+									size = { 15 15 }
+									position = { 62 126 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_7_uranus.dds"
+									tooltip = "PLANETARIUM_ENCELADUS_TT"
+								}
+
+								#Tethys - Saturn III
+								icon = {
+									visible = yes
+									parentanchor = left
+									size = { 15 15 }
+									position = { 75 109 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_3a_moon.dds"
+									tooltip = "PLANETARIUM_TETHYS_TT"
+								}
+
+								#Dione - Saturn IV
+								icon = {
+									visible = yes
+									parentanchor = left
+									size = { 15 15 }
+									position = { 88 92 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_9_pluto.dds"
+									tooltip = "PLANETARIUM_DIONE_TT"
+								}
+
+								#Rhea - Saturn V
+								icon = {
+									visible = yes
+									parentanchor = left
+									size = { 15 15 }
+									position = { 101 75 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5e_amalthea.dds"
+									tooltip = "PLANETARIUM_RHEA_TT"
+								}
+
+								#Titan - Saturn VI
+								icon = {
+									visible = yes
+									parentanchor = left
+									size = { 15 15 }
+									position = { 114 58 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5a_io.dds"
+									tooltip = "PLANETARIUM_TITAN_TT"
+								}
+
+								#Hyperion - Saturn VII
+								icon = {
+									visible = "[GetScriptedGui('mr_planetarium_hyperion_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = left
+									size = { 15 15 }
+									position = { 127 41 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5g_elara.dds"
+									tooltip = "PLANETARIUM_HYPERION_TT"
+								}
+
+								#Iapetus - Saturn VIII
+								icon = {
+									visible = yes
+									parentanchor = left
+									size = { 15 15 }
+									position = { 140 24 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_6h_iapetus.dds"
+									tooltip = "PLANETARIUM_IAPETUS_TT"
+								}
+
+								#Phoebe - Saturn IX
+								icon = {
+									visible = "[GetScriptedGui('mr_planetarium_phoebe_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = left
+									size = { 15 15 }
+									position = { 153 7 }
+									texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5f_himalia.dds"
+									tooltip = "PLANETARIUM_PHOEBE_TT"
+								}
+							}
+
+							#Uranus
+							widget = {
+								visible = "[GetScriptedGui('mr_planetarium_uranus_moons_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+								parentanchor = left
+								size = { 175 210 }
+
+								background = {
+									using = entry_bg_simple
+								}
+
+								textbox = {
+									text = "PLANETARIUM_URANUS"
+									parentanchor = left
+									position = { 15 5 }
+									autoresize = yes
+									max_width = 190
+									elide = right
+									using = fontsize_large
+								}
+
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									layoutpolicy_vertical = expanding
+									spacing = 7
+
+
+									expand = {}
+
+									#Uranus
+									icon = {
+										visible = yes
+										size = { 40 40 }
+										texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_7_uranus.dds"
+										tooltip = "verrier.100.uranus"
+									}
+
+									#Ariel - Uranus I
+									icon = {
+										visible = "[GetScriptedGui('mr_planetarium_ariel_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+										size = { 15 15 }
+										texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_9_pluto.dds"
+										tooltip = "PLANETARIUM_ARIEL_TT"
+									}
+
+									#Umbriel - Uranus II
+									icon = {
+										visible = "[GetScriptedGui('mr_planetarium_umbriel_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+										size = { 15 15 }
+										texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5d_callisto.dds"
+										tooltip = "PLANETARIUM_UMBRIEL_TT"
+									}
+
+									#Titania - Uranus III
+									icon = {
+										visible = "[GetScriptedGui('mr_planetarium_titania_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+										size = { 15 15 }
+										texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5b_europa.dds"
+										tooltip = "PLANETARIUM_TITANIA_TT"
+									}
+
+									#Oberon - Uranus IV
+									icon = {
+										visible = "[GetScriptedGui('mr_planetarium_oberon_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+										size = { 15 15 }
+										texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5a_io.dds"
+										tooltip = "PLANETARIUM_OBERON_TT"
+									}
+
+									#Miranda - Uranus V
+									icon = {
+										visible = "[GetScriptedGui('mr_planetarium_miranda_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+										size = { 15 15 }
+										texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_3a_moon.dds"
+										tooltip = "PLANETARIUM_MIRANDA_TT"
+									}
+
+									expand = {}
+								}
+							}
+
+							#Neptune
+							widget = {
+								visible = "[GetScriptedGui('mr_planetarium_neptune_moons_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+								parentanchor = left
+								size = { 175 210 }
+
+								background = {
+									using = entry_bg_simple
+								}
+
+								textbox = {
+									text = "PLANETARIUM_NEPTUNE"
+									parentanchor = left
+									position = { 15 5 }
+									autoresize = yes
+									max_width = 190
+									elide = right
+									using = fontsize_large
+								}
+
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									layoutpolicy_vertical = expanding
+									spacing = 10
+
+
+									expand = {}
+
+									#Neptune
+									icon = {
+										visible = yes
+										size = { 90 90 }
+										texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_8_neptune.dds"
+										tooltip = "verrier.100.neptune"
+									}
+
+									#Triton - Neptune I
+									icon = {
+										visible = "[GetScriptedGui('mr_planetarium_triton_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+										size = { 20 20 }
+										texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_3a_moon.dds"
+										tooltip = "PLANETARIUM_TRITON_TT"
+									}
+
+									#Nereid - Neptune II
+									icon = {
+										visible = "[GetScriptedGui('mr_planetarium_nereid_discovered_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+										size = { 15 15 }
+										texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_5d_callisto.dds"
+										tooltip = "PLANETARIUM_NEREID_TT"
+									}
+
+									expand = {}
+								}
+							}
+						}
+					}
+
+					#Lunar Cartography
+					widget = {
+						size = { 350 400 }
+						position = { -800 55 }
+						parentanchor = left
+
+						background = {
+							using = entry_bg_simple
+						}
+
+						default_header_clean = {
+							size = { 348 50 }
+							position = { 1 -3 }
+							blockoverride "text" {
+							}
+							textbox = {
+								text = "PLANETARIUM_MOON_HEADER"
+								parentanchor = center
+								position = { 0 0 }
+								autoresize = yes
+								max_width = 190
+								elide = right
+								using = fontsize_xl
+							}
+						}
+
+						widget = {
+							parentanchor = center
+							size = { 340 340 }
+							position = { 0 22 }
+
+							#Lunar Map
+							icon = {
+								visible = yes
+								size = { 330 330 }
+								parentanchor = center
+								texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_XX_moon_map.dds"
+							}
+
+							#Photo 1
+							icon = {
+								visible = "[GetScriptedGui('mr_planetarium_moon_photos_tier_3_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+								size = { 110 165 }
+								position = { 8 4 }
+								texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_XX_moon_photo_1.dds"
+							}
+
+							#Photo 2
+							icon = {
+								visible = "[GetScriptedGui('mr_planetarium_moon_photos_tier_1_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+								size = { 110 165 }
+								position = { 118 4 }
+								texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_XX_moon_photo_2.dds"
+							}
+
+							#Photo 3
+							icon = {
+								visible = "[GetScriptedGui('mr_planetarium_moon_photos_tier_6_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+								size = { 110 165 }
+								position = { 228 4 }
+								texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_XX_moon_photo_3.dds"
+							}
+
+							#Photo 4
+							icon = {
+								visible = "[GetScriptedGui('mr_planetarium_moon_photos_tier_5_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+								size = { 110 165 }
+								position = { 8 169 }
+								texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_XX_moon_photo_4.dds"
+							}
+
+							#Photo 5
+							icon = {
+								visible = "[GetScriptedGui('mr_planetarium_moon_photos_tier_4_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+								size = { 110 165 }
+								position = { 118 169 }
+								texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_XX_moon_photo_5.dds"
+							}
+
+							#Photo 6
+							icon = {
+								visible = "[GetScriptedGui('mr_planetarium_moon_photos_tier_2_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+								size = { 110 165 }
+								position = { 228 169 }
+								texture = "gfx/interface/icons/GUI_icons/planetarium/GUI_planetarium_XX_moon_photo_6.dds"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+}
