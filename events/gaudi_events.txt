@@ -12,15 +12,17 @@ namespace = gaudi
 
 ###### ART NOUVEAU & ART DECO ######
 
-#Gaudí 11: CAPITAL_CITY Secession (first)
-#Gaudí 12: CAPITAL_CITY Secession (second)
-#Gaudí 13: CAPITAL_CITY Secession (third)
 #Gaudí 21: Art Nouveau city quarter
 #Gaudí 31: Art Deco Cinema
 #Gaudí 32: Art Deco Skyscraper
 #Gaudí 33: Art Deco Airport
 #Gaudí 34: Art Deco Office
-#Gaudí 50: A Splendid Architecture
+
+###### ARCHITECTURAL SPLENDOUR ######
+
+#Gaudí 50: Art Deco Splendour
+#Gaudí 51: Neoclassical Splendour
+#Gaudí 52: Bauhaus Splendour
 
 ###### BURNING SUMMER PALACE & BIG BEN ######
 
@@ -487,7 +489,7 @@ gaudi.21 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
 
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
 
 	trigger = {
 	}
@@ -503,17 +505,11 @@ gaudi.21 = {
 
 	option = { #We are a leading cultural nation
 		name = gaudi.21.g
-		gaudi_add_1_splendid_architecture = yes
-		hidden_effect = {
-			add_journal_entry = {
-        		type = je_gaudi_art_nouveau_quarter 
-			}
-        }
+		gaudi_add_x_architectural_splendour_effect = { AMOUNT = 1 }
 	}
 }
 
 #Gaudí 31: Art Deco Cinema
-
 gaudi.31 = {
 	dlc = dlc_morgenrote
 
@@ -525,6 +521,8 @@ gaudi.31 = {
 
 	flavor = gaudi.31.f
 
+	placement = scope:gaudi_art_deco_cinema_state
+
 	duration = 3
 		
 	event_image = { 
@@ -534,15 +532,38 @@ gaudi.31 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
 
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
 
 	trigger = {
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_elgar_opera
+				level >= 10
+			}
+			any_scope_building = {
+				is_building_type = building_urban_center
+				level >= 20
+			}
+			NOT = {
+				has_modifier = gaudi_art_deco_cinema_modifier
+			}
+		}
 	}
 
 	immediate = {
 		random_scope_state = {
 			limit = {
-				has_modifier = gaudi_art_deco_cinema_modifier
+				any_scope_building = {
+					is_building_type = building_elgar_opera
+					level >= 10
+				}
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 20
+				}
+				NOT = {
+					has_modifier = gaudi_art_deco_cinema_modifier
+				}
 			}
 			save_scope_as = gaudi_art_deco_cinema_state
 		}
@@ -550,12 +571,19 @@ gaudi.31 = {
 
 	option = { #We are a leading cultural nation
 		name = gaudi.31.g
-		gaudi_add_1_splendid_architecture = yes
+		architect_experience_gain_effect = {
+			AMOUNT = 15
+		}
+		scope:gaudi_art_deco_cinema_state = {
+			add_modifier = {
+				name = gaudi_art_deco_cinema_modifier
+			}
+		}
+		gaudi_add_x_architectural_splendour_effect = { AMOUNT = 1 }
 	}
 }
 
 #Gaudí 32: Art Deco Skyscraper
-
 gaudi.32 = {
 	dlc = dlc_morgenrote
 
@@ -567,6 +595,8 @@ gaudi.32 = {
 
 	flavor = gaudi.32.f
 
+	placement = scope:gaudi_art_deco_skyscraper_state
+
 	duration = 3
 		
 	event_image = { 
@@ -576,15 +606,33 @@ gaudi.32 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
 
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
 
 	trigger = {
+		NOT = {
+			has_variable = gaudi_art_deco_skyscraper_var
+		}
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_skyscraper
+				level >= 1
+			}
+			NOT = {
+				has_modifier = gaudi_art_deco_skyscraper_modifier
+			}
+		}
 	}
 
 	immediate = {
+		set_variable = gaudi_art_deco_skyscraper_var
 		random_scope_state = {
 			limit = {
-				has_building = building_skyscraper
+				any_scope_building = {
+					is_building_type = building_skyscraper
+				}
+				NOT = {
+					has_modifier = gaudi_art_deco_skyscraper_modifier
+				}
 			}
 			save_scope_as = gaudi_art_deco_skyscaper_state
 		}
@@ -592,12 +640,19 @@ gaudi.32 = {
 
 	option = { #We are a leading cultural nation
 		name = gaudi.32.g
-		gaudi_add_2_splendid_architecture = yes
+		architect_experience_gain_effect = {
+			AMOUNT = 25
+		}
+		scope:gaudi_art_deco_skyscaper_state = {
+			add_modifier = {
+				name = gaudi_art_deco_skyscraper_modifier
+			}
+		}
+		gaudi_add_x_architectural_splendour_effect = { AMOUNT = 2 }
 	}
 }
 
 #Gaudí 33: Art Deco Airport
-
 gaudi.33 = {
 	dlc = dlc_morgenrote
 
@@ -609,6 +664,8 @@ gaudi.33 = {
 
 	flavor = gaudi.33.f
 
+	placement = scope:gaudi_art_deco_airport_state
+
 	duration = 3
 		
 	event_image = { 
@@ -618,27 +675,54 @@ gaudi.33 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
 
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
 
 	trigger = {
+		NOT = {
+			has_variable = gaudi_art_deco_airport_var
+		}
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_airport
+				level >= 5
+			}
+			NOT = {
+				has_modifier = gaudi_art_deco_airport_modifier
+			}
+		}
 	}
 
 	immediate = {
+		set_variable = gaudi_art_deco_airport_var
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_airport
+					level >= 5
+				}
+				NOT = {
+					has_modifier = gaudi_art_deco_airport_modifier
+				}
+			}
+			save_scope_as = gaudi_art_deco_airport_state
+		}
 	}
 
 	option = { #We are a leading cultural nation
 		name = gaudi.33.g
-		gaudi_add_1_splendid_architecture = yes
-		hidden_effect = {
-			add_journal_entry = {
-        		type = je_gaudi_art_deco_airport
+		architect_experience_gain_effect = {
+			AMOUNT = 15
+		}
+		scope:gaudi_art_deco_airport_state = {
+			add_modifier = {
+				name = gaudi_art_deco_airport_modifier
 			}
-        }
+		}
+		gaudi_add_x_architectural_splendour_effect = { AMOUNT = 1 }
 	}
 }
 
 #Gaudí 34: Art Deco Office
-
 gaudi.34 = {
 	dlc = dlc_morgenrote
 
@@ -650,6 +734,8 @@ gaudi.34 = {
 
 	flavor = gaudi.34.f
 
+	placement = scope:gaudi_art_deco_office_state
+
 	duration = 3
 		
 	event_image = { 
@@ -659,27 +745,64 @@ gaudi.34 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
 
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
 
 	trigger = {
+		NOT = {
+			has_variable = gaudi_art_deco_office_var
+		}
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_government_administration
+				level >= 35
+			}
+			any_scope_building = {
+				is_building_type = building_urban_center
+				level >= 20
+			}
+			NOT = {
+				has_modifier = gaudi_art_deco_office_modifier
+			}
+		}
 	}
 
 	immediate = {
+		set_variable = gaudi_art_deco_office_var
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_government_administration
+					level >= 35
+				}
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 20
+				}
+				NOT = {
+					has_modifier = gaudi_art_deco_office_modifier
+				}
+			}
+			save_scope_as = gaudi_art_deco_office_state
+		}
 	}
 
 	option = { #We are a leading cultural nation
 		name = gaudi.34.g
-		gaudi_add_1_splendid_architecture = yes
-		hidden_effect = {
-			add_journal_entry = {
-        		type = je_gaudi_art_deco_office
+		architect_experience_gain_effect = {
+			AMOUNT = 15
+		}
+		scope:gaudi_art_deco_office_state = {
+			add_modifier = {
+				name = gaudi_art_deco_office_modifier
 			}
-        }
+		}
+		gaudi_add_x_architectural_splendour_effect = { AMOUNT = 1 }
 	}
 }
 
-#Gaudí 50: A Splendid Architecture
+###### ARCHITECTURAL SPLENDOUR ######
 
+#Gaudí 50: Art Deco Splendour
 gaudi.50 = {
 	dlc = dlc_morgenrote
 
@@ -700,7 +823,7 @@ gaudi.50 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
 
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
 
 	trigger = {
 	}
@@ -710,8 +833,115 @@ gaudi.50 = {
 
 	option = { #We are a leading cultural nation
 		name = gaudi.50.g
+		architect_experience_gain_effect = {
+			AMOUNT = 200
+		}
 		add_modifier = {
-			name = gaudi_splendid_architecture
+			name = gaudi_art_deco_splendour_modifier
+		}
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			add_modifier = {
+				name = gaudi_art_deco_capital_modifier
+			}
+		}
+	}
+}
+
+#Gaudí 51: Neoclassical Splendour
+gaudi.51 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = gaudi.51.t
+		
+    desc = gaudi.51.d
+
+	flavor = gaudi.51.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_colosseo.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #We are a leading cultural nation
+		name = gaudi.51.g
+		architect_experience_gain_effect = {
+			AMOUNT = 100
+		}
+		add_modifier = {
+			name = gaudi_neoclassical_splendour_modifier
+		}
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			add_modifier = {
+				name = gaudi_neoclassical_capital_modifier
+			}
+		}
+	}
+}
+
+#Gaudí 52: Bauhaus Splendour
+gaudi.52 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = gaudi.52.t
+		
+    desc = gaudi.52.d
+
+	flavor = gaudi.52.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_dizengoff.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #We are a leading cultural nation
+		name = gaudi.52.g
+		architect_experience_gain_effect = {
+			AMOUNT = 100
+		}
+		add_modifier = {
+			name = gaudi_bauhaus_splendour_modifier
+		}
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			add_modifier = {
+				name = gaudi_bauhaus_capital_modifier
+			}
 		}
 	}
 }
@@ -1035,7 +1265,7 @@ gaudi.70 = {
 			has_technology_researched = elgar_art_nouveau_tech
 		}
 		add_treasury = -100000
-		gaudi_add_1_splendid_architecture = yes
+		gaudi_add_x_architectural_splendour_effect = { AMOUNT = 1 }
 		scope:gaudi_campanile_state = {
 			remove_building = "building_gaudi_campanile"
 		}
@@ -1128,7 +1358,7 @@ gaudi.72 = {
 		}
 		if = {
 			limit = {
-				has_variable = gaudi_engineer_var
+				has_variable = gaudi_architect_var
 			}
 			change_variable = {
 				name = gaudi_campanile_progress
@@ -2082,7 +2312,7 @@ gaudi.110 = {
 		gaudi_add_1_dombau_progress = yes
 		if = {
 			limit = {
-				has_variable = gaudi_engineer_var
+				has_variable = gaudi_architect_var
 			}
 			gaudi_add_1_dombau_progress = yes
 		}
@@ -4983,7 +5213,7 @@ gaudi.310 = {
 		gaudi_add_1_cristo_progress = yes
 		if = {
 			limit = {
-				has_variable = gaudi_engineer_var
+				has_variable = gaudi_architect_var
 			}
 			gaudi_add_1_cristo_progress = yes
 		}
@@ -5865,7 +6095,7 @@ gaudi.410 = {
 		gaudi_add_1_mole_progress = yes
 		if = {
 			limit = {
-				has_variable = gaudi_engineer_var
+				has_variable = gaudi_architect_var
 			}
 			gaudi_add_1_mole_progress = yes
 		}
@@ -7079,7 +7309,7 @@ gaudi.510 = {
 		gaudi_add_1_ringstrasse_progress = yes
 		if = {
 			limit = {
-				has_variable = gaudi_engineer_var
+				has_variable = gaudi_architect_var
 			}
 			gaudi_add_1_ringstrasse_progress = yes
 		}
@@ -8459,7 +8689,7 @@ gaudi.530 = {
 		}
 		custom_tooltip = gaudi.530.tt
 		default_option = yes
-		gaudi_add_1_splendid_architecture = yes
+		gaudi_add_x_architectural_splendour_effect = { AMOUNT = 1 }
 		gaudi_add_1_ringstrasse_progress = yes
 	}
 
@@ -9625,7 +9855,7 @@ gaudi.630 = {
 		gaudi_add_1_sagrada_progress = yes
 		if = {
 			limit = {
-				has_variable = gaudi_engineer_var
+				has_variable = gaudi_architect_var
 			}
 			gaudi_add_1_sagrada_progress = yes
 		}
@@ -10748,7 +10978,7 @@ gaudi.649 = {
 	duration = 3
 
 	trigger = {
-		has_variable = gaudi_engineer_var
+		has_variable = gaudi_architect_var
 	}
 
 	immediate = {
@@ -10758,7 +10988,7 @@ gaudi.649 = {
 			}
 			save_scope_as = gaudi_sagrada_state
 		}
-		var:gaudi_engineer_var = {
+		var:gaudi_architect_var = {
 			save_scope_as = gaudi_engineer_scope
 		}
 	}
@@ -10795,7 +11025,7 @@ gaudi.650 = {
 	duration = 3
 
 	trigger = {
-		has_variable = gaudi_engineer_var
+		has_variable = gaudi_architect_var
 	}
 
 	immediate = {
@@ -10805,7 +11035,7 @@ gaudi.650 = {
 			}
 			save_scope_as = gaudi_sagrada_state
 		}
-		var:gaudi_engineer_var = {
+		var:gaudi_architect_var = {
 			save_scope_as = gaudi_engineer_scope
 		}
 	}
@@ -11119,7 +11349,7 @@ gaudi.710 = {
 		}
 		if = {
 			limit = {
-				has_variable = gaudi_engineer_var
+				has_variable = gaudi_architect_var
 			}
 			gaudi_add_x_neuschwanstein_progress = {
 				AMOUNT = 1
@@ -12200,7 +12430,7 @@ gaudi.810 = {
 		}
 		if = {
 			limit = {
-				has_variable = gaudi_engineer_var
+				has_variable = gaudi_architect_var
 			}
 			gaudi_add_x_palacio_progress = {
 				AMOUNT = 1
@@ -12969,7 +13199,7 @@ gaudi.910 = {
 		}
 		if = {
 			limit = {
-				has_variable = gaudi_engineer_var
+				has_variable = gaudi_architect_var
 			}
 			gaudi_add_x_gyeong_progress = {
 				AMOUNT = 1
@@ -13398,7 +13628,7 @@ gaudi.1002 = {
 
 	gui_window = event_window_1char_tabloid
 
-	left_icon = scope:gaudi_new_engineer_scope
+	left_icon = scope:gaudi_new_architect_scope
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
@@ -13429,10 +13659,10 @@ gaudi.1002 = {
 	option = {
 		name = gaudi.1002.g #A truly remarkable Art Style!
 		default_option = yes
-		gaudi_add_1_splendid_architecture = yes
+		gaudi_add_x_architectural_splendour_effect = { AMOUNT = 1 }
 
 		hidden_effect = {
-			gaudi_remove_new_engineer_effect = yes
+			gaudi_remove_new_architect_effect = yes
 		}
 	}
 
@@ -13440,7 +13670,7 @@ gaudi.1002 = {
 		name = gaudi.1002.h #Gaudì has a great future ahead of him!
 		default_option = yes
 		
-		gaudi_set_new_engineer_as_engineer_effect = yes
+		gaudi_set_new_architect_as_architect_effect = yes
 
 		ai_chance = {
 			base = 0

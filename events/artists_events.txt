@@ -19,6 +19,7 @@ namespace = artists
 #Artists 11: Composer died
 #Artists 12: Writer died
 #Artists 13: Painter died
+#Artists 14: Architect died
 
 ###Character Overview###
 
@@ -30,6 +31,7 @@ namespace = artists
 #Artists 51: Composer
 #Artists 52: Writer
 #Artists 53: Painter
+#Artists 54: Architect
 
 #Artists 60: Random Artist /// Not yet implemented
 
@@ -38,6 +40,7 @@ namespace = artists
 #Artists 101: [Scope] is now a great Composer
 #Artists 102: [Scope] is now a great Writer
 #Artists 103: [Scope] is now a great Painter
+#Artists 104: [Scope] is now a great Architect
 
 #################################################################################
 
@@ -151,6 +154,44 @@ artists.13 = {
 
 	option = {	#This is a huge loss!
 		name = artists.13.g
+		default_option = yes
+
+		custom_tooltip = artists.11_tt
+	}
+}
+
+#Artists 14: Our Architect died
+artists.14 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = artists.14.t
+
+	desc = artists.14.d
+
+#	flavor = artists.14.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_academic_funeral.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#Triggered by on_action in the journal
+	}
+
+	immediate = {
+		remove_variable = gaudi_architect_var
+	}
+
+	option = {	#This is a huge loss!
+		name = artists.14.g
 		default_option = yes
 
 		custom_tooltip = artists.11_tt
@@ -322,6 +363,71 @@ artists.53 = {
 				trigger = { 
 					has_variable = klimt_painter_var
 					var:klimt_painter_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Artists 54: Architect
+
+artists.54 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = artists.54.t
+
+	desc = artists.54.d
+
+	flavor = artists.54.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_new_architect_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_architect_effect = yes
+		artists_remove_promote_artist_effect = yes
+	}
+
+	option = {
+		name = artists.54.g
+		default_option = yes
+
+		gaudi_set_new_architect_as_architect_effect = yes
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	option = {
+		name = artists.54.h
+		gaudi_add_x_architectural_splendour_effect = { AMOUNT = 10 }
+		gaudi_set_new_architect_as_independent_architect_effect = yes
+
+		ai_chance = {
+			base = 10
+			modifier = { #If the AI already has an Architect that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = gaudi_architect_var
+					var:gaudi_architect_var = {
 						age <= 60
 					}
 				}
@@ -536,6 +642,51 @@ artists.103 = {
 	}
 }
 
+#Artists 104: [Scope] is now a great Architect
+
+artists.104 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = artists.104.t
+
+	desc = artists.104.d
+
+	flavor = artists.104.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_architect_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:gaudi_architect_var = {
+			save_scope_as = gaudi_architect_scope
+		}
+	}
+
+	option = {
+		name = artists.104.g
+		default_option = yes
+
+		var:gaudi_architect_var = {
+			show_as_tooltip = {
+				remove_trait = gaudi_architect
+				add_trait = gaudi_great_architect
+			}
+		}
+	}
+}
+
 ############################################################################################
 
 ######BIENNALE######
@@ -585,6 +736,9 @@ artists.1001 = {
 		}
 		klimt_add_x_painting_tradition_effect = {
 			AMOUNT = 100
+		}
+		gaudi_add_x_architectural_splendour_effect = { 
+			AMOUNT = 1 
 		}
 	}
 }
@@ -696,6 +850,9 @@ artists.1003 = {
 		}
 		klimt_add_x_painting_tradition_effect = {
 			AMOUNT = 50
+		}
+		gaudi_add_x_architectural_splendour_effect = { 
+			AMOUNT = 1 
 		}
 	}
 }

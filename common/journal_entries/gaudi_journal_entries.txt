@@ -8,43 +8,46 @@
 
 ######Bauhaus######
 
-je_gaudi_bauhaus = {
+je_gaudi_bauhaus_architecture = {
 	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
 
 	group = je_group_gaudi_architecture
 
 	is_shown_when_inactive = {
         has_technology_researched = elgar_expressionism_tech
-		NOT = {
-			has_modifier = gaudi_bauhaus_modifier
+		NOR = {
+			has_modifier = gaudi_neoclassicism_modifier
+			has_modifier = gaudi_art_deco_modifier
 		}
     }
     possible = {
         has_technology_researched = elgar_new_objectivity_tech
-		any_scope_state = {
-			has_building = building_arts_academy
+		NOR = {
+			has_modifier = gaudi_neoclassicism_modifier
+			has_modifier = gaudi_art_deco_modifier
 		}
     }
 	immediate = {
 		set_variable = {
-			name = gaudi_bauhaus_var
+			name = je_gaudi_bauhaus_architecture_var
 			days = 1
 		}
 	}
 	complete = {
+		gaudi_has_architect = yes
 		any_scope_state = {
 			any_scope_building = {
 				is_building_type = building_arts_academy
-				level >= 5
+				has_active_production_method = pm_artists_arts_academy_school
+				level >= 3
 			}
 			any_scope_building = {
 				is_building_type = building_university
-				level >= 10
 			}
 		}
 		hidden_trigger = {
 			NOT = {
-				has_variable = gaudi_bauhaus_var
+				has_variable = je_gaudi_bauhaus_architecture_var
 			}
 		}
 	}
@@ -56,47 +59,80 @@ je_gaudi_bauhaus = {
 			limit = {
 				any_scope_building = {
 					is_building_type = building_arts_academy
-					level >= 5
+					has_active_production_method = pm_artists_arts_academy_school
+					level >= 3
 				}
 				any_scope_building = {
 					is_building_type = building_university
-					level >= 10
 				}
 			}
 			add_modifier = {
 				name = gaudi_bauhaus_academy_modifier
 			}
 		}
+		if = {
+			limit = {
+				has_variable = gaudi_architect_var
+				NOT = {
+					var:gaudi_architect_var = {
+						has_trait = gaudi_bauhaus_style
+					}
+				}
+			}
+			var:gaudi_architect_var = {
+				add_trait = gaudi_bauhaus_style
+			}
+		}
 	}
 }
 
-######Art Nouveau & Art Deco######
-
-#Splendid Architecture
-
-je_gaudi_splendid_architecture = {
+je_gaudi_splendour_bauhaus = {
 	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
 
 	group = je_group_gaudi_architecture
 
-	is_shown_when_inactive = {
-		has_technology_researched = elgar_art_nouveau_tech
-	}
+	scripted_progress_bar = gaudi_architectural_splendour_bauhaus_bar
+	scripted_progress_bar = gaudi_architectural_splendour_progress_bar
 
-	possible = {
-		has_technology_researched = elgar_art_nouveau_tech
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, the PM will be unlocked in a state
+				limit = {
+					je:je_gaudi_splendour_bauhaus = {
+						"scripted_bar_progress(gaudi_architectural_splendour_progress_bar)" >= 15
+					}
+				}
+				#Architect gets experience
+				architect_experience_gain_effect = { AMOUNT = 10 }
+				#The country gets +1 Architectural Splendour
+				gaudi_add_x_architectural_splendour_effect = { AMOUNT = 1 }
+				#The cost will be subtracted from the current progress
+				je:je_gaudi_splendour_bauhaus = {
+					add_progress = { 
+						name = gaudi_architectural_splendour_progress_bar
+						value = -15
+					}
+				}
+			}
+		}
 	}
 
 	immediate = {
+		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
 		if = {
-			limit = { NOT = { has_variable = gaudi_splendid_architecture } }
+			limit = { 
+				NOT = { 
+					has_variable = gaudi_architectural_splendour_var
+				} 
+			}
 			set_variable = {
-				name = gaudi_splendid_architecture
+				name = gaudi_architectural_splendour_var
 				value = 0
 			}
 		}
 		set_variable = {
-			name = je_gaudi_splendid_architecture_var
+			name = je_gaudi_splendour_bauhaus_var
 			days = 1
 		}
 	}
@@ -107,7 +143,403 @@ je_gaudi_splendid_architecture = {
 		}
 		hidden_trigger = {
 			NOT = {
-				has_variable = je_gaudi_splendid_architecture_var
+				has_variable = je_gaudi_splendour_bauhaus_var
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.52
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = var:gaudi_architectural_splendour_var #value or variable you use to meassure progress
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = gaudi_stop_architectural_project_tt
+			has_variable = gaudi_stop_architectural_project_var
+		}
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_architect_dies_tt
+			NOT = {
+				has_variable = gaudi_architect_var
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######Neoclassicism######
+
+je_gaudi_neoclassical_architecture = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	is_shown_when_inactive = {
+        has_technology_researched = elgar_impressionism_tech
+		NOR = {
+			has_modifier = gaudi_bauhaus_modifier
+			has_modifier = gaudi_art_deco_modifier
+		}
+    }
+    possible = {
+        has_technology_researched = elgar_neoclassicism_tech
+		NOR = {
+			has_modifier = gaudi_bauhaus_modifier
+			has_modifier = gaudi_art_deco_modifier
+		}
+    }
+	immediate = {
+		set_variable = {
+			name = je_gaudi_neoclassical_architecture_var
+			days = 1
+		}
+	}
+	complete = {
+		gaudi_has_architect = yes
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_arts_academy
+				has_active_production_method = pm_artists_arts_academy_school
+				level >= 3
+			}
+			any_scope_building = {
+				is_building_type = building_university
+			}
+		}
+		hidden_trigger = {
+			NOT = {
+				has_variable = je_gaudi_neoclassical_architecture_var
+			}
+		}
+	}
+	on_complete = {
+		add_modifier = {
+			name = gaudi_neoclassicism_modifier
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_arts_academy
+					has_active_production_method = pm_artists_arts_academy_school
+					level >= 3
+				}
+				any_scope_building = {
+					is_building_type = building_university
+				}
+			}
+			add_modifier = {
+				name = gaudi_neoclassicism_academy_modifier
+			}
+		}
+		if = {
+			limit = {
+				has_variable = gaudi_architect_var
+				NOT = {
+					var:gaudi_architect_var = {
+						has_trait = gaudi_neoclassical_style
+					}
+				}
+			}
+			var:gaudi_architect_var = {
+				add_trait = gaudi_neoclassical_style
+			}
+		}
+	}
+}
+
+je_gaudi_splendour_neoclassical = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	scripted_progress_bar = gaudi_architectural_splendour_neoclassical_bar
+	scripted_progress_bar = gaudi_architectural_splendour_progress_bar
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, the PM will be unlocked in a state
+				limit = {
+					je:je_gaudi_splendour_neoclassical = {
+						"scripted_bar_progress(gaudi_architectural_splendour_progress_bar)" >= 15
+					}
+				}
+				#Architect gets experience
+				architect_experience_gain_effect = { AMOUNT = 10 }
+				#The country gets +1 Architectural Splendour
+				gaudi_add_x_architectural_splendour_effect = { AMOUNT = 1 }
+				#The cost will be subtracted from the current progress
+				je:je_gaudi_splendour_neoclassical = {
+					add_progress = { 
+						name = gaudi_architectural_splendour_progress_bar
+						value = -15
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
+		if = {
+			limit = { 
+				NOT = { 
+					has_variable = gaudi_architectural_splendour_var
+				} 
+			}
+			set_variable = {
+				name = gaudi_architectural_splendour_var
+				value = 0
+			}
+		}
+		set_variable = {
+			name = je_gaudi_splendour_neoclassical_var
+			days = 1
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+		hidden_trigger = {
+			NOT = {
+				has_variable = je_gaudi_splendour_neoclassical_var
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.51
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = var:gaudi_architectural_splendour_var #value or variable you use to meassure progress
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = gaudi_stop_architectural_project_tt
+			has_variable = gaudi_stop_architectural_project_var
+		}
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_architect_dies_tt
+			NOT = {
+				has_variable = gaudi_architect_var
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######Art Deco######
+
+je_gaudi_art_deco_architecture = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	is_shown_when_inactive = {
+        has_technology_researched = elgar_art_nouveau_tech
+		NOR = {
+			has_modifier = gaudi_bauhaus_modifier
+			has_modifier = gaudi_neoclassicism_modifier
+		}
+    }
+    possible = {
+        has_technology_researched = elgar_art_deco_tech
+		NOR = {
+			has_modifier = gaudi_bauhaus_modifier
+			has_modifier = gaudi_neoclassicism_modifier
+		}
+    }
+	immediate = {
+		set_variable = {
+			name = je_gaudi_art_deco_architecture_var
+			days = 1
+		}
+	}
+	complete = {
+		gaudi_has_architect = yes
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_arts_academy
+				has_active_production_method = pm_artists_arts_academy_school
+				level >= 3
+			}
+			any_scope_building = {
+				is_building_type = building_university
+			}
+		}
+		hidden_trigger = {
+			NOT = {
+				has_variable = je_gaudi_art_deco_architecture_var
+			}
+		}
+	}
+	on_complete = {
+		add_modifier = {
+			name = gaudi_art_deco_modifier
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_arts_academy
+					has_active_production_method = pm_artists_arts_academy_school
+					level >= 3
+				}
+				any_scope_building = {
+					is_building_type = building_university
+				}
+			}
+			add_modifier = {
+				name = gaudi_art_deco_academy_modifier
+			}
+		}
+		if = {
+			limit = {
+				has_variable = gaudi_architect_var
+				NOT = {
+					var:gaudi_architect_var = {
+						has_trait = gaudi_art_deco_style
+					}
+				}
+			}
+			var:gaudi_architect_var = {
+				add_trait = gaudi_art_deco_style
+			}
+		}
+	}
+}
+
+je_gaudi_splendour_art_deco = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	scripted_progress_bar = gaudi_architectural_splendour_art_deco_bar
+	scripted_progress_bar = gaudi_architectural_splendour_progress_bar
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, the PM will be unlocked in a state
+				limit = {
+					je:je_gaudi_splendour_art_deco = {
+						"scripted_bar_progress(gaudi_architectural_splendour_progress_bar)" >= 15
+					}
+				}
+				#Architect gets experience
+				architect_experience_gain_effect = { AMOUNT = 10 }
+				#The country gets +1 Architectural Splendour
+				gaudi_add_x_architectural_splendour_effect = { AMOUNT = 1 }
+				#The cost will be subtracted from the current progress
+				je:je_gaudi_splendour_art_deco = {
+					add_progress = { 
+						name = gaudi_architectural_splendour_progress_bar
+						value = -15
+					}
+				}
+			}
+		}
+		random_events = {
+			10 = 0
+
+			1 = gaudi.31 #Gaudí 31: Art Deco Cinema
+			1 = gaudi.32 #Gaudí 32: Art Deco Skyscraper
+			1 = gaudi.33 #Gaudí 33: Art Deco Airport
+			1 = gaudi.34 #Gaudí 34: Art Deco Office
+		}
+	}
+
+	immediate = {
+		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
+		if = {
+			limit = { 
+				NOT = { 
+					has_variable = gaudi_architectural_splendour_var
+				} 
+			}
+			set_variable = {
+				name = gaudi_architectural_splendour_var
+				value = 0
+			}
+		}
+		set_variable = {
+			name = je_gaudi_splendour_art_deco_var
+			days = 1
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+		hidden_trigger = {
+			NOT = {
+				has_variable = je_gaudi_splendour_art_deco_var
 			}
 		}
 	}
@@ -120,29 +552,51 @@ je_gaudi_splendid_architecture = {
 	}
 
 	current_value = {
-		if = {
-			limit = {
-				scope:journal_entry = {
-					goal_value = 0
-				}
-			}
-			value = 0
-		}
-		else = {
-			value = var:gaudi_splendid_architecture #value or variable you use to meassure progress
-		}
+		value = var:gaudi_architectural_splendour_var #value or variable you use to meassure progress
 	}
 
 	goal_add_value = {
-		value = 10
+		value = 20
 	}
 
-	progressbar = yes
+	invalid = {
+		custom_tooltip = {
+			text = gaudi_stop_architectural_project_tt
+			has_variable = gaudi_stop_architectural_project_var
+		}
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_architect_dies_tt
+			NOT = {
+				has_variable = gaudi_architect_var
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
 
 	weight = 25
 
 	should_be_pinned_by_default = yes
 }
+
+######Art Nouveau######
 
 #Art Nouveau city quarter
 
@@ -233,270 +687,6 @@ je_gaudi_art_nouveau_quarter = {
 	}
 	invalid = {
 		has_technology_researched = elgar_art_deco_tech
-	}
-}
-
-#Art Deco Cinema
-
-je_gaudi_art_deco_cinema = {
-	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
-
-	group = je_group_gaudi_architecture
-
-	is_shown_when_inactive = {
-		has_variable = film_je_done
-    }
-    possible = {
-        has_technology_researched = elgar_art_deco_tech
-		any_scope_state = {
-			has_building = building_elgar_opera
-		}
-    }
-	immediate = {
-		set_variable = {
-			name = gaudi_art_deco_cinema_var
-			days = 1
-		}
-	}
-	complete = {
-		any_scope_state = {
-			any_scope_building = {
-				is_building_type = building_elgar_opera
-				level >= 10
-			}
-			any_scope_building = {
-				is_building_type = building_urban_center
-				level >= 20
-			}
-			NOT = {
-				has_modifier = gaudi_art_deco_cinema_modifier
-			}
-		}
-		hidden_trigger = {
-			NOT = {
-				has_variable = gaudi_art_deco_cinema_var
-			}
-		}
-	}
-	on_complete = {
-		random_scope_state = {
-			limit = {
-				any_scope_building = {
-					is_building_type = building_elgar_opera
-					level >= 10
-				}
-				any_scope_building = {
-					is_building_type = building_urban_center
-					level >= 20
-				}
-				NOT = {
-					has_modifier = gaudi_art_deco_cinema_modifier
-				}
-			}
-			add_modifier = {
-				name = gaudi_art_deco_cinema_modifier
-			}
-		}
-		trigger_event = { 
-			id = gaudi.31
-			popup = yes
-		}
-	}
-
-	invalid = {
-		has_modifier = gaudi_splendid_architecture
-	}
-}
-
-#Art Deco Skyscraper
-
-je_gaudi_art_deco_skyscraper = {
-	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
-
-	group = je_group_gaudi_architecture
-
-	is_shown_when_inactive = {
-		has_technology_researched = elgar_art_nouveau_tech
-    }
-    possible = {
-        has_technology_researched = elgar_art_deco_tech
-		has_technology_researched = steel_frame_buildings
-    }
-	immediate = {
-		set_variable = {
-			name = gaudi_art_deco_skyscraper_var
-			days = 1
-		}
-	}
-	complete = {
-		any_scope_state = {
-			any_scope_building = {
-				is_building_type = building_skyscraper
-				level >= 1
-			}
-			NOT = {
-				has_modifier = gaudi_art_deco_skyscraper_modifier
-			}
-		}
-		hidden_trigger = {
-			NOT = {
-				has_variable = gaudi_art_deco_skyscraper_var
-			}
-		}
-	}
-	on_complete = {
-		random_scope_state = {
-			limit = {
-				any_scope_building = {
-					is_building_type = building_skyscraper
-				}
-				NOT = {
-					has_modifier = gaudi_art_deco_skyscraper_modifier
-				}
-			}
-			add_modifier = {
-				name = gaudi_art_deco_skyscraper_modifier
-			}
-		}
-		trigger_event = { 
-			id = gaudi.32
-			popup = yes
-		}
-	}
-
-	invalid = {
-		has_modifier = gaudi_splendid_architecture
-	}
-}
-
-#Art Deco Airport [with Curtiss]
-
-je_gaudi_art_deco_airport = {
-	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
-
-	group = je_group_gaudi_architecture
-
-	is_shown_when_inactive = {
-		has_technology_researched = elgar_art_nouveau_tech
-    }
-    possible = {
-        has_technology_researched = elgar_art_deco_tech
-		has_technology_researched = curtiss_modern_aviation_tech
-    }
-	immediate = {
-		set_variable = {
-			name = gaudi_art_deco_airport_var
-			days = 1
-		}
-	}
-	complete = {
-		any_scope_state = {
-			any_scope_building = {
-				is_building_type = building_airport
-				level >= 5
-			}
-			NOT = {
-				has_modifier = gaudi_art_deco_airport_modifier
-			}
-		}
-		hidden_trigger = {
-			NOT = {
-				has_variable = gaudi_art_deco_airport_var
-			}
-		}
-	}
-	on_complete = {
-		random_scope_state = {
-			limit = {
-				any_scope_building = {
-					is_building_type = building_airport
-					level >= 5
-				}
-				NOT = {
-					has_modifier = gaudi_art_deco_airport_modifier
-				}
-			}
-			add_modifier = {
-				name = gaudi_art_deco_airport_modifier
-			}
-		}
-		trigger_event = { 
-			id = gaudi.33
-			popup = yes
-		}
-	}
-
-	invalid = {
-		has_modifier = gaudi_splendid_architecture
-	}
-}
-
-#Art Deco Office
-
-je_gaudi_art_deco_office = {
-	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
-
-	group = je_group_gaudi_architecture
-
-	is_shown_when_inactive = {
-		has_technology_researched = elgar_art_nouveau_tech
-    }
-    possible = {
-        has_technology_researched = elgar_art_deco_tech
-    }
-	immediate = {
-		set_variable = {
-			name = gaudi_art_deco_office_var
-			days = 1
-		}
-	}
-	complete = {
-		any_scope_state = {
-			any_scope_building = {
-				is_building_type = building_government_administration
-				level >= 35
-			}
-			any_scope_building = {
-				is_building_type = building_urban_center
-				level >= 20
-			}
-			NOT = {
-				has_modifier = gaudi_art_deco_office_modifier
-			}
-		}
-		hidden_trigger = {
-			NOT = {
-				has_variable = gaudi_art_deco_office_var
-			}
-		}
-	}
-	on_complete = {
-		random_scope_state = {
-			limit = {
-				any_scope_building = {
-					is_building_type = building_government_administration
-					level >= 35
-				}
-				any_scope_building = {
-					is_building_type = building_urban_center
-					level >= 20
-				}
-				NOT = {
-					has_modifier = gaudi_art_deco_office_modifier
-				}
-			}
-			add_modifier = {
-				name = gaudi_art_deco_office_modifier
-			}
-		}
-		trigger_event = { 
-			id = gaudi.34
-			popup = yes
-		}
-	}
-
-	invalid = {
-		has_modifier = gaudi_splendid_architecture
 	}
 }
 
