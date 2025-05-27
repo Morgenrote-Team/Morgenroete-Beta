@@ -16,7 +16,7 @@ Changes:
 - Changed Architecture event icon.
 - Art Deco Cinema, Art Deco Office, Art Deco Airport and Art Deco Skyscraper are no longer Journal Entries, but random events when building your drema of Art Deco, if the triggers are met.
 - The JE "Art Nouveau Quarter" will be available only once.
-- Requirements for Pilot School changed: An Ace, NCO training TEch and an Airfield are needed.
+- Requirements for Pilot School changed: An Ace, NCO training Tech and an Airfield are needed.
 - Higher chance to rescue Zeppelin Pilot after a disaster (from 65% to 80%)
 
 Fixes:
