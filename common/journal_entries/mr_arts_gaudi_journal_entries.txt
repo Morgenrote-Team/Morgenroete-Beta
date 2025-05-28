@@ -6,6 +6,75 @@
 
 ###################
 
+######Blueprint####
+
+je_gaudi_blueprint_research = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	scripted_progress_bar = gaudi_architectural_blueprint_progress_bar
+
+	immediate = {
+		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = gaudi_architectural_blueprint_progress_bar_at_full_tt
+			je:je_gaudi_blueprint_research = {
+				"scripted_bar_progress(gaudi_architectural_blueprint_progress_bar)" >= 36
+			}
+		}
+	}
+
+	on_complete = {
+		gaudi_add_blueprint_effect = yes
+		trigger_event = { 
+			id = gaudi.21
+			popup = yes
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = gaudi_stop_architectural_project_tt
+			has_variable = gaudi_stop_architectural_project_var
+		}
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_architect_dies_tt
+			NOT = {
+				has_variable = gaudi_architect_var
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+#################################################################
+
 ######Bauhaus######
 
 je_gaudi_bauhaus_architecture = {
