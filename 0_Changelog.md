@@ -19,6 +19,9 @@ Changes:
 - Requirements for Pilot School changed: An Ace, NCO training Tech and an Airfield are needed.
 - Higher chance to rescue Zeppelin Pilot after a disaster (from 65% to 80%)
 
+Loading Screens:
+- Added 4 new loading screens about Scientific Expeditions.
+
 Fixes:
 - Gaudì is now Gaudí.
 - Fixed some events with not fitting event icons (music instead of architecture).
