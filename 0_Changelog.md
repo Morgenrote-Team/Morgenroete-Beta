@@ -19,8 +19,9 @@ Changes:
 - Requirements for Pilot School changed: An Ace, NCO training Tech and an Airfield are needed.
 - Higher chance to rescue Zeppelin Pilot after a disaster (from 65% to 80%)
 
-Loading Screens:
+GFX:
 - Added 4 new loading screens about Scientific Expeditions.
+- Changed a lot of Tech icons and Event icons which fit the Vic3 style better.
 
 Fixes:
 - Gaudì is now Gaudí.
