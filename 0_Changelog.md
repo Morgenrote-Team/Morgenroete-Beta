@@ -14,14 +14,14 @@ Changes:
 - For the Biennale, not only the experience values of composers, writers and painters are combined to determine the winner country, but also the experience of your architect. The winner also gets +1 Architectural Splendour.
 - Gaudí and Antonelli are no longer engineers, but architects.
 - Changed Architecture event icon.
-- Art Deco Cinema, Art Deco Office, Art Deco Airport and Art Deco Skyscraper are no longer Journal Entries, but random events when building your drema of Art Deco, if the triggers are met.
+- Art Deco Cinema, Art Deco Office, Art Deco Airport and Art Deco Skyscraper are no longer Journal Entries, but random events when building your dream of Art Deco, if the triggers are met.
 - The JE "Art Nouveau Quarter" will be available only once.
 - Requirements for Pilot School changed: An Ace, NCO training Tech and an Airfield are needed.
 - Higher chance to rescue Zeppelin Pilot after a disaster (from 65% to 80%)
 
 GFX:
 - Added 4 new loading screens about Scientific Expeditions.
-- Changed a lot of Tech icons and Event icons which fit the Vic3 style better.
+- Changed a lot of invention icons, event icons, concept icons, and MR icons which fit the Vic3 style better.
 
 Fixes:
 - Gaudì is now Gaudí.
