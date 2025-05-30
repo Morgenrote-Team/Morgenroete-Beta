@@ -399,21 +399,7 @@ set_composer_travelling_composer_effect = {
 			text = elgar_set_composer_travelling_composer_tt
 	
 			var:elgar_composer_var = {
-				remove_variable = mr_is_composer_var
-				set_variable = mr_is_travelling_composer_var
-				if = {
-					limit = {
-						NOT = { has_variable = mr_travelling_composer_year_counter_var }
-					}
-					set_variable = {
-						name = mr_travelling_composer_year_counter_var
-						value = 0
-					}
-				}
-				add_to_global_variable_list = {
-					name = mr_travelling_composer_global_list
-					target = this
-				}
+				elgar_set_composer_travelling_composer = yes
 			}
 		
 			remove_variable = elgar_composer_var
@@ -2950,8 +2936,10 @@ elgar_set_new_composer_as_composer_effect = {
 			limit = {
 				has_variable = elgar_composer_var
 			}
+
+			#Sends the old Painter to the independent Painters
 			var:elgar_composer_var = {
-				free_character_from_void = no
+				elgar_set_composer_travelling_composer = yes
 			}
 		}
 
@@ -2979,32 +2967,42 @@ elgar_remove_new_composer_effect = {
 	remove_variable = elgar_new_composer_var
 }
 
+#Sets Composer as Travelling composer
+elgar_set_composer_travelling_composer = {
+	remove_variable = mr_is_composer_var
+	set_variable = mr_is_travelling_composer_var
+
+	#Is used to prevent a country from getting that composer immediately afterwards
+	set_variable = {
+		name = elgar_composer_unavailable_for_this_var
+		value = root
+		years = 5
+	}
+
+	#Starts the Composer travelling counter
+	if = {
+		limit = {
+			NOT = { has_variable = mr_travelling_composer_year_counter_var }
+		}
+		set_variable = {
+			name = mr_travelling_composer_year_counter_var
+			value = 0
+		}
+	}
+	#Adds the Composer to the Travelling Composer Pool
+	add_to_global_variable_list = {
+		name = mr_travelling_composer_global_list
+		target = this
+	}
+}
+
 #This effect makes the new composer a travelling Composer
 set_new_composer_travelling_composer_effect = {
 	custom_tooltip = {
 		text = elgar_set_new_composer_travelling_composer_tt
 
 		scope:elgar_new_composer_scope = {
-			remove_variable = mr_is_composer_var
-			set_variable = mr_is_travelling_composer_var
-				if = {
-					limit = {
-						NOT = { has_variable = mr_travelling_composer_year_counter_var }
-					}
-					set_variable = {
-						name = mr_travelling_composer_year_counter_var
-						value = 0
-					}
-				}
-			set_variable = { #Is used to prevent a country from getting that composer immediately afterwards
-				name = elgar_composer_unavailable_for_this_var
-				value = root
-				years = 5
-			}
-			add_to_global_variable_list = {
-				name = mr_travelling_composer_global_list
-				target = this
-			}
+			elgar_set_composer_travelling_composer = yes
 		}
 	
 		remove_variable = elgar_new_composer_var
@@ -7532,6 +7530,25 @@ create_new_painter_effect = {
 	}
 }
 
+#Sets an Painter as an independent Painter
+gaudi_set_painter_independent_painter = {
+	remove_variable = mr_is_painter_var
+	set_variable = mr_is_independent_painter
+
+	#Is used to prevent a country from getting that Painter immediately afterwards
+	set_variable = {
+		name = klimt_painter_unavailable_for_this_var
+		value = root
+		years = 5
+	}
+
+	#Sends the old Painter to the independent Painters
+	add_to_global_variable_list = {
+		name = mr_independent_painter_global_list
+		target = this
+	}
+}
+
 # Set new Painter as official Painter
 klimt_set_new_painter_as_painter_effect = {
 	custom_tooltip = {
@@ -7541,8 +7558,9 @@ klimt_set_new_painter_as_painter_effect = {
 			limit = {
 				has_variable = klimt_painter_var
 			}
+
 			var:klimt_painter_var = {
-				free_character_from_void = no
+				gaudi_set_painter_independent_painter = yes
 			}
 		}
 
@@ -7566,12 +7584,7 @@ klimt_set_new_painter_as_independent_painter_effect = {
 		}
 
 		scope:klimt_new_painter_scope = {
-			set_variable = mr_is_independent_painter
-			set_variable = { #Is used to prevent a country from getting that composer immediately afterwards
-				name = klimt_painter_unavailable_for_this_var
-				value = root
-				years = 5
-			}
+			gaudi_set_painter_independent_painter = yes
 		}
 
 		remove_variable = klimt_new_painter_var
@@ -7784,7 +7797,7 @@ set_architect_independent_architect_effect = {
 	
 			var:gaudi_architect_var = {
 				remove_variable = mr_is_architect_var
-				set_variable = mr_is_independent_architect
+				set_variable = mr_is_independent_architect_var
 				add_to_global_variable_list = {
 					name = mr_independent_architect_global_list
 					target = this
@@ -7911,6 +7924,25 @@ create_new_architect_effect = {
 	}
 }
 
+#Sets an architect as an independent Architect
+gaudi_set_architect_independent_architect = {
+	remove_variable = mr_is_architect_var
+	set_variable = mr_is_independent_architect_var
+
+	#Is used to prevent a country from getting that Architect immediately afterwards
+	set_variable = {
+		name = gaudi_architect_unavailable_for_this_var
+		value = root
+		years = 5
+	}
+
+	#Sends the old Architect to the independent Architects
+	add_to_global_variable_list = {
+		name = mr_independent_architect_global_list
+		target = this
+	}
+}
+
 # Set new architect as official Architect
 gaudi_set_new_architect_as_architect_effect = {
 	custom_tooltip = {
@@ -7920,8 +7952,9 @@ gaudi_set_new_architect_as_architect_effect = {
 			limit = {
 				has_variable = gaudi_architect_var
 			}
+
 			var:gaudi_architect_var = {
-				free_character_from_void = no
+				gaudi_set_architect_independent_architect = yes
 			}
 		}
 
@@ -7938,19 +7971,9 @@ gaudi_set_new_architect_as_architect_effect = {
 gaudi_set_new_architect_as_independent_architect_effect = {
 	custom_tooltip = {
 		text = gaudi_set_new_architect_as_independent_architect_effect_tt
-	
-		add_to_global_variable_list = {
-			name = mr_independent_architect_global_list
-			target = scope:gaudi_new_architect_scope
-		}
 
 		scope:gaudi_new_architect_scope = {
-			set_variable = mr_is_independent_architect
-			set_variable = { #Is used to prevent a country from getting that composer immediately afterwards
-				name = gaudi_architect_unavailable_for_this_var
-				value = root
-				years = 5
-			}
+			gaudi_set_architect_independent_architect = yes
 		}
 
 		remove_variable = gaudi_new_architect_var
@@ -8102,33 +8125,6 @@ architect_experience_gain_effect = { #adds XP to the Architect
 					remove_trait = gaudi_architect
 					add_trait = gaudi_great_architect
 				}
-			}
-		}
-	}
-}
-
-#Effect used to set the cost of the independent Architect
-#Use it in the character scope with root being a country.
-gaudi_independent_architect_character_set_up_cost_effect = {
-	root = {
-		add_treasury = {
-			if = {
-				limit = { prev.var:gaudi_architect_experience > 0 }
-				value = prev.var:gaudi_architect_experience
-				divide = 2
-				multiply = money_amount_multiplier_small
-				max = {
-					value = prev.var:gaudi_architect_experience
-					multiply = 10000
-				}
-				multiply = -1
-			}
-			else = {
-				value = 1
-				divide = 2
-				multiply = money_amount_multiplier_small
-				max = 100000
-				multiply = -1
 			}
 		}
 	}
