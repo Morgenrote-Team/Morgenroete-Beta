@@ -359,3 +359,70 @@ mr_architect_blueprints_academy_button = {
 	}
 	ai_frequency = 3 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
+
+#########################################################################################
+
+#MR_ARCHITECT_INVITE_INDEPENDENT_ARCHITECT
+mr_invite_architect_button = {
+	#!!!If you change any Trigger or effects here, change them in the AI version too (elgar_ai_hire_composer_effect)!!!
+    scope = country
+	saved_scopes = {
+        chosen_architect
+    }
+    is_valid = {
+		#not hired an independent architect recently
+		custom_tooltip = {
+			text = MR_ARCHITECT_NOT_HIRED_INDEPENDENT_ARCHITECT_RECENTLY_TRIGGER_TT
+			NOT = {
+				has_modifier = gaudi_recently_hired_independent_architect_modifier
+			}
+		}
+
+		#This Architect was not recently sent away
+		custom_tooltip = {
+			text = MR_ARCHITECT_WAS_NOT_RECENTLY_SENT_AWAY_TT
+			NOT = {
+				scope:chosen_architect = {
+					AND = {
+						has_variable = gaudi_architect_unavailable_for_this_var
+						var:gaudi_architect_unavailable_for_this_var = root
+					}				
+				}
+			}
+		}
+    }
+    effect = {
+		custom_tooltip = {
+			text = MR_ARCHITECT_INVITE_INDEPENDENT_ARCHITECT_EFFECT_TT
+
+			set_architect_independent_architect_effect = yes
+			set_variable = {
+				name = gaudi_architect_var
+				value = scope:chosen_architect
+			}
+
+			if = { #Used for error prevention
+				limit = { has_variable = gaudi_architect_var }
+				var:gaudi_architect_var = {
+					free_character_from_void = yes
+					transfer_character = root
+					remove_variable = mr_is_independent_architect
+					set_variable = mr_is_architect_var
+					remove_list_global_variable = {
+						name = mr_independent_architect_global_list
+						target = this
+					}
+					place_character_in_void = 1200
+				}
+			}
+		}
+
+		add_modifier = {
+			name = gaudi_recently_hired_independent_architect_modifier
+			years = 3
+		}
+		scope:chosen_architect = {
+			gaudi_independent_architect_character_set_up_cost_effect = yes
+		}
+    }
+}
