@@ -180,6 +180,7 @@ types mr_main_arts_panel_types {
                         mr_artist_composer = {}
                         mr_artist_writer = {}
                         mr_artist_painter = {}
+                        mr_artist_architect = {}
                     }
                 }
             }
@@ -576,6 +577,9 @@ types mr_main_arts_panel_types {
         blockoverride "character_animation" {
             portrait_texture = "[Character.GetAnimatedPortrait('characters_portrait_environment', 'mr_camera_torso_writer', 'mr_test_idle', GetPortraitRenderSize(PdxGuiWidget.Self))]"
         }
+        blockoverride "occupation_achievement_tooltip" {
+        #    tooltip = "MR_WRITER_ACHIEVEMENTS_TT"
+        }
         blockoverride "achievements_icon_visibility" {
             visible = no
         }
@@ -815,6 +819,220 @@ types mr_main_arts_panel_types {
         }
         blockoverride "occupation_experience_value" {
             value = "[Scope.Var('klimt_painter_experience').GetValue]"
+        }
+        blockoverride "occupation_experience_range" {
+            min = 0
+            max = 500
+        }
+        blockoverride "occupation_experience_tooltip" {
+            tooltip = "[Country.GetCustom('GUI_klimt_painter_experience_type')]"
+        }
+        blockoverride "occupation_experience_bar_text" {
+            text = "[Country.GetCustom('GUI_klimt_painter_experience_text_type')]"
+        }
+        blockoverride "occupation_ranking_visible" {
+            visible = yes
+        }
+        blockoverride "occupation_ranking" {
+            tooltipwidget = {
+                MR_TooltipRankingType = {
+                    blockoverride "ranking_on_finish" {
+                        on_finish = "[GetScriptedGui('mr_painting_tradition_ranking_sgui').Execute( GuiScope.SetRoot( Country.MakeScope ).End )]" #Resets the Ranking
+                    }
+                    blockoverride "text_1" {
+                        raw_text = "PAINTER_PAINTING_TRADITION_RANKING_HEADER"
+                    }
+                    blockoverride "ranking_1_visible" {
+                        visible = yes
+                    }
+                    blockoverride "ranking_1_datamodel" {
+                        datamodel = "[GetGlobalList('mr_painting_tradition_ranking_global_list')]"
+                    }
+                    blockoverride "ranking_variable_used_1" {
+                        raw_text = "[Country.MakeScope.GetVariable('klimt_painting_tradition_var').GetValue|*V0]"
+                    }
+                }
+            }
+        }
+        blockoverride "occupation_data_size" {
+            size = { @panel_text_width 440 }
+        }
+        blockoverride "occupation_data_header_text" {
+            text = mr_artist_painter_data_header
+        }
+        blockoverride "occupation_data_content" {
+            hbox = {
+                spacing = 8
+
+                # Painting Tradition
+                mr_shared_data_text = {
+                    text = "PAINTING_TRADITION_VAR"
+                    tooltip = "PAINTING_TRADITION_VAR_TT"
+                }
+
+                # Yearly Painting Tradition
+                mr_shared_data_text = {
+                    text = "MR_YEARLY_PAINTING_TRADITION"
+                    tooltip = "MR_YEARLY_PAINTING_TRADITION_TT"
+                }
+
+                expand = {}
+            }
+            # Total Masterworks of Country
+            mr_shared_data_text = {
+                blockoverride "size" {
+                    layoutpolicy_horizontal = growing
+                }
+                text = "MR_TOTAL_MASTERWORKS_COUNTRY"
+                tooltip = "MR_TOTAL_MASTERWORKS_COUNTRY_TT"
+            }
+            # Painter Ranking
+            mr_shared_data_text = {
+                blockoverride "size" {
+                    layoutpolicy_horizontal = growing
+                }
+                text = "RANKING_PAINTER_TOP_5"
+            }
+        }
+        blockoverride "visit_button" {
+            text = "MR_VISIT_GALLERY_BUTTON"
+            datacontext = "[GetScriptedGui('mr_visit_gallery_gui_button')]"
+            onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+            enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+            tooltip = "MR_VISIT_GALLERY_BUTTON_TT"
+        }
+        blockoverride "big_box_content" {
+            mr_shared_interactions_simple = {
+                blockoverride "interaction_size" {
+                    minimumsize = { @[ panel_button_width + 20 ] 50 }
+                    maximumsize = { @[ panel_button_width + 20 ] -1 }
+                }
+                blockoverride "content" {
+                    vbox = {
+                        layoutpolicy_horizontal = expanding
+                        layoutpolicy_vertical = expanding
+                        minimumsize = { @panel_button_width 0 }
+                        spacing = 7
+
+                        # Painter Trip
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_painter_trip_button')]"
+                            blockoverride "button_content" {
+                                text = "mr_artist_painter_trip_button_text"
+                                tooltip = "MR_PAINTER_TRIP_BUTTON_TT"
+                            }
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_painter_trip_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_painter_trip_button.dds"
+                            }
+                        }
+                        # Vernissage
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_vernissage_button')]"
+                            blockoverride "button_content" {
+                                text = "mr_artist_painter_vernissage_button_text"
+                                tooltip = "MR_VERNISSAGE_BUTTON_TT"
+                            }
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_reading_tour_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_painter_vernissage_button.dds"
+                            }
+                        }
+                        # Acquire a Masterwork
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_acquire_masterwork_button')]"
+                            blockoverride "button_content" {
+                                text = "MR_ACQUIRE_MASTERWORK_BUTTON"
+                                tooltip = "MR_ACQUIRE_MASTERWORK_BUTTON_TT"
+                            }
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                        }
+
+                        expand = {}
+                    }
+                }
+                blockoverride "stop_context" {
+                    datacontext = "[GetScriptedGui('mr_stop_painter_project_button')]"
+                }
+            }
+            mr_artist_character_box = {
+                blockoverride "artist_characters_header" {
+                    text = "MR_INDEPENDENT_PAINTER"
+                }
+                blockoverride "artist_character_list" {
+                    datamodel = "[GetGlobalList('mr_independent_painter_global_list')]"
+                }
+                blockoverride "artist_character_experience_value" {
+                    value = "[FixedPointToFloat(Character.MakeScope.GetVariable('klimt_painter_experience').GetValue)]"
+                }
+                blockoverride "artist_character_visible" {
+                    datacontext = "[GetScriptedGui('mr_independent_painter_visible_sgui')]"
+                    visible = "[ScriptedGui.IsShown(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_painter', Scope.GetCharacter.MakeScope).End)]"
+                }
+                blockoverride "artist_character_name" {
+                    text = "[Character.GetCustom('klimt_painter_rating_new_painter_icon_type')] [Character.GetLastName]"
+                }
+                blockoverride "artist_character_experience_tooltip" {
+                    tooltip = "MR_INDEPENDENT_PAINTER_EXPERIENCE_TOOLTIP"
+                }
+                blockoverride "artist_character_experience_bar_text" {
+                    text = "[Character.GetCustom('GUI_klimt_independent_painter_experience_text_type')]"
+                }
+                blockoverride "artist_character_interaction" {
+                    datacontext = "[GetScriptedGui('mr_invite_painter_button')]"
+                    onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_painter', Scope.GetCharacter.MakeScope).End)]"
+                    enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_painter', Scope.GetCharacter.MakeScope).End)]"
+                    text = "MR_INVITE_INDEPENDENT_PAINTER"
+                    tooltip = "MR_INVITE_INDEPENDENT_PAINTER_TT"
+                }
+            }
+            expand = {}
+        }
+    }
+
+    type mr_artist_architect = mr_shared_occupation {
+        layoutpolicy_horizontal = expanding
+        blockoverride "occupation_character_context" {
+            datacontext = "[Country.MakeScope.Var('gaudi_architect_var')]"
+        }
+        blockoverride "occupation_role_icon" {
+            texture = "gfx/interface/icons/character_role_icons/gaudi_architect_role.dds"
+        }
+        blockoverride "occupation_role_tooltip" {
+            tooltip = "[concept_gaudi_architect_desc]"
+        }
+        blockoverride "occupation_role_name" {
+            text = "MR_ARCHITECT_HEADER_TEXT"
+        }
+        blockoverride "occupation_character_name" {
+            text = "[Country.GetCustom('artists_has_architect_gui_type')]"
+        }
+        blockoverride "character_animation" {
+            portrait_texture = "[Character.GetAnimatedPortrait('characters_portrait_environment', 'mr_camera_torso_architect', 'mr_test_idle', GetPortraitRenderSize(PdxGuiWidget.Self))]"
+        }
+        blockoverride "occupation_achievement_tooltip" {
+            tooltip = "MR_ARCHITECT_ACHIEVEMENTS_TT"
+        }
+        blockoverride "occupation_experience_value" {
+            value = "[Scope.Var('gaudi_architect_experience').GetValue]"
         }
         blockoverride "occupation_experience_range" {
             min = 0
