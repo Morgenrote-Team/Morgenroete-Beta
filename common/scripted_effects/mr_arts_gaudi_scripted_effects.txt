@@ -1,0 +1,967 @@
+﻿##########################
+# GAUDÍ SCRIPTED EFFECTS #
+##########################
+
+#by Marco Dandolo
+
+##########################
+
+#Effect to add $AMOUNT$ Architectural Splendour
+gaudi_add_x_architectural_splendour_effect = {
+	# Amount = amount of Architectural Splendour to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = architectural_splendour_amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = gaudi_add_x_architectural_splendour_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = gaudi_add_x_architectural_splendour_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = gaudi_add_x_architectural_splendour_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Architectural Splendour
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = gaudi_architectural_splendour_var
+			}
+		}
+		set_variable = {
+			name = gaudi_architectural_splendour_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = gaudi_architectural_splendour_var
+		add = scope:architectural_splendour_amount
+	}
+
+	#gaudi_architect_total_architectural_splendour_var is used to keep track of all the Architectural Splendour that a specific architect created.
+	#It is used to show how successful the architect is.
+	#Every time a normal Architectural Splendour Point is added, the same number gets added here.
+	if = {
+		limit = { #Only works if there actually is a architect
+			has_variable = gaudi_architect_var
+		}
+		var:gaudi_architect_var = {
+			if = { #Fallback if the variable does not exist yet
+				limit = {
+					NOT = {
+						has_variable = gaudi_architect_total_architectural_splendour_var
+					}
+				}
+				set_variable = {
+					name = gaudi_architect_total_architectural_splendour_var
+					value = 0
+				}
+			}
+			change_variable = { #The amount of paintingal Tradition that this architect discovered
+				name = gaudi_architect_total_architectural_splendour_var
+				add = scope:architectural_splendour_amount
+			}
+		}
+	}
+}
+
+#Effect to add blueprint after JE is completed
+gaudi_add_blueprint_effect = {
+	custom_tooltip = {
+		text = gaudi_add_blueprint_effect_tt
+
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = gaudi_country_num_blueprints_var
+				}
+			}
+			set_variable = {
+				name = gaudi_country_num_blueprints_var
+				value = 0
+			}
+		}
+		change_variable = {
+			name = gaudi_country_num_blueprints_var
+			add = 1
+		}
+
+		if = { #Fallback if the variable does not exist yet (character)
+			limit = {
+				var:gaudi_architect_var = {
+					NOT = {
+						has_variable = gaudi_character_num_blueprints_var
+					}
+				}
+			}
+			var:gaudi_architect_var = {
+				set_variable = {
+					name = gaudi_character_num_blueprints_var
+					value = 0
+				}
+			}
+		}
+		var:gaudi_architect_var = {
+			change_variable = {
+				name = gaudi_character_num_blueprints_var
+				add = 1
+			}
+		}
+
+		if = {
+			limit = {
+				var:gaudi_blueprint_research_var = 1
+			}
+			set_variable = building_gaudi_statue_blueprint_var
+		}
+		if = {
+			limit = {
+				var:gaudi_blueprint_research_var = 2
+			}
+			set_variable = building_gaudi_fountain_blueprint_var
+		}
+		if = {
+			limit = {
+				var:gaudi_blueprint_research_var = 3
+			}
+			set_variable = building_gaudi_arch_blueprint_var
+		}
+		if = {
+			limit = {
+				var:gaudi_blueprint_research_var = 4
+			}
+			set_variable = building_gaudi_park_blueprint_var
+		}
+		if = {
+			limit = {
+				var:gaudi_blueprint_research_var = 5
+			}
+			set_variable = building_gaudi_luna_blueprint_var
+		}
+		if = {
+			limit = {
+				var:gaudi_blueprint_research_var = 6
+			}
+			set_variable = building_gaudi_parade_blueprint_var
+		}
+		if = {
+			limit = {
+				var:gaudi_blueprint_research_var = 7
+			}
+			set_variable = building_gaudi_almshouse_blueprint_var
+		}
+		if = {
+			limit = {
+				var:gaudi_blueprint_research_var = 8
+			}
+			set_variable = building_gaudi_school_blueprint_var
+		}
+		if = {
+			limit = {
+				var:gaudi_blueprint_research_var = 9
+			}
+			set_variable = building_gaudi_prison_blueprint_var
+		}
+		if = {
+			limit = {
+				var:gaudi_blueprint_research_var = 10
+			}
+			set_variable = building_gaudi_canalization_blueprint_var
+		}
+		if = {
+			limit = {
+				var:gaudi_blueprint_research_var = 11
+			}
+			set_variable = building_gaudi_hospital_blueprint_var
+		}
+		if = {
+			limit = {
+				var:gaudi_blueprint_research_var = 12
+			}
+			set_variable = building_gaudi_health_blueprint_var
+		}
+		if = {
+			limit = {
+				var:gaudi_blueprint_research_var = 13
+			}
+			set_variable = building_gaudi_science_blueprint_var
+		}
+		if = {
+			limit = {
+				var:gaudi_blueprint_research_var = 14
+			}
+			set_variable = building_gaudi_arts_blueprint_var
+		}
+		if = {
+			limit = {
+				var:gaudi_blueprint_research_var = 15
+			}
+			set_variable = building_gaudi_sports_blueprint_var
+		}
+	}
+}
+
+######COLOGNE CATHEDRAL######
+
+#Add dombau progress
+
+gaudi_add_1_dombau_progress = {
+	change_global_variable = {
+		name = gaudi_dombau_progress
+		add = 1
+	}
+	custom_tooltip = gaudi_add_1_dombau_progress_tt
+}
+
+gaudi_add_3_dombau_progress = {
+	change_global_variable = {
+		name = gaudi_dombau_progress
+		add = 3
+	}
+	custom_tooltip = gaudi_add_3_dombau_progress_tt
+}
+
+gaudi_add_6_dombau_progress = {
+	change_global_variable = {
+		name = gaudi_dombau_progress
+		add = 6
+	}
+	custom_tooltip = gaudi_add_6_dombau_progress_tt
+}
+
+gaudi_add_12_dombau_progress = {
+	change_global_variable = {
+		name = gaudi_dombau_progress
+		add = 12
+	}
+	custom_tooltip = gaudi_add_12_dombau_progress_tt
+}
+
+gaudi_sub_1_dombau_progress = {
+	change_global_variable = {
+		name = gaudi_dombau_progress
+		add = -1
+	}
+	custom_tooltip = gaudi_sub_1_dombau_progress_tt
+}
+
+gaudi_sub_3_dombau_progress = {
+	change_global_variable = {
+		name = gaudi_dombau_progress
+		add = -3
+	}
+	custom_tooltip = gaudi_sub_3_dombau_progress_tt
+}
+
+gaudi_sub_6_dombau_progress = {
+	change_global_variable = {
+		name = gaudi_dombau_progress
+		add = -6
+	}
+	custom_tooltip = gaudi_sub_6_dombau_progress_tt
+}
+
+gaudi_sub_12_dombau_progress = {
+	change_global_variable = {
+		name = gaudi_dombau_progress
+		add = -12
+	}
+	custom_tooltip = gaudi_sub_12_dombau_progress_tt
+}
+
+######GOTTHARDBAHN######
+
+#Add gotthard progress
+
+gaudi_add_1_gotthard_progress = {
+	change_global_variable = {
+		name = gaudi_gotthard_progress
+		add = 1
+	}
+	custom_tooltip = gaudi_add_1_gotthard_progress_tt
+}
+
+gaudi_add_3_gotthard_progress = {
+	change_global_variable = {
+		name = gaudi_gotthard_progress
+		add = 3
+	}
+	custom_tooltip = gaudi_add_3_gotthard_progress_tt
+}
+
+gaudi_add_6_gotthard_progress = {
+	change_global_variable = {
+		name = gaudi_gotthard_progress
+		add = 6
+	}
+	custom_tooltip = gaudi_add_6_gotthard_progress_tt
+}
+
+gaudi_add_12_gotthard_progress = {
+	change_global_variable = {
+		name = gaudi_gotthard_progress
+		add = 12
+	}
+	custom_tooltip = gaudi_add_12_gotthard_progress_tt
+}
+
+gaudi_sub_1_gotthard_progress = {
+	change_global_variable = {
+		name = gaudi_gotthard_progress
+		add = -1
+	}
+	custom_tooltip = gaudi_sub_1_gotthard_progress_tt
+}
+
+gaudi_sub_3_gotthard_progress = {
+	change_global_variable = {
+		name = gaudi_gotthard_progress
+		add = -3
+	}
+	custom_tooltip = gaudi_sub_3_gotthard_progress_tt
+}
+
+gaudi_sub_6_gotthard_progress = {
+	change_global_variable = {
+		name = gaudi_gotthard_progress
+		add = -6
+	}
+	custom_tooltip = gaudi_sub_6_gotthard_progress_tt
+}
+
+gaudi_sub_12_gotthard_progress = {
+	change_global_variable = {
+		name = gaudi_gotthard_progress
+		add = -12
+	}
+	custom_tooltip = gaudi_sub_12_gotthard_progress_tt
+}
+
+#Add gotthard discontent
+
+gaudi_add_1_gotthard_discontent = {
+	change_global_variable = {
+		name = gaudi_gotthard_discontent
+		add = 1
+	}
+	custom_tooltip = gaudi_add_1_gotthard_discontent_tt
+}
+
+gaudi_add_3_gotthard_discontent = {
+	change_global_variable = {
+		name = gaudi_gotthard_discontent
+		add = 3
+	}
+	custom_tooltip = gaudi_add_3_gotthard_discontent_tt
+}
+
+gaudi_sub_1_gotthard_discontent = {
+	change_global_variable = {
+		name = gaudi_gotthard_discontent
+		add = -1
+	}
+	custom_tooltip = gaudi_sub_1_gotthard_discontent_tt
+}
+
+gaudi_sub_3_gotthard_discontent = {
+	change_global_variable = {
+		name = gaudi_gotthard_discontent
+		add = -3
+	}
+	custom_tooltip = gaudi_sub_3_gotthard_discontent_tt
+}
+
+
+######CRISTO REDENTOR######
+
+gaudi_add_1_cristo_progress = {
+	change_global_variable = {
+		name = gaudi_cristo_progress
+		add = 1
+	}
+	custom_tooltip = gaudi_add_1_cristo_progress_tt
+}
+
+gaudi_add_3_cristo_progress = {
+	change_global_variable = {
+		name = gaudi_cristo_progress
+		add = 3
+	}
+	custom_tooltip = gaudi_add_3_cristo_progress_tt
+}
+
+gaudi_add_6_cristo_progress = {
+	change_global_variable = {
+		name = gaudi_cristo_progress
+		add = 6
+	}
+	custom_tooltip = gaudi_add_6_cristo_progress_tt
+}
+
+gaudi_sub_1_cristo_progress = {
+	change_global_variable = {
+		name = gaudi_cristo_progress
+		add = -1
+	}
+	custom_tooltip = gaudi_sub_1_cristo_progress_tt
+}
+
+gaudi_sub_3_cristo_progress = {
+	change_global_variable = {
+		name = gaudi_cristo_progress
+		add = -3
+	}
+	custom_tooltip = gaudi_sub_3_cristo_progress_tt
+}
+
+gaudi_sub_6_cristo_progress = {
+	change_global_variable = {
+		name = gaudi_cristo_progress
+		add = -6
+	}
+	custom_tooltip = gaudi_sub_6_cristo_progress_tt
+}
+
+
+######MOLE ANTONELLIANA######
+
+gaudi_add_1_mole_progress = {
+	change_global_variable = {
+		name = gaudi_mole_progress
+		add = 1
+	}
+	custom_tooltip = gaudi_add_1_mole_progress_tt
+}
+
+gaudi_add_3_mole_progress = {
+	change_global_variable = {
+		name = gaudi_mole_progress
+		add = 3
+	}
+	custom_tooltip = gaudi_add_3_mole_progress_tt
+}
+
+gaudi_add_6_mole_progress = {
+	change_global_variable = {
+		name = gaudi_mole_progress
+		add = 6
+	}
+	custom_tooltip = gaudi_add_6_mole_progress_tt
+}
+
+gaudi_add_12_mole_progress = {
+	change_global_variable = {
+		name = gaudi_mole_progress
+		add = 12
+	}
+	custom_tooltip = gaudi_add_12_mole_progress_tt
+}
+
+gaudi_sub_1_mole_progress = {
+	change_global_variable = {
+		name = gaudi_mole_progress
+		add = -1
+	}
+	custom_tooltip = gaudi_sub_1_mole_progress_tt
+}
+
+gaudi_sub_3_mole_progress = {
+	change_global_variable = {
+		name = gaudi_mole_progress
+		add = -3
+	}
+	custom_tooltip = gaudi_sub_3_mole_progress_tt
+}
+
+gaudi_sub_6_mole_progress = {
+	change_global_variable = {
+		name = gaudi_mole_progress
+		add = -6
+	}
+	custom_tooltip = gaudi_sub_6_mole_progress_tt
+}
+
+gaudi_sub_12_mole_progress = {
+	change_global_variable = {
+		name = gaudi_mole_progress
+		add = -12
+	}
+	custom_tooltip = gaudi_sub_12_mole_progress_tt
+}
+
+######VIENNA RINGSTRASSE######
+
+#Add ringstrasse progress
+
+gaudi_add_1_ringstrasse_progress = {
+	change_global_variable = {
+		name = gaudi_ringstrasse_progress
+		add = 1
+	}
+	custom_tooltip = gaudi_add_1_ringstrasse_progress_tt
+}
+
+gaudi_add_3_ringstrasse_progress = {
+	change_global_variable = {
+		name = gaudi_ringstrasse_progress
+		add = 3
+	}
+	custom_tooltip = gaudi_add_3_ringstrasse_progress_tt
+}
+
+gaudi_add_6_ringstrasse_progress = {
+	change_global_variable = {
+		name = gaudi_ringstrasse_progress
+		add = 6
+	}
+	custom_tooltip = gaudi_add_6_ringstrasse_progress_tt
+}
+
+gaudi_add_9_ringstrasse_progress = {
+	change_global_variable = {
+		name = gaudi_ringstrasse_progress
+		add = 9
+	}
+	custom_tooltip = gaudi_add_9_ringstrasse_progress_tt
+}
+
+gaudi_add_12_ringstrasse_progress = {
+	change_global_variable = {
+		name = gaudi_ringstrasse_progress
+		add = 12
+	}
+	custom_tooltip = gaudi_add_12_ringstrasse_progress_tt
+}
+
+gaudi_sub_1_ringstrasse_progress = {
+	change_global_variable = {
+		name = gaudi_ringstrasse_progress
+		add = -1
+	}
+	custom_tooltip = gaudi_sub_1_ringstrasse_progress_tt
+}
+
+gaudi_sub_3_ringstrasse_progress = {
+	change_global_variable = {
+		name = gaudi_ringstrasse_progress
+		add = -3
+	}
+	custom_tooltip = gaudi_sub_3_ringstrasse_progress_tt
+}
+
+gaudi_sub_6_ringstrasse_progress = {
+	change_global_variable = {
+		name = gaudi_ringstrasse_progress
+		add = -6
+	}
+	custom_tooltip = gaudi_sub_6_ringstrasse_progress_tt
+}
+
+gaudi_sub_9_ringstrasse_progress = {
+	change_global_variable = {
+		name = gaudi_ringstrasse_progress
+		add = -9
+	}
+	custom_tooltip = gaudi_sub_9_ringstrasse_progress_tt
+}
+
+gaudi_sub_12_ringstrasse_progress = {
+	change_global_variable = {
+		name = gaudi_ringstrasse_progress
+		add = -12
+	}
+	custom_tooltip = gaudi_sub_12_ringstrasse_progress_tt
+}
+
+######SAGRADA FAMÍLIA######
+
+#Add sagrada progress
+
+gaudi_add_1_sagrada_progress = {
+	change_global_variable = {
+		name = gaudi_sagrada_progress
+		add = 1
+	}
+	custom_tooltip = gaudi_add_1_sagrada_progress_tt
+}
+
+gaudi_add_3_sagrada_progress = {
+	change_global_variable = {
+		name = gaudi_sagrada_progress
+		add = 3
+	}
+	custom_tooltip = gaudi_add_3_sagrada_progress_tt
+}
+
+gaudi_add_6_sagrada_progress = {
+	change_global_variable = {
+		name = gaudi_sagrada_progress
+		add = 6
+	}
+	custom_tooltip = gaudi_add_6_sagrada_progress_tt
+}
+
+gaudi_add_9_sagrada_progress = {
+	change_global_variable = {
+		name = gaudi_sagrada_progress
+		add = 9
+	}
+	custom_tooltip = gaudi_add_9_sagrada_progress_tt
+}
+
+gaudi_add_12_sagrada_progress = {
+	change_global_variable = {
+		name = gaudi_sagrada_progress
+		add = 12
+	}
+	custom_tooltip = gaudi_add_12_sagrada_progress_tt
+}
+
+gaudi_sub_1_sagrada_progress = {
+	change_global_variable = {
+		name = gaudi_sagrada_progress
+		add = -1
+	}
+	custom_tooltip = gaudi_sub_1_sagrada_progress_tt
+}
+
+gaudi_sub_3_sagrada_progress = {
+	change_global_variable = {
+		name = gaudi_sagrada_progress
+		add = -3
+	}
+	custom_tooltip = gaudi_sub_3_sagrada_progress_tt
+}
+
+gaudi_sub_6_sagrada_progress = {
+	change_global_variable = {
+		name = gaudi_sagrada_progress
+		add = -6
+	}
+	custom_tooltip = gaudi_sub_6_sagrada_progress_tt
+}
+
+gaudi_sub_9_sagrada_progress = {
+	change_global_variable = {
+		name = gaudi_sagrada_progress
+		add = -9
+	}
+	custom_tooltip = gaudi_sub_9_sagrada_progress_tt
+}
+
+gaudi_sub_12_sagrada_progress = {
+	change_global_variable = {
+		name = gaudi_sagrada_progress
+		add = -12
+	}
+	custom_tooltip = gaudi_sub_12_sagrada_progress_tt
+}
+
+######Neuschwanstein######
+
+#Add Neuschwanstein progress
+
+#Effect to add $AMOUNT$ Neuschwanstein Progress
+gaudi_add_x_neuschwanstein_progress = {
+	# Amount = amount of Neuschwanstein Progress to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = neuschwanstein_progress_amount
+		value = $AMOUNT$
+	}
+
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = gaudi_add_x_neuschwanstein_progress_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = gaudi_add_x_neuschwanstein_progress_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = gaudi_add_x_neuschwanstein_progress_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = gaudi_add_x_neuschwanstein_progress_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = gaudi_add_x_neuschwanstein_progress_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Neuschwanstein Progress
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_global_variable = gaudi_neuschwanstein_progress
+			}
+		}
+		set_global_variable = {
+			name = gaudi_neuschwanstein_progress
+			value = 0
+		}
+	}
+	change_global_variable = {
+		name = gaudi_neuschwanstein_progress
+		add = $AMOUNT$
+	}
+}
+
+#Add Palacio progress
+
+#Effect to add $AMOUNT$ Palacio Progress
+gaudi_add_x_palacio_progress = {
+	# Amount = amount of Palacio Progress to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = palacio_progress_amount
+		value = $AMOUNT$
+	}
+
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = gaudi_add_x_palacio_progress_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = gaudi_add_x_palacio_progress_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = gaudi_add_x_palacio_progress_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = gaudi_add_x_palacio_progress_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = gaudi_add_x_palacio_progress_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Palacio Progress
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_global_variable = gaudi_palacio_progress
+			}
+		}
+		set_global_variable = {
+			name = gaudi_palacio_progress
+			value = 0
+		}
+	}
+	change_global_variable = {
+		name = gaudi_palacio_progress
+		add = $AMOUNT$
+	}
+}
+
+#Add Gyeong progress
+
+#Effect to add $AMOUNT$ Gyeongbokgung Progress
+gaudi_add_x_gyeong_progress = {
+	# Amount = amount of Gyeongbokgung Progress to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = gyeong_progress_amount
+		value = $AMOUNT$
+	}
+
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = gaudi_add_x_gyeong_progress_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = gaudi_add_x_gyeong_progress_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = gaudi_add_x_gyeong_progress_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = gaudi_add_x_gyeong_progress_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = gaudi_add_x_gyeong_progress_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Gyeongbokgung Progress
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_global_variable = gaudi_gyeong_progress
+			}
+		}
+		set_global_variable = {
+			name = gaudi_gyeong_progress
+			value = 0
+		}
+	}
+	change_global_variable = {
+		name = gaudi_gyeong_progress
+		add = $AMOUNT$
+	}
+}
+
+#Add Eiffel progress
+
+#Effect to add $AMOUNT$ Eiffel Tower Progress
+gaudi_add_x_eiffel_progress = {
+	# Amount = amount of Eiffel Tower Progress to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = eiffel_progress_amount
+		value = $AMOUNT$
+	}
+
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = gaudi_add_x_eiffel_progress_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = gaudi_add_x_eiffel_progress_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = gaudi_add_x_eiffel_progress_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = gaudi_add_x_eiffel_progress_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = gaudi_add_x_eiffel_progress_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Eiffel Tower Progress
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_global_variable = gaudi_eiffel_progress
+			}
+		}
+		set_global_variable = {
+			name = gaudi_eiffel_progress
+			value = 0
+		}
+	}
+	change_global_variable = {
+		name = gaudi_eiffel_progress
+		add = $AMOUNT$
+	}
+}
+
+#Add Liberty progress
+
+#Effect to add $AMOUNT$ Statue of Liberty Progress
+gaudi_add_x_liberty_progress = {
+	# Amount = amount of Statue of Liberty Progress to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = liberty_progress_amount
+		value = $AMOUNT$
+	}
+
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = gaudi_add_x_liberty_progress_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = gaudi_add_x_liberty_progress_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = gaudi_add_x_liberty_progress_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = gaudi_add_x_liberty_progress_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = gaudi_add_x_liberty_progress_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Statue of Liberty Progress
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_global_variable = gaudi_liberty_progress
+			}
+		}
+		set_global_variable = {
+			name = gaudi_liberty_progress
+			value = 0
+		}
+	}
+	change_global_variable = {
+		name = gaudi_liberty_progress
+		add = $AMOUNT$
+	}
+}
+
+#Add Big Ben progress
+
+#Effect to add $AMOUNT$ Big Ben Progress
+gaudi_add_x_ben_progress = {
+	# Amount = amount of Big Ben Progress to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = ben_progress_amount
+		value = $AMOUNT$
+	}
+
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = gaudi_add_x_ben_progress_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = gaudi_add_x_ben_progress_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = gaudi_add_x_ben_progress_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = gaudi_add_x_ben_progress_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = gaudi_add_x_ben_progress_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Big Ben Progress
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_global_variable = gaudi_ben_progress
+			}
+		}
+		set_global_variable = {
+			name = gaudi_ben_progress
+			value = 0
+		}
+	}
+	change_global_variable = {
+		name = gaudi_ben_progress
+		add = $AMOUNT$
+	}
+}

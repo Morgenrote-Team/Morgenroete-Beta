@@ -8,6 +8,7 @@
 # mr_is_composer_var	-->	Composer
 # mr_is_writer_var		-->	Writer
 # mr_is_painter_var		-->	Painter
+# mr_is_architect_var	-->	Architect
 
 ######Artistic Progress######
 
@@ -84,6 +85,13 @@ artists_monthly_artistic_progress_effect = {
 					popup = yes
 				}
 			}
+			else_if = {
+				limit = { has_variable = artists_promote_architect_active_var }
+				trigger_event = {
+					id = artists.54
+					popup = yes
+				}
+			}
 			else = {
 				random_list = {
 					10 = {
@@ -118,6 +126,18 @@ artists_monthly_artistic_progress_effect = {
 						modifier = {
 							if = {
 								limit = { klimt_has_painter_no_tooltip = yes }
+								add = -7
+							}
+						}
+					}
+					10 = {
+						trigger_event = {
+							id = artists.54
+							popup = yes
+						}
+						modifier = {
+							if = {
+								limit = { gaudi_has_architect_no_tooltip_trigger = yes }
 								add = -7
 							}
 						}
@@ -7728,6 +7748,377 @@ klimt_independent_painter_character_set_up_cost_effect = {
 				multiply = money_amount_multiplier_small
 				max = {
 					value = prev.var:klimt_painter_experience
+					multiply = 10000
+				}
+				multiply = -1
+			}
+			else = {
+				value = 1
+				divide = 2
+				multiply = money_amount_multiplier_small
+				max = 100000
+				multiply = -1
+			}
+		}
+	}
+}
+
+######Architect######
+
+#This effect kills the current Architect
+kill_architect_effect = {
+	var:gaudi_architect_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = gaudi_architect_var
+}
+
+#This effect makes the current Architect an independent Architect
+set_architect_independent_architect_effect = {
+	if = {
+		limit = { has_variable = gaudi_architect_var }
+
+		custom_tooltip = {
+			text = set_architect_independent_architect_effect_tt
+	
+			var:gaudi_architect_var = {
+				remove_variable = mr_is_architect_var
+				set_variable = mr_is_independent_architect
+				add_to_global_variable_list = {
+					name = mr_independent_architect_global_list
+					target = this
+				}
+			}
+		
+			remove_variable = gaudi_architect_var
+		}
+	}
+}
+
+# Creates a new Architect without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
+create_new_architect_effect = {
+	random_list = {
+		100 = { #Alessandro Antonelli, Italy
+			trigger = {
+				NOT = { has_global_variable = mr_alessandro_antonelli_created_global_var }
+				has_state_in_state_region = STATE_PIEDMONT
+				country_average_cultural_acceptance = {
+					target = cu:north_italian
+					value >= acceptance_status_4
+				}
+				game_date < 1853.7.14 #Age 55
+				year >= 1836 #Professor in Torino
+			}
+			create_character = {
+				template = mr_ita_antonelli_alessandro_character_template
+
+				save_scope_as = gaudi_new_architect_scope
+			}
+			scope:gaudi_new_architect_scope = {
+				set_variable = mr_is_architect_var #Could be used for clothing or a role in the future
+				set_variable = mr_no_headgear_var
+				architect_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = gaudi_new_architect_var
+				value = scope:gaudi_new_architect_scope
+			}
+
+			set_global_variable = mr_alessandro_antonelli_created_global_var #Makes sure Alessandro Antonelli is not already created
+		}
+		25 = { #Random Architect
+			random_list = {
+				10 = {
+					create_character = {
+						female = yes
+						age = { 16 30 }
+						trait_generation = {}
+						save_scope_as = gaudi_new_architect_scope
+					}
+					scope:gaudi_new_architect_scope = {
+						add_trait = gaudi_architect
+						mr_trait_generation_architect_effect = yes
+						set_variable = mr_is_architect_var
+						architect_experience_set_up_effect = yes
+						place_character_in_void = 1200
+					}
+		
+					set_variable = {
+						name = gaudi_new_architect_var
+						value = scope:gaudi_new_architect_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 10
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 20
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 30
+						}
+					}
+				}
+				90 = {
+					create_character = {
+						age = { 16 30 }
+						trait_generation = {}
+						save_scope_as = gaudi_new_architect_scope
+					}
+					scope:gaudi_new_architect_scope = {
+						add_trait = gaudi_architect
+						mr_trait_generation_architect_effect = yes
+						set_variable = mr_is_architect_var
+						architect_experience_set_up_effect = yes
+						place_character_in_void = 1200
+					}
+
+					set_variable = {
+						name = gaudi_new_architect_var
+						value = scope:gaudi_new_architect_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -10
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -20
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -30
+						}
+					}
+				}
+			}
+		}
+	}
+
+	var:gaudi_new_architect_var = {
+		save_scope_as = gaudi_new_architect_scope
+	}
+}
+
+# Set new architect as official Architect
+gaudi_set_new_architect_as_architect_effect = {
+	custom_tooltip = {
+		text = gaudi_replace_architect_with_new_architect_tt
+	
+		if = {
+			limit = {
+				has_variable = gaudi_architect_var
+			}
+			var:gaudi_architect_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = gaudi_architect_var
+			value = scope:gaudi_new_architect_scope
+		}
+
+		remove_variable = gaudi_new_architect_var
+	}
+}
+
+# Set new Architect as independent Architect
+gaudi_set_new_architect_as_independent_architect_effect = {
+	custom_tooltip = {
+		text = gaudi_set_new_architect_as_independent_architect_effect_tt
+	
+		add_to_global_variable_list = {
+			name = mr_independent_architect_global_list
+			target = scope:gaudi_new_architect_scope
+		}
+
+		scope:gaudi_new_architect_scope = {
+			set_variable = mr_is_independent_architect
+			set_variable = { #Is used to prevent a country from getting that composer immediately afterwards
+				name = gaudi_architect_unavailable_for_this_var
+				value = root
+				years = 5
+			}
+		}
+
+		remove_variable = gaudi_new_architect_var
+	}
+}
+
+# Remove new Architect
+gaudi_remove_new_architect_effect = {
+	scope:gaudi_new_architect_scope = {
+		free_character_from_void = no
+	}
+
+	remove_variable = gaudi_new_architect_var
+}
+
+# Used to set up the Experience of a character 
+architect_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = gaudi_architect_experience
+			}
+		}
+		#Age: 5 Reputation per year over 25
+		if = {
+			limit = {
+				age > 25
+			}
+			set_variable = {
+				name = gaudi_architect_experience
+				value = age
+			}
+			change_variable = {
+				name = gaudi_architect_experience
+				subtract = 25
+			}
+			change_variable = {
+				name = gaudi_architect_experience
+				multiply = 5
+			}
+			if = {
+				limit = { var:gaudi_architect_experience > 500 }
+				set_variable = {
+					name = gaudi_architect_experience
+					value = 500
+				}
+			}
+		}
+		else = {
+			set_variable = {
+				name = gaudi_architect_experience
+				value = 0
+			}
+		}
+		#Random Reputation factor
+		set_local_variable = {
+			name = random_amount_local_var
+			value = { 25 50 }
+		}
+		change_variable = {
+			name = gaudi_architect_experience
+			add = local_var:random_amount_local_var
+		}
+		if = {
+			limit = {
+				owner = {
+					gaudi_has_architecture_school_trigger = yes
+				}
+			}
+			change_variable = {
+				name = gaudi_architect_experience
+				add = 20
+			}
+		}
+		if = { #Adds the Great Architect Trait if Experience is above 500
+			limit = {
+				var:gaudi_architect_experience >= 500
+				NOT = {
+					has_trait = gaudi_great_architect
+				}
+			}
+			remove_trait = gaudi_architect
+			add_trait = gaudi_great_architect
+		}
+	}
+}
+
+#This effect gives special historical characters 250-350 reputation when created
+set_historical_architect_experience_effect = {
+	set_variable = {
+		name = gaudi_architect_experience
+		value = { 250 350 }
+	}
+}
+
+#Architect Experience gain
+architect_experience_gain_effect = { #adds XP to the Architect
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = gaudi_architect_var #should only add experience if there actually is a Architect
+		}
+		custom_tooltip = {
+			text = gaudi_architect_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:gaudi_architect_var = { #Fallback to make sure there are no errors if the Architect does not have the variable yet
+							has_variable = gaudi_architect_experience
+						}
+					}
+				}
+				var:gaudi_architect_var = { #Sets the experience in case it was not set yet
+					architect_experience_set_up_effect = yes
+				}
+			}
+			var:gaudi_architect_var = {
+				change_variable = {
+					name = gaudi_architect_experience
+					add = $AMOUNT$
+				}
+				clamp_variable = {
+					name = gaudi_architect_experience
+					min = 0
+					max = 500
+				}
+			}
+		}
+		if = {
+			limit = {
+				var:gaudi_architect_var = {
+					var:gaudi_architect_experience >= 500
+					NOT = {
+						has_trait = gaudi_great_architect
+					}
+				}
+			}
+			trigger_event = {
+				id = artists.104
+				popup = yes
+			}
+			hidden_effect = {
+				var:gaudi_architect_var = {
+					remove_trait = gaudi_architect
+					add_trait = gaudi_great_architect
+				}
+			}
+		}
+	}
+}
+
+#Effect used to set the cost of the independent Architect
+#Use it in the character scope with root being a country.
+gaudi_independent_architect_character_set_up_cost_effect = {
+	root = {
+		add_treasury = {
+			if = {
+				limit = { prev.var:gaudi_architect_experience > 0 }
+				value = prev.var:gaudi_architect_experience
+				divide = 2
+				multiply = money_amount_multiplier_small
+				max = {
+					value = prev.var:gaudi_architect_experience
 					multiply = 10000
 				}
 				multiply = -1
