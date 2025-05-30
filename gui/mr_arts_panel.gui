@@ -1113,67 +1113,141 @@ types mr_main_arts_panel_types {
             tooltip = "MR_ARCHITECT_VISIT_CAPITAL_BUTTON_TT"
         }
         blockoverride "big_box_content" {
-            mr_shared_interactions_simple = {
+            mr_shared_interactions = {
                 blockoverride "interaction_size" {
                     minimumsize = { @[ panel_button_width + 20 ] 50 }
                     maximumsize = { @[ panel_button_width + 20 ] -1 }
                 }
-                blockoverride "content" {
-                    vbox = {
-                        layoutpolicy_horizontal = expanding
-                        layoutpolicy_vertical = expanding
-                        minimumsize = { @panel_button_width 0 }
-                        spacing = 7
+                blockoverride "tabs" {
+                    tab_buttons = {
+                        maximumsize = { @[ panel_button_width + 20 ] 0 }
+                        margin_bottom = -4
+                        blockoverride "first_button" {
+                            text = "MR_ARTISTS_ARCHITECT_GENERAL_TAB"
+                        }
+                        blockoverride "first_button_click" {
+                            onclick = "[GetVariableSystem.Set('mr_artist_architect_tab', 'general')]"
+                        }
+                        blockoverride "first_button_visibility" {
+                            visible = "[Or(GetVariableSystem.HasValue('mr_artist_architect_tab', 'general'), Not(GetVariableSystem.Exists('mr_artist_architect_tab')))]"
+                        }
+                        blockoverride "first_button_visibility_checked" {
+                            visible = "[And(Not(GetVariableSystem.HasValue('mr_artist_architect_tab', 'general')), GetVariableSystem.Exists('mr_artist_architect_tab'))]"
+                        }
+                        blockoverride "first_button_selected" {
+                            text = "MR_ARTISTS_ARCHITECT_GENERAL_TAB"
+                        }
 
-                        # Painter Trip
+                        blockoverride "second_button" {
+                            text = "MR_ARTISTS_ARCHITECT_BLUEPRINTS_TAB"
+                        }
+                        blockoverride "second_button_click" {
+                            onclick = "[GetVariableSystem.Set('mr_artist_architect_tab', 'blueprints')]"
+                        }
+                        blockoverride "second_button_visibility" {
+                            visible = "[GetVariableSystem.HasValue('mr_artist_architect_tab', 'blueprints')]"
+                        }
+                        blockoverride "second_button_visibility_checked" {
+                            visible = "[Not(GetVariableSystem.HasValue('mr_artist_architect_tab', 'blueprints'))]"
+                        }
+                        blockoverride "second_button_selected" {
+                            text = "MR_ARTISTS_ARCHITECT_BLUEPRINTS_TAB"
+                        }
+                    }
+                }
+                blockoverride "tab_content" {
+                    vbox = {
+                        visible = "[Or(GetVariableSystem.HasValue('mr_artist_architect_tab', 'general'), Not(GetVariableSystem.Exists('mr_artist_architect_tab')))]"
+                        layoutpolicy_vertical = expanding
+                        spacing = 7
+                        minimumsize = { @panel_button_width 0 }
+
+                        # Compose a Musical Work
                         mr_shared_activity_button = {
-                            datacontext = "[GetScriptedGui('mr_painter_trip_button')]"
-                            blockoverride "button_content" {
-                                text = "mr_artist_painter_trip_button_text"
-                                tooltip = "MR_PAINTER_TRIP_BUTTON_TT"
-                            }
+                            datacontext = "[GetScriptedGui('mr_compose_a_work_button')]"
                             blockoverride "size" {
                                 size = { @[ panel_button_width - 60 ] 45 }
                             }
                             blockoverride "button_size" {
                                 size = { @[ panel_button_width - 40 ] 45 }
                             }
-                            blockoverride "button_highlight_visible" {
-                                visible = "[GetScriptedGui('mr_painter_trip_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
-                            }
-                            blockoverride "button_icon" {
-                                texture = "gfx/interface/icons/GUI_icons/GUI_painter_trip_button.dds"
-                            }
-                        }
-                        # Vernissage
-                        mr_shared_activity_button = {
-                            datacontext = "[GetScriptedGui('mr_vernissage_button')]"
                             blockoverride "button_content" {
-                                text = "mr_artist_painter_vernissage_button_text"
-                                tooltip = "MR_VERNISSAGE_BUTTON_TT"
-                            }
-                            blockoverride "size" {
-                                size = { @[ panel_button_width - 60 ] 45 }
-                            }
-                            blockoverride "button_size" {
-                                size = { @[ panel_button_width - 40 ] 45 }
+                                text = "mr_artist_composer_compose_button_text"
+                                tooltip = "MR_COMPOSE_A_WORK_BUTTON_TT"
                             }
                             blockoverride "button_highlight_visible" {
-                                visible = "[GetScriptedGui('mr_reading_tour_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                                visible = "[GetScriptedGui('mr_stop_composing_a_work_button').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
                             }
                             blockoverride "button_icon" {
-                                texture = "gfx/interface/icons/GUI_icons/GUI_painter_vernissage_button.dds"
+                                texture = "gfx/interface/icons/GUI_icons/GUI_composer_composing_button.dds"
                             }
                         }
-                        # Acquire a Masterwork
+
+                        expand = {}
+                    }
+                    vbox = {
+                        visible = "[GetVariableSystem.HasValue('mr_artist_architect_tab', 'blueprints')]"
+                        layoutpolicy_vertical = expanding
+                        spacing = 7
+                        minimumsize = { @panel_button_width 0 }
+
+                        # Create Monument Blueprints
                         mr_shared_project_button = {
-                            datacontext = "[GetScriptedGui('mr_acquire_masterwork_button')]"
-                            blockoverride "button_content" {
-                                text = "MR_ACQUIRE_MASTERWORK_BUTTON"
-                                tooltip = "MR_ACQUIRE_MASTERWORK_BUTTON_TT"
-                            }
+                            datacontext = "[GetScriptedGui('mr_architect_blueprints_monument_button')]"
                             blockoverride "size" {
                                 size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_BLUEPRINTS_MONUMENT_BUTTON"
+                                tooltip = "MR_ARCHITECT_BLUEPRINTS_MONUMENT_BUTTON_TT"
+                            }
+                        }
+
+                        # Create Square Blueprints
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_architect_blueprints_square_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_BLUEPRINTS_SQUARE_BUTTON"
+                                tooltip = "MR_ARCHITECT_BLUEPRINTS_SQUARE_BUTTON_TT"
+                            }
+                        }
+
+                        # Create Service Buildings Blueprints
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_architect_blueprints_service_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_BLUEPRINTS_SERVICE_BUTTON"
+                                tooltip = "MR_ARCHITECT_BLUEPRINTS_SERVICE_BUTTON_TT"
+                            }
+                        }
+
+                        # Create Health Buildings Blueprints
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_architect_blueprints_health_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_BLUEPRINTS_HEALTH_BUTTON"
+                                tooltip = "MR_ARCHITECT_BLUEPRINTS_HEALTH_BUTTON_TT"
+                            }
+                        }
+
+                        # Create Academy Blueprints
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_architect_blueprints_academy_button')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_BLUEPRINTS_ACADEMY_BUTTON"
+                                tooltip = "MR_ARCHITECT_BLUEPRINTS_ACADEMY_BUTTON_TT"
                             }
                         }
 
@@ -1181,7 +1255,7 @@ types mr_main_arts_panel_types {
                     }
                 }
                 blockoverride "stop_context" {
-                    datacontext = "[GetScriptedGui('mr_stop_painter_project_button')]"
+                    datacontext = "[GetScriptedGui('mr_stop_composing_a_work_button')]"
                 }
             }
             mr_artist_character_box = {
