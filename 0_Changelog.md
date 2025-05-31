@@ -2,16 +2,26 @@ Changelog for 2.4.0 "Horta"
 
 Architecture:
 - Added Architect as a new artist.
-- Added Architecture School as a PM for Art Academies (works for Architects like Conservatories for Composers etc.)
+- Introduces Architectural Splendour, an equivalent to different cultural traditions, but more valuable (and very rare). Architectural Splendour will not be generated per year, it only will be added with buildings, events or JEs.
+- Added Architecture School as a PM for Art Academies (works for Architects like Conservatories for Composers etc.).
+- Independent Architects can be hired freely. You only need the Urban Planning Tech to do so.
 - Architects can have these different styles as character traits: traditional, historicist, bauhaus, neoclassical, art deco.
 - Like Bauhaus before, Neoclassical and Art Deco schools are available. This is a requirement for end game architecture.
 - Neoclassical and Bauhaus Capitals are now possible like Art Deco as an "end game" architecture style for your capital/country. However, Art Deco takes longer and is more valuable.
 - Neoclassical, Bauhaus and Art Deco capital get a standard of living bonus and migration pull.
 
+Monuments:
+- Great Architects can research an unique Costum Monument Blueprint (An Architect's Masterpiece).
+- Costum Monument Blueprint depend on the architectural style of a Great Architect. Bauhaus Archichtets will design the People's Forum, Art Deco Architects the People's Monument, Neoclassical Architects the People's Palace.
+- Only one Custom Monument allowed per game.
+
+Achievements:
+- Stalin Is Green With Envy: Own the People's Palace as a council republic with command economy.
+
 Changes:
 - Architects, not engineers, give a bonus when building monuments.
 - Splendid Architecture is now called "Architectural Splendour".
-- For the Biennale, not only the experience values of composers, writers and painters are combined to determine the winner country, but also the experience of your architect. The winner also gets +1 Architectural Splendour.
+- For the Biennale, not only the experience values of composers, writers and painters are combined to determine the winner country, but also the experience of your architect. The winner also gets Architectural Splendour.
 - Gaudí and Antonelli are no longer engineers, but architects.
 - Changed Architecture event icon.
 - Art Deco Cinema, Art Deco Office, Art Deco Airport and Art Deco Skyscraper are no longer Journal Entries, but random events when building your dream of Art Deco, if the triggers are met.
