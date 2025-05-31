@@ -2,7 +2,7 @@ Changelog for 2.4.0 "Horta"
 
 Architecture:
 - Added Architect as a new artist.
-- Introduces Architectural Splendour, an equivalent to different cultural traditions, but more valuable (and very rare). Architectural Splendour will not be generated per year, it only will be added with buildings, events or JEs.
+- Introduced Architectural Splendour, an equivalent to different cultural traditions, but more valuable (and very rare). Architectural Splendour will not be generated per year, it only will be added with buildings, events or JEs.
 - Added Architecture School as a PM for Art Academies (works for Architects like Conservatories for Composers etc.).
 - Independent Architects can be hired freely. You only need the Urban Planning Tech to do so.
 - Architects can have these different styles as character traits: traditional, historicist, bauhaus, neoclassical, art deco.

@@ -143,6 +143,119 @@ mr_architect_public_construction_active_sgui = {
 
 #########################################################################################
 
+#MR_ARCHITECT_URBAN_PLANNING_BUTTON
+mr_architect_urban_planning_button = {
+    scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
+			NOT = {
+				has_variable = gaudi_urban_planning_project_building_choser_var
+			}
+		}
+		custom_tooltip = {
+			text = MR_ARCHITECT_ACTIVE_TRIGGER_TT
+			gaudi_has_active_architect = yes
+		}
+		custom_tooltip = {
+			text = MR_ARCHITECT_URBAN_PLANNING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_urban_center
+				level > 0
+				NAND = {
+					has_modifier = gaudi_building_throughput_add_modifier
+					has_modifier = gaudi_building_production_mult_modifier
+					has_modifier = gaudi_building_goods_input_mult_modifier
+				}
+			}
+		}
+	}
+	effect = {
+		if = {
+			limit = {
+				is_ai = yes
+			}
+			ordered_scope_building = {
+				limit = {
+					level > 0
+					is_building_type = building_urban_center
+					NAND = {
+						has_modifier = gaudi_building_throughput_add_modifier
+						has_modifier = gaudi_building_production_mult_modifier
+						has_modifier = gaudi_building_goods_input_mult_modifier
+					}
+				}
+				order_by = earnings
+				save_scope_as = chosen_building
+			}
+			add_journal_entry = {
+				type = je_gaudi_urban_planning_project
+				target = scope:chosen_building
+			}
+			je:je_gaudi_urban_planning_project = {
+				add_modifier = {
+					name = gaudi_urban_planning_cost_modifier
+					multiplier = money_amount_multiplier_small
+				}
+			}
+			if = {
+				limit = {
+					has_variable = gaudi_architect_var
+				}
+				var:gaudi_architect_var = {
+					set_character_busy_and_immortal = yes
+				}
+			}
+		}
+		else = {
+			clear_variable_list = gaudi_urban_planning_buildings_variable_list
+			ordered_scope_building = {
+				limit = {
+					level > 0
+					is_building_type = building_logging_camp
+					NAND = {
+						has_modifier = gaudi_building_throughput_add_modifier
+						has_modifier = gaudi_building_production_mult_modifier
+						has_modifier = gaudi_building_goods_input_mult_modifier
+					}
+				}
+				order_by = earnings
+				max = 1000
+				check_range_bounds = no
+
+				root = {
+					add_to_variable_list = {
+						name = gaudi_urban_planning_buildings_variable_list
+						target = prev
+					}
+				}
+			}
+			set_variable = gaudi_urban_planning_project_building_choser_var
+			show_as_tooltip = {
+				add_modifier = {
+					name = gaudi_urban_planning_cost_modifier
+					multiplier = money_amount_multiplier_small
+				}
+			}
+		}
+	}
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 3 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+mr_architect_custom_monument_button_active = {
+    scope = country
+	is_shown = { #Should be shown if the project is active
+		has_journal_entry = je_gaudi_custom_monument_blueprint_research
+	}
+}
+
+#########################################################################################
+
 #MR_ARCHITECT_CUSTOM_MONUMENT_BLUEPRINT_BUTTON
 mr_architect_custom_monument_blueprint_button = {
     scope = country
