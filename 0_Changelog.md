@@ -15,6 +15,9 @@ Monuments:
 - Costum Monument Blueprint depend on the architectural style of a Great Architect. Bauhaus Archichtets will design the People's Forum, Art Deco Architects the People's Monument, Neoclassical Architects the People's Palace.
 - Only one Custom Monument allowed per game.
 
+Artists:
+- Added Artist Game Rule to start with a random artist (equivalent to Academic Game Rule to start with a random academic)
+
 Achievements:
 - Stalin Is Green With Envy: Own the People's Palace as a council republic with command economy.
 

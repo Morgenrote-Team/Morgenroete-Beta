@@ -76,8 +76,85 @@ je_gaudi_urban_planning_project = {
 
 	scripted_button = gaudi_stop_architectural_project_button
 
+	scripted_progress_bar = gaudi_urban_planning_project_progress_bar
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, the Modifier will be unlocked in a state
+				limit = {
+					je:je_gaudi_urban_planning_project = {
+						"scripted_bar_progress(gaudi_urban_planning_project_progress_bar)" >= 24
+					}
+				}
+				#Architect gets experience
+				architect_experience_gain_effect = { AMOUNT = 20 }
+				#The state with the next available urban center will be chosen
+				if = {
+					limit = {
+						scope:target = {
+							NOT = { has_modifier = gaudi_building_throughput_add_modifier }
+						}
+					}
+					scope:target = {
+						add_modifier = {
+							name = gaudi_building_throughput_add_modifier
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						scope:target = {
+							NOT = { has_modifier = gaudi_building_production_mult_modifier }
+						}
+					}
+					scope:target = {
+						add_modifier = {
+							name = gaudi_building_production_mult_modifier
+						}
+					}
+				}
+				else = {
+					scope:target = {
+						add_modifier = {
+							name = gaudi_building_goods_input_mult_modifier
+						}
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_gaudi_urban_planning_project = {
+					add_progress = { 
+						name = gaudi_urban_planning_project_progress_bar
+						value = -24
+					}
+				}
+			}
+		}
+	}
+
 	immediate = {
 		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = gaudi_building_has_throughput_modifier_tt
+			scope:target = {
+				has_modifier = gaudi_building_throughput_add_modifier
+			}
+		}
+		custom_tooltip = {
+			text = gaudi_building_has_production_modifier_tt
+			scope:target = {
+				has_modifier = gaudi_building_production_mult_modifier
+			}
+		}
+		custom_tooltip = {
+			text = gaudi_building_has_input_modifier_tt
+			scope:target = {
+				has_modifier = gaudi_building_goods_input_mult_modifier
+			}
+		}
 	}
 
 	invalid = {
@@ -205,7 +282,7 @@ je_gaudi_custom_monument_blueprint_research = {
 	complete = {
 		custom_tooltip = {
 			text = gaudi_architectural_blueprint_progress_bar_at_full_tt
-			je_gaudi_custom_monument_blueprint_research = {
+			je:je_gaudi_custom_monument_blueprint_research = {
 				"scripted_bar_progress(gaudi_custom_monument_blueprint_progress_bar)" >= 60
 			}
 		}
