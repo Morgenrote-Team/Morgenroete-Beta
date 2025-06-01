@@ -81,7 +81,6 @@ mr_architect_modern_splendour_button = {
 	}
 	ai_frequency = 3 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
-
 mr_architect_modern_splendour_active_sgui = {
 	scope = country
 	
@@ -134,7 +133,6 @@ mr_architect_public_construction_button = {
 	}
 	ai_frequency = 3 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
-
 mr_architect_public_construction_button_active_sgui = {
 	scope = country
 	
@@ -191,7 +189,6 @@ mr_architect_study_trip_button = {
 	}
 	ai_frequency = 3 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
-
 mr_architect_study_trip_button_active_sgui = {
 	scope = country
 	
@@ -305,7 +302,6 @@ mr_architect_urban_planning_button = {
 	}
 	ai_frequency = 3 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
-
 mr_architect_urban_planning_button_active = {
     scope = country
 	is_shown = { #Should be shown if the project is active
@@ -403,6 +399,14 @@ mr_architect_custom_monument_blueprint_button = {
 			id = gaudi.81
 			popup = yes
 		}
+		if = {
+			limit = { 
+				has_variable = gaudi_architect_var
+			}
+			var:gaudi_architect_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
     }
 
 	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
@@ -411,7 +415,6 @@ mr_architect_custom_monument_blueprint_button = {
 	}
 	ai_frequency = 3 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
-
 mr_architect_custom_monument_button_active = {
     scope = country
 	is_shown = { #Should be shown if the project is active
@@ -423,9 +426,124 @@ mr_architect_custom_monument_button_active = {
 
 #MR_ARCHITECT_CAPITAL_EXPANSION_BUTTON
 mr_architect_capital_expansion_button = {
-    
-}
+    scope = country
+	is_shown = {
+		NOT = {
+			any_scope_state = {
+				is_capital = yes
+				has_modifier = gaudi_capital_expansion_level_4_modifier
+			}
+		}
+	}
+    is_valid = {
+		hidden_trigger = {
+			NOR = {
+				gaudi_has_active_architect = no
+				any_scope_state = {
+					is_capital = yes
+					has_modifier = gaudi_capital_expansion_level_4_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_ARCHITECT_ACTIVE_TRIGGER_TT
+			gaudi_has_active_architect = yes
+		}
+		#Level 1 Trigger: Traditional Architect
+		mr_gui_has_urban_planning_tech_trigger = yes
+		mr_gui_has_classicism_tech_trigger = yes
+		#Level 2 Trigger: Historicist Architect 
+		trigger_if = {
+			limit = { 
+				any_scope_state = {
+					is_capital = yes
+					has_modifier = gaudi_capital_expansion_level_1_modifier
+				}
+			}
+			custom_tooltip = {
+				text = MR_HISTORICIST_ARCHITECT_TRIGGER_TT
+				has_variable = gaudi_architect_var
+				var:gaudi_architect_var = {
+					OR = {
+						has_trait = gaudi_historicism_style
+						has_trait = gaudi_bauhaus_style
+						has_trait = gaudi_neoclassical_style
+						has_trait = gaudi_art_deco_style
+					}
+				}
+			}
+			mr_gui_has_modern_sewerage_tech_trigger = yes
+			mr_gui_has_romanticism_tech_trigger = yes
+		}
+		#Level 3 Trigger: Historicist Architect
+		trigger_if = {
+			limit = { 
+				any_scope_state = {
+					is_capital = yes
+					has_modifier = gaudi_capital_expansion_level_2_modifier
+				}
+			}
+			custom_tooltip = {
+				text = MR_HISTORICIST_ARCHITECT_TRIGGER_TT
+				has_variable = gaudi_architect_var
+				var:gaudi_architect_var = {
+					OR = {
+						has_trait = gaudi_historicism_style
+						has_trait = gaudi_bauhaus_style
+						has_trait = gaudi_neoclassical_style
+						has_trait = gaudi_art_deco_style
+					}
+				}
+			}
+			mr_gui_has_steel_frame_buildings_tech_trigger = yes
+			mr_gui_has_realism_tech_trigger = yes
+		}
+		#Level 4 Trigger: Modern Architect
+		trigger_if = {
+			limit = { 
+				any_scope_state = {
+					is_capital = yes
+					has_modifier = gaudi_capital_expansion_level_3_modifier
+				}
+			}
+			custom_tooltip = {
+				text = MR_MODERN_ARCHITECT_TRIGGER_TT
+				has_variable = gaudi_architect_var
+				var:gaudi_architect_var = {
+					OR = {
+						has_trait = gaudi_bauhaus_style
+						has_trait = gaudi_neoclassical_style
+						has_trait = gaudi_art_deco_style
+					}
+				}
+			}
+			mr_gui_has_elevator_tech_trigger = yes
+			OR = {
+				mr_gui_has_art_deco_tech_trigger = yes
+				mr_gui_has_neoclassicism_tech_trigger = yes
+				mr_gui_has_new_objectivity_tech_trigger = yes
+			}
+		}
 
+    }
+    effect = {
+		show_as_tooltip = {
+			add_modifier = {
+				name = gaudi_capital_expansion_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+		add_journal_entry = { type = je_gaudi_capital_expansion_project }
+		if = {
+			limit = { 
+				has_variable = gaudi_architect_var
+			}
+			var:gaudi_architect_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+}
 mr_architect_capital_expansion_button_active = {
     scope = country
 	is_shown = { #Should be shown if the project is active
