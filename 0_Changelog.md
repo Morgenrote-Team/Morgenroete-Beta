@@ -39,3 +39,4 @@ GFX:
 Fixes:
 - Gaudì is now Gaudí.
 - Fixed some events with not fitting event icons (music instead of architecture).
+- Fixed the Engineer's experience bar.
