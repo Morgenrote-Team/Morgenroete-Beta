@@ -39,4 +39,5 @@ GFX:
 Fixes:
 - Gaudì is now Gaudí.
 - Fixed some events with not fitting event icons (music instead of architecture).
-- Fixed the Engineer's experience bar.
+- Fixed the progress bar of the engineer.
+- The Plague Treatment journal entry now adds the treatment of plague instead of scarlet when finished. This should solve a weird exploit to get infinite medical prestige.
