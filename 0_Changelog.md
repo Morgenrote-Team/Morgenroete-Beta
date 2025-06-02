@@ -1,10 +1,7 @@
-Changelog for 2.3.9 "Bahmut"
+Changelog for 2.3.9c "Bahmut"
 
-GUI:
-- Complete Rework of the GUI thanks to Bahmut from the Manaflow Mod.
+Fixes:
+- Fixed the progress bar of the engineer.
 
-General:
-- Added a Tutorial that you can access by clicking a button on the Morgenröte Objective Start Screen.
-
-Loading Screens:
-- Complete Rework of the Loading Screens. They now represent the Academics, Artists and Athletes.
+Diseases:
+Removed the sound effect from the diseases and reduced the intensity of the graphical effects.
