@@ -199,6 +199,92 @@ mr_architect_study_trip_button_active_sgui = {
 
 #########################################################################################
 
+#MR_ARCHITECT_TREATISE_BUTTON
+mr_architect_treatise_button = {
+    scope = country
+	is_shown = {
+		AND = {
+			has_variable = gaudi_architect_var
+			var:gaudi_architect_var = {
+				NOT = {
+					has_variable = gaudi_architect_treatise_var
+				}
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ARCHITECT_ACTIVE_TRIGGER_TT
+			gaudi_has_active_architect = yes
+		}
+		custom_tooltip = {
+			text = MR_ARCHITECT_NO_TREATISE_TRIGGER_TT
+			has_variable = gaudi_architect_var
+			var:gaudi_architect_var = {
+				NOT = {
+					has_variable = gaudi_architect_treatise_var
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_ARCHITECT_REATISE_EXPERIENCE_TRIGGER_TT
+			has_variable = gaudi_architect_var
+			var:gaudi_architect_var = {
+				var:gaudi_architect_experience >= 250
+			}
+		}
+		trigger_if = {
+			limit = { 
+				has_variable = gaudi_architecture_treatise_var
+			}
+			custom_tooltip = {
+				text = MR_BETTER_TREATISE_TRIGGER_TT
+				has_variable = gaudi_architect_var
+				gaudi_architecture_treatise_value > var:gaudi_architecture_treatise_var
+			}
+		}
+    }
+    effect = {
+		add_journal_entry = {
+			type = je_gaudi_architecture_treatise
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = gaudi_architecture_treatise_var
+				}
+				set_variable = {
+					name = gaudi_architecture_treatise_var
+					value = 0
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_variable = gaudi_architect_var
+			}
+			var:gaudi_architect_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 3 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+mr_architect_study_trip_button_active_sgui = {
+	scope = country
+	
+	is_shown = {
+		has_journal_entry = je_gaudi_architecture_treatise
+	}
+}
+
+#########################################################################################
+
 #MR_ARCHITECT_URBAN_PLANNING_BUTTON
 mr_architect_urban_planning_button = {
     scope = country
