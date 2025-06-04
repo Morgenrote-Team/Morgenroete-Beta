@@ -66,39 +66,28 @@ types mr_main_types {
             }
         }
 
-
-        #Journal Entry Buttons opening GUI
-        widget = { #Science View: General
-            visible = "[GetScriptedGui('mr_open_science_window_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
-            enabled = "[Country.IsValid]"
+        # Initialize Panel Default Tabs
+        widget = {
+            visible = "[And(Not(GetVariableSystem.Exists('mr_science_tab')), GetVariableSystem.HasValue('com_open_window', 'mr_sidebar_button_science_sgui'))]"
             state = {
                 name = _show
-                on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_science_sgui')]"
-                on_finish = "[GetScriptedGui('mr_sidebar_button_science_sgui').Execute(GuiScope.SetRoot(Country.MakeScope).End)]" #Sets necessary Variables
-                on_finish = "[GetScriptedGui('mr_open_science_window_sgui').Execute(GuiScope.SetRoot(Country.MakeScope).End)]" #Removes variable from scripted button
+                on_finish = "[GetVariableSystem.Set('mr_science_tab', 'general')]"
             }
         }
-        widget = { #Arts View: General
-            visible = "[GetScriptedGui('mr_open_arts_window_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
-            enabled = "[Country.IsValid]"
+        widget = {
+            visible = "[And(Not(GetVariableSystem.Exists('mr_sports_tab')), GetVariableSystem.HasValue('com_open_window', 'mr_sidebar_button_sports_sgui'))]"
             state = {
                 name = _show
-                on_finish = "[GetScriptedGui('mr_sidebar_button_arts_sgui').Execute(GuiScope.SetRoot(Country.MakeScope).End)]"
-                on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_arts_sgui')]" #Sets necessary Variables
-                on_finish = "[GetScriptedGui('mr_open_arts_window_sgui').Execute(GuiScope.SetRoot(Country.MakeScope).End)]" #Removes variable from scripted button
+                on_finish = "[GetVariableSystem.Set('mr_sports_tab', 'main')]"
             }
         }
-        widget = { #Sports View: Sports
-            visible = "[GetScriptedGui('mr_open_sports_window_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
-            enabled = "[Country.IsValid]"
+        widget = {
+            visible = "[And(Not(GetVariableSystem.Exists('mr_arts_tab')), GetVariableSystem.HasValue('com_open_window', 'mr_sidebar_button_arts_sgui'))]"
             state = {
                 name = _show
-                on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_sports_sgui')]"
-                on_finish = "[GetScriptedGui('mr_sidebar_button_sports_sgui').Execute(GuiScope.SetRoot(Country.MakeScope).End)]" #Sets necessary Variables
-                on_finish = "[GetScriptedGui('mr_open_sports_window_sgui').Execute(GuiScope.SetRoot(Country.MakeScope).End)]" #Removes variable from scripted button
+                on_finish = "[GetVariableSystem.Set('mr_arts_tab', 'main')]"
             }
         }
-
 
         # Alerts
         widget = {
@@ -205,30 +194,124 @@ types mr_main_types {
             }
         }
 
-        # Initialize Panel Default Tabs
+        # Open Panel and Tab
+        # Opens a specific window or tab based on a PDX script variable
+        # Usages:
+        #  - Journal Entry Buttons
+        #  - Tab Cycling
         widget = {
-            visible = "[And(Not(GetVariableSystem.Exists('mr_science_tab')), GetVariableSystem.HasValue('com_open_window', 'mr_sidebar_button_science_sgui'))]"
+            # Close active Panel
+            visible = "[GetScriptedGui('mr_close_windows_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+            enabled = "[Country.IsValid]"
             state = {
                 name = _show
-                on_finish = "[GetVariableSystem.Set('mr_science_tab', 'general')]"
+                on_finish = "[GetVariableSystem.Clear('com_open_window')]"
+                on_finish = "[GetScriptedGui('mr_close_windows_sgui').Execute(GuiScope.SetRoot(Country.MakeScope).End)]"
             }
         }
         widget = {
-            visible = "[And(Not(GetVariableSystem.Exists('mr_sports_tab')), GetVariableSystem.HasValue('com_open_window', 'mr_sidebar_button_sports_sgui'))]"
-            state = {
-                name = _show
-                on_finish = "[GetVariableSystem.Set('mr_sports_tab', 'main')]"
+            # Science View
+            widget = {
+                # Science View: General
+                visible = "[GetScriptedGui('mr_open_science_window_general_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                enabled = "[Country.IsValid]"
+                state = {
+                    name = _show
+                    on_finish = "[GetVariableSystem.Set('mr_science_tab', 'general')]"
+                    on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_science_sgui')]"
+                    on_finish = "[GetScriptedGui('mr_setup_variables_sgui').Execute(GuiScope.SetRoot(Country.MakeScope).End)]" # Sets necessary Variables
+                }
+            }
+            widget = {
+                # Science View: Mathematical-Technical
+                visible = "[GetScriptedGui('mr_open_science_window_mathematics_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                enabled = "[Country.IsValid]"
+                state = {
+                    name = _show
+                    on_finish = "[GetVariableSystem.Set('mr_science_tab', 'mathematics')]"
+                    on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_science_sgui')]"
+                    on_finish = "[GetScriptedGui('mr_setup_variables_sgui').Execute(GuiScope.SetRoot(Country.MakeScope).End)]" # Sets necessary Variables
+                }
+            }
+            widget = {
+                # Science View: Natural History
+                visible = "[GetScriptedGui('mr_open_science_window_natural_history_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                enabled = "[Country.IsValid]"
+                state = {
+                    name = _show
+                    on_finish = "[GetVariableSystem.Set('mr_science_tab', 'natural_history')]"
+                    on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_science_sgui')]"
+                    on_finish = "[GetScriptedGui('mr_setup_variables_sgui').Execute(GuiScope.SetRoot(Country.MakeScope).End)]" # Sets necessary Variables
+                }
+            }
+            widget = {
+                # Science View: Humanities-Anthropological
+                visible = "[GetScriptedGui('mr_open_science_window_humanities_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                enabled = "[Country.IsValid]"
+                state = {
+                    name = _show
+                    on_finish = "[GetVariableSystem.Set('mr_science_tab', 'humanities')]"
+                    on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_science_sgui')]"
+                    on_finish = "[GetScriptedGui('mr_setup_variables_sgui').Execute(GuiScope.SetRoot(Country.MakeScope).End)]" # Sets necessary Variables
+                }
             }
         }
         widget = {
-            visible = "[And(Not(GetVariableSystem.Exists('mr_arts_tab')), GetVariableSystem.HasValue('com_open_window', 'mr_sidebar_button_arts_sgui'))]"
-            state = {
-                name = _show
-                on_finish = "[GetVariableSystem.Set('mr_arts_tab', 'main')]"
+            # Arts View
+            widget = {
+                # Arts View: General
+                visible = "[GetScriptedGui('mr_open_arts_window_general_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                enabled = "[Country.IsValid]"
+                state = {
+                    name = _show
+                    on_finish = "[GetVariableSystem.Set('mr_arts_tab', 'main')]"
+                    on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_arts_sgui')]"
+                    on_finish = "[GetScriptedGui('mr_setup_variables_sgui').Execute(GuiScope.SetRoot(Country.MakeScope).End)]" # Sets necessary Variables
+                }
+            }
+            widget = {
+                # Arts View: Artists
+                visible = "[GetScriptedGui('mr_open_arts_window_artists_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                enabled = "[Country.IsValid]"
+                state = {
+                    name = _show
+                    on_finish = "[GetVariableSystem.Set('mr_arts_tab', 'artists')]"
+                    on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_arts_sgui')]"
+                    on_finish = "[GetScriptedGui('mr_setup_variables_sgui').Execute(GuiScope.SetRoot(Country.MakeScope).End)]" # Sets necessary Variables
+                }
+            }
+        }
+        widget = {
+            # Sports View
+            widget = {
+                # Sports View: Sports
+                visible = "[GetScriptedGui('mr_open_sports_window_sports_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                enabled = "[Country.IsValid]"
+                state = {
+                    name = _show
+                    on_finish = "[GetVariableSystem.Set('mr_sports_tab', 'main')]"
+                    on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_sports_sgui')]"
+                    on_finish = "[GetScriptedGui('mr_setup_variables_sgui').Execute(GuiScope.SetRoot(Country.MakeScope).End)]" # Sets necessary Variables
+                }
+            }
+            widget = {
+                # Sports View: Aeronautics
+                visible = "[GetScriptedGui('mr_open_sports_window_aeronautics_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                enabled = "[Country.IsValid]"
+                state = {
+                    name = _show
+                    on_finish = "[GetVariableSystem.Set('mr_sports_tab', 'aeronautics')]"
+                    on_finish = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_sports_sgui')]"
+                    on_finish = "[GetScriptedGui('mr_setup_variables_sgui').Execute(GuiScope.SetRoot(Country.MakeScope).End)]" # Sets necessary Variables
+                }
             }
         }
 
-        # Tutorial: Panels
+        # Active Panel and Tab
+        # This sets PDX script variables based on which window and tab is open
+        # Usages:
+        #  - Tutorials
+        #  - Tab Cycling
         widget = {
             # Science Panel
             widget = {
