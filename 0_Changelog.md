@@ -5,18 +5,33 @@ Architecture:
 - Introduced Architectural Splendour, an equivalent to different cultural traditions, but more valuable (and very rare). Architectural Splendour will not be generated per year, it only will be added with buildings, events or JEs.
 - Added Architecture School as a PM for Art Academies (works for Architects like Conservatories for Composers etc.).
 - Independent Architects can be hired freely. You only need the Urban Planning Tech to do so.
+- Architects can go on a study trip and learn a new trait and gain experience.
+- Architects can expand the capital in four stages with special modifiers.
+- Experienced architects can write a treatise on architecture.
+- With urban planning, architects can improve urban centers.
 - Architects can have these different styles as character traits: traditional, historicist, bauhaus, neoclassical, art deco.
 - Like Bauhaus before, Neoclassical and Art Deco schools are available. This is a requirement for end game architecture.
 - Neoclassical and Bauhaus Capitals are now possible like Art Deco as an "end game" architecture style for your capital/country. However, Art Deco takes longer and is more valuable.
 - Neoclassical, Bauhaus and Art Deco capital get a standard of living bonus and migration pull.
 
+Architectural Blueprints:
+- Architects can develop up to fifteen different blueprints for specific buildings.
+- Special blueprint buildings can be built once.
+- Blueprint buildings are divided into five categories. However, only one building from each category can be located in each state. For example, City Park, Luna Park, and Parade Ground all belong to the "Public Square" category. If a City Park already exists in the state, then Luna Park cannot also be located there.
+- Blueprint buildings have various requirements. They must first be designed by an architect. This often requires prior technology. Certain laws may also be required (no Alsmhouse without basic social security).
+- Due to the time required for research and the limitations of categories, it is wise to consider beforehand which blueprint research to invest in.
+
 Monuments:
 - Great Architects can research an unique Costum Monument Blueprint (An Architect's Masterpiece).
 - Costum Monument Blueprint depend on the architectural style of a Great Architect. Bauhaus Archichtets will design the People's Forum, Art Deco Architects the People's Monument, Neoclassical Architects the People's Palace.
 - Only one Custom Monument allowed per game.
+- Vienna's Ringstrasse has been removed as a monument. Some of the events take place during the capital's expansion. Austria will have some special Vienna Ringstrasse events when the capital is Vienna.
 
 Artists:
 - Added Artist Game Rule to start with a random artist (equivalent to Academic Game Rule to start with a random academic)
+
+Anthropology:
+- Heidelberg Man added as a possible human fossil.
 
 Achievements:
 - Stalin Is Green With Envy: Own the People's Palace as a council republic with command economy.
