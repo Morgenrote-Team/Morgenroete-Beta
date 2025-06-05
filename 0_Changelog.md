@@ -27,6 +27,15 @@ Monuments:
 - Only one Custom Monument allowed per game.
 - Vienna's Ringstrasse has been removed as a monument. Some of the events take place during the capital's expansion. Austria will have some special Vienna Ringstrasse events when the capital is Vienna.
 
+Architecture Changes:
+- Architects, not engineers, give a bonus when building monuments.
+- Splendid Architecture is now called "Architectural Splendour".
+- For the Biennale, not only the experience values of composers, writers and painters are combined to determine the winner country, but also the experience of your architect. The winner also gets Architectural Splendour.
+- Gaudí and Antonelli are no longer engineers, but architects.
+- Changed Architecture event icon.
+- Art Deco Cinema, Art Deco Office, Art Deco Airport and Art Deco Skyscraper are no longer Journal Entries, but random events when building your dream of Art Deco, if the triggers are met.
+- The JE "Art Nouveau Quarter" will be available only once.
+
 Artists:
 - Added Artist Game Rule to start with a random artist (equivalent to Academic Game Rule to start with a random academic)
 
@@ -36,14 +45,7 @@ Anthropology:
 Achievements:
 - Stalin Is Green With Envy: Own the People's Palace as a council republic with command economy.
 
-Changes:
-- Architects, not engineers, give a bonus when building monuments.
-- Splendid Architecture is now called "Architectural Splendour".
-- For the Biennale, not only the experience values of composers, writers and painters are combined to determine the winner country, but also the experience of your architect. The winner also gets Architectural Splendour.
-- Gaudí and Antonelli are no longer engineers, but architects.
-- Changed Architecture event icon.
-- Art Deco Cinema, Art Deco Office, Art Deco Airport and Art Deco Skyscraper are no longer Journal Entries, but random events when building your dream of Art Deco, if the triggers are met.
-- The JE "Art Nouveau Quarter" will be available only once.
+Aeronautics:
 - Requirements for Pilot School changed: An Ace, NCO training Tech and an Airfield are needed.
 - Higher chance to rescue Zeppelin Pilot after a disaster (from 65% to 80%)
 
