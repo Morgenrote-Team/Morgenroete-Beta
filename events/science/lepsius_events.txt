@@ -23679,6 +23679,16 @@ lepsius.1301 = {
 					add_state_trait = lepsius_state_trait_paranthropus_cave
 				}
 			}
+			if = {
+				limit = {
+					state_region = {
+						has_variable = lepsius_heidelbergensis_cave_var
+					}
+				}
+				state_region = {
+					add_state_trait = lepsius_state_trait_heidelbergensis_cave
+				}
+			}
 		}
 	}
 
@@ -24078,6 +24088,62 @@ lepsius.1308 = {
 	}
 }
 
+#Lepsius 1309: Mauer 
+
+lepsius.1309 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = lepsius.1301.t
+	desc = lepsius.1302.d
+	flavor = lepsius.1301.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		any_scope_state = {
+			state_region = s:STATE_BADEN
+			lepsius_has_discovered_cave = no
+		}
+		game_date >= 1907.1.1
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_BADEN
+				lepsius_has_discovered_cave = no
+			}
+			save_scope_as = lepsius_cave_state
+		}
+	}
+
+	option = {
+		name = lepsius.1301.g #Fascinating
+		default_option = yes
+		scope:lepsius_cave_state = {
+			state_region = {
+				add_state_trait = lepsius_state_trait_heidelbergensis_cave
+			}
+		}
+		lepsius_add_unknown_heidelbergensis_fossil_effect = yes
+	}
+
+	after = {
+	}
+}
+
 ###Identification##
 
 #Lepsius 1311: Human Fossil identified
@@ -24133,6 +24199,12 @@ lepsius.1311 = {
 				var:lepsius_unknown_australopithecus_human_fossil >= 1
 			}
 			lepsius_identify_australopithecus_fossil_effect = yes
+		}
+		else_if = {
+			limit = {
+				var:lepsius_unknown_heidelbergensis_human_fossil >= 1
+			}
+			lepsius_identify_heidelbergensis_fossil_effect = yes
 		}
 		else_if = {
 			limit = {
@@ -24613,6 +24685,86 @@ lepsius.1325 = {
 	}
 }
 
+#Lepsius 1326: Heidelbergensis complete
+
+lepsius.1326 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = lepsius.1326.t
+	desc = lepsius.1326.d
+	flavor = lepsius.1326.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_australopithecus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+			set_variable = lepsius_completed_heidelbergensis_anthropologist_var
+		}
+		set_variable = lepsius_heidelbergensis_complete
+	}
+
+	option = {
+		name = lepsius.1321.g #Fascinating
+		default_option = yes
+		custom_tooltip = lepsius_heidelbergensis_complete_tt
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 50
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = lepsius_heidelbergensis_systemized
+				}
+			}
+			set_global_variable = lepsius_heidelbergensis_systemized
+			set_variable = lepsius_heidelbergensis_systemizer
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 125
+			}
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = lepsius_heidelbergensis_systemized_notification
+			}
+		}
+		else = {
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 75
+			}
+		}
+	}
+
+	after = {
+		random_list = {
+			1 = {}
+			1 = {
+				var:lepsius_anthropologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
+	}
+}
+
 ###Historical Discovery###
 
 #Lepsius 1331: Neanderthaler
@@ -24968,6 +25120,77 @@ lepsius.1335 = {
 		default_option = yes
 		lepsius_small_add_technology = yes
 		dubois_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1336: Heidelberg Man
+
+lepsius.1336 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = lepsius.1336.t
+	desc = lepsius.1336.d
+	flavor = lepsius.1336.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_heidelbergensis.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		game_date >= 1907.1.1
+		any_scope_state = {
+			state_region = s:STATE_BADEN
+		}
+		NOT = {
+			has_global_variable = lepsius_heidelbergensis_systemized
+		}
+		has_game_rule = lepsius_anthropology_historical_rule
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_BADEN
+			}
+			save_scope_as = lepsius_cave_state
+		}
+		set_global_variable = lepsius_heidelbergensis_systemized
+		set_variable = lepsius_heidelbergensis_complete
+	}
+
+	option = {
+		name = lepsius.1321.g #Our ancestors were not as primitive as we thought
+		default_option = yes
+		dubois_add_fossil_mauer = yes
+		set_global_variable = lepsius_heidelbergensis_systemized
+		set_variable = lepsius_heidelbergensis_systemizer
+		lepsius_change_anthropological_rating = {
+			AMOUNT = 125
+		}
+		hidden_effect = {
+			lepsius_add_heidelbergensis_fossil_effect = yes
+			lepsius_add_heidelbergensis_fossil_effect = yes
+			lepsius_add_heidelbergensis_fossil_effect = yes
+		}
+		every_country = {
+			limit = {
+				is_player = yes
+			}
+			post_notification = lepsius_heidelbergensis_systemized_notification
+		}
 	}
 
 	after = {
@@ -25621,6 +25844,14 @@ lepsius.1412 = {
 					lepsius_add_unknown_paranthropus_fossil_effect = yes
 				}
 			}
+			if = {
+				limit = {
+					has_state_trait = lepsius_state_trait_heidelbergensis_cave
+				}
+				owner = {
+					lepsius_add_unknown_heidelbergensis_fossil_effect = yes
+				}
+			}
 		}
 	}
 
@@ -26055,6 +26286,7 @@ lepsius.1422 = {
 		random_scope_state = {
 			limit = {
 				OR = {
+					has_state_trait = lepsius_state_trait_heidelbergensis_cave
 					has_state_trait = lepsius_state_trait_erectus_cave
 					has_state_trait = lepsius_state_trait_australopithecus_cave
 					has_state_trait = lepsius_state_trait_paranthropus_cave
@@ -26065,6 +26297,7 @@ lepsius.1422 = {
 		random_scope_state = {
 			limit = {
 				OR = {
+					has_state_trait = lepsius_state_trait_heidelbergensis_cave
 					has_state_trait = lepsius_state_trait_erectus_cave
 					has_state_trait = lepsius_state_trait_australopithecus_cave
 					has_state_trait = lepsius_state_trait_paranthropus_cave
@@ -26078,6 +26311,7 @@ lepsius.1422 = {
 		random_scope_state = {
 			limit = {
 				OR = {
+					has_state_trait = lepsius_state_trait_heidelbergensis_cave
 					has_state_trait = lepsius_state_trait_erectus_cave
 					has_state_trait = lepsius_state_trait_australopithecus_cave
 					has_state_trait = lepsius_state_trait_paranthropus_cave
@@ -26317,6 +26551,17 @@ lepsius.1424 = {
 			}
 			lepsius_add_paranthropus_fossil_effect = yes
 		}
+		if = {
+			limit = {
+				scope:lepsius_anthropological_host = {
+					any_scope_state = {
+						has_modifier = lepsius_cave_examination_state_modifier
+						has_state_trait = lepsius_state_trait_heidelbergensis_cave
+					}
+				}
+			}
+			lepsius_add_heidelbergensis_fossil_effect = yes
+		}
 	}
 
 	after = {
@@ -26351,6 +26596,7 @@ lepsius.1501 = {
 		desc = lepsius.1501_total_unknown_human_fossils
 		desc = lepsius.1501_cromagnon_human_fossils
 		desc = lepsius.1501_neanderthalensis_human_fossils
+		desc = lepsius.1501_heidelbergensis_human_fossils
 		desc = lepsius.1501_erectus_human_fossils
 		desc = lepsius.1501_australopithecus_human_fossils
 		desc = lepsius.1501_paranthropus_human_fossils
@@ -26362,6 +26608,7 @@ lepsius.1501 = {
 					has_global_variable = lepsius_erectus_systemized
 					has_global_variable = lepsius_australopithecus_systemized
 					has_global_variable = lepsius_paranthropus_systemized
+					has_global_variable = lepsius_heidelbergensis_systemized
 				}
 			}
 			desc = lepsius.1501_taxonomy
@@ -26395,6 +26642,12 @@ lepsius.1501 = {
 				has_global_variable = lepsius_paranthropus_systemized
 			}
 			desc = lepsius.1501_taxonomy_paranthropus
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_heidelbergensis_systemized
+			}
+			desc = lepsius.1501_taxonomy_heidelbergensis
 		}
 		desc = lepsius.1501_miscellaneous
 		desc = lepsius.1501_anthropological_prestige
@@ -26440,6 +26693,12 @@ lepsius.1501 = {
 			}
 			save_scope_as = lepsius_paranthropus_systemizer_country
 		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_heidelbergensis_systemizer
+			}
+			save_scope_as = lepsius_heidelbergensis_systemizer_country
+		}
 	}
 
 	option = {	#Visit special Fossils
@@ -26454,6 +26713,7 @@ lepsius.1501 = {
 					has_variable = dubois_fossil_peking
 					has_variable = dubois_fossil_cromagnon
 					has_variable = dubois_fossil_piltdown
+					has_variable = dubois_fossil_mauer
 				}
 			}
 		}
@@ -26517,6 +26777,22 @@ lepsius.1502 = {
 				}
 			}
 			desc = lepsius.1502_neanderthaler_d
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_mauer
+				}
+			}
+			desc = lepsius.1502_mauer_t
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_mauer
+				}
+			}
+			desc = lepsius.1502_mauer_d
 		}
 		triggered_desc = {
 			trigger = {
@@ -26604,6 +26880,12 @@ lepsius.1502 = {
 				has_variable = dubois_fossil_neanderthaler
 			}
 			save_scope_as = lepsius_neanderthaler_finder_country
+		}
+		random_country = {
+			limit = {
+				has_variable = dubois_fossil_mauer
+			}
+			save_scope_as = lepsius_mauer_finder_country
 		}
 		random_country = {
 			limit = {
