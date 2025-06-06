@@ -1,0 +1,242 @@
+﻿####################
+# ATHLETES EVENTS  #
+####################
+
+#by Lord R & Marco Dandolo
+
+###################
+
+namespace = athletes
+
+###################
+
+###Retirement###
+
+#Athletes 1: Olympian retires
+#Athletes 2: Mountaineer retires
+
+###Death Notifications from Game caused Deaths###
+
+#Athletes 11: Olympian died
+#Athletes 12: Mountaineer died
+#Athletes 13: Coach died
+#Athletes 14: mountaineer died
+#Athletes 15: Pilot died
+#Athletes 16: Balloonist died
+
+###Athlete Creation###
+
+#Athletes 51: Olympian
+#Athletes 52: Mountaineer
+#Athletes 53: Coach
+#Athletes 54: mountaineer
+#Athletes 55: Pilot
+#Athletes 56: Ballonist
+
+###Level Up Events###
+
+#Athletes 101: [Scope] is now a great Olympian
+#Athletes 102: [Scope] is now a great Mountaineer
+#Athletes 103: [Scope] is now a great Coach
+#Athletes 104: [Scope] is now a great mountaineer
+#Athletes 105: [Scope] is now a great Pilot
+#Athletes 106: [Scope] is now a great Ballonist
+
+#################################################################################
+
+######RETIREMENT######
+
+#Athletes 2: Mountaineer retires
+athletes.2 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = athletes.2.t
+
+	desc = athletes.2.d
+
+	flavor = athletes.2.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:athletes_retired_person_scope
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		douglas_has_mountaineer = yes
+		var:douglas_mountaineer_var ?= {
+			age >= 50
+		}
+	}
+
+	cancellation_trigger = {
+		NOR = {
+			has_variable = douglas_mountaineer_var
+			var:douglas_mountaineer_var ?= {
+				age >= 50
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:douglas_mountaineer_var ?= {
+				age >= 55
+			}
+			factor = 10000
+		}
+	}
+
+	immediate = {
+		var:douglas_mountaineer_var = {
+			save_scope_as = athletes_retired_person_scope
+			set_retirement_variable_effect = yes
+		}
+	}
+
+	option = {	#He earned his retirement
+		name = athletes.2.g
+		default_option = yes
+
+		retire_mountaineer_effect = yes
+	}
+}
+
+#################################################################################
+
+######GAME CAUSED CHARACTER DEATH NOTIFICATION EVENT######
+
+#Athletes 12: Mountaineer died
+athletes.12 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = athletes.12.t
+
+	desc = athletes.12.d
+
+#	flavor = athletes.12.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_academic_funeral.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#Triggered by on_action in the journal
+	}
+
+	immediate = {
+		remove_variable = douglas_mountaineer_var
+	}
+
+	option = {	#This is a huge loss!
+		name = athletes.12.g
+		default_option = yes
+
+		custom_tooltip = academics.21_tt
+	}
+}
+
+#################################################################################
+
+######ATHLETE CREATION######
+
+#Athletes 52: New Mountaineer
+athletes.52 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = athletes.52.t
+
+	desc = athletes.52.d
+
+	#flavor = athletes.52.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:douglas_new_mountaineer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_mountaineer_effect = yes
+		douglas_set_new_mountaineer_as_mountaineer_effect = yes
+		var:douglas_mountaineer_var = {
+			save_scope_as = douglas_new_mountaineer_scope
+		}
+	}
+
+	option = {	#Welcome
+		name = athletes.52.g
+	}
+}
+
+#################################################################################
+
+######Level Up Events######
+
+#Athletes 102: Scope is now a Mountaineer Veteran
+athletes.102 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = athletes.102.t
+
+	desc = athletes.102.d
+
+	flavor = athletes.102.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:douglas_mountaineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:douglas_mountaineer_var = {
+			save_scope_as = douglas_mountaineer_scope
+		}
+	}
+
+	option = {
+		name = athletes.102.g
+		default_option = yes
+
+		show_as_tooltip = {
+			var:douglas_mountaineer_var = {
+				remove_trait = douglas_mountaineer
+				add_trait = douglas_mountaineer_veteran
+			}
+		}
+	}
+}
