@@ -437,6 +437,183 @@ ai_promote_academics_effect = {
 					}
 				}
 			}
+			### Physician ###
+			150 = { #Higher base chance
+				#Effect
+				set_variable = academics_promote_physician_active
+				set_variable = academics_academy_promotion_active
+
+				#Trigger
+				trigger = {
+					any_scope_building = {
+						is_building_type = building_university
+						level > 0
+						has_active_production_method = pm_dubois_university_humanities
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Great Powers have a higher chance for a Physician
+					if = {
+						limit = {
+							country_rank < rank_value:great_power
+						}
+						add = 25
+					}
+					#Major Powers have a higher chance for a Physician
+					if = {
+						limit = {
+							country_rank < rank_value:major_power
+						}
+						add = 25
+					}
+					#Nations without a healthcare system have a higher chance for a Physician
+					if = {
+						limit = {
+							NOT = {
+								has_law = law_type:law_no_health_system
+							}
+						}
+						add = 50
+					}
+					#If the AI has a Physician already, it will not try to get another one except if the existing one is old.
+					if = {
+						limit = {
+							panum_has_physician_no_tooltip_trigger = yes
+							var:panum_physician_var ?= {
+								age < 60
+							}
+						}
+						add = -1000
+					}
+				}
+			}
+			### Archaeologist ###
+			100 = {
+				#Effect
+				set_variable = academics_promote_archaeologist_active
+				set_variable = academics_academy_promotion_active
+
+				#Trigger
+				trigger = {
+					any_scope_building = {
+						is_building_type = building_university
+						level > 0
+						has_active_production_method = pm_dubois_university_humanities
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Some countries that historically participated in Archaeology have a higher chance
+					if = {
+						limit = {
+							OR = {
+								c:FRA ?= ROOT
+								c:GBR ?= ROOT
+								c:PRU ?= ROOT
+								c:GER ?= ROOT
+								c:ITA ?= ROOT
+								c:USA ?= ROOT
+								c:AUS ?= ROOT
+								c:RUS ?= ROOT
+							}
+						}
+						add = 50
+					}
+					#Countries with a Archaeological Museum have a higher chance to promote an Archaeologist
+					if = {
+						limit = {
+							lepsius_has_archaeological_museum = yes
+						}
+						add = 50
+					}
+					#Nations with acces to an excavation site have a higher chance for Archaeologists
+					if = {
+						limit = {
+							OR = {
+								lepsius_has_excavation_site = yes
+								any_country = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = excavation_license
+									}
+								}
+							}
+						}
+						add = 100
+					}
+					#Great Powers have a higher chance for Archaeologists
+					if = {
+						limit = {
+							country_rank = rank_value:great_power
+						}
+						add = 100
+					}
+					#Countries lower than Major Powers have a reduced chance for Archaeologists
+					if = {
+						limit = {
+							country_rank < rank_value:major_power
+						}
+						add = -100
+					}
+					#If the AI has a Physician already, it will not try to get another one except if the existing one is old.
+					if = {
+						limit = {
+							lepsius_has_archaeologist_no_tooltip_trigger = yes
+							var:lepsius_archaeologist_var ?= {
+								age < 60
+							}
+						}
+						add = -1000
+					}
+				}
+			}
+			### Anthropologist ###
+			100 = {
+				#Effect
+				set_variable = academics_promote_anthropologist_active
+				set_variable = academics_academy_promotion_active
+
+				#Trigger
+				trigger = {
+					has_technology_researched = lepsius_anthropology_tech
+					any_scope_building = {
+						is_building_type = building_university
+						level > 0
+						has_active_production_method = pm_dubois_university_humanities
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Major and Great Powers have a higher chance for an Anthropologist
+					if = {
+						limit = {
+							country_rank >= rank_value:major_power
+						}
+						add = 50
+					}
+					#Countries with a Archaeological Museum have a higher chance to promote an Anthropologist
+					if = {
+						limit = {
+							lepsius_has_archaeological_museum = yes
+						}
+						add = 50
+					}
+					#If the AI has a Physician already, it will not try to get another one except if the existing one is old.
+					if = {
+						limit = {
+							lepsius_has_anthropologist_no_tooltip_trigger = yes
+							var:lepsius_anthropologist_var ?= {
+								age < 60
+							}
+						}
+						add = -1000
+					}
+				}
+			}
 		}
 	}
 }
