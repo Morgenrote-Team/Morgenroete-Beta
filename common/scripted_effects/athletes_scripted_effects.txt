@@ -1151,3 +1151,249 @@ coach_experience_gain_effect = { #adds XP to the coach
 		}
 	}
 }
+
+######MOUNTAINEER######
+
+#This effect kills the current mountaineer
+# !!! Change stuff in both of the following effects !!!
+kill_mountaineer_effect = {
+	var:douglas_mountaineer_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = douglas_mountaineer_var
+}
+#This Effect retires the current mountaineer
+# Use "set_retirement_variable_effect" in the immediate effect when using this effect.
+retire_mountaineer_effect = {
+	custom_tooltip = {
+		text = retire_mountaineer_effect_tt
+
+		var:douglas_mountaineer_var = {
+			free_character_from_void = no
+		}
+	}
+
+	remove_variable = douglas_mountaineer_var
+}
+
+# Creates a new mountaineer without losing the old one
+create_new_mountaineer_effect = {
+	random_list = {
+		1 = { #Random mountaineer
+			random_list = {
+				1 = {
+					create_character = {
+						female = yes
+						trait_generation = {}
+						save_scope_as = douglas_new_mountaineer_scope
+					}
+					scope:douglas_new_mountaineer_scope = {
+						add_trait = douglas_mountaineer
+						set_variable = mr_is_mountaineer_var
+						mountaineer_experience_set_up_effect = yes
+						mr_trait_generation_mountaineer_effect = yes
+						place_character_in_void = 1200	
+					}
+					set_variable = {
+						name = douglas_new_mountaineer_var
+						value = scope:douglas_new_mountaineer_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 19
+						}
+					}
+				}
+				99 = {
+					create_character = {
+						age = { 20 25 }
+						trait_generation = {}
+						save_scope_as = douglas_new_mountaineer_scope
+					}
+					scope:douglas_new_mountaineer_scope = {
+						add_trait = douglas_mountaineer
+						set_variable = mr_is_mountaineer_var
+						mountaineer_experience_set_up_effect = yes
+						mr_trait_generation_mountaineer_effect = yes
+						place_character_in_void = 1200
+					}
+					set_variable = {
+						name = douglas_new_mountaineer_var
+						value = scope:douglas_new_mountaineer_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -19
+						}
+					}
+				}
+			}
+		}
+	}
+
+	var:douglas_new_mountaineer_var = {
+		save_scope_as = douglas_new_mountaineer_scope
+	}
+}
+
+# Set new mountaineer as official mountaineer
+douglas_set_new_mountaineer_as_mountaineer_effect = {
+	custom_tooltip = {
+		text = douglas_replace_mountaineer_with_new_mountaineer_tt
+	
+		if = {
+			limit = {
+				has_variable = douglas_mountaineer_var
+			}
+			var:douglas_mountaineer_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = douglas_mountaineer_var
+			value = scope:douglas_new_mountaineer_scope
+		}
+
+		remove_variable = douglas_new_mountaineer_var
+	}
+}
+
+# Remove new mountaineer
+douglas_remove_new_mountaineer_effect = {
+	scope:douglas_new_mountaineer_scope = {
+		free_character_from_void = no
+	}
+	remove_variable = douglas_new_mountaineer_var
+}
+
+# Used to set up the Experience of a character 
+mountaineer_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = douglas_mountaineer_experience
+			}
+		}
+
+		if = {
+			limit = {
+				has_modifier = douglas_mountaineer_school_modifier
+			}
+			set_variable = {
+				name = douglas_mountaineer_experience
+				value = { 100 150 }
+			}
+		}
+		else = {
+			set_variable = {
+				name = douglas_mountaineer_experience
+				value = { 0 50 }
+			}
+		}
+		if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_gaudi_sports
+				}
+			}
+			change_variable = {
+				name = douglas_mountaineer_experience
+				add = 75
+			}
+		}
+	}
+	set_variable = {
+		name = douglas_mountaineer_num_mountain_ascents_var
+		value = 0
+	}
+	set_variable = {
+		name = douglas_mountaineer_num_climbs_aborted_var
+		value = 0
+	}
+	set_variable = {
+		name = douglas_mountaineer_num_summits_reached_var
+		value = 0
+	}
+}
+
+#mountaineer Experience gain
+mountaineer_experience_gain_effect = { #adds XP to the mountaineer
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = douglas_mountaineer_var #should only add experience if there actually is a mountaineer
+		}
+		custom_tooltip = {
+			text = douglas_mountaineer_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:douglas_mountaineer_var = { #Fallback to make sure there are no errors if the mountaineer does not have the variable yet
+							has_variable = douglas_mountaineer_experience
+						}
+					}
+				}
+				var:douglas_mountaineer_var = { #Sets the experience in case it was not set yet
+					mountaineer_experience_set_up_effect = yes
+				}
+			}
+			var:douglas_mountaineer_var = {
+				change_variable = {
+					name = douglas_mountaineer_experience
+					add = $AMOUNT$
+				}
+				clamp_variable = {
+					name = douglas_mountaineer_experience
+					min = 0
+					max = 150
+				}
+			}
+		}
+		if = {
+			limit = {
+				var:douglas_mountaineer_var = {
+					var:douglas_mountaineer_experience >= 150
+					NOT = {
+						has_trait = douglas_mountaineer_veteran
+					}
+				}
+			}
+			trigger_event = {
+				id = douglas.314
+				popup = yes
+			}
+			hidden_effect = {
+				var:douglas_mountaineer_var = {
+					add_trait = douglas_mountaineer_veteran
+				}
+			}
+		}
+	}
+}
