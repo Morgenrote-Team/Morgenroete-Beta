@@ -7,6 +7,441 @@
 ############################################################################
 
 #Handles the promotion of Artists
+ai_promote_academics_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = academics_academy_promotion_active
+			}
+			any_scope_building = {
+				is_building_type = building_university
+				level > 0
+			}
+		}
+		#Chooses a promotion depending on triggers and some randomness
+		random_list = {
+			### Engineer ###
+			150 = { #Higher base chance
+				#Effect
+				set_variable = academics_promote_engineer_active
+				set_variable = academics_academy_promotion_active
+
+				#Trigger
+				trigger = {
+					any_scope_building = {
+						is_building_type = building_university
+						level > 0
+						has_active_production_method = pm_dubois_university_mathematics
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Nations historically focused on engineering
+					if = {
+						limit = {
+							OR = {
+								c:PRU ?= ROOT
+								c:ITA ?= ROOT
+								c:SWI ?= ROOT
+								c:GER ?= ROOT
+								c:AUS ?= ROOT
+								c:SPA ?= ROOT
+								c:BRZ ?= ROOT
+							}
+						}
+						add = 25
+					}
+					#Smaller countries should favor engineers
+					if = {
+						limit = {
+							country_rank < rank_value:major_power
+						}
+						add = 50
+					}
+					#Nations without access to formations, rainforests or excavations sites have a higher chance to promote Engineers
+					if = {
+						limit = {
+							NOR = {
+								dubois_has_formation = yes
+								dubois_can_discover_formation = yes
+								any_country = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = paleontological_license
+									}
+								}
+								dubois_has_rainforest_no_tooltip = yes
+								any_country = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = botanical_license
+									}
+								}
+								lepsius_has_excavation_site = yes
+								any_country = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = excavation_license
+									}
+								}
+							}
+						}
+						add = 200
+					}
+					#If the AI has an Engineer already, it will not try to get another one except if the existing one is old.
+					if = {
+						limit = {
+							tesla_has_engineer_no_tooltip_trigger = yes
+							var:gaudi_engineer_var ?= {
+								age < 60
+							}
+						}
+						add = -1000
+					}
+				}
+			}
+			### Chemist ###
+			100 = {
+				#Effect
+				set_variable = academics_promote_chemist_active
+				set_variable = academics_academy_promotion_active
+
+				#Trigger
+				trigger = {
+					has_technology_researched = verrier_chemistry_tech
+					any_scope_building = {
+						is_building_type = building_university
+						level > 0
+						has_active_production_method = pm_dubois_university_mathematics
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Nations without an Observatory are less likely to get a Chemist
+					if = {
+						limit = {
+							verrier_astronomical_observation = no
+						}
+						add = -75
+					}
+					#Smaller countries should favor Chemists
+					if = {
+						limit = {
+							country_rank < rank_value:major_power
+						}
+						add = 50
+					}
+					#Nations with a geologist have a higher chance to promote the chemist
+					if = {
+						limit = {
+							agassiz_has_geologist_no_tooltip_trigger = yes
+						}
+						add = 25
+					}
+					#If the AI has a Chemist already, it will not try to get another one except if the existing one is old.
+					if = {
+						limit = {
+							mendelejew_has_chemist_no_tooltip_trigger = yes
+							var:mendelejew_chemist_var ?= {
+								age < 60
+							}
+						}
+						add = -1000
+					}
+				}
+			}
+			### Astronomer ###
+			100 = {
+				#Effect
+				set_variable = academics_promote_astronomer_active
+				set_variable = academics_academy_promotion_active
+
+				#Trigger
+				trigger = {
+					has_technology_researched = verrier_astronomy_tech
+					any_scope_building = {
+						is_building_type = building_university
+						level > 0
+						has_active_production_method = pm_dubois_university_mathematics
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Nations with an Observatory are more likely to get an Astronomer
+					if = {
+						limit = {
+							verrier_astronomical_observation = yes
+						}
+						add = 50
+					}
+					#Smaller countries should favor Astronomers
+					if = {
+						limit = {
+							country_rank < rank_value:major_power
+						}
+						add = 50
+					}
+					#Nations without access to formations, rainforests or excavations sites have a higher chance to promote Astronomers
+					if = {
+						limit = {
+							NOR = {
+								dubois_has_formation = yes
+								dubois_can_discover_formation = yes
+								any_country = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = paleontological_license
+									}
+								}
+								dubois_has_rainforest_no_tooltip = yes
+								any_country = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = botanical_license
+									}
+								}
+								lepsius_has_excavation_site = yes
+								any_country = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = excavation_license
+									}
+								}
+							}
+						}
+						add = 200
+					}
+					#If the AI has an Astronomer already, it will not try to get another one except if the existing one is old.
+					if = {
+						limit = {
+							verrier_has_astronomer_no_tooltip_trigger = yes
+							var:verrier_astronomer_var ?= {
+								age < 60
+							}
+						}
+						add = -1000
+					}
+				}
+			}
+			### Geologist ###
+			125 = { #Slightly higher base chance
+				#Effect
+				set_variable = academics_promote_geologist_active
+				set_variable = academics_academy_promotion_active
+
+				#Trigger
+				trigger = {
+					has_technology_researched = agassiz_geology_tech
+					any_scope_building = {
+						is_building_type = building_university
+						level > 0
+						has_active_production_method = pm_dubois_university_natural_history
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Nations with undiscovered formations or volcanoes are more likely to get a Geologist
+					if = {
+						limit = {
+							OR = {
+								dubois_can_discover_formation = yes
+								dubois_has_volcano = yes
+							}
+						}
+						add = 50
+					}
+					#Smaller countries should slightly favor Geologists
+					if = {
+						limit = {
+							country_rank < rank_value:major_power
+						}
+						add = 25
+					}
+					#Nations without mining have a lower chance to promote Geologists
+					if = {
+						limit = {
+							NOT = {
+								any_scope_state = {
+									any_scope_building = {
+										is_building_group = bg_mining
+									}
+								}
+							}
+						}
+						add = -75
+					}
+					#If the AI has a Geologist already, it will not try to get another one except if the existing one is old.
+					if = {
+						limit = {
+							agassiz_has_geologist_no_tooltip_trigger = yes
+							var:dubois_geologist_var ?= {
+								age < 60
+							}
+						}
+						add = -1000
+					}
+				}
+			}
+			### Paleontologist ###
+			100 = {
+				#Effect
+				set_variable = academics_promote_paleontologist_active
+				set_variable = academics_academy_promotion_active
+
+				#Trigger
+				trigger = {
+					has_technology_researched = dubois_paleontology_tech
+					any_scope_building = {
+						is_building_type = building_university
+						level > 0
+						has_active_production_method = pm_dubois_university_natural_history
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Slightly higher chance for countries that historically did a lot of Paleontology
+					if = {
+						limit = {
+							OR = {
+								c:GBR ?= ROOT
+								c:FRA ?= ROOT
+								c:BAV ?= ROOT
+								c:USA ?= ROOT
+								c:AUS ?= ROOT
+								c:RUS ?= ROOT
+							}
+						}
+						add = 50
+					}
+					#Countries with access to formations have a way higher chance to promote a Paleontologist
+					if = {
+						limit = {
+							OR = {
+								dubois_has_formation = yes
+								dubois_can_discover_formation = yes
+								any_country = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = paleontological_license
+									}
+								}
+							}
+						}
+						add = 100
+					}
+					#Nations with a big enough navy for a Pacific expedition have a higher chance
+					if = {
+						limit = {
+							any_scope_building = {
+								is_building_type = building_port
+							}
+							navy_size >= 15
+							country_rank >= rank_value:major_power
+						}
+						add = 25
+					}
+					#Nations with a Zoo that does not yet have a Paleontological Collection should have a higher chance for a Paleontologist
+					if = {
+						limit = {
+							any_scope_building = {
+								is_building_type = building_dubois_zoo
+								level > 0
+								has_active_production_method = pm_no_paleontological_collection
+							}
+						}
+						add = 50
+					}
+					#If the AI has a Paleontologist already, it will not try to get another one except if the existing one is old.
+					if = {
+						limit = {
+							dubois_has_paleontologist_no_tooltip_trigger = yes
+							var:dubois_paleontologist_var ?= {
+								age < 60
+							}
+						}
+						add = -1000
+					}
+				}
+			}
+			### Naturalist ###
+			100 = {
+				#Effect
+				set_variable = academics_promote_naturalist_active
+				set_variable = academics_academy_promotion_active
+
+				#Trigger
+				trigger = {
+					any_scope_building = {
+						is_building_type = building_university
+						level > 0
+						has_active_production_method = pm_dubois_university_natural_history
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Nations with a big enough navy for a Pacific expedition have a higher chance
+					if = {
+						limit = {
+							any_scope_building = {
+								is_building_type = building_port
+							}
+							navy_size >= 15
+							country_rank >= rank_value:major_power
+						}
+						add = 50
+					}
+					#Nations with a Zoo have a higher chance for a Naturalist
+					if = {
+						limit = {
+							dubois_has_zoo = yes
+						}
+						add = 50
+					}
+					#Nations with access to a rainforest have a higher chance for a Naturalist
+					if = {
+						limit = {
+							OR = {
+								dubois_has_rainforest_no_tooltip = yes
+								any_country = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = botanical_license
+									}
+								}
+							}
+						}
+						add = 50
+					}
+					#Nations without access to habitats have a lower chance for a Naturalist
+					if = {
+						limit = {
+							dubois_has_habitat = no
+						}
+						add = -25
+					}
+					#If the AI has a Naturalist already, it will not try to get another one except if the existing one is old.
+					if = {
+						limit = {
+							dubois_has_naturalist_no_tooltip_trigger = yes
+							var:dubois_naturalist_var ?= {
+								age < 60
+							}
+						}
+						add = -1000
+					}
+				}
+			}
+		}
+	}
+}
+
+#Handles the promotion of Artists
 ai_promote_artists_effect = {
 	if = {
 		limit = {
@@ -15,10 +450,12 @@ ai_promote_artists_effect = {
 			}
 			any_scope_building = {
 				is_building_type = building_arts_academy
+				level > 0
 			}
 		}
 		random_list = {
-			10 = { #Architect
+			### Architect ###
+			10 = {
 				#Effect
 				set_variable = artists_promote_architect_active_var
 				set_variable = artists_promotion_active
@@ -47,7 +484,8 @@ ai_promote_artists_effect = {
 					}
 				}
 			}
-			10 = { #Composer
+			### Composer ###
+			10 = {
 				#Effect
 				set_variable = artists_promote_composer_active_var
 				set_variable = artists_promotion_active
@@ -88,7 +526,8 @@ ai_promote_artists_effect = {
 					}
 				}
 			}
-			10 = { #Writer
+			### Writer ###
+			10 = {
 				#Effect
 				set_variable = artists_promote_writer_active_var
 				set_variable = artists_promotion_active
@@ -130,7 +569,8 @@ ai_promote_artists_effect = {
 					}
 				}
 			}
-			10 = { #Painter
+			### Painter ###
+			10 = {
 				#Effect
 				set_variable = artists_promote_painter_active_var
 				set_variable = artists_promotion_active
