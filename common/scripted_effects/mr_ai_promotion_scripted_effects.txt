@@ -1,0 +1,174 @@
+﻿########################
+# AI PROMOTION EFFECTS #
+########################
+
+#By Lord R
+
+############################################################################
+
+#Handles the promotion of Artists
+ai_promote_artists_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = artists_promotion_active
+			}
+			any_scope_building = {
+				is_building_type = building_arts_academy
+			}
+		}
+		random_list = {
+			10 = { #Architect
+				#Effect
+				set_variable = artists_promote_architect_active_var
+				set_variable = artists_promotion_active
+
+				#Trigger
+				trigger = {
+					NOT = {
+						has_variable = artists_promote_architect_active_var
+					}
+					any_scope_building = {
+						is_building_type = building_arts_academy
+						has_active_production_method = pm_artists_arts_academy_school
+					}
+				}
+
+				#Modifier
+				modifier = {
+					if = {
+						limit = {
+							gaudi_has_architect_no_tooltip_trigger = yes
+							var:gaudi_architect_var ?= {
+								age < 70
+							}
+						}
+						add = -9 #If the AI has an Architect already, it will rarely try to get another one except if the existing one is old.
+					}
+				}
+			}
+			10 = { #Composer
+				#Effect
+				set_variable = artists_promote_composer_active_var
+				set_variable = artists_promotion_active
+	
+				#Trigger
+				trigger = {
+					NOR = {
+						has_variable = artists_promote_composer_active_var
+						has_variable = artists_promotion_active
+					}
+					any_scope_building = {
+						is_building_type = building_arts_academy
+						has_active_production_method = pm_artists_arts_academy_conservatory
+					}
+				}
+	
+				#Modifier
+				modifier = {
+					if = {
+						limit = {
+							elgar_has_composer_no_tooltip_trigger = yes
+							var:elgar_composer_var ?= {
+								age < 70
+							}
+						}
+						add = -9 #If the AI has a Composer already, it will rarely try to get another one except if the existing one is old.
+					}
+					else_if = {
+						limit = {
+							OR = { #Cultures that are more probable to promote Composers
+								country_has_primary_culture = cu:north_italian
+								country_has_primary_culture = cu:south_italian
+								country_has_primary_culture = cu:russian
+								country_has_primary_culture = cu:south_german
+							}
+						}
+						add = 5 #If the AI has a Composer already, it will not try to get another one.
+					}
+				}
+			}
+			10 = { #Writer
+				#Effect
+				set_variable = artists_promote_writer_active_var
+				set_variable = artists_promotion_active
+	
+				#Trigger
+				trigger = {
+					OR = {
+						AND = { #Can also promote writers if already has the other artists
+							elgar_has_composer_no_tooltip_trigger = yes
+							klimt_has_painter_no_tooltip = yes
+						}
+					}
+					NOR = {
+						has_variable = artists_promote_writer_active_var
+						has_variable = artists_promotion_active
+					}
+					any_scope_building = {
+						is_building_type = building_arts_academy
+						has_active_production_method = pm_artists_arts_academy_salon
+					}
+				}
+	
+				#Modifier
+				modifier = {
+					if = {
+						limit = {
+							manzoni_has_writer_no_tooltip = yes
+							var:manzoni_writer_var ?= {
+								age < 70
+							}
+						}
+						add = -9 #If the AI has a Painter already, it will rarely try to get another one except if the existing one is old.
+					}
+					if = {
+						limit = {
+							manzoni_x_or_more_local_writers_trigger = { AMOUNT = 3 }
+						}
+						add = -5 #If the AI has a 3 or more local writers already, it will have a lowered chance to promote another one.
+					}
+				}
+			}
+			10 = { #Painter
+				#Effect
+				set_variable = artists_promote_painter_active_var
+				set_variable = artists_promotion_active
+	
+				#Trigger
+				trigger = {
+					NOR = {
+						has_variable = artists_promote_painter_active_var
+						has_variable = artists_promotion_active
+					}
+					any_scope_building = {
+						is_building_type = building_arts_academy
+						has_active_production_method = pm_artists_arts_academy_studio
+					}
+				}
+	
+				#Modifier
+				modifier = {
+					if = {
+						limit = {
+							klimt_has_painter_no_tooltip = yes
+							var:klimt_painter_var ?= {
+								age < 70
+							}
+						}
+						add = -14 #If the AI has a Painter already, it will rarely try to get another one except if the existing one is old.
+					}
+					else_if = {
+						limit = {
+							OR = { #Cultures that are more probable to promote Painters
+								country_has_primary_culture = cu:french
+								country_has_primary_culture = cu:spanish
+							}
+						}
+						add = 5
+					}
+				}
+			}
+		}
+	}
+}
