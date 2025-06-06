@@ -1,0 +1,93 @@
+﻿############################
+# DOUGLAS SCRPITED EFFECTS #
+############################
+
+#by Marco Dandolo & Lord R
+
+#Effect to add $AMOUNT$ Alpine Heritage
+douglas_add_x_alpine_heritage_effect = {
+	# Amount = amount of Alpine Heritage to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = alpine_heritage_amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = douglas_add_x_alpine_heritage_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = douglas_add_x_alpine_heritage_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = douglas_add_x_alpine_heritage_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Alpine Heritage
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = douglas_alpine_heritage_var
+			}
+		}
+		set_variable = {
+			name = douglas_alpine_heritage_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = douglas_alpine_heritage_var
+		add = scope:alpine_heritage_amount
+	}
+}
+
+#This effect is used to add the yearly Alpine Heritage
+douglas_yearly_alpine_heritage_effect = {
+	if = { #Effect only gets executed if the technology Prospecting is researched
+		limit = {
+			has_technology_researched = prospecting
+		}
+
+		#Set up
+		if = {
+			limit = { NOT = { has_variable = douglas_alpine_heritage_var } }
+			set_variable = {
+				name = douglas_alpine_heritage_var
+				value = 0
+			}
+		}
+
+		### Actual calculation done in script_value ###
+		if = {
+			limit = { douglas_yearly_alpine_heritage_value > 0 }
+			set_variable = {
+				name = douglas_estimated_yearly_alpine_heritage_var
+				value = douglas_yearly_alpine_heritage_value
+			}
+		}
+		else = {
+			set_variable = {
+				name = douglas_estimated_yearly_alpine_heritage_var
+				value = 0
+			}
+		}
+		
+		#Add yearly variable to the total variable
+		if = {
+			limit = { var:douglas_estimated_yearly_alpine_heritage_var > 0 }
+			change_variable = {
+				name = douglas_alpine_heritage_var
+				add = var:douglas_estimated_yearly_alpine_heritage_var
+			}
+		}
+	}
+	else = {
+		set_variable = {
+			name = douglas_estimated_yearly_alpine_heritage_var
+			value = 0
+		}
+	}
+}
