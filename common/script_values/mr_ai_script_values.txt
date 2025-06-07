@@ -6,6 +6,10 @@
 
 ############################################################################
 
+### Promote Academics ###
+
+#Used because negative probabilities break random_list effects
+
 ai_promote_engineer_probability_value = {
 	#Higher base chance
 	value = 150
@@ -505,3 +509,128 @@ ai_promote_anthropologist_probability_value = {
 	min = 0
 }
 
+
+### Promote Artists ###
+
+#Used because negative probabilities break random_list effects
+
+ai_promote_architect_probability_value = {
+	#Higher base chance
+	value = 150
+
+	#If the AI has an Architect already, it will rarely try to get another one except if the existing one is old.
+	if = {
+		limit = {
+			gaudi_has_architect_no_tooltip_trigger = yes
+			var:gaudi_architect_var ?= {
+				age < 70
+			}
+		}
+		add = -1000
+	}
+
+	#random_list breaks if it has a negative number as a chance.
+	min = 0
+}
+
+ai_promote_composer_probability_value = {
+	value = 100
+
+	#Cultures that are more probable to promote Composers
+	else_if = {
+		limit = {
+			OR = {
+				country_has_primary_culture = cu:north_italian
+				country_has_primary_culture = cu:south_italian
+				country_has_primary_culture = cu:russian
+				country_has_primary_culture = cu:south_german
+			}
+		}
+		add = 50
+	}
+	#If the AI has a Composer already, it will rarely try to get another one except if the existing one is old.
+	if = {
+		limit = {
+			elgar_has_composer_no_tooltip_trigger = yes
+			var:elgar_composer_var ?= {
+				age < 70
+			}
+		}
+		add = -1000
+	}
+
+	#random_list breaks if it has a negative number as a chance.
+	min = 0
+}
+
+ai_promote_writer_probability_value = {
+	value = 100
+
+	#If the AI has a less than 3 local writers, it will have a higher chance to promote one.
+	if = {
+		limit = {
+			manzoni_x_or_more_local_writers_trigger = { AMOUNT = 0 }
+		}
+		add = 100
+	}
+	else_if = {
+		limit = {
+			manzoni_x_or_more_local_writers_trigger = { AMOUNT = 1 }
+		}
+		add = 50
+	}
+	else_if = {
+		limit = {
+			manzoni_x_or_more_local_writers_trigger = { AMOUNT = 2 }
+		}
+		add = 25
+	}
+	#If the AI has a 3 or more local writers already, it will have a lowered chance to promote another one.
+	if = {
+		limit = {
+			manzoni_x_or_more_local_writers_trigger = { AMOUNT = 3 }
+		}
+		add = -100
+	}
+	#If the AI has a Painter already, it will rarely try to get another one except if the existing one is old.
+	if = {
+		limit = {
+			manzoni_has_writer_no_tooltip = yes
+			var:manzoni_writer_var ?= {
+				age < 70
+			}
+		}
+		add = -1000
+	}
+
+	#random_list breaks if it has a negative number as a chance.
+	min = 0
+}
+
+ai_promote_painter_probability_value = {
+	value = 100
+
+	#Cultures that are more probable to promote Painters
+	if = {
+		limit = {
+			OR = {
+				country_has_primary_culture = cu:french
+				country_has_primary_culture = cu:spanish
+			}
+		}
+		add = 50
+	}
+	#If the AI has a Painter already, it will rarely try to get another one except if the existing one is old.
+	if = {
+		limit = {
+			klimt_has_painter_no_tooltip = yes
+			var:klimt_painter_var ?= {
+				age < 70
+			}
+		}
+		add = -1000
+	}
+
+	#random_list breaks if it has a negative number as a chance.
+	min = 0
+}
