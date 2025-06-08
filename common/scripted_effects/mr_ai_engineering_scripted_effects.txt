@@ -12,6 +12,7 @@ ai_engineering_effect = {
 	if = {
 		limit = { tesla_has_active_engineer_no_tooltip_trigger = yes }
 
+		### Civil Engineer ###
 		if = {
 			limit = {
 				tesla_has_civil_engineer_no_tooltip_trigger = yes
@@ -204,6 +205,54 @@ ai_engineering_effect = {
 					}
 				}
 			}
+
+			### Civil Engineer ###
+			if = {
+				limit = {
+					tesla_has_civil_engineer_no_tooltip_trigger = yes
+				}
+
+				random_list = {
+					### Infrastructure Project ###
+					100 = {
+						#Trigger
+						trigger = {
+							#Can the AI afford the project?
+							OR = {
+								weekly_net_fixed_income > tesla_medium_project_cost_weekly_value
+								gold_reserves > tesla_medium_project_cost_yearly_value
+							}
+
+							#Is there any state where a project is possible?
+							any_scope_state = {
+								OR = {
+									NOT = { has_modifier = gaudi_modern_roads_modifier }
+									NOT = { has_modifier = gaudi_new_bridge_modifier }
+									NOT = { has_modifier = gaudi_new_tunnel_modifier }
+								}
+							}
+						}
+
+						#Effect
+						tesla_civilian_engineer_infrastructure_button_effect = yes
+
+						#Modifier
+						modifier = {
+							# If a state has a negative infrastructure balance, this project will be more likely
+							if = {
+								limit = {
+									any_scope_state = {
+										state_infrastructure_balance < 0
+									}
+								}
+
+								add = 200
+							}
+						}
+					}
+				}
+			}
+
 		}
 	}
 }
