@@ -58,3 +58,9 @@ Fixes:
 - Fixed some events with not fitting event icons (music instead of architecture).
 - Fixed the progress bar of the engineer.
 - The Plague Treatment journal entry now adds the treatment of plague instead of scarlet when finished. This should solve a weird exploit to get infinite medical prestige.
+
+Internal:
+- Renamed various files
+- Renamed various triggers, variables, sGUIs, etc. (e.g. gaudi_engineer_var --> tesla_engineer_var)
+- Reworked some Academics and Artists achievements to use flags instead of custom_locs.
+- Removed various scripted_buttons that were used for the AI and either switched them to sGUIs or scripted_effects.
