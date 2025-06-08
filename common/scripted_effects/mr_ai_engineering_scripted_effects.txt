@@ -149,6 +149,61 @@ ai_engineering_effect = {
 						}
 					}
 				}
+				### Construction Project ###
+				200 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_low_project_cost_weekly_value
+							gold_reserves > tesla_low_project_cost_yearly_value
+						}
+
+						#Is there any building where a project is possible?
+						any_scope_building = {
+							tesla_construction_sector_valid_for_improvement_trigger = yes
+						}
+					}
+
+					#Effect
+					ordered_scope_building = {
+						limit = {
+							tesla_construction_sector_valid_for_improvement_trigger = yes
+						}
+						order_by = level
+						max = 1000
+						check_range_bounds = no
+
+						save_scope_as = chosen_building
+					}
+					add_journal_entry = {
+						type = je_gaudi_construction_sector_project
+						target = scope:chosen_building
+					}
+					je:je_gaudi_construction_sector_project = {
+						add_modifier = {
+							name = gaudi_engineer_project_low_cost_modifier
+							multiplier = money_amount_multiplier_small
+						}
+					}
+					var:gaudi_engineer_var = {
+						set_character_busy_and_immortal = yes
+					}
+
+					#Modifier
+					modifier = {
+						# Chance is higher for countries focussing on industry
+						if = {
+							limit = {
+								has_strategy = ai_strategy_resource_expansion
+								has_strategy = ai_strategy_industrial_expansion
+								has_strategy = ai_strategy_colonial_extraction
+							}
+
+							add = 100
+						}
+					}
+				}
 				### Topographic Map Project ###
 				300 = {
 					#Trigger
@@ -254,14 +309,72 @@ ai_engineering_effect = {
 
 						#Modifier
 						modifier = {
-							# Chance is higher for countries focussing on agriculture
+							# Chance is higher for countries focussing on industry
 							if = {
 								limit = {
-									has_strategy = ai_strategy_plantation_economy
-									has_strategy = ai_strategy_agricultural_expansion
+									has_strategy = ai_strategy_resource_expansion
+									has_strategy = ai_strategy_industrial_expansion
+									has_strategy = ai_strategy_colonial_extraction
 								}
 
-								add = 100
+								add = 200
+							}
+						}
+					}
+					### Improve Industires Project ###
+					300 = {
+						#Trigger
+						trigger = {
+							#Can the AI afford the project?
+							OR = {
+								weekly_net_fixed_income > tesla_medium_project_cost_weekly_value
+								gold_reserves > tesla_medium_project_cost_yearly_value
+							}
+
+							#Is there any state where a project is possible?
+							any_scope_building = {
+								tesla_building_valid_for_mechanical_improvement_trigger = yes
+							}
+						}
+
+						#Effect
+						ordered_scope_building = {
+							limit = {
+								tesla_building_valid_for_mechanical_improvement_trigger = yes
+							}
+							order_by = earnings
+							save_scope_as = chosen_building
+						}
+						add_journal_entry = {
+							type = je_gaudi_modernizing_industries_project
+							target = scope:chosen_building
+						}
+						je:je_gaudi_modernizing_industries_project = {
+							add_modifier = {
+								name = gaudi_engineer_project_medium_cost_modifier
+								multiplier = money_amount_multiplier_small
+							}
+						}
+						if = {
+							limit = {
+								has_variable = tesla_engineer_var
+							}
+							var:tesla_engineer_var = {
+								set_character_busy_and_immortal = yes
+							}
+						}
+
+						#Modifier
+						modifier = {
+							# Chance is higher for countries focussing on industry
+							if = {
+								limit = {
+									has_strategy = ai_strategy_resource_expansion
+									has_strategy = ai_strategy_industrial_expansion
+									has_strategy = ai_strategy_colonial_extraction
+								}
+
+								add = 200
 							}
 						}
 					}
