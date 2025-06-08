@@ -575,6 +575,114 @@ ai_engineering_effect = {
 					}
 				}
 			}
+			### Electrical Engineer ###
+			if = {
+				limit = {
+					tesla_has_electrical_engineer_no_tooltip_trigger = yes
+				}
+
+				random_list = {
+					### Telegraph Project ###
+					100 = {
+						#Trigger
+						trigger = {
+							#Can the AI afford the project?
+							OR = {
+								weekly_net_fixed_income > tesla_low_project_cost_weekly_value
+								gold_reserves > tesla_low_project_cost_yearly_value
+							}
+							#Does not already have a geomagnetic research station
+							NOT = {
+								has_variable = gaudi_magnetic_station_var
+							}
+							NOT = {
+								any_scope_building = {
+									is_building_type = building_verrier_observatory
+									has_active_production_method = pm_gaudi_magnetic_observatory
+								}
+							}
+							#Has an observatory
+							any_scope_building = {
+								is_building_type = building_verrier_observatory
+								level > 0
+							}
+						}
+
+						#Effect
+						add_modifier = {
+							name = gaudi_building_telegraph_network_modifier
+						}
+						trigger_event = {
+							id = gaudi.1411
+							popup = yes
+						}
+					}
+					### Radio Project ###
+					100 = {
+						#Trigger
+						trigger = {
+							#Necessary Technology available?
+							has_technology_researched = radio
+							#At least one building does not yet have a radio
+							any_scope_state = {
+								any_scope_building = {
+									is_building_type = building_railway
+									has_active_production_method = pm_elgar_radio_stations
+								}
+								percent >= 1
+							}
+							#Has a railway building
+							any_scope_state = {
+								is_capital = yes
+								has_building = building_railway
+							}
+							#More than 65% of states have railways
+							any_scope_state = {
+								has_building = building_railway
+								percent >= 0.65
+							}
+						}
+
+						#Effect
+						add_modifier = {
+							name = gaudi_building_radio_network_modifier
+						}
+						trigger_event = { 
+							id = gaudi.1421
+							popup = yes
+						}
+					}
+					### Electrical Engineering Research Project ###
+					1 = {
+						#Trigger
+						trigger = {
+							#Can the AI afford the project?
+							OR = {
+								weekly_net_fixed_income > tesla_low_project_cost_weekly_value
+								gold_reserves > tesla_low_project_cost_yearly_value
+							}
+						}
+
+						#Effect
+						# Makes the Engineer busy
+						if = {
+							limit = {
+								has_variable = tesla_engineer_var
+							}
+							var:tesla_engineer_var = {
+								set_character_busy_and_immortal = yes
+							}
+						}
+						# Adds cost modifier
+						add_modifier = {
+							name = gaudi_engineer_project_low_cost_modifier
+							multiplier = money_amount_multiplier_small
+						}
+						# Adds JE
+						add_journal_entry = { type = je_gaudi_electrical_research_project }
+					}
+				}
+			}
 		}
 	}
 }
