@@ -64,3 +64,11 @@ Internal:
 - Renamed various triggers, variables, sGUIs, etc. (e.g. gaudi_engineer_var --> tesla_engineer_var)
 - Reworked some Academics and Artists achievements to use flags instead of custom_locs.
 - Removed various scripted_buttons that were used for the AI and either switched them to sGUIs or scripted_effects.
+
+Characters:
+- Gottfried Semper (random German Architect)
+- Melchior Berri (randoms Swiss Architect)
+- Ferdinand Stadler (randoms Swiss Architect)
+- Hans Conrad Stadler (randoms Swiss Architect)
+- Jakob Friedrich Studer (randoms Swiss Architect)
+- Louise Blanchard Bethune (random American Architect)
