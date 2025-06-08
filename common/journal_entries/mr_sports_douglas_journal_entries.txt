@@ -9,5 +9,72 @@
 ###Mountaineering Equipment###
 
 je_douglas_mountaineering_equipment = {
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
 	group = je_group_vikelas_sports
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = {
+				name = douglas_mountaineering_equipment_progress
+				add = 1
+			}
+			if = {
+				limit = {
+					var:douglas_mountaineering_equipment_progress >= 12
+				}
+				douglas_mountaineering_equipment_modifier_effect = yes
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = {
+			name = douglas_mountaineering_equipment_progress
+			value = 0
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_douglas_mountaineering_equipment_success
+			has_variable = douglas_mountaineering_equipment_complete_var
+		}
+	}
+
+	on_complete = {
+		douglas_mountaineering_equipment_event_effect = yes
+		var:gaudi_architect_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_mountaineer_dies_tt
+			NOT = {
+				has_variable = douglas_mountaineer_var
+			}
+		}
+	}
+
+	on_fail = {
+		var:douglas_mountaineer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	current_value = {
+		value = var:douglas_mountaineering_equipment_progress
+	}
+
+	goal_add_value = {
+		add = 12
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
 }
