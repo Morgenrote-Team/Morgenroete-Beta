@@ -206,14 +206,14 @@ ai_engineering_effect = {
 				}
 			}
 
-			### Civil Engineer ###
+			### Mechanical Engineer ###
 			if = {
 				limit = {
-					tesla_has_civil_engineer_no_tooltip_trigger = yes
+					tesla_has_mechanical_engineer_no_tooltip_trigger = yes
 				}
 
 				random_list = {
-					### Infrastructure Project ###
+					### Locomotives Project ###
 					100 = {
 						#Trigger
 						trigger = {
@@ -224,35 +224,72 @@ ai_engineering_effect = {
 							}
 
 							#Is there any state where a project is possible?
-							any_scope_state = {
-								OR = {
-									NOT = { has_modifier = gaudi_modern_roads_modifier }
-									NOT = { has_modifier = gaudi_new_bridge_modifier }
-									NOT = { has_modifier = gaudi_new_tunnel_modifier }
+							any_scope_building = {
+								is_building_type = building_railway
+								level > 0
+								NOR = {
+									has_modifier = gaudi_locomotive_tier_1_modifier
+									has_modifier = gaudi_locomotive_tier_2_modifier
+									has_modifier = gaudi_locomotive_tier_3_modifier
+									has_modifier = gaudi_locomotive_tier_4_modifier
+									has_modifier = gaudi_locomotive_tier_5_modifier
 								}
 							}
 						}
 
 						#Effect
-						tesla_civilian_engineer_infrastructure_button_effect = yes
+						add_journal_entry = { type = je_gaudi_new_locomotives_project }
+						add_modifier = {
+							name = gaudi_engineer_project_medium_cost_modifier
+							multiplier = money_amount_multiplier_small
+						}
+						if = {
+							limit = {
+								has_variable = tesla_engineer_var
+							}
+							var:tesla_engineer_var = {
+								set_character_busy_and_immortal = yes
+							}
+						}
 
 						#Modifier
 						modifier = {
-							# If a state has a negative infrastructure balance, this project will be more likely
+							# Chance is higher for countries focussing on agriculture
 							if = {
 								limit = {
-									any_scope_state = {
-										state_infrastructure_balance < 0
-									}
+									has_strategy = ai_strategy_plantation_economy
+									has_strategy = ai_strategy_agricultural_expansion
 								}
 
-								add = 200
+								add = 100
 							}
+						}
+					}
+
+
+					### Mechanical Engineering Research Project ###
+					1 = {
+						#Trigger
+						trigger = {
+							#Can the AI afford the project?
+							OR = {
+								weekly_net_fixed_income > tesla_low_project_cost_weekly_value
+								gold_reserves > tesla_low_project_cost_yearly_value
+							}
+						}
+
+						#Effect
+						add_journal_entry = { type = je_gaudi_mechanical_research_project }
+						add_modifier = {
+							name = gaudi_engineer_project_low_cost_modifier
+							multiplier = money_amount_multiplier_small
+						}
+						var:tesla_engineer_var = {
+							set_character_busy_and_immortal = yes
 						}
 					}
 				}
 			}
-
 		}
 	}
 }
