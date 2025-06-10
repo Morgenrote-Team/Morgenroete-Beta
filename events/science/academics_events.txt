@@ -2535,11 +2535,11 @@ academics.70 = {
 	}
 
 	option = { #Engineer
-		name = academics.70.g
+		name = academics.70.engineer
 		default_option = yes
 
 		trigger = {
-			NOT = { has_variable = tesla_engineer_var }
+			tesla_has_engineer_no_tooltip_trigger = no
 		}
 
 		custom_tooltip = {
@@ -2659,11 +2659,66 @@ academics.70 = {
 		}
 	}
 
-	option = { #Astronomer
-		name = academics.70.h
+	option = { #Chemist
+		name = academics.70.chemist
 		
 		trigger = {
-			NOT = { has_variable = verrier_astronomer_var }
+			mendelejew_has_chemist_no_tooltip_trigger = no
+		}
+
+		custom_tooltip = {
+			text = academics_recruit_foreign_astronomer_tt
+			set_local_variable = error_protection_local_var
+			if = {
+				limit = { has_local_variable = error_protection_local_var }
+				var:academics_foreign_scientist_origin_country_var = {
+					create_character = {
+						save_scope_as = mendelejew_chemist_scope
+					}
+		
+					scope:mendelejew_chemist_scope = {
+						add_trait = mendelejew_chemist
+						set_variable = mr_is_chemist_var
+						set_variable = {
+							name = mendelejew_chemist_experience
+							value = 0
+						}
+						transfer_character = root
+						place_character_in_void = 1200
+					}
+		
+					root = {
+						set_variable = {
+							name = mendelejew_chemist_var
+							value = scope:mendelejew_chemist_scope
+						}
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				trigger = {
+					country_rank < rank_value:major_power
+				}
+				add = 50
+			}
+			modifier = {
+				trigger = {
+					agassiz_has_geologist_no_tooltip_trigger = yes
+				}
+				add = 100
+			}
+		}
+	}
+
+	option = { #Astronomer
+		name = academics.70.astronomer
+		
+		trigger = {
+			verrier_has_astronomer_no_tooltip_trigger = no
 		}
 
 		custom_tooltip = {
@@ -2743,28 +2798,28 @@ academics.70 = {
 		}
 	}
 
-	option = { #Naturalist
-		name = academics.70.i
+	option = { #Geologist
+		name = academics.70.geologist
 		
 		trigger = {
-			NOT = { has_variable = dubois_naturalist_var }
+			agassiz_has_geologist_no_tooltip_trigger = no
 		}
 
 		custom_tooltip = {
-			text = academics_recruit_foreign_naturalist_tt
+			text = academics_recruit_foreign_paleontologist_tt
 			set_local_variable = error_protection_local_var
 			if = {
 				limit = { has_local_variable = error_protection_local_var }
 				var:academics_foreign_scientist_origin_country_var = {
 					create_character = {
-						save_scope_as = dubois_naturalist_scope
+						save_scope_as = agassiz_geologist_scope
 					}
 		
-					scope:dubois_naturalist_scope = {
-						add_trait = dubois_naturalist
-						set_variable = mr_is_naturalist_var
+					scope:agassiz_geologist_scope = {
+						add_trait = agassiz_geologist
+						set_variable = mr_is_geologist_var
 						set_variable = {
-							name = dubois_naturalist_experience
+							name = agassiz_geologist_experience_var
 							value = 0
 						}
 						transfer_character = root
@@ -2773,8 +2828,8 @@ academics.70 = {
 		
 					root = {
 						set_variable = {
-							name = dubois_naturalist_var
-							value = scope:dubois_naturalist_scope
+							name = agassiz_geologist_var
+							value = scope:agassiz_geologist_scope
 						}
 					}
 				}
@@ -2783,44 +2838,14 @@ academics.70 = {
 
 		ai_chance = {
 			base = 100
-			modifier = {
-				trigger = {
-					any_scope_building = {
-						is_building_type = building_port
-					}
-					navy_size >= 15
-					country_rank >= rank_value:major_power
-				}
-				add = 100
-			}
-			modifier = {
-				trigger = {
-					dubois_has_zoo = yes
-				}
-				add = 100
-			}
-			modifier = {
-				trigger = {
-					OR = {
-						dubois_has_rainforest_no_tooltip = yes
-						any_country = {
-							has_diplomatic_pact = {
-								who = ROOT
-								type = botanical_license
-							}
-						}
-					}
-				}
-				add = 100
-			}	
 		}
 	}
 
 	option = { #Paleontologist
-		name = academics.70.j
+		name = academics.70.paleontologist
 		
 		trigger = {
-			NOT = { has_variable = dubois_paleontologist_var }
+			dubois_has_paleontologist_no_tooltip_trigger = no
 		}
 
 		custom_tooltip = {
@@ -2903,11 +2928,127 @@ academics.70 = {
 		}
 	}
 
-	option = { #Archaeologist
-		name = academics.70.k
+	option = { #Naturalist
+		name = academics.70.naturalist
 		
 		trigger = {
-			NOT = { has_variable = lepsius_archaeologist_var }
+			dubois_has_naturalist_no_tooltip_trigger = no
+		}
+
+		custom_tooltip = {
+			text = academics_recruit_foreign_naturalist_tt
+			set_local_variable = error_protection_local_var
+			if = {
+				limit = { has_local_variable = error_protection_local_var }
+				var:academics_foreign_scientist_origin_country_var = {
+					create_character = {
+						save_scope_as = dubois_naturalist_scope
+					}
+		
+					scope:dubois_naturalist_scope = {
+						add_trait = dubois_naturalist
+						set_variable = mr_is_naturalist_var
+						set_variable = {
+							name = dubois_naturalist_experience
+							value = 0
+						}
+						transfer_character = root
+						place_character_in_void = 1200
+					}
+		
+					root = {
+						set_variable = {
+							name = dubois_naturalist_var
+							value = scope:dubois_naturalist_scope
+						}
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				trigger = {
+					any_scope_building = {
+						is_building_type = building_port
+					}
+					navy_size >= 15
+					country_rank >= rank_value:major_power
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					dubois_has_zoo = yes
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					OR = {
+						dubois_has_rainforest_no_tooltip = yes
+						any_country = {
+							has_diplomatic_pact = {
+								who = ROOT
+								type = botanical_license
+							}
+						}
+					}
+				}
+				add = 100
+			}	
+		}
+	}
+
+	option = { #Physician
+		name = academics.70.physician
+		
+		trigger = {
+			panum_has_physician_no_tooltip_trigger = no
+		}
+
+		custom_tooltip = {
+			text = academics_recruit_foreign_archaeologist_tt
+			set_local_variable = error_protection_local_var
+			if = {
+				limit = { has_local_variable = error_protection_local_var }
+				var:academics_foreign_scientist_origin_country_var = {
+					create_character = {
+						save_scope_as = panum_physician_scope
+					}
+		
+					scope:panum_physician_scope = {
+						add_trait = panum_physician
+						set_variable = mr_is_physician_var
+						set_variable = {
+							name = panum_physician_experience
+							value = 0
+						}
+						transfer_character = root
+						place_character_in_void = 1200
+					}
+		
+					root = {
+						set_variable = {
+							name = panum_physician_var
+							value = scope:panum_physician_scope
+						}
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 200
+		}
+	}
+
+	option = { #Archaeologist
+		name = academics.70.archaeologist
+		
+		trigger = {
+			lepsius_has_archaeologist_no_tooltip_trigger = no
 		}
 
 		custom_tooltip = {
@@ -2994,7 +3135,7 @@ academics.70 = {
 	}
 
 	option = { #Anthropologist
-		name = academics.70.l
+		name = academics.70.anthropologist
 		
 		trigger = {
 			NOT = { has_variable = lepsius_anthropologist_var }

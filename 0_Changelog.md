@@ -39,6 +39,9 @@ Architecture Changes:
 Artists:
 - Added Artist Game Rule to start with a random artist (equivalent to Academic Game Rule to start with a random academic)
 
+Academics:
+- Added Chemist, Geologist and Physician to the buy academic diplomatic action.
+
 Anthropology:
 - Heidelberg Man added as a possible human fossil.
 
