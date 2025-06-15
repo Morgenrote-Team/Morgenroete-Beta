@@ -74,6 +74,7 @@ Characters:
 - Walter Gropius (random German Architect)
 - Gottfried Semper (random German Architect)
 - Mies van der Rohe (random German Architect)
+- Charles Rennie Mackintosh (random Scottish Architect)
 - Melchior Berri (randoms Swiss Architect)
 - Hannes Meyer (randoms Swiss Architect)
 - Ferdinand Stadler (randoms Swiss Architect)
