@@ -92,6 +92,54 @@ douglas_yearly_alpine_heritage_effect = {
 	}
 }
 
+#Effect to add Mountain Ascents
+douglas_add_mountain_ascent_effect = {
+	custom_tooltip = {
+		text = douglas_add_mountain_ascent_effect_tt
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = douglas_num_mountain_ascents_var
+				}
+			}
+			set_variable = {
+				name = douglas_num_mountain_ascents_var
+				value = 0
+			}
+		}
+		change_variable = {
+			name = douglas_num_mountain_ascents_var
+			add = 1
+		}
+		if = {
+			limit = {
+				has_variable = douglas_mountaineer_var
+			}
+			if = {
+				limit = {
+					NOT = {
+						var:douglas_mountaineer_var = {
+							has_variable = douglas_mountaineer_num_mountain_ascents_var
+						}
+					}
+				}
+				var:douglas_mountaineer_var = {
+					set_variable = {
+						name = douglas_mountaineer_num_mountain_ascents_var
+						value = 0
+					}
+				}
+			}
+			var:douglas_mountaineer_var = {
+				change_variable = {
+					name = douglas_mountaineer_num_mountain_ascents_var
+					add = 1
+				}
+			}
+		}
+	}
+}
+
 #Effect to add Mountain Disaster
 douglas_add_mountain_disaster_effect = {
 	custom_tooltip = {
@@ -406,6 +454,18 @@ douglas_add_mountain_summits = {
 
 ######MOUNTAINEERING EXPEDITION EFFECTS######
 
+set_douglas_mountain_choice_effect = {
+	douglas_add_mountain_ascent_effect = yes
+	add_journal_entry = {
+		type = je_douglas_mountaineering_expedition
+	}
+	je:je_douglas_mountaineering_expedition = {
+		add_modifier = {
+			name = douglas_mountaineering_expedition_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+	}
+}
 
 
 ######SUMMIT CONQUERED EFFECT######
