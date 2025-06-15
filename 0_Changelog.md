@@ -76,4 +76,5 @@ Characters:
 - Hans Conrad Stadler (randoms Swiss Architect)
 - Jakob Friedrich Studer (randoms Swiss Architect)
 - Louise Blanchard Bethune (random American Architect)
+- Cornelis Dopper (random Dutch Composer)
 - Marie Skłodowska Curie (random Polish Chemist)
