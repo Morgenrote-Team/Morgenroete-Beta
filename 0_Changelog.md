@@ -71,7 +71,9 @@ Internal:
 
 Characters:
 - Adolf Loos (random Austrian Architect)
+- Walter Gropius (random German Architect)
 - Gottfried Semper (random German Architect)
+- Mies van der Rohe (random German Architect)
 - Melchior Berri (randoms Swiss Architect)
 - Ferdinand Stadler (randoms Swiss Architect)
 - Hans Conrad Stadler (randoms Swiss Architect)
