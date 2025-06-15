@@ -92,6 +92,102 @@ douglas_yearly_alpine_heritage_effect = {
 	}
 }
 
+#Effect to add Mountain Disaster
+douglas_add_mountain_disaster_effect = {
+	custom_tooltip = {
+		text = douglas_add_mountain_disaster_effect_tt
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = douglas_num_mountain_disasters_var
+				}
+			}
+			set_variable = {
+				name = douglas_num_mountain_disasters_var
+				value = 0
+			}
+		}
+		change_variable = {
+			name = douglas_num_mountain_disasters_var
+			add = 1
+		}
+		if = {
+			limit = {
+				has_variable = douglas_mountaineer_var
+			}
+			if = {
+				limit = {
+					NOT = {
+						var:douglas_mountaineer_var = {
+							has_variable = douglas_mountaineer_num_disasters_suffered_var
+						}
+					}
+				}
+				var:douglas_mountaineer_var = {
+					set_variable = {
+						name = douglas_mountaineer_num_disasters_suffered_var
+						value = 0
+					}
+				}
+			}
+			var:douglas_mountaineer_var = {
+				change_variable = {
+					name = douglas_mountaineer_num_disasters_suffered_var
+					add = 1
+				}
+			}
+		}
+	}
+}
+
+#Effect to add Climb Abortion
+douglas_add_climb_aborted_effect = {
+	custom_tooltip = {
+		text = douglas_add_climb_aborted_effect_tt
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = douglas_num_climbs_aborted_var
+				}
+			}
+			set_variable = {
+				name = douglas_num_climbs_aborted_var
+				value = 0
+			}
+		}
+		change_variable = {
+			name = douglas_num_climbs_aborted_var
+			add = 1
+		}
+		if = {
+			limit = {
+				has_variable = douglas_mountaineer_var
+			}
+			if = {
+				limit = {
+					NOT = {
+						var:douglas_mountaineer_var = {
+							has_variable = douglas_mountaineer_num_climbs_aborted_var
+						}
+					}
+				}
+				var:douglas_mountaineer_var = {
+					set_variable = {
+						name = ddouglas_mountaineer_num_climbs_aborted_var
+						value = 0
+					}
+				}
+			}
+			var:douglas_mountaineer_var = {
+				change_variable = {
+					name = douglas_mountaineer_num_climbs_aborted_var
+					add = 1
+				}
+			}
+		}
+	}
+}
+
 ################################################################################
 
 ######JOURNAL ENTRIES######
@@ -292,8 +388,8 @@ douglas_add_mountain_summits = {
 	s:STATE_HIMALAYAS = {
 		add_state_trait = douglas_state_trait_mount_everest
 	}
-	s:STATE_NGARI = {
-		add_state_trait = douglas_state_trait_gurla_mandhata
+	s:STATE_SICHUAN = {
+		add_state_trait = douglas_state_trait_mount_gongga
 	}
 
 	#Australia&Oceania
@@ -307,6 +403,10 @@ douglas_add_mountain_summits = {
 		add_state_trait = douglas_state_trait_mount_giluwe
 	}
 }
+
+######MOUNTAINEERING EXPEDITION EFFECTS######
+
+
 
 ######SUMMIT CONQUERED EFFECT######
 
@@ -2274,35 +2374,35 @@ set_douglas_summit_conquered_effect = {
 			}
 		}
 	}
-	######Gurla Mandhata######
+	######Mount Gongga######
 	if = {
 		limit = {
-			var:douglas_mountain_expedition_var = douglas_gurla_mandhata_var
+			var:douglas_mountain_expedition_var = douglas_mount_gongga_var
 		}
-		s:STATE_NGARI = {
-			add_state_trait = douglas_state_trait_gurla_mandhata_conquered
+		s:STATE_SICHUAN = {
+			add_state_trait = douglas_state_trait_mount_gongga_conquered
 			if = {
 				limit = {
-					has_state_trait = douglas_state_trait_gurla_mandhata
+					has_state_trait = douglas_state_trait_mount_gongga
 				}
-				remove_state_trait = douglas_state_trait_gurla_mandhata
+				remove_state_trait = douglas_state_trait_mount_gongga
 			}
 			if = {
 				limit = {
-					has_state_trait = douglas_state_trait_gurla_mandhata_death
+					has_state_trait = douglas_state_trait_mount_gongga_death
 				}
-				remove_state_trait = douglas_state_trait_gurla_mandhata_death
+				remove_state_trait = douglas_state_trait_mount_gongga_death
 			}
 		}
 		if = {
 			limit = {
 				NOT = {
 					any_country = {
-						has_variable = douglas_gurla_mandhata_conqueror_var
+						has_variable = douglas_mount_gongga_conqueror_var
 					}
 				}
 			}
-			set_variable = douglas_gurla_mandhata_conqueror_var
+			set_variable = douglas_mount_gongga_conqueror_var
 		}
 		#Changes the amount of conquered peaks for the GUI
 		if = {
@@ -2323,21 +2423,21 @@ set_douglas_summit_conquered_effect = {
 		#Saves the date of the ascent as a global variable
 		if = {
 			limit = {
-				NOT = { has_global_variable = douglas_gurla_mandhata_year_global_var }
+				NOT = { has_global_variable = douglas_mount_gongga_year_global_var }
 			}
 			set_global_variable = {
-				name = douglas_gurla_mandhata_year_global_var
+				name = douglas_mount_gongga_year_global_var
 				value = year
 			}
 		}
 		#Saves the country definition of the country as a global variable
 		if = {
 			limit = {
-				NOT = { has_global_variable = douglas_gurla_mandhata_conqueror_global_var }
+				NOT = { has_global_variable = douglas_mount_gongga_conqueror_global_var }
 			}
 			country_definition = {
 				set_global_variable = {
-					name = douglas_gurla_mandhata_conqueror_global_var
+					name = douglas_mount_gongga_conqueror_global_var
 					value = this
 				}
 			}
@@ -2576,6 +2676,944 @@ change_douglas_summit_prestige_effect = {
 		add_modifier = {
 			name = douglas_summit_prestige_modifier
 			multiplier = douglas_summit_prestige_value
+		}
+	}
+}
+
+add_douglas_summit_mountaineer_experience_effect = {
+	if = {
+		limit = {
+			douglas_climbs_3000_meter_mountain_trigger = yes
+		}
+		mountaineer_experience_gain_effect = {
+			AMOUNT = 25
+		}
+	}
+	if = {
+		limit = {
+			douglas_climbs_4000_meter_mountain_trigger = yes
+		}
+		mountaineer_experience_gain_effect = {
+			AMOUNT = 30
+		}
+	}
+	if = {
+		limit = {
+			douglas_climbs_5000_meter_mountain_trigger = yes
+		}
+		mountaineer_experience_gain_effect = {
+			AMOUNT = 35
+		}
+	}
+	if = {
+		limit = {
+			douglas_climbs_6000_meter_mountain_trigger = yes
+		}
+		mountaineer_experience_gain_effect = {
+			AMOUNT = 40
+		}
+	}
+	if = {
+		limit = {
+			douglas_climbs_7000_meter_mountain_trigger = yes
+		}
+		mountaineer_experience_gain_effect = {
+			AMOUNT = 45
+		}
+	}
+	if = {
+		limit = {
+			douglas_climbs_8000_meter_mountain_trigger = yes
+		}
+		mountaineer_experience_gain_effect = {
+			AMOUNT = 50
+		}
+	}
+}
+
+######DEATH PEAK EFFECT######
+
+add_douglas_death_peak_effect = {
+
+	#########################
+
+	#################
+	# NORTH AMERICA #
+	#################
+
+	######MOUNT WHITNEY######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_whitney_var
+		}
+		s:STATE_CALIFORNIA = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_mount_whitney
+				}
+				remove_state_trait = douglas_state_trait_mount_whitney
+				add_state_trait = douglas_state_trait_mount_whitney_death
+			}
+		}
+	}
+	######Citlaltepetl######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_citlaltepetl_var
+		}
+		s:STATE_MEXICO = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_citlaltepetl
+				}
+				remove_state_trait = douglas_state_trait_citlaltepetl
+				add_state_trait = douglas_state_trait_citlaltepetl_death
+			}
+		}
+	}
+	######Mount Logan######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_logan_var
+		}
+		s:STATE_YUKON_TERRITORY = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_mount_logan
+				}
+				remove_state_trait = douglas_state_trait_mount_logan
+				add_state_trait = douglas_state_trait_mount_logan_death
+			}
+		}
+	}
+	######Mount McKinley######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_mckinley_var
+		}
+		s:STATE_ALASKA = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_mount_mckinley
+				}
+				remove_state_trait = douglas_state_trait_mount_mckinley
+				add_state_trait = douglas_state_trait_mount_mckinley_death
+			}
+		}
+	}
+	######Mount Saint Elias######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_elias_var
+		}
+		s:STATE_YUKON_TERRITORY = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_mount_elias
+				}
+				remove_state_trait = douglas_state_trait_mount_elias
+				add_state_trait = douglas_state_trait_mount_elias_death
+			}
+		}
+	}
+	######Popocatepetl######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_popocatepetl_var
+		}
+		s:STATE_MEXICO = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_popocatepetl
+				}
+				remove_state_trait = douglas_state_trait_popocatepetl
+				add_state_trait = douglas_state_trait_popocatepetl_death
+			}
+		}
+	}
+	######################
+
+	#################
+	# SOUTH AMERICA #
+	#################
+
+	######Chimborazo######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_chimborazo_var
+		}
+		s:STATE_ECUADOR = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_chimborazo
+				}
+				remove_state_trait = douglas_state_trait_chimborazo
+				add_state_trait = douglas_state_trait_chimborazo_death
+			}
+		}
+	}
+	######Illimani######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_illimani_var
+		}
+		s:STATE_LA_PAZ = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_illimani
+				}
+				remove_state_trait = douglas_state_trait_illimani
+				add_state_trait = douglas_state_trait_illimani_death
+			}
+		}
+	}
+	######Huascaran######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_huascaran_var
+		}
+		s:STATE_LIMA = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_huascaran
+				}
+				remove_state_trait = douglas_state_trait_huascaran
+				add_state_trait = douglas_state_trait_huascaran_death
+			}
+		}
+	}
+	######Aconcagua######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_aconcagua_var
+		}
+		s:STATE_RIO_NEGRO = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_aconcagua
+				}
+				remove_state_trait = douglas_state_trait_aconcagua
+				add_state_trait = douglas_state_trait_aconcagua_death
+			}
+		}
+	}
+	######Monte Pissis######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_monte_pissis_var
+		}
+		s:STATE_TUCUMAN = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_monte_pissis
+				}
+				remove_state_trait = douglas_state_trait_monte_pissis
+				add_state_trait = douglas_state_trait_monte_pissis_death
+			}
+		}
+	}
+	######################
+
+	##########
+	# EUROPE #
+	##########
+
+	######Pico Aneto######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_pico_aneto_var
+		}
+		s:STATE_ARAGON = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_pico_aneto
+				}
+				remove_state_trait = douglas_state_trait_pico_aneto
+				add_state_trait = douglas_state_trait_pico_aneto_death
+			}
+		}
+	}
+	######Aiguille Verte######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_aiguille_verte_var
+		}
+		s:STATE_SAVOY = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_aiguille_verte
+				}
+				remove_state_trait = douglas_state_trait_aiguille_verte
+				add_state_trait = douglas_state_trait_aiguille_verte_death
+			}
+		}
+	}
+	######Matterhorn######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_matterhorn_var
+		}
+		s:STATE_WEST_SWITZERLAND = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_matterhorn
+				}
+				remove_state_trait = douglas_state_trait_matterhorn
+				add_state_trait = douglas_state_trait_matterhorn_death
+			}
+		}
+	}
+	######Dufourspitze######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_dufourspitze_var
+		}
+		s:STATE_WEST_SWITZERLAND = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_dufourspitze
+				}
+				remove_state_trait = douglas_state_trait_dufourspitze
+				add_state_trait = douglas_state_trait_dufourspitze_death
+			}
+		}
+	}
+	######Shkara######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_shkara_var
+		}
+		s:STATE_GREATER_CAUCASUS = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_shkara
+				}
+				remove_state_trait = douglas_state_trait_shkara
+				add_state_trait = douglas_state_trait_shkara_death
+			}
+		}
+	}
+	######Mont Blanc######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mont_blanc_var
+		}
+		s:STATE_PIEDMONT = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_mont_blanc
+				}
+				remove_state_trait = douglas_state_trait_mont_blanc
+				add_state_trait = douglas_state_trait_mont_blanc_death
+			}
+		}
+	}
+	######Großvenediger######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_grossvenediger_var
+		}
+		s:STATE_TYROL = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_grossvenediger
+				}
+				remove_state_trait = douglas_state_trait_grossvenediger
+				add_state_trait = douglas_state_trait_grossvenediger_death
+			}
+		}
+	}
+	######################
+
+	##########
+	# AFRICA #
+	##########
+
+	######Mount Cameroon######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_cameroon_var
+		}
+		s:STATE_SOUTH_CAMEROON = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_mount_cameroon
+				}
+				remove_state_trait = douglas_state_trait_mount_cameroon
+				add_state_trait = douglas_state_trait_mount_cameroon_death
+			}
+		}
+	}
+	######Mount Stanley######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_stanley_var
+		}
+		s:STATE_UGANDA = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_mount_stanley
+				}
+				remove_state_trait = douglas_state_trait_mount_stanley
+				add_state_trait = douglas_state_trait_mount_stanley_death
+			}
+		}
+	}
+	######Batian######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_batian_var
+		}
+		s:STATE_KENYA = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_batian
+				}
+				remove_state_trait = douglas_state_trait_batian
+				add_state_trait = douglas_state_trait_batian_death
+			}
+		}
+	}
+	######Kibo######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_kibo_var
+		}
+		s:STATE_TANGANYIKA = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_kibo
+				}
+				remove_state_trait = douglas_state_trait_kibo
+				add_state_trait = douglas_state_trait_kibo_death
+			}
+		}
+	}
+	######Ras Dashen######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_ras_dashen_var
+		}
+		s:STATE_GONDER = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_ras_dashen
+				}
+				remove_state_trait = douglas_state_trait_ras_dashen
+				add_state_trait = douglas_state_trait_ras_dashen_death
+			}
+		}
+	}
+	######################
+
+	########
+	# ASIA #
+	########
+
+	######Kaufmann Peak######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_kaufmann_peak_var
+		}
+		s:STATE_TAJIKISTAN = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_kaufmann_peak
+				}
+				remove_state_trait = douglas_state_trait_kaufmann_peak
+				add_state_trait = douglas_state_trait_kaufmann_peak_death
+			}
+		}
+	}
+	######Kabru######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_kabru_var
+		}
+		s:STATE_HIMALAYAS = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_kabru
+				}
+				remove_state_trait = douglas_state_trait_kabru
+				add_state_trait = douglas_state_trait_kabru_death
+			}
+		}
+	}
+	######Kamet######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_kamet_var
+		}
+		s:STATE_DELHI = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_kamet
+				}
+				remove_state_trait = douglas_state_trait_kamet
+				add_state_trait = douglas_state_trait_kamet_death
+			}
+		}
+	}
+	######Chogolisa######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_chogolisa_var
+		}
+		s:STATE_KASHMIR = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_chogolisa
+				}
+				remove_state_trait = douglas_state_trait_chogolisa
+				add_state_trait = douglas_state_trait_chogolisa_death
+			}
+		}
+	}
+	######Mount Everest######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_everest_var
+		}
+		s:STATE_HIMALAYAS = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_mount_everest
+				}
+				remove_state_trait = douglas_state_trait_mount_everest
+				add_state_trait = douglas_state_trait_mount_everest_death
+			}
+		}
+	}
+	######Mount Gongga######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_gongga_var
+		}
+		s:STATE_SICHUAN = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_mount_gongga
+				}
+				remove_state_trait = douglas_state_trait_mount_gongga
+				add_state_trait = douglas_state_trait_mount_gongga_death
+			}
+		}
+	}
+	######################
+
+	#######################
+	# AUSTRALIA & OCEANIA #
+	#######################
+
+	######Mount Cook######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_cook_var
+		}
+		s:STATE_SOUTH_ISLAND = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_mount_cook
+				}
+				remove_state_trait = douglas_state_trait_mount_cook
+				add_state_trait = douglas_state_trait_mount_cook_death
+			}
+		}
+	}
+	######Mount Wilhelm######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_wilhelm_var
+		}
+		s:STATE_EASTERN_NEW_GUINEA = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_mount_wilhelm
+				}
+				remove_state_trait = douglas_state_trait_mount_wilhelm
+				add_state_trait = douglas_state_trait_mount_wilhelm_death
+			}
+		}
+	}
+	######Mount Giluwe######
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_giluwe_var
+		}
+		s:STATE_EASTERN_NEW_GUINEA = {
+			if = {
+				limit = {
+					has_state_trait = douglas_state_trait_mount_giluwe
+				}
+				remove_state_trait = douglas_state_trait_mount_giluwe
+				add_state_trait = douglas_state_trait_mount_giluwe_death
+			}
+		}
+	}
+
+	custom_tooltip = set_douglas_death_peak_effect_tt
+}
+
+################################################################################
+
+######MOUNTAINEERING JE######
+
+#Sets the Location State for Event Placement
+set_douglas_location_scope_effect = {
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_whitney_var
+		}
+		s:STATE_CALIFORNIA = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_citlaltepetl_var
+		}
+		s:STATE_MEXICO = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_logan_var
+		}
+		s:STATE_YUKON_TERRITORY = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_mckinley_var
+		}
+		s:STATE_ALASKA = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_elias_var
+		}
+		s:STATE_YUKON_TERRITORY = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_popocatepetl_var
+		}
+		s:STATE_MEXICO = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	######################################################
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_chimborazo_var
+		}
+		s:STATE_ECUADOR = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_illimani_var
+		}
+		s:STATE_LA_PAZ = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_huascaran_var
+		}
+		s:STATE_LIMA = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_aconcagua_var
+		}
+		s:STATE_RIO_NEGRO = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_monte_pissis_var
+		}
+		s:STATE_TUCUMAN = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	######################################################
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_pico_aneto_var
+		}
+		s:STATE_ARAGON = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_aiguille_verte_var
+		}
+		s:STATE_SAVOY = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_matterhorn_var
+		}
+		s:STATE_WEST_SWITZERLAND = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_dufourspitze_var
+		}
+		s:STATE_WEST_SWITZERLAND = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_shkara_var
+		}
+		s:STATE_GREATER_CAUCASUS = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mont_blanc_var
+		}
+		s:STATE_PIEDMONT = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_großvenediger_var
+		}
+		s:STATE_TYROL = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	######################################################
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_cameroon_var
+		}
+		s:STATE_SOUTH_CAMEROON = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_stanley_var
+		}
+		s:STATE_UGANDA = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_batian_var
+		}
+		s:STATE_KENYA = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_kibo_var
+		}
+		s:STATE_TANGANYIKA = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_ras_dashen_var
+		}
+		s:STATE_GONDER = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	######################################################
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_kaufmann_peak_var
+		}
+		s:STATE_TAJIKISTAN = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_kabru_var
+		}
+		s:STATE_HIMALAYAS = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_kamet_var
+		}
+		s:STATE_DELHI = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_chogolisa_var
+		}
+		s:STATE_KASHMIR = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_everest_var
+		}
+		s:STATE_HIMALAYAS = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_gongga_var
+		}
+		s:STATE_SICHUAN = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	######################################################
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_cook_var
+		}
+		s:STATE_SOUTH_ISLAND = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_wilhelm_var
+		}
+		s:STATE_EASTERN_NEW_GUINEA = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+	if = {
+		limit = {
+			var:douglas_mountain_expedition_var = douglas_mount_giluwe_var
+		}
+		s:STATE_EASTERN_NEW_GUINEA = {
+			save_scope_as = douglas_location_scope
+		}
+	}
+}
+
+set_douglas_height_difficulty_effect = {
+	if = {
+		limit = {
+			douglas_climbs_3000_meter_mountain_trigger = yes
+		}
+		je:je_douglas_mountaineering_expedition = {
+			add_progress = { 
+				name = douglas_mountain_expedition_progress_bar
+				value = 6
+			}
+		}
+	}
+	if = {
+		limit = {
+			douglas_climbs_4000_meter_mountain_trigger = yes
+		}
+		je:je_douglas_mountaineering_expedition = {
+			add_progress = { 
+				name = douglas_mountain_expedition_progress_bar
+				value = 5
+			}
+		}
+	}
+	if = {
+		limit = {
+			douglas_climbs_5000_meter_mountain_trigger = yes
+		}
+		je:je_douglas_mountaineering_expedition = {
+			add_progress = { 
+				name = douglas_mountain_expedition_progress_bar
+				value = 4
+			}
+		}
+	}
+	if = {
+		limit = {
+			douglas_climbs_6000_meter_mountain_trigger = yes
+		}
+		je:je_douglas_mountaineering_expedition = {
+			add_progress = { 
+				name = douglas_mountain_expedition_progress_bar
+				value = 3
+			}
+		}
+	}
+	if = {
+		limit = {
+			douglas_climbs_7000_meter_mountain_trigger = yes
+		}
+		je:je_douglas_mountaineering_expedition = {
+			add_progress = { 
+				name = douglas_mountain_expedition_progress_bar
+				value = 2
+			}
+		}
+	}
+	if = {
+		limit = {
+			douglas_climbs_8000_meter_mountain_trigger = yes
+		}
+		je:je_douglas_mountaineering_expedition = {
+			add_progress = { 
+				name = douglas_mountain_expedition_progress_bar
+				value = 1
+			}
+		}
+	}
+}
+
+set_douglas_risk_difficulty_effect = {
+	if = {
+		limit = {
+			douglas_climbs_risk_2_mountain_trigger = yes
+		}
+		je:je_douglas_mountaineering_expedition = {
+			add_progress = { 
+				name = douglas_mountain_danger_progress_bar
+				value = 1
+			}
+		}
+	}
+	if = {
+		limit = {
+			douglas_climbs_risk_3_mountain_trigger = yes
+		}
+		je:je_douglas_mountaineering_expedition = {
+			add_progress = { 
+				name = douglas_mountain_danger_progress_bar
+				value = 2
+			}
 		}
 	}
 }
