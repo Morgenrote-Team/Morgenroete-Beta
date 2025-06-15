@@ -70,6 +70,7 @@ Internal:
 - Removed various scripted_buttons that were used for the AI and either switched them to sGUIs or scripted_effects.
 
 Characters:
+- Adolf Loos (random Austrian Architect)
 - Gottfried Semper (random German Architect)
 - Melchior Berri (randoms Swiss Architect)
 - Ferdinand Stadler (randoms Swiss Architect)
