@@ -75,6 +75,7 @@ Characters:
 - Gottfried Semper (random German Architect)
 - Mies van der Rohe (random German Architect)
 - Melchior Berri (randoms Swiss Architect)
+- Hannes Meyer (randoms Swiss Architect)
 - Ferdinand Stadler (randoms Swiss Architect)
 - Hans Conrad Stadler (randoms Swiss Architect)
 - Jakob Friedrich Studer (randoms Swiss Architect)
