@@ -64,6 +64,9 @@ Fixes:
 - If you replace an existing physician with a new one, the new one will be buisy if the old one was working on a project.
 - The Button to stop Naturalist projects now also stops the Botanical expedition.
 
+Balancing:
+- Establishing a Nature Preserve now requires less construction points.
+
 Internal:
 - Renamed various files
 - Renamed various triggers, variables, sGUIs, etc. (e.g. gaudi_engineer_var --> tesla_engineer_var)
