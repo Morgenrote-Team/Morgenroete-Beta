@@ -62,6 +62,7 @@ Fixes:
 - Fixed the progress bar of the engineer.
 - The Plague Treatment journal entry now adds the treatment of plague instead of scarlet when finished. This should solve a weird exploit to get infinite medical prestige.
 - If you replace an existing physician with a new one, the new one will be buisy if the old one was working on a project.
+- The Button to stop Naturalist projects now also stops the Botanical expedition.
 
 Internal:
 - Renamed various files
