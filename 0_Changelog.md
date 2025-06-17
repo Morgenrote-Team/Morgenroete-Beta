@@ -92,3 +92,4 @@ Characters:
 - Cornelis Dopper (random Dutch Composer)
 - Marie Skłodowska Curie (random Polish Chemist)
 - Removed Edison (makes more sense as an executive, he didn't invent a lot anyways)
+- Removed Isambard Kingdom Brunel (now in Vanilla)
