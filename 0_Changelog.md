@@ -64,6 +64,10 @@ Fixes:
 - If you replace an existing physician with a new one, the new one will be buisy if the old one was working on a project.
 - The Button to stop Naturalist projects now also stops the Botanical expedition.
 
+Changes:
+- Removed MFE_trade_good_events.2 and MFE_trade_good_events.3, as trade routes can no longer be created.
+- Gave the Engineer Trait a positive modifier for manufacturing throughput if they are executives.
+
 Balancing:
 - Establishing a Nature Preserve now requires less construction points.
 
@@ -87,3 +91,4 @@ Characters:
 - Louise Blanchard Bethune (random American Architect)
 - Cornelis Dopper (random Dutch Composer)
 - Marie Skłodowska Curie (random Polish Chemist)
+- Removed Edison (makes more sense as an executive, he didn't invent a lot anyways)
