@@ -1,0 +1,354 @@
+﻿### ASTRONOMER BUTTONS ###
+
+#by Lord R
+
+#Does the country have an astronomer
+mr_has_astronomer_sgui = {
+	scope = country
+	is_shown = {
+		has_variable = verrier_astronomer_var
+	}
+}
+
+#Sets the Ranking up
+mr_astronomy_ranking_sgui = {
+	scope = country
+	effect = {
+		verrier_create_astronomical_prestige_ranking_list_effect = yes
+		verrier_create_planets_ranking_list_effect = yes
+		verrier_create_moons_ranking_list_effect = yes
+		verrier_create_astronomical_objects_ranking_list_effect = yes
+	}
+}
+
+#MR_ASTRONOMER_DISCOVER_SATELLITES_BUTTON
+mr_astronomer_discover_satellites_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = verrier_decide_planet_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ASTRONOMER_ACTIVE_TRIGGER_TT
+			verrier_has_active_astronomer = yes
+		}
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_ASTRONOMER_CAN_DISCOVER_SATELLITES_TRIGGER_TT
+			verrier_can_discover_satellite_trigger = yes
+		}
+    }
+    effect = {
+		remove_variable = verrier_stop_astronomer_project_var
+		set_variable = verrier_decide_planet_var
+		trigger_event = {
+			id = verrier.500
+			popup = yes
+		}
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			var:verrier_astronomer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 2 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+mr_astronomer_discover_satellites_active_sgui = {
+	scope = country
+	
+	is_shown = {
+		OR = {
+			has_journal_entry = je_verrier_mars_satellites
+			has_journal_entry = je_verrier_jupiter_satellites
+			has_journal_entry = je_verrier_saturn_satellites
+			has_journal_entry = je_verrier_uranus_satellites
+			has_journal_entry = je_verrier_neptune_satellites
+		}
+	}
+}
+
+#MR_ASTRONOMER_MOON_MAP_BUTTON
+mr_astronomer_moon_map_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = verrier_moon_chartered_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ASTRONOMER_ACTIVE_TRIGGER_TT
+			verrier_has_active_astronomer = yes
+		}
+		mr_gui_has_modern_astronomy_tech_trigger = yes
+		mr_gui_has_camera_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_UNIVERSITY_BUILDING_LEVEL_10_TRIGGER_TT
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 10
+			}
+		}
+    }
+    effect = {
+		remove_variable = verrier_stop_astronomer_project_var
+		add_journal_entry = { type = je_verrier_charter_moon }
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			var:verrier_astronomer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 10 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+mr_astronomer_moon_map_active_sgui = {
+	scope = country
+	
+	is_shown = {
+		has_journal_entry = je_verrier_charter_moon
+	}
+}
+
+#MR_ASTEROID_CONGRESS_BUTTON
+mr_asteroid_congress_button_sgui = {
+    scope = country
+	is_shown = {
+		NOR = {
+			has_global_variable = verrier_asteroid_congress_hosted_var
+			any_country = {
+				has_modifier = verrier_congress_host_modifier
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_NEPTUNE_TT
+			has_global_variable = verrier_neptune_discovered_var
+		}
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_DWARF_PLANETS_TT
+			has_global_variable = verrier_ceres_year_global_var
+			has_global_variable = verrier_pallas_year_global_var
+			has_global_variable = verrier_vesta_year_global_var
+			has_global_variable = verrier_juno_year_global_var
+		}
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_OBJECTS_TRIGGER_TT
+			global_var:verrier_total_astronomical_objects >= 1500
+		}
+		custom_tooltip = {
+			text = MR_MAJOR_POWER_HIGHER_TRIGGER_TT
+			country_rank >= rank_value:major_power
+		}
+		mr_gui_has_modern_astronomy_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_UNIVERSITY_BUILDING_TRIGGER_TT
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 5
+			}
+		}
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_ASTRONOMER_TRIGGER_TT
+			verrier_has_astronomer = yes
+		}
+    }
+    effect = {
+		trigger_event = { 
+			id = verrier.30
+			popup = yes 
+		}
+		set_global_variable = verrier_asteroid_congress_hosted_var
+		add_modifier = {
+			name = verrier_congress_host_modifier
+			years = 5
+		}	
+    }
+}
+
+#MR_CARTE_DE_CIEL_CONGRESS_BUTTON
+mr_carte_congress_button_sgui = {
+    scope = country
+	is_shown = {
+		has_global_variable = verrier_asteroid_congress_hosted_var
+		NOT = {
+			has_global_variable = verrier_carte_congress_hosted_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ASTRONOMY_CONGRESS_5_YEARS_TRIGGER_TT
+			NOT = {
+				any_country = {
+					has_modifier = verrier_congress_host_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_CARTE_DE_CIEL_CONGRESS_OBJECTS_TRIGGER_TT
+			global_var:verrier_total_astronomical_objects >= 7000
+		}
+		custom_tooltip = {
+			text = MR_MAJOR_POWER_HIGHER_TRIGGER_TT
+			country_rank >= rank_value:major_power
+		}
+		mr_gui_has_electromagnetism_tech_trigger = yes
+		mr_gui_has_camera_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_UNIVERSITY_BUILDING_LEVEL_10_TRIGGER_TT
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 10
+			}
+		}
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_ASTRONOMER_TRIGGER_TT
+			verrier_has_astronomer = yes
+		}
+    }
+    effect = {
+		trigger_event = { 
+			id = verrier.80
+			popup = yes 
+		}
+		set_global_variable = verrier_carte_congress_hosted_var
+		add_modifier = {
+			name = verrier_congress_host_modifier
+			years = 5
+		}	
+    }
+}
+
+#MR_GREAT_DEBATE_CONGRESS_BUTTON
+mr_great_debate_congress_button_sgui = {
+    scope = country
+	is_shown = {
+		has_global_variable = verrier_carte_congress_hosted_var
+		NOT = {
+			has_global_variable = verrier_debate_congress_hosted_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ASTRONOMY_CONGRESS_5_YEARS_TRIGGER_TT
+			NOT = {
+				any_country = {
+					has_modifier = verrier_congress_host_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_GREAT_DEBATE_CONGRESS_OBJECTS_TRIGGER_TT
+			global_var:verrier_total_astronomical_objects >= 12000
+		}
+		custom_tooltip = {
+			text = MR_MAJOR_POWER_HIGHER_TRIGGER_TT
+			country_rank >= rank_value:major_power
+		}
+		mr_gui_has_astro_physics_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_GREAT_DEBATE_CONGRESS_UNIVERSITY_BUILDING_TRIGGER_TT
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 15
+			}
+		}
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_ASTRONOMER_TRIGGER_TT
+			verrier_has_astronomer = yes
+		}
+    }
+    effect = {
+		trigger_event = { 
+			id = verrier.86
+			popup = yes 
+		}
+		set_global_variable = verrier_debate_congress_hosted_var
+		add_modifier = {
+			name = verrier_congress_host_modifier
+			years = 5
+		}
+    }
+}
+
+#############################################
+
+#MR_STOP_ASTRONOMER_PROJECT_BUTTON
+mr_stop_astronomer_project_button_sgui = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_STOP_ASTRONOMER_PROJECT_POSSIBLE_TT
+			NOT = { has_variable = verrier_stop_astronomer_project_var }
+		}
+		custom_tooltip = {
+			text = MR_STOP_ASTRONOMER_PROJECT_HAS_ACTIVE_PROJECT_TT
+			OR = {
+				has_journal_entry = je_verrier_mars_satellites
+				has_journal_entry = je_verrier_jupiter_satellites
+				has_journal_entry = je_verrier_saturn_satellites
+				has_journal_entry = je_verrier_uranus_satellites
+				has_journal_entry = je_verrier_neptune_satellites
+				has_journal_entry = je_verrier_charter_moon
+			}
+		}
+	}
+	effect = {
+		set_variable = {
+			name = verrier_stop_astronomer_project_var
+			days = 7
+		}
+	}
+}

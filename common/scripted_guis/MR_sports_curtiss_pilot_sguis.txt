@@ -1,0 +1,266 @@
+﻿### PILOT BUTTONS ###
+
+#by Lord R
+
+#Does the country have a pilot
+mr_has_pilot_sgui = {
+	scope = country
+	is_shown = {
+		has_variable = curtiss_pilot_var
+	}
+}
+
+#Sets the Ranking up
+mr_schneider_tophy_victories_ranking_sgui = {
+	scope = country
+	effect = {
+		curtiss_create_schneider_trophy_victories_ranking_list_effect = yes
+	}
+}
+
+#MR_HOLD_SCHNEIDER_TROPHY_RACE_BUTTON
+mr_curtiss_hold_schneider_trophy_race_button_sgui = {
+    scope = country
+	is_shown = {
+		curtiss_schneider_trophy_winner = yes
+		NOT = {
+			has_variable = curtiss_schneider_trophy_host
+		}
+		NOT = {
+			any_country = {
+				has_modifier = curtiss_the_schneider_trophy_modifier
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_IOC_FOUNDATION_PEACE_TRIGGER_TT
+			is_at_war = no
+		}
+		custom_tooltip = {
+			text = MR_HOLD_SCHNEIDER_TROPHY_RACE_BUTTON_NO_BREAK_TRIGGER_TT
+			NOT = {
+				has_modifier = curtiss_schneider_trophy_break_modifier
+			}
+		}
+		custom_tooltip = {
+			text = MR_HOLD_SCHNEIDER_TROPHY_RACE_BUTTON_WATER_PORT_TRIGGER_TT
+			OR = {
+				any_scope_state = {
+					is_incorporated = yes
+					any_scope_building = {
+						is_building_type = building_port
+					}
+					any_scope_building = {
+						is_building_type = building_urban_center
+						level >= 10
+					}
+				}
+				AND = {
+					exists = c:SWI
+					c:SWI = ROOT
+					any_scope_state = {
+						any_scope_building = {
+							is_building_type = building_urban_center
+							level >= 10
+						}
+					}
+				}
+			}
+		}
+    }
+    effect = {
+		remove_global_variable = curtiss_schneider_trophy_race_end
+		add_treasury = -25000
+		trigger_event = { 
+			id = curtiss.102
+			popup = yes 
+		}
+    }
+}
+
+#MR_CURTISS_FOUND_PILOT_SCHOOL_BUTTON
+mr_curtiss_found_pilot_school_button_sgui = {
+    scope = country
+	is_shown = {
+		has_technology_researched = military_aviation
+		NOT = {
+			has_modifier = curtiss_pilot_school_modifier
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_ACE_BUTTON_TRIGGER_TT
+			curtiss_has_pilot_ace = yes
+		}
+		mr_gui_has_nco_training_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_CURTISS_HAS_AIRPORT_TRIGGER_TT
+			any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_airport
+					level >= 1
+				}
+			}
+		}
+    }
+    effect = {
+		add_modifier = {
+			name = curtiss_pilot_school_modifier
+		}
+    }
+}
+
+#MR_CURTISS_AIR_COMBAT_MISSION_BUTTON
+mr_curtiss_air_combat_mission_button_sgui = {
+    scope = country
+#	is_shown = {
+#		has_variable = curtiss_pilot_var
+#	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_ACTIVE_PILOT_TRIGGER_TT
+			curtiss_has_active_pilot_no_tooltip_trigger = yes
+		}
+		custom_tooltip = {
+			text = MR_IS_AT_WAR_TRIGGER_TT
+			is_at_war = yes
+		}
+		custom_tooltip = {
+			text = MR_CURTISS_FORMATION_HAS_MOBILIZATION_AERIAL_RECON_BUTTON_TRIGGER_TT
+			any_scope_war = {
+				any_scope_front = {
+					any_scope_general = {
+						owner = ROOT
+						this.commander_military_formation = {
+							OR = {
+								has_mobilization_option = mobilization_option:mobilization_option_aerial_recon
+								has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_1
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_2
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_3
+							}
+						}
+				   	}
+				}
+			}
+		}
+    }
+    effect = {
+		set_variable = curtiss_pilot_at_front_var
+		if = {
+			limit = {
+				has_variable = curtiss_pilot_var
+			}
+			var:curtiss_pilot_var ?= {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		add_modifier = {
+			name = curtiss_pilot_recently_sent_to_the_front_modifier
+			days = 180
+		}
+		add_journal_entry = {
+			type = je_curtiss_air_combat
+		}
+		trigger_event = {
+			id = curtiss.300
+			popup = yes
+		}
+    }
+}
+mr_curtiss_air_combat_mission_active_sgui = {
+    scope = country
+	is_shown = {
+		has_journal_entry = je_curtiss_air_combat
+	}
+}
+
+#MR_CURTISS_AIRCRAFT_PARADE_BUTTON
+mr_curtiss_aircraft_parade_button_sgui = {
+    scope = country
+#	is_shown = {
+#		has_technology_researched = military_aviation
+#	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_ACTIVE_PILOT_TRIGGER_TT
+			curtiss_has_active_pilot_no_tooltip_trigger = yes
+		}
+		mr_gui_has_military_aviation_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_CURTISS_NO_RECENT_AIRCRAFT_PARADE_TRIGGER_TT
+			NOR = {
+				has_modifier = curtiss_recent_aircraft_parade_modifier
+				has_modifier = curtiss_disastrous_air_show_modifier
+			}
+		}
+		custom_tooltip = {
+			text = MR_CURTISS_HAS_AIRPORT_TRIGGER_TT
+			any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_airport
+					level >= 1
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_CURTISS_MILITARY_INFLUENTIAL_TRIGGER_TT
+			OR = {
+				ig:ig_armed_forces = {
+					ig_approval >= 5
+				}
+				ig:ig_armed_forces = {
+					is_in_government = yes
+				}
+				ig:ig_armed_forces = {
+					is_powerful = yes
+				}
+			}
+		}
+    }
+    effect = {
+		if = {
+			limit = {
+				has_variable = curtiss_pilot_var
+			}
+			var:curtiss_pilot_var ?= {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		add_modifier = {
+			name = curtiss_aircraft_parade_cost_modifier
+			multiplier = money_amount_multiplier_large
+			days = 365
+		}
+		ig:ig_armed_forces = {
+			add_modifier = {
+                name = curtiss_aviation_enthusiasm_modifier
+			    years = 3
+            }
+		}
+		trigger_event = {
+			id = curtiss.400
+			popup = yes
+		}
+    }
+}
+mr_curtiss_aircraft_parade_active_sgui = {
+    scope = country
+	is_shown = {
+		has_modifier = curtiss_aircraft_parade_cost_modifier
+		NOT = {
+			has_modifier = curtiss_recent_aircraft_parade_modifier
+		}
+	}
+}
+
+#############################################
+
+#Stop Pilot Project
+mr_stop_pilot_project_button_sgui = {
+	scope = country
+	is_shown = {
+		always = no #TODO remove if button gets used
+	}
+}

@@ -1,0 +1,1086 @@
+﻿### NATURALIST BUTTONS ###
+
+#by Lord R
+
+#Sets the Ranking up
+mr_specimen_ranking_sgui = {
+	scope = country
+	effect = {
+		dubois_create_specimen_ranking_list_effect = yes
+		dubois_create_zoo_animal_ranking_list_effect = yes
+		dubois_create_animal_documentation_ranking_list_effect = yes
+	}
+}
+
+#MR_SAFARI_EXPEDITION_BUTTON_TT
+mr_safari_expedition_button_sgui = {
+    scope = country
+    is_valid = {
+		mr_gui_has_theory_of_evolution_tech_trigger = yes
+		mr_gui_has_civilizing_mission_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_VISIT_ZOO_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_SAFARI_EXPEDITION_NATURALIST_TRIGGER_TT
+			dubois_has_active_naturalist = yes
+		}
+		custom_tooltip = {
+			text = MR_SAFARI_EXPEDITION_HABITAT_TRIGGER_TT
+			dubois_safari_possible = yes
+		}
+		custom_tooltip = {
+			text = MR_SAFARI_EXPEDITION_RECENT_TRIGGER_TT
+			NOR = {
+				has_modifier = dubois_on_safari_modifier
+				has_modifier = dubois_had_safari_modifier
+			}
+		}
+    }
+    effect = {
+        add_modifier = {
+			name = dubois_on_safari_modifier
+		}
+		trigger_event = {
+			id = dubois.31
+			popup = yes
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_variable = dubois_naturalist_var }
+				var:dubois_naturalist_var = {
+					add_modifier = {
+						name = dubois_animal_hunter_modifier
+					}
+					set_character_busy_and_immortal = yes
+					set_variable = dubois_naturalist_on_safari_var
+				}
+			}
+		}
+    }
+}
+mr_safari_expedition_active_sgui = {
+    scope = country
+    is_shown = {
+		has_modifier = dubois_on_safari_modifier
+    }
+}
+
+#MR_ANIMAL_DOCUMENTATION_BUTTON_TT
+mr_animal_documentation_button_sgui = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_SAFARI_EXPEDITION_NATURALIST_TRIGGER_TT
+			dubois_has_active_naturalist = yes
+		}
+		OR = {
+			custom_tooltip = {
+				text = MR_CAN_DOCUMENT_ANIMAL_FILM_TRIGGER_TT
+				dubois_has_undocumented_animal_film = yes
+			}
+			custom_tooltip = {
+				text = MR_CAN_DOCUMENT_ANIMAL_TRIGGER_TT
+				dubois_has_undocumented_animal = yes
+			}
+		}
+    }
+	effect = {
+		if = {
+			limit = {
+				has_variable = dubois_naturalist_var
+			}
+			var:dubois_naturalist_var = {
+				set_character_busy_and_immortal = yes
+				set_variable = dubois_naturalist_on_zoological_expedition_var
+			}
+		}
+		if = {
+			limit = {
+				has_technology_researched = film
+			}
+			dubois_begin_animal_documentation_film_effect = yes
+		}
+		else = {
+			dubois_begin_animal_documentation_effect = yes
+		}
+		add_journal_entry = { type = je_dubois_native_animal }
+	}
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+mr_animal_documentation_active_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_dubois_native_animal
+	}
+}
+
+#MR_ZOOLOGICAL_EXPEDITION_BUTTON_TT
+mr_zoological_expedition_button_sgui = {
+    scope = country
+    is_valid = {
+        mr_gui_has_theory_of_evolution_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_SAFARI_EXPEDITION_NATURALIST_TRIGGER_TT
+			dubois_has_active_naturalist = yes
+		}
+		custom_tooltip = {
+			text = MR_ZOOLOGICAL_EXPEDITION_LOCAL_ANIMALS_TRIGGER_TT
+			dubois_has_local_animal = yes
+		}
+		custom_tooltip = {
+			text = MR_ZOOLOGICAL_EXPEDITION_CURRENT_EXPEDITION_TRIGGER_TT
+			NOT = {
+				has_modifier = dubois_search_local_animal_modifier
+			}
+		}
+    }
+    effect = {
+        add_modifier = {
+			name = dubois_search_local_animal_modifier
+		}
+		hidden_effect = {
+			dubois_set_catch_animals = yes
+			if = {
+				limit = { has_variable = dubois_naturalist_var }
+				var:dubois_naturalist_var = {
+					add_modifier = {
+						name = dubois_animal_hunter_modifier
+					}
+					set_character_busy_and_immortal = yes
+					set_variable = dubois_naturalist_on_zoological_expedition_var
+				}
+			}
+			trigger_event = {
+				id = dubois.21
+				days = 365
+			}
+		}
+    }
+}
+mr_zoological_expedition_active_sgui = {
+    scope = country
+    is_shown = {
+		has_modifier = dubois_search_local_animal_modifier
+    }
+}
+
+#MR_BOTANICAL_EXPEDITION_BUTTON_TT
+mr_botanical_expedition_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_modifier = dubois_botanical_expedition_modifier
+		}
+	}
+    is_valid = {
+		mr_gui_has_theory_of_evolution_tech_trigger = yes
+		mr_gui_has_malaria_prevention_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_SAFARI_EXPEDITION_NATURALIST_TRIGGER_TT
+			dubois_has_active_naturalist = yes
+		}
+		custom_tooltip = {
+			text = MR_SAFARI_EXPEDITION_BANNED_TRIGGER_TT
+			dubois_botanical_expedition_banned = no
+		}
+		custom_tooltip = {
+			text = MR_SAFARI_EXPEDITION_ACCESS_RAINFOREST_TRIGGER_TT
+			OR = {
+				dubois_has_rainforest_no_tooltip = yes
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = botanical_license
+					}				
+					dubois_has_rainforest_no_tooltip = yes
+				}
+			}
+		}
+    }
+    effect = {
+        trigger_event = { 
+			id = dubois.301
+			popup = yes 
+		}
+    }
+}
+
+#MR_BOTANICAL_EXPEDITION_RECALL_BUTTON_TT
+mr_botanical_expedition_recall_button_sgui = {
+    scope = country
+	is_shown = {
+		has_modifier = dubois_botanical_expedition_modifier
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_BOTANICAL_EXPEDITION_RECALL_TRIGGER_TT
+			NOR = {
+				has_modifier = dubois_naturalist_travell_to_location_modifier
+				has_modifier = dubois_naturalist_travell_from_location_modifier
+			}
+			dubois_naturalist_sick = no
+		}
+    }
+    effect = {
+		custom_tooltip = {
+			text = MR_BOTANICAL_EXPEDITION_RECALL_NATURALIST_EFFECT_TT
+			if = {
+				limit = { has_variable = dubois_naturalist_var }
+				var:dubois_naturalist_var = {
+					set_character_busy_and_immortal = no
+					remove_variable = dubois_naturalist_on_botanical_expedition_var
+				}
+			}
+		}
+		dubois_set_naturalist_to_default = yes
+		remove_modifier = dubois_botanical_expedition_modifier
+		remove_modifier = dubois_botanical_expedition_cost_modifier
+		add_modifier = {
+			name = dubois_naturalist_travell_from_location_modifier
+			days = 90
+		}
+    }
+}
+
+#MR_NATURALIST_IMPROVE_FORESTRY_BUTTON
+mr_naturalist_improve_forestry_button_sgui = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
+			NOT = {
+				has_variable = dubois_improve_forestry_project_building_choser_var
+			}
+		}
+		custom_tooltip = {
+			text = MR_SAFARI_EXPEDITION_NATURALIST_TRIGGER_TT
+			dubois_has_active_naturalist = yes
+		}
+		custom_tooltip = {
+			text = MR_NATURALIST_IMPROVE_FORESTRY_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_logging_camp
+				level > 0
+				NAND = {
+					has_modifier = dubois_building_throughput_add_modifier
+					has_modifier = dubois_building_production_mult_modifier
+					has_modifier = dubois_building_goods_input_mult_modifier
+				}
+			}
+		}
+	}
+	effect = {
+		if = {
+			limit = {
+				is_ai = yes
+			}
+			ordered_scope_building = {
+				limit = {
+					level > 0
+					is_building_type = building_logging_camp
+					NAND = {
+						has_modifier = dubois_building_throughput_add_modifier
+						has_modifier = dubois_building_production_mult_modifier
+						has_modifier = dubois_building_goods_input_mult_modifier
+					}
+				}
+				order_by = earnings
+				save_scope_as = chosen_building
+			}
+			add_journal_entry = {
+				type = je_dubois_improve_forestry_project
+				target = scope:chosen_building
+			}
+			je:je_dubois_improve_forestry_project = {
+				add_modifier = {
+					name = dubois_naturalist_forestry_cost_modifier
+					multiplier = money_amount_multiplier_small
+				}
+			}
+			if = {
+				limit = {
+					has_variable = dubois_naturalist_var
+				}
+				var:dubois_naturalist_var = {
+					set_character_busy_and_immortal = yes
+				}
+			}
+		}
+		else = {
+			clear_variable_list = dubois_improve_forestry_buildings_variable_list
+			ordered_scope_building = {
+				limit = {
+					level > 0
+					is_building_type = building_logging_camp
+					NAND = {
+						has_modifier = dubois_building_throughput_add_modifier
+						has_modifier = dubois_building_production_mult_modifier
+						has_modifier = dubois_building_goods_input_mult_modifier
+					}
+				}
+				order_by = earnings
+				max = 1000
+				check_range_bounds = no
+
+				root = {
+					add_to_variable_list = {
+						name = dubois_improve_forestry_buildings_variable_list
+						target = prev
+					}
+				}
+			}
+			set_variable = dubois_improve_forestry_project_building_choser_var
+			show_as_tooltip = {
+				add_modifier = {
+					name = dubois_naturalist_forestry_cost_modifier
+					multiplier = money_amount_multiplier_small
+				}
+			}
+		}
+	}
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+		modifier = {
+			trigger = {
+				market = {
+					OR = {
+						mg:wood ?= { market_goods_has_goods_shortage = yes }
+						mg:hardwood ?= { market_goods_has_goods_shortage = yes }
+					}
+				}
+			}
+			add = 500
+		}
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+mr_improve_forestry_active_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_dubois_improve_forestry_project
+	}
+}
+
+mr_improve_forestry_window_active_sgui = {
+	scope = country
+	is_shown = {
+		has_variable = dubois_improve_forestry_project_building_choser_var
+		#Active Naturalist
+		has_variable = dubois_naturalist_var
+		var:dubois_naturalist_var = {
+			is_busy = no
+		}
+	}
+}
+mr_improve_forestry_window_chose_button_sgui = {
+	scope = country
+	effect = {
+		add_journal_entry = {
+			type = je_dubois_improve_forestry_project
+			target = scope:chosen_building
+		}
+		je:je_dubois_improve_forestry_project = {
+			add_modifier = {
+				name = dubois_naturalist_forestry_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+		remove_variable = dubois_improve_forestry_project_building_choser_var
+		var:dubois_naturalist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		show_as_tooltip = {
+			add_modifier = {
+				name = dubois_naturalist_forestry_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+	}
+}
+mr_improve_forestry_window_close_button_sgui = {
+	scope = country
+	effect = {
+		remove_variable = dubois_improve_forestry_project_building_choser_var
+	}
+}
+
+#MR_NATURALIST_IMPROVE_RUBBER_BUTTON
+mr_naturalist_improve_rubber_button_sgui = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
+			NOT = {
+				has_variable = dubois_improve_rubber_plantation_project_building_choser_var
+			}
+		}
+		custom_tooltip = {
+			text = MR_SAFARI_EXPEDITION_NATURALIST_TRIGGER_TT
+			dubois_has_active_naturalist = yes
+		}
+		custom_tooltip = {
+			text = MR_NATURALIST_IMPROVE_RUBBER_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_rubber_plantation
+				level > 0
+				NAND = {
+					has_modifier = dubois_building_throughput_add_modifier
+					has_modifier = dubois_building_production_mult_modifier
+					has_modifier = dubois_building_goods_input_mult_modifier
+				}
+			}
+		}
+	}
+	effect = {
+		if = {
+			limit = {
+				is_ai = yes
+			}
+			ordered_scope_building = {
+				limit = {
+					level > 0
+					is_building_type = building_rubber_plantation
+					NAND = {
+						has_modifier = dubois_building_throughput_add_modifier
+						has_modifier = dubois_building_production_mult_modifier
+						has_modifier = dubois_building_goods_input_mult_modifier
+					}
+				}
+				order_by = earnings
+				save_scope_as = chosen_building
+			}
+			add_journal_entry = {
+				type = je_dubois_improve_rubber_project
+				target = scope:chosen_building
+			}
+			je:je_dubois_improve_rubber_project = {
+				add_modifier = {
+					name = dubois_naturalist_rubber_cost_modifier
+					multiplier = money_amount_multiplier_small
+				}
+			}
+			if = {
+				limit = {
+					has_variable = dubois_naturalist_var
+				}
+				var:dubois_naturalist_var = {
+					set_character_busy_and_immortal = yes
+				}
+			}
+		}
+		else = {
+			clear_variable_list = dubois_improve_rubber_plantation_buildings_variable_list
+			ordered_scope_building = {
+				limit = {
+					level > 0
+					is_building_type = building_rubber_plantation
+					NAND = {
+						has_modifier = dubois_building_throughput_add_modifier
+						has_modifier = dubois_building_production_mult_modifier
+						has_modifier = dubois_building_goods_input_mult_modifier
+					}
+				}
+				order_by = level
+				max = 1000
+				check_range_bounds = no
+
+				root = {
+					add_to_variable_list = {
+						name = dubois_improve_rubber_plantation_buildings_variable_list
+						target = prev
+					}
+				}
+			}
+			set_variable = dubois_improve_rubber_plantation_project_building_choser_var
+			show_as_tooltip = {
+				add_modifier = {
+					name = dubois_naturalist_rubber_cost_modifier
+					multiplier = money_amount_multiplier_small
+				}
+			}
+		}
+	}
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+		modifier = {
+			trigger = {
+				market = {
+					mg:rubber ?= { market_goods_has_goods_shortage = yes }
+				}
+			}
+			add = 500
+		}
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+mr_improve_rubber_active_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_dubois_improve_rubber_project
+	}
+}
+
+mr_improve_rubber_plantation_window_active_sgui = {
+	scope = country
+	is_shown = {
+		has_variable = dubois_improve_rubber_plantation_project_building_choser_var
+		#Active Naturalist
+		has_variable = dubois_naturalist_var
+		var:dubois_naturalist_var = {
+			is_busy = no
+		}
+	}
+}
+mr_improve_rubber_plantation_window_chose_button_sgui = {
+	scope = country
+	effect = {
+		add_journal_entry = {
+			type = je_dubois_improve_rubber_project
+			target = scope:chosen_building
+		}
+		je:je_dubois_improve_rubber_project = {
+			add_modifier = {
+				name = dubois_naturalist_rubber_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+		remove_variable = dubois_improve_rubber_plantation_project_building_choser_var
+		var:dubois_naturalist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		show_as_tooltip = {
+			add_modifier = {
+				name = dubois_naturalist_rubber_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+	}
+}
+mr_improve_rubber_plantation_window_close_button_sgui = {
+	scope = country
+	effect = {
+		remove_variable = dubois_improve_rubber_plantation_project_building_choser_var
+	}
+}
+
+#MR_HIPPOCAMPUS_CONGRESS_BUTTON
+mr_hippocampus_congress_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_global_variable = dubois_hippocampus_congress_hosted_var
+		}
+		NOT = {
+			any_country = {
+				has_modifier = dubois_congress_host_modifier
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_MAJOR_POWER_HIGHER_TRIGGER_TT
+			country_rank >= rank_value:major_power
+		}
+		mr_gui_has_theory_of_evolution_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_UNIVERSITY_BUILDING_LEVEL_10_TRIGGER_TT
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 10
+			}
+		}
+		custom_tooltip = {
+			text = MR_VISIT_ZOO_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_NATURALIST_TRIGGER_TT
+			dubois_has_naturalist = yes
+		}
+		custom_tooltip = {
+			text = MR_HIPPOCAMPUS_CONGRESS_5_NATURALISTS_TRIGGER_TT
+			any_country = {
+				dubois_has_naturalist = yes
+				count >= 5
+			}
+		}
+		custom_tooltip = {
+			text = MR_HIPPOCAMPUS_CONGRESS_SPECIMEN_TRIGGER_TT
+			var:dubois_specimen >= 20000
+		}
+		custom_tooltip = {
+			text = MR_HIPPOCAMPUS_CONGRESS_GLOBAL_SPECIMEN_TRIGGER_TT
+			global_var:dubois_global_specimen >= 100000
+		}
+    }
+    effect = {
+        trigger_event = { 
+			id = dubois.901
+			popup = yes 
+		}
+		set_global_variable = dubois_hippocampus_congress_hosted_var
+		add_modifier = {
+			name = dubois_congress_host_modifier
+			years = 5
+		}
+    }
+}
+
+#MR_EXTEND_ZOO_SMALL_BUTTON
+mr_extend_zoo_small_button_sgui = {
+    scope = country
+	is_shown = {
+		any_scope_state = {
+			is_capital = yes
+			is_production_method_active = {
+				building_type = building_dubois_zoo
+				production_method = pm_zoo_level_1
+			}
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+		}
+		NOT = {
+			has_variable = dubois_zoo_first_extension
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_EXTEND_ZOO_SMALL_10_TOTAL_ANIMALS_TRIGGER_TT
+			var:dubois_zoo_animal_total >= 10
+		}
+		custom_tooltip = {
+			text = MR_EXTEND_ZOO_SMALL_2_SPECIAL_ANIMALS_TRIGGER_TT
+			OR = {
+				var:dubois_zoo_animal_africa >= 2
+				var:dubois_zoo_animal_asia >= 2
+				var:dubois_zoo_animal_australia >= 2
+			}
+		}
+		custom_tooltip = {
+			text = MR_EXTEND_ZOO_SMALL_CURRENT_EXPANSION_TRIGGER_TT
+			NOT = {
+				has_modifier = dubois_zoo_extension_modifier
+			}
+		}
+    }
+    effect = {
+        set_variable = dubois_zoo_first_extension
+		random_scope_state = {
+			limit = {
+				has_building = building_dubois_zoo
+				is_capital = yes
+			}
+			activate_production_method = {
+				building_type = building_dubois_zoo
+				production_method = pm_zoo_level_2
+			}
+		}
+		add_modifier = {
+			name = dubois_zoo_extension_modifier
+			days = 300
+		}
+    }
+}
+
+#MR_EXTEND_ZOO_MEDIUM_BUTTON
+mr_extend_zoo_medium_button_sgui = {
+    scope = country
+	is_shown = {
+		any_scope_state = {
+			is_capital = yes
+			is_production_method_active = {
+				building_type = building_dubois_zoo
+				production_method = pm_zoo_level_2
+			}
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+		}
+		NOT = {
+			has_variable = dubois_zoo_second_extension
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_EXTEND_ZOO_SMALL_20_TOTAL_ANIMALS_TRIGGER_TT
+			var:dubois_zoo_animal_total >= 20
+		}
+		custom_tooltip = {
+			text = MR_EXTEND_ZOO_SMALL_5_SPECIAL_ANIMALS_TRIGGER_TT
+			OR = {
+				var:dubois_zoo_animal_africa >= 5
+				var:dubois_zoo_animal_asia >= 5
+				var:dubois_zoo_animal_australia >= 5
+				var:dubois_zoo_animal_australia >= 5
+			}
+		}
+		custom_tooltip = {
+			text = MR_EXTEND_ZOO_SMALL_CURRENT_EXPANSION_TRIGGER_TT
+			NOT = {
+				has_modifier = dubois_zoo_extension_modifier
+			}
+		}
+    }
+    effect = {
+        set_variable = dubois_zoo_second_extension
+		random_scope_state = {
+			limit = {
+				has_building = building_dubois_zoo
+				is_capital = yes
+			}
+			activate_production_method = {
+				building_type = building_dubois_zoo
+				production_method = pm_zoo_level_3
+			}
+		}
+		add_modifier = {
+			name = dubois_zoo_extension_modifier
+			days = 400
+		}
+    }
+}
+
+#MR_EXTEND_ZOO_LARGE_BUTTON
+mr_extend_zoo_large_button_sgui = {
+    scope = country
+	is_shown = {
+		any_scope_state = {
+			is_capital = yes
+			is_production_method_active = {
+				building_type = building_dubois_zoo
+				production_method = pm_zoo_level_3
+			}
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+		}
+		NOT = {
+			has_variable = dubois_zoo_third_extension
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_EXTEND_ZOO_SMALL_30_TOTAL_ANIMALS_TRIGGER_TT
+			var:dubois_zoo_animal_total >= 30
+		}
+		custom_tooltip = {
+			text = MR_EXTEND_ZOO_SMALL_CURRENT_EXPANSION_TRIGGER_TT
+			NOT = {
+				has_modifier = dubois_zoo_extension_modifier
+			}
+		}
+    }
+    effect = {
+        set_variable = dubois_zoo_third_extension
+		random_scope_state = {
+			limit = {
+				has_building = building_dubois_zoo
+				is_capital = yes
+			}
+			activate_production_method = {
+				building_type = building_dubois_zoo
+				production_method = pm_zoo_level_4
+			}
+		}
+		add_modifier = {
+			name = dubois_zoo_extension_modifier
+			days = 500
+		}
+    }
+}
+
+#MR_EXTEND_ZOO_FAMOUS_BUTTON
+mr_extend_zoo_famous_button_sgui = {
+    scope = country
+	is_shown = {
+		any_scope_state = {
+			is_capital = yes
+			is_production_method_active = {
+				building_type = building_dubois_zoo
+				production_method = pm_zoo_level_4
+			}
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+		}
+		NOT = {
+			has_variable = dubois_zoo_fourth_extension
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_EXTEND_ZOO_SMALL_40_TOTAL_ANIMALS_TRIGGER_TT
+			var:dubois_zoo_animal_total >= 40
+		}
+		custom_tooltip = {
+			text = MR_EXTEND_ZOO_SMALL_CURRENT_EXPANSION_TRIGGER_TT
+			NOT = {
+				has_modifier = dubois_zoo_extension_modifier
+			}
+		}
+    }
+    effect = {
+        set_variable = dubois_zoo_fourth_extension
+		random_scope_state = {
+			limit = {
+				has_building = building_dubois_zoo
+				is_capital = yes
+			}
+			activate_production_method = {
+				building_type = building_dubois_zoo
+				production_method = pm_zoo_level_5
+			}
+		}
+		add_modifier = {
+			name = dubois_zoo_extension_modifier
+			days = 600
+		}
+    }
+}
+
+#MR_SPECIMEN_GARDEN_BUTTON
+dubois_specimen_garden_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			capital = {
+				is_production_method_active = {
+					building_type = building_dubois_zoo
+					production_method = pm_botanical_garden
+				}
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_VISIT_ZOO_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_NATURALIST_TRIGGER_TT
+			dubois_has_naturalist = yes
+		}
+		custom_tooltip = {
+			text = MR_SPECIMEN_GARDEN_SPECIMEN_TRIGGER_TT
+			var:dubois_specimen >= 50000
+		}
+    }
+    effect = {
+        dubois_add_x_specimen_effect = { AMOUNT = -50000 }
+		if = {
+			limit = { NOT = { has_building = building_dubois_zoo } }
+			custom_tooltip = MR_SPECIMEN_GARDEN_EFFECT_TT
+		}
+		if = {
+			limit = {
+				capital = {
+					has_building = building_dubois_zoo
+				}
+			}
+			activate_production_method = {
+				building_type = building_dubois_zoo
+				production_method = pm_botanical_garden
+			}
+		}
+		else = {
+			random_scope_state = {
+				limit = {
+					has_building = building_dubois_zoo
+				}
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_botanical_garden
+				}
+			}
+		}
+    }
+}
+
+#MR_SPECIMEN_COLLECTION_BUTTON
+dubois_specimen_collection_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			capital = {
+				is_production_method_active = {
+					building_type = building_dubois_zoo
+					production_method = pm_specimen_collection
+				}
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_VISIT_ZOO_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_NATURALIST_TRIGGER_TT
+			dubois_has_naturalist = yes
+		}
+		custom_tooltip = {
+			text = MR_SPECIMEN_GARDEN_SPECIMEN_TRIGGER_TT
+			var:dubois_specimen >= 50000
+		}
+    }
+    effect = {
+        dubois_add_x_specimen_effect = { AMOUNT = -50000 }
+		if = {
+			limit = { NOT = { has_building = building_dubois_zoo } }
+			custom_tooltip = MR_SPECIMEN_COLLECTION_EFFECT_TT
+		}
+		if = {
+			limit = {
+				capital = {
+					has_building = building_dubois_zoo
+				}
+			}
+			activate_production_method = {
+				building_type = building_dubois_zoo
+				production_method = pm_specimen_collection
+			}
+		}
+		else = {
+			random_scope_state = {
+				limit = {
+					has_building = building_dubois_zoo
+				}
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_specimen_collection
+				}
+			}
+		}
+    }
+}
+
+#MR_BAN_ANIMAL_EXPORT_BUTTON
+mr_ban_animal_export_button_sgui = {
+    scope = country
+	is_shown = {
+		is_player = yes
+		dubois_has_habitat = yes
+		NOT = {
+			has_modifier = dubois_no_animal_export_modifier
+		}
+	}
+    is_valid = {
+		mr_gui_any_country_has_theory_of_evolution_tech_trigger = yes
+    }
+    effect = {
+        add_modifier = {
+			name = dubois_no_animal_export_modifier
+		}
+    }
+}
+
+#MR_ALLOW_ANIMAL_EXPORT_BUTTON
+mr_allow_animal_export_button_sgui = {
+    scope = country
+	is_shown = {
+		is_player = yes
+		has_modifier = dubois_no_animal_export_modifier
+	}
+    is_valid = {
+		mr_gui_any_country_has_theory_of_evolution_tech_trigger = yes
+    }
+    effect = {
+		remove_modifier = dubois_no_animal_export_modifier
+    }
+}
+
+#MR_BREEDING_ANIMALS_BUTTON
+mr_breeding_animals_button_sgui = {
+    scope = country
+	is_shown = {
+		trigger_if = {
+			limit = {
+				is_ai = yes
+			}
+			has_variable = dubois_naturalist_var
+			literacy_rate >= 60
+		}
+		has_technology_researched = dubois_nature_protection_tech
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_dubois_national_park
+				level > 0
+			}
+		}
+		any_scope_building = {
+			is_building_type = building_dubois_zoo
+			level > 0
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_BREEDING_ANIMALS_TRIGGER
+			dubois_nature_reserve_breeding_possible_trigger = yes
+		}
+    }
+    effect = {
+		set_variable = dubois_breeding_animals_var
+		trigger_event = {
+			id = dubois.1301
+			popup = yes
+		}
+    }
+}
+
+#############################################
+
+#MR_STOP_NATURALIST_PROJECT_BUTTON
+mr_stop_naturalist_project_button_sgui = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_STOP_NATURALIST_PROJECT_POSSIBLE_TT
+			NOT = { has_variable = dubois_stop_naturalist_improving_project_var }
+		}
+		custom_tooltip = {
+			text = MR_STOP_NATURALIST_PROJECT_HAS_ACTIVE_PROJECT_TT
+			OR = {
+				has_journal_entry = je_dubois_improve_forestry_project
+				has_journal_entry = je_dubois_improve_rubber_project
+			}
+		}
+		has_modifier = dubois_botanical_expedition_modifier
+	}
+	effect = {
+		set_variable = {
+			name = dubois_stop_naturalist_improving_project_var
+			days = 7
+		}
+		if = {
+			limit = { has_modifier = dubois_botanical_expedition_modifier }
+			remove_modifier = dubois_botanical_expedition_modifier
+		}
+	}
+}

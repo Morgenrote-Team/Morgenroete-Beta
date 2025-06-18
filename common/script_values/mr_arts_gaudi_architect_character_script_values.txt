@@ -1,0 +1,253 @@
+﻿#####################################
+# ARCHITECT CHARACTER SCRPIT VALUES #
+#####################################
+
+############################################################################
+
+#Cost of hiring an Independent Architect
+gaudi_independent_architect_cost_value = {
+	if = {
+		limit = { var:gaudi_architect_experience > 0 }
+		value = var:gaudi_architect_experience
+		divide = 2
+		multiply = money_amount_multiplier_small
+		max = {
+			value = var:gaudi_architect_experience
+			multiply = 10000
+		}
+		multiply = -1
+	}
+	else = {
+		value = 1
+		divide = 2
+		multiply = money_amount_multiplier_small
+		max = 100000
+		multiply = -1
+	}
+}
+
+### Architect Rating ###
+gaudi_architect_rating_value = {
+	#Experience: 1 point per 50 Experience
+	value = var:gaudi_architect_experience
+	divide = 50
+
+	#Architecture Specialty traits
+	if = {
+		limit = {
+			OR = {
+				has_trait = gaudi_art_deco_style
+				has_trait = gaudi_bauhaus_style
+				has_trait = gaudi_neoclassical_style
+			}
+		}
+		add = 3
+	}
+	else_if = {
+		limit = {
+			has_trait = gaudi_historicism_style
+		}
+		add = 2
+	}
+	else_if = {
+		limit = {
+			has_trait = gaudi_traditional_style
+		}
+		add = 1
+	}
+
+	#Positive Traits
+	if = {
+		limit = {
+			has_trait = engineer
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_trait = verrier_mathematician
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = meticulous
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = innovative
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = persistent
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = surveyor
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = master_bureaucrat
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = ambitious
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = charismatic
+		}
+		add = 1
+	}
+	#Negative Traits
+	if = {
+		limit = {
+			OR = {
+				has_trait = reckless
+				has_trait = cruel
+				has_trait = grifter
+			}
+		}
+		subtract = 1
+	}
+	if = {
+		limit = {
+			OR = {
+				has_trait = alcoholic
+				has_trait = opium_addiction
+				has_trait = cocaine_addiction
+				has_trait = senile
+				has_trait = psychological_affliction
+				has_trait = kidney_stones
+			}
+		}
+		subtract = 2
+	}
+	#Age Factor, the older the worse for the ranking
+	if = {
+		limit = { age > 30 }
+		subtract = 1
+	}
+	if = {
+		limit = { age > 40 }
+		subtract = 1
+	}
+	if = {
+		limit = { age > 50 }
+		subtract = 2
+	}
+	if = {
+		limit = { age > 60 }
+		subtract = 4
+	}
+	if = {
+		limit = { age > 70 }
+		subtract = 5
+	}
+}
+
+### Architect Public Construction ###
+gaudi_architect_public_construction_value = {
+	value = 0
+
+	if = {
+		limit = {
+			has_variable = gaudi_architect_var
+				var:gaudi_architect_var = {
+				OR = {
+					has_trait = gaudi_art_deco_style
+					has_trait = gaudi_bauhaus_style
+					has_trait = gaudi_neoclassical_style
+				}
+			}
+		}
+		add = 30
+	}
+	else_if = {
+		limit = {
+			has_variable = gaudi_architect_var
+			var:gaudi_architect_var = {
+				has_trait = gaudi_historicism_style
+			}
+		}
+		add = 20
+	}
+	else_if = {
+		limit = {
+			has_variable = gaudi_architect_var
+			var:gaudi_architect_var = {
+				has_trait = gaudi_traditional_style
+			}
+		}
+		add = 10
+	}
+
+	if = {
+		limit = {
+			has_variable = gaudi_architect_var
+			var:gaudi_architect_var = {
+				has_trait = gaudi_great_architect
+			}
+		}
+		add = 20
+	}
+}
+
+### Architect Treatise Value ###
+gaudi_architecture_treatise_value = {
+	value = 0
+
+	if = {
+		limit = {
+			var:gaudi_architect_var ?= {
+				has_variable = gaudi_architect_experience
+			}
+		}
+		add = {
+			value = var:gaudi_architect_var.var:gaudi_architect_experience
+			divide = 500
+		}
+	}
+
+	if = {
+		limit = {
+			has_variable = gaudi_architect_var
+				var:gaudi_architect_var = {
+				has_trait = literary
+			}
+		}
+		add = 0.5
+	}
+
+	if = {
+		limit = {
+			has_variable = gaudi_architect_var
+				var:gaudi_architect_var = {
+				has_trait = erudite
+			}
+		}
+		add = 0.5
+	}
+
+	if = {
+		limit = {
+			has_variable = gaudi_architect_var
+				var:gaudi_architect_var = {
+				has_trait = aesthete
+			}
+		}
+		add = 0.5
+	}
+}

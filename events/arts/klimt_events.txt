@@ -1,0 +1,4779 @@
+﻿#################
+# KLIMT EVENTS  #
+#################
+
+#by Lord R & Marco Dandolo
+
+###################
+
+namespace = klimt
+
+###################
+
+######SETUP######
+
+#Klimt 1: Yearly painting tradition
+#Klimt 2: Painter Specialization
+
+#Klimt 10: Gallery inauguration
+#Klimt 20: Visit the Gallery
+#Klimt 30: Art Secession
+#Klimt 40: Visit the Gallery 
+
+######MASTERWORKS######
+
+#Klimt 100: Masterwork decision (hidden)
+#Klimt 101: Masterwork Classicism
+#Klimt 102: Masterwork Romanticism
+#Klimt 103: Masterwork Realism
+#Klimt 104: Masterwork Impressionism
+#Klimt 105: Masterwork Expressionism
+#Klimt 106: Masterwork Art Nouveau
+
+#Klimt 110: Acquire Masterwork
+#Klimt 111: Acquired Masterwork Classicism
+#Klimt 112: Acquired Masterwork Romanticism
+#Klimt 113: Acquired Masterwork Realism
+#Klimt 114: Acquired Masterwork Impressionism
+#Klimt 115: Acquired Masterwork Expressionism
+#Klimt 116: Acquired Masterwork Art Nouveau
+
+######PRIZE OF $CITY$######
+
+#Klimt 301: The Prize of $CITY$ - Preparation
+#Klimt 302: The Prize of $CITY$ - Award
+
+######EDUCATIONAL JOURNEY######
+
+#Basic Events#
+
+#Klimt 401: Painter Destination
+#Klimt 402: Painter Arrival
+#Klimt 403: Painter Return
+
+#Random Events#
+
+#Klimt 411: Fellow painters among themselves
+
+#Klimt 421: In the Footsteps of Giants (Ambitious)
+#Klimt 422: Spirit of the Romantics (Romantic)
+#Klimt 423: Conversion (Pious)
+#Klimt 424: Attention to detail (Meticulous)
+#Klimt 425: Inspiration without limits (Innovative)
+#Klimt 426: An Artist's Life (Hedonist)
+#Klimt 427: An Artist's Vice (Addiction)
+#Klimt 428: Painter Return without success
+
+#Klimt 431: Veduta
+#Klimt 432: Painting Circle
+#Klimt 433: Quick Comprehension
+#Klimt 434: Art Dealer
+#Klimt 435: The latest Fashion
+
+#####HISTORICAL PAINTING EVENTS######
+
+#Klimt 501: Pre-Raphaelites
+#Klimt 502: Macchiaioli
+#Klimt 503: Barbizon School
+
+######PAINTER DEATHS######
+
+#Klimt 601: Friedrich Death
+#Klimt 602: Turner Death
+#Klimt 603: Cole Death
+
+######PAINTER CREATION######
+
+#Klimt 701:
+
+######RANDOM EVENTS######
+
+#Klimt 901: $COUNTRY$'s starry tent
+#Klimt 902: Inspired by Pacific Expedition
+#Klimt 903: Oriental Art
+#Klimt 904: The Impulse of a New Era
+#Klimt 905: Paintings of Exotic Animals
+#Klimt 906: Dinosaur Sketches
+#Klimt 907: Secrets of the Jungle
+#Klimt 908: Night in the Opera
+#Klimt 909: Book Illustration
+
+#Klimt 911: A Portrait of $RULER$
+#Klimt 912: #A...remarkable Portrait
+#Klimt 913: #A great Portrait
+
+###########################################################################################
+
+######SETUP######
+
+#Klimt 1: Yearly painting tradition
+klimt.1 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+		
+	hidden = yes
+
+	trigger = {
+		NOT = {
+			has_variable = klimt_painting_tradition_cooldown_var
+		}
+		has_technology_researched = elgar_classicism_tech
+	}
+
+	immediate = {
+		set_variable = {
+			name = klimt_painting_tradition_cooldown_var
+			days = 364
+		}
+		###Add Yearly Painting Tradition###
+		klimt_add_x_painting_tradition_unscaled_effect = {
+			AMOUNT = klimt_yearly_painting_tradition_value
+		}
+		###Add Yearly Painting###
+		if = {
+			limit = {
+				klimt_has_active_painter = yes
+			}
+			klimt_add_x_paintings_effect = {
+				AMOUNT = klimt_yearly_paintings_value
+			}
+		}
+		###Update Galery###
+		klimt_update_collection_effect = yes
+		###Painter Specialization###
+		if = {
+			limit = {
+				klimt_has_active_painter = yes
+				var:klimt_painter_var ?= {
+					age >= 40
+					NOR = {
+						has_trait = klimt_classic_painter
+						has_trait = klimt_romantic_painter
+						has_trait = klimt_realistic_painter
+						has_trait = klimt_impressionistic_painter
+						has_trait = klimt_expressionistic_painter
+						has_trait = klimt_art_nouveau_painter
+					}
+				}
+			}
+			trigger_event = {
+				id = klimt.2
+			}
+		}
+		###Chance for Great Painting###
+		if = {
+			limit = {
+				klimt_has_active_painter = yes
+				klimt_painter_has_specialization = yes
+			}
+			random_list = {
+				1 = {
+					modifier = {
+						if = {
+							limit = {
+								var:klimt_painter_var ?= {
+									has_trait = meticulous #quality of painting
+								}
+							}
+							add = 1
+						}
+						if = {
+							limit = {
+								var:klimt_painter_var ?= {
+									has_trait = innovative #creativity of painting
+								}
+							}
+							add = 1
+						}
+						if = {
+							limit = {
+								var:klimt_painter_var ?= {
+									has_trait = ambitious #will of painting
+								}
+							}
+							add = 1
+						}
+						if = {
+							limit = {
+								var:klimt_painter_var ?= {
+									has_trait = romantic #sensivity of painting
+								}
+							}
+							add = 1
+						}
+					}
+
+					trigger_event = {
+						id = klimt.100 #Masterwork decision (hidden)
+					}
+				}
+				5 = {}
+			}
+		}
+	}
+}
+
+#Klimt 2: Painter Specialization
+klimt.2 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.2.t
+
+	desc = klimt.2.d
+
+	flavor = klimt.2.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_painter
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	immediate = {
+		var:klimt_painter_var ?= {
+			save_scope_as = klimt_painter
+		}
+	}
+
+	option = { #The painting style is now mature.
+		name = klimt.2.g
+		default_option = yes
+		klimt_add_painter_specialization_effect = yes
+		painter_experience_gain_effect = {
+			AMOUNT = 25
+		}
+	}
+}
+
+#Klimt 10: Gallery inauguration
+klimt.10 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.10.t
+
+	desc = klimt.10.d
+
+	flavor = klimt.10.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_gallery.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		owner = {
+			set_variable = klimt_gallery_inauguration_happened
+		}
+		if = {
+			limit = { 
+				klimt_has_painter = yes
+			}
+			var:klimt_painter_var = {
+				set_variable = {
+					name = klimt_painter_achievement_inaugurated_gallery_var
+					value = flag:klimt_painter_achievement_inaugurated_gallery_loc
+				}
+			}
+		}
+	}
+
+	option = {
+		name = klimt.10.g #Have a nice day
+		artists_add_x_artistic_progress = {
+			AMOUNT = 20
+		}
+		klimt_update_collection_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Klimt 11: Gallery dissolution
+klimt.11 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.11.t
+	desc = klimt.11.d
+	flavor = klimt.11.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_gallery.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+		any_scope_state = {
+			is_capital = no
+			has_building = building_klimt_gallery
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_capital = no
+				has_building = building_klimt_gallery
+			}
+			save_scope_as = klimt_gallery_state
+			random_scope_building = {
+				limit = {
+					is_building_type = building_klimt_gallery
+				}
+				save_scope_as = klimt_gallery_building
+			}
+		}
+	}
+
+	option = {
+		name = klimt.11.g
+		default_option = yes
+
+		trigger = {
+			any_scope_state = {
+				is_capital = yes
+				has_building = building_klimt_gallery
+			}
+		}
+		random_scope_state = {
+    		limit = { 
+				is_capital = yes
+			}
+    		create_building={
+				building="building_klimt_gallery"
+				level=1
+				reserves=1
+			}
+			activate_building = {
+				building = "building_klimt_gallery"
+			}
+			if = {
+				limit = {
+					scope:klimt_gallery_state = {
+						is_production_method_active = {
+							building_type = building_klimt_gallery
+							production_method = pm_klimt_classic_collection
+						}
+					}
+				}
+				activate_production_method = {
+					building_type = building_klimt_gallery
+					production_method = pm_klimt_classic_collection
+				}
+			}
+			if = {
+				limit = {
+					scope:klimt_gallery_state = {
+						is_production_method_active = {
+							building_type = building_klimt_gallery
+							production_method = pm_klimt_romantic_collection
+						}
+					}
+				}
+				activate_production_method = {
+					building_type = building_klimt_gallery
+					production_method = pm_klimt_romantic_collection
+				}
+			}
+			if = {
+				limit = {
+					scope:klimt_gallery_state = {
+						is_production_method_active = {
+							building_type = building_klimt_gallery
+							production_method = pm_klimt_realistic_collection
+						}
+					}
+				}
+				activate_production_method = {
+					building_type = building_klimt_gallery
+					production_method = pm_klimt_realistic_collection
+				}
+			}
+			if = {
+				limit = {
+					scope:klimt_gallery_state = {
+						is_production_method_active = {
+							building_type = building_klimt_gallery
+							production_method = pm_klimt_impressionistic_collection
+						}
+					}
+				}
+				activate_production_method = {
+					building_type = building_klimt_gallery
+					production_method = pm_klimt_impressionistic_collection
+				}
+			}
+			if = {
+				limit = {
+					scope:klimt_gallery_state = {
+						is_production_method_active = {
+							building_type = building_klimt_gallery
+							production_method = pm_klimt_expressionistic_collection
+						}
+					}
+				}
+				activate_production_method = {
+					building_type = building_klimt_gallery
+					production_method = pm_klimt_expressionistic_collection
+				}
+			}
+			if = {
+				limit = {
+					scope:klimt_gallery_state = {
+						is_production_method_active = {
+							building_type = building_klimt_gallery
+							production_method = pm_klimt_art_nouveau_collection
+						}
+					}
+				}
+				activate_production_method = {
+					building_type = building_klimt_gallery
+					production_method = pm_klimt_art_nouveau_collection
+				}
+			}
+  		}
+		scope:klimt_gallery_state = {
+			if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_classic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_classic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_classicism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_classicism_masterwork_happened_var
+						klimt_save_classic_masterwork_year = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_romantic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_romantic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_romanticism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_romanticism_masterwork_happened_var
+						klimt_save_romantic_masterwork_year = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_realistic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_realistic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_realism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_realism_masterwork_happened_var
+						klimt_save_realistic_masterwork_year = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_impressionistic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_impressionistic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_impressionism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_impressionism_masterwork_happened_var
+						klimt_save_impressionistic_masterwork_year = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_expressionistic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_expressionistic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_expressionism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_expressionism_masterwork_happened_var
+						klimt_save_expressionistic_masterwork_year = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_art_nouveau_collection
+					}
+				}
+				ROOT = {
+					klimt_add_art_nouveau_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_art_nouveau_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_art_nouveau_masterwork_happened_var
+						klimt_save_art_nouveau_masterwork_year = yes
+					}
+				}
+			}
+		}
+		scope:klimt_gallery_state = {
+			remove_building = building_klimt_gallery
+		}
+	}
+
+	option = {
+		name = klimt.11.h
+
+		trigger = {
+			any_scope_state = {
+				is_capital = yes
+				NOT = {
+					has_building = building_klimt_gallery
+				}
+			}
+		}
+		random_scope_state = {
+    		limit = { 
+				is_capital = yes
+			}
+    		create_building={
+				building="building_klimt_gallery"
+				level=1
+				reserves=1
+			}
+			activate_building = {
+				building = "building_klimt_gallery"
+			}
+			if = {
+				limit = {
+					scope:klimt_gallery_state = {
+						is_production_method_active = {
+							building_type = building_klimt_gallery
+							production_method = pm_klimt_classic_collection
+						}
+					}
+				}
+				activate_production_method = {
+					building_type = building_klimt_gallery
+					production_method = pm_klimt_classic_collection
+				}
+			}
+			if = {
+				limit = {
+					scope:klimt_gallery_state = {
+						is_production_method_active = {
+							building_type = building_klimt_gallery
+							production_method = pm_klimt_romantic_collection
+						}
+					}
+				}
+				activate_production_method = {
+					building_type = building_klimt_gallery
+					production_method = pm_klimt_romantic_collection
+				}
+			}
+			if = {
+				limit = {
+					scope:klimt_gallery_state = {
+						is_production_method_active = {
+							building_type = building_klimt_gallery
+							production_method = pm_klimt_realistic_collection
+						}
+					}
+				}
+				activate_production_method = {
+					building_type = building_klimt_gallery
+					production_method = pm_klimt_realistic_collection
+				}
+			}
+			if = {
+				limit = {
+					scope:klimt_gallery_state = {
+						is_production_method_active = {
+							building_type = building_klimt_gallery
+							production_method = pm_klimt_impressionistic_collection
+						}
+					}
+				}
+				activate_production_method = {
+					building_type = building_klimt_gallery
+					production_method = pm_klimt_impressionistic_collection
+				}
+			}
+			if = {
+				limit = {
+					scope:klimt_gallery_state = {
+						is_production_method_active = {
+							building_type = building_klimt_gallery
+							production_method = pm_klimt_expressionistic_collection
+						}
+					}
+				}
+				activate_production_method = {
+					building_type = building_klimt_gallery
+					production_method = pm_klimt_expressionistic_collection
+				}
+			}
+			if = {
+				limit = {
+					scope:klimt_gallery_state = {
+						is_production_method_active = {
+							building_type = building_klimt_gallery
+							production_method = pm_klimt_art_nouveau_collection
+						}
+					}
+				}
+				activate_production_method = {
+					building_type = building_klimt_gallery
+					production_method = pm_klimt_art_nouveau_collection
+				}
+			}
+  		}
+		scope:klimt_gallery_state = {
+			if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_classic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_classic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_classicism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_classicism_masterwork_happened_var
+						klimt_save_classic_masterwork_year = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_romantic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_romantic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_romanticism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_romanticism_masterwork_happened_var
+						klimt_save_romantic_masterwork_year = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_realistic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_realistic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_realism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_realism_masterwork_happened_var
+						klimt_save_realistic_masterwork_year = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_impressionistic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_impressionistic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_impressionism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_impressionism_masterwork_happened_var
+						klimt_save_impressionistic_masterwork_year = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_expressionistic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_expressionistic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_expressionism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_expressionism_masterwork_happened_var
+						klimt_save_expressionistic_masterwork_year = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_art_nouveau_collection
+					}
+				}
+				ROOT = {
+					klimt_add_art_nouveau_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_art_nouveau_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_art_nouveau_masterwork_happened_var
+						klimt_save_art_nouveau_masterwork_year = yes
+					}
+				}
+			}
+		}
+		scope:klimt_gallery_state = {
+			remove_building = building_klimt_gallery
+		}
+	}
+
+	after = {
+		klimt_update_collection_effect = yes
+	}
+}
+
+#Klimt 20: Visit the Gallery 
+klimt.20 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.20.t
+
+	desc = klimt.20.d
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				NOR = {
+					klimt_has_classic_masterwork = yes
+					klimt_has_romantic_masterwork = yes
+					klimt_has_realistic_masterwork = yes
+					klimt_has_impressionistic_masterwork = yes
+					klimt_has_expressionistic_masterwork = yes
+					klimt_has_art_nouveau_masterwork = yes
+				}
+			}
+			desc = klimt.20.none
+		}
+		triggered_desc = {
+			trigger = {
+				klimt_has_classic_masterwork = yes
+			}
+			desc = klimt.20.classicism
+		}
+		triggered_desc = {
+			trigger = {
+				klimt_has_romantic_masterwork = yes
+			}
+			desc = klimt.20.romanticism
+		}
+		triggered_desc = {
+			trigger = {
+				klimt_has_realistic_masterwork = yes
+			}
+			desc = klimt.20.realism
+		}
+		triggered_desc = {
+			trigger = {
+				klimt_has_impressionistic_masterwork = yes
+			}
+			desc = klimt.20.impressionism
+		}
+		triggered_desc = {
+			trigger = {
+				klimt_has_expressionistic_masterwork = yes
+			}
+			desc = klimt.20.expressionism
+		}
+		triggered_desc = {
+			trigger = {
+				klimt_has_art_nouveau_masterwork = yes
+			}
+			desc = klimt.20.art_nouveau
+		}
+	}
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_gallery.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = klimt.20.g #Have a nice day
+		remove_variable = klimt_visiting_galery_var
+	}
+
+	after = {
+	}
+}
+
+#Klimt 30: Art Secession
+
+klimt.30 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = klimt.30.t
+		
+    desc = klimt.30.d
+
+	flavor = klimt.30.f
+
+	placement = scope:klimt_secession_state
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/elgar_pictures/elgar_art_nouveau.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_arts_academy
+					level >= 15
+				}
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 25	
+				}
+			}
+			save_scope_as = klimt_secession_state
+		}
+	}
+
+	option = { #We are a leading cultural nation
+		name = klimt.30.g
+		elgar_large_add_technology = yes
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 100
+		}
+		artists_add_x_artistic_progress = {
+			AMOUNT = 100
+		}
+	}
+
+	option = { #We are a leading cultural nation
+		name = klimt.30.h
+		default_option = yes
+		elgar_large_add_technology = yes
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 100
+		}
+		create_klimt_gustav_effect = yes
+	}
+}
+
+#Klimt 40: Vernissage
+klimt.40 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.40.t
+
+	desc = klimt.40.d
+
+	flavor = klimt.40.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_gallery.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:klimt_painter_var ?= {
+			set_variable = {
+				name = klimt_painter_achievement_vernissage_var
+				value = flag:klimt_painter_achievement_vernissage_loc
+			}
+			change_variable = {
+				name = klimt_painter_num_paintings_var
+				add = -50
+			}
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					has_active_production_method = pm_artists_arts_academy_studio
+				}
+			}
+			save_scope_as = klimt_vernissage_state
+		}
+	}
+
+	option = {
+		name = klimt.40.g #Have a nice day
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 50
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 25
+		}
+	}
+
+	after = {
+	}
+}
+
+######MASTERWORKS######
+
+#Klimt 100: Masterwork decision (hidden)
+klimt.100 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				klimt_painter_is_classic = yes
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = klimt_classicism_masterwork_happened_var
+					}
+				}
+				trigger_event = {
+					id = klimt.101
+				}
+			}
+			else = {
+				post_notification = klimt_masterwork_notification
+				klimt_add_classic_masterwork_effect = yes
+				klimt_add_x_painting_tradition_effect = {
+					AMOUNT = 20
+				}
+				painter_experience_gain_effect = {
+					AMOUNT = 40
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				klimt_painter_is_romantic = yes
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = klimt_romanticism_masterwork_happened_var
+					}
+				}
+				trigger_event = {
+					id = klimt.102
+				}
+			}
+			else = {
+				post_notification = klimt_masterwork_notification
+				klimt_add_romantic_masterwork_effect = yes
+				klimt_add_x_painting_tradition_effect = {
+					AMOUNT = 20
+				}
+				painter_experience_gain_effect = {
+					AMOUNT = 40
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				klimt_painter_is_realistic = yes
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = klimt_realism_masterwork_happened_var
+					}
+				}
+				trigger_event = {
+					id = klimt.103
+				}
+			}
+			else = {
+				post_notification = klimt_masterwork_notification
+				klimt_add_realistic_masterwork_effect = yes
+				klimt_add_x_painting_tradition_effect = {
+					AMOUNT = 20
+				}
+				painter_experience_gain_effect = {
+					AMOUNT = 40
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				klimt_painter_is_impressionistic = yes
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = klimt_impressionism_masterwork_happened_var
+					}
+				}
+				trigger_event = {
+					id = klimt.104
+				}
+			}
+			else = {
+				post_notification = klimt_masterwork_notification
+				klimt_add_impressionistic_masterwork_effect = yes
+				klimt_add_x_painting_tradition_effect = {
+					AMOUNT = 20
+				}
+				painter_experience_gain_effect = {
+					AMOUNT = 40
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				klimt_painter_is_expressionistic = yes
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = klimt_expressionism_masterwork_happened_var
+					}
+				}
+				trigger_event = {
+					id = klimt.105
+				}
+			}
+			else = {
+				post_notification = klimt_masterwork_notification
+				klimt_add_expressionistic_masterwork_effect = yes
+				klimt_add_x_painting_tradition_effect = {
+					AMOUNT = 20
+				}
+				painter_experience_gain_effect = {
+					AMOUNT = 40
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				klimt_painter_is_art_nouveau = yes
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = klimt_art_nouveau_masterwork_happened_var
+					}
+				}
+				trigger_event = {
+					id = klimt.106
+				}
+			}
+			else = {
+				post_notification = klimt_masterwork_notification
+				klimt_add_art_nouveau_masterwork_effect = yes
+				klimt_add_x_painting_tradition_effect = {
+					AMOUNT = 20
+				}
+				painter_experience_gain_effect = {
+					AMOUNT = 40
+				}
+			}
+		}
+	}
+}
+
+#Klimt 101: Masterwork Classicism
+klimt.101 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.101.t
+
+	desc = klimt.101.d
+
+	flavor = klimt.101.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_masterwork_classicism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = klimt_classicism_masterwork_happened_var
+		}
+	}
+
+	immediate = {
+		set_variable = klimt_classicism_masterwork_happened_var
+		set_variable = {
+			name = klimt_painting_classicism_randomizer_var
+			value = { 1 15 }
+		}
+		round_variable = {
+			name = klimt_painting_classicism_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {
+		name = klimt.101.g #This belongs in a ... Gallery!
+		default_option = yes
+		klimt_add_classic_masterwork_effect = yes
+		klimt_save_classic_masterwork_year = yes
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 100
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 100
+		}
+	}
+
+	after = {
+		klimt_update_collection_effect = yes
+		random_list = {
+			1 = {}
+			2 = {
+				var:klimt_painter_var = {
+					save_scope_as = manzoni_artist_scope
+				}
+				trigger_event = {
+					id = manzoni.14
+					days = { 7 21 }
+				}
+			}
+		}
+	}
+}
+
+#Klimt 102: Masterwork Romanticism
+klimt.102 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.102.t
+
+	desc = klimt.102.d
+
+	flavor = klimt.102.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_masterwork_romanticism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = klimt_romanticism_masterwork_happened_var
+		}
+	}
+
+	immediate = {
+		set_variable = klimt_romanticism_masterwork_happened_var
+		set_variable = {
+			name = klimt_painting_romanticism_randomizer_var
+			value = { 1 15 }
+		}
+		round_variable = {
+			name = klimt_painting_romanticism_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {
+		name = klimt.101.g #This belongs in a ... Gallery!
+		default_option = yes
+		klimt_add_romantic_masterwork_effect = yes
+		klimt_save_romantic_masterwork_year = yes
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 100
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 100
+		}
+	}
+
+	after = {
+		klimt_update_collection_effect = yes
+		random_list = {
+			1 = {}
+			2 = {
+				var:klimt_painter_var = {
+					save_scope_as = manzoni_artist_scope
+				}
+				trigger_event = {
+					id = manzoni.14
+					days = { 7 21 }
+				}
+			}
+		}
+	}
+}
+
+#Klimt 103: Masterwork Realism
+klimt.103 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.103.t
+
+	desc = klimt.103.d
+
+	flavor = klimt.103.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_masterwork_realism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = klimt_realism_masterwork_happened_var
+		}
+	}
+
+	immediate = {
+		set_variable = klimt_realism_masterwork_happened_var
+		set_variable = {
+			name = klimt_painting_realism_randomizer_var
+			value = { 1 15 }
+		}
+		round_variable = {
+			name = klimt_painting_realism_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {
+		name = klimt.101.g #This belongs in a ... Gallery!
+		default_option = yes
+		klimt_add_realistic_masterwork_effect = yes
+		klimt_save_realistic_masterwork_year = yes
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 100
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 100
+		}
+	}
+
+	after = {
+		klimt_update_collection_effect = yes
+		random_list = {
+			1 = {}
+			2 = {
+				var:klimt_painter_var = {
+					save_scope_as = manzoni_artist_scope
+				}
+				trigger_event = {
+					id = manzoni.14
+					days = { 7 21 }
+				}
+			}
+		}
+	}
+}
+
+#Klimt 104: Masterwork Impressionism
+klimt.104 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.104.t
+
+	desc = klimt.104.d
+
+	flavor = klimt.104.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_masterwork_impressionism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = klimt_impressionism_masterwork_happened_var
+		}
+	}
+
+	immediate = {
+		set_variable = klimt_impressionism_masterwork_happened_var
+		set_variable = {
+			name = klimt_painting_impressionism_randomizer_var
+			value = { 1 15 }
+		}
+		round_variable = {
+			name = klimt_painting_impressionism_randomizer_var
+			nearest = 1
+		}
+		random_country = {
+			limit = {
+				OR = {
+					has_technology_researched = realism
+					has_technology_researched = elgar_impressionism_tech
+				}
+			}
+			save_scope_as = klimt_art_dealer_country
+		}
+	}
+
+	option = {
+		name = klimt.101.g #This belongs in a ... Gallery!
+		default_option = yes
+		klimt_add_impressionistic_masterwork_effect = yes
+		klimt_save_impressionistic_masterwork_year = yes
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 100
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 100
+		}
+	}
+
+	after = {
+		klimt_update_collection_effect = yes
+		random_list = {
+			1 = {}
+			2 = {
+				var:klimt_painter_var = {
+					save_scope_as = manzoni_artist_scope
+				}
+				trigger_event = {
+					id = manzoni.14
+					days = { 7 21 }
+				}
+			}
+		}
+	}
+}
+
+#Klimt 105: Masterwork Expressionism
+klimt.105 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.105.t
+
+	desc = klimt.105.d
+
+	flavor = klimt.105.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_masterwork_expressionism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = klimt_expressionism_masterwork_happened_var
+		}
+	}
+
+	immediate = {
+		set_variable = klimt_expressionism_masterwork_happened_var
+		set_variable = {
+			name = klimt_painting_expressionism_randomizer_var
+			value = { 1 15 }
+		}
+		round_variable = {
+			name = klimt_painting_expressionism_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {
+		name = klimt.101.g #This belongs in a ... Gallery!
+		default_option = yes
+		klimt_add_expressionistic_masterwork_effect = yes
+		klimt_save_expressionistic_masterwork_year = yes
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 100
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 100
+		}
+	}
+
+	after = {
+		klimt_update_collection_effect = yes
+		random_list = {
+			1 = {}
+			2 = {
+				var:klimt_painter_var = {
+					save_scope_as = manzoni_artist_scope
+				}
+				trigger_event = {
+					id = manzoni.14
+					days = { 7 21 }
+				}
+			}
+		}
+	}
+}
+
+#Klimt 106: Masterwork Art Nouveau
+klimt.106 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.106.t
+
+	desc = klimt.106.d
+
+	flavor = klimt.106.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_masterwork_art_nouveau.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = klimt_art_nouveau_masterwork_happened_var
+		}
+	}
+
+	immediate = {
+		set_variable = klimt_art_nouveau_masterwork_happened_var
+		set_variable = {
+			name = klimt_painting_art_nouveau_randomizer_var
+			value = { 1 15 }
+		}
+		round_variable = {
+			name = klimt_painting_art_nouveau_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {
+		name = klimt.101.g #This belongs in a ... Gallery!
+		default_option = yes
+		klimt_add_art_nouveau_masterwork_effect = yes
+		klimt_save_art_nouveau_masterwork_year = yes
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 100
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 100
+		}
+	}
+
+	after = {
+		klimt_update_collection_effect = yes
+		random_list = {
+			1 = {}
+			2 = {
+				var:klimt_painter_var = {
+					save_scope_as = manzoni_artist_scope
+				}
+				trigger_event = {
+					id = manzoni.14
+					days = { 7 21 }
+				}
+			}
+		}
+	}
+}
+
+#Klimt 110: Acquire Masterwork
+klimt.110 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.110.t
+
+	desc = klimt.110.d
+
+	flavor = klimt.110.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_art_dealer
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	immediate = {
+		create_character = {
+			save_scope_as = klimt_art_dealer
+		}
+		scope:klimt_art_dealer = {
+			place_character_in_void = 120
+			add_trait = grifter
+			add_trait = erudite
+		}
+	}
+
+	option = { #Classic Masterwork
+		name = klimt.110.g
+		trigger = {
+			klimt_can_acquire_classic_masterwork = yes
+		}
+		klimt_art_dealer_acquires_classic_masterwork_effect = yes
+		klimt_add_x_painting_tradition_unscaled_effect = {
+			AMOUNT = -100
+		}
+		add_treasury = {
+			value = money_amount_multiplier_medium
+			min = -10000
+			max = -500000
+		}
+	}
+
+	option = { #Romantic Masterwork
+		name = klimt.110.h
+		trigger = {
+			klimt_can_acquire_romantic_masterwork = yes
+		}
+		klimt_art_dealer_acquires_romantic_masterwork_effect = yes
+		klimt_add_x_painting_tradition_unscaled_effect = {
+			AMOUNT = -100
+		}
+		add_treasury = {
+			value = money_amount_multiplier_medium
+			min = -10000
+			max = -500000
+		}
+	}
+
+	option = { #Realistic Masterwork
+		name = klimt.110.i
+		trigger = {
+			klimt_can_acquire_realistic_masterwork = yes
+		}
+		klimt_art_dealer_acquires_realistic_masterwork_effect = yes
+		klimt_add_x_painting_tradition_unscaled_effect = {
+			AMOUNT = -100
+		}
+		add_treasury = {
+			value = money_amount_multiplier_medium
+			min = -10000
+			max = -500000
+		}
+	}
+
+	option = { #Impressionistic Masterwork
+		name = klimt.110.j
+		trigger = {
+			klimt_can_acquire_impressionistic_masterwork = yes
+		}
+		klimt_art_dealer_acquires_impressionistic_masterwork_effect = yes
+		klimt_add_x_painting_tradition_unscaled_effect = {
+			AMOUNT = -100
+		}
+		add_treasury = {
+			value = money_amount_multiplier_medium
+			min = -10000
+			max = -500000
+		}
+	}
+
+	option = { #Expressionistic Masterwork
+		name = klimt.110.k
+		trigger = {
+			klimt_can_acquire_expressionistic_masterwork = yes
+		}
+		klimt_art_dealer_acquires_expressionistic_masterwork_effect = yes
+		klimt_add_x_painting_tradition_unscaled_effect = {
+			AMOUNT = -100
+		}
+		add_treasury = {
+			value = money_amount_multiplier_medium
+			min = -10000
+			max = -500000
+		}
+	}
+
+	option = { #Art Nouveau Masterwork
+		name = klimt.110.l
+		trigger = {
+			klimt_can_acquire_art_nouveau_masterwork = yes
+		}
+		klimt_art_dealer_acquires_art_nouveau_masterwork_effect = yes
+		klimt_add_x_painting_tradition_unscaled_effect = {
+			AMOUNT = -100
+		}
+		add_treasury = {
+			value = money_amount_multiplier_very_small
+			min = -10000
+			max = -500000
+		}
+	}
+
+	option = { #Nevermind
+		name = klimt.401.m
+		default_option = yes
+		remove_variable = klimt_acquire_masterwork_var
+		trigger = {
+			is_ai = no
+		}
+
+		ai_chance = { #Should never use
+			base = 0
+		}
+	}
+
+	after = {
+		scope:klimt_art_dealer = {
+			free_character_from_void = no
+		}
+	}
+}
+
+#Klimt 111: Acquired Masterwork Classicism
+klimt.111 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.111.t
+
+	desc = klimt.111.d
+
+	flavor = klimt.111.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_masterwork_classicism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = klimt_classicism_masterwork_happened_var
+		}
+	}
+
+	immediate = {
+		set_variable = klimt_classicism_masterwork_happened_var
+	}
+
+	option = {
+		name = klimt.111.g #Another art treasure for our collection!
+		default_option = yes
+		klimt_add_classic_masterwork_effect = yes
+		klimt_save_classic_masterwork_year = yes
+		remove_variable = klimt_acquire_masterwork_var
+	}
+
+	after = {
+		klimt_update_collection_effect = yes
+	}
+}
+
+#Klimt 112: Acquired Masterwork Romanticism
+klimt.112 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.112.t
+
+	desc = klimt.112.d
+
+	flavor = klimt.112.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_masterwork_romanticism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = klimt_romanticism_masterwork_happened_var
+		}
+	}
+
+	immediate = {
+		set_variable = klimt_romanticism_masterwork_happened_var
+		set_variable = {
+			name = klimt_painting_romanticism_randomizer_var
+			value = { 1 15 }
+		}
+		round_variable = {
+			name = klimt_painting_romanticism_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {
+		name = klimt.111.g #This belongs in a ... Gallery!
+		default_option = yes
+		klimt_add_romantic_masterwork_effect = yes
+		klimt_save_romantic_masterwork_year = yes
+		remove_variable = klimt_acquire_masterwork_var
+	}
+
+	after = {
+		klimt_update_collection_effect = yes
+	}
+}
+
+#Klimt 113: Acquired Masterwork Realism
+klimt.113 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.113.t
+
+	desc = klimt.113.d
+
+	flavor = klimt.113.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_masterwork_realism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = klimt_realism_masterwork_happened_var
+		}
+	}
+
+	immediate = {
+		set_variable = klimt_realism_masterwork_happened_var
+		set_variable = {
+			name = klimt_painting_realism_randomizer_var
+			value = { 1 15 }
+		}
+		round_variable = {
+			name = klimt_painting_realism_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {
+		name = klimt.111.g #This belongs in a ... Gallery!
+		default_option = yes
+		klimt_add_realistic_masterwork_effect = yes
+		klimt_save_realistic_masterwork_year = yes
+		remove_variable = klimt_acquire_masterwork_var
+	}
+
+	after = {
+		klimt_update_collection_effect = yes
+	}
+}
+
+#Klimt 114: Acquired Masterwork Impressionism
+klimt.114 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.114.t
+
+	desc = klimt.114.d
+
+	flavor = klimt.114.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_masterwork_impressionism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = klimt_impressionism_masterwork_happened_var
+		}
+	}
+
+	immediate = {
+		set_variable = klimt_impressionism_masterwork_happened_var
+		set_variable = {
+			name = klimt_painting_impressionism_randomizer_var
+			value = { 1 15 }
+		}
+		round_variable = {
+			name = klimt_painting_impressionism_randomizer_var
+			nearest = 1
+		}
+		random_country = {
+			limit = {
+				OR = {
+					has_technology_researched = realism
+					has_technology_researched = elgar_impressionism_tech
+				}
+			}
+			save_scope_as = klimt_art_dealer_country
+		}
+	}
+
+	option = {
+		name = klimt.111.g #This belongs in a ... Gallery!
+		default_option = yes
+		klimt_add_impressionistic_masterwork_effect = yes
+		klimt_save_impressionistic_masterwork_year = yes
+		remove_variable = klimt_acquire_masterwork_var
+	}
+
+	after = {
+		klimt_update_collection_effect = yes
+	}
+}
+
+#Klimt 115: Acquired Masterwork Expressionism
+klimt.115 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.115.t
+
+	desc = klimt.115.d
+
+	flavor = klimt.115.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_masterwork_expressionism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = klimt_expressionism_masterwork_happened_var
+		}
+	}
+
+	immediate = {
+		set_variable = klimt_expressionism_masterwork_happened_var
+		set_variable = {
+			name = klimt_painting_expressionism_randomizer_var
+			value = { 1 15 }
+		}
+		round_variable = {
+			name = klimt_painting_expressionism_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {
+		name = klimt.111.g #This belongs in a ... Gallery!
+		default_option = yes
+		klimt_add_expressionistic_masterwork_effect = yes
+		klimt_save_expressionistic_masterwork_year = yes
+		remove_variable = klimt_acquire_masterwork_var
+	}
+
+	after = {
+		klimt_update_collection_effect = yes
+	}
+}
+
+#Klimt 116: Acquired Masterwork Art Nouveau
+klimt.116 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.116.t
+
+	desc = klimt.116.d
+
+	flavor = klimt.116.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_masterwork_art_nouveau.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = klimt_art_nouveau_masterwork_happened_var
+		}
+	}
+
+	immediate = {
+		set_variable = klimt_art_nouveau_masterwork_happened_var
+		set_variable = {
+			name = klimt_painting_art_nouveau_randomizer_var
+			value = { 1 15 }
+		}
+		round_variable = {
+			name = klimt_painting_art_nouveau_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {
+		name = klimt.116.g #Or a win at the Schneider Trophy?
+		default_option = yes
+		klimt_add_art_nouveau_masterwork_effect = yes
+		klimt_save_art_nouveau_masterwork_year = yes
+		remove_variable = klimt_acquire_masterwork_var
+	}
+
+	after = {
+		klimt_update_collection_effect = yes
+	}
+}
+
+######PRIZE OF $CITY$######
+
+#Klimt 301: The Prize of $CITY$ - Preparation
+klimt.301 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.301.t
+
+	desc = klimt.301.d
+
+	flavor = klimt.301.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_gallery.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			save_scope_as = klimt_art_capital
+		}
+	}
+
+	option = {
+		name = klimt.301.g #We should organize an art competition
+		default_option = yes
+		add_treasury = -25000
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 25
+		}
+		set_global_variable = {
+			name = klimt_art_prize_host_var
+			value = this
+			days = 365
+		}
+	}
+
+	option = {
+		name = klimt.301.h #What a waste of money!
+
+		ai_chance = {
+			base = 0 #AI should do this, especially as France ...
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			trigger_event = {
+				id = klimt.302
+				days = { 90 120 }
+			}
+		}
+	}
+}
+
+#Klimt 302: The Prize of $CITY$ - Award
+klimt.302 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.302.t
+
+	desc = klimt.302.d
+
+	flavor = klimt.302.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_gallery.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		klimt_create_priz_winners_effect = yes
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			save_scope_as = klimt_art_capital
+		}
+	}
+
+	option = {
+		name = klimt.302.g #Award the winners.
+		hidden_effect = {
+			scope:klimt_first_winner_scope = {
+				painter_experience_gain_effect = {
+					AMOUNT = 100
+				}
+				post_notification = klimt_art_prize_1_notification
+			}
+			scope:klimt_second_winner_scope = {
+				painter_experience_gain_effect = {
+					AMOUNT = 80
+				}
+				post_notification = klimt_art_prize_2_notification
+			}
+			scope:klimt_third_winner_scope = {
+				painter_experience_gain_effect = {
+					AMOUNT = 60
+				}
+				post_notification = klimt_art_prize_3_notification
+			}
+			scope:klimt_fourth_winner_scope = {
+				painter_experience_gain_effect = {
+					AMOUNT = 40
+				}
+				post_notification = klimt_art_prize_4_notification
+			}
+			scope:klimt_fifth_winner_scope = {
+				painter_experience_gain_effect = {
+					AMOUNT = 20
+				}
+				post_notification = klimt_art_prize_5_notification
+			}
+		}
+	}
+}
+
+######EDUCATIONAL JOURNEY######
+
+###Basic Educational Journey###
+
+#Klimt 401: Painter Destination
+klimt.401 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.401.t
+
+	desc = klimt.401.d
+
+	flavor = klimt.401.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_painter
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	immediate = {
+		var:klimt_painter_var ?= {
+			save_scope_as = klimt_painter
+		}
+	}
+
+	#Classicism
+	option = {
+		name = klimt.401.g
+		default_option = yes
+		trigger = {
+			klimt_has_active_painter = yes
+			has_global_variable = elgar_classicism_discovered
+			NOT = {
+				var:klimt_painter_var ?= {
+					has_trait = klimt_classic_school
+				}
+			}
+		}
+		if = {
+			limit = { has_variable = klimt_painter_var }
+			var:klimt_painter_var = {
+				set_character_busy_and_immortal = yes
+				set_variable = klimt_painter_on_classic_school_trip
+			}
+		}
+		else = {
+			custom_tooltip = klimt_painter_becomes_busy_tt
+		}
+		custom_tooltip = klimt_painter_departs_tt
+		hidden_effect = {
+			trigger_event = {
+				id = klimt.402
+				days = { 30 60 }
+			}
+			random_country = {
+				limit = {
+					any_scope_state = {
+						has_state_trait = artists_state_trait_center_classicism
+					}
+				}
+				klimt_add_x_painting_tradition_unscaled_effect = {
+					AMOUNT = 2
+				}
+				post_notification = klimt_classic_school_visit_notification
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	#Romanticism
+	option = {
+		name = klimt.401.h
+		default_option = yes
+		trigger = {
+			klimt_has_active_painter = yes
+			has_global_variable = elgar_romanticism_discovered
+			NOT = {
+				var:klimt_painter_var ?= {
+					has_trait = klimt_romantic_school
+				}
+			}
+		}
+		if = {
+			limit = { has_variable = klimt_painter_var }
+			var:klimt_painter_var = {
+				set_character_busy_and_immortal = yes
+				set_variable = klimt_painter_on_romantic_school_trip
+			}
+		}
+		else = {
+			custom_tooltip = klimt_painter_becomes_busy_tt
+		}
+		custom_tooltip = klimt_painter_departs_tt
+		hidden_effect = {
+			trigger_event = {
+				id = klimt.402
+				days = { 30 60 }
+			}
+			random_country = {
+				limit = {
+					any_scope_state = {
+						has_state_trait = artists_state_trait_center_romanticism
+					}
+				}
+				klimt_add_x_painting_tradition_unscaled_effect = {
+					AMOUNT = 2
+				}
+				post_notification = klimt_romantic_school_visit_notification
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	#Realism
+	option = {
+		name = klimt.401.i
+		default_option = yes
+		trigger = {
+			klimt_has_active_painter = yes
+			has_global_variable = artists_center_of_art_realism_founded_var
+			NOT = {
+				var:klimt_painter_var ?= {
+					has_trait = klimt_realistic_school
+				}
+			}
+		}
+		if = {
+			limit = { has_variable = klimt_painter_var }
+			var:klimt_painter_var = {
+				set_character_busy_and_immortal = yes
+				set_variable = klimt_painter_on_realistic_school_trip
+			}
+		}
+		else = {
+			custom_tooltip = klimt_painter_becomes_busy_tt
+		}
+		custom_tooltip = klimt_painter_departs_tt
+		hidden_effect = {
+			trigger_event = {
+				id = klimt.402
+				days = { 30 60 }
+			}
+			random_country = {
+				limit = {
+					any_scope_state = {
+						has_state_trait = artists_state_trait_center_realism
+					}
+				}
+				klimt_add_x_painting_tradition_unscaled_effect = {
+					AMOUNT = 2
+				}
+				post_notification = klimt_realistic_school_visit_notification
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	#Impressionism
+	option = {
+		name = klimt.401.j
+		default_option = yes
+		trigger = {
+			klimt_has_active_painter = yes
+			has_global_variable = elgar_impressionism_discovered
+			NOT = {
+				var:klimt_painter_var ?= {
+					has_trait = klimt_impressionistic_school
+				}
+			}
+		}
+		if = {
+			limit = { has_variable = klimt_painter_var }
+			var:klimt_painter_var = {
+				set_character_busy_and_immortal = yes
+				set_variable = klimt_painter_on_impressionistic_school_trip
+			}
+		}
+		else = {
+			custom_tooltip = klimt_painter_becomes_busy_tt
+		}
+		custom_tooltip = klimt_painter_departs_tt
+		hidden_effect = {
+			trigger_event = {
+				id = klimt.402
+				days = { 30 60 }
+			}
+			random_country = {
+				limit = {
+					any_scope_state = {
+						has_state_trait = artists_state_trait_center_impressionism
+					}
+				}
+				klimt_add_x_painting_tradition_unscaled_effect = {
+					AMOUNT = 2
+				}
+				post_notification = klimt_impressionistic_school_visit_notification
+			}
+		}
+
+		ai_chance = {
+			base = 2
+		}
+	}
+
+	#Expressionism
+	option = {
+		name = klimt.401.k
+		default_option = yes
+		trigger = {
+			klimt_has_active_painter = yes
+			has_global_variable = elgar_expressionism_discovered
+			NOT = {
+				var:klimt_painter_var ?= {
+					has_trait = klimt_expressionistic_school
+				}
+			}
+		}
+		if = {
+			limit = { has_variable = klimt_painter_var }
+			var:klimt_painter_var = {
+				set_character_busy_and_immortal = yes
+				set_variable = klimt_painter_on_expressionistic_school_trip
+			}
+		}
+		else = {
+			custom_tooltip = klimt_painter_becomes_busy_tt
+		}
+		custom_tooltip = klimt_painter_departs_tt
+		hidden_effect = {
+			trigger_event = {
+				id = klimt.402
+				days = { 30 60 }
+			}
+			random_country = {
+				limit = {
+					any_scope_state = {
+						has_state_trait = artists_state_trait_center_expressionism
+					}
+				}
+				klimt_add_x_painting_tradition_unscaled_effect = {
+					AMOUNT = 2
+				}
+				post_notification = klimt_expressionistic_school_visit_notification
+			}
+		}
+
+		ai_chance = {
+			base = 2
+		}
+	}
+
+	#Art Nouveau
+	option = {
+		name = klimt.401.l
+		default_option = yes
+		trigger = {
+			klimt_has_active_painter = yes
+			has_global_variable = elgar_art_nouveau_discovered
+			NOT = {
+				var:klimt_painter_var ?= {
+					has_trait = klimt_art_nouveau_school
+				}
+			}
+		}
+		if = {
+			limit = { has_variable = klimt_painter_var }
+			var:klimt_painter_var = {
+				set_character_busy_and_immortal = yes
+				set_variable = klimt_painter_on_art_nouveau_school_trip
+			}
+		}
+		else = {
+			custom_tooltip = klimt_painter_becomes_busy_tt
+		}
+		custom_tooltip = klimt_painter_departs_tt
+		hidden_effect = {
+			trigger_event = {
+				id = klimt.402
+				days = { 30 60 }
+			}
+			random_country = {
+				limit = {
+					any_scope_state = {
+						has_state_trait = artists_state_trait_center_art_nouveau
+					}
+				}
+				klimt_add_x_painting_tradition_unscaled_effect = {
+					AMOUNT = 2
+				}
+				post_notification = klimt_art_nouveau_school_visit_notification
+			}
+		}
+
+		ai_chance = {
+			base = 5
+		}
+	}
+
+
+	option = { #Nevermind
+		name = klimt.401.m
+		trigger = {
+			is_ai = no
+		}
+
+		ai_chance = { #Should never use
+			base = 0
+		}
+	}
+
+	after = {
+		remove_variable = klimt_trip_destination_var
+	}
+}
+
+#Klimt 402: Painter Arrival
+klimt.402 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.402.t
+
+	desc = klimt.402.d
+
+	flavor = klimt.402.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	event_image = { #Classic
+		trigger = {
+			klimt_painter_trip_classic = yes
+		}
+		texture = "gfx/event_pictures/klimt_pictures/klimt_classicism.dds"
+	}
+
+	event_image = { #Romantic
+		trigger = {
+			klimt_painter_trip_romantic = yes
+		}
+		texture = "gfx/event_pictures/klimt_pictures/klimt_romanticism.dds"
+	}
+
+	event_image = { #Realistic
+		trigger = {
+			klimt_painter_trip_realistic = yes
+		}
+		texture = "gfx/event_pictures/klimt_pictures/klimt_realism.dds"
+	}
+
+	event_image = { #Impressionistic
+		trigger = {
+			klimt_painter_trip_impressionistic = yes
+		}
+		texture = "gfx/event_pictures/elgar_pictures/elgar_impressionism.dds"
+	}
+
+	event_image = { #Expressionistic
+		trigger = {
+			klimt_painter_trip_expressionistic = yes
+		}
+		texture = "gfx/event_pictures/elgar_pictures/elgar_expressionism.dds"
+	}
+
+	event_image = { #Art Nouveau
+		trigger = {
+			klimt_painter_trip_art_nouveau = yes
+		}
+		texture = "gfx/event_pictures/elgar_pictures/elgar_art_nouveau.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	immediate = {
+		set_klimt_painter_progress = yes
+		set_klimt_center_of_art_scope = yes
+	}
+
+	#Ah, $CENTEROFART$ City ...
+	option = {
+		name = klimt.402.g
+		default_option = yes
+		add_journal_entry = {
+			type = je_klimt_painter_trip
+		}
+	}
+}
+
+#Klimt 403: Painter Return
+klimt.403 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.403.t
+
+	desc = klimt.403.d
+
+	flavor = klimt.403.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_painter
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	immediate = {
+		var:klimt_painter_var ?= {
+			save_scope_as = klimt_painter
+		}
+	}
+
+	option = { #I hope he used his time well.
+		name = klimt.403.g
+		default_option = yes
+		painter_experience_gain_effect = {
+			AMOUNT = 30
+		}
+		klimt_set_art_school_trait_effect = yes
+		var:klimt_painter_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_klimt_painter_trip_variables = yes
+	}
+}
+
+###Educational Journey Events###
+
+#Klimt 411: Fellow painters among themselves
+klimt.411 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = klimt.411.t
+		
+    desc = klimt.411.d
+
+	flavor = klimt.411.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	gui_window = event_window_2char
+
+	left_icon = scope:klimt_painter
+	right_icon = scope:klimt_fellow_painter
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		var:klimt_painter_var ?= {
+			save_scope_as = klimt_painter
+		}
+		set_klimt_center_of_art_scope = yes
+		random_country = {
+			limit = {
+				trigger_if = {
+					limit = {
+						root = {
+							klimt_painter_trip_classic = yes
+						}
+					}
+					klimt_painter_trip_classic = yes
+					NOT = {
+						this = ROOT
+					}
+				}
+				trigger_if = {
+					limit = {
+						root = {
+							klimt_painter_trip_romantic = yes
+						}
+					}
+					klimt_painter_trip_romantic = yes
+					NOT = {
+						this = ROOT
+					}
+				}
+				trigger_if = {
+					limit = {
+						root = {
+							klimt_painter_trip_realistic = yes
+						}
+					}
+					klimt_painter_trip_realistic = yes
+					NOT = {
+						this = ROOT
+					}
+				}
+				trigger_if = {
+					limit = {
+						root = {
+							klimt_painter_trip_impressionistic = yes
+						}
+					}
+					klimt_painter_trip_impressionistic = yes
+					NOT = {
+						this = ROOT
+					}
+				}
+				trigger_if = {
+					limit = {
+						root = {
+							klimt_painter_trip_expressionistic = yes
+						}
+					}
+					klimt_painter_trip_expressionistic = yes
+					NOT = {
+						this = ROOT
+					}
+				}
+				trigger_if = {
+					limit = {
+						root = {
+							klimt_painter_trip_art_nouveau = yes
+						}
+					}
+					klimt_painter_trip_art_nouveau = yes
+					NOT = {
+						this = ROOT
+					}
+				}
+			}
+			var:klimt_painter_var = {
+				save_scope_as = klimt_fellow_painter
+			}
+		}
+	}
+
+	option = { #They should exchange their artistic knowledge.
+		name = klimt.411.g
+		default_option = yes
+		elgar_small_add_technology = yes
+	}
+
+	option = { #They can certainly learn from each other's techniques.
+		name = klimt.411.h
+		default_option = yes
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 30
+		}
+	}
+
+	option = { #The acquaintance will be useful in the art world to support each other.
+		name = klimt.411.i
+		default_option = yes
+		painter_experience_gain_effect = {
+			AMOUNT = 20
+		}
+	}
+}
+
+#Klimt 421: In the Footsteps of Giants (Ambitious)
+klimt.421 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = klimt.421.t
+		
+    desc = klimt.421.d
+
+	flavor = klimt.421.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_classicism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		klimt_painter_trip_classic = yes
+		NOT = {
+			root.var:klimt_painter_var = {
+				has_trait = ambitious
+			}
+		}
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #He should take his time and emulate Michelangelo and Raphael.
+		name = klimt.421.g
+		default_option = yes
+		add_treasury = -10000
+		klimt_add_x_painter_progress = { AMOUNT = -9 }
+		var:klimt_painter_var = {
+			add_trait = ambitious
+		}
+	}
+
+	option = { #He should paint, not daydream!
+		name = klimt.421.h
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 2
+		}
+	}
+}
+
+#Klimt 422: Spirit of the Romantics (Romantic)
+klimt.422 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = klimt.422.t
+		
+    desc = klimt.422.d
+
+	flavor = klimt.422.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_romanticism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		klimt_painter_trip_romantic = yes
+		NOT = {
+			root.var:klimt_painter_var = {
+				has_trait = romantic
+			}
+		}
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #From the life of a good-for-nothing...
+		name = klimt.422.g
+		default_option = yes
+		klimt_add_x_painter_progress = { AMOUNT = -6 }
+		var:klimt_painter_var = {
+			add_trait = romantic
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			game_date <= 1848.1.1
+			factor = 2
+		}
+		modifier = {
+			NOT = {
+				has_technology_researched = realism
+			}
+			factor = 2
+		}
+	}
+}
+
+#Klimt 423: Conversion (Pious)
+klimt.423 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = klimt.423.t
+		
+    desc = klimt.423.d
+
+	flavor = klimt.423.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_sixtina.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		OR = {
+			klimt_painter_trip_classic = yes
+			klimt_painter_trip_romantic = yes
+		}
+		NOT = {
+			root.var:klimt_painter_var = {
+				has_trait = pious
+			}
+		}
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #I hope this isn't a cheesy picture of the Madonna.
+		name = klimt.423.g
+		default_option = yes
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 1
+		}
+		var:klimt_painter_var = {
+			add_trait = pious
+		}
+		custom_tooltip = {
+			text = klimt.423.tt
+			var:klimt_painter_var = {
+				add_trait = pious
+				remove_trait = hedonist
+				remove_trait = alcoholic
+				remove_trait = opium_addiction
+				remove_trait = cocaine_addiction
+				change_character_religion = rel:catholic
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:klimt_painter_var = {
+				OR = {
+					has_trait = hedonist
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+				}
+			}
+			factor = 2
+		}
+	}
+}
+
+#Klimt 424: Attention to detail (Meticulous)
+klimt.424 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = klimt.424.t
+		
+    desc = klimt.424.d
+
+	flavor = klimt.424.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_realism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		klimt_painter_trip_realistic = yes
+		NOT = {
+			root.var:klimt_painter_var = {
+				has_trait = meticulous
+			}
+		}
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #This may take some time, but it's worth it.
+		name = klimt.424.g
+		default_option = yes
+		add_treasury = -25000
+		klimt_add_x_painter_progress = { AMOUNT = -12 }
+		var:klimt_painter_var = {
+			add_trait = meticulous
+		}
+	}
+
+	option = { #He should rather concentrate on gaining recognition from the master.
+		name = klimt.424.h
+		painter_experience_gain_effect = {
+			AMOUNT = 15
+		}
+	}
+}
+
+#Klimt 425: Inspiration without limits (Innovative)
+klimt.425 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = klimt.425.t
+		
+    desc = klimt.425.d
+
+	flavor = klimt.425.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = { #Impressionistic
+		trigger = {
+			klimt_painter_trip_impressionistic = yes
+		}
+		texture = "gfx/event_pictures/elgar_pictures/elgar_impressionism.dds"
+	}
+
+	event_image = { #Expressionistic
+		trigger = {
+			klimt_painter_trip_expressionistic = yes
+		}
+		texture = "gfx/event_pictures/elgar_pictures/elgar_expressionism.dds"
+	}
+
+	event_image = { #Art Nouveau
+		trigger = {
+			klimt_painter_trip_art_nouveau = yes
+		}
+		texture = "gfx/event_pictures/elgar_pictures/elgar_art_nouveau.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		OR = {
+			klimt_painter_trip_impressionistic = yes
+			klimt_painter_trip_expressionistic = yes
+			klimt_painter_trip_art_nouveau = yes
+		}
+		NOT = {
+			root.var:klimt_painter_var = {
+				has_trait = innovative
+			}
+		}
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #These new ideas will inspire him to create numerous paintings.
+		name = klimt.425.g
+		default_option = yes
+		var:klimt_painter_var = {
+			add_trait = innovative
+		}
+	}
+
+	option = { #These new ideas should inspire our culture at home.
+		name = klimt.425.h
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Klimt 426: An Artist's Life (Hedonist)
+klimt.426 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = klimt.426.t
+		
+    desc = klimt.426.d
+
+	flavor = klimt.426.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_absinth.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		OR = {
+			klimt_painter_trip_realistic = yes
+			klimt_painter_trip_impressionistic = yes
+			klimt_painter_trip_expressionistic = yes
+			klimt_painter_trip_art_nouveau = yes
+		}
+		NOR = {
+			root.var:klimt_painter_var = {
+				has_trait = hedonist
+			}
+			root.var:klimt_painter_var = {
+				has_trait = pious
+			}
+		}
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #If that inspires his art, then he should do it.
+		name = klimt.426.g
+		default_option = yes
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 5
+		}
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 3
+		}
+		random_list = {
+			1 = {
+				var:klimt_painter_var = {
+					add_trait = hedonist
+				}
+			}
+			1 = {
+			}
+		}
+	}
+
+	option = { #Then it just takes longer.
+		name = klimt.426.h
+		klimt_add_x_painter_progress = { AMOUNT = -6 }		
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Klimt 427: An Artist's Vice (Addiction)
+klimt.427 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = klimt.427.t
+		
+    desc = klimt.427.d
+
+	flavor = klimt.427.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_absinth.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		var:klimt_painter_progress < 9
+		root.var:klimt_painter_var = {
+			has_trait = hedonist
+		}
+		root.var:klimt_painter_var = {
+			NOR = {
+				has_trait = alcoholic
+				has_trait = opium_addiction
+				has_trait = cocaine_addiction
+			}
+		}
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #Every artist has a vice.
+		name = klimt.427.g
+		default_option = yes
+		random_list = {
+			1 = {
+				var:klimt_painter_var = {
+					add_trait = alcoholic
+				}
+			}
+			1 = {
+				var:klimt_painter_var = {
+					add_trait = opium_addiction
+				}
+			}
+			1 = {
+				var:klimt_painter_var = {
+					add_trait = cocaine_addiction
+				}
+			}
+			1 = {
+			}
+		}
+	}
+
+	option = { #We have to intervene!
+		name = klimt.427.h
+		custom_tooltip = klimt.427.tt
+		remove_klimt_painter_trip_variables = yes
+		add_treasury = -10000
+		painter_experience_gain_effect = {
+			AMOUNT = -10
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = klimt.428
+				days = { 170 190 }
+			}
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Klimt 428: Painter Return without success
+klimt.428 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.428.t
+
+	desc = klimt.428.d
+
+	flavor = klimt.428.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_painter
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	immediate = {
+		var:klimt_painter_var ?= {
+			save_scope_as = klimt_painter
+		}
+	}
+
+	option = { #Hopefully things will return to normal now.
+		name = klimt.428.g
+		default_option = yes
+		var:klimt_painter_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+	}
+}
+
+#Klimt 431: Veduta
+klimt.431 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = klimt.431.t
+		
+    desc = klimt.431.d
+
+	flavor = klimt.431.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_veduta.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #A splendid idea.
+		name = klimt.431.g
+		default_option = yes
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 1
+		}
+		klimt_add_x_painter_progress = { AMOUNT = -3 }
+	}
+
+	option = { #Concentrate on studying.
+		name = klimt.431.h
+		klimt_add_x_painter_progress = { AMOUNT = 2 }
+	}
+}
+
+#Klimt 432: Painting Circle
+klimt.432 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = klimt.432.t
+		
+    desc = klimt.432.d
+
+	flavor = klimt.432.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_balcony.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #We need the recognition of the painting world.
+		name = klimt.432.g
+		default_option = yes
+		painter_experience_gain_effect = {
+			AMOUNT = 10
+		}
+	}
+}
+
+#Klimt 433: Quick Comprehension
+klimt.433 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.433.t
+
+	desc = klimt.433.d
+
+	flavor = klimt.433.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	event_image = { #Classic
+		trigger = {
+			klimt_painter_trip_classic = yes
+		}
+		texture = "gfx/event_pictures/klimt_pictures/klimt_classicism.dds"
+	}
+
+	event_image = { #Romantic
+		trigger = {
+			klimt_painter_trip_romantic = yes
+		}
+		texture = "gfx/event_pictures/klimt_pictures/klimt_romanticism.dds"
+	}
+
+	event_image = { #Realistic
+		trigger = {
+			klimt_painter_trip_realistic = yes
+		}
+		texture = "gfx/event_pictures/klimt_pictures/klimt_realism.dds"
+	}
+
+	event_image = { #Impressionistic
+		trigger = {
+			klimt_painter_trip_impressionistic = yes
+		}
+		texture = "gfx/event_pictures/elgar_pictures/elgar_impressionism.dds"
+	}
+
+	event_image = { #Expressionistic
+		trigger = {
+			klimt_painter_trip_expressionistic = yes
+		}
+		texture = "gfx/event_pictures/elgar_pictures/elgar_expressionism.dds"
+	}
+
+	event_image = { #Art Nouveau
+		trigger = {
+			klimt_painter_trip_art_nouveau = yes
+		}
+		texture = "gfx/event_pictures/elgar_pictures/elgar_art_nouveau.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	#You can see talent at first glance.
+	option = {
+		name = klimt.433.g
+		default_option = yes
+		klimt_add_x_painter_progress = { AMOUNT = 3 }
+	}
+}
+
+#Klimt 434: Art Dealer
+klimt.434 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = klimt.434.t
+		
+    desc = klimt.434.d
+
+	flavor = klimt.434.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_balcony.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #Buy some paintings.
+		name = klimt.434.g
+		default_option = yes
+		add_treasury = -25000
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 10
+		}
+	}
+
+	option = { #We don't need second-rate foreign goods.
+		name = klimt.434.h
+	}
+}
+
+#Klimt 435: The latest Fashion
+klimt.435 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = klimt.435.t
+		
+    desc = klimt.435.d
+
+	flavor = klimt.435.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_balcony.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #The fresh breath of new culture.
+		name = klimt.435.g
+		default_option = yes
+		elgar_small_add_technology = yes
+	}
+
+	option = { #But is it really right to just follow the zeitgeist?
+		name = klimt.435.h
+		default_option = yes
+		random_list = {
+			1 = {
+				var:klimt_painter_var = {
+					add_trait = persistent
+				}
+			}
+			1 = {
+			}
+		}
+	}
+}
+
+#####HISTORICAL PAINTING EVENTS######
+
+#Klimt 501: Pre-Raphaelites
+klimt.501 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = klimt.501.t
+		
+    desc = klimt.501.d
+
+	flavor = klimt.501.f
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_rossetti.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Promote the Pre-Raphaelite Brotherhood.
+		name = klimt.501.g
+		default_option = yes
+		artists_add_x_artistic_progress = {
+			AMOUNT = 50
+		}
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 35
+		}
+
+		ai_chance = {
+			base = 0 #AI should make current painter better
+		}
+	}
+
+	option = { #Our current painter is way better
+		name = klimt.501.h
+		painter_experience_gain_effect = {
+			AMOUNT = 30
+		}
+	}
+}
+
+#Klimt 502: Macchiaioli
+klimt.502 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = klimt.502.t
+		
+    desc = klimt.502.d
+
+	flavor = klimt.502.f
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_fattori.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #So they were avantgarde before the Avantgarde?
+		name = klimt.502.g
+		default_option = yes
+		artists_add_x_artistic_progress = {
+			AMOUNT = 50
+		}
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 35
+		}
+	}
+}
+
+#Klimt 503: Barbizon School
+klimt.503 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = klimt.503.t
+		
+    desc = klimt.503.d
+
+	flavor = klimt.503.f
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_rossetti.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Fine Landscapes
+		name = klimt.503.g
+		default_option = yes
+		artists_add_x_artistic_progress = {
+			AMOUNT = 50
+		}
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 35
+		}
+	}
+}
+
+######PAINTER DEATHS######
+
+#Klimt 601: Friedrich Death
+klimt.601 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = klimt.601.t
+	desc = klimt.601.d
+	flavor = klimt.601.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_painter_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:klimt_painter_var = {
+			save_scope_as = klimt_painter_scope
+		}
+	}
+
+	option = {
+		name = klimt.601.g
+		default_option = yes
+		
+		kill_painter_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Klimt 602: Turner Death
+klimt.602 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = klimt.601.t
+	desc = klimt.601.d
+	flavor = klimt.602.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_painter_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:klimt_painter_var = {
+			save_scope_as = klimt_painter_scope
+		}
+	}
+
+	option = {
+		name = klimt.601.g
+		default_option = yes
+		
+		kill_painter_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Klimt 603: Cole Death
+klimt.603 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = klimt.601.t
+	desc = klimt.601.d
+	flavor = klimt.603.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_painter_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:klimt_painter_var = {
+			save_scope_as = klimt_painter_scope
+		}
+	}
+
+	option = {
+		name = klimt.601.g
+		default_option = yes
+		
+		kill_painter_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Klimt 604: Delacroix Death
+klimt.604 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = klimt.601.t
+	desc = klimt.601.d
+	flavor = klimt.604.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_painter_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:klimt_painter_var = {
+			save_scope_as = klimt_painter_scope
+		}
+	}
+
+	option = {
+		name = klimt.601.g
+		default_option = yes
+		
+		kill_painter_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Klimt 605: Eckersberg Death
+klimt.605 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = klimt.601.t
+	desc = klimt.601.d
+	flavor = klimt.605.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_painter_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:klimt_painter_var = {
+			save_scope_as = klimt_painter_scope
+		}
+	}
+
+	option = {
+		name = klimt.601.g
+		default_option = yes
+		
+		kill_painter_effect = yes
+	}
+
+	after = {
+	}
+}
+
+######RANDOM EVENTS######
+
+#Klimt 901: $COUNTRY$'s starry tent
+klimt.901 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = klimt.901.t
+	desc = klimt.901.d
+	flavor = klimt.901.f
+
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_random_astronomer.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 25
+	}
+
+	trigger = {
+		klimt_has_active_painter = yes
+		verrier_has_astronomer = yes
+		verrier_astronomical_observation = yes
+		OR = {
+			has_variable = verrier_neptun_achievement
+			has_variable = verrier_pluto_achievement
+			has_variable = verrier_discovered_great_comet
+			has_variable = verrier_moon_chartered_var
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = klimt.901.g #Beautiful!
+		default_option = yes
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 1
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 10
+		}
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 40
+		}
+	}
+
+	after = {
+	}
+}
+
+#Klimt 902: Inspired by Pacific Expedition
+klimt.902 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = klimt.902.t
+	desc = klimt.902.d
+	flavor = klimt.901.f
+
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_random_pacific_expedition.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 25
+	}
+
+	trigger = {
+		klimt_has_active_painter = yes
+		has_modifier = rapanui_had_pacific_expedition_modifier
+		OR = {
+			has_modifier = rapanui_oceanic_domination_modifier
+			has_modifier = rapanui_russel_wallace_modifier
+			has_modifier = rapanui_circumnavigation_modifier
+			has_modifier = rapanui_venus_transit_modifier
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = klimt.901.g #Beautiful!
+		default_option = yes
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 1
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 10
+		}
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 40
+		}
+	}
+
+	after = {
+	}
+}
+
+#Klimt 903: Oriental Art
+klimt.903 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = klimt.903.t
+	desc = klimt.903.d
+	flavor = klimt.901.f
+
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_random_oriental.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 25
+	}
+
+	trigger = {
+		klimt_has_active_painter = yes
+		lepsius_has_archaeologist = yes
+		OR = {
+			has_modifier = lepsius_upper_egypt_excavation_modifier
+			has_modifier = lepsius_lower_egypt_excavation_modifier
+			has_modifier = lepsius_assyria_excavation_modifier
+			has_modifier = lepsius_babylonia_excavation_modifier
+		}
+		any_scope_state = {
+			is_capital = yes
+			OR = {
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_medium_egyptian_exhibition
+				}
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_large_egyptian_exhibition
+				}
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_excellent_egyptian_exhibition
+				}
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_medium_mesopotamian_exhibition
+				}
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_large_mesopotamian_exhibition
+				}
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_excellent_mesopotamian_exhibition
+				}
+			}
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = klimt.901.g #Beautiful!
+		default_option = yes
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 1
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 10
+		}
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 40
+		}
+	}
+
+	after = {
+	}
+}
+
+#Klimt 904: The Impulse of a New Era
+klimt.904 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = klimt.904.t
+	desc = klimt.904.d
+	flavor = klimt.901.f
+
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_random_pilot.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 25
+	}
+
+	trigger = {
+		klimt_has_active_painter = yes
+		OR = {
+			has_modifier = curtiss_schneider_trophy_1_win_modifier
+			has_modifier = curtiss_schneider_trophy_2_win_modifier
+			has_modifier = curtiss_spruce_goose_modifier
+			has_modifier = curtiss_hindenburg_national_modifier
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = klimt.901.g #Beautiful!
+		default_option = yes
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 1
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 10
+		}
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 40
+		}
+	}
+
+	after = {
+	}
+}
+
+#Klimt 905: Paintings of Exotic Animals
+klimt.905 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = klimt.905.t
+	desc = klimt.905.d
+	flavor = klimt.901.f
+
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_random_zoo.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 25
+	}
+
+	trigger = {
+		klimt_has_active_painter = yes
+		dubois_has_naturalist = yes
+		any_scope_state = {
+			is_capital = yes
+			OR = {
+				is_production_method_active = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_4
+				}
+				is_production_method_active = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_5
+				}
+			}
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = klimt.901.g #Beautiful!
+		default_option = yes
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 1
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 10
+		}
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 40
+		}
+	}
+
+	after = {
+	}
+}
+
+#Klimt 906: Dinosaur Sketches
+klimt.906 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = klimt.906.t
+	desc = klimt.906.d
+	flavor = klimt.901.f
+
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_random_dinosaur.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 25
+	}
+
+	trigger = {
+		klimt_has_active_painter = yes
+		dubois_has_paleontologist = yes
+		dubois_has_dinosaur_skeleton = yes
+		any_scope_state = {
+			is_capital = yes
+			is_production_method_active = {
+				building_type = building_dubois_zoo
+				production_method = pm_paleontological_collection
+			}
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = klimt.901.g #Beautiful!
+		default_option = yes
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 1
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 10
+		}
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 40
+		}
+	}
+
+	after = {
+	}
+}
+
+#Klimt 907: Secrets of the Jungle
+klimt.907 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = klimt.907.t
+	desc = klimt.907.d
+	flavor = klimt.901.f
+
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_random_jungle.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 25
+	}
+
+	trigger = {
+		klimt_has_active_painter = yes
+		lepsius_has_archaeologist = yes
+		has_modifier = lepsius_yucatan_excavation_modifier
+		any_scope_state = {
+			is_capital = yes
+			OR = {
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_medium_precolumbian_exhibition
+				}
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_large_precolumbian_exhibition
+				}
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_excellent_precolumbian_exhibition
+				}
+			}
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = klimt.901.g #Beautiful!
+		default_option = yes
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 1
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 10
+		}
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 40
+		}
+	}
+
+	after = {
+	}
+}
+
+#Klimt 908: Portrait of $COMPOSER$
+klimt.908 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = klimt.908.t
+	desc = klimt.908.d
+	flavor = klimt.901.f
+
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_random_composer.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 25
+	}
+
+	trigger = {
+		klimt_has_active_painter = yes
+		elgar_has_great_composer = yes
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = klimt.901.g #Beautiful!
+		default_option = yes
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 1
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 10
+		}
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 40
+		}
+	}
+
+	after = {
+	}
+}
+
+#Klimt 909: Book Illustration
+#Reserved for Writer
+
+#Klimt 911: A Portrait of $RULER$
+klimt.911 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.911.t
+	desc = klimt.911.d
+	flavor = klimt.911.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_ruler_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+
+	trigger = {
+		klimt_has_active_painter = yes
+		any_scope_character = {
+			is_ruler = yes
+			NOT = {
+				has_variable = klimt_ruler_portrait_var
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = klimt_ruler_scope
+		}
+	}
+
+	option = {
+		name = klimt.911.g #Create a portrait.
+		default_option = yes
+		scope:klimt_ruler_scope = {
+			set_variable = klimt_ruler_portrait_var
+		}
+		add_treasury = -30000
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 15
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 10
+		}
+		hidden_effect = {
+			random_list = {
+				1 = {
+					klimt_add_x_paintings_effect = {
+						AMOUNT = 1
+					}
+				}
+				1 = {
+					modifier = {
+						if = {
+							limit = {
+								var:klimt_painter_var = {
+									var:klimt_painter_experience < 150
+								}
+							}
+							add = 1
+						}
+					}
+					#A...remarkable Portrait
+					trigger_event = {
+						id = klimt.912
+						days = { 30 90 }
+					}
+				}
+				1 = {
+					modifier = {
+						if = {
+							limit = {
+								var:klimt_painter_var = {
+									var:klimt_painter_experience > 350
+								}
+							}
+							add = 1
+						}
+					}
+					modifier = {
+						if = {
+							limit = {
+								var:klimt_painter_var = {
+									has_trait = klimt_great_painter
+								}
+							}
+							add = 2
+						}
+					}
+					#A great Portrait
+					trigger_event = {
+						id = klimt.913
+						days = { 30 90 }
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = klimt.911.h #And if it goes wrong - who will pay for it?
+		
+	}
+
+	after = {
+	}
+}
+
+#Klimt 912: #A...remarkable Portrait
+klimt.912 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.912.t
+	desc = klimt.912.d
+	flavor = klimt.912.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_ruler_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = klimt_ruler_scope
+		}
+	}
+
+	option = {
+		name = klimt.912.g #Art is Art
+		default_option = yes
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 1
+		}
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 10
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 5
+		}
+		scope:klimt_ruler_scope = {
+			add_modifier = {
+				name = klimt_disgusting_painting_modifier
+			}
+		}
+		every_interest_group = {
+			limit = {
+				is_in_government = yes
+			}
+			add_modifier = {
+				name = klimt_disgusting_taste_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = klimt.912.h #Destroy that painting!
+		klimt_add_x_paintings_effect = {
+			AMOUNT = -1
+		}
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = -20
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = -15
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = klimt_art_censorship_modifier
+				years = 3
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Klimt 913: #A great Portrait
+klimt.913 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.913.t
+	desc = klimt.913.d
+	flavor = klimt.913.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_ruler_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = klimt_ruler_scope
+		}
+	}
+
+	option = {
+		name = klimt.901.g #Beautiful!
+		default_option = yes
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 1
+		}
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 15
+		}
+		painter_experience_gain_effect = {
+			AMOUNT = 10
+		}
+		scope:klimt_ruler_scope = {
+			add_modifier = {
+				name = klimt_great_painting_modifier
+			}
+		}
+		every_interest_group = {
+			limit = {
+				is_in_government = yes
+			}
+			add_modifier = {
+				name = klimt_excellent_taste_modifier
+				years = 5
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+###################
+
+### Germany ###
+
+#Klimt 1300: Spitzweg, Der arme Poet
+klimt.1300 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = klimt.1300.t
+	desc = klimt.1300.d
+	flavor = klimt.1300.f
+
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_spitzweg.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	duration = 3
+
+	trigger = {
+		any_scope_state = {
+			state_region = s:STATE_BAVARIA
+		}
+		has_technology_researched = romanticism
+		game_date >= 1839.1.1
+		NOT = { 
+			has_global_variable = klimt_spitzweg_var 
+		}
+	}
+
+	immediate = {
+		set_global_variable = klimt_spitzweg_var
+	}
+
+	option = {
+		name = klimt.1300.g #Ahahah, a funny painter!
+		default_option = yes
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 25
+		}
+	}
+
+	option = {
+		name = klimt.1300.h #Wait! Satire against whom?
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 10
+		}
+		add_modifier = {
+			name = klimt_spitzweg_not_funny_modifier
+			years = 5
+		}
+	}
+
+	after = {
+	}
+}

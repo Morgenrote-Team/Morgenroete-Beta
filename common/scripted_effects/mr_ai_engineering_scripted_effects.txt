@@ -1,0 +1,905 @@
+﻿##########################
+# AI ENGINEERING EFFECTS #
+##########################
+
+#By Lord R
+
+############################################################################
+
+#Checks if the scope is an AI and then starts Engineering Projects
+ai_start_engineering_project_for_ai_effect = {
+	if = {
+		limit = { is_ai = yes}
+		ai_engineering_effect = yes
+	}
+}
+
+#Handles the Engineering projects for the AI
+ai_engineering_effect = {
+	#Checks if there is an engineer
+	if = {
+		limit = { tesla_has_active_engineer_no_tooltip_trigger = yes }
+
+		### Civil Engineer ###
+		if = {
+			limit = {
+				tesla_has_civil_engineer_no_tooltip_trigger = yes
+			}
+
+			random_list = {
+				### Infrastructure Project ###
+				100 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_medium_project_cost_weekly_value
+							gold_reserves > tesla_medium_project_cost_yearly_value
+						}
+
+						#Is there any state where a project is possible?
+						any_scope_state = {
+							OR = {
+								NOT = { has_modifier = gaudi_modern_roads_modifier }
+								NOT = { has_modifier = gaudi_new_bridge_modifier }
+								NOT = { has_modifier = gaudi_new_tunnel_modifier }
+							}
+						}
+					}
+
+					#Effect
+					tesla_civilian_engineer_infrastructure_button_effect = yes
+
+					#Modifier
+					modifier = {
+						# If a state has a negative infrastructure balance, this project will be more likely
+						if = {
+							limit = {
+								any_scope_state = {
+									state_infrastructure_balance < 0
+								}
+							}
+
+							add = 200
+						}
+					}
+				}
+				### Railway Project ###
+				100 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_medium_project_cost_weekly_value
+							gold_reserves > tesla_medium_project_cost_yearly_value
+						}
+
+						#Is there any state where a project is possible?
+						any_scope_building = {
+							tesla_railway_valid_for_improvement_trigger = yes
+						}
+					}
+
+					#Effect
+					add_journal_entry = { type = je_gaudi_railway_project }
+					je:je_gaudi_railway_project = {
+						add_modifier = {
+							name = gaudi_engineer_project_medium_cost_modifier
+							multiplier = money_amount_multiplier_small
+						}
+					}
+					if = {
+						limit = {
+							has_variable = tesla_engineer_var
+						}
+						var:tesla_engineer_var = {
+							set_character_busy_and_immortal = yes
+						}
+					}
+
+					#Modifier
+					modifier = {
+						# If a state has a negative infrastructure balance, this project will be more likely
+						if = {
+							limit = {
+								any_scope_state = {
+									state_infrastructure_balance < 0
+								}
+							}
+
+							add = 200
+						}
+					}
+				}
+				### Irrigation Project ###
+				200 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_medium_project_cost_weekly_value
+							gold_reserves > tesla_medium_project_cost_yearly_value
+						}
+
+						#Is there any state where a project is possible?
+						any_scope_state = {
+							tesla_state_region_has_no_irrigation_system = yes
+						}
+					}
+
+					#Effect
+					add_journal_entry = { type = je_tesla_irrigation_project }
+					je:je_tesla_irrigation_project = {
+						add_modifier = {
+							name = gaudi_engineer_project_low_cost_modifier
+							multiplier = money_amount_multiplier_small
+						}
+					}
+					if = {
+						limit = {
+							has_variable = tesla_engineer_var
+						}
+						var:tesla_engineer_var = {
+							set_character_busy_and_immortal = yes
+						}
+					}
+
+					#Modifier
+					modifier = {
+						# Chance is higher for countries focussing on agriculture
+						if = {
+							limit = {
+								has_strategy = ai_strategy_plantation_economy
+								has_strategy = ai_strategy_agricultural_expansion
+							}
+
+							add = 100
+						}
+					}
+				}
+				### Construction Project ###
+				200 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_low_project_cost_weekly_value
+							gold_reserves > tesla_low_project_cost_yearly_value
+						}
+
+						#Is there any building where a project is possible?
+						any_scope_building = {
+							tesla_construction_sector_valid_for_improvement_trigger = yes
+						}
+					}
+
+					#Effect
+					ordered_scope_building = {
+						limit = {
+							tesla_construction_sector_valid_for_improvement_trigger = yes
+						}
+						order_by = level
+						max = 1000
+						check_range_bounds = no
+
+						save_scope_as = chosen_building
+					}
+					add_journal_entry = {
+						type = je_gaudi_construction_sector_project
+						target = scope:chosen_building
+					}
+					je:je_gaudi_construction_sector_project = {
+						add_modifier = {
+							name = gaudi_engineer_project_low_cost_modifier
+							multiplier = money_amount_multiplier_small
+						}
+					}
+					var:tesla_engineer_var = {
+						set_character_busy_and_immortal = yes
+					}
+
+					#Modifier
+					modifier = {
+						# Chance is higher for countries focussing on industry
+						if = {
+							limit = {
+								has_strategy = ai_strategy_resource_expansion
+								has_strategy = ai_strategy_industrial_expansion
+								has_strategy = ai_strategy_colonial_extraction
+							}
+
+							add = 100
+						}
+					}
+				}
+				### Topographic Map Project ###
+				300 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_low_project_cost_weekly_value
+							gold_reserves > tesla_low_project_cost_yearly_value
+						}
+
+						#Is there any building where a project is possible?
+						any_scope_state = {
+							NOT = { has_modifier = gaudi_topographic_state_map_modifier }
+						}
+						NOT = { has_journal_entry = je_dufour_carte_dufour }
+					}
+
+					#Effect
+					add_journal_entry = { type = je_gaudi_topographic_map_project }
+					je:je_gaudi_topographic_map_project = {
+						add_modifier = {
+							name = gaudi_engineer_project_low_cost_modifier
+							multiplier = money_amount_multiplier_small
+						}
+					}
+					if = {
+						limit = {
+							has_variable = tesla_engineer_var
+						}
+						var:tesla_engineer_var = {
+							set_character_busy_and_immortal = yes
+						}
+					}
+				}
+				### Civil Engineering Research Project ###
+				1 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_low_project_cost_weekly_value
+							gold_reserves > tesla_low_project_cost_yearly_value
+						}
+					}
+
+					#Effect
+					add_modifier = {
+						name = gaudi_engineer_project_low_cost_modifier
+						multiplier = money_amount_multiplier_small
+					}
+					add_journal_entry = { type = je_gaudi_civil_research_project }
+					var:tesla_engineer_var = {
+						set_character_busy_and_immortal = yes
+					}
+				}
+			}
+		}
+		### Mechanical Engineer ###
+		if = {
+			limit = {
+				tesla_has_mechanical_engineer_no_tooltip_trigger = yes
+			}
+
+			random_list = {
+				### Locomotives Project ###
+				100 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_medium_project_cost_weekly_value
+							gold_reserves > tesla_medium_project_cost_yearly_value
+						}
+
+						#Is there any state where a project is possible?
+						any_scope_building = {
+							is_building_type = building_railway
+							level > 0
+							NOR = {
+								has_modifier = gaudi_locomotive_tier_1_modifier
+								has_modifier = gaudi_locomotive_tier_2_modifier
+								has_modifier = gaudi_locomotive_tier_3_modifier
+								has_modifier = gaudi_locomotive_tier_4_modifier
+								has_modifier = gaudi_locomotive_tier_5_modifier
+							}
+						}
+					}
+
+					#Effect
+					add_journal_entry = { type = je_gaudi_new_locomotives_project }
+					add_modifier = {
+						name = gaudi_engineer_project_medium_cost_modifier
+						multiplier = money_amount_multiplier_small
+					}
+					if = {
+						limit = {
+							has_variable = tesla_engineer_var
+						}
+						var:tesla_engineer_var = {
+							set_character_busy_and_immortal = yes
+						}
+					}
+
+					#Modifier
+					modifier = {
+						# Chance is higher for countries focussing on industry
+						if = {
+							limit = {
+								has_strategy = ai_strategy_resource_expansion
+								has_strategy = ai_strategy_industrial_expansion
+								has_strategy = ai_strategy_colonial_extraction
+							}
+
+							add = 200
+						}
+					}
+				}
+				### Improve Industires Project ###
+				300 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_medium_project_cost_weekly_value
+							gold_reserves > tesla_medium_project_cost_yearly_value
+						}
+
+						#Is there any state where a project is possible?
+						any_scope_building = {
+							tesla_building_valid_for_mechanical_improvement_trigger = yes
+						}
+					}
+
+					#Effect
+					ordered_scope_building = {
+						limit = {
+							tesla_building_valid_for_mechanical_improvement_trigger = yes
+						}
+						order_by = earnings
+						save_scope_as = chosen_building
+					}
+					add_journal_entry = {
+						type = je_gaudi_modernizing_industries_project
+						target = scope:chosen_building
+					}
+					je:je_gaudi_modernizing_industries_project = {
+						add_modifier = {
+							name = gaudi_engineer_project_medium_cost_modifier
+							multiplier = money_amount_multiplier_small
+						}
+					}
+					if = {
+						limit = {
+							has_variable = tesla_engineer_var
+						}
+						var:tesla_engineer_var = {
+							set_character_busy_and_immortal = yes
+						}
+					}
+
+					#Modifier
+					modifier = {
+						# Chance is higher for countries focussing on industry
+						if = {
+							limit = {
+								has_strategy = ai_strategy_resource_expansion
+								has_strategy = ai_strategy_industrial_expansion
+								has_strategy = ai_strategy_colonial_extraction
+							}
+
+							add = 200
+						}
+					}
+				}
+				### Mechanical Engineering Research Project ###
+				1 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_low_project_cost_weekly_value
+							gold_reserves > tesla_low_project_cost_yearly_value
+						}
+					}
+
+					#Effect
+					add_journal_entry = { type = je_gaudi_mechanical_research_project }
+					add_modifier = {
+						name = gaudi_engineer_project_low_cost_modifier
+						multiplier = money_amount_multiplier_small
+					}
+					var:tesla_engineer_var = {
+						set_character_busy_and_immortal = yes
+					}
+				}
+			}
+		}
+		### Military Engineer ###
+		if = {
+			limit = {
+				tesla_has_military_engineer_no_tooltip_trigger = yes
+			}
+
+			random_list = {
+				### Advanced Defences Project ###
+				100 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_low_project_cost_weekly_value
+							gold_reserves > tesla_low_project_cost_yearly_value
+						}
+						#Necessary Research available?
+						has_technology_researched = field_works
+						#Is the project not finished 3 times yet?
+						trigger_if = {
+							limit = { has_variable = gaudi_military_engineer_advanced_defence_var }
+							var:gaudi_military_engineer_advanced_defence_var < 3
+						}
+					}
+
+					#Effect
+					add_journal_entry = { type = je_gaudi_advanced_defence_project }
+					add_modifier = {
+						name = gaudi_engineer_project_low_cost_modifier
+						multiplier = money_amount_multiplier_small
+					}
+					#Makes the Engineer busy
+					if = {
+						limit = {
+							has_variable = tesla_engineer_var
+						}
+						var:tesla_engineer_var = {
+							set_character_busy_and_immortal = yes
+						}
+					}
+				}
+				### Advanced Weapons Project ###
+				100 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_medium_project_cost_weekly_value
+							gold_reserves > tesla_medium_project_cost_yearly_value
+						}
+
+						#Is the project not finished 3 times yet?
+						trigger_if = {
+							limit = { has_variable = gaudi_military_engineer_advanced_weapon }
+							var:gaudi_military_engineer_advanced_weapon < 3
+						}
+						#Necessary Research available?
+						has_technology_researched = rifling
+					}
+
+					#Effect
+					add_journal_entry = { type = je_gaudi_advanced_weapons_project }
+					add_modifier = {
+						name = gaudi_engineer_project_medium_cost_modifier
+						multiplier = money_amount_multiplier_small
+					}
+					#Makes the Engineer busy
+					if = {
+						limit = {
+							has_variable = tesla_engineer_var
+						}
+						var:tesla_engineer_var = {
+							set_character_busy_and_immortal = yes
+						}
+					}
+				}
+				### Advanced Tanks Project ###
+				100 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_medium_project_cost_weekly_value
+							gold_reserves > tesla_medium_project_cost_yearly_value
+						}
+						#Necessary Research available?
+						has_technology_researched = nco_training
+						has_technology_researched = mobile_armor
+						#Is the project not finished 3 times yet?
+						trigger_if = {
+							limit = { has_variable = gaudi_military_engineer_advanced_tanks }
+							var:gaudi_military_engineer_advanced_tanks < 3
+						}
+					}
+
+					#Effect
+					add_journal_entry = { type = je_gaudi_advanced_tanks_project }
+					add_modifier = {
+						name = gaudi_engineer_project_medium_cost_modifier
+						multiplier = money_amount_multiplier_small
+					}
+					#Makes the Engineer busy
+					if = {
+						limit = {
+							has_variable = tesla_engineer_var
+						}
+						var:tesla_engineer_var = {
+							set_character_busy_and_immortal = yes
+						}
+					}
+				}
+				### Military Engineering Research Project ###
+				1 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_low_project_cost_weekly_value
+							gold_reserves > tesla_low_project_cost_yearly_value
+						}
+					}
+
+					#Effect
+					add_journal_entry = { type = je_gaudi_military_research_project }
+					add_modifier = {
+						name = gaudi_engineer_project_low_cost_modifier
+						multiplier = money_amount_multiplier_small
+					}
+					# Makes the Engineer busy
+					if = {
+						limit = {
+							has_variable = tesla_engineer_var
+						}
+						var:tesla_engineer_var = {
+							set_character_busy_and_immortal = yes
+						}
+					}
+				}
+				### Naval Engineering Research Project ###
+				0 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_low_project_cost_weekly_value
+							gold_reserves > tesla_low_project_cost_yearly_value
+						}
+					}
+
+					#Effect
+					add_journal_entry = { type = je_gaudi_naval_research_project }
+					add_modifier = {
+						name = gaudi_engineer_project_low_cost_modifier
+						multiplier = money_amount_multiplier_small
+					}
+					var:tesla_engineer_var ?= {
+						set_character_busy_and_immortal = yes
+					}
+
+					#Modifier
+					modifier = {
+						# Should only be possible if the country has sea access
+						if = {
+							limit = {
+								any_scope_state = {
+									is_sea_adjacent = yes
+								}
+							}
+							add = 1
+						}
+					}
+				}
+			}
+		}
+		### Electrical Engineer ###
+		if = {
+			limit = {
+				tesla_has_electrical_engineer_no_tooltip_trigger = yes
+			}
+
+			random_list = {
+				### Geomagnetic Project ###
+				500 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_low_project_cost_weekly_value
+							gold_reserves > tesla_low_project_cost_yearly_value
+						}
+						#Does not already have a geomagnetic research station
+						NOT = {
+							has_variable = gaudi_magnetic_station_var
+						}
+						NOT = {
+							any_scope_building = {
+								is_building_type = building_verrier_observatory
+								has_active_production_method = pm_gaudi_magnetic_observatory
+							}
+						}
+						#Has an observatory
+						any_scope_building = {
+							is_building_type = building_verrier_observatory
+							level > 0
+						}
+						#General Triggers triggers
+						OR = {
+							AND = {
+								has_technology_researched = verrier_electromagnetism_tech
+								OR = {
+									tesla_has_mechanical_engineer_trigger = yes
+									tesla_has_civil_engineer_trigger = yes
+								}
+							}
+							AND = {
+								verrier_has_astronomer = yes
+								OR = {
+									tesla_has_mechanical_engineer_trigger = yes
+									tesla_has_civil_engineer_trigger = yes
+								}
+							}
+							tesla_has_electrical_engineer_trigger = yes
+						}
+					}
+
+					#Effect
+					set_variable = gaudi_magnetic_station_var
+					add_journal_entry = {
+						type = je_gaudi_magnetic_station
+					}
+					trigger_event = { 
+						id = gaudi.1401
+						popup = yes
+					}
+				}
+				### Telegraph Project ###
+				100 = {
+					#Trigger
+					trigger = {
+						#Necessary Technology available?
+						has_technology_researched = electric_telegraph
+						#Does not have Radio
+						NOT = {
+							has_technology_researched = radio
+						}
+						#At least one building does not yet have a telegraph
+						any_scope_state = {
+							any_scope_building = {
+								is_building_type = building_railway
+								has_active_production_method = pm_gaudi_telegraph_office
+							}
+							percent >= 1
+						}
+						#Has a railway building
+						any_scope_state = {
+							is_capital = yes
+							has_building = building_railway
+						}
+						#More than 65% of states have railways
+						any_scope_state = {
+							has_building = building_railway
+							percent >= 0.65
+						}
+					}
+
+					#Effect
+					add_modifier = {
+						name = gaudi_building_telegraph_network_modifier
+					}
+					trigger_event = {
+						id = gaudi.1411
+						popup = yes
+					}
+				}
+				### Radio Project ###
+				100 = {
+					#Trigger
+					trigger = {
+						#Necessary Technology available?
+						has_technology_researched = radio
+						#At least one building does not yet have a radio
+						any_scope_state = {
+							any_scope_building = {
+								is_building_type = building_railway
+								has_active_production_method = pm_elgar_radio_stations
+							}
+							percent >= 1
+						}
+						#Has a railway building
+						any_scope_state = {
+							is_capital = yes
+							has_building = building_railway
+						}
+						#More than 65% of states have railways
+						any_scope_state = {
+							has_building = building_railway
+							percent >= 0.65
+						}
+					}
+
+					#Effect
+					add_modifier = {
+						name = gaudi_building_radio_network_modifier
+					}
+					trigger_event = { 
+						id = gaudi.1421
+						popup = yes
+					}
+				}
+				### Electrical Engineering Research Project ###
+				1 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_low_project_cost_weekly_value
+							gold_reserves > tesla_low_project_cost_yearly_value
+						}
+					}
+
+					#Effect
+					# Makes the Engineer busy
+					if = {
+						limit = {
+							has_variable = tesla_engineer_var
+						}
+						var:tesla_engineer_var = {
+							set_character_busy_and_immortal = yes
+						}
+					}
+					# Adds cost modifier
+					add_modifier = {
+						name = gaudi_engineer_project_low_cost_modifier
+						multiplier = money_amount_multiplier_small
+					}
+					# Adds JE
+					add_journal_entry = { type = je_gaudi_electrical_research_project }
+				}
+			}
+		}
+		### Aeronautical Engineer ###
+		if = {
+			limit = {
+				tesla_has_aeronautical_engineer_no_tooltip_trigger = yes
+			}
+
+			random_list = {
+				### Airport Project ###
+				100 = {
+					#Trigger
+					trigger = {
+						# Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_low_project_cost_weekly_value
+							gold_reserves > tesla_low_project_cost_yearly_value
+						}
+						# Is there any building where a project is possible?
+						any_scope_building = {
+							tesla_airport_valid_for_improvement_trigger = yes
+						}
+					}
+
+					#Effect
+					ordered_scope_building = {
+						limit = {
+							tesla_airport_valid_for_improvement_trigger = yes
+						}
+						order_by = earnings
+						save_scope_as = chosen_building
+					}
+					add_journal_entry = {
+						type = je_gaudi_civil_airports_project
+						target = scope:chosen_building
+					}
+					je:je_gaudi_civil_airports_project = {
+						add_modifier = {
+							name = gaudi_engineer_project_medium_cost_modifier
+							multiplier = money_amount_multiplier_small
+						}
+					}
+					if = {
+						limit = {
+							has_variable = tesla_engineer_var
+						}
+						var:tesla_engineer_var = {
+							set_character_busy_and_immortal = yes
+						}
+					}
+				}
+				### Advanced Airplanes Project ###
+				100 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_medium_project_cost_weekly_value
+							gold_reserves > tesla_medium_project_cost_yearly_value
+						}
+						#Necessary Research available?
+						has_technology_researched = military_aviation
+						#Is the project not finished 3 times yet?
+						trigger_if = {
+							limit = { has_variable = gaudi_aeronautical_engineer_advanced_aircrafts_var }
+							var:gaudi_aeronautical_engineer_advanced_aircrafts_var < 3
+						}
+					}
+
+					#Effect
+					add_journal_entry = { type = je_gaudi_advanced_airplanes_project }
+					add_modifier = {
+						name = gaudi_engineer_project_medium_cost_modifier
+						multiplier = money_amount_multiplier_small
+					}
+					#Makes the Engineer busy
+					if = {
+						limit = {
+							has_variable = tesla_engineer_var
+						}
+						var:tesla_engineer_var = {
+							set_character_busy_and_immortal = yes
+						}
+					}
+				}
+				### Giant Airplane Project ###
+				20 = {
+					#Trigger
+					trigger = {
+						#Necessary Research available?
+						has_technology_researched = military_aviation
+						# Not already doing one of the two projects
+						NOR = {
+							has_modifier = curtiss_zeppelin_focus_modifier #Will be removed, when impossible
+							has_variable = curtiss_built_spruce_goose
+						}
+						# Has a private airline
+						has_variable = curtiss_private_airline
+						# Airline is level 6
+						has_modifier = curtiss_airline_level_6_modifier
+						# Has Airplane Focus
+						has_modifier = curtiss_airplane_focus_modifier
+						# Enough War Machine Industry Levels
+						curtiss_has_aeroplane_production_size_x_trigger = { LEVEL = 10 }
+					}
+
+					#Effect
+					set_variable = curtiss_built_spruce_goose #Only one Hercules
+					add_journal_entry = {
+						type = je_curtiss_spruce_goose_build
+					}
+					trigger_event = { 
+						id = curtiss.500
+						popup = yes
+					}
+					#Makes the Engineer busy
+					if = {
+						limit = {
+							has_variable = tesla_engineer_var
+						}
+						var:tesla_engineer_var = {
+							set_character_busy_and_immortal = yes
+						}
+					}
+				}
+				### Aeronautical Engineering Research Project ###
+				1 = {
+					#Trigger
+					trigger = {
+						#Can the AI afford the project?
+						OR = {
+							weekly_net_fixed_income > tesla_low_project_cost_weekly_value
+							gold_reserves > tesla_low_project_cost_yearly_value
+						}
+					}
+
+					#Effect
+					#Makes the Engineer busy
+					if = {
+						limit = {
+							has_variable = tesla_engineer_var
+						}
+						var:tesla_engineer_var = {
+							set_character_busy_and_immortal = yes
+						}
+					}
+					add_modifier = {
+						name = gaudi_engineer_project_low_cost_modifier
+						multiplier = money_amount_multiplier_small
+					}
+					add_journal_entry = { type = je_gaudi_aviation_research_project }
+				}
+			}
+		}
+	}
+}

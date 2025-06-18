@@ -1,0 +1,805 @@
+﻿### PALEONTOLOGIST BUTTONS ###
+
+#by Lord R
+
+#Sets the Ranking up
+mr_dinosaur_skeleton_ranking_sgui = {
+	scope = country
+	effect = {
+		dubois_create_dinosaur_skeleton_ranking_list_effect = yes
+		dubois_create_fossil_ranking_list_effect = yes
+		dubois_create_dinosaur_bone_ranking_list_effect = yes
+	}
+}
+
+#MR_PALEONTOLOGICAL_EXPEDITION_BUTTON
+mr_paleontological_expedition_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_journal_entry = je_dubois_paleontological_expedition
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_NO_RECENT_PALEONTOLOGICAL_EXPEDITION_TRIGGER
+			NOT = { has_modifier = dubois_had_expedition_modifier }
+		}
+		custom_tooltip = {
+			text = MR_ACTIVE_PALEONTOLOGIST_TRIGGER
+			has_variable = dubois_paleontologist_var
+			var:dubois_paleontologist_var = {
+				is_busy = no
+			}
+		}
+		custom_tooltip = {
+			text = MR_PALEONTOLOGICAL_EXPEDITION_HAS_ACCESS_FORMATION_TRIGGER
+			OR = {
+				dubois_has_formation = yes
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = paleontological_license
+					}				
+					dubois_has_formation = yes
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_PALEONTOLOGICAL_EXPEDITION_NOT_CHOOSING_CURRENTLY_TRIGGER
+			NOT = {
+				has_variable = dubois_paleontological_expedition_destination_selection_var
+			}
+		}
+    }
+    effect = {
+		trigger_event = { 
+			id = dubois.201
+			popup = yes 
+		}
+		set_variable = dubois_paleontological_expedition_destination_selection_var
+    }
+
+	#For AI check ai_paleontologist_automation_effect
+}
+mr_paleontological_expedition_active_sgui = {
+    scope = country
+	is_shown = {
+		OR = {
+			has_journal_entry = je_dubois_paleontological_expedition
+			has_variable = dubois_paleontological_expedition_destination_selection_var
+		}
+	}
+}
+
+#MR_TRANSFORM_FOSSILS_TO_BONES_BUTTON
+mr_transform_fossils_to_bones_button_sgui = {
+    scope = country
+    is_valid = {
+		custom_tooltip = {
+			text = MR_TRANSFORM_FOSSILS_TO_BONES_TRANSFORMABLE_DINOSAUR_BONE_TRIGGER
+			dubois_has_transformable_dinosaur_bone = yes
+		}
+		custom_tooltip = {
+			text = MR_TRANSFORM_FOSSILS_TO_BONES_FOSSILS_TRIGGER
+			var:dubois_fossil >= 20
+		}
+		custom_tooltip = {
+			text = MR_TRANSFORM_FOSSILS_TO_BONES_PALEONTOLOGIST_TRIGGER
+			trigger_if = {
+				limit = {
+					has_variable = dubois_paleontologist_var
+				}
+				var:dubois_paleontologist_var = {
+					OR = {
+						has_trait = dubois_paleontologist_experienced
+						has_trait = dubois_paleontologist_famous
+					}
+					is_busy = no
+				}
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+    }
+    effect = {
+		dubois_fossils_for_transformation_effect = yes
+		if = {
+			limit = { has_variable = dubois_paleontologist_var }
+			var:dubois_paleontologist_var = {
+				set_character_busy_and_immortal = yes
+			}
+			random_list = {
+				50 = {
+					modifier = {
+						if = {
+							limit = {
+								var:dubois_paleontologist_var = {
+									var:dubois_paleontologist_experience_var >= 175
+								}
+							}
+							add = 25
+						}
+					}
+					modifier = {
+						if = {
+							limit = {
+								var:dubois_paleontologist_var = {
+									var:dubois_paleontologist_experience_var >= 200
+								}
+							}
+							add = 25
+						}
+					}
+					modifier = {
+						if = {
+							limit = {
+								var:dubois_paleontologist_var = {
+									var:dubois_paleontologist_experience_var >= 250
+								}
+							}
+							add = 50
+						}
+					}
+					modifier = {
+						if = {
+							limit = {
+								var:dubois_paleontologist_var = {
+									var:dubois_paleontologist_experience_var >= 300
+								}
+							}
+							add = 50
+						}
+					}
+					trigger_event = {
+						id = dubois.2042
+						days = { 50 60 }
+					}
+				}
+				50 = {
+					trigger_event = {
+						id = dubois.2043
+						days = { 50 60 }
+					}
+				}
+			}
+		}
+    }
+}
+
+#MR_MOUNT_SKELETON_BUTTON
+mr_mount_skeleton_button_sgui = {
+    scope = country
+    is_valid = {
+		custom_tooltip = {
+			text = MR_MOUNT_SKELETON_ACTIVE_BUTTON_TRIGGER
+			NOT = { has_variable = mr_mount_dinosaur_skeleton_button_var }
+		}
+		custom_tooltip = {
+			text = MR_REMOUNT_SKELETON_PALEONTOLOGIST_TRIGGER
+			trigger_if = {
+				limit = {
+					has_variable = dubois_paleontologist_var
+				}
+				var:dubois_paleontologist_var = {
+					is_busy = no
+					NOT = {
+						has_modifier = dubois_exhausted_paleontologist_modifier
+					}
+				}
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+		custom_tooltip = {
+			text = MR_MOUNT_SKELETON_TRIGGER_TT
+			dubois_paleontology_mounting_skeletons_possible_trigger = yes
+		}
+    }
+    effect = {
+		set_variable = mr_mount_dinosaur_skeleton_button_var
+		trigger_event = {
+			id = dubois.2191
+			popup = yes
+		}
+    }
+
+	#For AI check ai_paleontologist_automation_effect
+}
+mr_mount_skeleton_active_sgui = {
+	scope = country
+	is_shown = {
+		OR = {
+			has_variable = mr_mount_dinosaur_skeleton_button_var
+			var:dubois_paleontologist_var ?= {
+				has_variable = mr_paleontologist_is_mounting_dinosaur_var
+			}
+		}
+	}
+}
+
+#MR_REMOUNT_SKELETON_BUTTON
+mr_remount_skeleton_button_sgui = {
+    scope = country
+    is_valid = {
+		custom_tooltip = {
+			text = MR_REMOUNT_SKELETON_ACTIVE_BUTTON_TRIGGER
+			NOT = { has_variable = mr_remount_dinosaur_skeleton_button_var }
+		}
+		custom_tooltip = {
+			text = MR_REMOUNT_SKELETON_PALEONTOLOGIST_TRIGGER
+			trigger_if = {
+				limit = {
+					has_variable = dubois_paleontologist_var
+				}
+				var:dubois_paleontologist_var = {
+					is_busy = no
+					NOT = {
+						has_modifier = dubois_exhausted_paleontologist_modifier
+					}
+				}
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+		custom_tooltip = {
+			text = MR_REMOUNT_SKELETON_TRIGGER_TT
+			dubois_has_imperfect_dinosaur_skeleton_no_tooltip_trigger = yes
+		}
+    }
+    effect = {
+		set_variable = mr_remount_dinosaur_skeleton_button_var
+		trigger_event = {
+			id = dubois.2181
+			popup = yes
+		}
+    }
+
+	#For AI check ai_paleontologist_automation_effect
+}
+mr_remount_skeleton_active_sgui = {
+    scope = country
+    is_shown = {
+		OR = {
+			has_variable = mr_remount_dinosaur_skeleton_button_var
+			var:dubois_paleontologist_var ?= {
+				has_variable = mr_paleontologist_is_remounting_dinosaur_var
+			}
+		}
+    }
+}
+
+#MR_SYSTEMIZE_FOSSILS_BUTTON
+mr_systemize_fossils_button_sgui = {
+    scope = country
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ACTIVE_PALEONTOLOGIST_TRIGGER
+			has_variable = dubois_paleontologist_var
+			var:dubois_paleontologist_var = {
+				is_busy = no
+			}
+		}
+    }
+    effect = {
+		add_journal_entry = {
+			type = je_systemize_fossils
+		}
+		var:dubois_paleontologist_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+    }
+}
+
+#MR_SYSTEMIZE_FOSSILS_STOP_BUTTON
+mr_systemize_fossils_stop_button_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_systemize_fossils
+	}
+	is_valid = {
+		NOT = { has_variable = dubois_stop_paleontologist_project_var }
+	}
+	effect = {
+		set_variable = {
+			name = dubois_stop_paleontologist_project_var
+			days = 7
+		}
+	}
+}
+
+#Prehistoric Sceneries buttons
+#Cretaceous
+mr_prehistoric_scenery_cretaceous_button_visible_sgui = {
+	is_shown = {
+		OR = {
+			NOT = {
+				has_variable = dubois_cretaceous_scenery_var
+			}
+			AND = {
+				has_journal_entry = je_prehistoric_scenery
+				has_variable = dubois_cretaceous_scenery_ongoing_var
+			}
+		}
+	}
+}
+mr_prehistoric_scenery_cretaceous_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = dubois_cretaceous_scenery_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_GEOLOGICAL_AGE_1_TRIGGER
+			global_var:agassiz_geological_knowledge_global_var > 1
+		}
+		custom_tooltip = {
+			text = MR_ACTIVE_PALEONTOLOGIST_TRIGGER
+			has_variable = dubois_paleontologist_var
+			var:dubois_paleontologist_var = {
+				is_busy = no
+			}
+		}
+		custom_tooltip = {
+			text = MR_NO_PREHISTORIC_SCENERY_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_university
+				NOR = {
+					has_modifier = dubois_cretaceous_scenery_modifier
+					has_modifier = dubois_jurassic_scenery_modifier
+					has_modifier = dubois_triassic_scenery_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_NO_PREHISTORIC_SCENERY_ONGOING_TRIGGER_TT
+			NOT = {
+				has_journal_entry = je_prehistoric_scenery
+			}
+		}
+    }
+    effect = {
+		add_treasury = -50000
+		set_variable = dubois_cretaceous_scenery_ongoing_var
+		add_journal_entry = {
+			type = je_prehistoric_scenery
+		}
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var
+			}
+			var:dubois_paleontologist_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+
+	#For AI check ai_paleontologist_automation_effect
+}
+mr_prehistoric_scenery_cretaceous_stop_button_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_prehistoric_scenery
+		has_variable = dubois_cretaceous_scenery_ongoing_var
+	}
+	is_valid = {
+		NOT = { has_variable = dubois_stop_paleontologist_project_var }
+	}
+	effect = {
+		set_variable = {
+			name = dubois_stop_paleontologist_project_var
+			days = 7
+		}
+	}
+}
+
+#Jurassic
+mr_prehistoric_scenery_jurassic_button_visible_sgui = {
+	is_shown = {
+		OR = {
+			NOT = {
+				has_variable = dubois_jurassic_scenery_var
+			}
+			AND = {
+				has_journal_entry = je_prehistoric_scenery
+				has_variable = dubois_jurassic_scenery_ongoing_var
+			}
+		}
+	}
+}
+mr_prehistoric_scenery_jurassic_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = dubois_jurassic_scenery_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_SCENERY_HAS_CRETACEOUS_TRIGGER_TT
+			has_variable = dubois_cretaceous_scenery_var
+		}
+		custom_tooltip = {
+			text = MR_GEOLOGICAL_AGE_5_TRIGGER
+			global_var:agassiz_geological_knowledge_global_var > 5
+		}
+		custom_tooltip = {
+			text = MR_ACTIVE_PALEONTOLOGIST_TRIGGER
+			has_variable = dubois_paleontologist_var
+			var:dubois_paleontologist_var = {
+				is_busy = no
+			}
+		}
+		custom_tooltip = {
+			text = MR_NO_PREHISTORIC_SCENERY_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_university
+				NOR = {
+					has_modifier = dubois_cretaceous_scenery_modifier
+					has_modifier = dubois_jurassic_scenery_modifier
+					has_modifier = dubois_triassic_scenery_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_NO_PREHISTORIC_SCENERY_ONGOING_TRIGGER_TT
+			NOT = {
+				has_journal_entry = je_prehistoric_scenery
+			}
+		}
+    }
+    effect = {
+		add_treasury = -50000
+		set_variable = dubois_jurassic_scenery_ongoing_var
+		add_journal_entry = {
+			type = je_prehistoric_scenery
+		}
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var
+			}
+			var:dubois_paleontologist_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+
+	#For AI check ai_paleontologist_automation_effect
+}
+mr_prehistoric_scenery_jurassic_stop_button_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_prehistoric_scenery
+		has_variable = dubois_jurassic_scenery_ongoing_var
+	}
+	is_valid = {
+		NOT = { has_variable = dubois_stop_paleontologist_project_var }
+	}
+	effect = {
+		set_variable = {
+			name = dubois_stop_paleontologist_project_var
+			days = 7
+		}
+	}
+}
+
+#Triassic
+mr_prehistoric_scenery_triassic_button_visible_sgui = {
+	is_shown = {
+		OR = {
+			NOT = {
+				has_variable = dubois_triassic_scenery_var
+			}
+			AND = {
+				has_journal_entry = je_prehistoric_scenery
+				has_variable = dubois_triassic_scenery_ongoing_var
+			}
+		}
+	}
+}
+mr_prehistoric_scenery_triassic_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = dubois_triassic_scenery_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_SCENERY_HAS_JURASSIC_TRIGGER_TT
+			has_variable = dubois_jurassic_scenery_var
+		}
+		custom_tooltip = {
+			text = MR_GEOLOGICAL_AGE_10_TRIGGER
+			global_var:agassiz_geological_knowledge_global_var > 10
+		}
+		custom_tooltip = {
+			text = MR_ACTIVE_PALEONTOLOGIST_TRIGGER
+			has_variable = dubois_paleontologist_var
+			var:dubois_paleontologist_var = {
+				is_busy = no
+			}
+		}
+		custom_tooltip = {
+			text = MR_NO_PREHISTORIC_SCENERY_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_university
+				NOR = {
+					has_modifier = dubois_cretaceous_scenery_modifier
+					has_modifier = dubois_jurassic_scenery_modifier
+					has_modifier = dubois_triassic_scenery_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_NO_PREHISTORIC_SCENERY_ONGOING_TRIGGER_TT
+			NOT = {
+				has_journal_entry = je_prehistoric_scenery
+			}
+		}
+    }
+    effect = {
+		add_treasury = -50000
+		set_variable = dubois_triassic_scenery_ongoing_var
+		add_journal_entry = {
+			type = je_prehistoric_scenery
+		}
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var
+			}
+			var:dubois_paleontologist_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+
+	#For AI check ai_paleontologist_automation_effect
+}
+mr_prehistoric_scenery_triassic_stop_button_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_prehistoric_scenery
+		has_variable = dubois_triassic_scenery_ongoing_var
+	}
+	is_valid = {
+		NOT = { has_variable = dubois_stop_paleontologist_project_var }
+	}
+	effect = {
+		set_variable = {
+			name = dubois_stop_paleontologist_project_var
+			days = 7
+		}
+	}
+}
+
+#MR_EXTINCTION_CONGRESS_BUTTON
+mr_extinction_congress_button_sgui = {
+    scope = country
+	is_shown = {
+		has_global_variable = dubois_hippocampus_congress_hosted_var
+		NOT = {
+			has_global_variable = dubois_extinction_congress_hosted_var
+		}
+		NOT = {
+			any_country = {
+				has_modifier = dubois_congress_host_modifier
+			}
+		}
+	}
+    is_valid = {
+		mr_gui_has_modern_archaeology_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_UNIVERSITY_BUILDING_LEVEL_20_TRIGGER_TT
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 20
+			}
+		}
+		custom_tooltip = {
+			text = MR_VISIT_ZOO_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+			}
+		}
+		custom_tooltip = {
+			text = MR_HAS_PALEONTOLOGIST_TRIGGER_TT
+			dubois_has_paleontologist = yes
+		}
+		custom_tooltip = {
+			text = MR_EXTINCTION_CONGRESS_15_PALEONTOLOGISTS_TRIGGER_TT
+			any_country = {
+				dubois_has_paleontologist = yes
+				count >= 15
+			}
+		}
+		custom_tooltip = {
+			text = MR_EXTINCTION_CONGRESS_HAS_DINOSAUR_SKELETON_TRIGGER_TT
+			dubois_has_dinosaur_skeleton = yes
+		}
+		custom_tooltip = {
+			text = MR_EXTINCTION_CONGRESS_5_COUNTRIES_DINOSAUR_SKELETON_TRIGGER_TT
+			any_country = {
+				dubois_has_dinosaur_skeleton = yes
+				count >= 5
+			}
+		}
+		custom_tooltip = {
+			text = MR_EXTINCTION_CONGRESS_GLOBAL_FOSSIL_TT
+			global_var:dubois_global_fossil >= 500
+		}
+    }
+    effect = {
+		trigger_event = { 
+			id = dubois.921
+			popup = yes 
+		}
+		set_global_variable = dubois_extinction_congress_hosted_var
+		add_modifier = {
+			name = dubois_congress_host_modifier
+			years = 5
+		}
+    }
+}
+
+#MR_PALEONTOLOGICAL_COLECTION_BUTTON
+mr_paleontological_collection_button_sgui = {
+    scope = country
+	is_shown = {
+		has_technology_researched = dubois_paleontology_tech
+		NOT = {
+			any_scope_state = {
+				is_production_method_active = {
+					building_type = building_dubois_zoo
+					production_method = pm_paleontological_collection
+				}
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_PALEONTOLOGIST_TRIGGER_TT
+			dubois_has_paleontologist_no_tooltip_trigger = yes
+		}
+		custom_tooltip = {
+			text = MR_PALEONTOLOGICAL_COLECTION_BUTTON_FOSSILS_TRIGGER_TT
+			var:dubois_fossil >= 100
+		}
+    }
+    effect = {
+		dubois_add_x_fossils_effect = { AMOUNT = -100 }
+		random_scope_state = {
+			limit = {
+				has_building = building_dubois_zoo
+			}
+			activate_production_method = {
+				building_type = building_dubois_zoo
+				production_method = pm_paleontological_collection
+			}
+		}
+    }
+
+	ai_is_valid = { #Should always do this
+		always = yes
+	}
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_PALEONTOLOGY_FIRST_TEAM_BUTTON
+mr_paleontology_first_team_button_sgui = {
+	scope = country
+	is_shown = {
+		OR = {
+			NOT = { has_variable = dubois_total_paleontological_teams_var }
+			var:dubois_total_paleontological_teams_var < 1
+		}
+	}
+	is_valid = {
+		mr_gui_has_paleontology_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_UNIVERSITY_BUILDING_LEVEL_3_TRIGGER_TT
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 3
+			}
+		}
+	}
+	effect = {
+		dubois_add_x_paleontological_teams_effect = { AMOUNT = 1 }
+	}
+
+	ai_is_valid = { #Should always do this
+		always = yes
+	}
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_PALEONTOLOGY_SECOND_TEAM_BUTTON
+mr_paleontology_second_team_button_sgui = {
+	scope = country
+	is_shown = {
+		has_variable = dubois_total_paleontological_teams_var
+		var:dubois_total_paleontological_teams_var = 1
+	}
+	is_valid = {
+		mr_gui_has_paleontology_tech_trigger = yes
+		academics_has_natural_history_level_x_tooltip_trigger = { LEVEL = 10 }
+	}
+	effect = {
+		dubois_add_x_paleontological_teams_effect = { AMOUNT = 1 }
+	}
+
+	ai_is_valid = { #Should always do this
+		always = yes
+	}
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+### Paleontology Automation ###
+
+mr_paleontology_automation_gui = {
+	scope = country
+	is_shown = {
+		NOT = { has_variable = dubois_paleontology_automation_var }
+	}
+	is_valid = {
+		always = yes
+	}
+	effect = {
+		custom_tooltip = mr_paleontology_automation_gui_tt
+		set_variable = dubois_paleontology_automation_var
+	}
+}
+mr_stop_paleontology_automation_gui = {
+	scope = country
+	is_shown = {
+		has_variable = dubois_paleontology_automation_var
+	}
+	is_valid = {
+		always = yes
+	}
+	effect = {
+		custom_tooltip = mr_stop_paleontology_automation_gui_tt
+		remove_variable = dubois_paleontology_automation_var
+	}
+}
+
+#############################################
+
+#MR_STOP_PALEONTOLOGIST_PROJECT_BUTTON
+mr_stop_paleontologist_project_button_sgui = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_STOP_PALEONTOLOGIST_PROJECT_POSSIBLE_TT
+			NOT = { has_variable = dubois_stop_paleontologist_project_var }
+		}
+		custom_tooltip = {
+			text = MR_STOP_PALEONTOLOGIST_PROJECT_HAS_ACTIVE_PROJECT_TT
+			OR = {
+				has_journal_entry = je_systemize_fossils
+				has_journal_entry = je_prehistoric_scenery
+			}
+		}
+	}
+	effect = {
+		set_variable = {
+			name = dubois_stop_paleontologist_project_var
+			days = 7
+		}
+	}
+}

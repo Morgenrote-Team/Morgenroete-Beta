@@ -1,0 +1,1814 @@
+﻿###################
+# DOUGLAS EVENTS  #
+###################
+
+#by Lord R & Marco Dandolo
+
+###################
+
+namespace = douglas
+
+###################
+
+#Douglas 101: Mountaineering Club
+douglas.101 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.101.t
+
+	desc = douglas.101.d
+
+	flavor = douglas.101.f
+	
+	duration = 3
+
+	left_icon = scope:douglas_president_scope
+	right_icon = scope:douglas_mountaineer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_role = general
+				is_busy = no
+				OR = {
+					has_trait = douglas_mountaineer
+					has_trait = douglas_mountaineer_veteran
+					has_trait = explorer
+					has_trait = mountain_commander
+				}
+			}
+			save_scope_as = douglas_president_scope
+		}
+		var:douglas_mountaineer_var = {
+			save_scope_as = douglas_mountaineer_scope
+		}
+		change_global_variable = {
+			name = douglas_num_alpine_club_members_global_var
+			add = 1
+		}
+	}
+
+	option = {	#
+		name = douglas.101.g #The mountain is calling!
+		default_option = yes
+	}
+}
+
+#Douglas 102: Alpine Club
+douglas.102 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.102.t
+
+	desc = douglas.102.d
+
+	flavor = douglas.102.f
+	
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_alpine_club.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#
+		name = douglas.102.g #To the summit together!
+		default_option = yes
+		if = {
+			limit = {
+				NOT = {
+					has_variable = douglas_alpine_club_founding_country_var
+				}
+			}
+			custom_tooltip = douglas_alpine_club_board_member_tt
+			if = {
+				limit = {
+					NOT = {
+						has_global_variable = douglas_alpine_club_board_member_5_global_var
+					}
+					has_global_variable = douglas_alpine_club_board_member_4_global_var
+				}
+				ROOT = {
+					country_definition = {
+						set_global_variable = {
+							name =  douglas_alpine_club_board_member_5_global_var
+							value = ROOT
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					has_global_variable =  douglas_alpine_club_board_member_3_global_var
+				}
+				ROOT = {
+					country_definition = {
+						set_global_variable = {
+							name =  douglas_alpine_club_board_member_4_global_var
+							value = ROOT
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					has_global_variable =  douglas_alpine_club_board_member_2_global_var
+				}
+				ROOT = {
+					country_definition = {
+						set_global_variable = {
+							name =  douglas_alpine_club_board_member_3_global_var
+							value = ROOT
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					has_global_variable =  douglas_alpine_club_board_member_1_global_var
+				}
+				ROOT = {
+					country_definition = {
+						set_global_variable = {
+							name =  douglas_alpine_club_board_member_2_global_var
+							value = ROOT
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_global_variable =  douglas_alpine_club_board_member_1_global_var
+					}
+				}
+				ROOT = {
+					country_definition = {
+						set_global_variable = {
+							name =  douglas_alpine_club_board_member_1_global_var
+							value = ROOT
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+#Douglas 103: Mountain Troops Regiment
+douglas.103 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.103.t
+	desc = douglas.103.d
+	flavor = douglas.103.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:douglas_mountain_veteran
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_character = {
+			limit = {
+				has_trait = douglas_mountaineer
+				has_trait = douglas_mountaineer_veteran
+				has_trait = explorer
+				has_trait = mountain_commander
+			}
+			save_scope_as = douglas_mountain_veteran
+		}
+	}
+
+	option = {
+		name = douglas.103.g #They will carry his legacy into the future.
+		mountaineer_experience_gain_effect = {
+			AMOUNT = 10
+		}
+		if = {
+			limit = {
+				scope:douglas_mountain_veteran = {
+					has_trait = douglas_mountaineer
+				}
+			}
+			scope:douglas_mountain_veteran = {
+				remove_trait = douglas_mountaineer
+				add_trait = douglas_mountaineer_veteran
+			}
+		}
+		else_if = {
+			limit = {
+				scope:douglas_mountain_veteran = {
+					NOR = {
+						has_trait = douglas_mountaineer
+						has_trait = douglas_mountaineer_veteran
+					}
+				}
+			}
+			scope:douglas_mountain_veteran = {
+				add_trait = douglas_mountaineer
+			}
+		}
+		else_if = {
+			limit = {
+				scope:douglas_mountain_veteran = {
+					has_trait = douglas_mountaineer_veteran
+					NOT = {
+						has_trait = mountain_commander
+					}
+				}
+			}
+			scope:douglas_mountain_veteran = {
+				add_trait = mountain_commander
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Douglas 104: Architect improved Reputation
+douglas.104 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = douglas.104.t
+		
+    desc = douglas.104.d
+
+	flavor = douglas.104.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:douglas_mountaineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:douglas_mountaineer_var ?= {
+			save_scope_as = douglas_mountaineer_scope
+		}
+	}
+
+	option = { #Yes
+		name = douglas.104.g
+		mountaineer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				has_variable = douglas_mountaineer_var
+			}
+			var:douglas_mountaineer_var = {
+				set_character_busy_and_immortal = no
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+######################################################################
+
+###### MOUNTAINEERING EQUIPMENT ######
+
+#Douglas 111: Basic Mountaineering Equipment
+douglas.111 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.111.t
+	desc = douglas.111.d
+	flavor = douglas.111.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_climb.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		remove_variable = douglas_mountaineering_equipment_complete_var
+	}
+
+	option = {
+		name = douglas.111.g #Good that we have modern organization.
+		default_option = yes
+	}
+
+	after = {
+	}
+}
+
+#Douglas 112: Rope Groups
+douglas.112 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.112.t
+	desc = douglas.112.d
+	flavor = douglas.112.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_climb.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		remove_variable = douglas_mountaineering_equipment_complete_var
+	}
+
+	option = {
+		name = douglas.112.g #Good that we have modern organization.
+		default_option = yes
+	}
+
+	after = {
+	}
+}
+
+#Douglas 113: Alpine First Aid
+douglas.113 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.113.t
+	desc = douglas.113.d
+	flavor = douglas.113.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_climb.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		remove_variable = douglas_mountaineering_equipment_complete_var
+	}
+
+	option = {
+		name = douglas.113.g #Good that we have modern organization.
+		default_option = yes
+	}
+
+	after = {
+	}
+}
+
+#Douglas 114: Geological Understand
+douglas.114 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.114.t
+	desc = douglas.114.d
+	flavor = douglas.114.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_climb.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		remove_variable = douglas_mountaineering_equipment_complete_var
+	}
+
+	option = {
+		name = douglas.114.g #Good that we have modern organization.
+		default_option = yes
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+	}
+}
+
+#Douglas 115: Oxygen Masks
+douglas.115 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.115.t
+	desc = douglas.115.d
+	flavor = douglas.115.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_climb.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		remove_variable = douglas_mountaineering_equipment_complete_var
+	}
+
+	option = {
+		name = douglas.115.g #Good that we have modern organization.
+		default_option = yes
+	}
+
+	after = {
+	}
+}
+
+######################################################################
+
+###### MOUNTAINEERING EXPEDITION - BASIC ######
+
+#Douglas 201: Mountain Choice - Level 1
+douglas.201 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = douglas.201.t
+		
+    desc = douglas.201.d
+
+	flavor = douglas.201.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_beginning.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Mount Whitney
+		name = douglas.201.g
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_mount_whitney_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_CALIFORNIA
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_CALIFORNIA
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_mount_whitney_expedition_flag
+		}
+	}
+
+	option = { #Citlaltepetl
+		name = douglas.201.h
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_citlaltepetl_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_MEXICO
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_MEXICO
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_citlaltepetl_expedition_flag
+		}
+	}
+
+	option = { #Popocatepetl
+		name = douglas.201.i
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_popocatepetl_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_MEXICO
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_MEXICO
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_popocatepetl_expedition_flag
+		}
+	}
+
+	option = { #Chimborazo
+		name = douglas.201.j
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_chimborazo_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_ECUADOR
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_ECUADOR
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_chimborazo_expedition_flag
+		}
+	}
+
+	option = { #Pico Aneto
+		name = douglas.201.k
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_pico_aneto_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_ARAGON
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_ARAGON
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_pico_aneto_expedition_flag
+		}
+	}
+
+	option = { #Mont Blanc
+		name = douglas.201.l
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_mont_blanc_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_PIEDMONT
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_PIEDMONT
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_mont_blanc_expedition_flag
+		}
+	}
+
+	option = { #Großvenediger
+		name = douglas.201.m
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_grossvenediger_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_TYROL
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_TYROL
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_grossvenediger_expedition_flag
+		}
+	}
+
+	option = { #Mount Cameroon
+		name = douglas.201.n
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_mount_cameroon_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_SOUTH_CAMEROON
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_SOUTH_CAMEROON
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_mount_cameroon_expedition_flag
+		}
+	}
+
+	option = { #Ras Dashen
+		name = douglas.201.o
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_ras_dashen_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_GONDER
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_GONDER
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_ras_dashen_expedition_flag
+		}
+	}
+
+	option = { #Mount Giluwe
+		name = douglas.201.p
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_mount_giluwe_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_EASTERN_NEW_GUINEA
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_EASTERN_NEW_GUINEA
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_mount_giluwe_expedition_flag
+		}
+	}
+
+	option = { #Nevermind
+		name = douglas.201.a
+		default_option = yes
+		trigger = {
+			is_player = yes
+		}
+		if = {
+			limit = { 
+				has_variable = douglas_mountaineer_var
+			}
+			var:douglas_mountaineer_var = {
+				set_character_busy_and_immortal = no
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Douglas 202: Mountain Choice - Level 2
+douglas.202 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = douglas.202.t
+		
+    desc = douglas.202.d
+
+	flavor = douglas.201.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_beginning.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Kibo
+		name = douglas.202.g
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_kibo_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_TANGANYIKA
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_TANGANYIKA
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_kibo_expedition_flag
+		}
+	}
+
+	option = { #Dufourspitze
+		name = douglas.202.h
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_dufourspitze_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_WEST_SWITZERLAND
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_WEST_SWITZERLAND
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_dufourspitze_expedition_flag
+		}
+	}
+
+	option = { #Mount Cook
+		name = douglas.202.i
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_mount_cook_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_SOUTH_ISLAND
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_SOUTH_ISLAND
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_mount_cook_expedition_flag
+		}
+	}
+
+	option = { #Mount Wilhelm
+		name = douglas.202.j
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_mount_wilhelm_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_EASTERN_NEW_GUINEA
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_EASTERN_NEW_GUINEA
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_mount_wilhelm_expedition_flag
+		}
+	}
+
+	option = { #Nevermind
+		name = douglas.201.a
+		default_option = yes
+		trigger = {
+			is_player = yes
+		}
+		if = {
+			limit = { 
+				has_variable = douglas_mountaineer_var
+			}
+			var:douglas_mountaineer_var = {
+				set_character_busy_and_immortal = no
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Douglas 203: Mountain Choice - Level 3
+douglas.203 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = douglas.203.t
+		
+    desc = douglas.203.d
+
+	flavor = douglas.201.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_beginning.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Mount Saint Elias
+		name = douglas.203.g
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_mount_elias_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_YUKON_TERRITORY
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_YUKON_TERRITORY
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_mount_elias_expedition_flag
+		}
+	}
+
+	option = { #Aconcagua
+		name = douglas.203.h
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_aconcagua_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_RIO_NEGRO
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_RIO_NEGRO
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_aconcagua_expedition_flag
+		}
+	}
+
+	option = { #Aiguille Verte
+		name = douglas.203.i
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_aiguille_verte_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_SAVOY
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_SAVOY
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_aiguille_verte_expedition_flag
+		}
+	}
+
+	option = { #Matterhorn
+		name = douglas.203.j
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_matterhorn_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_WEST_SWITZERLAND
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_WEST_SWITZERLAND
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_matterhorn_expedition_flag
+		}
+	}
+
+	option = { #Batian
+		name = douglas.203.k
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_batian_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_KENYA
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_KENYA
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_batian_expedition_flag
+		}
+	}
+
+	option = { #Mount Stanley
+		name = douglas.203.l
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_mount_stanley_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_UGANDA
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_UGANDA
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_mount_stanley_expedition_flag
+		}
+	}
+
+	option = { #Nevermind
+		name = douglas.201.a
+		default_option = yes
+		trigger = {
+			is_player = yes
+		}
+		if = {
+			limit = { 
+				has_variable = douglas_mountaineer_var
+			}
+			var:douglas_mountaineer_var = {
+				set_character_busy_and_immortal = no
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Douglas 204: Mountain Choice - Level 4
+douglas.204 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = douglas.204.t
+		
+    desc = douglas.204.d
+
+	flavor = douglas.201.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_beginning.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Mount Logan
+		name = douglas.204.g
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_mount_logan_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_YUKON_TERRITORY
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_YUKON_TERRITORY
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_mount_logan_expedition_flag
+		}
+	}
+
+	option = { #Mount Mckinley
+		name = douglas.204.h
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_mount_mckinley_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_ALASKA
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_ALASKA
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_mount_mckinley_expedition_flag
+		}
+	}
+
+	option = { #Illimani
+		name = douglas.204.i
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_illimani_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_LA_PAZ
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_LA_PAZ
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_illimani_expedition_flag
+		}
+	}
+
+	option = { #Monte Pissis
+		name = douglas.204.j
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_monte_pissis_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_TUCUMAN
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_TUCUMAN
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_monte_pissis_expedition_flag
+		}
+	}
+
+	option = { #Shkara
+		name = douglas.204.k
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_shkara_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_GREATER_CAUCASUS
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_GREATER_CAUCASUS
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_shkara_expedition_flag
+		}
+	}
+
+	option = { #Mount Stanley
+		name = douglas.204.l
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_kamet_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_DELHI
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_DELHI
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_kamet_expedition_flag
+		}
+	}
+
+	option = { #Kaufmann Peak
+		name = douglas.204.m
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_kaufmann_peak_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_TAJIKISTAN
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_TAJIKISTAN
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_kaufmann_peak_expedition_flag
+		}
+	}
+
+	option = { #Mount Gongga
+		name = douglas.204.n
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_mount_gongga_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_SICHUAN
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_SICHUAN
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_mount_gongga_expedition_flag
+		}
+	}
+
+	option = { #Nevermind
+		name = douglas.201.a
+		default_option = yes
+		trigger = {
+			is_player = yes
+		}
+		if = {
+			limit = { 
+				has_variable = douglas_mountaineer_var
+			}
+			var:douglas_mountaineer_var = {
+				set_character_busy_and_immortal = no
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Douglas 205: Mountain Choice - Level 5
+douglas.205 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = douglas.205.t
+		
+    desc = douglas.205.d
+
+	flavor = douglas.201.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_beginning.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Huascaran
+		name = douglas.205.g
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_huascaran_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_LIMA
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_LIMA
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_huascaran_expedition_flag
+		}
+	}
+
+	option = { #Chogolisa
+		name = douglas.205.h
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_chogolisa_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_KASHMIR
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_KASHMIR
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_chogolisa_expedition_flag
+		}
+	}
+
+	option = { #Kabru
+		name = douglas.205.i
+
+		trigger = {
+			NOT = {
+				has_global_variable = douglas_kabru_conqueror_global_var
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_HIMALAYAS
+				}
+				any_country = {
+					any_scope_state = {
+						state_region = s:STATE_HIMALAYAS
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+		set_douglas_mountain_choice_effect = yes
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = flag:douglas_kabru_expedition_flag
+		}
+	}
+
+	option = { #Nevermind
+		name = douglas.201.a
+		default_option = yes
+		trigger = {
+			is_player = yes
+		}
+		if = {
+			limit = { 
+				has_variable = douglas_mountaineer_var
+			}
+			var:douglas_mountaineer_var = {
+				set_character_busy_and_immortal = no
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Douglas 206: Mount Everest
+
+#Douglas 210: Geologist Assistant
+
+###### MOUNTAINEERING EXPEDITION - END ######
+
+#Douglas 211: The Summit
+douglas.211 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.211.t
+	desc = douglas.211.d
+	flavor = douglas.211.f
+
+	placement = scope:douglas_location_scope
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_summit.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_douglas_location_scope_effect = yes
+	}
+
+	option = {
+		name = douglas.211.g #Let's enjoy the dawn!
+		default_option = yes
+		set_douglas_summit_conquered_effect = yes
+		add_douglas_summit_mountaineer_experience_effect = yes
+		add_modifier = {
+			name = douglas_mountaineering_success_modifier
+			years = 5
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					OR = {
+						elgar_has_great_composer = yes
+						elgar_has_composer = yes
+					}
+					NOR = {
+						has_variable = elgar_alpine_symphony_var
+						douglas_climbs_3000_meter_mountain_trigger = yes # You don't get an Alpine Symphony when climbing a mere hill!
+					}
+				}
+				trigger_event = {
+					id = dubois.424
+					days = { 7 14 }
+				}
+			}
+		}	
+	}
+
+	after = {
+		remove_variable = douglas_mountain_expedition_var
+	}
+}
+
+#Douglas 212: Climb aborted
+douglas.212 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.212.t
+	desc = douglas.212.d
+	flavor = douglas.212.f
+
+	placement = scope:douglas_location_scope
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_beginning.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_douglas_location_scope_effect = yes
+	}
+
+	option = {
+		name = douglas.212.g #Disappointing
+		default_option = yes
+		add_modifier = {
+			name = douglas_mountaineering_disappointment_modifier
+			years = 3
+		}
+		douglas_add_climb_aborted_effect = yes
+	}
+
+	after = {
+		remove_variable = douglas_mountain_expedition_var
+	}
+}
+
+#Douglas 213: Mountaineering Disaster
+douglas.213 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.213.t
+	desc = douglas.213.d
+	flavor = douglas.213.f
+
+	placement = scope:douglas_location_scope
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_disaster.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_douglas_location_scope_effect = yes
+	}
+
+	option = {
+		name = douglas.213.g #Horrendeous!
+		default_option = yes
+		add_modifier = {
+			name = douglas_mountaineering_disaster_modifier
+			years = 5
+		}
+		add_douglas_death_peak_effect = yes
+		douglas_add_mountain_disaster_effect = yes
+		random_list = {
+			15 = {}
+			20 = {
+				var:douglas_mountaineer_var = {
+					add_trait = scarred
+				}
+			}
+			20 = {
+				var:douglas_mountaineer_var = {
+					add_trait = alcoholic
+				}
+			}
+			20 = {
+				var:douglas_mountaineer_var = {
+					add_trait = psychological_affliction
+				}
+			}
+			25 = {
+				kill_mountaineer_effect = yes
+			}
+		}
+	}
+
+	after = {
+		remove_variable = douglas_mountain_expedition_var
+	}
+}

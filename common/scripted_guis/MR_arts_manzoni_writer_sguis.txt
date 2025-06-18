@@ -1,0 +1,316 @@
+﻿### WRITER BUTTONS ###
+
+#by Lord R
+
+#Sets the Ranking up
+mr_literary_tradition_ranking_sgui = {
+	scope = country
+	effect = {
+		manzoni_create_literary_tradition_ranking_list_effect = yes
+	}
+}
+
+#MR_INVITE_WRITER_BUTTON
+mr_invite_writer_button_sgui = {
+	#!!!If you change any Trigger or effects here, change them in the AI version too (manzoni_ai_hire_writer_effect)!!!
+    scope = country
+	saved_scopes = {
+        chosen_writer
+    }
+    is_valid = {
+		#not changed national writer recently
+		custom_tooltip = {
+			text = MR_NOT_CHANGED_NATIONAL_WRITER_RECENTLY_TRIGGER_TT
+			NOT = {
+				has_modifier = manzoni_recently_changed_national_writer_modifier
+			}
+		}
+		custom_tooltip = {
+			text = MR_LOCAL_WRITER_150_OR_MORE_EXPERIENCE_TRIGGER_TT
+			scope:chosen_writer = {
+				var:manzoni_writer_experience >= 150
+			}
+		}
+		custom_tooltip = {
+			text = MR_LOCAL_WRITER_POSITIVE_IG_APPROVAL_TRIGGER_TT
+			scope:chosen_writer = {
+				interest_group = {
+					ig_approval >= 0
+				}
+			}
+		}
+    }
+
+    effect = {
+		if = {
+			limit = { has_variable = manzoni_writer_var }
+
+			custom_tooltip = {
+				text = MR_REPLACE_CURRENT_WRITER_TT
+
+				set_writer_local_writer_effect = yes
+			}
+		}
+		custom_tooltip = {
+			text = MR_INVITE_WRITER_BUTTON_EFFECT_TT
+
+			set_variable = {
+				name = manzoni_writer_var
+				value = scope:chosen_writer
+			}
+
+			set_local_variable = mr_invite_writer_button_local_var #Used for Error prevention
+			if = { #Used for error prevention
+				limit = { has_local_variable = mr_invite_writer_button_local_var }
+				var:manzoni_writer_var = {
+					free_character_from_void = yes
+					remove_variable = mr_is_local_writer_var
+					set_variable = mr_is_writer_var
+					place_character_in_void = 1200
+				}
+		
+				artists_set_up_local_writer_list_effect = yes
+			}
+		}
+
+		add_modifier = {
+			name = manzoni_recently_changed_national_writer_modifier
+			years = 3
+		}
+    }
+}
+
+#MR_NEWSPAPER_NOVEL_BUTTON
+mr_newspaper_novel_button_sgui  = {
+    scope = country
+    is_valid = {
+		mr_gui_has_realism_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_NEWSPAPER_NOVEL_BUTTON_PUBLISHING_INDUSTRY_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_manzoni_publishing_industry
+				is_under_construction = no
+				cash_reserves_ratio > 0.5
+				occupancy >= 0.75
+			}
+		}
+		manzoni_has_active_writer = yes
+		trigger_if = {
+			limit = {
+				has_variable = manzoni_writer_var
+			}
+			custom_tooltip = {
+				text = MR_NEWSPAPER_NOVEL_BUTTON_NOVELIST_TRIGGER_TT
+				var:manzoni_writer_var = {
+					has_trait = manzoni_writer_fiction
+				}
+			}
+			
+		}
+		trigger_else = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		trigger_if = {
+			limit = {
+				has_variable = manzoni_writer_var
+			}
+			custom_tooltip = {
+				text = MR_NEWSPAPER_NOVEL_BUTTON_NO_NEWSPAPER_NOVEL_TRIGGER_TT
+				NOT = {
+					var:manzoni_writer_var = {
+						has_variable = manzoni_newspaper_novel_var
+					}
+				}
+			}
+		}
+		trigger_else = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		custom_tooltip = {
+			text = MR_NEWSPAPER_NOVEL_BUTTON_NO_NEWSPAPER_NOVEL_SCANDAL_TRIGGER_TT
+			NOT = {
+				has_modifier = manzoni_newspaper_novel_scandal_modifier
+			}
+		}
+    }
+
+    effect = {
+		if = {
+			limit = {
+				has_variable = manzoni_writer_var
+			}
+			var:manzoni_writer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		else = {
+			custom_tooltip = MR_NEWSPAPER_NOVEL_BUTTON_NO_WRITER_EFFECT_TT
+		}
+		add_journal_entry = {
+			type = pbi_je_objective_bestseller
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_manzoni_publishing_industry
+			}
+			set_variable = pbi_flag_bestseller_target
+		}
+    }
+}
+mr_newspaper_novel_active_sgui  = {
+    scope = country
+    is_shown = {
+		has_journal_entry = pbi_je_objective_bestseller
+    }
+}
+
+#MR_READING_TOUR_BUTTON
+mr_reading_tour_button_sgui  = {
+    scope = country
+    is_valid = {
+		manzoni_has_active_writer = yes
+		trigger_if = {
+			limit = { has_variable = manzoni_writer_var }
+			custom_tooltip = {
+				text = MR_READING_TOUR_BUTTON_WRITER_TYPE_TRIGGER_TT
+				var:manzoni_writer_var ?= {
+					OR = {
+						has_trait = manzoni_writer_fiction
+						has_trait = manzoni_writer_poet
+						has_trait = manzoni_universal_writer
+					}
+				}
+			}
+			custom_tooltip = {
+				text = MR_READING_TOUR_BUTTON_WRITER_NO_READING_TOUR_TRIGGER_TT
+				NOT = {
+					var:manzoni_writer_var ?= {
+						has_variable = manzoni_reading_tour_var
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_READING_TOUR_BUTTON_WRITER_MEETS_FOREIGN_TASTE_TRIGGER_TT
+			any_country = {
+				NOR = {
+					is_country_type = decentralized
+					has_variable = manzoni_visit_by_universal_writer_var
+					this = ROOT
+					has_war_with = ROOT
+				}
+				manzoni_writer_meets_foreign_taste_trigger = yes
+			}
+		}
+		custom_tooltip = {
+			text = MR_READING_TOUR_BUTTON_CURRENT_READING_TOUR_TRIGGER_TT
+			NOT = {
+				has_modifier = manzoni_writer_on_tour_modifier
+			}
+		}
+    }
+
+    effect = {
+		if = {
+			limit = {
+				has_variable = manzoni_writer_var
+			}
+			var:manzoni_writer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		add_modifier = {
+			name = manzoni_writer_on_tour_modifier
+		}
+		trigger_event = {
+			id = manzoni.331
+			popup = yes
+		}
+    }
+}
+mr_reading_tour_active_sgui  = {
+    scope = country
+    is_shown = {
+		has_modifier = manzoni_writer_on_tour_modifier
+    }
+}
+
+#MR_ANTHEM_TEXT_BUTTON
+mr_anthem_text_button_sgui  = {
+    scope = country
+	is_shown = {
+		OR = {
+			AND = {
+				has_modifier = elgar_monarch_anthem_modifier
+				NOT = {
+					has_variable = elgar_monarch_anthem_text_var
+				}
+			}
+			AND = {
+				has_modifier = elgar_folk_anthem_modifier
+				NOT = {
+					has_variable = elgar_folk_anthem_text_var
+				}
+			}
+			AND = {
+				has_modifier = elgar_value_anthem_modifier
+				NOT = {
+					has_variable = elgar_value_anthem_text_var
+				}
+			}
+			AND = {
+				has_modifier = elgar_military_anthem_modifier
+				NOT = {
+					has_variable = elgar_military_anthem_text_var
+				}
+			}
+			AND = {
+				has_modifier = elgar_worker_anthem_modifier
+				NOT = {
+					has_variable = elgar_worker_anthem_text_var
+				}
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+            text = MR_HAS_LITERARY_SALON_TT
+            any_scope_state = {
+                is_production_method_active = {
+                    building_type = building_arts_academy
+                    production_method = pm_artists_arts_academy_salon
+                }
+            }
+        }
+		manzoni_has_active_writer = yes
+    }
+
+    effect = {
+		if = {
+			limit = {
+				has_variable = manzoni_writer_var
+			}
+			var:manzoni_writer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		trigger_event = {
+			id = elgar.831
+			popup = yes
+		}
+    }
+}
+
+#############################################
+
+#Stop Writer Project
+mr_stop_writer_project_button_sgui = {
+	scope = country
+	is_shown = {
+		always = no #TODO remove if button gets used
+	}
+}

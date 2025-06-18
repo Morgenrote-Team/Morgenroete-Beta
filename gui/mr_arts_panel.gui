@@ -177,12 +177,480 @@ types mr_main_arts_panel_types {
                         visible = "[GetVariableSystem.HasValue('mr_arts_tab', 'artists')]"
                     }
                     blockoverride "view_content" {
+                        mr_artist_architect = {}
                         mr_artist_composer = {}
                         mr_artist_writer = {}
                         mr_artist_painter = {}
                     }
                 }
             }
+        }
+    }
+
+    type mr_artist_architect = mr_shared_occupation {
+        layoutpolicy_horizontal = expanding
+        blockoverride "occupation_character_context" {
+            datacontext = "[Country.MakeScope.Var('gaudi_architect_var')]"
+        }
+        blockoverride "occupation_role_icon" {
+            texture = "gfx/interface/icons/character_role_icons/gaudi_architect_role.dds"
+        }
+        blockoverride "occupation_role_tooltip" {
+            tooltip = "[concept_gaudi_architect_desc]"
+        }
+        blockoverride "occupation_role_name" {
+            text = "MR_ARCHITECT_HEADER_TEXT"
+        }
+        blockoverride "occupation_character_name" {
+            text = "[Country.GetCustom('artists_has_architect_gui_type')]"
+        }
+        blockoverride "character_animation" {
+            portrait_texture = "[Character.GetAnimatedPortrait('characters_portrait_environment', 'mr_camera_torso_architect', 'mr_test_idle', GetPortraitRenderSize(PdxGuiWidget.Self))]"
+        }
+        blockoverride "occupation_achievement_tooltip" {
+            tooltip = "MR_ARCHITECT_ACHIEVEMENTS_TT"
+        }
+        blockoverride "occupation_experience_value" {
+            value = "[Scope.Var('gaudi_architect_experience').GetValue]"
+        }
+        blockoverride "occupation_experience_range" {
+            min = 0
+            max = 500
+        }
+        blockoverride "occupation_experience_tooltip" {
+            tooltip = "[Country.GetCustom('GUI_gaudi_architect_experience_type')]"
+        }
+        blockoverride "occupation_experience_bar_text" {
+            text = "[Country.GetCustom('GUI_gaudi_architect_experience_text_type')]"
+        }
+        blockoverride "occupation_ranking_visible" {
+            visible = yes
+        }
+        blockoverride "occupation_ranking" { #TODO: Add this
+            tooltipwidget = {
+                MR_TooltipRankingType = {
+                    blockoverride "ranking_on_finish" {
+                        on_finish = "[GetScriptedGui('mr_architect_ranking_sgui').Execute( GuiScope.SetRoot( Country.MakeScope ).End )]" #Resets the Ranking
+                        on_finish = "[GetVariableSystem.Set('mr_arts_architect_ranking', 'architectural_splendour')]"
+                    }
+                    blockoverride "buttons_visible" {
+                        visible = yes
+                    }
+                    blockoverride "button_1_content" {
+                        enabled = "[Not( GetVariableSystem.HasValue('mr_arts_architect_ranking', 'architectural_splendour') )]"
+                        text = "MR_ARCHITECT_ARCHITECTURAL_SPLENDOUR"
+                        tooltip = "MR_ARCHITECT_ARCHITECTURAL_SPLENDOUR_TT"
+
+                        onclick = "[GetVariableSystem.Set('mr_arts_architect_ranking', 'architectural_splendour')]"
+                    }
+                    blockoverride "button_2_content" {
+                        enabled = "[Not( GetVariableSystem.HasValue('mr_arts_architect_ranking', 'blueprints') )]"
+                        text = "MR_ARCHITECT_BLUEPRINTS"
+                        tooltip = "MR_ARCHITECT_BLUEPRINTS_TT"
+
+                        onclick = "[GetVariableSystem.Set('mr_arts_architect_ranking', 'blueprints')]"
+                    }
+                    blockoverride "text_1" {
+                        raw_text = "MR_ARCHITECT_ARCHITECTURAL_SPLENDOUR_RANKING_HEADER"
+                        visible = "[GetVariableSystem.HasValue('mr_arts_architect_ranking', 'architectural_splendour')]"
+                    }
+                    blockoverride "ranking_1_visible" {
+                        visible = "[GetVariableSystem.HasValue('mr_arts_architect_ranking', 'architectural_splendour')]"
+                    }
+                    blockoverride "ranking_1_datamodel" {
+                        datamodel = "[GetGlobalList('mr_architect_architectural_splendour_ranking_global_list')]"
+                    }
+                    blockoverride "ranking_variable_used_1" {
+                        raw_text = "[Country.MakeScope.GetVariable('gaudi_architectural_splendour_var').GetValue|*V0]"
+                    }
+                    blockoverride "text_2" {
+                        raw_text = "MR_ARCHITECT_BLUEPRINTS_RANKING_HEADER"
+                    }
+                    blockoverride "ranking_2_visible" {
+                        visible = "[GetVariableSystem.HasValue('mr_arts_architect_ranking', 'blueprints')]"
+                    }
+                    blockoverride "ranking_2_datamodel" {
+                        datamodel = "[GetGlobalList('mr_architect_blueprints_ranking_global_list')]"
+                    }
+                    blockoverride "ranking_variable_used_2" {
+                        raw_text = "[Country.MakeScope.GetVariable('gaudi_country_num_blueprints_var').GetValue|*V0]"
+                    }
+                }
+            }
+        }
+        blockoverride "occupation_data_size" {
+            size = { @panel_text_width 440 }
+        }
+        blockoverride "occupation_data_header_text" {
+            text = "mr_artist_architect_data_header"
+        }
+        blockoverride "occupation_data_content" {
+            # Splendid Architecture Points
+            mr_shared_data_text = {
+                text = "SPLENDID_ARCHITECTURE_VAR"
+                blockoverride "font_size" {
+                    using = fontsize_xxl
+                }
+            }
+            # Splendid Architecture Points
+            mr_shared_data_text = {
+                text = "ARCHITECTURAL_BLUEPRINTS_VAR"
+                blockoverride "font_size" {
+                    using = fontsize_xxl
+                }
+            }
+        }
+        blockoverride "visit_button" {
+            text = "MR_ARCHITECT_VISIT_CAPITAL_BUTTON"
+            datacontext = "[GetScriptedGui('mr_visit_capital_gui_button_sgui')]"
+            onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+            enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+            tooltip = "MR_ARCHITECT_VISIT_CAPITAL_BUTTON_TT"
+        }
+        blockoverride "big_box_content" {
+            mr_shared_interactions = {
+                blockoverride "interaction_size" {
+                    minimumsize = { @[ panel_button_width + 20 ] 50 }
+                    maximumsize = { @[ panel_button_width + 20 ] -1 }
+                }
+                blockoverride "tabs" {
+                    tab_buttons = {
+                        maximumsize = { @[ panel_button_width + 20 ] 0 }
+                        margin_bottom = -4
+                        blockoverride "first_button" {
+                            text = "MR_ARTISTS_ARCHITECT_GENERAL_TAB"
+                        }
+                        blockoverride "first_button_click" {
+                            onclick = "[GetVariableSystem.Set('mr_artist_architect_tab', 'general')]"
+                        }
+                        blockoverride "first_button_visibility" {
+                            visible = "[Or(GetVariableSystem.HasValue('mr_artist_architect_tab', 'general'), Not(GetVariableSystem.Exists('mr_artist_architect_tab')))]"
+                        }
+                        blockoverride "first_button_visibility_checked" {
+                            visible = "[And(Not(GetVariableSystem.HasValue('mr_artist_architect_tab', 'general')), GetVariableSystem.Exists('mr_artist_architect_tab'))]"
+                        }
+                        blockoverride "first_button_selected" {
+                            text = "MR_ARTISTS_ARCHITECT_GENERAL_TAB"
+                        }
+
+                        blockoverride "second_button" {
+                            text = "MR_ARTISTS_ARCHITECT_BLUEPRINTS_TAB"
+                        }
+                        blockoverride "second_button_click" {
+                            onclick = "[GetVariableSystem.Set('mr_artist_architect_tab', 'blueprints')]"
+                        }
+                        blockoverride "second_button_visibility" {
+                            visible = "[GetVariableSystem.HasValue('mr_artist_architect_tab', 'blueprints')]"
+                        }
+                        blockoverride "second_button_visibility_checked" {
+                            visible = "[Not(GetVariableSystem.HasValue('mr_artist_architect_tab', 'blueprints'))]"
+                        }
+                        blockoverride "second_button_selected" {
+                            text = "MR_ARTISTS_ARCHITECT_BLUEPRINTS_TAB"
+                        }
+                    }
+                }
+                blockoverride "tab_content" {
+                    vbox = {
+                        visible = "[Or(GetVariableSystem.HasValue('mr_artist_architect_tab', 'general'), Not(GetVariableSystem.Exists('mr_artist_architect_tab')))]"
+                        layoutpolicy_vertical = expanding
+                        spacing = 7
+                        minimumsize = { @panel_button_width 0 }
+
+                        # Public Construction
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_architect_public_construction_button_sgui')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_PUBLIC_CONSTRUCTION_BUTTON"
+                                tooltip = "MR_ARCHITECT_PUBLIC_CONSTRUCTION_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_architect_public_construction_button_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_gaudi_public_construction_button.dds"
+                            }
+                        }
+
+                        # Study Trip
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_architect_study_trip_button_sgui')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_STUDY_TRIP_BUTTON"
+                                tooltip = "MR_ARCHITECT_STUDY_TRIP_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_architect_study_trip_button_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_gaudi_study_trip_button.dds"
+                            }
+                        }
+
+                        # Architect Treatise
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_architect_treatise_button_sgui')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_TREATISE_BUTTON"
+                                tooltip = "MR_ARCHITECT_TREATISE_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_architect_treatise_button_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_gaudi_architect_treatise_button.dds"
+                            }
+                        }
+
+                        # Capital Expansion
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_architect_capital_expansion_button_sgui')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_CAPITAL_EXPANSION_BUTTON"
+                                tooltip = "MR_ARCHITECT_CAPITAL_EXPANSION_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_architect_capital_expansion_button_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_gaudi_capital_expansion_button.dds"
+                            }
+                        }
+
+                        # Urban Planning
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_architect_urban_planning_button_sgui')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_URBAN_PLANNING_BUTTON"
+                                tooltip = "MR_ARCHITECT_URBAN_PLANNING_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_architect_urban_planning_button_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_gaudi_urban_planning_button.dds"
+                            }
+                        }
+
+                        # Modern Splendour Button
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_architect_modern_splendour_button_sgui')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_MODERN_SPLENDOUR_BUTTON"
+                                tooltip = "MR_ARCHITECT_MODERN_SPLENDOUR_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_architect_modern_splendour_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_gaudi_modern_splendour_button.dds"
+                            }
+                        }
+
+                        # Custom Monument Blueprint
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_architect_custom_monument_blueprint_button_sgui')]"
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_CUSTOM_MONUMENT_BLUEPRINT_BUTTON"
+                                tooltip = "MR_ARCHITECT_CUSTOM_MONUMENT_BLUEPRINT_BUTTON_TT"
+                            }
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 20 ] 45 }
+                            }
+                            blockoverride "button_highlight_visible" {
+                                 visible = "[GetScriptedGui('mr_architect_custom_monument_button_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                        }
+
+                        expand = {}
+                    }
+                    vbox = {
+                        visible = "[GetVariableSystem.HasValue('mr_artist_architect_tab', 'blueprints')]"
+                        layoutpolicy_vertical = expanding
+                        spacing = 7
+                        minimumsize = { @panel_button_width 0 }
+
+                        # Create Monument Blueprints
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_architect_blueprints_monument_button_sgui')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_BLUEPRINTS_MONUMENT_BUTTON"
+                                tooltip = "MR_ARCHITECT_BLUEPRINTS_MONUMENT_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = no
+                            #    visible = "[GetScriptedGui('mr_architect_blueprints_monument_button_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_gaudi_blueprint_monument_button.dds"
+                            }
+                        }
+
+                        # Create Square Blueprints
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_architect_blueprints_square_button_sgui')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_BLUEPRINTS_SQUARE_BUTTON"
+                                tooltip = "MR_ARCHITECT_BLUEPRINTS_SQUARE_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = no
+                            #    visible = "[GetScriptedGui('mr_architect_blueprints_square_button_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_gaudi_blueprint_square_button.dds"
+                            }
+                        }
+
+                        # Create Service Buildings Blueprints
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_architect_blueprints_service_button_sgui')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_BLUEPRINTS_SERVICE_BUTTON"
+                                tooltip = "MR_ARCHITECT_BLUEPRINTS_SERVICE_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = no
+                            #    visible = "[GetScriptedGui('mr_architect_blueprints_service_button_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_gaudi_blueprint_service_button.dds"
+                            }
+                        }
+
+                        # Create Health Buildings Blueprints
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_architect_blueprints_health_button_sgui')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_BLUEPRINTS_HEALTH_BUTTON"
+                                tooltip = "MR_ARCHITECT_BLUEPRINTS_HEALTH_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = no
+                            #    visible = "[GetScriptedGui('mr_architect_blueprints_health_button_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_gaudi_blueprint_health_button.dds"
+                            }
+                        }
+
+                        # Create Academy Blueprints
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_architect_blueprints_academy_button_sgui')]"
+                            blockoverride "size" {
+                                size = { @[ panel_button_width - 60 ] 45 }
+                            }
+                            blockoverride "button_size" {
+                                size = { @[ panel_button_width - 40 ] 45 }
+                            }
+                            blockoverride "button_content" {
+                                text = "MR_ARCHITECT_BLUEPRINTS_ACADEMY_BUTTON"
+                                tooltip = "MR_ARCHITECT_BLUEPRINTS_ACADEMY_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = no
+                            #    visible = "[GetScriptedGui('mr_architect_blueprints_academy_button_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_gaudi_blueprint_academy_button.dds"
+                            }
+                        }
+
+                        expand = {}
+                    }
+                }
+                blockoverride "stop_context" {
+                    datacontext = "[GetScriptedGui('mr_stop_architect_project_button_sgui')]"
+                }
+            }
+            mr_artist_character_box = {
+                blockoverride "artist_characters_header" {
+                    text = "MR_ARCHITECT_INDEPENDENT_ARCHITECT"
+                }
+                blockoverride "artist_character_list" {
+                    datamodel = "[GetGlobalList('mr_independent_architect_global_list')]"
+                }
+                blockoverride "artist_character_experience_value" {
+                    value = "[FixedPointToFloat(Character.MakeScope.GetVariable('gaudi_architect_experience').GetValue)]"
+                }
+                blockoverride "artist_character_name" {
+                    text = "MR_INDEPENDENT_ARCHITECT_NAME"
+                }
+                blockoverride "artist_character_experience_tooltip" {
+                    tooltip = "MR_ARCHITECT_INDEPENDENT_ARCHITECT_EXPERIENCE_TOOLTIP"
+                }
+                blockoverride "artist_character_experience_bar_text" {
+                    text = "[Character.GetCustom('GUI_gaudi_independent_architect_experience_text_type')]"
+                }
+                blockoverride "artist_character_interaction" {
+                    datacontext = "[GetScriptedGui('mr_invite_architect_button_sgui')]"
+                    onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_architect', Scope.GetCharacter.MakeScope).End)]"
+                    enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_architect', Scope.GetCharacter.MakeScope).End)]"
+                    text = "MR_ARCHITECT_INVITE_INDEPENDENT_ARCHITECT"
+                    tooltip = "MR_ARCHITECT_INVITE_INDEPENDENT_ARCHITECT_TT"
+                }
+            }
+            expand = {}
         }
     }
 
@@ -262,12 +730,18 @@ types mr_main_arts_panel_types {
                 mr_shared_data_text = {
                     text = "MUSICAL_TRADITION_VAR"
                     tooltip = "MUSICAL_TRADITION_VAR_TT"
+                    blockoverride "font_size" {
+                        using = fontsize_xxl
+                    }
                 }
 
                 # Yearly Musical Tradition
                 mr_shared_data_text = {
                     text = "MR_YEARLY_MUSICAL_TRADITION"
                     tooltip = "MR_YEARLY_MUSICAL_TRADITION_TT"
+                    blockoverride "font_size" {
+                        using = fontsize_xxl
+                    }
                 }
 
                 expand = {}
@@ -298,7 +772,7 @@ types mr_main_arts_panel_types {
         }
         blockoverride "visit_button" {
             text = "MR_VISIT_OPERA_BUTTON"
-            datacontext = "[GetScriptedGui('mr_visit_opera_gui_button')]"
+            datacontext = "[GetScriptedGui('mr_visit_opera_gui_button_sgui')]"
             onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
             enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
             tooltip = "MR_VISIT_OPERA_BUTTON_TT"
@@ -355,7 +829,7 @@ types mr_main_arts_panel_types {
 
                         # Compose a Musical Work
                         mr_shared_activity_button = {
-                            datacontext = "[GetScriptedGui('mr_compose_a_work_button')]"
+                            datacontext = "[GetScriptedGui('mr_compose_a_work_button_sgui')]"
                             blockoverride "size" {
                                 size = { @[ panel_button_width - 60 ] 45 }
                             }
@@ -367,7 +841,7 @@ types mr_main_arts_panel_types {
                                 tooltip = "MR_COMPOSE_A_WORK_BUTTON_TT"
                             }
                             blockoverride "button_highlight_visible" {
-                                visible = "[GetScriptedGui('mr_stop_composing_a_work_button').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                                visible = "[GetScriptedGui('mr_stop_composing_a_work_button_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
                             }
                             blockoverride "button_icon" {
                                 texture = "gfx/interface/icons/GUI_icons/GUI_composer_composing_button.dds"
@@ -376,7 +850,7 @@ types mr_main_arts_panel_types {
 
                         # Conduct a Season
                         mr_shared_activity_button = {
-                            datacontext = "[GetScriptedGui('mr_conduct_a_season_button')]"
+                            datacontext = "[GetScriptedGui('mr_conduct_a_season_button_sgui')]"
                             blockoverride "size" {
                                 size = { @[ panel_button_width - 60 ] 45 }
                             }
@@ -397,7 +871,7 @@ types mr_main_arts_panel_types {
 
                         # Go on a Music Tour
                         mr_shared_activity_button = {
-                            datacontext = "[GetScriptedGui('mr_go_on_a_music_tour_button')]"
+                            datacontext = "[GetScriptedGui('mr_go_on_a_music_tour_button_sgui')]"
                             blockoverride "size" {
                                 size = { @[ panel_button_width - 60 ] 45 }
                             }
@@ -418,7 +892,7 @@ types mr_main_arts_panel_types {
 
                         # Compose a Masterwork
                         mr_shared_activity_button = {
-                            datacontext = "[GetScriptedGui('mr_create_a_masterpiece_button')]"
+                            datacontext = "[GetScriptedGui('mr_create_a_masterpiece_button_sgui')]"
                             blockoverride "size" {
                                 size = { @[ panel_button_width - 60 ] 45 }
                             }
@@ -430,7 +904,7 @@ types mr_main_arts_panel_types {
                                 tooltip = "MR_CREATE_A_MASTERPIECE_BUTTON_TT"
                             }
                             blockoverride "button_highlight_visible" {
-                                visible = "[GetScriptedGui('mr_stop_creating_masterwork_button').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                                visible = "[GetScriptedGui('mr_stop_creating_masterwork_button_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
                             }
                             blockoverride "button_icon" {
                                 texture = "gfx/interface/icons/GUI_icons/GUI_composer_composing_masterwork_button.dds"
@@ -447,7 +921,7 @@ types mr_main_arts_panel_types {
 
                         # Mozart Monument
                         mr_shared_project_button = {
-                            datacontext = "[GetScriptedGui('mr_mozart_monument_button')]"
+                            datacontext = "[GetScriptedGui('mr_mozart_monument_button_sgui')]"
                             blockoverride "size" {
                                 size = { @[ panel_button_width - 20 ] 45 }
                             }
@@ -459,7 +933,7 @@ types mr_main_arts_panel_types {
 
                         # Beethoven Monument
                         mr_shared_project_button = {
-                            datacontext = "[GetScriptedGui('mr_beethoven_monument_button')]"
+                            datacontext = "[GetScriptedGui('mr_beethoven_monument_button_sgui')]"
                             blockoverride "size" {
                                 size = { @[ panel_button_width - 20 ] 45 }
                             }
@@ -471,7 +945,7 @@ types mr_main_arts_panel_types {
 
                         # Compose a national anthem
                         mr_shared_project_button = {
-                            datacontext = "[GetScriptedGui('mr_anthem_music_button')]"
+                            datacontext = "[GetScriptedGui('mr_anthem_music_button_sgui')]"
                             blockoverride "size" {
                                 size = { @[ panel_button_width - 20 ] 45 }
                             }
@@ -483,7 +957,7 @@ types mr_main_arts_panel_types {
 
                         # National Broadcasting Channel
                         mr_shared_project_button = {
-                            datacontext = "[GetScriptedGui('mr_nbc_button')]"
+                            datacontext = "[GetScriptedGui('mr_nbc_button_sgui')]"
                             blockoverride "size" {
                                 size = { @[ panel_button_width - 20 ] 45 }
                             }
@@ -495,7 +969,7 @@ types mr_main_arts_panel_types {
 
                         # National Broadcasting Channel License
                         mr_shared_project_button = {
-                            datacontext = "[GetScriptedGui('mr_nbc_licence_button')]"
+                            datacontext = "[GetScriptedGui('mr_nbc_licence_button_sgui')]"
                             blockoverride "size" {
                                 size = { @[ panel_button_width - 20 ] 45 }
                             }
@@ -507,7 +981,7 @@ types mr_main_arts_panel_types {
 
                         # German Music Association
                         mr_shared_project_button = {
-                            datacontext = "[GetScriptedGui('mr_german_music_association_button')]"
+                            datacontext = "[GetScriptedGui('mr_german_music_association_button_sgui')]"
                             blockoverride "size" {
                                 size = { @[ panel_button_width - 20 ] 45 }
                             }
@@ -521,7 +995,7 @@ types mr_main_arts_panel_types {
                     }
                 }
                 blockoverride "stop_context" {
-                    datacontext = "[GetScriptedGui('mr_stop_composing_a_work_button')]"
+                    datacontext = "[GetScriptedGui('mr_stop_composing_a_work_button_sgui')]"
                 }
             }
             mr_artist_character_box = {
@@ -545,7 +1019,7 @@ types mr_main_arts_panel_types {
                     text = "[Character.GetCustom('GUI_elgar_travelling_composer_experience_text_type')]"
                 }
                 blockoverride "artist_character_interaction" {
-                    datacontext = "[GetScriptedGui('mr_invite_composer_button')]"
+                    datacontext = "[GetScriptedGui('mr_invite_composer_button_sgui')]"
                     onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_composer', Scope.GetCharacter.MakeScope).End)]"
                     enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_composer', Scope.GetCharacter.MakeScope).End)]"
                     text = "MR_INVITE_COMPOSER_BUTTON"
@@ -630,12 +1104,18 @@ types mr_main_arts_panel_types {
                 mr_shared_data_text = {
                     text = "LITERARY_TRADITION_VAR"
                     tooltip = "LITERARY_TRADITION_VAR_TT"
+                    blockoverride "font_size" {
+                        using = fontsize_xxl
+                    }
                 }
 
                 # Yearly Literary Tradition
                 mr_shared_data_text = {
                     text = "MR_YEARLY_LITERARY_TRADITION"
                     tooltip = "MR_YEARLY_LITERARY_TRADITION_TT"
+                    blockoverride "font_size" {
+                        using = fontsize_xxl
+                    }
                 }
 
                 expand = {}
@@ -682,7 +1162,7 @@ types mr_main_arts_panel_types {
         }
         blockoverride "visit_button" {
             text = "MR_VISIT_LIBRARY_BUTTON"
-            datacontext = "[GetScriptedGui('mr_visit_library_gui_button')]"
+            datacontext = "[GetScriptedGui('mr_visit_library_gui_button_sgui')]"
             onclick = "[ScriptedGui.Execute( GuiScope.SetRoot(Country.MakeScope).End )]"
             enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot(Country.MakeScope).End )]"
             tooltip = "MR_VISIT_LIBRARY_BUTTON_TT"
@@ -702,7 +1182,7 @@ types mr_main_arts_panel_types {
 
                         # Newspaper Novel
                         mr_shared_activity_button = {
-                            datacontext = "[GetScriptedGui('mr_newspaper_novel_button')]"
+                            datacontext = "[GetScriptedGui('mr_newspaper_novel_button_sgui')]"
                             blockoverride "button_content" {
                                 text = "mr_artist_writer_newspaper_novel_button_text"
                                 tooltip = "MR_NEWSPAPER_NOVEL_BUTTON_TT"
@@ -722,7 +1202,7 @@ types mr_main_arts_panel_types {
                         }
                         # Reading Tour
                         mr_shared_activity_button = {
-                            datacontext = "[GetScriptedGui('mr_reading_tour_button')]"
+                            datacontext = "[GetScriptedGui('mr_reading_tour_button_sgui')]"
                             blockoverride "button_content" {
                                 text = "mr_artist_writer_reading_tour_button_text"
                                 tooltip = "MR_READING_TOUR_BUTTON_TT"
@@ -742,7 +1222,7 @@ types mr_main_arts_panel_types {
                         }
                         # Write text for a National Anthem
                         mr_shared_project_button = {
-                            datacontext = "[GetScriptedGui('mr_anthem_text_button')]"
+                            datacontext = "[GetScriptedGui('mr_anthem_text_button_sgui')]"
                             blockoverride "button_content" {
                                 text = "MR_ANTHEM_TEXT_BUTTON"
                                 tooltip = "MR_ANTHEM_TEXT_BUTTON_TT"
@@ -756,7 +1236,7 @@ types mr_main_arts_panel_types {
                     }
                 }
                 blockoverride "stop_context" {
-                    datacontext = "[GetScriptedGui('mr_stop_writer_project_button')]"
+                    datacontext = "[GetScriptedGui('mr_stop_writer_project_button_sgui')]"
                 }
             }
             mr_artist_character_box = {
@@ -779,7 +1259,7 @@ types mr_main_arts_panel_types {
                     text = "[Character.GetCustom('GUI_elgar_travelling_composer_experience_text_type')]"
                 }
                 blockoverride "artist_character_interaction" {
-                    datacontext = "[GetScriptedGui('mr_invite_writer_button')]"
+                    datacontext = "[GetScriptedGui('mr_invite_writer_button_sgui')]"
                     onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_writer', Scope.GetCharacter.MakeScope).End)]"
                     enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_writer', Scope.GetCharacter.MakeScope).End)]"
                     text = "MR_INVITE_WRITER_BUTTON"
@@ -864,12 +1344,18 @@ types mr_main_arts_panel_types {
                 mr_shared_data_text = {
                     text = "PAINTING_TRADITION_VAR"
                     tooltip = "PAINTING_TRADITION_VAR_TT"
+                    blockoverride "font_size" {
+                        using = fontsize_xxl
+                    }
                 }
 
                 # Yearly Painting Tradition
                 mr_shared_data_text = {
                     text = "MR_YEARLY_PAINTING_TRADITION"
                     tooltip = "MR_YEARLY_PAINTING_TRADITION_TT"
+                    blockoverride "font_size" {
+                        using = fontsize_xxl
+                    }
                 }
 
                 expand = {}
@@ -892,7 +1378,7 @@ types mr_main_arts_panel_types {
         }
         blockoverride "visit_button" {
             text = "MR_VISIT_GALLERY_BUTTON"
-            datacontext = "[GetScriptedGui('mr_visit_gallery_gui_button')]"
+            datacontext = "[GetScriptedGui('mr_visit_gallery_gui_button_sgui')]"
             onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
             enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
             tooltip = "MR_VISIT_GALLERY_BUTTON_TT"
@@ -912,7 +1398,7 @@ types mr_main_arts_panel_types {
 
                         # Painter Trip
                         mr_shared_activity_button = {
-                            datacontext = "[GetScriptedGui('mr_painter_trip_button')]"
+                            datacontext = "[GetScriptedGui('mr_painter_trip_button_sgui')]"
                             blockoverride "button_content" {
                                 text = "mr_artist_painter_trip_button_text"
                                 tooltip = "MR_PAINTER_TRIP_BUTTON_TT"
@@ -932,7 +1418,7 @@ types mr_main_arts_panel_types {
                         }
                         # Vernissage
                         mr_shared_activity_button = {
-                            datacontext = "[GetScriptedGui('mr_vernissage_button')]"
+                            datacontext = "[GetScriptedGui('mr_vernissage_button_sgui')]"
                             blockoverride "button_content" {
                                 text = "mr_artist_painter_vernissage_button_text"
                                 tooltip = "MR_VERNISSAGE_BUTTON_TT"
@@ -952,7 +1438,7 @@ types mr_main_arts_panel_types {
                         }
                         # Acquire a Masterwork
                         mr_shared_project_button = {
-                            datacontext = "[GetScriptedGui('mr_acquire_masterwork_button')]"
+                            datacontext = "[GetScriptedGui('mr_acquire_masterwork_button_sgui')]"
                             blockoverride "button_content" {
                                 text = "MR_ACQUIRE_MASTERWORK_BUTTON"
                                 tooltip = "MR_ACQUIRE_MASTERWORK_BUTTON_TT"
@@ -966,7 +1452,7 @@ types mr_main_arts_panel_types {
                     }
                 }
                 blockoverride "stop_context" {
-                    datacontext = "[GetScriptedGui('mr_stop_painter_project_button')]"
+                    datacontext = "[GetScriptedGui('mr_stop_painter_project_button_sgui')]"
                 }
             }
             mr_artist_character_box = {
@@ -993,7 +1479,7 @@ types mr_main_arts_panel_types {
                     text = "[Character.GetCustom('GUI_klimt_independent_painter_experience_text_type')]"
                 }
                 blockoverride "artist_character_interaction" {
-                    datacontext = "[GetScriptedGui('mr_invite_painter_button')]"
+                    datacontext = "[GetScriptedGui('mr_invite_painter_button_sgui')]"
                     onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_painter', Scope.GetCharacter.MakeScope).End)]"
                     enabled = "[ScriptedGui.IsValid(GuiScope.SetRoot(Country.MakeScope).AddScope('chosen_painter', Scope.GetCharacter.MakeScope).End)]"
                     text = "MR_INVITE_INDEPENDENT_PAINTER"
@@ -1433,7 +1919,7 @@ types mr_main_arts_panel_types {
 
                             mr_shared_left_icon_button = {
                                 blockoverride "button_content" {
-                                    datacontext = "[GetScriptedGui('mr_patron_of_the_arts')]"
+                                    datacontext = "[GetScriptedGui('mr_patron_of_the_arts_sgui')]"
                                     text = mr_artist_promote_patronize
                                     tooltip = "MR_PATRON_OF_THE_ARTS_BUTTON_TT"
                                 }
@@ -1474,6 +1960,26 @@ types mr_main_arts_panel_types {
                     layoutpolicy_horizontal = expanding
                     layoutpolicy_vertical = expanding
                     spacing = 20
+                    # Promote Architect
+                    mr_shared_left_icon_button = {
+                        blockoverride "button_content" {
+                            text = "MR_ARCHITECT_HEADER_TEXT"
+                            datacontext = "[GetScriptedGui('mr_artists_promote_architect_sgui')]"
+                            tooltip = "MR_PROMOTE_ARCHITECT_TT"
+                        }
+                        blockoverride "icon_size" {
+                            size = { 100% 100% }
+                        }
+                        blockoverride "size" {
+                            size = { 250 45 }
+                        }
+                        blockoverride "icon" {
+                            texture = "gfx/interface/icons/character_role_icons/gaudi_architect_role.dds"
+                        }
+                        blockoverride "icon_highlight_visible" {
+                            visible = "[GetScriptedGui('mr_artists_architect_is_promoted_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                        }
+                    }
                     # Promote Composer
                     mr_shared_left_icon_button = {
                         blockoverride "button_content" {
@@ -1554,7 +2060,7 @@ types mr_main_arts_panel_types {
                     spacing = 20
                     mr_artist_cultural_tradition = {
                         blockoverride "context" {
-                            datacontext = "[GetScriptedGui('mr_classicism_inactive')]"
+                            datacontext = "[GetScriptedGui('mr_classicism_inactive_sgui')]"
                         }
                         blockoverride "tooltip_active" {
                             tooltip = "ARTISTS_CLASSICISM_ACTIVE_TT"
@@ -1571,7 +2077,7 @@ types mr_main_arts_panel_types {
                     }
                     mr_artist_cultural_tradition = {
                         blockoverride "context" {
-                            datacontext = "[GetScriptedGui('mr_romanticism_inactive')]"
+                            datacontext = "[GetScriptedGui('mr_romanticism_inactive_sgui')]"
                         }
                         blockoverride "tooltip_active" {
                             tooltip = "ARTISTS_ROMANTICISM_ACTIVE_TT"
@@ -1588,7 +2094,7 @@ types mr_main_arts_panel_types {
                     }
                     mr_artist_cultural_tradition = {
                         blockoverride "context" {
-                            datacontext = "[GetScriptedGui('mr_realism_inactive')]"
+                            datacontext = "[GetScriptedGui('mr_realism_inactive_sgui')]"
                         }
                         blockoverride "tooltip_active" {
                             tooltip = "ARTISTS_REALISM_ACTIVE_TT"
@@ -1605,7 +2111,7 @@ types mr_main_arts_panel_types {
                     }
                     mr_artist_cultural_tradition = {
                         blockoverride "context" {
-                            datacontext = "[GetScriptedGui('mr_irrationalism_inactive')]"
+                            datacontext = "[GetScriptedGui('mr_irrationalism_inactive_sgui')]"
                         }
                         blockoverride "tooltip_active" {
                             tooltip = "ARTISTS_IRRATIONALISM_ACTIVE_TT"
@@ -1622,7 +2128,7 @@ types mr_main_arts_panel_types {
                     }
                     mr_artist_cultural_tradition_button = {
                         blockoverride "button_context" {
-                            datacontext = "[GetScriptedGui('mr_impressionism_button')]"
+                            datacontext = "[GetScriptedGui('mr_impressionism_button_sgui')]"
                         }
                         blockoverride "tooltip_active" {
                             tooltip = "ARTISTS_IIMPRESSIONISM_ACTIVE_TT"
@@ -1639,7 +2145,7 @@ types mr_main_arts_panel_types {
                     }
                     mr_artist_cultural_tradition_button = {
                         blockoverride "button_context" {
-                            datacontext = "[GetScriptedGui('mr_expressionism_button')]"
+                            datacontext = "[GetScriptedGui('mr_expressionism_button_sgui')]"
                         }
                         blockoverride "tooltip_active" {
                             tooltip = "ARTISTS_EXPRESSIONISM_ACTIVE_TT"
@@ -1656,7 +2162,7 @@ types mr_main_arts_panel_types {
                     }
                     mr_artist_cultural_tradition_button = {
                         blockoverride "button_context" {
-                            datacontext = "[GetScriptedGui('mr_art_nouveau_button')]"
+                            datacontext = "[GetScriptedGui('mr_art_nouveau_button_sgui')]"
                         }
                         blockoverride "tooltip_active" {
                             tooltip = "ARTISTS_ART_NOUVEAU_ACTIVE_TT"

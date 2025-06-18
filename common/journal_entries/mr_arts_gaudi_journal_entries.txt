@@ -1,0 +1,3694 @@
+﻿##########################
+# GAUDÍ JOURNAL ENTRIES  #
+##########################
+
+#by Marco Dandolo and Lord R
+
+###################
+
+######Public Construction####
+
+je_gaudi_public_construction = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	scripted_button = gaudi_stop_architectural_project_button
+
+	immediate = {
+		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
+	}
+
+	timeout = 1825
+
+	on_timeout = {
+		trigger_event = { 
+			id = gaudi.10
+			popup = yes 
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = gaudi_stop_architectural_project_tt
+			has_variable = gaudi_stop_architectural_project_var
+		}
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_architect_dies_tt
+			NOT = {
+				has_variable = gaudi_architect_var
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+#################################################################
+
+######Study Trip####
+
+je_gaudi_study_trip = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = {
+				name = gaudi_study_trip_progress
+				add = 1
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = {
+			name = gaudi_study_trip_progress
+			value = 0
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_gaudi_study_trip_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		custom_tooltip = {
+			text = je_gaudi_study_trip_result
+			
+			random_list = {
+				1 = {
+					trigger = {
+						NOT = {
+							var:gaudi_architect_var = {
+								has_trait = engineer
+							}
+						}
+					}
+					trigger_event = {
+						id = gaudi.21
+						days = 1
+					}
+				}
+				2 = {
+					trigger = {
+						NOT = {
+							var:gaudi_architect_var = {
+								has_trait = surveyor
+							}
+						}
+					}
+					trigger_event = {
+						id = gaudi.22
+						days = 1
+					}
+				}
+				2 = {
+					trigger = {
+						NOT = {
+							var:gaudi_architect_var = {
+								has_trait = verrier_mathematician
+							}
+						}
+					}
+					trigger_event = {
+						id = gaudi.23
+						days = 1
+					}
+				}
+				2 = {
+					trigger = {
+						NOT = {
+							var:gaudi_architect_var = {
+								has_trait = master_bureaucrat
+							}
+						}
+					}
+					trigger_event = {
+						id = gaudi.24
+						days = 1
+					}
+				}
+				1 = {
+					trigger = {
+						NOT = {
+							var:gaudi_architect_var = {
+								has_trait = grifter
+							}
+						}
+					}
+					trigger_event = {
+						id = gaudi.25
+						days = 1
+					}
+				}
+				2 = {
+					trigger_event = {
+						id = gaudi.26
+						days = 1
+					}
+				}
+			}
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_architect_dies_tt
+			NOT = {
+				has_variable = gaudi_architect_var
+			}
+		}
+	}
+
+	on_fail = {
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	current_value = {
+		value = var:gaudi_study_trip_progress
+	}
+
+	goal_add_value = {
+		add = 24
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+#################################################################
+
+######Architecture Treatise####
+
+je_gaudi_architecture_treatise = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = {
+				name = gaudi_architecture_treatise_progress
+				add = 1
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = {
+			name = gaudi_architecture_treatise_progress
+			value = 0
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_gaudi_architecture_treatise_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = gaudi.8
+			days = 1
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_architect_dies_tt
+			NOT = {
+				has_variable = gaudi_architect_var
+			}
+		}
+	}
+
+	on_fail = {
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	current_value = {
+		value = var:gaudi_architecture_treatise_progress
+	}
+
+	goal_add_value = {
+		add = 12
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+#################################################################
+
+######Urban Planning####
+
+je_gaudi_urban_planning_project = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	scripted_button = gaudi_stop_architectural_project_button
+
+	scripted_progress_bar = gaudi_urban_planning_project_progress_bar
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, the Modifier will be unlocked in a state
+				limit = {
+					je:je_gaudi_urban_planning_project = {
+						"scripted_bar_progress(gaudi_urban_planning_project_progress_bar)" >= 24
+					}
+				}
+				#Architect gets experience
+				architect_experience_gain_effect = { AMOUNT = 20 }
+				#The state with the next available urban center will be chosen
+				if = {
+					limit = {
+						scope:target = {
+							NOT = { has_modifier = gaudi_urban_building_throughput_add_modifier }
+						}
+					}
+					scope:target = {
+						add_modifier = {
+							name = gaudi_urban_building_throughput_add_modifier
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						scope:target = {
+							NOT = { has_modifier = gaudi_urban_building_production_mult_modifier }
+						}
+					}
+					scope:target = {
+						add_modifier = {
+							name = gaudi_urban_building_production_mult_modifier
+						}
+					}
+				}
+				else = {
+					scope:target = {
+						add_modifier = {
+							name = gaudi_urban_building_goods_input_mult_modifier
+						}
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_gaudi_urban_planning_project = {
+					add_progress = { 
+						name = gaudi_urban_planning_project_progress_bar
+						value = -24
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = gaudi_building_has_throughput_modifier_tt
+			scope:target = {
+				has_modifier = gaudi_urban_building_throughput_add_modifier
+			}
+		}
+		custom_tooltip = {
+			text = gaudi_building_has_production_modifier_tt
+			scope:target = {
+				has_modifier = gaudi_urban_building_production_mult_modifier
+			}
+		}
+		custom_tooltip = {
+			text = gaudi_building_has_input_modifier_tt
+			scope:target = {
+				has_modifier = gaudi_urban_building_goods_input_mult_modifier
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		trigger_event = {
+			id = gaudi.9
+			popup = yes
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = gaudi_stop_architectural_project_tt
+			has_variable = gaudi_stop_architectural_project_var
+		}
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_architect_dies_tt
+			NOT = {
+				has_variable = gaudi_architect_var
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+#################################################################
+
+######Capital Expansion######
+
+je_gaudi_capital_expansion_project = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	scripted_button = gaudi_stop_architectural_project_button
+
+	group = je_group_gaudi_architecture
+
+	scripted_progress_bar = gaudi_capital_expansion_project_progress_bar
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a new modifier will be added
+				limit = {
+					je:je_gaudi_capital_expansion_project = {
+						"scripted_bar_progress(gaudi_capital_expansion_project_progress_bar)" >= 30
+					}
+				}
+				#Architect gets experience
+				gaudi_capital_expansion_modifier_effect = yes
+				#The cost will be subtracted from the current progress
+				je:je_gaudi_capital_expansion_project = {
+					add_progress = { 
+						name = gaudi_capital_expansion_project_progress_bar
+						value = -30
+					}
+				}
+			}
+		}
+		events = {
+			gaudi.514 #Gaudí 514: New Coffee house (Austria only), Phase 2
+			gaudi.518 #Gaudí 518: Monument to $MONARCH$ (Austria only), Phase 1
+			gaudi.527 #Gaudí 527: Heldenplatz (Austria only), Phase 3
+			gaudi.530 #Gaudí 530: Urania (Austria only), Phase 4
+		}
+		random_events = {
+			250 = 0
+			1 = gaudi.511 #Gaudí 511: Fountain or Pavillon?, Phase 1-4
+			1 = gaudi.512 #Gaudí 512: Statues on the Ringstrasse, Phase 1-4
+			1 = gaudi.513 #Gaudí 513: Ministry building exceeds cost, Phase 2-4
+			1 = gaudi.515 #Gaudí 515: Ringstrasse-Palais, Phase 2-3
+			1 = gaudi.516 #Gaudí 516: Good progress, Phase 1-4
+			1 = gaudi.517 #Gaudí 517: Slow progress, Phase 1-4
+			1 = gaudi.519 #Gaudí 519: Fire!, hits once
+			1 = gaudi.520 #Gaudí 520: Political Controversy, Phase 2-3
+			1 = gaudi.521 #Gaudí 521: Industrialist Residence, Phase 2-3
+			1 = gaudi.522 #Gaudí 522: Extending the Barracks, Phase 2
+			1 = gaudi.523 #Gaudí 523: Extending the Construction sector, Phase 3
+			1 = gaudi.524 #Gaudí 524: Stadtpark, Phase 1-3
+			1 = gaudi.525 #Gaudí 525: Extending the Opera, Phase 3
+			1 = gaudi.526 #Gaudí 526: Extending the Town Hall, Phase 1-4
+			1 = gaudi.528 #Gaudí 528: Extending the University, Phase 4
+			1 = gaudi.529 #Gaudí 529: Extending the Academy, Phase 4
+		}
+	}
+
+	immediate = {
+		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
+		scope:journal_entry = {
+			add_modifier = {
+				name = gaudi_capital_expansion_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+	}
+
+	complete = {
+		has_variable = gaudi_capital_expansion_complete_var
+	}
+
+	on_complete = {
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		gaudi_capital_expansion_event_effect = yes
+		var:gaudi_architect_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	current_value = {
+	}
+
+	goal_add_value = {
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = gaudi_stop_architectural_project_tt
+			has_variable = gaudi_stop_architectural_project_var
+		}
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_architect_dies_tt
+			NOT = {
+				has_variable = gaudi_architect_var
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#################################################################
+
+######Blueprint####
+
+je_gaudi_blueprint_research = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	scripted_button = gaudi_stop_architectural_project_button
+
+	scripted_progress_bar = gaudi_architectural_blueprint_progress_bar
+
+	immediate = {
+		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = gaudi_architectural_blueprint_progress_bar_at_full_tt
+			je:je_gaudi_blueprint_research = {
+				"scripted_bar_progress(gaudi_architectural_blueprint_progress_bar)" >= 1
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.16
+			popup = yes
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = gaudi_stop_architectural_project_tt
+			has_variable = gaudi_stop_architectural_project_var
+		}
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_blueprint_research_var
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_architect_dies_tt
+			NOT = {
+				has_variable = gaudi_architect_var
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = gaudi_blueprint_research_var
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_custom_monument_blueprint_research = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	scripted_button = gaudi_stop_architectural_project_button
+
+	scripted_progress_bar = gaudi_custom_monument_blueprint_progress_bar
+
+	immediate = {
+		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = gaudi_architectural_blueprint_progress_bar_at_full_tt
+			je:je_gaudi_custom_monument_blueprint_research = {
+				"scripted_bar_progress(gaudi_custom_monument_blueprint_progress_bar)" >= 60
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.82
+			popup = yes
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = gaudi_stop_architectural_project_tt
+			has_variable = gaudi_stop_architectural_project_var
+		}
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_architect_dies_tt
+			NOT = {
+				has_variable = gaudi_architect_var
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+#################################################################
+
+######Bauhaus######
+
+je_gaudi_bauhaus_architecture = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	is_shown_when_inactive = {
+        has_technology_researched = elgar_expressionism_tech
+		NOR = {
+			has_modifier = gaudi_neoclassicism_modifier
+			has_modifier = gaudi_art_deco_modifier
+		}
+    }
+    possible = {
+        has_technology_researched = elgar_new_objectivity_tech
+		NOR = {
+			has_modifier = gaudi_neoclassicism_modifier
+			has_modifier = gaudi_art_deco_modifier
+		}
+    }
+	immediate = {
+		set_variable = {
+			name = je_gaudi_bauhaus_architecture_var
+			days = 1
+		}
+	}
+	complete = {
+		gaudi_has_architect = yes
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_arts_academy
+				has_active_production_method = pm_artists_arts_academy_school
+				level >= 3
+			}
+			any_scope_building = {
+				is_building_type = building_university
+			}
+		}
+		hidden_trigger = {
+			NOT = {
+				has_variable = je_gaudi_bauhaus_architecture_var
+			}
+		}
+	}
+	on_complete = {
+		add_modifier = {
+			name = gaudi_bauhaus_modifier
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_arts_academy
+					has_active_production_method = pm_artists_arts_academy_school
+					level >= 3
+				}
+				any_scope_building = {
+					is_building_type = building_university
+				}
+			}
+			add_modifier = {
+				name = gaudi_bauhaus_academy_modifier
+			}
+		}
+		if = {
+			limit = {
+				has_variable = gaudi_architect_var
+				NOT = {
+					var:gaudi_architect_var = {
+						has_trait = gaudi_bauhaus_style
+					}
+				}
+			}
+			var:gaudi_architect_var = {
+				add_trait = gaudi_bauhaus_style
+			}
+		}
+	}
+}
+
+je_gaudi_splendour_bauhaus = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	scripted_button = gaudi_stop_architectural_project_button
+
+	scripted_progress_bar = gaudi_architectural_splendour_progress_bar
+
+	on_yearly_pulse = {
+		effect = {
+			#Architect gets experience
+			architect_experience_gain_effect = { AMOUNT = 10 }
+		}
+	}
+
+	immediate = {
+		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
+		if = {
+			limit = { 
+				NOT = { 
+					has_variable = gaudi_architectural_splendour_var
+				} 
+			}
+			set_variable = {
+				name = gaudi_architectural_splendour_var
+				value = 0
+			}
+		}
+		set_variable = {
+			name = je_gaudi_splendour_bauhaus_var
+			days = 1
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = gaudi_architectural_splendour_progress_bar_at_full_tt
+			je:je_gaudi_splendour_bauhaus = {
+				"scripted_bar_progress(gaudi_architectural_splendour_progress_bar)" >= 100
+			}
+		}
+		hidden_trigger = {
+			NOT = {
+				has_variable = je_gaudi_splendour_bauhaus_var
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.52
+			popup = yes
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = gaudi_stop_architectural_project_tt
+			has_variable = gaudi_stop_architectural_project_var
+		}
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_architect_dies_tt
+			NOT = {
+				has_variable = gaudi_architect_var
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######Neoclassicism######
+
+je_gaudi_neoclassical_architecture = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	is_shown_when_inactive = {
+        has_technology_researched = elgar_impressionism_tech
+		NOR = {
+			has_modifier = gaudi_bauhaus_modifier
+			has_modifier = gaudi_art_deco_modifier
+		}
+    }
+    possible = {
+        has_technology_researched = elgar_neoclassicism_tech
+		NOR = {
+			has_modifier = gaudi_bauhaus_modifier
+			has_modifier = gaudi_art_deco_modifier
+		}
+    }
+	immediate = {
+		set_variable = {
+			name = je_gaudi_neoclassical_architecture_var
+			days = 1
+		}
+	}
+	complete = {
+		gaudi_has_architect = yes
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_arts_academy
+				has_active_production_method = pm_artists_arts_academy_school
+				level >= 3
+			}
+			any_scope_building = {
+				is_building_type = building_university
+			}
+		}
+		hidden_trigger = {
+			NOT = {
+				has_variable = je_gaudi_neoclassical_architecture_var
+			}
+		}
+	}
+	on_complete = {
+		add_modifier = {
+			name = gaudi_neoclassicism_modifier
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_arts_academy
+					has_active_production_method = pm_artists_arts_academy_school
+					level >= 3
+				}
+				any_scope_building = {
+					is_building_type = building_university
+				}
+			}
+			add_modifier = {
+				name = gaudi_neoclassicism_academy_modifier
+			}
+		}
+		if = {
+			limit = {
+				has_variable = gaudi_architect_var
+				NOT = {
+					var:gaudi_architect_var = {
+						has_trait = gaudi_neoclassical_style
+					}
+				}
+			}
+			var:gaudi_architect_var = {
+				add_trait = gaudi_neoclassical_style
+			}
+		}
+	}
+}
+
+je_gaudi_splendour_neoclassical = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	scripted_button = gaudi_stop_architectural_project_button
+
+	scripted_progress_bar = gaudi_architectural_splendour_progress_bar
+
+	on_yearly_pulse = {
+		effect = {
+			#Architect gets experience
+			architect_experience_gain_effect = { AMOUNT = 10 }
+		}
+	}
+
+	immediate = {
+		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
+		if = {
+			limit = { 
+				NOT = { 
+					has_variable = gaudi_architectural_splendour_var
+				} 
+			}
+			set_variable = {
+				name = gaudi_architectural_splendour_var
+				value = 0
+			}
+		}
+		set_variable = {
+			name = je_gaudi_splendour_neoclassical_var
+			days = 1
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = gaudi_architectural_splendour_progress_bar_at_full_tt
+			je:je_gaudi_splendour_bauhaus = {
+				"scripted_bar_progress(gaudi_architectural_splendour_progress_bar)" >= 100
+			}
+		}
+		hidden_trigger = {
+			NOT = {
+				has_variable = je_gaudi_splendour_neoclassical_var
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.51
+			popup = yes
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = gaudi_stop_architectural_project_tt
+			has_variable = gaudi_stop_architectural_project_var
+		}
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_architect_dies_tt
+			NOT = {
+				has_variable = gaudi_architect_var
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######Art Deco######
+
+je_gaudi_art_deco_architecture = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	is_shown_when_inactive = {
+        has_technology_researched = elgar_art_nouveau_tech
+		NOR = {
+			has_modifier = gaudi_bauhaus_modifier
+			has_modifier = gaudi_neoclassicism_modifier
+		}
+    }
+    possible = {
+        has_technology_researched = elgar_art_deco_tech
+		NOR = {
+			has_modifier = gaudi_bauhaus_modifier
+			has_modifier = gaudi_neoclassicism_modifier
+		}
+    }
+	immediate = {
+		set_variable = {
+			name = je_gaudi_art_deco_architecture_var
+			days = 1
+		}
+	}
+	complete = {
+		gaudi_has_architect = yes
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_arts_academy
+				has_active_production_method = pm_artists_arts_academy_school
+				level >= 3
+			}
+			any_scope_building = {
+				is_building_type = building_university
+			}
+		}
+		hidden_trigger = {
+			NOT = {
+				has_variable = je_gaudi_art_deco_architecture_var
+			}
+		}
+	}
+	on_complete = {
+		add_modifier = {
+			name = gaudi_art_deco_modifier
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_arts_academy
+					has_active_production_method = pm_artists_arts_academy_school
+					level >= 3
+				}
+				any_scope_building = {
+					is_building_type = building_university
+				}
+			}
+			add_modifier = {
+				name = gaudi_art_deco_academy_modifier
+			}
+		}
+		if = {
+			limit = {
+				has_variable = gaudi_architect_var
+				NOT = {
+					var:gaudi_architect_var = {
+						has_trait = gaudi_art_deco_style
+					}
+				}
+			}
+			var:gaudi_architect_var = {
+				add_trait = gaudi_art_deco_style
+			}
+		}
+	}
+}
+
+je_gaudi_splendour_art_deco = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	scripted_button = gaudi_stop_architectural_project_button
+
+	scripted_progress_bar = gaudi_architectural_splendour_2_progress_bar
+
+	on_monthly_pulse = {
+		effect = {
+			#Architect gets experience
+			architect_experience_gain_effect = { AMOUNT = 10 }
+		}
+		random_events = {
+			10 = 0
+
+			1 = gaudi.31 #Gaudí 31: Art Deco Cinema
+			1 = gaudi.32 #Gaudí 32: Art Deco Skyscraper
+			1 = gaudi.33 #Gaudí 33: Art Deco Airport
+			1 = gaudi.34 #Gaudí 34: Art Deco Office
+		}
+	}
+
+	immediate = {
+		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
+		if = {
+			limit = { 
+				NOT = { 
+					has_variable = gaudi_architectural_splendour_var
+				} 
+			}
+			set_variable = {
+				name = gaudi_architectural_splendour_var
+				value = 0
+			}
+		}
+		set_variable = {
+			name = je_gaudi_splendour_art_deco_var
+			days = 1
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = gaudi_architectural_splendour_progress_bar_at_full_tt
+			je:je_gaudi_splendour_bauhaus = {
+				"scripted_bar_progress(gaudi_architectural_splendour_progress_bar)" >= 200
+			}
+		}
+		hidden_trigger = {
+			NOT = {
+				has_variable = je_gaudi_splendour_art_deco_var
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.50
+			popup = yes
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = gaudi_stop_architectural_project_tt
+			has_variable = gaudi_stop_architectural_project_var
+		}
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_architect_dies_tt
+			NOT = {
+				has_variable = gaudi_architect_var
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = gaudi_stop_architectural_project_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######Art Nouveau######
+
+#Art Nouveau city quarter
+
+je_gaudi_art_nouveau_quarter = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	is_shown_when_inactive = {
+        has_technology_researched = elgar_art_nouveau_tech
+		NOT = {
+			has_technology_researched = elgar_art_deco_tech
+		}
+    }
+    possible = {
+        has_technology_researched = elgar_art_nouveau_tech
+		any_scope_state = {
+			has_building = building_arts_academy
+			has_building = building_university
+			has_building = building_elgar_opera
+		}
+    }
+	immediate = {
+		set_variable = {
+			name = gaudi_art_nouveau_quarter_var
+			days = 1
+		}
+	}
+	complete = {
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_arts_academy
+				level >= 10
+			}
+			any_scope_building = {
+				is_building_type = building_university
+				level >= 10
+			}
+			any_scope_building = {
+				is_building_type = building_elgar_opera
+				level >= 10
+			}
+			any_scope_building = {
+				is_building_type = building_urban_center
+				level >= 15
+			}
+			NOT = {
+				has_modifier = gaudi_art_nouveau_quarter_modifier
+			}
+		}
+		hidden_trigger = {
+			NOT = {
+				has_variable = gaudi_art_nouveau_quarter_var
+			}
+		}
+	}
+	on_complete = {
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_arts_academy
+					level >= 10
+				}
+				any_scope_building = {
+					is_building_type = building_university
+					level >= 10
+				}
+				any_scope_building = {
+					is_building_type = building_elgar_opera
+					level >= 10
+				}
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 15
+				}
+				NOT = {
+					has_modifier = gaudi_art_nouveau_quarter_modifier
+				}
+			}
+			add_modifier = {
+				name = gaudi_art_nouveau_quarter_modifier
+			}
+		}
+		trigger_event = { 
+			id = gaudi.35
+			popup = yes
+		}
+	}
+	invalid = {
+		has_technology_researched = elgar_art_deco_tech
+	}
+}
+
+###################
+
+######COLOGNE CATHEDRAL######
+
+je_gaudi_dombau_phase_1 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.110 #Gaudí 110: Normal building progress
+			2 = gaudi.111 #Gaudí 111: Inferior material
+			4 = gaudi.113 #Gaudí 113: Faster construction progress
+			1 = gaudi.114 #Gaudí 114: Incident
+			3 = gaudi.115 #Gaudí 115: New jobs
+			2 = gaudi.116 #Gaudí 116: Political Controversy
+			2 = gaudi.117 #Gaudí 117: Political Support
+			5 = gaudi.118 #Gaudí 118: A national or a religious Project?
+			1 = gaudi.119 #Gaudí 119: Cathedral building lottery
+			2 = gaudi.120 #Gaudí 120: Romantic/pious ruler
+			3 = gaudi.121 #Gaudí 121: Inviting an Ally
+			5 = gaudi.124 #Gaudí 124: New machines
+			5 = gaudi.125 #Gaudí 125: Railways
+			3 = gaudi.126 #Gaudí 126: Stormy Weather
+			5 = gaudi.127 #Gaudí 127: Archaeological investigations
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.102
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_NORTH_RHINE
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_dombau_building_phase_1
+		remove_modifier = gaudi_dombau_cost_1_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_dombau_phase_1_modifier
+			}
+			remove_modifier = gaudi_dombau_phase_1_modifier
+		}
+		trigger_event = { 
+			id = gaudi.109
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_dombau_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_dombau_phase_2 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.110 #Gaudí 110: Normal building progress
+			
+			2 = gaudi.111 #Gaudí 111: Inferior material
+			4 = gaudi.113 #Gaudí 113: Faster construction progress
+			1 = gaudi.114 #Gaudí 114: Incident
+			3 = gaudi.115 #Gaudí 115: New jobs
+			2 = gaudi.116 #Gaudí 116: Political Controversy
+			2 = gaudi.117 #Gaudí 117: Political Support
+			5 = gaudi.118 #Gaudí 118: A national or a religious Project?
+			1 = gaudi.119 #Gaudí 119: Cathedral building lottery
+			2 = gaudi.120 #Gaudí 120: Romantic/pious ruler
+			3 = gaudi.121 #Gaudí 121: Inviting an Ally
+			5 = gaudi.124 #Gaudí 124: New machines
+			5 = gaudi.125 #Gaudí 125: Railways
+			3 = gaudi.126 #Gaudí 126: Stormy Weather
+			5 = gaudi.127 #Gaudí 127: Archaeological investigations
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.104
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_NORTH_RHINE
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_dombau_building_phase_2
+		remove_modifier = gaudi_dombau_cost_2_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_dombau_phase_2_modifier
+			}
+			remove_modifier = gaudi_dombau_phase_2_modifier
+		}
+		trigger_event = { 
+			id = gaudi.109
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_dombau_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_dombau_phase_3 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.110 #Gaudí 110: Normal building progress
+			
+			2 = gaudi.111 #Gaudí 111: Inferior material
+			4 = gaudi.113 #Gaudí 113: Faster construction progress
+			1 = gaudi.114 #Gaudí 114: Incident
+			3 = gaudi.115 #Gaudí 115: New jobs
+			2 = gaudi.116 #Gaudí 116: Political Controversy
+			2 = gaudi.117 #Gaudí 117: Political Support
+			5 = gaudi.118 #Gaudí 118: A national or a religious Project?
+			1 = gaudi.119 #Gaudí 119: Cathedral building lottery
+			2 = gaudi.120 #Gaudí 120: Romantic/pious ruler
+			3 = gaudi.121 #Gaudí 121: Inviting an Ally
+			5 = gaudi.124 #Gaudí 124: New machines
+			5 = gaudi.125 #Gaudí 125: Railways
+			3 = gaudi.126 #Gaudí 126: Stormy Weather
+			5 = gaudi.127 #Gaudí 127: Archaeological investigations
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.106
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_NORTH_RHINE
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_dombau_building_phase_3
+		remove_modifier = gaudi_dombau_cost_3_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_dombau_phase_3_modifier
+			}
+			remove_modifier = gaudi_dombau_phase_3_modifier
+		}
+		trigger_event = { 
+			id = gaudi.109
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_dombau_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_dombau_phase_4 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.110 #Gaudí 110: Normal building progress
+			
+			2 = gaudi.111 #Gaudí 111: Inferior material
+			4 = gaudi.113 #Gaudí 113: Faster construction progress
+			1 = gaudi.114 #Gaudí 114: Incident
+			3 = gaudi.115 #Gaudí 115: New jobs
+			2 = gaudi.116 #Gaudí 116: Political Controversy
+			2 = gaudi.117 #Gaudí 117: Political Support
+			5 = gaudi.118 #Gaudí 118: A national or a religious Project?
+			1 = gaudi.119 #Gaudí 119: Cathedral building lottery
+			2 = gaudi.120 #Gaudí 120: Romantic/pious ruler
+			3 = gaudi.121 #Gaudí 121: Inviting an Ally
+			5 = gaudi.124 #Gaudí 124: New machines
+			5 = gaudi.125 #Gaudí 125: Railways
+			3 = gaudi.126 #Gaudí 126: Stormy Weather
+			5 = gaudi.127 #Gaudí 127: Archaeological investigations
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.108
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_NORTH_RHINE
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_dombau_building_phase_4
+		remove_modifier = gaudi_dombau_cost_4_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_dombau_phase_4_modifier
+			}
+			remove_modifier = gaudi_dombau_phase_4_modifier
+		}
+		trigger_event = { 
+			id = gaudi.109
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_dombau_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######GOTTHARDBAHN######
+
+je_gaudi_gotthard_survey = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			3 = gaudi.220 #Gaudí 220: Normal building progress
+			1 = gaudi.221 #Gaudí 221: Credit from Italy
+			1 = gaudi.222 #Gaudí 222: Credit from Germany
+			1 = gaudi.223 #Gaudí 223: Gotthardbahngesellschaft
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.212
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				mr_state_in_uri_trigger = yes
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_gotthard_survey
+		remove_modifier = gaudi_gotthard_survey_cost_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_gotthard_survey_modifier
+			}
+			remove_modifier = gaudi_gotthard_survey_modifier
+		}
+		random_scope_character = {
+			limit = {
+				has_modifier = gaudi_gotthard_surveyor_modifier
+			}
+			remove_modifier = gaudi_gotthard_surveyor_modifier
+		}
+		set_global_variable = {
+			name = gaudi_gotthard_progress
+			value = 0
+		}
+		trigger_event = { 
+			id = gaudi.219
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_gotthard_progress
+	}
+
+	goal_add_value = {
+		value = 60
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_gotthard_construction = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			300 = gaudi.220 #Gaudí 220: Normal building progress
+			1 = gaudi.231 #Gaudí 231: Water ingress in the tunnel
+			1 = gaudi.232 #Gaudí 232: Viaduct test
+			1 = gaudi.234 #Gaudí 234: More breaks
+			1 = gaudi.235 #Gaudí 235: Constricted throats
+			1 = gaudi.236 #Gaudí 236: Cutthroat prices
+			1 = gaudi.237 #Gaudí 237: Dirty shacks
+			1 = gaudi.238 #Gaudí 238: Burried alive
+			1 = gaudi.239 #Gaudí 239: New machines
+			1 = gaudi.240 #Gaudí 240: Trade unions criticize Gotthard project
+			1 = gaudi.241 #Gaudí 241: Escher donates money
+			1 = gaudi.242 #Gaudí 242: Porous rock
+			1 = gaudi.243 #Gaudí 243: Impenetrable rock
+			1 = gaudi.244 #Gaudí 244: Magnificient explosions
+			1 = gaudi.245 #Gaudí 245: Diseases
+			1 = gaudi.246 #Gaudí 246: Foreign Investments
+			1 = gaudi.249 #Gaudí 249: Durchstich
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.214
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				mr_state_in_uri_trigger = yes
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_gotthard_construction
+		remove_modifier = gaudi_gotthard_construction_cost_modifier
+		remove_modifier = gaudi_gotthard_waterproofing_modifier
+		remove_modifier = gaudi_gotthard_bonus_modifier
+		remove_modifier = gaudi_gotthard_cutthroat_shops_modifier
+		remove_modifier = gaudi_gotthard_cutthroat_shops_closed_modifier
+		remove_modifier = gaudi_gotthard_clean_houses_modifier
+		remove_modifier = gaudi_gotthart_better_conditions_modifier
+		remove_modifier = gaudi_gotthart_best_conditions_modifier
+		remove_modifier = gaudi_gotthard_foreign_investor_modifier
+		remove_modifier = gaudi_gotthard_experts_modifier
+		remove_modifier = gaudi_gotthard_worker_condition_worse_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_gotthard_construction_modifier
+			}
+			remove_modifier = gaudi_gotthard_construction_modifier
+			remove_modifier = gaudi_gotthard_bad_air_modifier
+			remove_modifier = gaudi_gotthard_worker_influx_modifier
+		}
+		set_global_variable = {
+			name = gaudi_gotthard_progress
+			value = 0
+		}
+		set_global_variable = {
+			name = gaudi_gotthard_discontent
+			value = 0
+		}
+		trigger_event = { 
+			id = gaudi.219
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_gotthard_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_gotthard_discontent = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.247
+			popup = yes
+		}
+	}
+
+	fail = {
+		OR = {
+			NOT = {
+				any_scope_state = {
+					mr_state_in_uri_trigger = yes
+				}
+			}
+			any_scope_state = {
+				has_building = building_gaudi_gotthard
+			}
+		}
+	}
+
+	on_fail = {
+	}
+
+	current_value = {
+		value = global_var:gaudi_gotthard_discontent
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######CRISTO REDENTOR######
+
+je_gaudi_cristo = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.310 #Gaudí 310: Normal building progress
+
+			1 = gaudi.311 #Gaudí 311: Good progress
+			1 = gaudi.312 #Gaudí 312: A Donation
+			1 = gaudi.313 #Gaudí 313: Clergy happy
+			1 = gaudi.314 #Gaudí 314: Trade unions unhappy
+			1 = gaudi.315 #Gaudí 315: Transportation problems
+			1 = gaudi.316 #Gaudí 316: Accident
+			1 = gaudi.317 #Gaudí 317: Thunderstorm
+			1 = gaudi.318 #Gaudí 318: A praise
+			1 = gaudi.319 #Gaudí 319: Atheistic intervention
+			1 = gaudi.320 #Gaudí 320: Tourist investments
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		gaudi_add_x_architectural_splendour_effect = {
+			AMOUNT = 1
+		}
+		trigger_event = { 
+			id = gaudi.302
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_RIO_DE_JANEIRO
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_cristo_building
+		remove_modifier = gaudi_cristo_construction_cost_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_cristo_construction_modifier
+			}
+			remove_modifier = gaudi_cristo_construction_modifier
+		}
+		trigger_event = { 
+			id = gaudi.309
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_cristo_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######MOLE ANTONELLIANA######
+
+je_gaudi_mole_phase_1 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.410 #Gaudí 410: Normal building progress
+			1 = gaudi.411 #Bad bricks
+			1 = gaudi.413 #Archaeological Investigations
+			1 = gaudi.414 #New machines
+			1 = gaudi.415 #Petite Bourgeois Donation
+			1 = gaudi.416 #Antonelli just had another idea ...
+			1 = gaudi.417 #Good progress
+			1 = gaudi.418 #Falling beam destroys brick wall
+			1 = gaudi.419 #The King makes a visit
+			1 = gaudi.420 #Incident
+			1 = gaudi.421 #Strike
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.402
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_PIEDMONT
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_mole_building_phase_1
+		remove_modifier = gaudi_mole_cost_1_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_mole_phase_1_modifier
+			}
+			remove_modifier = gaudi_mole_phase_1_modifier
+		}
+		trigger_event = { 
+			id = gaudi.409
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_mole_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_mole_phase_2 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.410 #Gaudí 410: Normal building progress
+			1 = gaudi.411 #Bad bricks
+			1 = gaudi.414 #New machines
+			1 = gaudi.415 #Petite Bourgeois Donation
+			1 = gaudi.416 #Antonelli just had another idea ...
+			1 = gaudi.417 #Good progress
+			1 = gaudi.418 #Falling beam destroys brick wall
+			1 = gaudi.420 #Incident
+			1 = gaudi.421 #Strike
+			1 = gaudi.422 #Thunder destroys Spire
+			1 = gaudi.423 #Nietzsche admires the Mole
+			1 = gaudi.424 #Mongolfiera Italo (needs Reconnaissance Balloons)
+			1 = gaudi.425 #Mongolfiera Italo Accident
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.404
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_PIEDMONT
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_mole_building_phase_2
+		remove_modifier = gaudi_mole_cost_2_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_mole_phase_2_modifier
+			}
+			remove_modifier = gaudi_mole_phase_2_modifier
+		}
+		trigger_event = { 
+			id = gaudi.409
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_mole_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######SAGRADA FAMÍLIA######
+
+je_gaudi_sagrada_phase_1 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.630 #Gaudí 630: Normal building progress
+			4 = gaudi.631 #Gaudí 631: A Donation
+			3 = gaudi.632 #Gaudí 632: Clergy happy
+			2 = gaudi.633 #Gaudí 633: Trade unions unhappy
+			1 = gaudi.634 #Gaudí 634: Incident
+			2 = gaudi.635 #Gaudí 635: Atheistic intervention
+			2 = gaudi.636 #Gaudí 636: Tourist investments
+			5 = gaudi.637 #Gaudí 637: New machines
+			2 = gaudi.638 #Gaudí 638: Strike
+			2 = gaudi.639 #Gaudí 639: Inferior material
+			4 = gaudi.641 #Gaudí 641: Faster construction progress
+			3 = gaudi.642 #Gaudí 642: New jobs
+			1 = gaudi.643 #Gaudí 643: Cathedral building lottery
+			2 = gaudi.644 #Gaudí 644: Romantic/pious ruler
+			3 = gaudi.645 #Gaudí 645: Inviting an Ally
+			5 = gaudi.648 #Gaudí 648: Archaeological investigations
+			3 = gaudi.649 #Gaudí 649: CHIEF ENGINEER just had another idea ...
+			3 = gaudi.650 #Gaudí 650: CHIEF ENGINEER does a good job
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.602
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_CATALONIA
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_sagrada_building_phase_1
+		remove_modifier = gaudi_sagrada_cost_1_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_sagrada_phase_1_modifier
+			}
+			remove_modifier = gaudi_sagrada_phase_1_modifier
+		}
+		trigger_event = { 
+			id = gaudi.629
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_sagrada_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_sagrada_phase_2 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.630 #Gaudí 630: Normal building progress
+			4 = gaudi.631 #Gaudí 631: A Donation
+			3 = gaudi.632 #Gaudí 632: Clergy happy
+			2 = gaudi.633 #Gaudí 633: Trade unions unhappy
+			1 = gaudi.634 #Gaudí 634: Incident
+			2 = gaudi.635 #Gaudí 635: Atheistic intervention
+			2 = gaudi.636 #Gaudí 636: Tourist investments
+			5 = gaudi.637 #Gaudí 637: New machines
+			2 = gaudi.638 #Gaudí 638: Strike
+			2 = gaudi.639 #Gaudí 639: Inferior material
+			4 = gaudi.641 #Gaudí 641: Faster construction progress
+			3 = gaudi.642 #Gaudí 642: New jobs
+			1 = gaudi.643 #Gaudí 643: Cathedral building lottery
+			2 = gaudi.644 #Gaudí 644: Romantic/pious ruler
+			3 = gaudi.645 #Gaudí 645: Inviting an Ally
+			5 = gaudi.648 #Gaudí 648: Archaeological investigations
+			3 = gaudi.649 #Gaudí 649: CHIEF ENGINEER just had another idea ...
+			3 = gaudi.650 #Gaudí 650: CHIEF ENGINEER does a good job
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.604
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_CATALONIA
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_sagrada_building_phase_2
+		remove_modifier = gaudi_sagrada_cost_2_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_sagrada_phase_2_modifier
+			}
+			remove_modifier = gaudi_sagrada_phase_2_modifier
+		}
+		trigger_event = { 
+			id = gaudi.629
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_sagrada_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_sagrada_phase_3 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.630 #Gaudí 630: Normal building progress
+			4 = gaudi.631 #Gaudí 631: A Donation
+			3 = gaudi.632 #Gaudí 632: Clergy happy
+			2 = gaudi.633 #Gaudí 633: Trade unions unhappy
+			1 = gaudi.634 #Gaudí 634: Incident
+			2 = gaudi.635 #Gaudí 635: Atheistic intervention
+			2 = gaudi.636 #Gaudí 636: Tourist investments
+			5 = gaudi.637 #Gaudí 637: New machines
+			2 = gaudi.638 #Gaudí 638: Strike
+			2 = gaudi.639 #Gaudí 639: Inferior material
+			4 = gaudi.641 #Gaudí 641: Faster construction progress
+			3 = gaudi.642 #Gaudí 642: New jobs
+			1 = gaudi.643 #Gaudí 643: Cathedral building lottery
+			2 = gaudi.644 #Gaudí 644: Romantic/pious ruler
+			3 = gaudi.645 #Gaudí 645: Inviting an Ally
+			5 = gaudi.648 #Gaudí 648: Archaeological investigations
+			3 = gaudi.649 #Gaudí 649: CHIEF ENGINEER just had another idea ...
+			3 = gaudi.650 #Gaudí 650: CHIEF ENGINEER does a good job
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.606
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_CATALONIA
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_sagrada_building_phase_3
+		remove_modifier = gaudi_sagrada_cost_3_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_sagrada_phase_3_modifier
+			}
+			remove_modifier = gaudi_sagrada_phase_3_modifier
+		}
+		trigger_event = { 
+			id = gaudi.629
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_sagrada_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_sagrada_phase_4 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.630 #Gaudí 630: Normal building progress
+			4 = gaudi.631 #Gaudí 631: A Donation
+			3 = gaudi.632 #Gaudí 632: Clergy happy
+			2 = gaudi.633 #Gaudí 633: Trade unions unhappy
+			1 = gaudi.634 #Gaudí 634: Incident
+			2 = gaudi.635 #Gaudí 635: Atheistic intervention
+			2 = gaudi.636 #Gaudí 636: Tourist investments
+			5 = gaudi.637 #Gaudí 637: New machines
+			2 = gaudi.638 #Gaudí 638: Strike
+			2 = gaudi.639 #Gaudí 639: Inferior material
+			4 = gaudi.641 #Gaudí 641: Faster construction progress
+			3 = gaudi.642 #Gaudí 642: New jobs
+			1 = gaudi.643 #Gaudí 643: Cathedral building lottery
+			2 = gaudi.644 #Gaudí 644: Romantic/pious ruler
+			3 = gaudi.645 #Gaudí 645: Inviting an Ally
+			5 = gaudi.648 #Gaudí 648: Archaeological investigations
+			3 = gaudi.649 #Gaudí 649: CHIEF ENGINEER just had another idea ...
+			3 = gaudi.650 #Gaudí 650: CHIEF ENGINEER does a good job
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.608
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_CATALONIA
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_sagrada_building_phase_4
+		remove_modifier = gaudi_sagrada_cost_4_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_sagrada_phase_4_modifier
+			}
+			remove_modifier = gaudi_sagrada_phase_4_modifier
+		}
+		trigger_event = { 
+			id = gaudi.629
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_sagrada_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_sagrada_phase_5 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.630 #Gaudí 630: Normal building progress
+			4 = gaudi.631 #Gaudí 631: A Donation
+			3 = gaudi.632 #Gaudí 632: Clergy happy
+			2 = gaudi.633 #Gaudí 633: Trade unions unhappy
+			1 = gaudi.634 #Gaudí 634: Incident
+			2 = gaudi.635 #Gaudí 635: Atheistic intervention
+			2 = gaudi.636 #Gaudí 636: Tourist investments
+			5 = gaudi.637 #Gaudí 637: New machines
+			2 = gaudi.638 #Gaudí 638: Strike
+			2 = gaudi.639 #Gaudí 639: Inferior material
+			4 = gaudi.641 #Gaudí 641: Faster construction progress
+			3 = gaudi.642 #Gaudí 642: New jobs
+			1 = gaudi.643 #Gaudí 643: Cathedral building lottery
+			2 = gaudi.644 #Gaudí 644: Romantic/pious ruler
+			3 = gaudi.645 #Gaudí 645: Inviting an Ally
+			5 = gaudi.648 #Gaudí 648: Archaeological investigations
+			3 = gaudi.649 #Gaudí 649: CHIEF ENGINEER just had another idea ...
+			3 = gaudi.650 #Gaudí 650: CHIEF ENGINEER does a good job
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.610
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_CATALONIA
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_sagrada_building_phase_5
+		remove_modifier = gaudi_sagrada_cost_5_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_sagrada_phase_5_modifier
+			}
+			remove_modifier = gaudi_sagrada_phase_5_modifier
+		}
+		trigger_event = { 
+			id = gaudi.629
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_sagrada_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_sagrada_phase_6 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.630 #Gaudí 630: Normal building progress
+			4 = gaudi.631 #Gaudí 631: A Donation
+			3 = gaudi.632 #Gaudí 632: Clergy happy
+			2 = gaudi.633 #Gaudí 633: Trade unions unhappy
+			1 = gaudi.634 #Gaudí 634: Incident
+			2 = gaudi.635 #Gaudí 635: Atheistic intervention
+			2 = gaudi.636 #Gaudí 636: Tourist investments
+			5 = gaudi.637 #Gaudí 637: New machines
+			2 = gaudi.638 #Gaudí 638: Strike
+			2 = gaudi.639 #Gaudí 639: Inferior material
+			4 = gaudi.641 #Gaudí 641: Faster construction progress
+			3 = gaudi.642 #Gaudí 642: New jobs
+			1 = gaudi.643 #Gaudí 643: Cathedral building lottery
+			2 = gaudi.644 #Gaudí 644: Romantic/pious ruler
+			3 = gaudi.645 #Gaudí 645: Inviting an Ally
+			5 = gaudi.648 #Gaudí 648: Archaeological investigations
+			3 = gaudi.649 #Gaudí 649: CHIEF ENGINEER just had another idea ...
+			3 = gaudi.650 #Gaudí 650: CHIEF ENGINEER does a good job
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.612
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_CATALONIA
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_sagrada_building_phase_6
+		remove_modifier = gaudi_sagrada_cost_6_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_sagrada_phase_6_modifier
+			}
+			remove_modifier = gaudi_sagrada_phase_6_modifier
+		}
+		trigger_event = { 
+			id = gaudi.629
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_sagrada_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_sagrada_phase_7 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.630 #Gaudí 630: Normal building progress
+			4 = gaudi.631 #Gaudí 631: A Donation
+			3 = gaudi.632 #Gaudí 632: Clergy happy
+			2 = gaudi.633 #Gaudí 633: Trade unions unhappy
+			1 = gaudi.634 #Gaudí 634: Incident
+			2 = gaudi.635 #Gaudí 635: Atheistic intervention
+			2 = gaudi.636 #Gaudí 636: Tourist investments
+			5 = gaudi.637 #Gaudí 637: New machines
+			2 = gaudi.638 #Gaudí 638: Strike
+			2 = gaudi.639 #Gaudí 639: Inferior material
+			4 = gaudi.641 #Gaudí 641: Faster construction progress
+			3 = gaudi.642 #Gaudí 642: New jobs
+			1 = gaudi.643 #Gaudí 643: Cathedral building lottery
+			2 = gaudi.644 #Gaudí 644: Romantic/pious ruler
+			3 = gaudi.645 #Gaudí 645: Inviting an Ally
+			5 = gaudi.648 #Gaudí 648: Archaeological investigations
+			3 = gaudi.649 #Gaudí 649: CHIEF ENGINEER just had another idea ...
+			3 = gaudi.650 #Gaudí 650: CHIEF ENGINEER does a good job
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.614
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_CATALONIA
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_sagrada_building_phase_7
+		remove_modifier = gaudi_sagrada_cost_7_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_sagrada_phase_7_modifier
+			}
+			remove_modifier = gaudi_sagrada_phase_7_modifier
+		}
+		trigger_event = { 
+			id = gaudi.629
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_sagrada_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_sagrada_phase_8 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.630 #Gaudí 630: Normal building progress
+			4 = gaudi.631 #Gaudí 631: A Donation
+			3 = gaudi.632 #Gaudí 632: Clergy happy
+			2 = gaudi.633 #Gaudí 633: Trade unions unhappy
+			1 = gaudi.634 #Gaudí 634: Incident
+			2 = gaudi.635 #Gaudí 635: Atheistic intervention
+			2 = gaudi.636 #Gaudí 636: Tourist investments
+			5 = gaudi.637 #Gaudí 637: New machines
+			2 = gaudi.638 #Gaudí 638: Strike
+			2 = gaudi.639 #Gaudí 639: Inferior material
+			4 = gaudi.641 #Gaudí 641: Faster construction progress
+			3 = gaudi.642 #Gaudí 642: New jobs
+			1 = gaudi.643 #Gaudí 643: Cathedral building lottery
+			2 = gaudi.644 #Gaudí 644: Romantic/pious ruler
+			3 = gaudi.645 #Gaudí 645: Inviting an Ally
+			5 = gaudi.648 #Gaudí 648: Archaeological investigations
+			3 = gaudi.649 #Gaudí 649: CHIEF ENGINEER just had another idea ...
+			3 = gaudi.650 #Gaudí 650: CHIEF ENGINEER does a good job
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.616
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_CATALONIA
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_sagrada_building_phase_8
+		remove_modifier = gaudi_sagrada_cost_8_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_sagrada_phase_8_modifier
+			}
+			remove_modifier = gaudi_sagrada_phase_8_modifier
+		}
+		trigger_event = { 
+			id = gaudi.629
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_sagrada_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_sagrada_phase_9 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.630 #Gaudí 630: Normal building progress
+			4 = gaudi.631 #Gaudí 631: A Donation
+			3 = gaudi.632 #Gaudí 632: Clergy happy
+			2 = gaudi.633 #Gaudí 633: Trade unions unhappy
+			1 = gaudi.634 #Gaudí 634: Incident
+			2 = gaudi.635 #Gaudí 635: Atheistic intervention
+			2 = gaudi.636 #Gaudí 636: Tourist investments
+			5 = gaudi.637 #Gaudí 637: New machines
+			2 = gaudi.638 #Gaudí 638: Strike
+			2 = gaudi.639 #Gaudí 639: Inferior material
+			4 = gaudi.641 #Gaudí 641: Faster construction progress
+			3 = gaudi.642 #Gaudí 642: New jobs
+			1 = gaudi.643 #Gaudí 643: Cathedral building lottery
+			2 = gaudi.644 #Gaudí 644: Romantic/pious ruler
+			3 = gaudi.645 #Gaudí 645: Inviting an Ally
+			5 = gaudi.648 #Gaudí 648: Archaeological investigations
+			3 = gaudi.649 #Gaudí 649: CHIEF ENGINEER just had another idea ...
+			3 = gaudi.650 #Gaudí 650: CHIEF ENGINEER does a good job
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.618
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_CATALONIA
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_sagrada_building_phase_9
+		remove_modifier = gaudi_sagrada_cost_9_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_sagrada_phase_9_modifier
+			}
+			remove_modifier = gaudi_sagrada_phase_9_modifier
+		}
+		trigger_event = { 
+			id = gaudi.629
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_sagrada_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_sagrada_phase_10 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.630 #Gaudí 630: Normal building progress
+			4 = gaudi.631 #Gaudí 631: A Donation
+			3 = gaudi.632 #Gaudí 632: Clergy happy
+			2 = gaudi.633 #Gaudí 633: Trade unions unhappy
+			1 = gaudi.634 #Gaudí 634: Incident
+			2 = gaudi.635 #Gaudí 635: Atheistic intervention
+			2 = gaudi.636 #Gaudí 636: Tourist investments
+			5 = gaudi.637 #Gaudí 637: New machines
+			2 = gaudi.638 #Gaudí 638: Strike
+			2 = gaudi.639 #Gaudí 639: Inferior material
+			4 = gaudi.641 #Gaudí 641: Faster construction progress
+			3 = gaudi.642 #Gaudí 642: New jobs
+			1 = gaudi.643 #Gaudí 643: Cathedral building lottery
+			2 = gaudi.644 #Gaudí 644: Romantic/pious ruler
+			3 = gaudi.645 #Gaudí 645: Inviting an Ally
+			5 = gaudi.648 #Gaudí 648: Archaeological investigations
+			3 = gaudi.649 #Gaudí 649: CHIEF ENGINEER just had another idea ...
+			3 = gaudi.650 #Gaudí 650: CHIEF ENGINEER does a good job
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.620
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_CATALONIA
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_sagrada_building_phase_10
+		remove_modifier = gaudi_sagrada_cost_10_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_sagrada_phase_10_modifier
+			}
+			remove_modifier = gaudi_sagrada_phase_10_modifier
+		}
+		trigger_event = { 
+			id = gaudi.629
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_sagrada_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######Neuschwanstein######
+
+je_gaudi_neuschwanstein_phase_1 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.710 #Gaudí 710: Normal building progress
+			1 = gaudi.711 #Bad bricks
+			1 = gaudi.713 #Opposition criticizes Neuschwanstein
+			1 = gaudi.714 #New machines
+			1 = gaudi.715 #Neighbour impressed
+			1 = gaudi.716 #The King just had another idea ...
+			1 = gaudi.717 #Good progress
+			1 = gaudi.718 #A National or a Royal Project?
+			1 = gaudi.719 #The King makes a visit
+			1 = gaudi.720 #Fire!
+			1 = gaudi.721 #"Verein der Handwerker am königlichen Schlossbau zu Hohenschwangau"
+			#1 = gaudi.722 #Artist in Neuschwanstein
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.702
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_BAVARIA
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_neuschwanstein_building_phase_1
+		remove_modifier = gaudi_neuschwanstein_cost_1_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_neuschwanstein_phase_1_modifier
+			}
+			remove_modifier = gaudi_neuschwanstein_phase_1_modifier
+		}
+		trigger_event = { 
+			id = gaudi.709
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_neuschwanstein_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_neuschwanstein_phase_2 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.710 #Gaudí 710: Normal building progress
+			1 = gaudi.711 #Bad bricks
+			1 = gaudi.713 #Opposition criticizes Neuschwanstein
+			1 = gaudi.714 #New machines
+			1 = gaudi.715 #Neighbour impressed
+			1 = gaudi.716 #The King just had another idea ...
+			1 = gaudi.717 #Good progress
+			1 = gaudi.718 #A National or a Royal Project?
+			1 = gaudi.719 #The King makes a visit
+			1 = gaudi.720 #Fire!
+			1 = gaudi.721 #"Verein der Handwerker am königlichen Schlossbau zu Hohenschwangau"
+			#1 = gaudi.722 #Artist in Neuschwanstein
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.704
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_BAVARIA
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_neuschwanstein_building_phase_2
+		remove_modifier = gaudi_neuschwanstein_cost_2_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_neuschwanstein_phase_2_modifier
+			}
+			remove_modifier = gaudi_neuschwanstein_phase_2_modifier
+		}
+		trigger_event = { 
+			id = gaudi.709
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_neuschwanstein_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######PALACIO DE BELLAS ARTES######
+
+je_gaudi_palacio_phase_1 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.810 #Gaudí 810: Normal building progress
+			1 = gaudi.811 #Gaudí 811: A Donation
+			1 = gaudi.812 #Gaudí 812: Trade unions unhappy
+			1 = gaudi.813 #Gaudí 813: Swampy Ground
+			1 = gaudi.814 #Gaudí 814: New machines
+			1 = gaudi.815 #Gaudí 815: Strike
+			1 = gaudi.816 #Gaudí 816: Grave Incident
+			1 = gaudi.817 #Gaudí 817: Good progress
+			1 = gaudi.818 #Gaudí 818: Archaeological investigations
+			1 = gaudi.819 #Gaudí 819: New Jobs
+			#1 = gaudi.820 #Gaudí 822: Artist in Palacio
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.802
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_MEXICO
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_palacio_building_phase_1
+		remove_modifier = gaudi_palacio_cost_1_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_palacio_phase_1_modifier
+			}
+			remove_modifier = gaudi_palacio_phase_1_modifier
+		}
+		trigger_event = { 
+			id = gaudi.809
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_palacio_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_palacio_phase_2 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.810 #Gaudí 810: Normal building progress
+			1 = gaudi.811 #Gaudí 811: A Donation
+			1 = gaudi.812 #Gaudí 812: Trade unions unhappy
+			1 = gaudi.813 #Gaudí 813: Swampy Ground
+			1 = gaudi.814 #Gaudí 814: New machines
+			1 = gaudi.815 #Gaudí 815: Strike
+			1 = gaudi.816 #Gaudí 816: Grave Incident
+			1 = gaudi.817 #Gaudí 817: Good progress
+			1 = gaudi.818 #Gaudí 818: Archaeological investigations
+			1 = gaudi.819 #Gaudí 819: New Jobs
+			#1 = gaudi.820 #Gaudí 822: Artist in Palacio
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.804
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_MEXICO
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_palacio_building_phase_2
+		remove_modifier = gaudi_palacio_cost_2_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_palacio_phase_2_modifier
+			}
+			remove_modifier = gaudi_palacio_phase_2_modifier
+		}
+		trigger_event = { 
+			id = gaudi.809
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_palacio_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######GYEONGBOKGUNG######
+
+je_gaudi_gyeong_phase_1 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			175 = gaudi.910 #Gaudí 910: Normal building progress
+			5 = gaudi.911 #Gaudí 911: Slow Progress
+			5 = gaudi.912 #Gaudí 912: Good Progress
+			5 = gaudi.913 #Gaudí 913: Fire
+			5 = gaudi.914 #Gaudí 914: More Rooms
+			5 = gaudi.915 #Gaudí 915: IG impressed
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.902
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_SEOUL
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_gyeong_building_phase_1
+		remove_modifier = gaudi_gyeong_cost_1_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_gyeong_phase_1_modifier
+			}
+			remove_modifier = gaudi_gyeong_phase_1_modifier
+		}
+		trigger_event = { 
+			id = gaudi.909
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_gyeong_progress
+	}
+
+	goal_add_value = {
+		value = 60
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######EIFFEL TOWER######
+
+je_gaudi_eiffel_phase_1 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			175 = gaudi.2110 #Gaudí 2110: Normal building progress
+			5 = gaudi.2111 #Gaudí 2111: Elevator
+			5 = gaudi.2112 #Gaudí 2112: Outcry of the intellectuals
+			5 = gaudi.2113 #Gaudí 2113: Industrialists applaud titanic masterpiece
+			5 = gaudi.2114 #Gaudí 2114: Inferior Steel
+			5 = gaudi.2115 #Gaudí 2115: Quality Steel
+			5 = gaudi.2116 #Gaudí 2116: Mathematician predicts collapse
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.2102
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_ILE_DE_FRANCE
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_eiffel_building_phase_1
+		remove_modifier = gaudi_eiffel_cost_1_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_eiffel_phase_1_modifier
+			}
+			remove_modifier = gaudi_eiffel_phase_1_modifier
+		}
+		trigger_event = { 
+			id = gaudi.2109
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_eiffel_progress
+	}
+
+	goal_add_value = {
+		value = 60
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######STATUE OF LIBERTY######
+
+je_gaudi_liberty_phase_1 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.2210 #Gaudí 2110: Normal building progress
+			5 = gaudi.2211 #Gaudí 2211: Elevator
+			#5 = gaudi.2212 #Gaudí 2212: Migration policy
+			5 = gaudi.2213 #Gaudí 2213: Intellectuals impressed
+			5 = gaudi.2214 #Gaudí 2214: An American or a French Accomplishement?
+			5 = gaudi.2215 #Gaudí 2215: Quality Steel
+			5 = gaudi.2216 #Gaudí 2216: A Donation
+			5 = gaudi.2217 #Gaudí 2217: Incident
+			5 = gaudi.2218 #Gaudí 2218: Opposition criticizes project
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.2202
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_NEW_YORK
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_liberty_building_phase_1
+		remove_modifier = gaudi_liberty_cost_1_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_liberty_phase_1_modifier
+			}
+			remove_modifier = gaudi_liberty_phase_1_modifier
+		}
+		trigger_event = { 
+			id = gaudi.2209
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_liberty_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######BIG BEN######
+
+je_gaudi_ben_phase_1 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.2310 #Gaudí 2110: Normal building progress
+			5 = gaudi.2311 #Gaudí 2311: Bad bricks
+			5 = gaudi.2313 #Gaudí 2313: New machines
+			5 = gaudi.2314 #Gaudí 2314: Good Progress
+			5 = gaudi.2315 #Gaudí 2315: Slow progress
+			5 = gaudi.2316 #Gaudí 2316: The Queen makes a visit
+			5 = gaudi.2317 #Gaudí 2317: Fire!
+			5 = gaudi.2318 #Gaudí 2318: Decoration
+			5 = gaudi.2319 #Gaudí 2319: Government IG supports Parliament
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.2302
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_HOME_COUNTIES
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_ben_building_phase_1
+		remove_modifier = gaudi_ben_cost_1_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_ben_phase_1_modifier
+			}
+			remove_modifier = gaudi_ben_phase_1_modifier
+		}
+		trigger_event = { 
+			id = gaudi.2209
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_ben_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_ben_phase_2 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			350 = gaudi.2310 #Gaudí 2110: Normal building progress
+			5 = gaudi.2311 #Gaudí 2311: Bad bricks
+			5 = gaudi.2313 #Gaudí 2313: New machines
+			5 = gaudi.2314 #Gaudí 2314: Good Progress
+			5 = gaudi.2315 #Gaudí 2315: Slow progress
+			5 = gaudi.2316 #Gaudí 2316: The Queen makes a visit
+			5 = gaudi.2317 #Gaudí 2317: Fire!
+			5 = gaudi.2318 #Gaudí 2318: Decoration
+			5 = gaudi.2319 #Gaudí 2319: Government IG supports Parliament
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.2304
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_HOME_COUNTIES
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_ben_building_phase_2
+		remove_modifier = gaudi_ben_cost_2_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_ben_phase_2_modifier
+			}
+			remove_modifier = gaudi_ben_phase_2_modifier
+		}
+		trigger_event = { 
+			id = gaudi.2309
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_ben_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######CAMPANILE DI SAN MARCO######
+
+je_gaudi_rebuild_campanile = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			1 = gaudi.72 #Gaudí 72: Normal building progress
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.71
+			popup = yes
+		}
+	}
+
+	fail = {
+		#NOT = {
+		#	any_scope_state = {
+		#		state_region = s:STATE_VENETIA
+		#	}
+		#}
+	}
+
+	on_fail = {
+	}
+
+	current_value = {
+		value = var:gaudi_campanile_progress
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######MOSTLY HARMLESS######
+
+je_gaudi_nemo = {
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	group = je_group_crises
+
+	on_monthly_pulse = {
+		random_events = {
+			12 = 0
+
+			2 = gaudi.91 #Gaudí 91: Mysterious Whale sinks another ship
+			1 = gaudi.92 #Gaudí 92: Nautilus attacks coast!
+		}
+	}
+
+	scripted_button = gaudi_nemo_button
+
+	complete = {
+		NOT = {
+			has_modifier = gaudi_nautilus_modifier
+		}
+	}
+
+	on_complete = {
+	}
+
+	fail = {
+	}
+
+	on_fail = {
+	}
+
+	current_value = {
+	}
+
+	goal_add_value = {
+	}
+
+	progressbar = no
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######SUMMER PALACE######
+
+je_gaudi_summer_burn = {
+    icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	group = je_group_foreign_affairs
+
+    is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = gaudi_summer_palace_looted
+		}
+        exists = c:CHI
+        c:CHI = {
+			any_scope_state = {
+				state_region = s:STATE_BEIJING
+				has_building = building_gaudi_summer
+			}
+			is_country_type = unrecognized
+		}
+		country_rank >= rank_value:major_power
+    }
+    possible = {
+		exists = c:CHI
+        has_war_with = c:CHI
+    }
+    immediate = {
+        
+    }
+    complete = {
+		custom_tooltip = {
+			text = je_gaudi_summer_burn_success
+			any_state = {
+        		state_region = s:STATE_BEIJING
+	        	controller = ROOT
+			}
+        }
+    }
+    on_complete = {
+        trigger_event = { 
+			id = gaudi.60
+			popup = yes
+		} # The Burning of the Summer Palace
+    }
+    weight = 100
+    should_be_pinned_by_default = yes
+}
+
+je_gaudi_ben_burn = {
+    icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	group = je_group_foreign_affairs
+
+    is_shown_when_inactive = {
+        exists = c:CHI
+		THIS = c:CHI
+        c:GBR ?= {
+			any_scope_state = {
+				state_region = s:STATE_HOME_COUNTIES
+				has_building = building_big_ben
+			}
+		}
+		has_variable = lost_opium_wars
+    }
+    possible = {
+		exists = c:GBR
+        has_war_with = c:GBR
+    }
+    immediate = {
+    }
+    complete = {
+        custom_tooltip = {
+			text = je_gaudi_ben_burn_success
+			any_state = {
+        		state_region = s:STATE_HOME_COUNTIES
+	        	controller = ROOT
+			}
+        }
+    }
+    on_complete = {
+        trigger_event = { 
+			id = gaudi.62
+			popup = yes
+		} # The Burning of Big Ben
+    }
+    weight = 100
+    should_be_pinned_by_default = yes
+}

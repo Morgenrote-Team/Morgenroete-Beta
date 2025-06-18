@@ -1,0 +1,304 @@
+﻿### SPORTS BUTTONS ###
+
+#by Lord R & Marco Dandolo
+
+#MR_IOC_FOUNDATION_BUTTON
+mr_ioc_foundation_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_global_variable = vikelas_ioc_founded_var
+		}
+	}
+    is_valid = {
+		mr_gui_has_organized_sports_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_IOC_FOUNDATION_HAS_ACADEMIC_TRIGGER_TT
+			OR = {
+				tesla_has_engineer = yes
+				verrier_has_astronomer = yes
+				dubois_has_naturalist = yes
+				dubois_has_paleontologist = yes
+				lepsius_has_archaeologist = yes
+				lepsius_has_anthropologist = yes
+			}
+		}
+		custom_tooltip = {
+			text = MR_IOC_FOUNDATION_PEACE_TRIGGER_TT
+			is_at_war = no
+		}
+    }
+    effect = {
+		set_global_variable = vikelas_ioc_founded_var
+		set_variable = vikelas_ioc_founding_country_var
+		set_variable = vikelas_ioc_member_var
+		trigger_event = { 
+			id = vikelas.100
+			popup = yes 
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_IOC_MEMBER_BUTTON
+mr_ioc_member_button_sgui = {
+    scope = country
+	is_shown = {
+		has_global_variable = vikelas_ioc_founded_var
+		NOT = {
+			has_variable = vikelas_ioc_member_var
+		}
+	}
+    is_valid = {
+		mr_gui_has_organized_sports_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_IOC_MEMBER_INFAMY_TRIGGER_TT
+			infamy < 50
+		}
+		custom_tooltip = {
+			text = MR_IOC_MEMBER_NOT_UNRECOGNIZED_TRIGGER_TT
+			NOT = {
+				is_country_type = unrecognized
+			}
+		}
+		custom_tooltip = {
+			text = MR_IOC_FOUNDATION_PEACE_TRIGGER_TT
+			is_at_war = no
+		}
+		custom_tooltip = {
+			text = MR_IOC_MEMBER_NOT_HOSTING_TRIGGER_TT
+			NOT = {
+				any_state = {
+					has_modifier = vikelas_olympics_hosting_modifier
+				}
+			}
+		}
+    }
+    effect = {
+		custom_tooltip = {
+			text = vikelas_become_ioc_member_tt
+			set_variable = vikelas_ioc_member_var
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_IOC_BRIBE_BUTTON
+mr_ioc_bribe_button_sgui = {
+    scope = country
+	is_shown = {
+		has_variable = vikelas_ioc_member_var
+	}
+    is_valid = {
+		mr_gui_has_organized_sports_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_IOC_MEMBER_NOT_HOSTING_TRIGGER_TT
+			NOT = {
+				any_state = {
+					has_modifier = vikelas_olympics_hosting_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_IOC_BRIBE_NOT_BRIBING_ALREADY_TRIGGER_TT
+			NOT = {
+				any_state = {
+					has_modifier = vikelas_olympics_hosting_modifier
+				}
+			}
+		}
+		NOT = {
+			has_modifier = vikelas_olympics_bribed_modifier
+		}
+    }
+    effect = {
+		add_treasury = -1000000
+		add_modifier = {
+			name = vikelas_olympics_bribed_modifier
+			years = 5
+		}
+		change_infamy = 3
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_board_member_var
+				NOT = { root = this }
+			}
+			add_treasury = 75000
+			change_relations = {
+				country = ROOT
+				value = 5
+			}
+		}
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				NOT = { root = this }
+			}
+			change_relations = {
+				country = ROOT
+				value = -5
+			}
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_OLYMPIC_FLAME_BUTTON
+mr_olympic_flame_button_sgui = {
+    scope = country
+	is_shown = {
+		has_variable = vikelas_ioc_member_var
+		NOT = {
+			has_global_variable = vikelas_olympic_flame_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_IOC_OLYMPIC_FLAME_IS_HOST_TRIGGER_TT
+			has_modifier = vikelas_olympics_preparation_modifier
+		}
+		mr_gui_has_mass_culture_tech_trigger = yes
+		mr_gui_has_organized_sports_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_ARCHAEOLOGY_HAS_ARCHAEOLOGIST_TRIGGER_TT
+			lepsius_has_archaeologist = yes
+		}
+    }
+    effect = {
+		set_global_variable = vikelas_olympic_flame_var
+		change_infamy = -10
+		hidden_effect = {
+			random_country = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_PELOPONNESE
+					}
+				}
+				trigger_event = {
+					id = vikelas.181
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_board_member_var
+				NOT = { root = this }
+			}
+			change_relations = {
+				country = ROOT
+				value = 5
+			}
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_IOC_PRESIDENT_BUTTON
+mr_ioc_president_button_sgui = {
+    scope = country
+	is_shown = {
+		has_global_variable = vikelas_ioc_founded_var
+		has_variable = vikelas_ioc_member_var
+		NOT = {
+			any_country = {
+				has_variable = vikelas_ioc_founding_country_var
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_IOC_CONTROLS_HQ_TRIGGER_TT
+			any_scope_state = {
+				has_building = building_vikelas_ioc
+			}
+		}
+		custom_tooltip = {
+			text = MR_IOC_FOUNDATION_PEACE_TRIGGER_TT
+			is_at_war = no
+		}
+    }
+    effect = {
+		custom_tooltip = {
+			text = vikelas_become_ioc_president_tt
+			set_variable = vikelas_ioc_founding_country_var
+		}
+		hidden_effect = {
+			trigger_event = { #This will ensure that the Board will be re-elected every four years
+				id = vikelas.111
+				days = 1
+			}
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_SCHOOL_SPORTS_BUTTON
+mr_school_sport_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = vikelas_school_sport_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_SCHOOL_SPORTS_PUBLIC_SCHOOLS_TRIGGER_TT
+			has_law = law_type:law_public_schools
+		}
+		custom_tooltip = {
+			text = MR_SCHOOL_SPORTS_IG_ATHLETE_LEADER_TRIGGER_TT
+			any_interest_group = {
+				is_in_government = yes
+				leader = {
+					has_trait = vikelas_athlete
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_SCHOOL_SPORTS_SPORTS_FACILITIES_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_government_administration
+				has_active_production_method = pm_vikelas_sports_facilities
+			}
+		}
+		mr_gui_has_theory_of_evolution_tech_trigger = yes
+		mr_gui_has_organized_sports_tech_trigger = yes
+    }
+    effect = {
+		set_variable = vikelas_school_sport_var
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}

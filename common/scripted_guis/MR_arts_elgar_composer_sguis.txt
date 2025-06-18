@@ -1,0 +1,662 @@
+﻿### COMPOSER BUTTONS ###
+
+#by Lord R
+
+#Does the country have a composer
+mr_has_composer_sgui = {
+    scope = country
+	is_shown = {
+		has_variable = elgar_composer_var
+	}
+}
+
+#Sets the Ranking up
+mr_musical_tradition_ranking_sgui = {
+	scope = country
+	effect = {
+		elgar_create_musical_tradition_ranking_list_effect = yes
+	}
+}
+
+#MR_COMPOSE_A_WORK_BUTTON
+mr_compose_a_work_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = { has_journal_entry = je_elgar_composer_composing }
+	}
+    is_valid = {
+		elgar_has_active_composer = yes
+		elgar_composer_not_exhausted = yes
+		custom_tooltip = {
+			text = elgar_stopped_composing_tt
+			NOT = {
+				has_variable = elgar_stopped_composing_var
+			}
+		}
+		custom_tooltip = {
+			text = elgar_stopped_composing_remover_tt
+			NOT = {
+				has_variable = elgar_stopped_composing_remover_var
+			}
+		}
+    }
+    effect = {
+		if = {
+			limit = { has_variable = elgar_composer_var }
+			var:elgar_composer_var = {
+				set_character_busy_and_immortal = yes
+				add_modifier = {
+					name = elgar_conductor_composes_modifier
+				}
+			}
+		}
+		else = {
+			custom_tooltip = elgar_composer_becomes_busy_tt
+		}
+		add_modifier = {
+			name = elgar_composer_on_composing_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+		set_elgar_composer_progress = yes
+		add_journal_entry = {
+			type = je_elgar_composer_composing
+		}
+    }
+}
+
+#MR_STOP_COMPOSING_A_WORK_BUTTON
+mr_stop_composing_a_work_button_sgui = {
+    scope = country
+	is_shown = {
+		has_journal_entry = je_elgar_composer_composing
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = elgar_stopped_composing_tt
+			NOT = {
+				has_variable = elgar_stopped_composing_var
+			}
+		}
+    }
+    effect = {
+		custom_tooltip = {
+			text = elgar_stopped_composing_tt
+			set_variable = {
+				name = elgar_stopped_composing_var
+				days = 30
+			}
+			set_variable = {
+				name = elgar_stopped_composing_remover_var
+				days = 5
+			}
+		}
+		hidden_effect = {
+			elgar_remove_composer_modifier_effect = yes
+			var:elgar_composer_var = {
+				set_character_busy_and_immortal = no
+			}
+		}
+    }
+}
+
+#MR_CONDUCT_A_SEASON_BUTTON
+mr_conduct_a_season_button_sgui = {
+    scope = country
+    is_valid = {
+		elgar_has_active_composer = yes
+		elgar_composer_not_exhausted = yes
+		elgar_can_composer_conduct_trigger = yes
+		elgar_has_opera_size_x_tooltip_trigger = { LEVEL = 1 }
+		custom_tooltip = {
+			text = elgar_stopped_composing_remover_tt
+			NOT = {
+				has_variable = elgar_stopped_composing_remover_var
+			}
+		}
+    }
+    effect = {
+		if = {
+			limit = { has_variable = elgar_composer_var }
+			var:elgar_composer_var = {
+				set_character_busy_and_immortal = yes
+				add_modifier = {
+					name = elgar_conductor_conducts_modifier
+				}
+			}
+		}
+		else = {
+			custom_tooltip = elgar_composer_becomes_busy_tt
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_elgar_opera
+				NOT = {
+					has_modifier = elgar_music_production_modifier
+				}
+			}
+			add_modifier = {
+				name = elgar_music_production_modifier
+				years = 5
+			}
+		}
+		add_modifier = {
+			name = elgar_composer_on_conducting_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+		set_elgar_composer_progress = yes
+		add_journal_entry = {
+			type = je_elgar_composer_conducting
+		}
+    }
+}
+mr_conducting_active_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_elgar_composer_conducting
+	}
+}
+
+#MR_GO_ON_A_MUSIC_TOUR_BUTTON
+mr_go_on_a_music_tour_button_sgui = {
+    scope = country
+    is_valid = {
+		elgar_has_active_composer = yes
+		elgar_composer_not_exhausted = yes
+		elgar_can_composer_tour_trigger = yes
+		elgar_composer_experience_100_or_more_trigger = yes
+		elgar_composer_virtuoso_or_conductor_trigger = yes
+		custom_tooltip = {
+			text = elgar_stopped_composing_remover_tt
+			NOT = {
+				has_variable = elgar_stopped_composing_remover_var
+			}
+		}
+		trigger_if = {
+			limit = {
+				has_variable = elgar_composer_var
+			}
+			custom_tooltip = {
+				text = MR_COMPOSER_YOUNGER_THAN_65_TRIGGER_TT
+				var:elgar_composer_var.age < 65
+			}
+		}
+		trigger_else = {
+			hidden_trigger = { always = no }
+		}
+		trigger_if = {
+			limit = {
+				has_variable = elgar_composer_var
+			}
+			custom_tooltip = {
+				text = MR_COMPOSER_NOT_RESERVED_TRIGGER_TT
+				NOT = {
+					var:elgar_composer_var = {
+						has_trait = reserved
+					}
+				}
+			}
+		}
+		trigger_else = {
+			hidden_trigger = { always = no }
+		}
+    }
+    effect = {
+		if = {
+			limit = { has_variable = elgar_composer_var }
+			var:elgar_composer_var = {
+				set_character_busy_and_immortal = yes
+				add_modifier = {
+					name = elgar_conductor_touring_modifier
+				}
+			}
+		}
+		else = {
+			custom_tooltip = elgar_composer_becomes_busy_tt
+		}
+		add_modifier = {
+			name = elgar_composer_on_tour_modifier
+		}
+		set_elgar_composer_progress = yes
+		add_journal_entry = {
+			type = je_elgar_composer_touring
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = elgar.451
+			}
+		}
+    }
+}
+mr_music_tour_active_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_elgar_composer_touring
+	}
+}
+
+#MR_CREATE_A_MASTERPIECE_BUTTON
+mr_create_a_masterpiece_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = { has_journal_entry = je_elgar_composer_masterpiece }
+	}
+    is_valid = {
+		elgar_has_active_composer = yes
+		elgar_composer_not_exhausted = yes
+		elgar_can_composer_create_masterpiece_trigger = yes
+		elgar_composer_less_than_3_masterpieces_trigger = yes
+		custom_tooltip = {
+			text = elgar_stopped_composing_remover_tt
+			NOT = {
+				has_variable = elgar_stopped_composing_remover_var
+			}
+		}
+    }
+    effect = {
+		if = {
+			limit = { has_variable = elgar_composer_var }
+			var:elgar_composer_var = {
+				set_character_busy_and_immortal = yes
+				add_modifier = {
+					name = elgar_conductor_masterpiece_modifier
+				}
+			}
+		}
+		else = {
+			custom_tooltip = elgar_composer_becomes_busy_tt
+		}
+		add_modifier = {
+			name = elgar_composer_on_masterpiece_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+		set_elgar_composer_progress = yes
+		add_journal_entry = {
+			type = je_elgar_composer_masterpiece
+		}
+    }
+}
+
+#MR_STOP_CREATING_MASTERWORK_BUTTON
+mr_stop_creating_masterwork_button_sgui = {
+    scope = country
+	is_shown = {
+		has_journal_entry = je_elgar_composer_masterpiece
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = elgar_stopped_composing_tt
+			NOT = {
+				has_variable = elgar_stopped_composing_var
+			}
+		}
+    }
+    effect = {
+		custom_tooltip = {
+			text = elgar_stopped_composing_tt
+			set_variable = {
+				name = elgar_stopped_composing_var
+				days = 30
+			}
+			set_variable = {
+				name = elgar_stopped_composing_remover_var
+				days = 5
+			}
+		}
+		hidden_effect = {
+			elgar_remove_composer_modifier_effect = yes
+			var:elgar_composer_var = {
+				set_character_busy_and_immortal = no
+			}
+		}
+    }
+}
+
+#MR_MOZART_MONUMENT_BUTTON
+mr_mozart_monument_button_sgui = {
+    scope = country
+	is_shown = {
+		any_scope_state = {
+			state_region = s:STATE_TYROL
+		}
+		is_player = yes
+		NOT = {
+			has_global_variable = elgar_mozart_monument_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_NO_WAR_TRIGGER_TT
+			is_at_war = no
+		}
+		mr_gui_has_romanticism_tech_trigger = yes
+		elgar_has_opera_size_x_tooltip_trigger = { LEVEL = 4 }
+		elgar_has_x_music_tradition_tooltip_trigger = { AMOUNT = 50 }
+    }
+    effect = {
+		trigger_event = { 
+			id = elgar.111
+			popup = yes
+		}
+		set_global_variable = elgar_mozart_monument_var
+    }
+}
+
+#MR_BEETHOVEN_MONUMENT_BUTTON
+mr_beethoven_monument_button_sgui = {
+    scope = country
+	is_shown = {
+		any_scope_state = {
+			state_region = s:STATE_NORTH_RHINE
+		}
+		has_variable = elgar_beethoven_sponsor_var
+		NOT = {
+			has_global_variable = elgar_beethoven_monument_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_NO_WAR_TRIGGER_TT
+			is_at_war = no
+		}	
+		mr_gui_has_irrationalism_tech_trigger = yes
+		elgar_has_x_music_tradition_tooltip_trigger = { AMOUNT = 100 }
+    }
+    effect = {
+		trigger_event = { 
+			id = elgar.102
+			popup = yes
+		}
+		set_global_variable = elgar_beethoven_monument_var
+    }
+}
+
+#MR_GERMAN_MUSIC_ASSOCIATION_BUTTON
+mr_german_music_association_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = { has_global_variable = elgar_musikverein_var }
+		OR = {
+			country_has_primary_culture = cu:south_german
+			country_has_primary_culture = cu:north_german
+			country_has_primary_culture = cu:alemannic
+		}
+	}
+    is_valid = {
+		elgar_has_great_composer = yes
+		custom_tooltip = {
+            text = MR_MUSIC_TRADITION_250_TRIGGER_TT
+            var:elgar_music_tradition >= 250
+        }
+		mr_gui_has_nationalism_tech_trigger = yes
+		mr_gui_has_irrationalism_tech_trigger = yes
+    }
+    effect = {
+		add_modifier = {
+			name = elgar_founded_musikverein_modifier
+		}
+		trigger_event = { 
+			id = elgar.121
+			popup = yes
+		}
+		set_global_variable = elgar_musikverein_var
+    }
+}
+
+#MR_ANTHEM_MUSIC_BUTTON
+mr_anthem_music_button_sgui = {
+    scope = country
+	is_shown = {
+		has_modifier = elgar_no_anthem_modifier
+	}
+    is_valid = {
+		elgar_has_active_composer = yes
+		elgar_composer_not_exhausted = yes
+		custom_tooltip = {
+            text = MR_HAS_CONSERVATORY_TT
+            any_scope_state = {
+                is_production_method_active = {
+                    building_type = building_arts_academy
+                    production_method = pm_artists_arts_academy_conservatory
+                }
+            }
+        }
+    }
+    effect = {
+		if = {
+			limit = { has_variable = elgar_composer_var }
+			var:elgar_composer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		trigger_event = {
+			id = elgar.821
+			popup = yes
+		}
+		set_elgar_composer_progress = yes
+		add_journal_entry = {
+			type = je_elgar_composer_anthem
+		}
+    }
+}
+
+#MR_NBC_BUTTON
+mr_nbc_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = { has_variable = elgar_nbc_var }
+		has_technology_researched = radio
+	}
+    is_valid = {
+		mr_gui_has_mass_culture_tech_trigger = yes
+		custom_tooltip = {
+            text = MR_NBC_BUTTON_35_PERCENT_STATES_WITH_RADIO_TRIGGER_TT
+            any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_railway
+					has_active_production_method = pm_elgar_radio_stations
+				}
+				percent >= 0.35
+			}
+        }
+		custom_tooltip = {
+			text = MR_NBC_BUTTON_LAW_TRIGGER_TT
+			NOR = {
+				has_law = law_type:law_laissez_faire
+				has_law = law_type:law_anarchy
+			}
+		}
+    }
+    effect = {
+		set_variable = elgar_nbc_var
+		trigger_event = {
+			id = elgar.40
+			popup = yes
+		}
+    }
+}
+
+#MR_NBC_LICENCE_BUTTON
+mr_nbc_licence_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = { has_variable = elgar_nbc_decision_taken }
+		has_variable = elgar_nbc_var
+		has_technology_researched = radio
+		NOR = {
+			has_modifier = elgar_nbc_news_modifier
+			has_modifier = elgar_nbc_education_modifier
+			has_modifier = elgar_nbc_government_modifier
+			has_modifier = elgar_nbc_monarch_modifier
+			has_modifier = elgar_nbc_propaganda_modifier
+			has_law = law_type:law_laissez_faire
+			has_law = law_type:law_anarchy
+		}
+	}
+    is_valid = {
+		mr_gui_has_political_agitation_tech_trigger = yes
+		mr_gui_has_mass_culture_tech_trigger = yes
+		custom_tooltip = {
+            text = MR_NBC_BUTTON_HAS_RADIO_STATION_TRIGGER_TT
+            any_scope_building = {
+				is_building_type = building_railway
+				has_active_production_method = pm_elgar_radio_stations
+			}
+        }
+    }
+    effect = {
+		trigger_event = {
+			id = elgar.40
+			popup = yes
+		}
+		set_variable = elgar_nbc_decision_taken
+    }
+}
+
+#MR_INVITE_COMPOSER_BUTTON
+mr_invite_composer_button_sgui = {
+	#!!!If you change any Trigger or effects here, change them in the AI version too (elgar_ai_hire_composer_effect)!!!
+    scope = country
+	saved_scopes = {
+        chosen_composer
+    }
+    is_valid = {
+		#not hired a Travelling Composer recently
+		custom_tooltip = {
+			text = MR_NOT_HIRED_TRAVELLING_COMPOSER_RECENTLY_TRIGGER_TT
+			NOT = {
+				has_modifier = elgar_recently_hired_travelling_composer_modifier
+			}
+		}
+
+		#not repressing Musicians
+		custom_tooltip = {
+			text = MR_NOT_REPRESSING_MUSIC_TRIGGER_TT
+			NOT = {
+				has_modifier = elgar_music_repression_modifier
+			}
+		}
+
+		#This Composer was not recently sent away
+		custom_tooltip = {
+			text = MR_COMPOSER_WAS_NOT_RECENTLY_SENT_AWAY_TT
+			scope:chosen_composer = {
+				NOT = {
+					var:elgar_composer_unavailable_for_this_var ?= root
+				}
+			}
+		}
+
+		#General Triggers
+		trigger_if = {
+			limit = { scope:chosen_composer.var:elgar_composer_experience >= 400 }
+			elgar_has_opera_level_x_tooltip_trigger = { LEVEL = 10 }
+			mr_gui_has_irrationalism_tech_trigger = yes
+			elgar_has_x_music_tradition_tooltip_trigger = { AMOUNT = 300 }
+			custom_tooltip = {
+				text = MR_HAS_CONSERVATORY_TT
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_arts_academy
+						production_method = pm_artists_arts_academy_conservatory
+					}
+				}
+			}
+			custom_tooltip = {
+				text = MR_MAJOR_POWER_HIGHER_TRIGGER_TT
+				country_rank >= rank_value:major_power
+			}
+		}
+		trigger_else_if = {
+			limit = { scope:chosen_composer.var:elgar_composer_experience >= 300 }
+			elgar_has_opera_level_x_tooltip_trigger = { LEVEL = 6 }
+			mr_gui_has_irrationalism_tech_trigger = yes
+			elgar_has_x_music_tradition_tooltip_trigger = { AMOUNT = 200 }
+			custom_tooltip = {
+				text = MR_HAS_CONSERVATORY_TT
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_arts_academy
+						production_method = pm_artists_arts_academy_conservatory
+					}
+				}
+			}
+		}
+		trigger_else_if = {
+			limit = { scope:chosen_composer.var:elgar_composer_experience >= 200 }
+			elgar_has_opera_level_x_tooltip_trigger = { LEVEL = 4 }
+			mr_gui_has_irrationalism_tech_trigger = yes
+			elgar_has_x_music_tradition_tooltip_trigger = { AMOUNT = 100 }
+		}
+		trigger_else_if = {
+			limit = { scope:chosen_composer.var:elgar_composer_experience >= 100 }
+			elgar_has_opera_level_x_tooltip_trigger = { LEVEL = 2 }
+			mr_gui_has_romanticism_tech_trigger = yes
+		}
+		trigger_else = {
+			elgar_has_opera_level_x_tooltip_trigger = { LEVEL = 1 }
+			mr_gui_has_classicism_tech_trigger = yes
+		}
+
+		#National Composer
+		trigger_if = {
+			limit = {
+				scope:chosen_composer = { has_trait = elgar_national_composer }
+			}
+			custom_tooltip = {
+				text = MR_NATIONAL_COMPOSER_TRIGGER_TT
+				scope:chosen_composer = {
+					culture = {
+						shares_non_heritage_trait_with_any_primary_culture = root
+						shares_heritage_trait_with_any_primary_culture = root
+					}
+				}
+			}
+		}
+    }
+    effect = {
+		custom_tooltip = {
+			text = MR_INVITE_COMPOSER_BUTTON_EFFECT_TT
+
+			set_composer_travelling_composer_effect = yes
+			set_variable = {
+				name = elgar_composer_var
+				value = scope:chosen_composer
+			}
+
+			if = { #Used for error prevention
+				limit = { has_variable = elgar_composer_var }
+				var:elgar_composer_var = {
+					free_character_from_void = yes
+					transfer_character = root
+					remove_variable = mr_is_travelling_composer_var
+					set_variable = mr_is_composer_var
+					remove_list_global_variable = {
+						name = mr_travelling_composer_global_list
+						target = this
+					}
+					place_character_in_void = 1200
+					set_character_busy_and_immortal = no
+
+					#Counts the number of great composers
+					if = {
+						limit = {
+							has_trait = elgar_great_composer
+						}
+
+						root = {
+							elgar_add_great_composer_count_effect = yes
+						}
+					}
+				}
+			}
+		}
+
+		add_modifier = {
+			name = elgar_recently_hired_travelling_composer_modifier
+			years = 3
+		}
+		scope:chosen_composer = {
+			elgar_travelling_composer_character_set_up_cost_effect = yes
+		}
+    }
+}

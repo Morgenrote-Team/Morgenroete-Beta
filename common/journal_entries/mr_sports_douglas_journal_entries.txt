@@ -1,0 +1,230 @@
+﻿############################
+# DOUGLAS JOURNAL ENTRIES  #
+############################
+
+#by Marco Dandolo and Lord R
+
+###################
+
+###Mountaineering Training###
+
+je_douglas_mountaineering_training = {
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	group = je_group_vikelas_sports
+
+	scripted_button = douglas_stop_mountaineering_project_button
+
+	immediate = {
+		set_variable = douglas_can_stop_active_mountaineering_project #This is used to check if the country has a project already
+	}
+
+	timeout = 1825
+
+	on_timeout = {
+		trigger_event = { 
+			id = douglas.104
+			popup = yes 
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = douglas_stop_mountaineering_project_tt
+			has_variable = douglas_stop_mountaineering_project_var
+		}
+	}
+
+	on_invalid = {
+		remove_variable = douglas_stop_mountaineering_project_var
+		remove_variable = douglas_can_stop_active_mountaineering_project #Needs to be removed, when the JE is removed
+		var:douglas_mountaineer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_mountaineer_dies_tt
+			NOT = {
+				has_variable = douglas_mountaineer_var
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = douglas_stop_mountaineering_project_var
+		remove_variable = douglas_can_stop_active_mountaineering_project #Needs to be removed, when the JE is removed
+		var:douglas_mountaineer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+###Mountaineering Equipment###
+
+je_douglas_mountaineering_equipment = {
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	group = je_group_vikelas_sports
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = {
+				name = douglas_mountaineering_equipment_progress
+				add = 1
+			}
+			if = {
+				limit = {
+					var:douglas_mountaineering_equipment_progress >= 12
+				}
+				douglas_mountaineering_equipment_modifier_effect = yes
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = {
+			name = douglas_mountaineering_equipment_progress
+			value = 0
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_douglas_mountaineering_equipment_success
+			has_variable = douglas_mountaineering_equipment_complete_var
+		}
+	}
+
+	on_complete = {
+		douglas_mountaineering_equipment_event_effect = yes
+		var:douglas_mountaineer_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_mountaineer_dies_tt
+			NOT = {
+				has_variable = douglas_mountaineer_var
+			}
+		}
+	}
+
+	on_fail = {
+		var:douglas_mountaineer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	current_value = {
+		value = var:douglas_mountaineering_equipment_progress
+	}
+
+	goal_add_value = {
+		add = 12
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+###Mountaineering Expedition######
+
+je_douglas_mountaineering_expedition = {
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	group = je_group_vikelas_sports
+
+	on_monthly_pulse = {
+		events = {
+			dubois.442 #Dubois 442: Geological Knowledge
+		}
+		random_events = {
+			1 = 0
+			10 = dubois.430 #Dubois 430: An Easy Climb
+			10 = dubois.431 #Dubois 431: A Slope
+			10 = dubois.432 #Dubois 432: Steep Wall
+			10 = dubois.433 #Dubois 433: Avalanche
+			10 = dubois.434 #Dubois 434: Abyss
+			10 = dubois.435 #Dubois 435: Weather Change
+			10 = dubois.436 #Dubois 436: Death Step
+			20 = dubois.437 #Dubois 437: Lack of Oxygen
+			20 = dubois.438 #Dubois 438: Severe Injuries
+			20 = dubois.439 #Dubois 439: Rope Group
+			5 = dubois.440 #Dubois 440: Scientist does Science
+			5 = dubois.441 #Dubois 441: The Red Panda
+			5 = dubois.443 #Dubois 443: A Fine Mineral
+		}
+	}
+	
+	immediate = {
+		set_douglas_location_scope_effect = yes
+		set_douglas_height_difficulty_effect = yes
+		set_douglas_risk_difficulty_effect = yes
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = douglas_mountain_expedition_progress_bar_at_full_tt
+			je:je_douglas_mountaineering_expedition = {
+				"scripted_bar_progress(douglas_mountain_expedition_progress_bar)" >= 10
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = douglas.211
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_mountaineer_dies_tt
+			NOT = {
+				has_variable = douglas_mountaineer_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = douglas_mountain_expedition_var
+	}
+
+	timeout = 365
+
+	on_timeout = {
+		trigger_event = { 
+			id = douglas.212
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = douglas_mountain_danger_progress_bar_at_full_tt
+			je:je_douglas_mountaineering_expedition = {
+				"scripted_bar_progress(douglas_mountain_danger_progress_bar)" >= 5
+			}
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = douglas.213
+		}
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 25
+}

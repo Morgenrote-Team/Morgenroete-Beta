@@ -1,0 +1,601 @@
+﻿##########################
+# AI ARCHAEOLOGY EFFECTS #
+##########################
+
+#By Lord R
+
+############################################################################
+
+#Handles the Archaeological Expeditions for the AI
+ai_archaeological_expedition_effect = {
+	if = {
+		limit = {
+			#Only Major or higher powers
+			country_rank >= rank_value:major_power
+			#Needs Antiquarianism
+			has_technology_researched = lepsius_antiquarianism_tech
+			#Enough money to afford it
+			weekly_net_fixed_income > money_amount_multiplier_medium
+			gold_reserves > 0
+			#No recent expedition
+			NOT = {
+				has_modifier = lepsius_had_expedition_modifier
+			}
+			#Has one or more Excavation Teams
+			has_variable = lepsius_excavation_teams
+			var:lepsius_excavation_teams >= 1
+			#Has a general
+			any_scope_character = {
+				has_role = general	
+				count >= 1
+			}
+			#Has an active Archaeologist
+			lepsius_has_active_archaeologist = yes
+			#Not currently on an expedition
+			lepsius_on_archaeological_expedition = no
+		}
+
+		#Chooses valid Expedition
+		random_list = {
+			### Upper Egypt/The Valley of the Kings ###
+			100 = {
+				#Effect
+				# Removes one Excavation Team
+				change_variable = {
+					name = lepsius_excavation_teams
+					add = -1
+				}
+				# Adds Expedition Modifier
+				add_modifier = {
+					name = lepsius_upper_egypt_expedition_modifier
+				}
+				# Sets Archaeologist busy
+				lepsius_set_archaeologist_busy_effect = yes
+				# Event to choose length
+				trigger_event = { id = lepsius.100 popup = yes }
+
+				#Trigger
+				trigger = {
+					# State trait was already added
+					has_global_variable = lepsius_valley_kings_state_region_global_var
+					# Has access to the State in question
+					OR = {
+						any_scope_state = {
+							has_state_trait = lepsius_state_trait_upper_egypt
+						}
+						global_var:lepsius_valley_kings_state_region_global_var ?= {
+							any_scope_state = {
+								owner = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = excavation_license
+									}
+								}
+							}
+						}		
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Less than 50 artifacts from that region raises chance
+					if = {
+						limit = {
+							var:lepsius_egyptian_artifact_minor < 50
+						}
+						add = 100
+					}
+					#Less than 100 artifacts from that region raises chance slightly
+					if = {
+						limit = {
+							var:lepsius_egyptian_artifact_minor < 100
+						}
+						add = 25
+					}
+					#More than 100 artifacts from that region reduces chance
+					if = {
+						limit = {
+							var:lepsius_egyptian_artifact_minor >= 100
+						}
+						add = -90
+					}	
+				}
+			}
+			### Lower Egypt/The Pyramids ###
+			100 = {
+				#Effect
+				# Removes one Excavation Team
+				change_variable = {
+					name = lepsius_excavation_teams
+					add = -1
+				}
+				# Adds Expedition Modifier
+				add_modifier = {
+					name = lepsius_lower_egypt_expedition_modifier
+				}
+				# Sets Archaeologist busy
+				lepsius_set_archaeologist_busy_effect = yes
+				# Event to choose length
+				trigger_event = { id = lepsius.100 popup = yes }
+
+				#Trigger
+				trigger = {
+					# State trait was already added
+					has_global_variable = lepsius_pyramids_state_region_global_var
+					# Has access to the State in question
+					OR = {
+						any_scope_state = {
+							has_state_trait = lepsius_state_trait_lower_egypt
+						}
+						global_var:lepsius_pyramids_state_region_global_var ?= {
+							any_scope_state = {
+								owner = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = excavation_license
+									}
+								}
+							}
+						}		
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Less than 50 artifacts from that region raises chance
+					if = {
+						limit = {
+							var:lepsius_egyptian_artifact_minor < 50
+						}
+						add = 100
+					}
+					#Less than 100 artifacts from that region raises chance slightly
+					if = {
+						limit = {
+							var:lepsius_egyptian_artifact_minor < 100
+						}
+						add = 25
+					}
+					#More than 100 artifacts from that region reduces chance
+					if = {
+						limit = {
+							var:lepsius_egyptian_artifact_minor >= 100
+						}
+						add = -90
+					}	
+				}
+			}
+			### Baghdad/Babylonia ###
+			100 = {
+				#Effect
+				# Removes one Excavation Team
+				change_variable = {
+					name = lepsius_excavation_teams
+					add = -1
+				}
+				# Adds Expedition Modifier
+				add_modifier = {
+					name = lepsius_babylonia_expedition_modifier
+				}
+				# Sets Archaeologist busy
+				lepsius_set_archaeologist_busy_effect = yes
+				# Event to choose length
+				trigger_event = { id = lepsius.100 popup = yes }
+
+				#Trigger
+				trigger = {
+					# Has necessary technology
+					has_technology_researched = lepsius_modern_archaeology_tech
+					# State trait was already added
+					has_global_variable = lepsius_babylonia_state_region_global_var
+					# Has access to the State in question
+					OR = {
+						any_scope_state = {
+							has_state_trait = lepsius_state_trait_babylonia
+						}
+						global_var:lepsius_babylonia_state_region_global_var ?= {
+							any_scope_state = {
+								owner = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = excavation_license
+									}
+								}
+							}
+						}		
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Less than 50 artifacts from that region raises chance
+					if = {
+						limit = {
+							var:lepsius_mesopotamian_artifact_minor < 50
+						}
+						add = 100
+					}
+					#Less than 100 artifacts from that region raises chance slightly
+					if = {
+						limit = {
+							var:lepsius_mesopotamian_artifact_minor < 100
+						}
+						add = 25
+					}
+					#More than 100 artifacts from that region reduces chance
+					if = {
+						limit = {
+							var:lepsius_mesopotamian_artifact_minor >= 100
+						}
+						add = -90
+					}	
+				}
+			}
+			### Mosul/Assyria ###
+			100 = {
+				#Effect
+				# Removes one Excavation Team
+				change_variable = {
+					name = lepsius_excavation_teams
+					add = -1
+				}
+				# Adds Expedition Modifier
+				add_modifier = {
+					name = lepsius_assyria_expedition_modifier
+				}
+				# Sets Archaeologist busy
+				lepsius_set_archaeologist_busy_effect = yes
+				# Event to choose length
+				trigger_event = { id = lepsius.100 popup = yes }
+
+				#Trigger
+				trigger = {
+					# Has necessary technology
+					has_technology_researched = lepsius_modern_archaeology_tech
+					# State trait was already added
+					has_global_variable = lepsius_assyria_state_region_global_var
+					# Has access to the State in question
+					OR = {
+						any_scope_state = {
+							has_state_trait = lepsius_state_trait_assyria
+						}
+						global_var:lepsius_assyria_state_region_global_var ?= {
+							any_scope_state = {
+								owner = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = excavation_license
+									}
+								}
+							}
+						}		
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Less than 50 artifacts from that region raises chance
+					if = {
+						limit = {
+							var:lepsius_mesopotamian_artifact_minor < 50
+						}
+						add = 100
+					}
+					#Less than 100 artifacts from that region raises chance slightly
+					if = {
+						limit = {
+							var:lepsius_mesopotamian_artifact_minor < 100
+						}
+						add = 25
+					}
+					#More than 100 artifacts from that region reduces chance
+					if = {
+						limit = {
+							var:lepsius_mesopotamian_artifact_minor >= 100
+						}
+						add = -90
+					}	
+				}
+			}
+			### Peloponnes/Argolis ###
+			100 = {
+				#Effect
+				# Removes one Excavation Team
+				change_variable = {
+					name = lepsius_excavation_teams
+					add = -1
+				}
+				# Adds Expedition Modifier
+				add_modifier = {
+					name = lepsius_argolis_expedition_modifier
+				}
+				# Sets Archaeologist busy
+				lepsius_set_archaeologist_busy_effect = yes
+				# Event to choose length
+				trigger_event = { id = lepsius.100 popup = yes }
+
+				#Trigger
+				trigger = {
+					# Has necessary technology
+					has_technology_researched = lepsius_early_archaeology_tech
+					# State trait was already added
+					has_global_variable = lepsius_argolis_state_region_global_var
+					# Has access to the State in question
+					OR = {
+						any_scope_state = {
+							has_state_trait = lepsius_state_trait_argolis
+						}
+						global_var:lepsius_argolis_state_region_global_var ?= {
+							any_scope_state = {
+								owner = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = excavation_license
+									}
+								}
+							}
+						}		
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Less than 50 artifacts from that region raises chance
+					if = {
+						limit = {
+							var:lepsius_aegean_artifact_minor < 50
+						}
+						add = 100
+					}
+					#Less than 100 artifacts from that region raises chance slightly
+					if = {
+						limit = {
+							var:lepsius_aegean_artifact_minor < 100
+						}
+						add = 25
+					}
+					#More than 100 artifacts from that region reduces chance
+					if = {
+						limit = {
+							var:lepsius_aegean_artifact_minor >= 100
+						}
+						add = -90
+					}	
+				}
+			}
+			### Crete ###
+			100 = {
+				#Effect
+				# Removes one Excavation Team
+				change_variable = {
+					name = lepsius_excavation_teams
+					add = -1
+				}
+				# Adds Expedition Modifier
+				add_modifier = {
+					name = lepsius_crete_expedition_modifier
+				}
+				# Sets Archaeologist busy
+				lepsius_set_archaeologist_busy_effect = yes
+				# Event to choose length
+				trigger_event = { id = lepsius.100 popup = yes }
+
+				#Trigger
+				trigger = {
+					# Has necessary technology
+					has_technology_researched = lepsius_early_archaeology_tech
+					# State trait was already added
+					has_global_variable = lepsius_crete_state_region_global_var
+					# Has access to the State in question
+					OR = {
+						any_scope_state = {
+							has_state_trait = lepsius_state_trait_crete
+						}
+						global_var:lepsius_crete_state_region_global_var ?= {
+							any_scope_state = {
+								owner = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = excavation_license
+									}
+								}
+							}
+						}		
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Less than 50 artifacts from that region raises chance
+					if = {
+						limit = {
+							var:lepsius_aegean_artifact_minor < 50
+						}
+						add = 100
+					}
+					#Less than 100 artifacts from that region raises chance slightly
+					if = {
+						limit = {
+							var:lepsius_aegean_artifact_minor < 100
+						}
+						add = 25
+					}
+					#More than 100 artifacts from that region reduces chance
+					if = {
+						limit = {
+							var:lepsius_aegean_artifact_minor >= 100
+						}
+						add = -90
+					}	
+				}
+			}
+			### Yucatán ###
+			100 = {
+				#Effect
+				# Removes one Excavation Team
+				change_variable = {
+					name = lepsius_excavation_teams
+					add = -1
+				}
+				# Adds Expedition Modifier
+				add_modifier = {
+					name = lepsius_yucatan_expedition_modifier
+				}
+				# Sets Archaeologist busy
+				lepsius_set_archaeologist_busy_effect = yes
+				# Event to choose length
+				trigger_event = { id = lepsius.100 popup = yes }
+
+				#Trigger
+				trigger = {
+					# Has necessary technology
+					has_technology_researched = quinine
+					# State trait was already added
+					has_global_variable = lepsius_yucatan_state_region_global_var
+					# Has access to the State in question
+					OR = {
+						any_scope_state = {
+							has_state_trait = lepsius_state_trait_yucatan
+						}
+						global_var:lepsius_yucatan_state_region_global_var ?= {
+							any_scope_state = {
+								owner = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = excavation_license
+									}
+								}
+							}
+						}		
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Less than 50 artifacts from that region raises chance
+					if = {
+						limit = {
+							var:lepsius_precolumbian_artifact_minor < 50
+						}
+						add = 100
+					}
+					#Less than 100 artifacts from that region raises chance slightly
+					if = {
+						limit = {
+							var:lepsius_precolumbian_artifact_minor < 100
+						}
+						add = 25
+					}
+					#More than 100 artifacts from that region reduces chance
+					if = {
+						limit = {
+							var:lepsius_precolumbian_artifact_minor >= 100
+						}
+						add = -90
+					}	
+				}
+			}
+			### Peru ###
+			100 = {
+				#Effect
+				# Removes one Excavation Team
+				change_variable = {
+					name = lepsius_excavation_teams
+					add = -1
+				}
+				# Adds Expedition Modifier
+				add_modifier = {
+					name = lepsius_peru_expedition_modifier
+				}
+				# Sets Archaeologist busy
+				lepsius_set_archaeologist_busy_effect = yes
+				# Event to choose length
+				trigger_event = { id = lepsius.100 popup = yes }
+
+				#Trigger
+				trigger = {
+					# Has necessary technology
+					has_technology_researched = lepsius_modern_archaeology_tech
+					# State trait was already added
+					has_global_variable = lepsius_peru_state_region_global_var
+					# Has access to the State in question
+					OR = {
+						any_scope_state = {
+							has_state_trait = lepsius_state_trait_peru
+						}
+						global_var:lepsius_peru_state_region_global_var ?= {
+							any_scope_state = {
+								owner = {
+									has_diplomatic_pact = {
+										who = ROOT
+										type = excavation_license
+									}
+								}
+							}
+						}		
+					}
+				}
+
+				#Modifier
+				modifier = {
+					#Less than 50 artifacts from that region raises chance
+					if = {
+						limit = {
+							var:lepsius_precolumbian_artifact_minor < 50
+						}
+						add = 100
+					}
+					#Less than 100 artifacts from that region raises chance slightly
+					if = {
+						limit = {
+							var:lepsius_precolumbian_artifact_minor < 100
+						}
+						add = 25
+					}
+					#More than 100 artifacts from that region reduces chance
+					if = {
+						limit = {
+							var:lepsius_precolumbian_artifact_minor >= 100
+						}
+						add = -90
+					}	
+				}
+			}
+		}
+	}
+	### Local Expedition ###
+	else_if = {
+		limit = {
+			#Enough Money
+			OR = {
+				weekly_net_fixed_income > 0
+				gold_reserves > 0	
+			}
+			#Early Archaeology Tech researched
+			has_technology_researched = lepsius_early_archaeology_tech
+			#Not currently excavating a local site
+			NOT = {
+				has_modifier = lepsius_local_excavation_modifier
+			}
+			#Has an active Archaeologist
+			lepsius_has_active_archaeologist = yes
+			#Has one or more Excavation Teams
+			has_variable = lepsius_excavation_teams
+			var:lepsius_excavation_teams >= 1
+		}
+
+		#Costs of the local Excavation
+		add_treasury = -25000
+		# Removes one Excavation Team
+		change_variable = {
+			name = lepsius_excavation_teams
+			add = -1
+		}
+		# Sets Archaeologist busy
+		lepsius_set_archaeologist_busy_effect = yes
+		# Event to choose length
+		hidden_effect = {
+			trigger_event = { id = lepsius.1201 popup = yes }			
+		}
+	}
+}

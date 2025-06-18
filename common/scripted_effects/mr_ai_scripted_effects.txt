@@ -1,0 +1,2273 @@
+﻿#######################
+# AI SCRPITED EFFECTS #
+#######################
+
+############################################################################
+
+#This effect removes Void Characters of countries that no longer exist.
+ai_remove_characters_effect = {
+	#Composers
+	every_character_in_void = {
+		limit = {
+			has_variable = mr_is_composer_var
+			NOT = { exists = owner }
+			OR = {
+				var:elgar_composer_experience >= 400
+				is_historical = yes
+			}
+		}
+		remove_variable = mr_is_composer_var
+		set_variable = mr_is_travelling_composer_var
+		if = {
+			limit = {
+				NOT = { has_variable = mr_travelling_composer_year_counter_var }
+			}
+			set_variable = {
+				name = mr_travelling_composer_year_counter_var
+				value = 0
+			}
+		}
+		add_to_global_variable_list = {
+			name = mr_travelling_composer_global_list
+			target = this
+		}
+	}
+	#Writers and Local Writers
+	every_character_in_void = {
+		limit = {
+			OR = {
+				has_variable = mr_is_writer_var
+				has_variable = mr_is_local_writer_var
+			}
+			NOT = { exists = owner }
+		}
+		free_character_from_void = yes
+	}
+	#Painters
+	every_character_in_void = {
+		limit = {
+			has_variable = mr_is_painter_var
+			NOT = { exists = owner }
+			OR = {
+				var:klimt_painter_experience >= 400
+				is_historical = yes
+			}
+		}
+		remove_variable = mr_is_painter_var
+		set_variable = mr_is_independent_painter_var
+		add_to_global_variable_list = {
+			name = mr_independent_painter_global_list
+			target = this
+		}
+	}
+	#Architects
+	every_character_in_void = {
+		limit = {
+			has_variable = mr_is_architect_var
+			NOT = { exists = owner }
+			OR = {
+				var:gaudi_architect_experience >= 400
+				is_historical = yes
+			}
+		}
+		remove_variable = mr_is_architect_var
+		set_variable = mr_is_independent_architect_var
+		add_to_global_variable_list = {
+			name = mr_independent_architect_global_list
+			target = this
+		}
+	}
+	#Other Void characters
+	every_character_in_void = {
+		limit = {
+			NOR = {
+				exists = owner
+				OR = {
+					has_variable = mr_is_travelling_composer_var
+					has_variable = mr_is_independent_painter_var
+					has_Variable = mr_is_independent_architect_var
+				}
+			}
+		}
+		free_character_from_void = no
+	}
+}
+
+#Handles the Pacific Expedition
+ai_pacific_expedition_effect = {
+	if = {
+		limit = {
+			country_rank >= rank_value:major_power
+			weekly_net_fixed_income > money_amount_multiplier_medium
+			gold_reserves > 0
+			has_technology_researched = screw_frigate
+			has_technology_researched = dialectics
+			NOR = {
+				has_modifier = rapanui_pacific_expedition_modifier
+				has_modifier = rapanui_had_pacific_expedition_modifier
+			}
+			navy_size >= 15
+			any_scope_building = {
+				is_building_type = building_port
+			}
+			any_scope_building = {
+				is_building_type = building_university
+			}
+			any_scope_character = {
+				has_role = admiral
+				is_busy = no
+			}
+			NOT = {
+				any_country = {
+					OR = {
+						has_technology_researched = dreadnought
+						has_technology_researched = destroyer
+					}
+				}
+			}
+		}
+
+		#Effect
+		add_treasury = -25000
+		add_modifier = {
+			name = rapanui_pacific_expedition_modifier
+		}
+		trigger_event = { 
+			id = rapanui.201
+			popup = yes 
+		}
+	}
+}
+
+#Handles the Mountain Expedition
+ai_mountain_expedition_effect = {
+	if = {
+		limit = {
+			any_scope_character = {
+				has_role = general
+				is_busy = no
+				OR = {
+					has_trait = douglas_mountaineer
+					has_trait = explorer
+					has_trait = mountain_commander
+					has_trait = surveyor
+				}
+			}
+			has_technology_researched = nationalism
+			has_technology_researched = prospecting
+			gold_reserves > 0
+			NOR = {
+				has_modifier = dubois_summit_level_1_modifier
+				has_modifier = dubois_summit_level_2_modifier
+				has_modifier = dubois_summit_level_3_modifier
+				has_modifier = dubois_summit_level_4_modifier
+				has_modifier = dubois_summit_level_5_modifier
+				has_modifier = dubois_summit_level_6_modifier
+				has_modifier = douglas_mountaineering_disaster_modifier
+				has_modifier = douglas_mountaineering_disappointment_modifier
+				has_journal_entry = je_dubois_mountain_expedition
+				has_variable = dubois_current_mountain_expedition_var
+			}
+			OR = {
+				dubois_has_unconquered_summit_no_tt_trigger = yes
+				any_country = {
+					dubois_has_unconquered_summit_no_tt_trigger = yes
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+
+		#Effect
+		add_treasury = -25000
+		set_variable = {
+			name = dubois_current_mountain_expedition_var
+			days = 90
+		}
+		trigger_event = { 
+			id = dubois.411
+			popup = yes 
+		}
+	}
+}
+
+#Handles the Arctica Expedition
+ai_arctica_expedition_effect = {
+	if = {
+		limit = {
+			has_technology_researched = zeppelins
+			NOR = {
+				has_strategy = ai_strategy_armed_isolationism
+				is_diplomatic_play_committed_participant = yes
+				is_at_war = yes
+			}
+			weekly_net_fixed_income > money_amount_multiplier_small
+			gold_reserves > 0
+			NOR = {
+				has_modifier = curtiss_arctica_expedition_modifier
+				has_modifier = curtiss_had_arctica_expedition_modifier
+			}
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				OR = {
+					has_active_production_method = pm_curtiss_weather_station
+					has_active_production_method = pm_curtiss_modern_weather_station
+				}
+			}
+			curtiss_has_active_pilot_no_tooltip_trigger = yes
+		}
+
+		#Effect
+		set_variable = {
+			name = curtiss_zeppelin_progress
+			value = 0
+		}
+		set_variable = {
+			name = curtiss_zeppelin_science
+			value = 0
+		}
+		set_variable = {
+			name = curtiss_zeppelin_danger
+			value = 0
+		}
+		add_modifier = {
+			name = curtiss_arctica_expedition_modifier
+		}
+		add_modifier = {
+			name = curtiss_zeppelin_expedition_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		trigger_event = { 
+			id = curtiss.520
+			popup = yes 
+		}
+	}
+}
+
+#Handles the Transatlantic Cable Expedition
+ai_transatlantic_cable_expedition_effect = {
+	if = {
+		limit = {
+			NOR = {
+				has_variable = gaudi_transatlantic_cable_var
+				has_global_variable = gaudi_transatlantic_radio_var
+				has_variable = gaudi_transatlantic_cable_expedition_var
+				has_modifier = gaudi_transatlantic_cable_expedition_failed_modifier
+			}
+			weekly_net_fixed_income > money_amount_multiplier_medium
+			has_technology_researched = screw_frigate
+			has_technology_researched = electric_telegraph
+			any_scope_building = {
+				is_building_type = building_manzoni_publishing_industry
+				is_under_construction = no
+				has_active_production_method = manzoni_pm_electric_telegraph
+				cash_reserves_ratio > 0.5
+				occupancy >= 0.75
+				level >= 5
+			}
+			any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_port
+				}
+				OR = {
+					region = sr:region_north_sea_coast
+					region = sr:region_england
+					region = sr:region_france
+					region = sr:region_iberia
+					region = sr:region_dixie
+					region = sr:region_new_england
+					region = sr:region_canada
+				}
+			}
+		}
+
+		#Effect
+		if = {
+			limit = {
+				is_player = yes
+			}
+			add_treasury = -250000
+		}
+		set_variable = gaudi_transatlantic_cable_expedition_var
+		trigger_event = { 
+			id = rapanui.501
+			popup = yes
+		}
+	}
+}
+
+#Handles the Northwest Passage Expedition
+ai_northwest_passage_expedition_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = rapanui_northwest_passage_found_var
+			}
+			NOR = {
+				has_modifier = rapanui_northwest_expedition_modifier
+				has_modifier = rapanui_had_northwest_expedition_modifier
+			}
+			weekly_net_fixed_income > money_amount_multiplier_medium
+				gold_reserves > 0
+			navy_size >= 25
+			any_scope_character = {
+				has_role = admiral
+				is_busy = no
+			}
+			has_technology_researched = screw_frigate
+			has_technology_researched = dialectics
+			has_technology_researched = canneries
+			OR = {
+				ig:ig_armed_forces = {
+					is_in_government = yes
+				}
+				ig:ig_industrialists = {
+					is_in_government = yes
+				}
+				ig:ig_intelligentsia = {
+					is_in_government = yes
+				}
+			}
+			OR = {
+				any_scope_interest_marker = {
+					region = sr:region_canada
+				}
+				any_scope_interest_marker = {
+					region = sr:region_pacific_coast
+				}
+				any_scope_interest_marker = {
+					region = sr:region_north_sea_coast
+				}
+			}
+			any_scope_building = {
+				is_building_type = building_port
+			}
+			any_scope_building = {
+				is_building_type = building_university
+			}
+		}
+
+		#Effect
+		add_treasury = -100000
+		add_modifier = {
+			name = rapanui_northwest_expedition_modifier
+		}
+		trigger_event = { 
+			id = rapanui.401
+			popup = yes
+		}
+	}
+}
+
+#Handles Zoo Expansion for the AI
+ai_zoo_expansion_effect = {
+	if = {
+		limit = {
+			any_scope_state = {
+				is_capital = yes
+				any_scope_building = {
+					is_building_type = building_dubois_zoo
+					level > 0
+					NOT = {
+						has_active_production_method = pm_zoo_level_5
+					}
+				}
+			}
+		}
+		#Zoo Level 2
+		if = { 
+			limit = {
+				NOT = {
+					has_variable = dubois_zoo_first_extension
+				}
+				any_scope_state = {
+					is_capital = yes
+					any_scope_building = {
+						is_building_type = building_dubois_zoo
+						level > 0
+						NOR = {
+							has_active_production_method = pm_zoo_level_2
+							has_active_production_method = pm_zoo_level_3
+							has_active_production_method = pm_zoo_level_4
+							has_active_production_method = pm_zoo_level_5
+						}
+					}
+				}
+				var:dubois_zoo_animal_total >= 10
+				OR = {
+					var:dubois_zoo_animal_africa >= 2
+					var:dubois_zoo_animal_asia >= 2
+					var:dubois_zoo_animal_australia >= 2
+				}
+				NOT = {
+					has_modifier = dubois_zoo_extension_modifier
+				}
+			}
+	
+			#Effect
+			set_variable = dubois_zoo_first_extension
+			random_scope_state = {
+				limit = {
+					has_building = building_dubois_zoo
+					is_capital = yes
+				}
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_2
+				}
+			}
+			add_modifier = {
+				name = dubois_zoo_extension_modifier
+				days = 300
+			}
+		}
+		#Zoo Level 3
+		if = {
+			limit = {
+				NOT = {
+					has_variable = dubois_zoo_second_extension
+				}
+				any_scope_state = {
+					is_capital = yes
+					any_scope_building = {
+						is_building_type = building_dubois_zoo
+						level > 0
+						NOR = {
+							has_active_production_method = pm_zoo_level_3
+							has_active_production_method = pm_zoo_level_4
+							has_active_production_method = pm_zoo_level_5
+						}
+						
+					}
+				}
+				var:dubois_zoo_animal_total >= 20
+				OR = {
+					var:dubois_zoo_animal_africa >= 5
+					var:dubois_zoo_animal_asia >= 5
+					var:dubois_zoo_animal_australia >= 5
+					var:dubois_zoo_animal_australia >= 5
+				}
+				NOT = {
+					has_modifier = dubois_zoo_extension_modifier
+				}
+			}
+	
+			#Effect
+			set_variable = dubois_zoo_second_extension
+			random_scope_state = {
+				limit = {
+					has_building = building_dubois_zoo
+					is_capital = yes
+				}
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_3
+				}
+			}
+			add_modifier = {
+				name = dubois_zoo_extension_modifier
+				days = 400
+			}
+		}
+		#Zoo Level 4
+		if = {
+			limit = {
+				NOT = {
+					has_variable = dubois_zoo_third_extension
+				}
+				any_scope_state = {
+					is_capital = yes
+					any_scope_building = {
+						is_building_type = building_dubois_zoo
+						level > 0
+						NOR = {
+							has_active_production_method = pm_zoo_level_4
+							has_active_production_method = pm_zoo_level_5
+						}
+						
+					}
+				}
+				var:dubois_zoo_animal_total >= 30
+				NOT = {
+					has_modifier = dubois_zoo_extension_modifier
+				}
+			}
+	
+			#Effect
+			set_variable = dubois_zoo_third_extension
+			random_scope_state = {
+				limit = {
+					has_building = building_dubois_zoo
+					is_capital = yes
+				}
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_4
+				}
+			}
+			add_modifier = {
+				name = dubois_zoo_extension_modifier
+				days = 500
+			}
+		}
+		#Zoo Level 5
+		if = {
+			limit = {
+				NOT = {
+					has_variable = dubois_zoo_fourth_extension
+				}
+				any_scope_state = {
+					is_capital = yes
+					any_scope_building = {
+						is_building_type = building_dubois_zoo
+						level > 0
+						NOT = {
+							has_active_production_method = pm_zoo_level_5
+						}
+						
+					}
+				}
+				var:dubois_zoo_animal_total >= 40
+				NOT = {
+					has_modifier = dubois_zoo_extension_modifier
+				}
+			}
+	
+			#Effect
+			set_variable = dubois_zoo_fourth_extension
+			random_scope_state = {
+				limit = {
+					has_building = building_dubois_zoo
+					is_capital = yes
+				}
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_5
+				}
+			}
+			add_modifier = {
+				name = dubois_zoo_extension_modifier
+				days = 600
+			}
+		}
+	}
+}
+
+#Handles Botanical Garden and Specimen Collection for AI
+ai_specimen_garden_collection_effect = {
+	if = {
+		limit = {
+			dubois_has_naturalist_no_tooltip_trigger = yes
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+			var:dubois_specimen >= 50000
+			NOT = {
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_botanical_garden
+					}
+				}
+			}
+		}
+
+		#Effect
+		dubois_add_x_specimen_effect = { AMOUNT = -50000 }
+		random_scope_state = {
+			limit = {
+				has_building = building_dubois_zoo
+			}
+			activate_production_method = {
+				building_type = building_dubois_zoo
+				production_method = pm_botanical_garden
+			}
+		}
+	}
+	if = {
+		limit = {
+			dubois_has_naturalist_no_tooltip_trigger = yes
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+			var:dubois_specimen >= 50000
+			NOT = {
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_specimen_collection
+					}
+				}
+			}
+		}
+
+		#Effect
+		dubois_add_x_specimen_effect = { AMOUNT = -50000 }
+		random_scope_state = {
+			limit = {
+				has_building = building_dubois_zoo
+			}
+			activate_production_method = {
+				building_type = building_dubois_zoo
+				production_method = pm_specimen_collection
+			}
+		}
+	}
+}
+
+#Handles Animal Breeding for AI
+ai_animal_breeding_effect = {
+	if = {
+		limit = {
+			has_technology_researched = dubois_nature_protection_tech
+			has_variable = dubois_naturalist_var
+			literacy_rate >= 60
+			any_scope_building = {
+				is_building_type = building_dubois_national_park
+				level > 0
+			}
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+			dubois_nature_reserve_breeding_possible_no_tooltip_trigger = yes
+		}
+
+		#Effect
+		set_variable = dubois_breeding_animals_var
+		trigger_event = {
+			id = dubois.1301
+			popup = yes
+		}
+	}
+}
+
+#Handles the Naturalist for the AI
+ai_naturalist_effect = {
+	if = { #Checks for Naturalist
+		limit = { dubois_has_active_naturalist_no_tooltip = yes }
+
+		#Zoological Expedition
+		if = {
+			limit = {
+				has_technology_researched = dubois_theory_of_evolution_tech
+				NOT = {
+					has_modifier = dubois_search_local_animal_modifier
+				}
+				dubois_has_local_animal = yes
+			}
+			
+			#Effect
+			add_modifier = {
+				name = dubois_search_local_animal_modifier
+			}
+			hidden_effect = {
+				dubois_set_catch_animals = yes
+				var:dubois_naturalist_var = {
+					add_modifier = {
+						name = dubois_animal_hunter_modifier
+					}
+					set_character_busy_and_immortal = yes
+					set_variable = dubois_naturalist_on_zoological_expedition_var
+				}
+				trigger_event = {
+					id = dubois.21
+					days = 365
+				}
+			}
+		}
+		#Safari Expedition
+		if = {
+			limit = {
+				has_technology_researched = dubois_theory_of_evolution_tech
+				has_technology_researched = civilizing_mission
+				NOR = {
+					has_modifier = dubois_on_safari_modifier
+					has_modifier = dubois_had_safari_modifier
+				}
+				any_scope_state = {
+					is_capital = yes
+					OR = {
+						is_production_method_active = {
+							building_type = building_dubois_zoo
+							production_method = pm_zoo_level_2
+						}
+						is_production_method_active = {
+							building_type = building_dubois_zoo
+							production_method = pm_zoo_level_3
+						}
+						is_production_method_active = {
+							building_type = building_dubois_zoo
+							production_method = pm_zoo_level_4
+						}
+					}
+				}
+				dubois_safari_possible = yes
+			}
+
+			#Effect
+			add_modifier = {
+				name = dubois_on_safari_modifier
+			}
+			trigger_event = {
+				id = dubois.31
+				popup = yes
+			}
+			hidden_effect = {
+				var:dubois_naturalist_var = {
+					add_modifier = {
+						name = dubois_animal_hunter_modifier
+					}
+					set_character_busy_and_immortal = yes
+					set_variable = dubois_naturalist_on_safari_var
+				}
+			}
+		}
+		#Botanical Expedition
+		if = {
+			limit = {
+				NOT = {
+					has_modifier = dubois_botanical_expedition_modifier
+				}
+				var:dubois_specimen <= 50000
+				weekly_net_fixed_income > money_amount_multiplier_medium
+				gold_reserves > 0
+				has_technology_researched = dubois_theory_of_evolution_tech
+				has_technology_researched = malaria_prevention
+				dubois_botanical_expedition_banned_no_tooltip_trigger = no
+				OR = {
+					dubois_has_rainforest_no_tooltip = yes
+					any_country = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = botanical_license
+						}				
+						dubois_has_rainforest_no_tooltip = yes
+					}
+				}
+			}
+
+			#Effect
+			trigger_event = { 
+				id = dubois.301
+				popup = yes 
+			}
+		}
+	}
+}
+
+#Handles the Paleontologist for the AI and player automation
+
+# This effect will choose projects in this order:
+# - Building Skeletons
+# - Expeditions
+# - Remount Skeletons
+# - Build Dioramas
+# - Systemizing fossils
+
+ai_paleontologist_automation_effect = {
+	if = {
+		limit = {
+			dubois_is_paleontology_automated_trigger = yes
+			dubois_has_active_paleontologist_no_tooltip_trigger = yes
+		}
+	
+		#Build Skeletons
+		if = {
+			limit = {
+				dubois_paleontology_automation_build_skeleton_possible_trigger = yes
+			}
+	
+			random_list = {
+				#African Dinosaurs
+				1 = {
+					trigger = {
+						dubois_paleontology_mounting_african_skeletons_possible_trigger = yes
+					}
+	
+					#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
+					dubois_construct_dinosaur_effect = { LOCATION = african }
+				}
+				#Asian Dinosaurs
+				1 = {
+					trigger = {
+						dubois_paleontology_mounting_asian_skeletons_possible_trigger = yes
+					}
+	
+					#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
+					dubois_construct_dinosaur_effect = { LOCATION = asian }
+				}
+				#Australian Dinosaurs
+				1 = {
+					trigger = {
+						dubois_paleontology_mounting_australian_skeletons_possible_trigger = yes
+					}
+	
+					#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
+					dubois_construct_dinosaur_effect = { LOCATION = australian }
+				}
+				#European Dinosaurs
+				1 = {
+					trigger = {
+						dubois_paleontology_mounting_european_skeletons_possible_trigger = yes
+					}
+	
+					#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
+					dubois_construct_dinosaur_effect = { LOCATION = european }
+				}
+				#North American Dinosaurs
+				1 = {
+					trigger = {
+						dubois_paleontology_mounting_north_american_skeletons_possible_trigger = yes
+					}
+	
+					#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
+					dubois_construct_dinosaur_effect = { LOCATION = north_american }
+				}
+				#South American Dinosaurs
+				1 = {
+					trigger = {
+						dubois_paleontology_mounting_south_american_skeletons_possible_trigger = yes
+					}
+	
+					#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
+					dubois_construct_dinosaur_effect = { LOCATION = south_american }
+				}
+				#General Dinosaurs
+				1 = {
+					trigger = {
+						dubois_paleontology_mounting_general_skeletons_possible_trigger = yes
+					}
+	
+					#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
+					dubois_construct_dinosaur_effect = { LOCATION = general }
+				}
+			}
+		}
+		#Paleontological Expedition
+		else_if = {
+			limit = {
+				dubois_paleontology_automation_expedition_possible_trigger = yes
+			}
+	
+			#Chooses the adequate place for excavations
+			random_list = {
+				#North American Expedition
+				1 = {
+					trigger = { dubois_dinosaur_research_in_north_america = yes }
+	
+					var:dubois_paleontologist_var = {
+						set_character_busy_and_immortal = yes
+						set_variable = dubois_paleontologist_in_north_america_var
+					}
+					dubois_start_paleontological_expedition_effect = yes
+					dubois_set_paleontologist_to_north_america = yes
+	
+					modifier = {
+						#Chances should be higher if maximum bones are not yet reached
+						if = {
+							limit = {
+								dubois_has_maximum_north_american_dinosaur_bone = no
+							}
+							add = 50
+						}
+						#Focus on North America if there are already North American Bones
+						if = {
+							limit = {
+								dubois_has_maximum_north_american_dinosaur_bone = no
+								has_variable = dubois_north_american_dinosaur_bone
+								var:dubois_north_american_dinosaur_bone > 0
+							}
+							add = 400
+						}
+						#Focus on North America if country is in North or Central America
+						if = {
+							limit = {
+								dubois_has_maximum_north_american_dinosaur_bone = no
+								OR = {
+									country_is_in_north_america = yes
+									country_is_in_central_america = yes
+								}
+							}
+							add = 400
+						}
+					}
+				}
+				#South American Expedition
+				1 = {
+					trigger = { dubois_dinosaur_research_in_south_america = yes }
+	
+					var:dubois_paleontologist_var = {
+						set_character_busy_and_immortal = yes
+						set_variable = dubois_paleontologist_in_south_america_var
+					}
+					dubois_start_paleontological_expedition_effect = yes
+					dubois_set_paleontologist_to_south_america = yes
+	
+					modifier = {
+						#Chances should be higher if maximum bones are not yet reached
+						if = {
+							limit = {
+								dubois_has_maximum_south_american_dinosaur_bone = no
+							}
+							add = 50
+						}
+						#Focus on South America if there are already South American Bones
+						if = {
+							limit = {
+								dubois_has_maximum_south_american_dinosaur_bone = no
+								has_variable = dubois_south_american_dinosaur_bone
+								var:dubois_south_american_dinosaur_bone > 0
+							}
+							add = 400
+						}
+						#Focus on South America if country is in South or Central America
+						if = {
+							limit = {
+								dubois_has_maximum_south_american_dinosaur_bone = no
+								OR = {
+									country_is_in_south_america = yes
+									country_is_in_central_america = yes
+								}
+							}
+							add = 400
+						}
+					}
+				}
+				#European Expedition
+				1 = {
+					trigger = { dubois_dinosaur_research_in_europe = yes }
+	
+					var:dubois_paleontologist_var = {
+						set_character_busy_and_immortal = yes
+						set_variable = dubois_paleontologist_in_europe_var
+					}
+					dubois_start_paleontological_expedition_effect = yes
+					dubois_set_paleontologist_to_europe = yes
+	
+					modifier = {
+						#Chances should be higher if maximum bones are not yet reached
+						if = {
+							limit = {
+								dubois_has_maximum_european_dinosaur_bone = no
+							}
+							add = 50
+						}
+						#Focus on Europe if there are already European Bones
+						if = {
+							limit = {
+								dubois_has_maximum_european_dinosaur_bone = no
+								has_variable = dubois_european_dinosaur_bone
+								var:dubois_european_dinosaur_bone > 0
+							}
+							add = 400
+						}
+						#Focus on Europe if country is in Europe
+						if = {
+							limit = {
+								dubois_has_maximum_european_dinosaur_bone = no
+								country_is_in_europe = yes
+							}
+							add = 400
+						}
+					}
+				}
+				#African Expedition
+				1 = {
+					trigger = { dubois_dinosaur_research_in_africa = yes }
+	
+					var:dubois_paleontologist_var = {
+						set_character_busy_and_immortal = yes
+						set_variable = dubois_paleontologist_in_africa_var
+					}
+					dubois_start_paleontological_expedition_effect = yes
+					dubois_set_paleontologist_to_africa = yes
+	
+					modifier = {
+						#Chances should be higher if maximum bones are not yet reached
+						if = {
+							limit = {
+								dubois_has_maximum_african_dinosaur_bone = no
+							}
+							add = 50
+						}
+						#Focus on Africa if there are already African Bones
+						if = {
+							limit = {
+								dubois_has_maximum_african_dinosaur_bone = no
+								has_variable = dubois_african_dinosaur_bone
+								var:dubois_african_dinosaur_bone > 0
+							}
+							add = 400
+						}
+						#Focus on Africa if country is in Africa
+						if = {
+							limit = {
+								dubois_has_maximum_african_dinosaur_bone = no
+								country_is_in_africa = yes
+							}
+							add = 400
+						}
+					}
+				}
+				#Asian Expedition
+				1 = {
+					trigger = { dubois_dinosaur_research_in_asia = yes }
+	
+					var:dubois_paleontologist_var = {
+						set_character_busy_and_immortal = yes
+						set_variable = dubois_paleontologist_in_asia_var
+					}
+					dubois_start_paleontological_expedition_effect = yes
+					dubois_set_paleontologist_to_asia = yes
+	
+					modifier = {
+						#Chances should be higher if maximum bones are not yet reached
+						if = {
+							limit = {
+								dubois_has_maximum_asian_dinosaur_bone = no
+							}
+							add = 50
+						}
+						#Focus on Asia if there are already Asian Bones
+						if = {
+							limit = {
+								dubois_has_maximum_asian_dinosaur_bone = no
+								has_variable = dubois_asian_dinosaur_bone
+								var:dubois_asian_dinosaur_bone > 0
+							}
+							add = 400
+						}
+						#Focus on Asia if country is in Asia
+						if = {
+							limit = {
+								dubois_has_maximum_asian_dinosaur_bone = no
+								OR = {
+									country_is_in_china = yes
+									country_is_in_middle_east = yes
+									country_is_in_central_asia = yes
+									country_is_in_india = yes
+									country_is_in_east_asia = yes
+									country_is_in_southeast_asia = yes
+								}
+							}
+							add = 400
+						}
+					}
+				}
+				#Australian Expedition
+				1 = {
+					trigger = { dubois_dinosaur_research_in_australia = yes }
+	
+					var:dubois_paleontologist_var = {
+						set_character_busy_and_immortal = yes
+						set_variable = dubois_paleontologist_in_australia_var
+					}
+					dubois_start_paleontological_expedition_effect = yes
+					dubois_set_paleontologist_to_australia = yes
+	
+					modifier = {
+						#Chances should be higher if maximum bones are not yet reached
+						if = {
+							limit = {
+								dubois_has_maximum_australian_dinosaur_bone = no
+							}
+							add = 50
+						}
+						#Focus on Australia if there are already Australian Bones
+						if = {
+							limit = {
+								dubois_has_maximum_australian_dinosaur_bone = no
+								has_variable = dubois_australian_dinosaur_bone
+								var:dubois_australian_dinosaur_bone > 0
+							}
+							add = 400
+						}
+						#Focus on Australia if country is in Australia
+						if = {
+							limit = {
+								dubois_has_maximum_australian_dinosaur_bone = no
+								exists = capital
+								capital = {
+									region = sr:region_oceania
+								}
+							}
+							add = 400
+						}
+					}
+				}
+				#Local Expedition
+				1 = {
+					trigger = { dubois_small_paleontological_research_possible = yes }
+	
+					var:dubois_paleontologist_var = {
+						set_character_busy_and_immortal = yes
+						set_variable = dubois_paleontologist_in_local_var
+					}
+					dubois_start_paleontological_expedition_effect = yes
+					dubois_set_paleontologist_to_local = yes
+	
+					modifier = {
+						#Chances should be higher if maximum bones are not yet reached
+						if = {
+							limit = {
+								dubois_has_maximum_general_dinosaur_bone = no
+							}
+							add = 5
+						}
+						#Focus on Australia if there are already Australian Bones
+						if = {
+							limit = {
+								dubois_has_maximum_general_dinosaur_bone = no
+								has_variable = dubois_general_dinosaur_bone
+								var:dubois_general_dinosaur_bone > 0
+							}
+							add = 20
+						}
+					}
+				}
+			}
+		}
+	
+		#Remounting Dinosaur Skeletons
+		else_if = {
+			limit = {
+				dubois_paleontology_automation_remount_skeleton_possible_trigger = yes
+			}
+
+			#List chooses a random Dinosaur
+			random_list = {
+				#Ankylosaurus
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_ankylosaurus_var
+							has_variable = dubois_poor_ankylosaurus_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = ankylosaurus }
+				}
+
+				#Diplodocus
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_diplodocus_var
+							has_variable = dubois_poor_diplodocus_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = diplodocus }
+				}
+
+				#Triceratops
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_triceratops_var
+							has_variable = dubois_poor_triceratops_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = triceratops }
+				}
+
+				#Tyrannosaurus
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_tyrannosaurus_var
+							has_variable = dubois_poor_tyrannosaurus_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = tyrannosaurus }
+				}
+
+				#Stegosaurus
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_stegosaurus_var
+							has_variable = dubois_poor_stegosaurus_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = stegosaurus }
+				}
+
+				#Antarctosaurus
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_antarctosaurus_var
+							has_variable = dubois_poor_antarctosaurus_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = antarctosaurus }
+				}
+
+				#Argyrosaurus
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_argyrosaurus_var
+							has_variable = dubois_poor_argyrosaurus_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = argyrosaurus }
+				}
+
+				#Iguanodon
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_iguanodon_var
+							has_variable = dubois_poor_iguanodon_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = iguanodon }
+				}
+
+				#Plateosaurus
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_plateosaurus_var
+							has_variable = dubois_poor_plateosaurus_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = plateosaurus }
+				}
+
+				#Giraffatitan
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_giraffatitan_var
+							has_variable = dubois_poor_giraffatitan_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = giraffatitan }
+				}
+
+				#Spinosaurus
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_spinosaurus_var
+							has_variable = dubois_poor_spinosaurus_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = spinosaurus }
+				}
+
+				#Psittacosaurus
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_psittacosaurus_var
+							has_variable = dubois_poor_psittacosaurus_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = psittacosaurus }
+				}
+
+				#Velociraptor
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_velociraptor_var
+							has_variable = dubois_poor_velociraptor_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = velociraptor }
+				}
+
+				#Muttaburrasaurus
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_muttaburrasaurus_var
+							has_variable = dubois_poor_muttaburrasaurus_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = muttaburrasaurus }
+				}
+
+				#Rhoetosaurus
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_rhoetosaurus_var
+							has_variable = dubois_poor_rhoetosaurus_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = rhoetosaurus }
+				}
+
+				#Mosasaurus
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_mosasaurus_var
+							has_variable = dubois_poor_mosasaurus_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = mosasaurus }
+				}
+
+				#Plesiosaurus
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_plesiosaurus_var
+							has_variable = dubois_poor_plesiosaurus_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = plesiosaurus }
+				}
+
+				#Basilosaurus
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_basilosaurus_var
+							has_variable = dubois_poor_basilosaurus_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = basilosaurus }
+				}
+
+				#Megalodon
+				1 = {
+					trigger = {
+						OR = {
+							has_variable = dubois_imperfect_megalodon_var
+							has_variable = dubois_poor_megalodon_var
+						}
+					}
+
+					dubois_remount_dinosaur_effect = { DINOSAUR = megalodon }
+				}
+			}
+
+			#Sets the Paleontologist busy
+			var:dubois_paleontologist_var ?= {
+				set_character_busy_and_immortal = yes
+			}
+		}
+
+		#Cretaceous scenery
+		else_if = {
+			limit = {
+				dubois_paleontology_automation_cretaceous_scenery_possible_trigger = yes
+			}
+
+			#Removes costs
+			add_treasury = -50000
+			#Sets variable for GUI
+			set_variable = dubois_cretaceous_scenery_ongoing_var
+			#Adds JE
+			add_journal_entry = {
+				type = je_prehistoric_scenery
+			}
+			#Sets Paleontologist busy
+			var:dubois_paleontologist_var ?= {
+				set_character_busy_and_immortal = yes
+			}
+		}
+
+		#Jurassic scenery
+		else_if = {
+			limit = {
+				dubois_paleontology_automation_jurassic_scenery_possible_trigger = yes
+			}
+
+			#Removes costs
+			add_treasury = -50000
+			#Sets variable for GUI
+			set_variable = dubois_jurassic_scenery_ongoing_var
+			#Adds JE
+			add_journal_entry = {
+				type = je_prehistoric_scenery
+			}
+			#Sets Paleontologist busy
+			var:dubois_paleontologist_var ?= {
+				set_character_busy_and_immortal = yes
+			}
+		}
+
+		#Triasic scenery
+		else_if = {
+			limit = {
+				dubois_paleontology_automation_triassic_scenery_possible_trigger = yes
+			}
+
+			#Removes costs
+			add_treasury = -50000
+			#Sets variable for GUI
+			set_variable = dubois_triassic_scenery_ongoing_var
+			#Adds JE
+			add_journal_entry = {
+				type = je_prehistoric_scenery
+			}
+			#Sets Paleontologist busy
+			var:dubois_paleontologist_var ?= {
+				set_character_busy_and_immortal = yes
+			}
+		}
+
+		#Systemize Fossils
+		else = {
+			add_journal_entry = {
+				type = je_systemize_fossils
+			}
+			var:dubois_paleontologist_var ?= {
+				set_character_busy_and_immortal = yes
+			}
+		}
+	}
+}
+
+#Handles the Anthropologist for the AI
+ai_anthropologist_effect = {
+	#Tests if there is an active anthropologist
+	if = {
+		limit = { lepsius_has_active_anthropologist_no_tooltip_trigger = yes }
+		#Unknown Bone Identification
+		if = {
+			limit = {
+				lepsius_has_unknown_bone_no_tooltip_trigger = yes
+			}
+			#Effect
+			hidden_effect = {
+				lepsius_set_fossil_identification_progress = yes
+			}
+			lepsius_set_anthropologist_busy_effect = yes
+			add_journal_entry = {
+				type = je_lepsius_fossil_identification
+			}
+		}
+		#Examine Cave
+		if = {
+			limit = {
+				NOT = {
+					has_modifier = lepsius_cave_examination_modifier
+				}
+				any_scope_state = {
+					lepsius_has_discovered_cave_no_tooltip_trigger = yes
+				}
+			}
+			#Effect
+			add_treasury = -50000
+			lepsius_set_anthropologist_busy_effect = yes
+			add_modifier = {
+				name = lepsius_cave_examination_modifier
+			}
+			trigger_event = { 
+				id = lepsius.1401
+				popup = yes 
+			}
+		}
+	}
+}
+
+#Handles Congresses for the AI
+ai_congresses_effect = {
+	#Congresses require Major Power or higher status
+	if = {
+		limit = { country_rank >= rank_value:major_power }
+		#Exodus Congress
+		if = {
+			limit = {
+				NOR = {
+					has_global_variable = lepsius_exodus_congress_hosted_var
+					any_country = {
+						has_modifier = lepsius_congress_host_modifier
+					}
+				}
+				global_var:lepsius_global_artifacts >= 175
+				var:lepsius_egyptian_artifact_minor >= 25
+				has_technology_researched = lepsius_antiquarianism_tech
+				country_has_building_type_levels = {  
+					target = bt:building_university  
+					value  >= 5
+				}
+				any_scope_building = {
+					is_building_type = building_lepsius_archaeological_museum
+				}
+				lepsius_has_archaeologist_no_tooltip_trigger = yes
+				any_country = {
+					lepsius_has_archaeologist_no_tooltip_trigger = yes
+					count >= 5
+				}
+			}
+
+			#Effect
+			trigger_event = { 
+				id = lepsius.1101
+				popup = yes 
+			}
+			set_global_variable = lepsius_exodus_congress_hosted_var
+			add_modifier = {
+				name = lepsius_congress_host_modifier
+				years = 5
+			}
+		}
+		#Civilization Congress
+		if = {
+			limit = {
+				has_global_variable = lepsius_exodus_congress_hosted_var
+				NOR = {
+					has_global_variable = lepsius_civilization_congress_hosted_var
+					any_country = {
+						has_modifier = lepsius_congress_host_modifier
+					}
+				}
+				var:lepsius_mesopotamian_artifact_minor >= 25
+				global_var:lepsius_global_artifacts >= 330
+				has_technology_researched = lepsius_early_archaeology_tech
+				country_has_building_type_levels = {  
+					target = bt:building_university  
+					value  >= 10
+				}
+				any_scope_building = {
+					is_building_type = building_lepsius_archaeological_museum
+				}
+				lepsius_has_archaeologist_no_tooltip_trigger = yes
+				any_country = {
+					has_variable = lepsius_archaeologist_var
+					count >= 10
+				}
+			}
+
+			#Effect
+			trigger_event = { 
+				id = lepsius.1111
+				popup = yes 
+			}
+			set_global_variable = lepsius_civilization_congress_hosted_var
+			add_modifier = {
+				name = lepsius_congress_host_modifier
+				years = 5
+			}
+		}
+		#Troy Congress
+		if = {
+			limit = {
+				has_global_variable = lepsius_civilization_congress_hosted_var
+				has_global_variable = lepsius_support_schliemann_var
+				NOR = {
+					has_global_variable = lepsius_troy_congress_hosted_var
+					any_country = {
+						has_modifier = lepsius_congress_host_modifier
+					}
+				}
+				var:lepsius_aegean_artifact_minor >= 25
+				global_var:lepsius_global_artifacts >= 550
+				has_technology_researched = lepsius_early_archaeology_tech
+				country_has_building_type_levels = {  
+					target = bt:building_university  
+					value  >= 20
+				}
+				any_scope_building = {
+					is_building_type = building_lepsius_archaeological_museum
+				}
+				lepsius_has_archaeologist_no_tooltip_trigger = yes
+				any_country = {
+					has_variable = lepsius_archaeologist_var
+					count >= 15
+				}
+			}
+
+			#Effect
+			trigger_event = { 
+				id = lepsius.1121
+				popup = yes 
+			}
+			set_global_variable = lepsius_troy_congress_hosted_var
+			add_modifier = {
+				name = lepsius_congress_host_modifier
+				years = 5
+			}
+		}
+		#Asteroid Congress
+		if = {
+			limit = {
+				NOR = {
+					has_global_variable = verrier_asteroid_congress_hosted_var
+					any_country = {
+						has_modifier = verrier_congress_host_modifier
+					}
+				}
+				has_global_variable = verrier_neptune_discovered_var
+				has_global_variable = verrier_ceres_year_global_var
+				has_global_variable = verrier_pallas_year_global_var
+				has_global_variable = verrier_vesta_year_global_var
+				has_global_variable = verrier_juno_year_global_var
+				global_var:verrier_total_astronomical_objects >= 1650
+				has_technology_researched = verrier_astronomy_tech
+				country_has_building_type_levels = {  
+					target = bt:building_university  
+					value  >= 5
+				}
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+				}
+				verrier_has_astronomer_no_tooltip_trigger = yes
+			}
+
+			#Effect
+			trigger_event = { 
+				id = verrier.30
+				popup = yes 
+			}
+			set_global_variable = verrier_asteroid_congress_hosted_var
+			add_modifier = {
+				name = verrier_congress_host_modifier
+				years = 5
+			}
+		}
+		#Carte du Ciel Congress
+		if = {
+			limit = {
+				has_global_variable = verrier_asteroid_congress_hosted_var
+				NOR = {
+					has_global_variable = verrier_carte_congress_hosted_var
+					any_country = {
+						has_modifier = verrier_congress_host_modifier
+					}
+				}
+				global_var:verrier_total_astronomical_objects >= 7700
+				has_technology_researched = verrier_electromagnetism_tech
+				has_technology_researched = camera
+				country_has_building_type_levels = {  
+					target = bt:building_university  
+					value  >= 10
+				}
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+				}
+				verrier_has_astronomer_no_tooltip_trigger = yes
+			}
+
+			#Effect
+			trigger_event = { 
+				id = verrier.80
+				popup = yes 
+			}
+			set_global_variable = verrier_carte_congress_hosted_var
+			add_modifier = {
+				name = verrier_congress_host_modifier
+				years = 5
+			}
+		}
+		#Great Debate Congress
+		if = {
+			limit = {
+				has_global_variable = verrier_carte_congress_hosted_var
+				NOR = {
+					has_global_variable = verrier_debate_congress_hosted_var
+					any_country = {
+						has_modifier = verrier_congress_host_modifier
+					}
+				}
+				global_var:verrier_total_astronomical_objects >= 13200
+				has_technology_researched = verrier_astro_physics_tech
+				country_has_building_type_levels = {  
+					target = bt:building_university
+					value  >= 15
+				}
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+				}
+				verrier_has_astronomer_no_tooltip_trigger = yes
+			}
+
+			#Effect
+			trigger_event = { 
+				id = verrier.86
+				popup = yes 
+			}
+			set_global_variable = verrier_debate_congress_hosted_var
+			add_modifier = {
+				name = verrier_congress_host_modifier
+				years = 5
+			}
+		}
+		#TODO: Origin of the Moon Congress
+		#Hippocampus Congress
+		if = {
+			limit = {
+				NOR = {
+					has_global_variable = dubois_hippocampus_congress_hosted_var
+					any_country = {
+						has_modifier = dubois_congress_host_modifier
+					}
+				}
+				var:dubois_specimen >= 20000
+				global_var:dubois_global_specimen >= 110000
+				has_technology_researched = dubois_theory_of_evolution_tech
+				country_has_building_type_levels = {  
+					target = bt:building_university  
+					value  >= 10
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_zoo
+				}
+				dubois_has_naturalist_no_tooltip_trigger = yes
+				any_country = {
+					dubois_has_naturalist_no_tooltip_trigger = yes
+					count >= 5
+				}
+			}
+
+			#Effect
+			trigger_event = { 
+				id = dubois.901
+				popup = yes 
+			}
+			set_global_variable = dubois_hippocampus_congress_hosted_var
+			add_modifier = {
+				name = dubois_congress_host_modifier
+				years = 5
+			}
+		}
+	}
+	#Origin Congress
+	if = {
+		limit = {
+			has_global_variable = dubois_hippocampus_congress_hosted_var
+			NOR = {
+				has_global_variable = dubois_origin_congress_hosted_var
+				any_country = {
+					has_modifier = dubois_congress_host_modifier
+				}
+			}
+			has_technology_researched = lepsius_anthropology_tech
+			has_technology_researched = dubois_genetics_tech
+			var:lepsius_total_human_fossil >= 10
+			global_var:lepsius_global_human_fossil >= 55
+			OR = {
+				var:lepsius_neanderthalensis_human_fossil >= 3
+				var:lepsius_erectus_human_fossil >= 3
+				var:lepsius_australopithecus_human_fossil >= 3
+				var:lepsius_paranthropus_human_fossil >= 3
+			}
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 25
+			}
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+			}
+			lepsius_has_anthropologist_no_tooltip_trigger = yes
+			any_country = {
+				lepsius_has_anthropologist_no_tooltip_trigger = yes
+				count >= 10
+			}
+		}
+
+		#Effect
+		trigger_event = { 
+			id = dubois.911
+			popup = yes 
+		}
+		set_global_variable = dubois_origin_congress_hosted_var
+		add_modifier = {
+			name = dubois_congress_host_modifier
+			years = 5
+		}
+	}
+	#Dinosaur Extinction Congress
+	if = {
+		limit = {
+			has_global_variable = dubois_hippocampus_congress_hosted_var
+			NOR = {
+				has_global_variable = dubois_extinction_congress_hosted_var
+				any_country = {
+					has_modifier = dubois_congress_host_modifier
+				}
+			}
+			has_technology_researched = dubois_paleontology_tech
+			global_var:dubois_global_fossil >= 550
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 20
+			}
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+			}
+			dubois_has_paleontologist_no_tooltip_trigger = yes
+			any_country = {
+				dubois_has_paleontologist_no_tooltip_trigger = yes
+				count >= 15
+			}
+			dubois_has_dinosaur_skeleton_no_tooltip_trigger = yes
+			any_country = {
+				dubois_has_dinosaur_skeleton_no_tooltip_trigger = yes
+				count >= 5
+			}
+		}
+
+		#Effect
+		trigger_event = { 
+			id = dubois.921
+			popup = yes 
+		}
+		set_global_variable = dubois_extinction_congress_hosted_var
+		add_modifier = {
+			name = dubois_congress_host_modifier
+			years = 5
+		}
+	}
+	#TODO: Continental Drift Congress
+	#TODO: Age of the Earth Congress
+}
+
+#Acquire masterwork painting
+ai_acquire_masterwork_painting_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = klimt_acquire_masterwork_var
+			}
+			klimt_has_gallery = yes
+			AND = {
+				NOT = {
+					has_global_variable = elgar_art_nouveau_discovered #AI should not waste Painting Tradition if it has the theoretical option to get Art Nouveau CoA
+				}
+				var:klimt_painting_tradition_var >= 950
+			}
+			klimt_can_acquire_masterwork_no_tooltip_trigger = yes
+		}
+		set_variable = klimt_acquire_masterwork_var
+		trigger_event = { 
+			id = klimt.110
+			popup = yes
+		}
+	}
+}
+
+#Handles Building Construction for the AI
+ai_special_building_construction_effect = {
+	#Observatory
+	if = {
+		limit = {
+			capital = {
+				can_construct_building = building_verrier_observatory
+			}
+		}
+		#Effect
+		capital = {
+			start_building_construction = building_verrier_observatory
+		}
+	}
+	# Zoo
+	if = {
+		limit = {
+			capital = {
+				can_construct_building = building_dubois_zoo
+			}
+		}
+		#Effect
+		capital = {
+			start_building_construction = building_dubois_zoo
+		}
+	}
+	# Archaeological Museum
+	if = {
+		limit = {
+			capital = {
+				can_construct_building = building_lepsius_archaeological_museum
+			}
+		}
+		#Effect
+		capital = {
+			start_building_construction = building_lepsius_archaeological_museum
+		}
+	}
+	# National Library
+	if = {
+		limit = {
+			capital = {
+				can_construct_building = building_manzoni_library
+			}
+		}
+		#Effect
+		capital = {
+			start_building_construction = building_manzoni_library
+		}
+	}
+	# Gallery
+	if = {
+		limit = {
+			capital = {
+				can_construct_building = building_klimt_gallery
+			}
+		}
+		#Effect
+		capital = {
+			start_building_construction = building_klimt_gallery
+		}
+	}
+}
+
+#Handles the Patron of the Arts for the AI
+ai_patron_of_arts_effect = {
+	#Adds Patron of the Arts
+	if = {
+		limit = {
+			NOT = {
+				has_modifier = artists_patron_of_the_arts_modifier
+			}
+			any_scope_building = {
+				OR = {
+					is_building_type = building_arts_academy
+					is_building_type = building_elgar_opera
+				}
+			}
+			weekly_net_fixed_income > money_amount_multiplier_small
+			gold_reserves > 0
+		}
+
+		#Effect
+		set_variable = {
+            name = patron_of_the_arts_cooldown_var
+            months = 12
+        }
+        if = {
+			limit = {
+				has_modifier = artists_patron_of_the_arts_modifier
+			}
+			remove_modifier = artists_patron_of_the_arts_modifier
+		}
+		add_modifier = {
+			name = artists_patron_of_the_arts_modifier
+			multiplier = money_amount_multiplier_small
+		}
+	}
+	#Removes Patron of the Arts
+	if = {
+		limit = {
+			has_modifier = artists_patron_of_the_arts_modifier
+			NOT = {
+				has_variable = patron_of_the_arts_cooldown_var
+			}
+			weekly_net_fixed_income < money_amount_multiplier_small
+			gold_reserves < 0
+		}
+
+		#Effect
+		remove_modifier = artists_patron_of_the_arts_modifier
+	}
+}
+
+#Handles the activation of the Composer for the AI
+ai_composer_activation_effect = {
+	if = {
+		limit = {
+			elgar_has_active_composer_no_tooltip_trigger = yes
+			NOR = {
+				has_modifier = elgar_conductor_exhausted_modifier
+				has_variable = elgar_visiting_opera_var
+			}
+		}
+
+		#Effect
+		set_variable = elgar_visiting_opera_var
+		trigger_event = { #The rest is handled in this event
+			id = elgar.30
+			popup = yes
+		}
+	}
+}
+
+#Handles the Elgar Monuments for the AI
+ai_elgar_monuments_effect = {
+	#Mozart Monument
+	if = {
+		limit = {
+			NOT = { has_global_variable = elgar_mozart_monument_var }
+			has_technology_researched = romanticism
+			s:STATE_TYROL = {
+				any_scope_state = {
+					owner = root
+				}
+			}
+			var:elgar_music_tradition >= 50
+		}
+
+		#Effect
+		trigger_event = { 
+			id = elgar.111
+			popup = yes
+		}
+		set_global_variable = elgar_mozart_monument_var
+	}
+	if = {
+		limit = {
+			NOT = { has_global_variable = elgar_beethoven_monument_var }
+			has_variable = elgar_beethoven_sponsor_var
+			has_technology_researched = elgar_irrationalism_tech
+			var:elgar_music_tradition >= 100
+			s:STATE_NORTH_RHINE = {
+				any_scope_state = {
+					owner = root
+				}
+			}
+		}
+
+		#Effect
+		trigger_event = { 
+			id = elgar.102
+			popup = yes
+		}
+		set_global_variable = elgar_beethoven_monument_var
+	}
+}
+
+#Handles the Musikverein for the AI
+ai_musikverein_effect = {
+	if = {
+		limit = {
+			NOT = { has_global_variable = elgar_musikverein_var }
+			has_technology_researched = nationalism
+			has_technology_researched = elgar_irrationalism_tech
+			var:elgar_music_tradition >= 250
+			elgar_has_great_composer_no_tooltip_trigger = yes
+			OR = {
+				country_has_primary_culture = cu:south_german
+				country_has_primary_culture = cu:north_german
+				country_has_primary_culture = cu:alemannic
+			}
+		}
+
+		#Effect
+		add_modifier = {
+			name = elgar_founded_musikverein_modifier
+		}
+		trigger_event = { 
+			id = elgar.121
+			popup = yes
+		}
+		set_global_variable = elgar_musikverein_var
+	}
+}
+
+#Handles the NBC for the AI
+ai_nbc_effect = {
+	#Found NBC
+	if = {
+		limit = {
+			NOT = { has_variable = elgar_nbc_var }
+			has_technology_researched = radio
+			has_technology_researched = elgar_mass_culture_tech
+			NOR = {
+				has_law = law_type:law_laissez_faire
+				has_law = law_type:law_anarchy
+			}
+			any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_railway
+					has_active_production_method = pm_elgar_radio_stations
+				}
+				percent >= 0.35
+			}
+		}
+
+		#Effect
+		set_variable = elgar_nbc_var
+		trigger_event = {
+			id = elgar.40
+			popup = yes
+		}
+	}
+	#NBC Licence
+	if = {
+		limit = {
+			has_variable = elgar_nbc_var
+			has_technology_researched = radio
+			has_technology_researched = political_agitation
+			has_technology_researched = elgar_mass_culture_tech
+			NOR = {
+				has_variable = elgar_nbc_decision_taken
+				has_modifier = elgar_nbc_news_modifier
+				has_modifier = elgar_nbc_education_modifier
+				has_modifier = elgar_nbc_government_modifier
+				has_modifier = elgar_nbc_monarch_modifier
+				has_modifier = elgar_nbc_propaganda_modifier
+				has_law = law_type:law_laissez_faire
+				has_law = law_type:law_anarchy
+			}
+			any_scope_building = {
+				is_building_type = building_railway
+				has_active_production_method = pm_elgar_radio_stations
+			}
+		}
+
+		#Effect
+		trigger_event = {
+			id = elgar.40
+			popup = yes
+		}
+		set_variable = elgar_nbc_decision_taken
+	}
+}
+
+#Handles the Writer for the AI
+ai_writer_effects = {
+	if = { #First checks for an active Writer
+		limit = { manzoni_has_active_writer_no_tooltip_trigger = yes }
+		# Newspaper Novel
+		if = {
+			limit = {
+				has_technology_researched = realism
+				var:manzoni_writer_var ?= {
+					has_trait = manzoni_writer_fiction
+				}
+				NOR = {
+					var:manzoni_writer_var ?= {
+						has_variable = manzoni_newspaper_novel_var
+					}
+					has_modifier = manzoni_newspaper_novel_scandal_modifier
+				}
+				any_scope_building = {
+					is_building_type = building_manzoni_publishing_industry
+					is_under_construction = no
+					cash_reserves_ratio > 0.5
+					occupancy >= 0.75
+				}
+			}
+
+			#Effect
+			var:manzoni_writer_var = {
+				set_character_busy_and_immortal = yes
+			}
+			add_journal_entry = {
+				type = pbi_je_objective_bestseller
+			}
+			random_scope_state = {
+				limit = {
+					has_building = building_manzoni_publishing_industry
+				}
+				set_variable = pbi_flag_bestseller_target
+			}
+		}
+		#Reading Tour
+		if = {
+			limit = {
+				NOR = {
+					var:manzoni_writer_var ?= {
+						has_variable = manzoni_reading_tour_var
+					}
+					has_modifier = manzoni_writer_on_tour_modifier
+				}
+				var:manzoni_writer_var ?= {
+					OR = {
+						has_trait = manzoni_writer_fiction
+						has_trait = manzoni_writer_poet
+						has_trait = manzoni_universal_writer
+					}
+				}
+				any_country = {
+					NOR = {
+						is_country_type = decentralized
+						has_variable = manzoni_visit_by_universal_writer_var
+						this = ROOT
+						has_war_with = ROOT
+					}
+					manzoni_writer_meets_foreign_taste_trigger = yes
+				}
+			}
+			
+			#Effect
+			var:manzoni_writer_var = {
+				set_character_busy_and_immortal = yes
+			}
+			add_modifier = {
+				name = manzoni_writer_on_tour_modifier
+			}
+			trigger_event = {
+				id = manzoni.331
+				popup = yes
+			}
+		}
+	}
+}
+
+#Handles the Painter Trip for the AI
+ai_painter_trip_effect = {
+	if = {
+		limit = {
+			NOT = { has_variable = klimt_trip_destination_var }
+			klimt_has_active_painter_no_tooltip_trigger = yes
+			klimt_painter_trip_possible_no_tooltip_trigger = yes
+		}
+
+		#Effect
+		set_variable = klimt_trip_destination_var
+		trigger_event = { 
+			id = klimt.401
+			popup = yes
+		}
+	}
+}
+
+#Handles the Vernissage for the AI
+ai_painter_vernissage_effect = {
+	if = {
+		limit = {
+			klimt_has_active_painter_no_tooltip_trigger = yes
+			any_scope_building = {
+				has_active_production_method = pm_artists_arts_academy_studio
+			}
+			klimt_vernissage_possible_no_tooltip_trigger = yes
+		}
+
+		#Effect
+		trigger_event = { 
+			id = klimt.40
+			popup = yes
+		}
+	}
+}
+
+#Handles the Balloonist Recruitment for the AI
+ai_balloonist_recruitment_effect = {
+	if = {
+		limit = { #Only valid for countries that have montgolfier balloons but no balloonist
+			has_technology_researched = curtiss_montgolfier_balloon_tech
+			curtiss_no_balloonist_no_tooltip_trigger = yes
+			curtiss_balloonist_recruitment_score > 0
+		}
+		
+		#Creates a balloonist
+		create_balloonist_effect = yes
+		#Balloonist's first flight (hidden)
+		trigger_event = {
+			id = curtiss.657
+			popup = yes
+			days = { 1 7 }
+		}
+	}
+}

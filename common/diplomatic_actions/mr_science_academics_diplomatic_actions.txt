@@ -1,0 +1,356 @@
+﻿#################################
+# ACADEMICS DIPLOMATIC ACTIONS  #
+#################################
+
+#by Lord R
+
+############################
+
+#Recruit Foreign Scientist
+
+academics_recruit_foreign_scientist = {
+	groups= {
+		general
+	}
+	
+	requires_approval = yes
+	show_effect_in_tooltip = yes
+
+	selectable = {
+		trigger_if = {
+			limit = {
+				is_player = yes
+			}
+			always = yes
+		}
+		trigger_else = {
+			NOT = { has_modifier = academics_foreign_academic_recruited_modifier }
+			has_variable = academics_country_tech_advance_var
+			var:academics_country_tech_advance_var > 0.3
+			OR = {
+				ig:ig_industrialists = {
+					OR = {
+						is_in_government = yes
+						is_powerful = yes
+					}
+				}
+				ig:ig_intelligentsia = {
+					OR = {
+						is_in_government = yes
+						is_powerful = yes
+					}
+				}
+			}
+			NAND = {
+				tesla_has_engineer = yes
+				verrier_has_astronomer = yes
+			}
+		}
+	}
+
+	potential = {
+		NOT = { has_modifier = academics_foreign_academic_recruited_modifier }
+		scope:target_country = { #Only Countries that get the Academia JE are allowed to "sell" their scientists
+			any_scope_building = {
+				is_building_type = building_university
+				level > 0
+			}
+		}
+		OR = {
+			is_player = no
+			AND = {
+				is_player = yes
+				has_diplomatic_relevance = scope:target_country
+			}
+		}
+	}
+	
+	possible = {
+		custom_tooltip = {
+			text = academics_target_country_has_scientist_tt
+			scope:target_country = {
+				OR = {
+					tesla_has_engineer = yes
+					mendelejew_has_chemist_no_tooltip_trigger = yes
+					verrier_has_astronomer_no_tooltip_trigger = yes
+					agassiz_has_geologist_no_tooltip_trigger = yes
+					dubois_has_paleontologist_no_tooltip_trigger = yes
+					dubois_has_naturalist_no_tooltip_trigger = yes
+					panum_has_physician_no_tooltip_trigger = yes
+					lepsius_has_archaeologist_no_tooltip_trigger = yes
+					lepsius_has_anthropologist_no_tooltip_trigger = yes
+				}
+			}
+		}
+		custom_tooltip = { #This trigger checks if the country does not belong to the most advanced 30 percent of countries
+			text = academics_smaller_tech_advance_than_best_30_percent_tt
+			trigger_if = {
+				limit = {
+					has_variable = academics_country_tech_advance_var
+				}
+				var:academics_country_tech_advance_var > 0.3
+			}
+		}
+		NOR = { 
+			has_war_with = scope:target_country
+			has_modifier = academics_foreign_academic_recruited_modifier
+		}
+		NOT = {
+			AND = { #Checks if the country is even able to recruit a new scientist
+				tesla_has_engineer = yes
+				mendelejew_has_chemist = yes
+				verrier_has_astronomer = yes
+				agassiz_has_geologist_trigger = yes
+				dubois_has_paleontologist = yes
+				dubois_has_naturalist = yes
+				panum_has_physician = yes
+				lepsius_has_archaeologist = yes
+				OR = {
+					lepsius_has_anthropologist = yes
+					NOT = { has_technology_researched = lepsius_modern_archaeology_tech } #Anthropologist option has the same trigger
+				}
+			}
+		}
+		is_revolutionary = no
+		scope:target_country = {
+			is_revolutionary = no
+			NOT = { has_modifier = academics_academic_sent_modifier } #The target can only send an academic once every 3 years
+		}
+		custom_tooltip = { #Checks if the target country is technologically advanced
+			text = academics_smaller_tech_advance_than_target_tt
+			scope:target_country = {
+				var:academics_country_tech_advance_var < 0.3
+			}
+		}
+	}
+
+	accept_effect = {
+		set_variable = { #This is used to keep track of the foreign country
+			name = academics_foreign_scientist_origin_country_var
+			value = scope:target_country 
+		}
+		change_relations = {
+			country = scope:target_country 
+			value = 5 
+		}
+		trigger_event = { #This is the event to choose the scientist you want.
+			id = academics.70
+			popup = yes
+		}
+		add_treasury = -250000 #Cost of the action
+		scope:target_country = {
+			add_treasury = 250000 #Money gets transfered to foreign country
+			add_modifier = {
+				name = academics_academic_sent_modifier
+				years = 3
+			}
+		}
+		add_modifier = { #Timer to keep track if it has been 5 years since the action was taken last
+			name = academics_foreign_academic_recruited_modifier
+			years = 5
+		}
+	}
+	
+	ai = {
+		evaluation_chance = {
+			value = 1
+		}
+		
+		propose_score = {
+			value = -50
+			add = {
+				if = {
+					limit = {
+						gold_reserves > 250000
+						weekly_net_fixed_income > 2000
+					}
+					value = 500 #AI without debt will be willing to pay
+				}
+			}
+		}
+	
+		will_propose = {
+			OR = {
+				ig:ig_industrialists = {
+					OR = {
+						is_in_government = yes
+						is_powerful = yes
+					}
+				}
+				ig:ig_intelligentsia = {
+					OR = {
+						is_in_government = yes
+						is_powerful = yes
+					}
+				}
+			}
+			NAND = {
+				tesla_has_engineer = yes
+				verrier_has_astronomer = yes
+			}
+		}
+		
+		accept_score = {
+			value = 0
+			add = {
+				desc = "DIPLOMATIC_ACCEPTANCE_BASE"
+				value = -10
+			}
+			add = {
+				desc = "They already sold a scientist recently"
+				if = {
+					limit = {
+						has_modifier = academics_academic_sent_modifier
+					}
+					value = -1000
+				}
+			}
+			add = {
+				desc = "DIPLOMATIC_ACCEPTANCE_RELATIONS"			
+				if = {
+					limit = {
+						"relations(scope:actor)" < relations_threshold:cordial
+					}
+					value = 0
+				}
+				if = {
+					limit = {
+						"relations(scope:actor)" >= relations_threshold:cordial
+						"relations(scope:actor)" < relations_threshold:amicable
+					}
+					value = 25
+				}	
+				if = {
+					limit = {
+						"relations(scope:actor)" >= relations_threshold:amicable
+						"relations(scope:actor)" < relations_threshold:friendly
+					}
+					value = 35
+				}	
+				if = {
+					limit = {
+						"relations(scope:actor)" >= relations_threshold:friendly
+					}
+					value = 50
+				}				
+			}
+			
+			add = {
+				desc = "DIPLOMATIC_ACCEPTANCE_INFAMY"
+				if = {
+					limit = {
+						"scope:actor.infamy" >= infamy_threshold:infamous
+						"scope:actor.infamy" < infamy_threshold:notorious
+					}
+					value = -10
+				}	
+				if = {
+					limit = {
+						"scope:actor.infamy" >= infamy_threshold:notorious
+						"scope:actor.infamy" < infamy_threshold:pariah
+					}
+					value = -25
+				}
+				if = {
+					limit = {
+						"scope:actor.infamy" >= infamy_threshold:pariah
+					}
+					value = -50
+				}					
+			}					
+
+			add = {
+				desc = "DIPLOMATIC_ACCEPTANCE_RANK"
+	
+				if = {
+					limit = { scope:actor = { country_rank > root.country_rank } }
+					value = 20
+				}
+				
+				if = {
+					limit = { scope:actor = { country_rank < root.country_rank } }
+					value = -10
+				}				
+			}
+			add = {
+				desc = "We have a Customs Union"
+
+				if = {
+					limit = {
+						is_in_customs_union_with = scope:actor
+					}
+					value = 20
+				}
+			}
+
+			add = {
+				desc = "We have a Defensive Pact"
+
+				if = {
+					limit = {
+						any_scope_treaty = {
+							binds = scope:actor
+							any_scope_article = {
+								has_type = defensive_pact
+							}
+						}
+					}
+					value = 40
+				}	
+			}
+
+			add = {
+				desc = "We have an Alliance"
+
+				if = {
+					limit = {
+						any_scope_treaty = {
+							binds = scope:actor
+							any_scope_article = {
+								has_type = alliance
+							}
+						}
+					}
+					value = 60
+				}
+			}
+
+			add = {
+				desc = "They are our Subject"
+
+				if = {
+					limit = {
+						OR = {
+							has_diplomatic_pact = {
+								who = scope:actor
+								type = puppet
+							}
+							has_diplomatic_pact = {
+								who = scope:actor
+								type = vassal
+							}
+							has_diplomatic_pact = {
+								who = scope:actor
+								type = dominion
+							}
+							has_diplomatic_pact = {
+								who = scope:actor
+								type = personal_union
+							}
+							has_diplomatic_pact = {
+								who = scope:actor
+								type = tributary
+							}
+							has_diplomatic_pact = {
+								who = scope:actor
+								type = protectorate
+							}
+						}			
+					}
+					value = 150
+				}
+			}
+		}
+	}
+}
+
