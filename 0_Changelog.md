@@ -107,3 +107,4 @@ Fixes:
 - The Mapping the Moon button should be fixed now.
 - The Sell Minerals Button should be back now.
 - Car Racing now looks for Automotive Industries instead of Motor Industries.
+- The architect does no longer create treatise so well known that your prestige goes through the roof.
