@@ -105,3 +105,4 @@ Fixes:
 Changelog for 2.4.0b "Horta"
 Fixes:
 - The Mapping the Moon button should be fixed now.
+- The Sell Minerals Button should be back now.
