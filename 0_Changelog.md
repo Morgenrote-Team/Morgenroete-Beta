@@ -93,3 +93,11 @@ Characters:
 - Marie Skłodowska Curie (random Polish Chemist)
 - Removed Edison (makes more sense as an executive, he didn't invent a lot anyways)
 - Removed Isambard Kingdom Brunel (now in Vanilla)
+
+
+Changelog for 2.4.0a "Horta"
+Fixes:
+- Added missing localizations.
+- Added missing localizations in other languages.
+- AI countries will no longer build crazy amounts of libraries and other capital buildings.
+- The ghost of Isambard Kingdom Brunel was banished to the shadow realm.
