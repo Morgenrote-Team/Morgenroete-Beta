@@ -106,3 +106,4 @@ Changelog for 2.4.0b "Horta"
 Fixes:
 - The Mapping the Moon button should be fixed now.
 - The Sell Minerals Button should be back now.
+- Car Racing now looks for Automotive Industries instead of Motor Industries.
