@@ -101,3 +101,7 @@ Fixes:
 - Added missing localizations in other languages.
 - AI countries will no longer build crazy amounts of libraries and other capital buildings.
 - The ghost of Isambard Kingdom Brunel was banished to the shadow realm.
+
+Changelog for 2.4.0b "Horta"
+Fixes:
+- The Mapping the Moon button should be fixed now.
