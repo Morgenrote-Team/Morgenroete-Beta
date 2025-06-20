@@ -118,9 +118,14 @@ Fixes:
 - Characters no longer wear two hats (it was a very silly fashion anyways).
 
 Changelog fot 2.4.0d "Horta"
+Characters:
 - Victor Horta (random Belgian Architect)
 - E.J. Lennox (random Canadian Architect)
 - Joseph Venne (random Canadian Architect)
 - Paul Philippe Cret (random French Architect)
 - Albert Speer (random German Architect)
 - Marcello Piacentini (random Italian Architect)
+
+Changelog fot 2.4.0e "Horta"
+Fixes:
+- Unrecognized Major Powers should now be able to send archaeological expeditions.
