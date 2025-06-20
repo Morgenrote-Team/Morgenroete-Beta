@@ -108,3 +108,7 @@ Fixes:
 - The Sell Minerals Button should be back now.
 - Car Racing now looks for Automotive Industries instead of Motor Industries.
 - The architect does no longer create treatise so well known that your prestige goes through the roof.
+
+Changelog fot 2.4.0c "Horta"
+Characters:
+- Raymond Hood (random American Architect)
