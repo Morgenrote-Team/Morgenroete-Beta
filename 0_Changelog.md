@@ -119,3 +119,4 @@ Fixes:
 
 Changelog fot 2.4.0d "Horta"
 - Victor Horta (random Belgian Architect)
+- Paul Philippe Cret (random French Architect)
