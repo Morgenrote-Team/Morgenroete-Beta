@@ -111,6 +111,7 @@ Fixes:
 
 Changelog fot 2.4.0c "Horta"
 Characters:
+- Victor Horta (random Belgian Architect)
 - Auguste Perret (random French Architect)
 - Raymond Hood (random American Architect)
 
