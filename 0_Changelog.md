@@ -113,3 +113,6 @@ Changelog fot 2.4.0c "Horta"
 Characters:
 - Auguste Perret (random French Architect)
 - Raymond Hood (random American Architect)
+
+Fixes:
+- Characters no longer wear two hats (it was a very silly fashion anyways).
