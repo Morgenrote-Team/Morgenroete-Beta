@@ -111,4 +111,5 @@ Fixes:
 
 Changelog fot 2.4.0c "Horta"
 Characters:
+- Auguste Perret (random French Architect)
 - Raymond Hood (random American Architect)
