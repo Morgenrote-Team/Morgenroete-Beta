@@ -8,3 +8,6 @@ Characters:
 - Frank Wickson (random Canadian Architect)
 - Richard Birdsall Rogers (random Canadian Engineer)
 - John Watson (random Scottish Writer)
+
+Performance:
+- Made the check whether a foreign disease can be researched more performant
