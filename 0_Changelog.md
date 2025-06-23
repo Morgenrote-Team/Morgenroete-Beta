@@ -6,3 +6,7 @@ Fixes:
 
 3D Models:
 - Added an Opera building model (this might cause incompatibilities with other mods that add buildings.)
+
+Changelog fot 2.4.0g "Horta"
+Characters:
+- Herbert Eustis Winlock (random American Archaeologist)
