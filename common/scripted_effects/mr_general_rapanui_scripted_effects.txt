@@ -129,6 +129,8 @@ kill_missionary_effect = {
 ###Create Adventurer###
 create_adventurer_effect = {
 	create_character = {
+		age = { 20 30 }
+		female = no
 		save_scope_as = rapanui_adventurer_scope
 	}
 		
@@ -156,7 +158,7 @@ promote_adventurer_to_archaeologist_effect = {
 			set_variable = mr_is_archaeologist_var
 			set_variable = {
 				name = lepsius_archaeologist_experience_var
-				value = 0
+				value = 75
 			}
 			add_trait = lepsius_archaeologist
 		}
@@ -198,6 +200,39 @@ promote_adventurer_to_anthropologist_effect = {
 	}
 	else = {
 		lepsius_small_add_technology = yes
+		var:rapanui_adventurer_var = {
+			free_character_from_void = no
+		}
+		remove_variable = rapanui_adventurer_var
+	}
+}
+
+promote_adventurer_to_naturalist_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = dubois_naturalist_var
+			}
+		}
+		scope:rapanui_adventurer_scope = {
+			remove_variable = mr_is_adventurer_var
+			set_variable = mr_is_naturalist_var
+			set_variable = {
+				name = dubois_naturalist_experience_var
+				value = 75
+			}
+			add_trait = dubois_naturalist
+			add_trait = dubois_marine_biologist
+		}
+	
+		set_variable = {
+			name = dubois_naturalist_var
+			value = scope:rapanui_adventurer_scope
+		}
+		remove_variable = rapanui_adventurer_var
+	}
+	else = {
+		dubois_small_add_technology = yes
 		var:rapanui_adventurer_var = {
 			free_character_from_void = no
 		}
@@ -643,36 +678,5 @@ rapanui_add_x_oceanographic_understanding_effect = {
 	change_variable = {
 		name = rapanui_oceanographic_understanding
 		add = $AMOUNT$
-	}
-}
-
-##############
-
-set_rapanui_cable_guy_effect = {
-	if = {
-		limit = {
-			has_variable = tesla_engineer_var
-		}
-		var:tesla_engineer_var = {
-			if = {
-				limit = {
-					has_variable = rapanui_cable_guy_var
-				}
-				save_scope_as = rapanui_cable_guy_scope
-			}
-		}
-	}
-	if = {
-		limit = { 
-			has_variable = dubois_naturalist_var
-		}
-		var:dubois_naturalist_var = {
-			if = {
-				limit = {
-					has_variable = rapanui_cable_guy_var
-				}
-				save_scope_as = rapanui_cable_guy_scope
-			}
-		}
 	}
 }
