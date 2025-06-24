@@ -92,6 +92,86 @@ douglas_yearly_alpine_heritage_effect = {
 	}
 }
 
+#This effect adds historical mountain conquests at game start
+douglas_set_start_mountaineering_effect = {
+	if = {
+		limit = {
+			game_date >= 1786.1.1 #Mont Blanc conquered
+			exists = c:SAR
+		}
+		c:SAR = {
+			set_variable = douglas_mont_blanc_conqueror_var
+			country_definition = {
+				set_global_variable = {
+					name = douglas_mont_blanc_conqueror_global_var
+					value = this
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_variable = douglas_summits_conquered_var }
+				}
+				set_variable = {
+					name = douglas_summits_conquered_var
+					value = 1
+				}
+			}
+			else = {
+				change_variable = {
+					name = douglas_summits_conquered_var
+					add = 1
+				}
+			}
+		}
+		s:STATE_PIEDMONT = {
+			add_state_trait = douglas_state_trait_mont_blanc_conquered
+			remove_state_trait = douglas_state_trait_mont_blanc_whitney
+		}
+		set_global_variable = {
+			name = douglas_mont_blanc_year_global_var
+			value = 1786
+		}
+	}
+	if = {
+		limit = {
+			game_date >= 1519.1.1 #Popocatepetl conquered
+			exists = c:SPA
+		}
+		c:SPA = {
+			set_variable = douglas_popocatepetl_conqueror_var
+			country_definition = {
+				set_global_variable = {
+					name = douglas_popocatepetl_conqueror_global_var
+					value = this
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_variable = douglas_summits_conquered_var }
+				}
+				set_variable = {
+					name = douglas_summits_conquered_var
+					value = 1
+				}
+			}
+			else = {
+				change_variable = {
+					name = douglas_summits_conquered_var
+					add = 1
+				}
+			}
+		}
+		s:STATE_MEXICO = {
+			add_state_trait = douglas_state_trait_popocatepetl_conquered
+			remove_state_trait = douglas_state_trait_popocatepetl
+		}
+		set_global_variable = {
+			name = douglas_popocatepetl_year_global_var
+			value = 1519
+		}
+	}
+}
+
 #Effect to add Mountain Ascents
 douglas_add_mountain_ascent_effect = {
 	custom_tooltip = {
@@ -2728,7 +2808,12 @@ change_douglas_summit_prestige_effect = {
 	custom_tooltip = {
 		text = change_douglas_summit_prestige_effect_tt
 
-		remove_modifier = douglas_summit_prestige_modifier
+		if = {
+			limit = {
+				has_modifier = douglas_summit_prestige_modifier
+			}
+			remove_modifier = douglas_summit_prestige_modifier
+		}
 		add_modifier = {
 			name = douglas_summit_prestige_modifier
 			multiplier = douglas_summit_prestige_value
