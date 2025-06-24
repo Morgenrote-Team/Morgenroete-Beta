@@ -14,6 +14,10 @@ Mountaineering:
 - Mountaineering Expedition now have two bars: Expedition Progress and Mountain Danger. 
 - Mountain Expedition Journal Entry will fail when risk reaches 5; will complete if maximum progress is reached; or will abandon the mountain when it wasn't conquered in 365 days. 
 - State Traits shows if mountain is conquered, unconquered or Death Peak.
+- Rework of existing mountain expedition events.
+- Added new mountain expedition events.
+- Scientific Assistants, not Scientists will accompany Mountaineers.
+- Geologist may spawn after successful ascent.
 
 Submarine Cable:
 - Complete Rework of the Transatlantic Cable. Transatlantic Cable is only one of three Submarine Cables.

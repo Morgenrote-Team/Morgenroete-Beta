@@ -1637,6 +1637,50 @@ douglas.205 = {
 #Douglas 206: Mount Everest
 
 #Douglas 210: Geologist Assistant
+douglas.210 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.210.t
+	desc = douglas.210.d
+	flavor = douglas.210.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:agassiz_assistant_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		create_character = {
+			female = no
+			save_scope_as = agassiz_assistant_scope
+			age = { 18 23 }
+		}
+		scope:agassiz_assistant_scope = {
+			place_character_in_void = 120
+			add_trait = agassiz_geologist
+		}
+	}
+
+	option = {
+		name = douglas.210.g #Valuable help
+	}
+
+	after = {
+		scope:agassiz_assistant_scope = {
+			free_character_from_void = no
+		}
+	}
+}
 
 ###### MOUNTAINEERING EXPEDITION - END ######
 
@@ -1691,8 +1735,26 @@ douglas.211 = {
 					}
 				}
 				trigger_event = {
-					id = dubois.424
+					id = douglas.214
 					days = { 7 14 }
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						NOT = {
+							has_variable = agassiz_geologist_var
+						}
+					}
+					random_list = {
+						35 = {
+							trigger_event = {
+								id = douglas.215
+								popup = yes
+							}
+						}
+						65 = {}
+					}
 				}
 			}
 		}	
@@ -1813,4 +1875,1291 @@ douglas.213 = {
 	}
 }
 
-##############################################
+#Douglas 214: Mountain Symphony
+douglas.214 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.214.t
+	desc = douglas.214.d
+	flavor = douglas.214.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_summit.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = elgar_alpine_symphony_var
+	}
+
+	option = {
+		name = douglas.214.g #Hopefully there won't be any alpenhorns in it.
+		elgar_add_x_music_tradition_effect = { AMOUNT = 25 }
+	}
+
+	after = {
+	}
+}
+
+#Douglas 215: New Geologist
+douglas.215 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.215.t
+	desc = douglas.215.d
+	flavor = douglas.215.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:agassiz_geologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_geologist_effect = yes
+		dubois_set_new_geologist_as_geologist_effect = yes
+		var:agassiz_geologist_var = {
+			save_scope_as = agassiz_geologist_scope
+		}
+	}
+
+	option = {
+		name = douglas.215.g #HEncourage his studies!
+	}
+
+	after = {
+	}
+}
+
+#############################################
+
+###Mountaineering Expedition Events###
+
+#Douglas 221: An Easy Climb
+douglas.221 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.221.t
+	desc = douglas.221.d
+	flavor = douglas.221.f
+
+	placement = scope:douglas_location_scope
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_climb.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+		douglas_climbs_risk_1_mountain_trigger = yes
+	}
+
+	immediate = {
+		set_douglas_location_scope_effect = yes
+	}
+
+	option = {
+		name = douglas.221.g #Go ahead!
+		add_douglas_mountain_expedition_progress_1_increase_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Douglas 222: A Slope
+douglas.222 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.222.t
+	desc = douglas.222.d
+	flavor = douglas.222.f
+
+	placement = scope:douglas_summit_location
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_climb.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		NOT = {
+			douglas_climbs_risk_3_mountain_trigger = yes
+		}
+	}
+
+	immediate = {
+		set_douglas_location_scope_effect = yes
+	}
+
+	option = {
+		name = douglas.222.g #We will master this
+		default_option = yes
+		random_list = {
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = opium_addiction
+									has_trait = senile
+									has_trait = wounded
+									has_trait = psychological_affliction
+								}
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = wrathful
+									has_trait = hedonist
+									has_trait = reckless
+									has_trait = ruthless
+									has_trait = inept
+								}
+							}
+						}
+						add = 1
+					}
+				}
+				add_douglas_mountain_expedition_progress_1_increase_effect = yes
+				add_douglas_mountain_danger_1_increase_effect = yes
+			}
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = surveyor
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = cautious
+									has_trait = meticulous
+								}
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = brave
+									has_trait = innovative
+								}
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = ambitious
+									has_trait = persistent
+								}
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = explorer
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = mountain_commander
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = douglas_mountaineer_veteran
+							}
+						}
+						add = 3
+					}
+				}
+				add_douglas_mountain_expedition_progress_1_increase_effect = yes
+			}
+		}
+	}
+
+	option = {
+		name = douglas.222.h #This is too risky
+		add_douglas_mountain_expedition_progress_1_decrease_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Douglas 223: Steep Wall
+douglas.223 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.223.t
+	desc = douglas.223.d
+	flavor = douglas.223.f
+
+	placement = scope:douglas_summit_location
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_climb.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		je:je_douglas_mountaineering_expedition = {
+			"scripted_bar_progress(douglas_mountain_expedition_progress_bar)" >= 3
+		}
+	}
+
+	immediate = {
+		set_douglas_location_scope_effect = yes
+	}
+
+	option = {
+		name = douglas.222.g #We will master this
+		random_list = {
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = opium_addiction
+									has_trait = senile
+									has_trait = wounded
+									has_trait = psychological_affliction
+								}
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = wrathful
+									has_trait = hedonist
+									has_trait = reckless
+									has_trait = ruthless
+									has_trait = inept
+								}
+							}
+						}
+						add = 1
+					}
+				}
+				add_douglas_mountain_expedition_progress_1_increase_effect = yes
+				add_douglas_mountain_danger_1_increase_effect = yes
+			}
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = surveyor
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = cautious
+									has_trait = meticulous
+								}
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = brave
+									has_trait = innovative
+								}
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = ambitious
+									has_trait = persistent
+								}
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = explorer
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = mountain_commander
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = douglas_mountaineer_veteran
+							}
+						}
+						add = 3
+					}
+				}
+				add_douglas_mountain_expedition_progress_1_increase_effect = yes
+			}
+		}
+	}
+
+	option = {
+		name = douglas.222.h #Too risky
+		default_option = yes
+		add_douglas_mountain_expedition_progress_2_decrease_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Douglas 224: Avalanche
+douglas.224 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.224.t
+	desc = douglas.224.d
+	flavor = douglas.224.f
+
+	placement = scope:douglas_summit_location
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_climb.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		NOT = {
+			douglas_climbs_risk_1_mountain_trigger = yes
+		}
+		je:je_douglas_mountaineering_expedition = {
+			"scripted_bar_progress(douglas_mountain_expedition_progress_bar)" >= 5
+		}
+	}
+
+	immediate = {
+		set_douglas_location_scope_effect = yes
+	}
+
+	option = {
+		name = douglas.222.g #We will master this
+		random_list = {
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = opium_addiction
+									has_trait = senile
+									has_trait = wounded
+									has_trait = psychological_affliction
+								}
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = wrathful
+									has_trait = hedonist
+									has_trait = reckless
+									has_trait = ruthless
+									has_trait = inept
+								}
+							}
+						}
+						add = 1
+					}
+				}
+				add_douglas_mountain_expedition_progress_1_increase_effect = yes
+				add_douglas_mountain_danger_2_increase_effect = yes
+			}
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = surveyor
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = cautious
+									has_trait = meticulous
+								}
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = brave
+									has_trait = innovative
+								}
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = ambitious
+									has_trait = persistent
+								}
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = explorer
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = mountain_commander
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = douglas_mountaineer_veteran
+							}
+						}
+						add = 3
+					}
+				}
+				add_douglas_mountain_expedition_progress_1_increase_effect = yes
+			}
+		}
+	}
+
+	option = {
+		name = douglas.222.h #This is too risky
+		default_option = yes
+		add_douglas_mountain_expedition_progress_2_decrease_effect = yes
+	}
+
+	option = {
+		name = douglas.224.h #Search another way
+		random_list = {
+			1 = { add_douglas_mountain_danger_1_increase_effect = yes }
+			1 = { add_douglas_mountain_expedition_progress_1_increase_effect = yes }
+			1 = {}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Douglas 225: Abyss
+douglas.225 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.225.t
+	desc = douglas.225.d
+	flavor = douglas.225.f
+
+	placement = scope:douglas_summit_location
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_climb.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		NOR = {
+			douglas_climbs_risk_1_mountain_trigger = yes
+			douglas_climbs_3000_meter_mountain_trigger = yes
+		}
+		je:je_douglas_mountaineering_expedition = {
+			"scripted_bar_progress(douglas_mountain_expedition_progress_bar)" >= 5
+		}
+	}
+
+	immediate = {
+		set_douglas_location_scope_effect = yes
+	}
+
+	option = {
+		name = douglas.222.g #We will master this
+		random_list = {
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = opium_addiction
+									has_trait = senile
+									has_trait = wounded
+									has_trait = psychological_affliction
+								}
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = wrathful
+									has_trait = hedonist
+									has_trait = reckless
+									has_trait = ruthless
+									has_trait = inept
+								}
+							}
+						}
+						add = 1
+					}
+				}
+				add_douglas_mountain_danger_3_increase_effect = yes
+			}
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = surveyor
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = cautious
+									has_trait = meticulous
+								}
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = brave
+									has_trait = innovative
+								}
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = ambitious
+									has_trait = persistent
+								}
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = explorer
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = mountain_commander
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = douglas_mountaineer_veteran
+							}
+						}
+						add = 3
+					}
+				}
+				add_douglas_mountain_expedition_progress_1_increase_effect = yes
+			}
+		}
+	}
+
+	option = {
+		name = douglas.222.h #This is too risky
+		default_option = yes
+		add_douglas_mountain_expedition_progress_2_decrease_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Douglas 226: Death Step
+douglas.226 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.226.t
+	desc = douglas.226.d
+	flavor = douglas.226.f
+
+	placement = scope:douglas_summit_location
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_climb.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+		douglas_climbs_risk_3_mountain_trigger = yes
+		OR = {
+			douglas_climbs_7000_meter_mountain_trigger = yes
+			douglas_climbs_8000_meter_mountain_trigger = yes
+		}
+		je:je_douglas_mountaineering_expedition = {
+			"scripted_bar_progress(douglas_mountain_expedition_progress_bar)" >= 7
+		}
+	}
+
+	immediate = {
+		set_douglas_location_scope_effect = yes
+	}
+
+	option = {
+		name = douglas.222.g #We will master this
+		random_list = {
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = opium_addiction
+									has_trait = senile
+									has_trait = wounded
+									has_trait = psychological_affliction
+								}
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = wrathful
+									has_trait = hedonist
+									has_trait = reckless
+									has_trait = ruthless
+									has_trait = inept
+								}
+							}
+						}
+						add = 1
+					}
+				}
+				add_douglas_mountain_danger_4_increase_effect = yes
+			}
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = surveyor
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = cautious
+									has_trait = meticulous
+								}
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = brave
+									has_trait = innovative
+								}
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								OR = {
+									has_trait = ambitious
+									has_trait = persistent
+								}
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = explorer
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = mountain_commander
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:douglas_mountaineer_var = {
+								has_trait = douglas_mountaineer_veteran
+							}
+						}
+						add = 3
+					}
+				}
+				add_douglas_mountain_expedition_progress_1_increase_effect = yes
+			}
+		}
+	}
+
+	option = {
+		name = douglas.224.h #There must be an alternative route!
+		default_option = yes
+		random_list = {
+			2 = { add_douglas_mountain_danger_3_increase_effect = yes }
+			2 = { add_douglas_mountain_expedition_progress_3_decrease_effect = yes }
+			1 = {}
+		}
+	}
+
+	option = {
+		name = douglas.226.i #This is completely hopeless!
+		add_douglas_mountain_expedition_progress_5_decrease_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Douglas 227: Weather Change
+douglas.227 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.227.t
+	desc = douglas.227.d
+	flavor = douglas.227.f
+
+	placement = scope:douglas_summit_location
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_climb.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		NOR = {
+			douglas_climbs_risk_1_mountain_trigger = yes
+			douglas_climbs_3000_meter_mountain_trigger = yes
+		}
+		je:je_douglas_mountaineering_expedition = {
+			"scripted_bar_progress(douglas_mountain_expedition_progress_bar)" >= 4
+		}
+	}
+
+	immediate = {
+		set_douglas_location_scope_effect = yes
+	}
+
+	option = {
+		name = douglas.227.g #Go ahead
+		add_douglas_mountain_danger_1_increase_effect = yes
+	}
+
+	option = {
+		name = douglas.227.h #Back to the last base camp!
+		default_option = yes
+		add_douglas_mountain_expedition_progress_3_decrease_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Douglas 228: Rockfall
+douglas.228 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.228.t
+	desc = douglas.228.d
+	flavor = douglas.228.f
+
+	placement = scope:douglas_summit_location
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_climb.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		NOR = {
+			douglas_climbs_risk_1_mountain_trigger = yes
+			douglas_climbs_3000_meter_mountain_trigger = yes
+		}
+		je:je_douglas_mountaineering_expedition = {
+			"scripted_bar_progress(douglas_mountain_expedition_progress_bar)" >= 4
+		}
+	}
+
+	immediate = {
+		set_douglas_location_scope_effect = yes
+	}
+
+	option = {
+		name = douglas.228.g #Go ahead
+		add_douglas_mountain_danger_1_increase_effect = yes
+		add_douglas_mountain_expedition_progress_1_decrease_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Douglas 229: Dizzying Heights
+douglas.229 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.229.t
+	desc = douglas.229.d
+	flavor = douglas.229.f
+
+	placement = scope:douglas_summit_location
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_climb.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		OR = {
+			douglas_climbs_6000_meter_mountain_trigger = yes
+			douglas_climbs_7000_meter_mountain_trigger = yes
+			douglas_climbs_8000_meter_mountain_trigger = yes
+		}
+		je:je_douglas_mountaineering_expedition = {
+			"scripted_bar_progress(douglas_mountain_expedition_progress_bar)" >= 6
+		}
+	}
+
+	immediate = {
+		set_douglas_location_scope_effect = yes
+	}
+
+	option = {
+		name = douglas.229.g #Go ahead
+		add_douglas_mountain_danger_1_increase_effect = yes
+		add_douglas_mountain_expedition_progress_1_increase_effect = yes
+	}
+
+	option = {
+		name = douglas.229.h #Back to the last base camp!
+		default_option = yes
+		add_douglas_mountain_expedition_progress_3_decrease_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Douglas 230: Readings in Stone
+douglas.230 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.230.t
+	desc = douglas.230.d
+	flavor = douglas.230.f
+
+	placement = scope:douglas_summit_location
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_scientist.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+		has_variable = agassiz_geologist_var
+		je:je_douglas_mountaineering_expedition = {
+			"scripted_bar_progress(douglas_mountain_danger_progress_bar)" >= 1
+		}
+		je:je_douglas_mountaineering_expedition = {
+			"scripted_bar_progress(douglas_mountain_expedition_progress_bar)" >= 3
+		}
+	}
+
+	immediate = {
+		set_douglas_location_scope_effect = yes
+	}
+
+	option = {
+		name = douglas.230.g #Trust in science.
+		add_douglas_mountain_danger_1_decrease_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Douglas 231: Scientist does Science
+douglas.231 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.231.t
+	desc = douglas.231.d
+	flavor = douglas.231.f
+
+	placement = scope:douglas_summit_location
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/douglas_pictures/douglas_mountaineering_scientist.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+		has_variable = agassiz_geologist_var
+		je:je_douglas_mountaineering_expedition = {
+			"scripted_bar_progress(douglas_mountain_expedition_progress_bar)" >= 3
+		}
+	}
+
+	immediate = {
+		set_douglas_location_scope_effect = yes
+	}
+
+	option = {
+		name = douglas.231.g #Congratulations
+		agassiz_add_x_generic_minerals_effect = { AMOUNT = 5000 }
+		dubois_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Douglas 232: A Fine Mineral
+douglas.232 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.232.t
+	desc = douglas.232.d
+	flavor = douglas.232.f
+
+	placement = scope:douglas_summit_location
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_minerals.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+		has_variable = agassiz_geologist_var
+		je:je_douglas_mountaineering_expedition = {
+			"scripted_bar_progress(douglas_mountain_expedition_progress_bar)" >= 3
+		}
+	}
+
+	immediate = {
+		set_douglas_location_scope_effect = yes
+	}
+
+	option = {
+		name = douglas.232.g #What a lovely little surprise.
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+	}
+}
+
+#Douglas 233: The Red Panda
+douglas.233 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = douglas.233.t
+	desc = douglas.233.d
+	flavor = douglas.233.f
+
+	placement = scope:douglas_summit_location
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_red.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+		has_zoo_animal_red_trigger = no
+		OR = {
+			var:douglas_mountain_expedition_var = flag:douglas_mount_gongga_expedition_flag
+			var:douglas_mountain_expedition_var = flag:douglas_kabru_expedition_flag
+			var:douglas_mountain_expedition_var = flag:douglas_kamet_expedition_flag
+		}
+		je:je_douglas_mountaineering_expedition = {
+			"scripted_bar_progress(douglas_mountain_expedition_progress_bar)" >= 5
+		}
+	}
+
+	immediate = {
+		set_douglas_location_scope_effect = yes
+	}
+
+	option = {
+		name = douglas.233.g #Is this the 43rd animal?
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		add_modifier = {
+			name = dubois_zoo_transport_modifier
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.148
+				days = { 30 60 }
+			}
+		}
+	}
+
+	after = {
+	}
+}
