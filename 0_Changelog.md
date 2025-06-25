@@ -16,3 +16,6 @@ Characters:
 
 3D models:
 - Improved the Opera House texture (thanks Miss Duce!)
+
+Animals:
+- Bald Eagles now live in Missouri too.
