@@ -10,3 +10,6 @@ Fixes:
 Changelog fot 2.4.0g "Horta"
 Characters:
 - Herbert Eustis Winlock (random American Archaeologist)
+
+3D models:
+- Improved the Opera House texture (thanks Miss Duce!)
