@@ -3,11 +3,13 @@ Changelog fot 2.4.2 "Mallory"
 Mountaineering:
 - "Alpine Club" as an equivalent to the IOC, FIFA and AIACR in the field of mountaineering. 
 - Mountaineer is now a character, not a general. 
-- Added new Mountains: Matterhorn, Mount Everest, Popocatepetl (conquered at game start), Mont Blanc (conquered at game start), Großvenediger, Mount Saint Elias, Monte Pissis, Ras Dashen, Mount Gongga, Mount Giluwe. 
+- Added new Mountains: Matterhorn, Mount Everest, Popocatepetl (conquered at game start), Mont Blanc (conquered at game start), Großvenediger, Mount Saint Elias, Tajumulco, Pico Simón Bolivar, Monte Pissis, Ras Dashen, Toubkal, Mount Gongga, Mount Giluwe, Mauna Kea (conquered at game start).
+- Renamed Batian to Mount Kenya.
+- Changed Chogolisa to Kun Peak.
 - Mountains have three different qualities: Height, Level, Risk. 
 - Mountaineers need equipment. Mountaineers can create better equipment to conquer new mountains. There are five equipment levels for five mountain levels. 
 - Mountain Prestige is accumulated via conquered summits. The higehr a summit, the higher the prestige. Calculation: Total meters conquered divided by 300. An ideal mountain of 4500 meters would give 15 prestige.
-- Sardinia-Piedmont starts therefore with 16 Prestige, because it conquered the Mont Blanc (4806 meters) in 1786. This is done for balancing reasons (Two Sicilies, its direct rival in Italy, gets 15 pretsige at start because of Ceres!).
+- Sardinia-Piedmont starts therefore with 16 Prestige, because it conquered the Mont Blanc (4806 meters) in 1786. This is done for balancing reasons (Two Sicilies, its direct rival in Italy, gets 15 prestige at start because of Ceres).
 - There are three Risk levels: No Risk, Normal Risk, High Risk. 
 - Mountain Infantry Troops is now a button, not an event. 
 - Introduced Alpine Heritage as a capacity. Alpine Heritage depends mostly on geographical issues like Summits or Mountain Ranges; being president or board member of the alpine club; or having a geologist.  
