@@ -8,5 +8,8 @@ Fixes:
 - Added an Opera building model (this might cause incompatibilities with other mods that add buildings.)
 
 Changelog fot 2.4.0g "Horta"
+Fixes:
+- Albert Speer is no longer forced to work before being born as a punishment for his sins.
+
 Characters:
 - Herbert Eustis Winlock (random American Archaeologist)
