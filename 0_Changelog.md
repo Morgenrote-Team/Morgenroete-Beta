@@ -18,4 +18,4 @@ Characters:
 - Improved the Opera House texture (thanks Miss Duce!)
 
 Animals:
-- Bald Eagles now live in Missouri too.
+- Bald Eagles now live in Illinois too.
