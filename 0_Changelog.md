@@ -13,6 +13,7 @@ Fixes:
 
 Characters:
 - Herbert Eustis Winlock (random American Archaeologist)
+- Removed Samuel Colt (now in the base game)
 
 3D models:
 - Improved the Opera House texture (thanks Miss Duce!)
