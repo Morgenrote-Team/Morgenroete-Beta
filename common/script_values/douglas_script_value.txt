@@ -55,6 +55,131 @@ douglas_yearly_alpine_heritage_value = {
 
 #Calculation of Mountain Prestige
 douglas_summit_prestige_value = {
+	value = douglas_total_meters_climbed_value
+
+	###########
+	# GENERAL #
+	###########
+
+	divide = 300
+	round_to = 0.1
+
+	###International Expeditions######
+
+	if = {
+		limit = {
+			has_variable = douglas_num_international_expeditions_var
+		}
+		add = { 
+			value = var:douglas_num_international_expeditions_var
+			multiplay = 10
+		}
+	}
+}
+
+#Calculation of Motivation to climb mountain
+douglas_mountain_motivation_value = {
+	value = 365
+	if = {
+		limit = {
+			has_variable = douglas_mountaineer_demotivation_var
+		}
+		add = -500
+	}
+	if = {
+		limit = {
+			has_variable = douglas_mountaineer_speech_var
+		}
+		add = 60
+	}
+}
+
+#Calculation of board member quality
+douglas_alpine_board_member_quality_value = {
+	#Base: The number of summits conquered
+	value = var:douglas_summits_conquered_var
+
+	#Height of Mountains conquered
+	if = {
+		limit = {
+			var:douglas_summits_conquered_var >= 1
+		}
+		add = {
+			value = douglas_summit_prestige_value
+			divide = 1000
+		}
+	}
+
+	#Experienced Mountaineer
+	if = {
+		limit = {
+			has_variable = douglas_mountaineer_var
+		}
+		add = {
+			value = var:douglas_mountaineer_var.var:douglas_mountaineer_experience
+			divide = 30
+		}
+	}
+
+	#Equipment
+	if = {
+		limit = {
+			has_modifier = douglas_mountaineering_equipment_level_5_modifier
+		}
+		add = 5
+	}
+	else_if = {
+		limit = {
+			has_modifier = douglas_mountaineering_equipment_level_4_modifier
+		}
+		add = 4
+	}
+	else_if = {
+		limit = {
+			has_modifier = douglas_mountaineering_equipment_level_3_modifier
+		}
+		add = 3
+	}
+	else_if = {
+		limit = {
+			has_modifier = douglas_mountaineering_equipment_level_2_modifier
+		}
+		add = 2
+	}
+	else_if = {
+		limit = {
+			has_modifier = douglas_mountaineering_equipment_level_1_modifier
+		}
+		add = 1
+	}
+
+	#Everyone respects Mountain Infantry
+	if = {
+		limit = {
+			douglas_has_mountaineering_regiment_trigger = yes
+		}
+		add = 3
+	}
+
+	#Great Powers are more welcome to the club
+	if = {
+		limit = {
+			country_rank = rank_value:great_power
+		}
+		add = 2
+	}
+
+	#Major Powers are more welcome to the club
+	if = {
+		limit = {
+			country_rank = rank_value:major_power
+		}
+		add = 1
+	}
+}
+
+#Calculation of Meters climbed
+douglas_total_meters_climbed_value = {
 	value = 0
 
 	#################
@@ -336,29 +461,5 @@ douglas_summit_prestige_value = {
 			has_variable = douglas_mount_cook_conqueror_var
 		}
 		add = 3724
-	}
-
-	###########
-	# GENERAL #
-	###########
-
-	divide = 300
-	round_to = 0.1
-}
-
-#Calculation of Motivation to climb mountain
-douglas_mountain_motivation_value = {
-	value = 365
-	if = {
-		limit = {
-			has_variable = douglas_mountaineer_demotivation_var
-		}
-		add = -500
-	}
-	if = {
-		limit = {
-			has_variable = douglas_mountaineer_demotivation_var
-		}
-		add = 60
 	}
 }

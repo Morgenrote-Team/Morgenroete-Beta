@@ -107,14 +107,6 @@ douglas_set_start_mountaineering_effect = {
 					value = this
 				}
 			}
-			set_variable = {
-				name = douglas_num_mountain_ascents_var
-				value = 1
-			}
-			set_variable = {
-				name = douglas_summits_conquered_var
-				value = 1
-			}
 		}
 		s:STATE_HAWAIIAN_ISLANDS = {
 			add_state_trait = douglas_state_trait_mauna_kea_conquered
@@ -138,14 +130,6 @@ douglas_set_start_mountaineering_effect = {
 					value = this
 				}
 			}
-			set_variable = {
-				name = douglas_num_mountain_ascents_var
-				value = 1
-			}
-			set_variable = {
-				name = douglas_summits_conquered_var
-				value = 1
-			}
 		}
 		s:STATE_PIEDMONT = {
 			add_state_trait = douglas_state_trait_mont_blanc_conquered
@@ -168,14 +152,6 @@ douglas_set_start_mountaineering_effect = {
 					name = douglas_popocatepetl_conqueror_global_var
 					value = this
 				}
-			}
-			set_variable = {
-				name = douglas_num_mountain_ascents_var
-				value = 1
-			}
-			set_variable = {
-				name = douglas_summits_conquered_var
-				value = 1
 			}
 		}
 		s:STATE_MEXICO = {
@@ -327,6 +303,159 @@ douglas_add_climb_aborted_effect = {
 				change_variable = {
 					name = douglas_mountaineer_num_climbs_aborted_var
 					add = 1
+				}
+			}
+		}
+	}
+}
+
+#Effect to add International Expeditions
+douglas_add_international_expedition_effect = {
+	custom_tooltip = {
+		text = douglas_add_international_expedition_effect_tt
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = douglas_num_international_expeditions_var
+				}
+			}
+			set_variable = {
+				name = douglas_num_international_expeditions_var
+				value = 0
+			}
+		}
+		change_variable = {
+			name = douglas_num_international_expeditions_var
+			add = 1
+		}
+		if = {
+			limit = {
+				has_variable = douglas_mountaineer_var
+			}
+			if = {
+				limit = {
+					NOT = {
+						var:douglas_mountaineer_var = {
+							has_variable = douglas_mountaineer_num_international_expeditions_var
+						}
+					}
+				}
+				var:douglas_mountaineer_var = {
+					set_variable = {
+						name = douglas_mountaineer_num_international_expeditions_var
+						value = 0
+					}
+				}
+			}
+			var:douglas_mountaineer_var = {
+				change_variable = {
+					name = douglas_mountaineer_num_international_expeditions_var
+					add = 1
+				}
+			}
+		}
+	}
+}
+
+#Effect to add Board Members which are considered leading mountaineering countries
+douglas_add_alpine_board_effect = {
+	custom_tooltip = douglas_alpine_club_new_board_tt
+	#Removes the NATIONAL variables
+	every_country = {
+		limit = {
+			has_variable = douglas_alpine_club_board_member_var
+		}
+		remove_variable = douglas_alpine_club_board_member_var
+	}
+	#Removes the GLOBAL ranking variables
+	remove_global_variable = douglas_alpine_club_board_member_1_global_var
+	remove_global_variable = douglas_alpine_club_board_member_2_global_var
+	remove_global_variable = douglas_alpine_club_board_member_3_global_var
+	remove_global_variable = douglas_alpine_club_board_member_4_global_var
+	remove_global_variable = douglas_alpine_club_board_member_5_global_var
+
+	ordered_country = {
+		limit = {
+			has_variable = douglas_mountaineering_club_var
+			NOT = {
+				has_variable = douglas_alpine_club_founding_country_var
+			}
+		}
+		order_by = douglas_alpine_board_member_quality_value
+		max = 5 #Limits the list to the three top countries
+		check_range_bounds = no #prevents errors
+
+		#This part checks one after another whether the the first, second, etc. ranked countries are saved already.
+		#Luckily the ordered_country effect iterates through the countries one after another.
+		#So the first country gets saved to the first variable but as that variable now is set,
+		# the second country gets saved to the second variable and so on.
+		if = {
+			limit = {
+				NOT = { 
+					has_global_variable = douglas_alpine_club_board_member_1_global_var
+				}
+			}
+			set_variable = douglas_alpine_club_board_member_var
+			country_definition = {
+				set_global_variable = {
+					name =  douglas_alpine_club_board_member_1_global_var
+					value = ROOT
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { 
+					has_global_variable = douglas_alpine_club_board_member_2_global_var
+				}
+			}
+			set_variable = douglas_alpine_club_board_member_var
+			country_definition = {
+				set_global_variable = {
+					name =  douglas_alpine_club_board_member_2_global_var
+					value = ROOT
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { 
+					has_global_variable = douglas_alpine_club_board_member_3_global_var
+				}
+			}
+			set_variable = douglas_alpine_club_board_member_var
+			country_definition = {
+				set_global_variable = {
+					name =  douglas_alpine_club_board_member_3_global_var
+					value = ROOT
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { 
+					has_global_variable = douglas_alpine_club_board_member_4_global_var
+				}
+			}
+			set_variable = douglas_alpine_club_board_member_var
+			country_definition = {
+				set_global_variable = {
+					name =  douglas_alpine_club_board_member_4_global_var
+					value = ROOT
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { 
+					has_global_variable = douglas_alpine_club_board_member_5_global_var
+				}
+			}
+			set_variable = douglas_alpine_club_board_member_var
+			country_definition = {
+				set_global_variable = {
+					name =  douglas_alpine_club_board_member_5_global_var
+					value = ROOT
 				}
 			}
 		}
@@ -5479,6 +5608,30 @@ douglas_conquerer_set_variable_effect = {
 			set_global_variable = {
 				name = douglas_mount_cook_conqueror_country_global_var
 				value = this
+			}
+		}
+	}
+}
+
+##############################################################
+
+######INTERNATIONAL EXPEDITION######
+
+set_douglas_alpine_club_choice_effect = {
+	hidden_effect = {
+		every_country = {
+			limit = {
+				OR = {
+					has_variable = douglas_alpine_club_founding_country_var
+					has_variable = douglas_alpine_club_board_member_var
+				}
+			}
+			trigger_event = {
+				id = douglas.331
+				days = 7
+			}
+			add_journal_entry = {
+				type = je_douglas_international_mountaineering_expedition_preparation
 			}
 		}
 	}

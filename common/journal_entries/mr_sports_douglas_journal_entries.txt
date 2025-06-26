@@ -19,7 +19,7 @@ je_douglas_mountaineering_training = {
 		set_variable = douglas_can_stop_active_mountaineering_project #This is used to check if the country has a project already
 	}
 
-	timeout = 1825
+	timeout = 1095
 
 	on_timeout = {
 		trigger_event = { 
@@ -265,4 +265,84 @@ je_douglas_mountaineering_expedition = {
 	should_be_pinned_by_default = yes
 
 	weight = 25
+}
+
+###International Mountaineering Expedition######
+
+je_douglas_international_mountaineering_expedition = {
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	group = je_group_vikelas_sports
+
+	scripted_progress_bar = douglas_international_mountain_expedition_progress_bar
+
+	immediate = {
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = douglas_international_mountain_expedition_progress_bar_at_full_tt
+			je:je_douglas_international_mountaineering_expedition = {
+				"scripted_bar_progress(douglas_international_mountain_expedition_progress_bar)" >= 60
+			}
+		}
+	}
+
+	on_complete = {
+		var:douglas_mountaineer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		every_country = {
+			limit = {
+				OR = {
+					has_variable = douglas_alpine_club_founding_country_var
+					has_variable = douglas_alpine_club_board_member_var
+				}
+			}
+			trigger_event = {
+				id = douglas.351
+			}
+		}
+	}
+
+	#invalid = {
+	#	custom_tooltip = {
+	#		text = je_mountaineer_dies_tt
+	#		NOT = {
+	#			has_variable = douglas_mountaineer_var
+	#		}
+	#	}
+	#}
+
+	#on_invalid = {
+	#	remove_variable = douglas_mountain_expedition_var
+	#}
+
+	should_be_pinned_by_default = yes
+
+	weight = 25
+}
+
+je_douglas_international_mountaineering_expedition_preparation = {
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	group = je_group_vikelas_sports
+
+	timeout = 365
+
+	on_timeout = {
+		if = {
+			limit = {
+				has_variable = douglas_alpine_club_founding_country_var
+			}
+			trigger_event = {
+				id = douglas.341
+				popup = yes 
+			}
+		}
+	}
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
 }

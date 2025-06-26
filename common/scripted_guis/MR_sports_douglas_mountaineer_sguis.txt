@@ -1,6 +1,6 @@
-﻿
-######MOUNTAIN EXPEDITION######
+﻿### MOUNTAINEER BUTTONS ###
 
+#by Marco Dandolo & Lord R
 
 #Sets the Ranking up
 mr_succesful_mountain_ascents_ranking_sgui = {
@@ -9,6 +9,8 @@ mr_succesful_mountain_ascents_ranking_sgui = {
 		dubois_create_succesful_mountain_ascents_ranking_list_effect = yes
 	}
 }
+
+######MOUNTAINEER EXPEDITIONS######
 
 mr_mountain_expedition_level_1_button_sgui = {
     scope = country
@@ -343,7 +345,7 @@ mr_mountain_expedition_active_sgui = {
 	}
 }
 
-######MOUNTAINEER & ALPINE CLUB######
+######MOUNTAINEER ORGANISATION######
 
 #MR_RECRUIT_MOUNTAINEER_BUTTON
 mr_recruit_mountaineer_button_sgui = {
@@ -391,161 +393,6 @@ mr_mountaineer_training_button_sgui = {
 			}
 			var:douglas_mountaineer_var = {
 				set_character_busy_and_immortal = yes
-			}
-		}
-    }
-}
-
-#MR_MOUNTAINEERING_CLUB_BUTTON
-mr_mountaineering_club_button_sgui = {
-    scope = country
-	is_shown = {
-		NOT = {
-			has_variable = douglas_mountaineering_club_var
-		}
-	}
-    is_valid = {
-		mr_gui_has_geology_tech_trigger = yes
-		custom_tooltip = {
-			text = MR_MOUNTAIN_GENERAL_TRIGGER_TT
-			any_scope_character = {
-				has_role = general
-				is_busy = no
-				OR = {
-					has_trait = douglas_mountaineer
-					has_trait = douglas_mountaineer_veteran
-					has_trait = explorer
-					has_trait = mountain_commander
-					has_trait = surveyor
-				}
-			}
-		}
-    }
-    effect = {
-		set_variable = douglas_mountaineering_club_var
-		hidden_effect = {
-			if = {
-				limit = { has_variable = douglas_mountaineering_club_var }
-				create_new_mountaineer_effect = yes
-				douglas_set_new_mountaineer_as_mountaineer_effect = yes
-			}
-		}
-		trigger_event = {
-			id = douglas.101
-		}
-    }
-
-	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
-	ai_chance = {
-		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
-	}
-	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
-}
-
-#MR_ALPINE_CLUB_BUTTON
-mr_alpine_club_button_sgui = {
-    scope = country
-	is_shown = {
-		NOT = {
-			has_global_variable = douglas_alpine_club_founded_global_var
-		}
-		has_variable = douglas_mountaineering_club_var
-	}
-    is_valid = {
-		douglas_has_mountaineer = yes
-		custom_tooltip = {
-			text = MR_ALPINE_CLUB_TRIGGER_TT
-			global_var:douglas_num_alpine_club_members_global_var >= 6
-		}
-		custom_tooltip = {
-			text = MR_ALPINE_CLUB_EXPERIENCE_TRIGGER_TT
-			has_variable = douglas_mountaineer_var
-			var:douglas_mountaineer_var = {
-				var:douglas_mountaineer_experience >= 50
-			}
-		}
-		custom_tooltip = {
-			text = MR_ALPINE_CLUB_ASCENTS_TRIGGER_TT
-			has_variable = douglas_mountaineer_var
-			var:douglas_mountaineer_var = {
-				var:douglas_mountaineer_num_mountain_ascents_var >= 2
-			}
-		}
-		custom_tooltip = {
-			text = MR_ALPINE_CLUB_SUMMITS_TRIGGER_TT
-			has_variable = douglas_mountaineer_var
-			var:douglas_mountaineer_var = {
-				var:douglas_mountaineer_num_summits_reached_var >= 1
-			}
-		}
-		
-    }
-    effect = {
-		set_global_variable = douglas_alpine_club_founded_global_var
-		custom_tooltip = douglas_become_alpine_club_president_tt
-		set_variable = douglas_alpine_club_founding_country_var
-		capital = {
-			create_building = {
-				building = building_douglas_alpine_club
-				level = 1
-			}
-			state_region = {
-				set_global_variable = { #This is used in the GUI to display the state
-            		name = douglas_alpine_club_seat_global_var
-           			value = this
-        		}
-			}
-		}
-		country_definition = {
-			set_global_variable = {
-				name = douglas_alpine_club_president_global_var
-				value = ROOT
-			}
-		}
-		every_country = {
-			limit = {
-				has_variable = douglas_mountaineering_club_var
-			}
-			trigger_event = {
-				id = douglas.102
-			}
-		}
-    }
-}
-
-#MR_ALPINE_CLUB_PRESIDENT_BUTTON
-mr_alpine_club_president_button_sgui = {
-    scope = country
-	is_shown = {
-		has_global_variable = douglas_alpine_club_founded_global_var
-		has_variable = douglas_mountaineering_club_var
-		NOT = {
-			any_country = {
-				has_variable = douglas_alpine_club_founding_country_var
-			}
-		}
-	}
-    is_valid = {
-		custom_tooltip = {
-			text = MR_ALPINE_CLUB_CONTROLS_HQ_TRIGGER_TT
-			any_scope_state = {
-				has_building = building_douglas_alpine_club
-			}
-		}
-		custom_tooltip = {
-			text = MR_IOC_FOUNDATION_PEACE_TRIGGER_TT
-			is_at_war = no
-		}
-    }
-    effect = {
-		custom_tooltip = {
-			text = douglas_become_alpine_club_president_tt
-			set_variable = douglas_alpine_club_founding_country_var
-		}
-		country_definition = {
-			set_global_variable = {
-				name = douglas_alpine_club_president_global_var
-				value = ROOT
 			}
 		}
     }
@@ -658,6 +505,346 @@ mr_mountaineering_equipment_button_sgui = {
 			}
 			var:douglas_mountaineer_var = {
 				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+}
+
+######MOUNTAINEER & ALPINE CLUB######
+
+#MR_MOUNTAINEERING_CLUB_BUTTON
+mr_mountaineering_club_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = douglas_mountaineering_club_var
+		}
+	}
+    is_valid = {
+		mr_gui_has_geology_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_MOUNTAIN_GENERAL_TRIGGER_TT
+			any_scope_character = {
+				has_role = general
+				is_busy = no
+				OR = {
+					has_trait = douglas_mountaineer
+					has_trait = douglas_mountaineer_veteran
+					has_trait = explorer
+					has_trait = mountain_commander
+					has_trait = surveyor
+				}
+			}
+		}
+    }
+    effect = {
+		set_variable = douglas_mountaineering_club_var
+		hidden_effect = {
+			if = {
+				limit = { has_variable = douglas_mountaineering_club_var }
+				create_new_mountaineer_effect = yes
+				douglas_set_new_mountaineer_as_mountaineer_effect = yes
+			}
+		}
+		trigger_event = {
+			id = douglas.101
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_ALPINE_CLUB_BUTTON
+mr_alpine_club_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_global_variable = douglas_alpine_club_founded_global_var
+		}
+		has_variable = douglas_mountaineering_club_var
+	}
+    is_valid = {
+		douglas_has_mountaineer = yes
+		custom_tooltip = {
+			text = MR_ALPINE_CLUB_TRIGGER_TT
+			any_country = {
+				has_variable = douglas_mountaineering_club_var
+				count >= 6
+			}
+		}
+		custom_tooltip = {
+			text = MR_ALPINE_CLUB_EXPERIENCE_TRIGGER_TT
+			has_variable = douglas_mountaineer_var
+			var:douglas_mountaineer_var = {
+				var:douglas_mountaineer_experience >= 50
+			}
+		}
+		custom_tooltip = {
+			text = MR_ALPINE_CLUB_ASCENTS_TRIGGER_TT
+			has_variable = douglas_mountaineer_var
+			var:douglas_mountaineer_var = {
+				var:douglas_mountaineer_num_mountain_ascents_var >= 2
+			}
+		}
+		custom_tooltip = {
+			text = MR_ALPINE_CLUB_SUMMITS_TRIGGER_TT
+			has_variable = douglas_mountaineer_var
+			var:douglas_mountaineer_var = {
+				var:douglas_mountaineer_num_summits_reached_var >= 1
+			}
+		}
+		
+    }
+    effect = {
+		set_global_variable = douglas_alpine_club_founded_global_var
+		custom_tooltip = douglas_become_alpine_club_president_tt
+		set_variable = douglas_alpine_club_founding_country_var
+		capital = {
+			create_building = {
+				building = building_douglas_alpine_club
+				level = 1
+			}
+			state_region = {
+				set_global_variable = { #This is used in the GUI to display the state
+            		name = douglas_alpine_club_seat_global_var
+           			value = this
+        		}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = douglas_alpine_club_president_global_var
+				value = ROOT
+			}
+		}
+		every_country = {
+			limit = {
+				has_variable = douglas_mountaineering_club_var
+			}
+			trigger_event = {
+				id = douglas.102
+			}
+		}
+    }
+}
+
+#MR_ALPINE_CLUB_START_EXPEDITION_BUTTON
+mr_alpine_club_start_expedition_button_sgui = {
+    scope = country
+	is_shown = {
+		has_variable = douglas_alpine_club_founding_country_var
+	}
+    is_valid = {
+		douglas_has_active_mountaineer = yes
+		custom_tooltip = {
+			text = MR_ALPINE_HERITAGE_25_TRIGGER_TT
+			var:douglas_alpine_heritage_var >= 25
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_RECENT_INTERNATIONAL_EXPEDITION_TRIGGER_TT
+			any_country = {
+				has_variable = douglas_alpine_club_founding_country_var
+				NOT = {
+					has_modifier = douglas_mountaineering_international_expedition_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_EQUIPMENT_INTERNATIONAL_EXPEDITION_TRIGGER_TT
+			any_country = {
+				has_variable = douglas_alpine_club_founding_country_var
+				OR = {
+					has_modifier = douglas_mountaineering_equipment_level_3_modifier
+					has_modifier = douglas_mountaineering_equipment_level_4_modifier
+					has_modifier = douglas_mountaineering_equipment_level_5_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_UNCONQUERED_SUMMIT_INTERNATIONAL_EXPEDITION_TRIGGER_TT
+			any_country = {
+				has_variable = douglas_mountaineering_club_var
+				OR = {
+					douglas_has_unconquered_level_2_summit_trigger = yes
+					douglas_has_unconquered_level_3_summit_trigger = yes
+					douglas_has_unconquered_level_4_summit_trigger = yes
+				}
+			}
+		}
+    }
+    effect = {
+		douglas_add_x_alpine_heritage_effect = {
+			AMOUNT = -25
+		}
+		if = {
+			limit = {
+				has_variable = douglas_mountaineer_var
+			}
+			var:douglas_mountaineer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		add_modifier = {
+			name = douglas_mountaineering_international_expedition_modifier
+			years = 10
+		}
+		trigger_event = {
+			id = douglas.321
+			popup = yes
+		}
+    }
+}
+
+#MR_ALPINE_CLUB_PROPOSE_EXPEDITION_BUTTON
+mr_alpine_club_propose_expedition_button_sgui = {
+    scope = country
+	is_shown = {
+		has_variable = douglas_alpine_club_board_member_var
+		any_country = {
+			has_variable = douglas_alpine_club_founding_country_var
+		}
+	}
+    is_valid = {
+		hidden_trigger = {
+			NOT = {
+				has_variable = douglas_alpine_club_waiting_for_response_var
+			}
+		}
+		custom_tooltip = {
+			text = MR_ALPINE_PRESIDENT_HAS_ACTIVE_MOUNTAINEER_TRIGGER_TT
+			any_country = {
+				has_variable = douglas_alpine_club_founding_country_var
+				douglas_has_active_mountaineer = yes
+			}
+		}
+		custom_tooltip = {
+			text = MR_ALPINE_HERITAGE_25_TRIGGER_TT
+			var:douglas_alpine_heritage_var >= 25
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_RECENT_INTERNATIONAL_EXPEDITION_TRIGGER_TT
+			any_country = {
+				has_variable = douglas_alpine_club_founding_country_var
+				NOT = {
+					has_modifier = douglas_mountaineering_international_expedition_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_EQUIPMENT_INTERNATIONAL_EXPEDITION_TRIGGER_TT
+			any_country = {
+				has_variable = douglas_alpine_club_founding_country_var
+				OR = {
+					has_modifier = douglas_mountaineering_equipment_level_3_modifier
+					has_modifier = douglas_mountaineering_equipment_level_4_modifier
+					has_modifier = douglas_mountaineering_equipment_level_5_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_UNCONQUERED_SUMMIT_INTERNATIONAL_EXPEDITION_TRIGGER_TT
+			any_country = {
+				has_variable = douglas_mountaineering_club_var
+				OR = {
+					douglas_has_unconquered_level_2_summit_trigger = yes
+					douglas_has_unconquered_level_3_summit_trigger = yes
+					douglas_has_unconquered_level_4_summit_trigger = yes
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_RECENT_INTERNATIONAL_EXPEDITION_NO_SETBACK_TRIGGER_TT
+			NOT = {
+				has_modifier = douglas_mountaineering_international_expedition_setback_modifier
+			}
+		}
+    }
+    effect = {
+		set_variable = {
+			name = douglas_alpine_club_waiting_for_response_var
+			days = 200
+		}
+		douglas_add_x_alpine_heritage_effect = {
+			AMOUNT = -25
+		}
+		random_country = {
+			limit = {
+				has_variable = douglas_alpine_club_founding_country_var
+			}
+			trigger_event = {
+				id = douglas.311
+			}
+		}
+    }
+}
+
+#MR_ALPINE_CLUB_JOIN_EXPEDITION_BUTTON
+mr_alpine_club_join_expedition_button_sgui = {
+    scope = country
+	is_shown = {
+		has_variable = douglas_alpine_club_board_member_var
+	}
+    is_valid = {
+		douglas_has_active_mountaineer = yes
+    }
+    effect = {
+		set_variable = douglas_alpine_club_expedition_member_var
+		douglas_add_mountain_ascent_effect = yes
+		var:douglas_mountain_expedition_var = {
+			save_scope_as = own_summit
+		}
+		set_variable = {
+			name = douglas_mountain_expedition_var
+			value = own_summit
+		}
+		if = {
+			limit = {
+				has_variable = douglas_mountaineer_var
+			}
+			var:douglas_mountaineer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+}
+
+#MR_ALPINE_CLUB_PRESIDENT_BUTTON
+mr_alpine_club_president_button_sgui = {
+    scope = country
+	is_shown = {
+		has_global_variable = douglas_alpine_club_founded_global_var
+		has_variable = douglas_mountaineering_club_var
+		NOT = {
+			any_country = {
+				has_variable = douglas_alpine_club_founding_country_var
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ALPINE_CLUB_CONTROLS_HQ_TRIGGER_TT
+			any_scope_state = {
+				has_building = building_douglas_alpine_club
+			}
+		}
+		custom_tooltip = {
+			text = MR_IOC_FOUNDATION_PEACE_TRIGGER_TT
+			is_at_war = no
+		}
+    }
+    effect = {
+		custom_tooltip = {
+			text = douglas_become_alpine_club_president_tt
+			set_variable = douglas_alpine_club_founding_country_var
+		}
+		country_definition = {
+			set_global_variable = {
+				name = douglas_alpine_club_president_global_var
+				value = ROOT
 			}
 		}
     }
