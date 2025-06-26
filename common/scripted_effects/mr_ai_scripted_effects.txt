@@ -169,7 +169,7 @@ ai_mountain_expedition_1_effect = {
 			}
 			NAND = {
 				has_variable = douglas_alpine_club_board_member_var
-				has_journal_entry = je_douglas_international_mountaineering_preparation
+				has_journal_entry = je_douglas_international_mountaineering_expedition_preparation
 			}
 		}
 
@@ -218,7 +218,7 @@ ai_mountain_expedition_2_effect = {
 			}
 			NAND = {
 				has_variable = douglas_alpine_club_board_member_var
-				has_journal_entry = je_douglas_international_mountaineering_preparation
+				has_journal_entry = je_douglas_international_mountaineering_expedition_preparation
 			}
 		}
 
@@ -266,7 +266,7 @@ ai_mountain_expedition_3_effect = {
 			}
 			NAND = {
 				has_variable = douglas_alpine_club_board_member_var
-				has_journal_entry = je_douglas_international_mountaineering_preparation
+				has_journal_entry = je_douglas_international_mountaineering_expedition_preparation
 			}
 		}
 
@@ -313,7 +313,7 @@ ai_mountain_expedition_4_effect = {
 			}
 			NAND = {
 				has_variable = douglas_alpine_club_board_member_var
-				has_journal_entry = je_douglas_international_mountaineering_preparation
+				has_journal_entry = je_douglas_international_mountaineering_expedition_preparation
 			}
 		}
 
@@ -357,7 +357,7 @@ ai_mountain_expedition_5_effect = {
 			}
 			NAND = {
 				has_variable = douglas_alpine_club_board_member_var
-				has_journal_entry = je_douglas_international_mountaineering_preparation
+				has_journal_entry = je_douglas_international_mountaineering_expedition_preparation
 			}
 		}
 
@@ -2527,7 +2527,7 @@ ai_mountaineer_effect = {
 			douglas_has_active_mountaineer = yes
 			NAND = {
 				has_variable = douglas_alpine_club_board_member_var
-				has_journal_entry = je_douglas_international_mountaineering_preparation
+				has_journal_entry = je_douglas_international_mountaineering_expedition_preparation
 			}
 		}
 		#Equipment 1
@@ -2661,7 +2661,7 @@ ai_mountaineer_effect = {
 				}
 				NAND = {
 					has_variable = douglas_alpine_club_board_member_var
-					has_journal_entry = je_douglas_international_mountaineering_preparation
+					has_journal_entry = je_douglas_international_mountaineering_expedition_preparation
 				}
 			}
 
@@ -2844,6 +2844,132 @@ ai_mountaineer_organisation_effect = {
 			set_global_variable = {
 				name = douglas_alpine_club_president_global_var
 				value = ROOT
+			}
+		}
+	}
+	#Alpine Club Expedition
+	if = {
+		limit = {
+			has_variable = douglas_alpine_club_founding_country_var
+			douglas_has_active_mountaineer = yes
+			var:douglas_alpine_heritage_var >= 25
+			any_country = {
+				has_variable = douglas_alpine_club_founding_country_var
+				NOT = {
+					has_modifier = douglas_mountaineering_international_expedition_modifier
+				}
+			}
+			any_country = {
+				has_variable = douglas_alpine_club_founding_country_var
+				OR = {
+					has_modifier = douglas_mountaineering_equipment_level_3_modifier
+					has_modifier = douglas_mountaineering_equipment_level_4_modifier
+					has_modifier = douglas_mountaineering_equipment_level_5_modifier
+				}
+			}
+			any_country = {
+				has_variable = douglas_mountaineering_club_var
+				OR = {
+					douglas_has_unconquered_level_2_summit_trigger = yes
+					douglas_has_unconquered_level_3_summit_trigger = yes
+					douglas_has_unconquered_level_4_summit_trigger = yes
+				}
+			}
+		}
+
+		#Effect
+		douglas_add_x_alpine_heritage_effect = {
+			AMOUNT = -25
+		}
+		if = {
+			limit = {
+				has_variable = douglas_mountaineer_var
+			}
+			var:douglas_mountaineer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		add_modifier = {
+			name = douglas_mountaineering_international_expedition_modifier
+			years = 10
+		}
+		trigger_event = {
+			id = douglas.321
+			popup = yes
+		}
+	}
+	#Alpine Club Expedition Proposal
+	if = {
+		limit = {
+			has_variable = douglas_alpine_club_board_member_var
+			NOT = {
+				has_variable = douglas_alpine_club_waiting_for_response_var
+			}
+			any_country = {
+				has_variable = douglas_alpine_club_founding_country_var
+				douglas_has_active_mountaineer = yes
+			}
+			var:douglas_alpine_heritage_var >= 25
+			any_country = {
+				has_variable = douglas_alpine_club_founding_country_var
+				NOT = {
+					has_modifier = douglas_mountaineering_international_expedition_modifier
+				}
+			}
+			any_country = {
+				has_variable = douglas_alpine_club_founding_country_var
+				OR = {
+					has_modifier = douglas_mountaineering_equipment_level_3_modifier
+					has_modifier = douglas_mountaineering_equipment_level_4_modifier
+					has_modifier = douglas_mountaineering_equipment_level_5_modifier
+				}
+			}
+			any_country = {
+				has_variable = douglas_mountaineering_club_var
+				OR = {
+					douglas_has_unconquered_level_2_summit_trigger = yes
+					douglas_has_unconquered_level_3_summit_trigger = yes
+					douglas_has_unconquered_level_4_summit_trigger = yes
+				}
+			}
+			NOT = {
+				has_modifier = douglas_mountaineering_international_expedition_setback_modifier
+			}
+		}
+
+		#Effect
+		set_variable = {
+			name = douglas_alpine_club_waiting_for_response_var
+			days = 200
+		}
+		douglas_add_x_alpine_heritage_effect = {
+			AMOUNT = -25
+		}
+		random_country = {
+			limit = {
+				has_variable = douglas_alpine_club_founding_country_var
+			}
+			trigger_event = {
+				id = douglas.311
+			}
+		}
+	}
+	#Alpine Club Expedition Join
+	if = {
+		limit = {
+			has_variable = douglas_alpine_club_board_member_var
+			douglas_has_active_mountaineer = yes
+		}
+
+		#Effect
+		set_variable = douglas_alpine_club_expedition_member_var
+		douglas_add_mountain_ascent_effect = yes
+		if = {
+			limit = {
+				has_variable = douglas_mountaineer_var
+			}
+			var:douglas_mountaineer_var = {
+				set_character_busy_and_immortal = yes
 			}
 		}
 	}
