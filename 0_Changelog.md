@@ -21,6 +21,9 @@ Animals:
 Prestige goods:
 - Steinway for Steinway.
 
+Compatibility:
+- Added limited support for the Expanded Topbar Framework. This will be expanded on in the future.
+
 Fixes:
 - Fixed an issue with Portugal being a Minor power and preventing the opium crisis event for the UK, because it imported too much opium for its opium mobilization and Qing breaking its treaty with it.
 - Albert Speer is no longer forced to work before being born as a punishment for his sins.
