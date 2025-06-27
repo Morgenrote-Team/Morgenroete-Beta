@@ -10,6 +10,7 @@ Portugal:
 Characters:
 - Herbert Eustis Winlock (random American Archaeologist)
 - João Domingos Bomtempo (Portuguese starting Composer)
+- Almeida Garrett (Portuguese starting Writer)
 - Removed Samuel Colt (now in the base game)
 
 3D models:
