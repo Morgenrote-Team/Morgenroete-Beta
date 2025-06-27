@@ -32,3 +32,4 @@ Fixes:
 - Fixed an issue with the Almshouse using the wrong PM.
 - Fixed Cologne Cathedral Event in which you can do the Obama meme.
 - New Composers should no longer be exhausted.
+- You can no longer plunder ghost libraries and anger yourself. Ghost libraries are not real.
