@@ -30,3 +30,4 @@ Fixes:
 - Removed some issues with AI using mountaineering stuff it is not supposed to use.
 - Fixed an issue with the Almshouse using the wrong PM.
 - Fixed Cologne Cathedral Event in which you can do the Obama meme.
+- New Composers should no longer be exhausted.
