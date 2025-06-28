@@ -38,6 +38,3 @@ Submarine Cable:
 - Many new events for Fundraising and Expedition.
 - Scientists will no longer accompany your expedition; your engineer will always be part of it (he is a requirement!). New events in which scientific assistants may accompany your expedition which may become naturalists, archaeologists or ethnologists (not yet included).
 - Beware of the Nautilus.
-
-Companies:
-- Added Telegraphy Company (Publishing Industries and Electrics)
