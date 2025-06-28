@@ -373,7 +373,10 @@ kill_composer_effect = {
 	}
 
 	remove_variable = elgar_composer_var
-	elgar_remove_composer_modifier_effect = yes
+	hidden_effect = {
+		elgar_remove_composer_modifier_effect = yes
+		remove_modifier = elgar_conductor_exhausted_modifier
+	}
 }
 #This Effect retires the current Composer
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -388,6 +391,7 @@ retire_composer_effect = {
 
 	remove_variable = elgar_composer_var
 	elgar_remove_composer_modifier_effect = yes
+	remove_modifier = elgar_conductor_exhausted_modifier
 }
 
 #This effect makes the current composer a travelling Composer
@@ -2103,6 +2107,35 @@ create_new_composer_effect = {
 
 			set_global_variable = mr_tausig_created_global_var
 		}
+		4 = { #João Domingos Bomtempo, Portugal
+			trigger = {
+				NOT = { has_global_variable = mr_bomtempo_joao_domingos_created_global_var }
+				has_state_in_state_region = STATE_ESTREMADURA
+				country_average_cultural_acceptance = {
+					target = cu:portuguese
+					value >= acceptance_status_3
+				}
+				game_date < 1830.12.28 #Age 55
+				year >= 1801 #Started travelling
+			}
+			create_character = {
+				template = mr_por_bomtempo_joao_domingos_character_template
+				save_scope_as = elgar_new_composer_scope
+			}
+			scope:elgar_new_composer_scope = {
+				set_variable = mr_is_composer_var
+				set_variable = mr_no_headgear_var
+				composer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = elgar_new_composer_var
+				value = scope:elgar_new_composer_scope
+			}
+
+			set_global_variable = mr_bomtempo_joao_domingos_created_global_var
+		}
 		4 = { #Alexander Borodin, Russia
 			trigger = {
 				NOT = { has_global_variable = mr_borodin_created_global_var }
@@ -2961,7 +2994,7 @@ create_new_composer_effect = {
 elgar_set_new_composer_as_composer_effect = {
 	custom_tooltip = {
 		text = elgar_replace_composer_with_new_composer_tt
-	
+
 		if = {
 			limit = {
 				has_variable = elgar_composer_var
@@ -2983,6 +3016,7 @@ elgar_set_new_composer_as_composer_effect = {
 			name = elgar_stopped_composing_remover_var
 			days = 5
 		}
+		remove_modifier = elgar_conductor_exhausted_modifier
 
 		remove_variable = elgar_new_composer_var
 	}
@@ -5007,6 +5041,35 @@ create_new_writer_effect = {
 			}
 
 			set_global_variable = mr_mickiewicz_created_global_var
+		}
+		4 = { #Almeida Garrett, Portugal
+			trigger = {
+				NOT = { has_global_variable = mr_garrett_almeida_created_global_var }
+				has_state_in_state_region = STATE_BEIRA #Born in Porto
+				country_average_cultural_acceptance = {
+					target = cu:portuguese
+					value >= acceptance_status_3
+				}
+				game_date < 1854.2.4 #Age 55
+				year >= 1819 #Lucrécia published
+			}
+			create_character = {
+				template = mr_por_garrett_almeida_character_template
+				save_scope_as = manzoni_new_writer_scope
+			}
+			scope:manzoni_new_writer_scope = {
+				set_variable = mr_is_writer_var
+				set_variable = mr_no_headgear_var
+				writer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = manzoni_new_writer_var
+				value = scope:manzoni_new_writer_scope
+			}
+
+			set_global_variable = mr_garrett_almeida_created_global_var
 		}
 		4 = { #Mihai Eminescu, Romania
 			trigger = {
@@ -7999,7 +8062,7 @@ create_new_architect_effect = {
 					value >= acceptance_status_4
 				}
 				game_date < 1960.03.19 #Age 55
-				year >= 1827 #Finished studies
+				year >= 1927 #Finished studies
 			}
 			create_character = {
 				template = mr_ger_speer_albert_character_template
