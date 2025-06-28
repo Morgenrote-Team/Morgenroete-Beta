@@ -30,6 +30,7 @@ Fixes:
 - Albert Speer is no longer forced to work before being born as a punishment for his sins.
 - Removed some issues with AI using mountaineering stuff it is not supposed to use.
 - Fixed an issue with the Almshouse using the wrong PM.
-- Fixed Cologne Cathedral Event in which you can do the Obama meme.
+- Fixed Cologne Cathedral Event in which you can do the Obama meme and other similar events in which you lauded or helped yourself instead of an ally.
 - New Composers should no longer be exhausted.
 - You can no longer plunder ghost libraries and anger yourself. Ghost libraries are not real.
+- Fixed several modifier locs.
