@@ -6,3 +6,6 @@ Characters:
 - Kōmin Kawamoto (random Japanese Chemist and Physician)
 - Jacobus Henricus van 't Hoff (random Dutch Chemist)
 - Santiago Ramón y Cajal (random Spanish Physician)
+
+Fixes:
+- The traits of the Swedish kings should no longer appear on random characters.
