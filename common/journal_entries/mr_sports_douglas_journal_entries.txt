@@ -346,3 +346,127 @@ je_douglas_international_mountaineering_expedition_preparation = {
 
 	should_be_pinned_by_default = yes
 }
+
+###Mount Everest Expedition######
+
+je_douglas_mount_everest_expedition = {
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	group = je_group_vikelas_sports
+
+	scripted_progress_bar = douglas_everest_expedition_progress_bar
+	scripted_progress_bar = douglas_mountain_danger_progress_bar
+
+	on_monthly_pulse = {
+		events = {
+			### South Route ###
+			douglas.411 #Douglas 411: The Forbidden Valley
+			douglas.412 #Douglas 412: The Seracs Above
+			douglas.413 #Douglas 413: The White Furnace
+			douglas.414 #Douglas 414: The Blue Wall
+			douglas.415 #Douglas 415: The Last Camp
+			douglas.416 #Douglas 416: The CHARACTER Step
+
+			### North Route ###
+			douglas.421 #Douglas 421: The Forbidden Face
+			douglas.422 #Douglas 422: The Glacier Cracks
+			douglas.423 #Douglas 423: The Ice Wall
+			douglas.424 #Douglas 424: The Edge of Breath
+			douglas.425 #Douglas 425: The Second Step
+		}
+	}
+	
+	immediate = {
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = douglas_mountain_expedition_progress_bar_at_full_tt
+			je:je_douglas_mount_everest_expedition = {
+				"scripted_bar_progress(douglas_mountain_expedition_progress_bar)" >= 10
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = douglas.431
+		}
+		var:douglas_mountaineer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		remove_variable = douglas_mount_everest_north_route_var
+		remove_variable = douglas_mount_everest_south_route_var
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_mountaineer_dies_tt
+			NOT = {
+				has_variable = douglas_mountaineer_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = douglas_mountain_expedition_var
+		remove_variable = douglas_mount_everest_north_route_var
+		remove_variable = douglas_mount_everest_south_route_var
+	}
+
+	timeout = douglas_mountain_motivation_value
+
+	on_timeout = {
+		trigger_event = { 
+			id = douglas.432
+		}
+		var:douglas_mountaineer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		remove_variable = douglas_mount_everest_north_route_var
+		remove_variable = douglas_mount_everest_south_route_var
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = douglas_mountain_danger_progress_bar_at_full_tt
+			je:je_douglas_mount_everest_expedition  = {
+				"scripted_bar_progress(douglas_mountain_danger_progress_bar)" >= 5
+			}
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = douglas.433
+		}
+		var:douglas_mountaineer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		remove_variable = douglas_mount_everest_north_route_var
+		remove_variable = douglas_mount_everest_south_route_var
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 25
+}
+
+je_douglas_mount_everest_expedition_preparation = {
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	group = je_group_vikelas_sports
+
+	timeout = 365
+
+	on_timeout = {
+		trigger_event = {
+			id = douglas.401
+			popup = yes 
+		}
+	}
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
