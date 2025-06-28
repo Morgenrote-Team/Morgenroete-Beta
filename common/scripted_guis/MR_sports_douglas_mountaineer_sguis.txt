@@ -545,6 +545,12 @@ mr_mountaineering_club_button_sgui = {
 			id = douglas.101
 		}
     }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
 
 #MR_ALPINE_CLUB_BUTTON
@@ -622,6 +628,179 @@ mr_alpine_club_button_sgui = {
     }
 }
 
+#MR_ALPINE_CLUB_START_EXPEDITION_BUTTON
+mr_alpine_club_start_expedition_button_sgui = {
+    scope = country
+	is_shown = {
+		has_variable = douglas_alpine_club_founding_country_var
+	}
+    is_valid = {
+		douglas_has_active_mountaineer = yes
+		custom_tooltip = {
+			text = MR_ALPINE_HERITAGE_25_TRIGGER_TT
+			var:douglas_alpine_heritage_var >= 25
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_RECENT_INTERNATIONAL_EXPEDITION_TRIGGER_TT
+			any_country = {
+				has_variable = douglas_alpine_club_founding_country_var
+				NOT = {
+					has_modifier = douglas_mountaineering_international_expedition_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_EQUIPMENT_INTERNATIONAL_EXPEDITION_TRIGGER_TT
+			any_country = {
+				has_variable = douglas_alpine_club_founding_country_var
+				OR = {
+					has_modifier = douglas_mountaineering_equipment_level_3_modifier
+					has_modifier = douglas_mountaineering_equipment_level_4_modifier
+					has_modifier = douglas_mountaineering_equipment_level_5_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_UNCONQUERED_SUMMIT_INTERNATIONAL_EXPEDITION_TRIGGER_TT
+			any_country = {
+				has_variable = douglas_mountaineering_club_var
+				OR = {
+					douglas_has_unconquered_level_2_summit_trigger = yes
+					douglas_has_unconquered_level_3_summit_trigger = yes
+					douglas_has_unconquered_level_4_summit_trigger = yes
+				}
+			}
+		}
+    }
+    effect = {
+		douglas_add_x_alpine_heritage_effect = {
+			AMOUNT = -25
+		}
+		if = {
+			limit = {
+				has_variable = douglas_mountaineer_var
+			}
+			var:douglas_mountaineer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		add_modifier = {
+			name = douglas_mountaineering_international_expedition_modifier
+			years = 10
+		}
+		trigger_event = {
+			id = douglas.321
+			popup = yes
+		}
+    }
+}
+
+#MR_ALPINE_CLUB_PROPOSE_EXPEDITION_BUTTON
+mr_alpine_club_propose_expedition_button_sgui = {
+    scope = country
+	is_shown = {
+		has_variable = douglas_alpine_club_board_member_var
+		any_country = {
+			has_variable = douglas_alpine_club_founding_country_var
+		}
+	}
+    is_valid = {
+		hidden_trigger = {
+			NOT = {
+				has_variable = douglas_alpine_club_waiting_for_response_var
+			}
+		}
+		custom_tooltip = {
+			text = MR_ALPINE_PRESIDENT_HAS_ACTIVE_MOUNTAINEER_TRIGGER_TT
+			any_country = {
+				has_variable = douglas_alpine_club_founding_country_var
+				douglas_has_active_mountaineer = yes
+			}
+		}
+		custom_tooltip = {
+			text = MR_ALPINE_HERITAGE_25_TRIGGER_TT
+			var:douglas_alpine_heritage_var >= 25
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_RECENT_INTERNATIONAL_EXPEDITION_TRIGGER_TT
+			any_country = {
+				has_variable = douglas_alpine_club_founding_country_var
+				NOT = {
+					has_modifier = douglas_mountaineering_international_expedition_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_EQUIPMENT_INTERNATIONAL_EXPEDITION_TRIGGER_TT
+			any_country = {
+				has_variable = douglas_alpine_club_founding_country_var
+				OR = {
+					has_modifier = douglas_mountaineering_equipment_level_3_modifier
+					has_modifier = douglas_mountaineering_equipment_level_4_modifier
+					has_modifier = douglas_mountaineering_equipment_level_5_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_UNCONQUERED_SUMMIT_INTERNATIONAL_EXPEDITION_TRIGGER_TT
+			any_country = {
+				has_variable = douglas_mountaineering_club_var
+				OR = {
+					douglas_has_unconquered_level_2_summit_trigger = yes
+					douglas_has_unconquered_level_3_summit_trigger = yes
+					douglas_has_unconquered_level_4_summit_trigger = yes
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_RECENT_INTERNATIONAL_EXPEDITION_NO_SETBACK_TRIGGER_TT
+			NOT = {
+				has_modifier = douglas_mountaineering_international_expedition_setback_modifier
+			}
+		}
+    }
+    effect = {
+		set_variable = {
+			name = douglas_alpine_club_waiting_for_response_var
+			days = 200
+		}
+		douglas_add_x_alpine_heritage_effect = {
+			AMOUNT = -25
+		}
+		random_country = {
+			limit = {
+				has_variable = douglas_alpine_club_founding_country_var
+			}
+			trigger_event = {
+				id = douglas.311
+			}
+		}
+    }
+}
+
+#MR_ALPINE_CLUB_JOIN_EXPEDITION_BUTTON
+mr_alpine_club_join_expedition_button_sgui = {
+    scope = country
+	is_shown = {
+		has_variable = douglas_alpine_club_board_member_var
+	}
+    is_valid = {
+		douglas_has_active_mountaineer = yes
+    }
+    effect = {
+		set_variable = douglas_alpine_club_expedition_member_var
+		douglas_add_mountain_ascent_effect = yes
+		if = {
+			limit = {
+				has_variable = douglas_mountaineer_var
+			}
+			var:douglas_mountaineer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+}
+
 #MR_ALPINE_CLUB_PRESIDENT_BUTTON
 mr_alpine_club_president_button_sgui = {
     scope = country
@@ -655,113 +834,6 @@ mr_alpine_club_president_button_sgui = {
 			set_global_variable = {
 				name = douglas_alpine_club_president_global_var
 				value = ROOT
-			}
-		}
-    }
-}
-
-#MR_MOUNTAIN_TROOPS_REGIMENT_BUTTON
-mr_mountain_troops_regiment_button_sgui = {
-    scope = country
-    is_valid = {
-		mr_gui_has_defense_in_depth_tech_trigger = yes
-		douglas_has_mountaineer = yes
-		douglas_has_mountaineering_club_trigger = yes
-		douglas_has_mountain_trigger = yes
-		custom_tooltip = {
-			text = MR_MOUNTAIN_GENERAL_TRIGGER_TT
-			any_scope_character = {
-				has_role = general
-				is_busy = no
-				OR = {
-					has_trait = douglas_mountaineer
-					has_trait = douglas_mountaineer_veteran
-					has_trait = explorer
-					has_trait = mountain_commander
-				}
-			}
-		}
-		custom_tooltip = {
-			text = MR_ALPINE_HERITAGE_25_TRIGGER_TT
-			var:douglas_alpine_heritage_var >= 25
-		}
-    }
-    effect = {
-		douglas_add_x_alpine_heritage_effect = {
-			AMOUNT = -25
-		}
-		add_modifier = {
-			name = douglas_mountaineering_regiment_modifier
-		}
-		trigger_event = {
-			id = douglas.103
-		}
-    }
-}
-
-#MR_MOUNTAINEERING_EQUIPMENT_BUTTON
-mr_mountaineering_equipment_button_sgui = {
-    scope = country
-	is_shown = {
-		NOT = {
-			has_modifier = douglas_mountaineering_equipment_level_5_modifier
-		}
-	}
-    is_valid = {
-		hidden_trigger = {
-			NOR = {
-				douglas_has_active_mountaineer = no
-				any_scope_state = {
-					is_capital = yes
-					has_modifier = douglas_mountaineering_equipment_level_5_modifier
-				}
-			}
-		}
-		douglas_has_active_mountaineer = yes
-		custom_tooltip = {
-			text = MR_ALPINE_HERITAGE_25_TRIGGER_TT
-			var:douglas_alpine_heritage_var >= 25
-		}
-		#Level 1 Trigger: Geology
-		mr_gui_has_geology_tech_trigger = yes
-		#Level 2 Trigger: Logistics (Rope Group)
-		trigger_if = {
-			limit = { 
-				has_modifier = douglas_mountaineering_equipment_level_1_modifier
-			}
-			mr_gui_has_logistics_tech_trigger = yes
-		}
-		#Level 3 Trigger: Modern Nursing (Severe Injuries)
-		trigger_if = {
-			limit = { 
-				has_modifier = douglas_mountaineering_equipment_level_2_modifier
-			}
-			mr_gui_has_modern_nursing_tech_trigger = yes
-		}
-		#Level 4 Trigger: Seismology 
-		trigger_if = {
-			limit = { 
-				has_modifier = douglas_mountaineering_equipment_level_3_modifier
-			}
-			mr_gui_has_seismology_tech_trigger = yes
-		}
-		#Level 5 Trigger: Chemical Warfare (Oxygen)
-		trigger_if = {
-			limit = { 
-				has_modifier = douglas_mountaineering_equipment_level_4_modifier
-			}
-			mr_gui_has_chemical_warfare_tech_trigger = yes
-		}
-
-    }
-    effect = {
-		add_journal_entry = { type = je_douglas_mountaineering_equipment }
-		if = {
-			limit = { 
-				has_variable = douglas_mountaineer_var
-			}
-			var:gaudi_architect_var = {
-				set_character_busy_and_immortal = yes
 			}
 		}
     }
