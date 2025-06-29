@@ -1,36 +1,22 @@
-Changelog fot 2.4.1 "Garrett"
-
-Portugal:
-- Major power at game start (like in vanilla)
-- Added Moistero dos Jéronimos at game start in Lissabon.
-- Added event about Jéronimos renovation.
-- Added Fado event.
-- Added Porto Ferreira Company - produces Port Wine as a prestige good.
+Changelog fot 2.4.1a "Garrett"
 
 Characters:
-- Herbert Eustis Winlock (random American Archaeologist)
-- João Domingos Bomtempo (Portuguese starting Composer)
-- Almeida Garrett (Portuguese starting Writer)
-- Removed Samuel Colt (now in the base game)
+- August Kekulé (random German Chemist)
+- Alexander William Williamson (random British Chemist)
+- Kōmin Kawamoto (random Japanese Chemist and Physician)
+- Jacobus Henricus van 't Hoff (random Dutch Chemist)
+- Santiago Ramón y Cajal (random Spanish Physician)
 
-3D models:
-- Improved the Opera House texture (thanks Miss Duce!)
-
-Animals:
-- Bald Eagles now live in Illinois too.
-
-Prestige goods:
-- Steinway for Steinway.
-
-Compatibility:
-- Added limited support for the Expanded Topbar Framework. This will be expanded on in the future.
+QoL:
+- The Seismometer and Seismograph no longer require you to press a button and instead start gaining progress once you have an engineer and a geologist.
 
 Fixes:
-- Fixed an issue with Portugal being a Minor power and preventing the opium crisis event for the UK, because it imported too much opium for its opium mobilization and Qing breaking its treaty with it.
-- Albert Speer is no longer forced to work before being born as a punishment for his sins.
-- Removed some issues with AI using mountaineering stuff it is not supposed to use.
-- Fixed an issue with the Almshouse using the wrong PM.
-- Fixed Cologne Cathedral Event in which you can do the Obama meme and other similar events in which you lauded or helped yourself instead of an ally.
-- New Composers should no longer be exhausted.
-- You can no longer plunder ghost libraries and anger yourself. Ghost libraries are not real.
-- Fixed several modifier locs.
+- The traits of the Swedish kings should no longer appear on random characters.
+- Voolcano Expedition Events are no longer staying after the Volcano expedition.
+- The offensive bonus from 2nd level of advanced weapons was fixed.
+- The Zoo expansion alert no longer shows up if your Zoo is still in construction.
+- The Pneumothorax now shows the two scientists instead of a smiley.
+- The overview of the Science and Arts tab no longer flood the error log.
+- Character Tooltips are activated again, as they no longer cause any 
+- Geologist gets the right traits when upgrading to experienced and famous.
+
