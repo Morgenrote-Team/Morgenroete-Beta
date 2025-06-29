@@ -9,3 +9,5 @@ Characters:
 
 Fixes:
 - The traits of the Swedish kings should no longer appear on random characters.
+- Voolcano Expedition Events are no longer staying after the Volcano expedition.
+- The offensive bonus from 2nd level of advanced weapons was fixed.
