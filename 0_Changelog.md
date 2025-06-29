@@ -21,3 +21,4 @@ Fixes:
 - Geologist gets the right traits when upgrading to experienced and famous.
 - Characters no longer wear executive coats.
 - Events regarding expanding your capital will get closed once the expansion project is finished.
+- Steinway now produces Steinways and not generic prestige instruments.
