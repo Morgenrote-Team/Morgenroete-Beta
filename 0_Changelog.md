@@ -12,3 +12,4 @@ Fixes:
 - Voolcano Expedition Events are no longer staying after the Volcano expedition.
 - The offensive bonus from 2nd level of advanced weapons was fixed.
 - The Zoo expansion alert no longer shows up if your Zoo is still in construction.
+- The Pneumothorax now shows the two scientists instead of a smiley.
