@@ -18,3 +18,5 @@ Fixes:
 - The Pneumothorax now shows the two scientists instead of a smiley.
 - The overview of the Science and Arts tab no longer flood the error log.
 - Character Tooltips are activated again, as they no longer cause any 
+- Geologist gets the right traits when upgrading to experienced and famous.
+
