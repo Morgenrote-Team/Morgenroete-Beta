@@ -1,4 +1,4 @@
-Changelog fot 2.4.1a "Garrett"
+Changelog fot 2.4.1b "Garrett"
 
 Characters:
 - August Kekulé (random German Chemist)
