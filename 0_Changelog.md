@@ -1,4 +1,4 @@
-Changelog fot 2.4.1a "Garrett"
+Changelog fot 2.4.1b "Garrett"
 
 Characters:
 - August Kekulé (random German Chemist)
@@ -19,4 +19,6 @@ Fixes:
 - The overview of the Science and Arts tab no longer flood the error log.
 - Character Tooltips are activated again, as they no longer cause any 
 - Geologist gets the right traits when upgrading to experienced and famous.
-
+- Characters no longer wear executive coats.
+- Events regarding expanding your capital will get closed once the expansion project is finished.
+- Steinway now produces Steinways and not generic prestige instruments.
