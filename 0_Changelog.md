@@ -16,3 +16,4 @@ Fixes:
 - The offensive bonus from 2nd level of advanced weapons was fixed.
 - The Zoo expansion alert no longer shows up if your Zoo is still in construction.
 - The Pneumothorax now shows the two scientists instead of a smiley.
+- The overview of the Science and Arts tab no longer flood the error log.
