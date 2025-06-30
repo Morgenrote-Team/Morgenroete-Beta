@@ -46,12 +46,16 @@ Publishing Industry:
 - Added 7 new Events for Executive/Company/Journalism dealing with government.
 - The Journal Entry "Journalistic Spirit" will only trigger if you have a publishing industry building.
 - The Journal Entry "Full of Lies" only triggers if a publishing industry building has the PM Penny Press.
+- The Journal Entry for Prestige Prints now needs one of the following: a) A Great Writer b) A Writer and a Publishing Industry with a Literary Publisher c) A Painter and a Publishing Industry with an Art Publisher
 - Added PM Penny Press.
 - Newspaper Events now use the Typewriter event icon.
 
 Aviation:
 - Airline Events should work again.
 - Airline Tycoon is now the Executive of the Airline company.
+
+Companies:
+- Added Carl Zeiss Company. This produces Microscopes as prestige goods.
 
 Music:
 - Added Rossini's "La Danza"
