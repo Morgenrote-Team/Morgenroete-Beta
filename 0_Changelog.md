@@ -39,11 +39,20 @@ Submarine Cable:
 - Scientists will no longer accompany your expedition; your engineer will always be part of it (he is a requirement!). New events in which scientific assistants may accompany your expedition which may become naturalists, archaeologists or ethnologists (not yet included).
 - Beware of the Nautilus.
 
+Publishing Industry:
+- The Journal Entry "Pro Government Newspaper" will now trigger when you have a publishing company and the executive belongs to an interest group which sits in a government.
+- The Journal Entry "Freedom of the Press" will now trigger when you have a publishing company and the executive DOES NOT belong to an interest group which sits in a government.
+- Both JEs are not completed anymore. Instead they trigger events depending of the Executive being on the side of government or on the side of the opposition.
+- Added 7 new Events for Executive/Company/Journalism dealing with government.
+- The Journal Entry "Journalistic Spirit" will only trigger if you have a publishing industry building.
+- The Journal Entry "Full of Lies" only triggers if a publishing industry building has the PM Penny Press.
+- Added PM Penny Press.
+- Newspaper Events now use the Typewriter event icon.
+
 Aviation:
 - Airline Events should work again.
 - Airline Tycoon is now the Executive of the Airline company.
 
 Music:
-
 - Added Rossini's "La Danza"
 - Added Fauré's "Sicilienne"
