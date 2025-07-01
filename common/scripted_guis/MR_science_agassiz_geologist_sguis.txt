@@ -248,15 +248,56 @@ mr_geologist_age_earth_active_sgui = {
 #MR_GEOLOGIST_HIGHEST_MOUNTAIN_BUTTON_TT
 mr_geologist_highest_mountain_button_sgui = {
 	scope = country
+	is_shown = {
+		NOT = {
+			global_var:douglas_highest_mountain_global_var = douglas_mount_everest_highest_mountain_flag
+		}
+	}
 	is_valid = {
-		mr_gui_has_geology_tech_trigger = yes
 		custom_tooltip = {
 			text = MR_GEOLOGIST_ACTIVE_TRIGGER_TT
 			dubois_has_active_geologist = yes
 		}
+		custom_tooltip = {
+			text = MR_GEOLOGIST_HIMALAYAS_ACCESS_TRIGGER_TT
+			any_scope_interest_marker = {
+				state_region = s:STATE_HIMALAYAS
+			}
+		}
+		custom_tooltip = {
+			text = MR_GEOLOGIST_NO_HIMALAYA_SURVEY_TRIGGER_TT
+			NOT = {
+				has_variable = agassiz_highest_mountain_active_var
+			}
+		}
+		trigger_if = {
+			limit = {
+				OR = {
+					global_var:douglas_highest_mountain_global_var = douglas_dhalaugiri_highest_mountain_flag
+					global_var:douglas_highest_mountain_global_var = douglas_chimborazo_highest_mountain_flag
+				}
+			}
+			mr_gui_has_geology_tech_trigger = yes
+		}
+		trigger_if = {
+			limit = {
+				global_var:douglas_highest_mountain_global_var = douglas_kangchenjunga_highest_mountain_flag
+			}
+			mr_gui_has_seismology_tech_trigger = yes
+		}
 	}
 	effect = {
-		
+		add_journal_entry = {
+			type = je_agassiz_highest_mountain
+		}
+		if = {
+			limit = {
+				has_variable = agassiz_geologist_var
+			}
+			var:agassiz_geologist_var ?= {
+				set_character_busy_and_immortal = yes
+			}
+		}
 	}
 
 	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
