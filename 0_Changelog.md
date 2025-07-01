@@ -1,7 +1,6 @@
 Changelog fot 2.4.2 "Mallory"
 
 Mountaineering:
-- "Alpine Club" as an equivalent to the IOC, FIFA and AIACR in the field of mountaineering. 
 - Mountaineer is now a character, not a general. 
 - Added new Mountains: Matterhorn, Mount Everest, Popocatepetl (conquered at game start), Mont Blanc (conquered at game start), Großvenediger, Mount Saint Elias, Tajumulco, Pico Simón Bolivar, Monte Pissis, Ras Dashen, Toubkal, Mount Gongga, Mount Giluwe, Mauna Kea (conquered at game start).
 - Renamed Batian to Mount Kenya.
@@ -22,10 +21,16 @@ Mountaineering:
 - Added new mountain expedition events.
 - Scientific Assistants, not Scientists will accompany Mountaineers.
 - Geologist may spawn after successful ascent.
+- Added a special event expedition chain for Mount Everest, with two branches: North Route, South Route. Mount Everest is quite risky, but your scientists may help in that case.
+- "Alpine Club" as an equivalent to the IOC, FIFA and AIACR in the field of mountaineering. 
+- Being President or Board Member of the Alpine Club gives advantages, therefore the board will be changed every ten years; top mountaineering nations become board members.
+- President of the Alpine Club can start International Mountaineering Expeditions. Board Members may propose International Expeditions. Board Members can join an International Expedition lead by the President.
+- International Mountain Expeditions will normally not fail, even on high level or risky mountains. Progress depends on number of board members joining the expedition.
+- President conquers the summit when the international expeditions succeeds, all other members will get prestige, too (but not as much as if they would get when doing the conquest themselves).
 
 Geology:
-- Added "The Highest Mountain" action for Geologist. This is a small JE to search for the highest mountain in the Himalayas.
-- Added a third tab for geologist (organization) for better overview.
+- Added "The Highest Mountain" action for Geologists. This is a small JE to search for the highest mountain in the Himalayas.
+- Added a third tab for geologists (organization) for better overview.
 
 Submarine Cable:
 - Complete Rework of the Transatlantic Cable. Transatlantic Cable is only one of three Submarine Cables.
@@ -61,6 +66,9 @@ Aviation:
 
 Companies:
 - Added Carl Zeiss Company. This produces Microscopes as prestige goods.
+
+Architecture:
+- Blueprint buildings can be build once in a nation (there are still some other triggers, though). One building of a certain category per state was to complicated, the rule was therefore removed.
 
 Music:
 - Added Rossini's "La Danza"
