@@ -1,13 +1,13 @@
-Changelog fot 2.4.1c "Garrett"
+Changelog fot 2.4.1d "Garrett"
 
 Characters:
-- Seitarō Gotō (random Japanese Naturalist)
-- Yoichirō Hirase (random Japanese Naturalist)
-- Isao Ijima (random Japanese Naturalist)
-- Asajirō Oka (random Japanese Naturalist)
-- Hikoshichirō (random Japanese Paleontologist and Archaeologist)
-- Demetrios Vikelas (random Greek Writer)
+- Henrique Dumont (random Brazilian Engineer)
+- Alberto Santos-Dumont (random Brazilian Engineer)
+- Carlos Chagas (random Brazilian Physician)
+- Oswaldo Cruz (random Brazilian Physician)
 
+Fixes:
+- Fixed the Names in the Turkish localization.
 
-Topbar Framework:
-- Added more values to the topbar framework.
+Balancing:
+- Reduced kill rate modifiers of Advanced Weapons and Advanced tanks some more.
