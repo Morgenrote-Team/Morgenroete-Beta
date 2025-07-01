@@ -7,7 +7,7 @@ Characters:
 - Oswaldo Cruz (random Brazilian Physician)
 
 Fixes:
-- Fixed the Names in the Turkish localization.
+- Fixed the Names in the various localizations.
 
 Balancing:
 - Reduced kill rate modifiers of Advanced Weapons and Advanced tanks some more.
