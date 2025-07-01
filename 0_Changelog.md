@@ -23,6 +23,10 @@ Mountaineering:
 - Scientific Assistants, not Scientists will accompany Mountaineers.
 - Geologist may spawn after successful ascent.
 
+Geology:
+- Added "The Highest Mountain" action for Geologist. This is a small JE to search for the highest mountain in the Himalayas.
+- Added a third tab for geologist for better overview.
+
 Submarine Cable:
 - Complete Rework of the Transatlantic Cable. Transatlantic Cable is only one of three Submarine Cables.
 - Added Suez India Cable. This expedition becomes available after the Transatlantic Cable.
@@ -48,6 +52,7 @@ Publishing Industry:
 - The Journal Entry "Full of Lies" only triggers if a publishing industry building has the PM Penny Press.
 - The Journal Entry for Prestige Prints now needs one of the following: a) A Great Writer b) A Writer and a Publishing Industry with a Literary Publisher c) A Painter and a Publishing Industry with an Art Publisher
 - Added PM Penny Press.
+- Added 2 new Penny Press Events.
 - Newspaper Events now use the Typewriter event icon.
 
 Aviation:
