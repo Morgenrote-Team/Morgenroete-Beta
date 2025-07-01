@@ -25,7 +25,7 @@ Mountaineering:
 
 Geology:
 - Added "The Highest Mountain" action for Geologist. This is a small JE to search for the highest mountain in the Himalayas.
-- Added a third tab for geologist for better overview.
+- Added a third tab for geologist (organization) for better overview.
 
 Submarine Cable:
 - Complete Rework of the Transatlantic Cable. Transatlantic Cable is only one of three Submarine Cables.
