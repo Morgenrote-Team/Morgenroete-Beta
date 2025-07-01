@@ -7,3 +7,7 @@ Topbar Framework:
 
 
 Fixes:
+
+
+Balancing:
+- Reduced kill rate modifiers of Advanced Weapons and Advanced tanks some more.
