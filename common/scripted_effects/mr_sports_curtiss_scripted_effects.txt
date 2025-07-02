@@ -1227,19 +1227,6 @@ curtiss_ballooning_research_if_record_all_effect = {
 
 ##########################
 
-curtiss_balloonist_experience_set_up_value = {
-	#Ballooning Tradition: 1 Reputation per 100 tradition up to a total of 100 reputation
-	if = {
-		limit = {
-			owner.var:curtiss_ballooning_tradition > 99
-		}
-		add = 100
-	}
-	else = {
-		value = owner.var:curtiss_ballooning_tradition
-	}
-}
-
 #This value calculates the next yearly gain/loss ballooning tradition
 curtiss_ballooning_tradition = {
 	value = 0
@@ -1272,6 +1259,7 @@ curtiss_ballooning_tradition = {
 			}
 		}
 		add = 1
+		max = 3
 	}
 	### Technology ###
 	if = {
@@ -1363,7 +1351,33 @@ curtiss_new_balloon_altitude_effect = {
 				value = { 100 2000 }
 			}
 		}
-	
+		if = {
+			limit = {
+				always
+				}
+			set_variable = {
+				name = balloon_multiplier
+				value = owner.var:curtiss_ballooning_tradition
+			}
+			change_variable = {
+				name = balloon_multiplier
+				divide = 200	
+			}
+			change_variable = {
+				name = balloon_multiplier
+				add = 1
+			}
+			change_variable = {
+				name = new_balloon_altitude_var
+				multiply = var:balloon_multiplier
+			}
+			clr_variable = balloon_multiplier
+		}
+			change_variable = {
+				name = new_balloon_altitude_var
+				multiply = 1.1
+			}
+		}
 		if = {
 			limit = {
 				var:curtiss_balloonist_var = {
@@ -1644,7 +1658,28 @@ curtiss_new_balloon_distance_effect = {
 				value = { 10 400 }
 			}
 		}
-	
+		if = {
+			limit = {
+				always
+				}
+			set_variable = {
+				name = balloon_multiplier_2
+				value = owner.var:curtiss_ballooning_tradition
+			}
+			change_variable = {
+				name = balloon_multiplier_2
+				divide = 200	
+			}
+			change_variable = {
+				name = balloon_multiplier_2
+				add = 1
+			}
+			change_variable = {
+				name = new_balloon_distance_var
+				multiply = var:balloon_multiplier_2
+			}
+			clr_variable = balloon_multiplier_2
+		}
 		if = {
 			limit = {
 				var:curtiss_balloonist_var = {
@@ -1924,7 +1959,6 @@ curtiss_new_balloon_time_effect = {
 			multiply = 1.05
 		}
 	}
-
 	round_variable = {
 		name = new_balloon_time_var
 		nearest = 0.1
@@ -2059,7 +2093,7 @@ create_balloonist_effect = {
 			create_character = {
 				age = { 20 30 }
 				template = mr_gbr_fogg_phileas_character_template
-	
+				save_scope_as = balloonist_set_up_experience	
 				save_scope_as = curtiss_balloonist_scope
 			}
 
@@ -2123,6 +2157,7 @@ create_balloonist_effect = {
 						age = { 20 30 }
 						trait_generation = {}
 						save_scope_as = curtiss_balloonist_scope
+						save_scope_as = balloonist_set_up_experience
 					}
 					scope:curtiss_balloonist_scope = {
 						add_trait = curtiss_balloonist
@@ -2180,6 +2215,21 @@ create_balloonist_effect = {
 
 	balloonist_cost_effect = yes
 }
+
+###Set Balloonist Starting Experience Level###
+set_variable = {
+	name = balloon_experience
+	value = owner.var:curtiss_ballooning_tradition
+}
+change_variable = {
+		name = balloon_experience
+		multiply = 1.5
+change_variable = {
+	scope = balloonist_set_up_experience
+	name = experience
+	add = var:balloon_experience
+}
+clr_variable = balloon_experience
 
 ###Adds the right cost modifier to the country###
 balloonist_cost_effect = {
