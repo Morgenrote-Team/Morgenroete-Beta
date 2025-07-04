@@ -11,3 +11,5 @@ Topbar:
 
 Fixes:
 - Various small bug fixes
+- Fixed the color of the School of Architecture.
+- Psychotherapeutic points should no longer overflow.
