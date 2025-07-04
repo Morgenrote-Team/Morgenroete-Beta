@@ -60,6 +60,11 @@ Publishing Industry:
 - Added 2 new Penny Press Events.
 - Newspaper Events now use the Typewriter event icon.
 
+Astronomy:
+- Added Events for the Origin of the Moon. An Astronomer can invent the Fission Theory (Darwin) or the Capture Theory (See). In rare circumstances, a Geologist may invent the Impact Theory (Daly).
+- Astrophysics JE triggers with Modern Physics. Until now, it triggered after the discovery of Neptune.
+- You need 1000 (instead of 750) astronomical objects to invent astrophysics.
+
 Aviation:
 - Airline Events should work again.
 - Airline Tycoon is now the Executive of the Airline company.
