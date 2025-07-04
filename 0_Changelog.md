@@ -1,13 +1,12 @@
-Changelog fot 2.4.1d "Garrett"
+Changelog fot 2.4.1e "Garrett"
 
 Characters:
-- Henrique Dumont (random Brazilian Engineer)
-- Alberto Santos-Dumont (random Brazilian Engineer)
-- Carlos Chagas (random Brazilian Physician)
-- Oswaldo Cruz (random Brazilian Physician)
+- Władysław Dziewulski (random Polish Astronomer)
+- Franz Grillparzer (Austrian starting Writer)
+- Congwen Shen (random Chinese Writer)
+- José Zorrilla (random Spanish Writer)
 
 Fixes:
-- Fixed the Names in the various localizations.
+
 
 Balancing:
-- Reduced kill rate modifiers of Advanced Weapons and Advanced tanks some more.
