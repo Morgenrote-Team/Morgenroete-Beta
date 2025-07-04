@@ -6,7 +6,8 @@ Characters:
 - Congwen Shen (random Chinese Writer)
 - José Zorrilla (random Spanish Writer)
 
+Topbar:
+- Added Support for more elements in the Topbar
+
 Fixes:
-
-
-Balancing:
+- Various small bug fixes
