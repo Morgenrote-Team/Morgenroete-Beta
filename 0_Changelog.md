@@ -9,6 +9,9 @@ Characters:
 Topbar:
 - Added Support for more elements in the Topbar
 
+Quality of Life:
+- You can now change the Epidemic notification events to only be notifications.
+
 Fixes:
 - Various small bug fixes
 - Fixed the color of the School of Architecture.
