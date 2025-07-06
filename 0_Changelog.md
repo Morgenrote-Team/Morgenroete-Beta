@@ -22,6 +22,7 @@ Fixes:
 - The Paddock Button should no longer disappear after you found the AIACAR
 - Fixed the text for the racing triggers that told you they require Motor Industries when in fact they need Automotive Industries.
 - The Mechanical Engineer can now also improve fishing and whaling industries.
+- The "Spitting on the streets" event is now rarer.
 
 Characters:
 - Lars Fredrik Nilson (random Swedish Chemist)
