@@ -75,9 +75,12 @@ Companies:
 Architecture:
 - Blueprint buildings can be build once in a nation (there are still some other triggers, though). One building of a certain category per state was to complicated, the rule was therefore removed.
 
-Balancing:
-- Reduced the number of employees added by the clinic and hospital PM to match the reduction for the government administration building.
+Painting:
+- You can now decide which painting style a painter chooses - as long as he studied the style.
 
 Music:
 - Added Rossini's "La Danza"
 - Added Fauré's "Sicilienne"
+
+Balancing:
+- Reduced the number of employees added by the clinic and hospital PM to match the reduction for the government administration building.
