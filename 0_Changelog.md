@@ -21,6 +21,7 @@ Fixes:
 - Both buttons should now work to recall the Naturalist from a Botanical Expedition.
 - The Paddock Button should no longer disappear after you found the AIACAR
 - Fixed the text for the racing triggers that told you they require Motor Industries when in fact they need Automotive Industries.
+- The Mechanical Engineer can now also improve fishing and whaling industries.
 
 Characters:
 - Lars Fredrik Nilson (random Swedish Chemist)
