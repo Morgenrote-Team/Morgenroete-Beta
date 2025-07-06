@@ -69,6 +69,9 @@ Aviation:
 - Airline Events should work again.
 - Airline Tycoon is now the Executive of the Airline company.
 
+Archaeology
+- Slightly shorter "recent archaeological expedition" modifiers until you can start a new expedition. In general, your waiting time is one year shorter now (3 years for short expedition, 4 years for medium expedition, 5 years for long expedition).
+
 Companies:
 - Added Carl Zeiss Company. This produces Microscopes as prestige goods.
 
