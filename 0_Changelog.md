@@ -18,4 +18,5 @@ Fixes:
 - Both buttons should now work to recall the Naturalist from a Botanical Expedition.
 
 Characters:
+- Otto Wagner (random Austrian Architect)
 - Charles Garnier (random French Architect)
