@@ -1220,7 +1220,6 @@ curtiss_ballooning_research_if_record_all_effect = {
 	}
 }
 
-
 ############################
 
 #BALLOONING TRADITION BY SABBY
@@ -1228,10 +1227,9 @@ curtiss_ballooning_research_if_record_all_effect = {
 ##########################
 
 #This value calculates the next yearly gain/loss ballooning tradition
-curtiss_ballooning_tradition = {
-	value = 0
+curtiss_yearly_update_ballooning_tradition_effect = {
 
-	### Achievements ###
+# Record Inspirations #
 	if = {
 		limit = {
 			owner = {
@@ -1242,55 +1240,81 @@ curtiss_ballooning_tradition = {
 				}
 			}
 		}
-		add = 1
+		change_variable = { name = curtiss_ballooning_tradition add = 1 }
 	}
-	if = {
-		limit = {
-			owner = {
-				OR = {
-					has_variable = curtiss_balloon_blanchard_legacy				
-					has_variable = curtiss_balloon_alpine_crossing
-					has_variable = curtiss_balloon_arctic_crossing
-					has_variable = curtiss_balloon_mediterranean_crossing
-					has_variable = curtiss_balloon_atlantic_crossing
-					has_variable = curtiss_balloon_rockies_crossing
-					has_variable = curtiss_balloon_astrolasian_crossing
-				}
-			}
-		}
-		add = 1
+# Crossing Achievements — Max 3 Total #
+	set_variable = { name = curtiss_crossing_tradition_gain value = 0 }
+	
+	if = { limit = { has_variable = curtiss_balloon_blanchard_legacy }
+		change_variable = { name = curtiss_crossing_tradition_gain add = 1 }
+	}
+	if = { limit = { has_variable = curtiss_balloon_alpine_crossing }
+		change_variable = { name = curtiss_crossing_tradition_gain add = 1 }
+	}
+	if = { limit = { has_variable = curtiss_balloon_arctic_crossing }
+		change_variable = { name = curtiss_crossing_tradition_gain add = 1 }
+	}
+	if = { limit = { has_variable = curtiss_balloon_mediterranean_crossing }
+		change_variable = { name = curtiss_crossing_tradition_gain add = 1 }
+	}
+	if = { limit = { has_variable = curtiss_balloon_atlantic_crossing }
+		change_variable = { name = curtiss_crossing_tradition_gain add = 1 }
+	}
+	if = { limit = { has_variable = curtiss_balloon_rockies_crossing }
+		change_variable = { name = curtiss_crossing_tradition_gain add = 1 }
+	}
+	if = { limit = { has_variable = curtiss_balloon_astrolasian_crossing }
+		change_variable = { name = curtiss_crossing_tradition_gain add = 1 }
+	}
+	change_variable = {
+		name = curtiss_crossing_tradition_gain
 		max = 3
 	}
-	### Technology ###
+	change_variable = {
+		name = curtiss_ballooning_tradition
+		add = var:curtiss_crossing_tradition_gain
+	}
+	clr_variable = curtiss_crossing_tradition_gain
+
+# Technology #
 	if = {
 		limit = { has_technology_researched = curtiss_reconnaissance_balloon_tech }
-		add = 2
+		change_variable = { name = curtiss_ballooning_tradition add = 2 }
 	}
-	### Funding ###
+# Funding #
 	if = {
 		limit = { has_variable = curtiss_ballooning_club_subsidies }
-		add = 5
+		change_variable = { name = curtiss_ballooning_tradition add = 5 }
 	}
-	### Balloonist ###
+# Famous balloonists grow the sport #
 	if = {
-		limit = {
-			has_variable = curtiss_balloonist_var
-		}
-		add = {
-			value = var:curtiss_balloonist_var.var:curtiss_balloonist_experience_var
-			divide = 50
-			floor = yes
-			max = 10
+		limit = { has_variable = curtiss_balloonist_var }
+		change_variable = {
+			name = curtiss_ballooning_tradition
+			add = {
+				value = var:curtiss_balloonist_var.var:curtiss_balloonist_experience_var
+				divide = 50
+				floor = yes
+				max = 10
+			}
 		}
 	}
-	### Yearly Decay ###
+# Yearly Decay #
 	change_variable = {
 		name = curtiss_ballooning_tradition
 		multiply = 0.95
 	}
+# Caps at 100 #
+	change_variable = {
+		name = curtiss_ballooning_tradition
+		min = 0
+		max = 100
+	}
+	round_variable = {
+		name = curtiss_ballooning_tradition
+		nearest = 1
+	}
 }
-
-
 
 ###BALLOON RECORDS###
 
