@@ -26,6 +26,7 @@ Fixes:
 - The "Spitting on the streets" event is now rarer.
 
 Characters:
+- Ascanio Sobrero (random Italian Chemist)
 - Lars Fredrik Nilson (random Swedish Chemist)
 - Otto Wagner (random Austrian Architect)
 - Charles Garnier (random French Architect)
