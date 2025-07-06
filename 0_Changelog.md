@@ -71,6 +71,7 @@ Aviation:
 
 Archaeology
 - Slightly shorter "recent archaeological expedition" modifiers until you can start a new expedition. In general, your waiting time is one year shorter now (3 years for short expedition, 4 years for medium expedition, 5 years for long expedition).
+- Upon their return, archaeologists have the opportunity to catalog the finds instead of being released immediately. This process lasts three years and gives research points. This is particularly useful in the phase before the invention of Early Archaeology, when archaeologists have nothing to do during their wait period.
 
 Companies:
 - Added Carl Zeiss Company. This produces Microscopes as prestige goods.
