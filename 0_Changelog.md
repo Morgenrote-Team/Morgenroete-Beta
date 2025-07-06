@@ -11,6 +11,7 @@ Topbar:
 
 Quality of Life:
 - You can now change the Epidemic notification events to only be notifications.
+- Started adding tooltippable modifier names to various places.
 
 Fixes:
 - Various small bug fixes
