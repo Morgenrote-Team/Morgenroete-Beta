@@ -23,5 +23,6 @@ Fixes:
 - Fixed the text for the racing triggers that told you they require Motor Industries when in fact they need Automotive Industries.
 
 Characters:
+- Lars Fredrik Nilson (random Swedish Chemist)
 - Otto Wagner (random Austrian Architect)
 - Charles Garnier (random French Architect)
