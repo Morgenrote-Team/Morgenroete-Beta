@@ -91,6 +91,8 @@ Pacific Expeditions:
 - The special events Java Man, Wallace Line and Challenger Deep should trigger more often.
 - Ring of Fire is now a special event instead of a normal event.
 - Added Great Barrier Reef as a new special event.
+- The event "End of an era" will not trigger before 1896. So you have 60 years for Pacific Expeditions at least.
+- As the "End of an era" event is now connected also to a game date, there is no more "avantgarde navy" modifier anymore, because there is no more bonus for researching navy techs faster.
 
 Sports:
 - Football can happen everywhere, not only in South America, Europe or Subjects with a football overlord.
