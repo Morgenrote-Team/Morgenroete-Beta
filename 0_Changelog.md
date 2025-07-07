@@ -88,6 +88,7 @@ Music:
 - Added Fauré's "Sicilienne."
 
 Sports:
+- Football can happen everywhere, not only in South America, Europe or Subjects with a football overlord.
 - Added Achievement: NGO Monster
 
 Balancing:
