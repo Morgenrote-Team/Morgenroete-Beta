@@ -27,6 +27,7 @@ Mountaineering:
 - President of the Alpine Club can start International Mountaineering Expeditions. Board Members may propose International Expeditions. Board Members can join an International Expedition lead by the President.
 - International Mountain Expeditions will normally not fail, even on high level or risky mountains. Progress depends on number of board members joining the expedition.
 - President conquers the summit when the international expeditions succeeds, all other members will get prestige, too (but not as much as if they would get when doing the conquest themselves).
+- Added Achievements: Capitol Hill, Seven Summits, Mallory's Last Wish
 
 Geology:
 - Added "The Highest Mountain" action for Geologists. This is a small JE to search for the highest mountain in the Himalayas.
@@ -83,8 +84,15 @@ Painting:
 - You can now decide which painting style a painter chooses - as long as he studied the style.
 
 Music:
-- Added Rossini's "La Danza"
-- Added Fauré's "Sicilienne"
+- Added Rossini's "La Danza."
+- Added Fauré's "Sicilienne."
+
+Sports:
+- Added Achievement: NGO Monster
 
 Balancing:
 - Reduced the number of employees added by the clinic and hospital PM to match the reduction for the government administration building.
+
+Fixes:
+- Architectural Splendour can be done only once.
+- Scientific Conference for Troy should only occur once.
