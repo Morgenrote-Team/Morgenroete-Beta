@@ -70,6 +70,8 @@ Aviation:
 - Airline Events should work again.
 - Airline Tycoon is now the Executive of the Airline company.
 - Airports can not be expanded. Try to get bonus modifiers via engineers and airline company.
+- Schneider Trophy Progress is not +1 anymore per week. Instead, it will be a number between 0.25 and 1.5 depending on the traits of your pilot. Negative traits and conditions have an effect, too.
+- Less Schneider Trophy Event frequency.
 
 Archaeology
 - Slightly shorter "recent archaeological expedition" modifiers until you can start a new expedition. In general, your waiting time is one year shorter now (3 years for short expedition, 4 years for medium expedition, 5 years for long expedition).
