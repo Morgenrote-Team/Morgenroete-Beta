@@ -87,6 +87,11 @@ Music:
 - Added Rossini's "La Danza."
 - Added Fauré's "Sicilienne."
 
+Pacific Expeditions:
+- The special events Java Man, Wallace Line and Challenger Deep should trigger more often.
+- Ring of Fire is now a special event instead of a normal event.
+- Added Great Barrier Reef as a new special event.
+
 Sports:
 - Football can happen everywhere, not only in South America, Europe or Subjects with a football overlord.
 - Added Achievement: NGO Monster
