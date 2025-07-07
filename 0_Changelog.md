@@ -69,6 +69,7 @@ Astronomy:
 Aviation:
 - Airline Events should work again.
 - Airline Tycoon is now the Executive of the Airline company.
+- Airports can not be expanded. Try to get bonus modifiers via engineers and airline company.
 
 Archaeology
 - Slightly shorter "recent archaeological expedition" modifiers until you can start a new expedition. In general, your waiting time is one year shorter now (3 years for short expedition, 4 years for medium expedition, 5 years for long expedition).
