@@ -2,6 +2,7 @@ Changelog fot 2.4.1f "Garrett"
 
 Characters:
 - Anton Schrötter von Kristalli (random Austrian Chemist)
+- Lothar Meyer (random German Chemist)
 - Raffaele Piria (random Italian Chemist)
 
 Topbar Framework:
