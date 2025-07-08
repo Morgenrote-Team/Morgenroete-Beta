@@ -103,6 +103,7 @@ Sports:
 
 Balancing:
 - Reduced the number of employees added by the clinic and hospital PM to match the reduction for the government administration building.
+- Tried to rebalance the Morgenröte Mobilization Options.
 
 Fixes:
 - Architectural Splendour can be done only once.
