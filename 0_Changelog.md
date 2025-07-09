@@ -15,3 +15,6 @@ Characters:
 Topbar Framework:
 - Added more supported variables to the Topbar Framework.
 - Some Values now open a Map Mode.
+
+Performance:
+- Added LODs to the Opera house to reduce the impact on the GPU (especially when zoomed out).
