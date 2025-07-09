@@ -5,6 +5,7 @@ Characters:
 - Hermann Fehling (random German Chemist)
 - Lothar Meyer (random German Chemist)
 - Raffaele Piria (random Italian Chemist)
+- Karol Olszewski (random Polish Chemist)
 - Filip Neriusz Walter (random Polish Chemist)
 
 Topbar Framework:
