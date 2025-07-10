@@ -113,3 +113,4 @@ Balancing:
 Fixes:
 - Architectural Splendour can be done only once.
 - Scientific Conference for Troy should only occur once.
+- Various small bug fixes.
