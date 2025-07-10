@@ -33,6 +33,9 @@ Geology:
 - Added "The Highest Mountain" action for Geologists. This is a small JE to search for the highest mountain in the Himalayas.
 - Added a third tab for geologists (organization) for better overview.
 
+Naturalist:
+- The Botanical Expedition is now a 2 year expedition and will activate a Journal Entry. This should help to not lose the Naturalist in the Jungle.
+
 Submarine Cable:
 - Complete Rework of the Transatlantic Cable. Transatlantic Cable is only one of three Submarine Cables.
 - Added Suez India Cable. This expedition becomes available after the Transatlantic Cable.
@@ -104,7 +107,8 @@ Sports:
 
 Balancing:
 - Reduced the number of employees added by the clinic and hospital PM to match the reduction for the government administration building.
-- Tried to rebalance the Morgenröte Mobilization Options.
+- Tried to rebalance the Morgenröte Mobilization Options (Thanks BrokenRobot for the help!).
+- Rebalancing of the Opera House and Instrument Workshop (Thanks MasterOfGrey for the help!)
 
 Fixes:
 - Architectural Splendour can be done only once.
