@@ -176,14 +176,17 @@ mr_zoological_expedition_active_sgui = {
 #MR_BOTANICAL_EXPEDITION_BUTTON_TT
 mr_botanical_expedition_button_sgui = {
     scope = country
-	is_shown = {
-		NOT = {
-			has_modifier = dubois_botanical_expedition_modifier
-		}
-	}
     is_valid = {
-		mr_gui_has_theory_of_evolution_tech_trigger = yes
-		mr_gui_has_malaria_prevention_tech_trigger = yes
+		custom_tooltip = {
+			text = mr_botanical_expedition_no_current_expedtion_tt
+
+			NOR = {
+				has_journal_entry = je_ito_botanical_expedition
+				has_variable = ito_botanical_expedition_target_choice_var
+			}
+		}
+#		mr_gui_has_theory_of_evolution_tech_trigger = yes
+#		mr_gui_has_malaria_prevention_tech_trigger = yes
 		custom_tooltip = {
 			text = MR_SAFARI_EXPEDITION_NATURALIST_TRIGGER_TT
 			dubois_has_active_naturalist = yes
@@ -207,6 +210,7 @@ mr_botanical_expedition_button_sgui = {
 		}
     }
     effect = {
+		set_variable = ito_botanical_expedition_target_choice_var
         trigger_event = { 
 			id = dubois.301
 			popup = yes 
@@ -215,40 +219,11 @@ mr_botanical_expedition_button_sgui = {
 }
 
 #MR_BOTANICAL_EXPEDITION_RECALL_BUTTON_TT
-mr_botanical_expedition_recall_button_sgui = {
+mr_botanical_expedition_active_sgui = {
     scope = country
 	is_shown = {
-		has_modifier = dubois_botanical_expedition_modifier
+		has_journal_entry = je_ito_botanical_expedition
 	}
-    is_valid = {
-		custom_tooltip = {
-			text = MR_BOTANICAL_EXPEDITION_RECALL_TRIGGER_TT
-			NOR = {
-				has_modifier = dubois_naturalist_travell_to_location_modifier
-				has_modifier = dubois_naturalist_travell_from_location_modifier
-			}
-			dubois_naturalist_sick = no
-		}
-    }
-    effect = {
-		custom_tooltip = {
-			text = MR_BOTANICAL_EXPEDITION_RECALL_NATURALIST_EFFECT_TT
-			if = {
-				limit = { has_variable = dubois_naturalist_var }
-				var:dubois_naturalist_var = {
-					set_character_busy_and_immortal = no
-					remove_variable = dubois_naturalist_on_botanical_expedition_var
-				}
-			}
-		}
-		dubois_set_naturalist_to_default = yes
-		remove_modifier = dubois_botanical_expedition_modifier
-		remove_modifier = dubois_botanical_expedition_cost_modifier
-		add_modifier = {
-			name = dubois_naturalist_travell_from_location_modifier
-			days = 90
-		}
-    }
 }
 
 #MR_NATURALIST_IMPROVE_FORESTRY_BUTTON
@@ -1071,19 +1046,11 @@ mr_stop_naturalist_project_button_sgui = {
 				has_journal_entry = je_dubois_improve_rubber_project
 			}
 		}
-		has_modifier = dubois_botanical_expedition_modifier
 	}
 	effect = {
 		set_variable = {
 			name = dubois_stop_naturalist_improving_project_var
 			days = 7
-		}
-		if = {
-			limit = { has_modifier = dubois_botanical_expedition_modifier }
-			remove_modifier = dubois_botanical_expedition_modifier
-			var:dubois_naturalist_var = {
-				set_character_busy_and_immortal = no
-			}
 		}
 	}
 }

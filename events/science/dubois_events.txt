@@ -224,6 +224,7 @@ namespace = dubois
 #Dubois 309: IG questions botanical expedition
 #Dubois 310: Naturalist is sick!
 #Dubois 311: Exotic seeds
+#Dubois 390: Botanical Expedition Finished
 
 ######MOUNTAINEERING######
 
@@ -6686,10 +6687,7 @@ dubois.82 = {
 	hidden = yes
 
 	trigger = {
-		NOT = {
-			has_variable = dubois_botanical_report_cooldown_var
-		}
-		dubois_botanical_research = yes
+		always = no
 	}
 
 	immediate = {
@@ -11998,10 +11996,8 @@ dubois.301 = {
 		name = dubois.301.g
 		trigger = {
 			dubois_botanical_expedition_possible_amazonas = yes
-			NOR = {
-				has_modifier = dubois_botanical_expedition_modifier
-				has_modifier = dubois_naturalist_travell_to_location_modifier
-				has_modifier = dubois_naturalist_travell_from_location_modifier
+			NOT = {
+				has_journal_entry = je_ito_botanical_expedition
 			}
 			scope:dubois_naturalist_scope = {
 				is_busy = no
@@ -12012,16 +12008,9 @@ dubois.301 = {
 			set_variable = dubois_naturalist_on_botanical_expedition_var
 		}
 		dubois_set_naturalist_to_amazonas = yes
-		add_modifier = {
-			name = dubois_botanical_expedition_modifier
-		}
-		add_modifier = {
-			name = dubois_botanical_expedition_cost_modifier
-			multiplier = money_amount_multiplier_very_small
-		}
-		add_modifier = {
-			name = dubois_naturalist_travell_to_location_modifier
-			days = 90
+
+		add_journal_entry = {
+			type = je_ito_botanical_expedition
 		}
 	}
 
@@ -12029,10 +12018,8 @@ dubois.301 = {
 		name = dubois.301.h
 		trigger = {
 			dubois_botanical_expedition_possible_congo = yes
-			NOR = {
-				has_modifier = dubois_botanical_expedition_modifier
-				has_modifier = dubois_naturalist_travell_to_location_modifier
-				has_modifier = dubois_naturalist_travell_from_location_modifier
+			NOT = {
+				has_journal_entry = je_ito_botanical_expedition
 			}
 			scope:dubois_naturalist_scope = {
 				is_busy = no
@@ -12043,16 +12030,9 @@ dubois.301 = {
 			set_variable = dubois_naturalist_on_botanical_expedition_var
 		}
 		dubois_set_naturalist_to_congo = yes
-		add_modifier = {
-			name = dubois_botanical_expedition_modifier
-		}
-		add_modifier = {
-			name = dubois_botanical_expedition_cost_modifier
-			multiplier = money_amount_multiplier_very_small
-		}
-		add_modifier = {
-			name = dubois_naturalist_travell_to_location_modifier
-			days = 90
+
+		add_journal_entry = {
+			type = je_ito_botanical_expedition
 		}
 	}
 
@@ -12060,10 +12040,8 @@ dubois.301 = {
 		name = dubois.301.i
 		trigger = {
 			dubois_botanical_expedition_possible_borneo = yes
-			NOR = {
-				has_modifier = dubois_botanical_expedition_modifier
-				has_modifier = dubois_naturalist_travell_to_location_modifier
-				has_modifier = dubois_naturalist_travell_from_location_modifier
+			NOT = {
+				has_journal_entry = je_ito_botanical_expedition
 			}
 			scope:dubois_naturalist_scope = {
 				is_busy = no
@@ -12074,16 +12052,9 @@ dubois.301 = {
 			set_variable = dubois_naturalist_on_botanical_expedition_var
 		}
 		dubois_set_naturalist_to_borneo = yes
-		add_modifier = {
-			name = dubois_botanical_expedition_modifier
-		}
-		add_modifier = {
-			name = dubois_botanical_expedition_cost_modifier
-			multiplier = money_amount_multiplier_very_small
-		}
-		add_modifier = {
-			name = dubois_naturalist_travell_to_location_modifier
-			days = 90
+
+		add_journal_entry = {
+			type = je_ito_botanical_expedition
 		}
 	}
 
@@ -12091,10 +12062,8 @@ dubois.301 = {
 		name = dubois.301.j
 		trigger = {
 			dubois_botanical_expedition_possible_indochina = yes
-			NOR = {
-				has_modifier = dubois_botanical_expedition_modifier
-				has_modifier = dubois_naturalist_travell_to_location_modifier
-				has_modifier = dubois_naturalist_travell_from_location_modifier
+			NOT = {
+				has_journal_entry = je_ito_botanical_expedition
 			}
 			scope:dubois_naturalist_scope = {
 				is_busy = no
@@ -12105,16 +12074,9 @@ dubois.301 = {
 			set_variable = dubois_naturalist_on_botanical_expedition_var
 		}
 		dubois_set_naturalist_to_indochina = yes
-		add_modifier = {
-			name = dubois_botanical_expedition_modifier
-		}
-		add_modifier = {
-			name = dubois_botanical_expedition_cost_modifier
-			multiplier = money_amount_multiplier_very_small
-		}
-		add_modifier = {
-			name = dubois_naturalist_travell_to_location_modifier
-			days = 90
+
+		add_journal_entry = {
+			type = je_ito_botanical_expedition
 		}
 	}
 
@@ -12124,7 +12086,7 @@ dubois.301 = {
 	}
 
 	after = {
-		remove_variable = dubois_paleontological_expedition_destination_selection_var
+		remove_variable = ito_botanical_expedition_target_choice_var
 	}
 }
 
@@ -12908,12 +12870,10 @@ dubois.309 = {
 			}
 		}
 		dubois_set_naturalist_to_default = yes
-		remove_modifier = dubois_botanical_expedition_modifier
-		remove_modifier = dubois_botanical_expedition_cost_modifier
-		add_modifier = {
-			name = dubois_naturalist_travell_from_location_modifier
-			days = 90
+		show_as_tooltip = {
+			remove_modifier = dubois_botanical_expedition_cost_modifier
 		}
+		set_variable = ito_stop_botanical_expedition_project_var
 	}
 
 	option = {
@@ -13104,6 +13064,46 @@ dubois.311 = {
 	}
 
 	after = {
+	}
+}
+
+#Dubois 390: Botanical Expedition Returns
+dubois.390 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.390.t
+	desc = dubois.390.d
+	flavor = dubois.390.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_naturalist_scope
+
+	placement = root
+
+	duration = 3
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	immediate = {
+		var:dubois_naturalist_var ?= {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.390.g #Welcome back!
+		default_option = yes
+		
+		custom_tooltip = ito_total_specimen_collected_on_expedition_tt
+	}
+
+	after = {
+		remove_variable = ito_total_specimen_current_botanical_expedition_var
 	}
 }
 
@@ -28373,7 +28373,7 @@ dubois.1311 = {
 		}
 		change_variable = {
 			name = dubois_breeding_animal_amount_var
-			multiply = dubois_breeding_multiplier
+			multiply = ito_breeding_multiplier
 		}
 		round_variable = {
 			name = dubois_breeding_animal_amount_var

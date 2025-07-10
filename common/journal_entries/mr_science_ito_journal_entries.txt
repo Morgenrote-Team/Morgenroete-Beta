@@ -1,0 +1,96 @@
+﻿
+########################
+# ITO JOURNAL ENTRIES  #
+########################
+
+#by Lord R & Marco Dandolo
+
+############################
+
+######NATIVE ANIMAL######
+
+je_ito_botanical_expedition = {
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	group = je_group_dubois_nature
+
+	scripted_progress_bar = ito_botanical_expedition_progress_bar
+
+	immediate = {
+		set_variable = {
+			name = ito_total_specimen_current_botanical_expedition_var
+			value = 0
+		}
+
+		scope:journal_entry = {
+			add_modifier = {
+				name = dubois_botanical_expedition_cost_modifier
+				multiplier = money_amount_multiplier_very_small
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		#Effect to add Specimen
+		effect = {
+			dubois_add_x_specimen_effect = { AMOUNT = ito_botanical_expedition_monthly_specimen_value }
+			change_variable = {
+				name = ito_total_specimen_current_botanical_expedition_var
+				add = ito_botanical_expedition_monthly_specimen_value
+			}
+		}
+
+		#Monthly Events
+		random_events = {
+			300 = 0
+
+			#Random Botanical Events
+			1 = dubois.302 #Dubois 302: Victoria amazonica (Amazonia)
+			1 = dubois.303 #Dubois 303: Attacus atlas (Indochina)
+			1 = dubois.304 #Dubois 304: Amorphophallus titanum (Borneo)
+			1 = dubois.305 #dubois 305: Goliathus (Congo)
+			3 = dubois.306 #Dubois 306: New species of orchids
+			3 = dubois.307 #Dubois 307: Medicinal plants
+			3 = dubois.308 #Dubois 308: Beautiful, poisonous flowers
+			3 = dubois.309 #Dubois 309: IG questions botanical expedition
+			3 = dubois.311 #Dubois 311: Exotic Seeds
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_dubois_paleontological_expedition_goal_tt
+			scope:journal_entry = {
+				"scripted_bar_progress(ito_botanical_expedition_progress_bar)" >= 24
+			}
+		}
+	}
+
+	on_complete = {
+		var:dubois_naturalist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		show_as_tooltip = {
+			remove_modifier = dubois_botanical_expedition_cost_modifier
+		}
+		trigger_event = dubois.390
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = ito_naturalist_is_dead_tt
+			NOT = {
+				has_variable = dubois_naturalist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		show_as_tooltip = {
+			remove_modifier = dubois_botanical_expedition_cost_modifier
+		}
+		remove_variable = ito_total_specimen_current_botanical_expedition_var
+	}
+
+	weight = 50
+}
