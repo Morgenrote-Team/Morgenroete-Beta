@@ -1,6 +1,6 @@
 ﻿### SCIENTIFIC EXPEDITION BUTTONS ###
 
-#by Lord R
+#by Lord R & Marco Dandolo
 
 ######ARCTIC EXPEDITION######
 mr_arctica_expedition_button_sgui = {
@@ -101,7 +101,12 @@ mr_pacific_expedition_button_sgui = {
 				is_busy = no
 			}
 		}
-		mr_guy_not_any_country_has_dreadnought_or_destroyer_tech_trigger = yes
+		custom_tooltip = {
+			text = MR_PACIFIC_END_OF_ERA_TRIGGER_TT
+			NOT = {
+				has_global_variable = rapanui_end_of_an_era_global_var
+			}
+		}
 		custom_tooltip = {
 			text = MR_PACIFIC_RECENT_EXPEDITION_TRIGGER_TT
 			NOR = {
@@ -227,39 +232,33 @@ mr_transatlantic_cable_expedition_button_sgui = {
 	scope = country
 	is_shown = {
 		NOT = {
-			has_variable = gaudi_transatlantic_cable_var
+			has_global_variable = tesla_transatlantic_cable_country_global_var
 		}
 	}
 	is_valid = {
 		mr_gui_has_screw_frigate_tech_trigger = yes
-		mr_gui_has_electric_telegraph_tech_trigger = yes
+		trigger_if = {
+			limit = {
+				is_player = yes
+			}
+			tesla_has_active_engineer_trigger = yes
+		}
+		#AI normally isn't smart enough to "unbusy" their engineer for this project, so it may start it even with a busy engineer
+		trigger_if = {
+			limit = {
+				is_ai = yes
+			}
+			has_variable = tesla_engineer_var
+		}
 		custom_tooltip = {
-			text = MR_TRANSATLANTIC_CABLE_EXPEDITION_BUTTON_PUBLISHING_INDUSTRY_TRIGGER_TT
-			any_scope_building = {
-				is_building_type = building_manzoni_publishing_industry
-				is_under_construction = no
-				has_active_production_method = manzoni_pm_electric_telegraph
-				cash_reserves_ratio > 0.5
-				occupancy >= 0.75
-				level >= 5
+			text = MR_TRANSATLANTIC_CABLE_HAS_TELEGRAPH_COMPANY_TRIGGER_TT
+			any_company = {
+				is_company_type = company_type:mr_basic_telegraphy
 			}
 		}
 		custom_tooltip = {
-			text = MR_TRANSATLANTIC_CABLE_EXPEDITION_BUTTON_NORTH_ATLANTIC_COAST_TRIGGER_TT
-			any_scope_state = {
-				any_scope_building = {
-					is_building_type = building_port
-				}
-				OR = {
-					region = sr:region_north_sea_coast
-					region = sr:region_england
-					region = sr:region_france
-					region = sr:region_iberia
-					region = sr:region_dixie
-					region = sr:region_new_england
-					mr_canadian_arctic_coast_region_trigger = yes
-				}
-			}
+			text = MR_TRANSATLANTIC_CABLE_INVESTMENT_POOL_TRIGGER_TT
+			investment_pool >= 5000000
 		}
 		custom_tooltip = {
 			text = MR_TRANSATLANTIC_CABLE_EXPEDITION_BUTTON_NO_TRANSATLANTIC_RADIO_TRIGGER_TT
@@ -268,10 +267,9 @@ mr_transatlantic_cable_expedition_button_sgui = {
 			}
 		}
 		custom_tooltip = {
-			text = MR_TRANSATLANTIC_CABLE_EXPEDITION_BUTTON_CURRENT_OR_RECENT_EXPEDITION_TRIGGER_TT
-			NOR = {
-				has_variable = gaudi_transatlantic_cable_expedition_var
-				has_modifier = gaudi_transatlantic_cable_expedition_failed_modifier
+			text = MR_TRANSATLANTIC_CABLE_EXPEDITION_BUTTON_NO_RECENT_FAIL_TRIGGER_TT
+			NOT = {
+				has_modifier = tesla_transatlantic_cable_expedition_failed_modifier
 			}
 		}
 	}
@@ -279,12 +277,17 @@ mr_transatlantic_cable_expedition_button_sgui = {
 		if = {
 			limit = {
 				is_player = yes
+				tesla_has_active_engineer_trigger = yes
 			}
-			add_treasury = -250000
+			var:tesla_engineer_var = {
+				set_character_busy_and_immortal = yes
+			}
 		}
-		set_variable = gaudi_transatlantic_cable_expedition_var
+		add_journal_entry = {
+			type = je_tesla_transatlantic_cable
+		}
 		trigger_event = { 
-			id = rapanui.501
+			id = tesla.3001
 			popup = yes
 		}
 	}
@@ -293,7 +296,149 @@ mr_transatlantic_cable_expedition_active_sgui = {
     scope = country
 	
     is_shown = {
-		has_variable = gaudi_transatlantic_cable_expedition_var
+		has_journal_entry = je_tesla_transatlantic_cable
+    }
+}
+
+#MR_SUEZ_INDIA_CABLE_EXPEDITION_BUTTON_TT
+mr_suez_india_cable_expedition_button_sgui = {
+	scope = country
+	is_shown = {
+		has_global_variable = tesla_transatlantic_cable_country_global_var
+		NOT = {
+			has_global_variable = tesla_suez_india_cable_country_global_var
+		}
+	}
+	is_valid = {
+		mr_gui_has_ironclad_tech_tech_trigger = yes
+		trigger_if = {
+			limit = {
+				is_player = yes
+			}
+			tesla_has_active_engineer_trigger = yes
+		}
+		#AI normally isn't smart enough to "unbusy" their engineer for this project, so it may start it even with a busy engineer
+		trigger_if = {
+			limit = {
+				is_ai = yes
+			}
+			has_variable = tesla_engineer_var
+		}
+		custom_tooltip = {
+			text = MR_TRANSATLANTIC_CABLE_HAS_TELEGRAPH_COMPANY_TRIGGER_TT
+			any_company = {
+				is_company_type = company_type:mr_basic_telegraphy
+			}
+		}
+		custom_tooltip = {
+			text = MR_SUEZ_INDIA_CABLE_INVESTMENT_POOL_TRIGGER_TT
+			investment_pool >= 10000000
+		}
+		custom_tooltip = {
+			text = MR_SUEZ_INDIA_CABLE_CANAL_TRIGGER_TT
+			s:STATE_SINAI = {
+				has_building = building_suez_canal
+			}
+		}
+		custom_tooltip = {
+			text = MR_SUEZ_INDIA_CABLE_EXPEDITION_BUTTON_NO_RECENT_FAIL_TRIGGER_TT
+			NOT = {
+				has_modifier = tesla_suez_india_cable_expedition_failed_modifier
+			}
+		}
+	}
+	effect = {
+		if = {
+			limit = {
+				is_player = yes
+				tesla_has_active_engineer_trigger = yes
+			}
+			var:tesla_engineer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		add_journal_entry = {
+			type = je_tesla_suez_india_cable
+		}
+		trigger_event = { 
+			id = tesla.3001
+			popup = yes
+		}
+	}
+}
+mr_suez_india_cable_expedition_active_sgui = {
+    scope = country
+	
+    is_shown = {
+		has_journal_entry = je_tesla_suez_india_cable
+    }
+}
+
+#MR_TRANSPACIFIC_CABLE_EXPEDITION_BUTTON_TT
+mr_transpacific_cable_expedition_button_sgui = {
+	scope = country
+	is_shown = {
+		has_global_variable = tesla_suez_india_cable_country_global_var
+		NOT = {
+			has_global_variable = tesla_transpacific_cable_country_global_var
+		}
+	}
+	is_valid = {
+		mr_gui_has_destroyer_tech_trigger = yes
+		trigger_if = {
+			limit = {
+				is_player = yes
+			}
+			tesla_has_active_engineer_trigger = yes
+		}
+		#AI normally isn't smart enough to "unbusy" their engineer for this project, so it may start it even with a busy engineer
+		trigger_if = {
+			limit = {
+				is_ai = yes
+			}
+			has_variable = tesla_engineer_var
+		}
+		custom_tooltip = {
+			text = MR_TRANSATLANTIC_CABLE_HAS_TELEGRAPH_COMPANY_TRIGGER_TT
+			any_company = {
+				is_company_type = company_type:mr_basic_telegraphy
+			}
+		}
+		custom_tooltip = {
+			text = MR_TRANSPACIFIC_CABLE_INVESTMENT_POOL_TRIGGER_TT
+			investment_pool >= 20000000
+		}
+		custom_tooltip = {
+			text = MR_TRANSPACIFIC_CABLE_EXPEDITION_BUTTON_NO_RECENT_FAIL_TRIGGER_TT
+			NOT = {
+				has_modifier = tesla_transpacific_cable_expedition_failed_modifier
+			}
+		}
+	}
+	effect = {
+		if = {
+			limit = {
+				is_player = yes
+				tesla_has_active_engineer_trigger = yes
+			}
+			var:tesla_engineer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		add_journal_entry = {
+			type = je_tesla_transpacific_cable
+		}
+		trigger_event = { 
+			id = tesla.3001
+			popup = yes
+		}
+	}
+}
+mr_transpacific_expedition_active_sgui = {
+    scope = country
+	
+    is_shown = {
+		has_journal_entry = je_tesla_transpacific_cable
     }
 }
 

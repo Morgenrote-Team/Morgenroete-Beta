@@ -12,159 +12,6 @@
 
 ######PUBLISHING INDUSTRY JOURNALS######
 
-#Pro Government Newspaper
-pbi_je_pro_government_newspaper = {
-	should_be_pinned_by_default = no
-	icon = "gfx/interface/icons/event_icons/event_publishing_industry.dds"
-
-	group = je_group_pbi
-
-	is_shown_when_inactive = {
-		NOT = { has_variable = pbi_flag_completed_je_pro_government_newspaper }
-		has_technology_researched = mass_communication
-	}
-
-	possible = {
-		any_scope_state = {
-			has_building = building_manzoni_publishing_industry
-		}
-		any_interest_group = {
-			is_in_government = yes
-			# OR = {
-			# 	has_ideology = ideology:ideology_paternalistic
-			# 	has_ideology = ideology:ideology_stratocratic
-			# 	has_ideology = ideology:ideology_moralist
-			# 	has_ideology = ideology:ideology_loyalist
-			# 	has_ideology = ideology:ideology_patriotic
-			# 	has_ideology = ideology:ideology_reactionary
-			# }
-			leader = {
-				has_trait = manzoni_writer_journalist
-			}
-		}
-		any_interest_group = {
-			count = 0
-			is_in_government = no
-			is_powerful = yes
-			leader = {
-				has_trait = manzoni_writer_journalist
-			}
-		}
-	}
-
-	is_progressing = {
-	}
-	complete = {
-		OR = {
-			any_interest_group = {
-				count = 0
-				is_in_government = yes
-				leader = {
-					has_trait = manzoni_writer_journalist
-				}
-			}
-			any_interest_group = {
-				count > 0
-				is_in_government = no
-				is_powerful = yes
-				leader = {
-					has_trait = manzoni_writer_journalist
-				}
-			}
-		}
-	}
-	on_complete = {
-		trigger_event = {
-			id = pbi_publishing_industry_events.100 #活発な議論
-			popup = yes
-		}
-		set_variable = {
-			name = pbi_flag_completed_je_pro_government_newspaper
-		}
-	}
-
-	on_yearly_pulse = {
-		random_events = {
-			50 = 0
-			1 = pbi_publishing_industry_events.105 #PBI 105: Government Public Relations Paper
-			1 = pbi_publishing_industry_events.110 #PBI 110: Priority Media Rights
-			1 = pbi_publishing_industry_events.115 #PBI 115: Newspapers support new law
-			1 = pbi_publishing_industry_events.120 #PBI 120: Politician Scandal
-			1 = pbi_publishing_industry_events.125 #PBI 125: A newspaper for whom?
-		}
-	}
-
-	invalid = {
-	}
-
-	weight = 100
-	transferable = no
-}
-
-#Full of Lies
-pbi_je_full_of_lies = {
-	should_be_pinned_by_default = no
-	icon = "gfx/interface/icons/event_icons/event_publishing_industry.dds"
-
-	group = je_group_pbi
-
-	is_shown_when_inactive = {
-		has_technology_researched = mass_communication
-	}
-
-	possible = {
-		any_scope_building = {
-			is_building_type = building_manzoni_publishing_industry
-			is_under_construction = no
-			OR = {
-				has_active_production_method = manzoni_pm_rotary_presses
-				has_active_production_method = manzoni_pm_linotype
-			}
-		}
-	}
-
-	is_progressing = {
-	}
-
-	complete = {
-		average_sol > 12
-		any_scope_pop = {
-			count < 50
-			strata = poor
-			standard_of_living < 10
-			pop_acceptance >= acceptance_status_4
-		}
-	}
-	on_complete = {
-		trigger_event = {
-			id = pbi_publishing_industry_events.200 #PBI 200: Is there a Santa Claus?
-			popup = yes
-		}
-	}
-
-	on_yearly_pulse = {
-		random_events = {
-			40 = 0
-			1 = pbi_publishing_industry_events.205 #PBI 205: Authoritative Newspaper Criticizes [GetGoods('pbi_goods_penny_press').GetName]
-			1 = pbi_publishing_industry_events.210 #PBI 210: Injured honor
-			1 = pbi_publishing_industry_events.215 #PBI 215: Newspaper like a patchwork
-			1 = pbi_publishing_industry_events.220 #PBI 220: Very Exciting
-			100 = pbi_publishing_industry_events.225 #PBI 225: Astronomical Breakthrough
-			100 = pbi_publishing_industry_events.230 #PBI 230: George Washington's nanny
-			100 = pbi_publishing_industry_events.235 #PBI 235: Loch Ness Monster
-			100 = pbi_publishing_industry_events.236 #PBI 236: Loch Ness Spectacle
-			100 = pbi_publishing_industry_events.237 #PBI 237: Surgeon's Photograph
-			100 = pbi_publishing_industry_events.240 #PBI 240: Cottingley Fairies
-			100 = pbi_publishing_industry_events.245 #PBI 245: Clever Hans
-			100 = pbi_publishing_industry_events.246 #PBI 246: The Secret to Wisdom
-			100 = pbi_publishing_industry_events.250 #PBI 250: Whistling Boy
-		}
-	}
-
-	weight = 100
-	transferable = no
-}
-
 #The efficacy of journalism
 pbi_je_journalism = {
 	should_be_pinned_by_default = no
@@ -177,8 +24,10 @@ pbi_je_journalism = {
 	}
 
 	possible = {
-		has_technology_researched = mass_communication
 		literacy_rate >= pbi_publishing_industry_literacy_rate
+		any_scope_state = {
+			has_building = building_manzoni_publishing_industry
+		}
 	}
 
 	is_progressing = {
@@ -186,9 +35,6 @@ pbi_je_journalism = {
 
 	complete = {
 		literacy_rate >= 0.65
-		any_scope_state = {
-			has_building = building_manzoni_publishing_industry
-		}
 	}
 	on_complete = {
 		trigger_event = {
@@ -215,8 +61,8 @@ pbi_je_journalism = {
 	transferable = no
 }
 
-#Freedom of the Press
-pbi_je_freedom_of_the_press = {
+#Full of Lies
+pbi_je_full_of_lies = {
 	should_be_pinned_by_default = no
 	icon = "gfx/interface/icons/event_icons/event_publishing_industry.dds"
 
@@ -227,70 +73,47 @@ pbi_je_freedom_of_the_press = {
 	}
 
 	possible = {
-		any_scope_state = {
-			has_building = building_manzoni_publishing_industry
-		}
-		NOT = {
-			has_law = law_type:law_protected_speech
-		}
-	}
-
-	immediate = {
-		set_variable = {
-			name = pbi_var_je_freedom_of_the_press
-			value = 0
-		}
+		manzoni_has_penny_press = yes
 	}
 
 	is_progressing = {
-		has_law = law_type:law_protected_speech
-	}
-
-	current_value = {
-		value = var:pbi_var_je_freedom_of_the_press
-	}
-	
-	goal_add_value = {
-		add = 36 #3 years timeout
 	}
 
 	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
+		average_sol > 12
+		any_scope_pop = {
+			count < 50
+			strata = poor
+			standard_of_living < 10
+			pop_acceptance >= acceptance_status_4
 		}
-		has_law = law_type:law_protected_speech
 	}
 	on_complete = {
 		trigger_event = {
-			id = pbi_publishing_industry_events.400 #第四階級
+			id = pbi_publishing_industry_events.200 #PBI 200: Is there a Santa Claus?
 			popup = yes
 		}
 	}
 
 	on_monthly_pulse = {
 		random_events = {
-			100 = 0
-			1 = pbi_publishing_industry_events.405 #Newspaper Publisher Arrested
-			1 = pbi_publishing_industry_events.410 #Order to cease publication of newspaper
-			1 = pbi_publishing_industry_events.415 #Pornographic Novel
-			#1 = pbi_publishing_industry_events.420 #Revealing State Secrets
-			1 = pbi_publishing_industry_events.425 #Calls for legal reform
-			1 = pbi_publishing_industry_events.430 #Newspapers are fomenting social unrest
-		}
-		effect = {
-			if = {
-				limit = {
-					has_law = law_type:law_protected_speech
-				}
-				change_variable = {
-					name = pbi_var_je_freedom_of_the_press
-					add = 1
-				}
-			}
+			240 = 0
+			1 = pbi_publishing_industry_events.205 #PBI 205: Authoritative Newspaper Criticizes [GetGoods('pbi_goods_penny_press').GetName]
+			1 = pbi_publishing_industry_events.210 #PBI 210: Injured honor
+			1 = pbi_publishing_industry_events.215 #PBI 215: Newspaper like a patchwork
+			1 = pbi_publishing_industry_events.220 #PBI 220: Very Exciting
+			1 = manzoni.731 #Manzoni 731: Higher Circulation by all means
+			100 = pbi_publishing_industry_events.225 #PBI 225: Astronomical Breakthrough
+			100 = pbi_publishing_industry_events.230 #PBI 230: George Washington's nanny
+			100 = pbi_publishing_industry_events.235 #PBI 235: Loch Ness Monster
+			100 = pbi_publishing_industry_events.236 #PBI 236: Loch Ness Spectacle
+			100 = pbi_publishing_industry_events.237 #PBI 237: Surgeon's Photograph
+			100 = pbi_publishing_industry_events.240 #PBI 240: Cottingley Fairies
+			100 = pbi_publishing_industry_events.245 #PBI 245: Clever Hans
+			100 = pbi_publishing_industry_events.246 #PBI 246: The Secret to Wisdom
+			100 = pbi_publishing_industry_events.250 #PBI 250: Whistling Boy
 		}
 	}
-
-	progressbar = yes
 
 	weight = 100
 	transferable = no

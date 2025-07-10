@@ -3482,99 +3482,6 @@ je_gaudi_radio_network = {
 	should_be_pinned_by_default = yes
 }
 
-#je_gaudi_transatlantic_cable = {
-#	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
-#
-#	group = je_group_tesla_engineers
-#
-#	can_deactivate = yes
-#
-#	is_shown_when_inactive = {
-#		OR = {
-#			any_scope_state = {
-#				state_region = s:STATE_MUNSTER
-#			}
-#			any_scope_state = {
-#				state_region = s:STATE_NEWFOUNDLAND
-#			}
-#		}
-#	}
-#
-#	possible = {
-#		has_technology_researched = electric_telegraph
-#		OR = {
-#			any_scope_state = {
-#				state_region = s:STATE_MUNSTER
-#			}
-#			any_scope_state = {
-#				state_region = s:STATE_NEWFOUNDLAND
-#			}
-#		}
-#	}
-#
-#	immediate = {
-#	}
-#
-#	complete = {
-#		tesla_has_electrical_engineer_trigger = yes
-#		any_state = {
-#			state_region = s:STATE_MUNSTER
-#			any_scope_building = {
-#				is_building_type = building_railway
-#				has_active_production_method = pm_gaudi_telegraph_office
-#			}
-#		}
-#		any_state = {
-#			state_region = s:STATE_NEWFOUNDLAND
-#			any_scope_building = {
-#				is_building_type = building_railway
-#				has_active_production_method = pm_gaudi_telegraph_office
-#			}
-#		}
-#	}
-#
-#	on_complete = {
-#		every_country = {
-#			limit = {
-#				OR = {
-#					any_scope_state = {
-#						state_region = s:STATE_MUNSTER
-#					}
-#					any_scope_state = {
-#						state_region = s:STATE_NEWFOUNDLAND
-#					}
-#				}
-#			}
-#			trigger_event = {
-#				id = gaudi.1420
-#			}
-#		}
-#		set_global_variable = gaudi_transatlantic_cable_var
-#	}
-#
-#	current_value = {
-#	}
-#
-#	goal_add_value = {
-#	}
-#
-#	invalid = {
-#		OR = {
-#			has_global_variable = gaudi_transatlantic_cable_var
-#			has_technology_researched = radio
-#		}
-#	}
-#
-#	on_invalid = {
-#	}
-#
-#	progressbar = no
-#
-#	weight = 30
-#
-#	should_be_pinned_by_default = yes
-#}
-
 je_gaudi_transatlantic_radio = {
 	icon = "gfx/interface/icons/event_icons/radio.dds"
 
@@ -4068,4 +3975,406 @@ je_gaudi_advanced_airplanes_project = {
 	weight = 30
 
 	should_be_pinned_by_default = yes
+}
+
+##########################################################################
+
+######UNDER THE SEA, UNDER THE SEA, Darling it's better, Down where it's wetter, Take it from me######
+
+#Transatlantic Cable
+je_tesla_transatlantic_cable = {
+	should_be_pinned_by_default = yes
+	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	scripted_progress_bar = tesla_submarine_cable_atlantic_progress_bar
+	scripted_progress_bar = tesla_submarine_cable_shareholder_confidence_bar
+
+	group = je_group_tesla_engineers
+
+	immediate = {
+		
+	}
+
+	on_monthly_pulse = {
+		events = {
+			tesla.3011 #Tesla 3011: Transatlantic cable expedition ready
+			tesla.3041 #Tesla 3041: Return of the submarine cable laying fleet
+		}
+		random_events = {
+			15 = 0
+			###Phase 1###
+			1 = tesla.3002 #Tesla 3002: Enthusiastic Investors
+			1 = tesla.3003 #Tesla 3003: A Political Cable?
+			1 = tesla.3004 #Tesla 3004: Reluctant Investors
+			1 = tesla.3005 #Tesla 3005: Industrialists Give Their Backing
+			1 = tesla.3006 #Tesla 3006: Nervous Shareholders
+			1 = tesla.3007 #Tesla 3007: Engineering Breakthrough
+			###Phase 2###
+			1 = tesla.3021 #Tesla 3021: Cable breaks!
+			1 = tesla.3024 #Tesla 3024: Storm Front Approaching
+			1 = tesla.3025 #Tesla 3025: Unexpected Seafloor Conditions
+			1 = tesla.3026 #Tesla 3026: Cable Accident
+			1 = tesla.3027 #Tesla 3027: Illnes Among the Crew
+			1 = tesla.3028 #Tesla 3028: Suspicious Activity Below Deck
+			1 = tesla.3030 #Tesla 3030: Smooth Progress
+			###Science###
+			10 = tesla.3031 #Tesla 3031: Whales & Dolphins
+			10 = tesla.3032 #Tesla 3032: Fish
+			5 = tesla.3033 #Tesla 3033: Experiments
+			10 = tesla.3034 #Tesla 3034: Middle-Atlantic Ridge
+			1 = tesla.3040 #Tesla 3040: Giant Shadow
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = tesla_submarine_cable_atlantic_progress_bar_at_full_tt
+			je:je_tesla_transatlantic_cable = {
+				"scripted_bar_progress(tesla_submarine_cable_atlantic_progress_bar)" >= 24
+			}
+		}
+	}
+
+	on_complete = {
+		remove_submarine_cable_variables_effect = yes
+		set_global_variable = {
+			name = tesla_transatlantic_cable_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = tesla_transatlantic_cable_country_global_var
+				value = this
+			}
+		}
+		trigger_event = {
+			id = tesla.3051 #First Words across the Atlantic
+		}
+		add_investment_pool = 5000000
+		add_modifier = {
+			name = tesla_transatlantic_cable_modifier
+			years = 25
+		}
+		if = {
+			limit = {
+				is_player = yes
+			}
+			var:tesla_engineer_var = {
+				set_character_busy_and_immortal = no
+				set_variable = {
+					name = tesla_engineer_achievement_transatlantic_cable_var
+					value = flag:tesla_engineer_achievement_transatlantic_cable_loc
+				}
+			}
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_engineer_dies_tt
+			NOT = {
+				has_variable = tesla_engineer_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_submarine_cable_variables_effect = yes
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = tesla_submarine_cable_shareholder_confidence_bar_at_zero_tt
+			je:je_tesla_transatlantic_cable  = {
+				"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" = 0
+			}
+		}
+	}
+
+	on_fail = {
+		remove_submarine_cable_variables_effect = yes
+		trigger_event = {
+			id = tesla.3053 #Stock Market Crash
+		}
+		add_investment_pool = -5000000
+		add_modifier = {
+			name = tesla_transatlantic_cable_expedition_failed_modifier
+			years = 5
+		}
+		if = {
+			limit = {
+				is_player = yes
+			}
+			var:tesla_engineer_var = {
+				set_character_busy_and_immortal = no
+			}
+		}
+	}
+
+	weight = 500
+	transferable = yes
+}
+
+#Suez-India Cable
+je_tesla_suez_india_cable = {
+	should_be_pinned_by_default = yes
+	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	scripted_progress_bar = tesla_submarine_cable_indian_progress_bar
+	scripted_progress_bar = tesla_submarine_cable_shareholder_confidence_bar
+
+	group = je_group_tesla_engineers
+
+	immediate = {
+		
+	}
+
+	on_monthly_pulse = {
+		events = {
+			tesla.3011 #Tesla 3011: Transatlantic cable expedition ready
+			tesla.3041 #Tesla 3041: Return of the submarine cable laying fleet
+		}
+		random_events = {
+			15 = 0
+			###Phase 1###
+			1 = tesla.3002 #Tesla 3002: Enthusiastic Investors
+			1 = tesla.3003 #Tesla 3003: A Political Cable?
+			1 = tesla.3004 #Tesla 3004: Reluctant Investors
+			1 = tesla.3005 #Tesla 3005: Industrialists Give Their Backing
+			1 = tesla.3006 #Tesla 3006: Nervous Shareholders
+			1 = tesla.3007 #Tesla 3007: Engineering Breakthrough
+			###Phase 2###
+			1 = tesla.3021 #Tesla 3021: Cable breaks!
+			1 = tesla.3024 #Tesla 3024: Storm Front Approaching
+			1 = tesla.3025 #Tesla 3025: Unexpected Seafloor Conditions
+			1 = tesla.3026 #Tesla 3026: Cable Accident
+			1 = tesla.3027 #Tesla 3027: Illnes Among the Crew
+			1 = tesla.3028 #Tesla 3028: Suspicious Activity Below Deck
+			1 = tesla.3030 #Tesla 3030: Smooth Progress
+			###Science###
+			5 = tesla.3033 #Tesla 3033: Experiments
+			10 = tesla.3035 #Tesla 3035: The Awwam Temple
+			10 = tesla.3036 #Tesla 3036: Socotra
+			1 = tesla.3040 #Tesla 3040: Giant Shadow
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = tesla_submarine_cable_indian_progress_bar_at_full_tt
+			je:je_tesla_suez_india_cable = {
+				"scripted_bar_progress(tesla_submarine_cable_indian_progress_bar)" >= 36
+			}
+		}
+	}
+
+	on_complete = {
+		remove_submarine_cable_variables_effect = yes
+		set_global_variable = {
+			name = tesla_suez_india_cable_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = tesla_suez_india_cable_country_global_var
+				value = this
+			}
+		}
+		trigger_event = {
+			id = tesla.3061 #The Eastern Telegraph Completed
+		}
+		add_investment_pool = 10000000
+		add_modifier = {
+			name = tesla_suez_india_cable_modifier
+			years = 25
+		}
+		if = {
+			limit = {
+				is_player = yes
+			}
+			var:tesla_engineer_var = {
+				set_character_busy_and_immortal = no
+				set_variable = {
+					name = tesla_engineer_achievement_suez_india_cable_var
+					value = flag:tesla_engineer_achievement_suez_india_cable_loc
+				}
+			}
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_engineer_dies_tt
+			NOT = {
+				has_variable = tesla_engineer_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_submarine_cable_variables_effect = yes
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = tesla_submarine_cable_shareholder_confidence_bar_at_zero_tt
+			je:je_tesla_suez_india_cable  = {
+				"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" = 0
+			}
+		}
+	}
+
+	on_fail = {
+		remove_submarine_cable_variables_effect = yes
+		trigger_event = {
+			id = tesla.3053 #Stock Market Crash
+		}
+		add_investment_pool = -10000000
+		add_modifier = {
+			name = tesla_suez_india_cable_expedition_failed_modifier
+			years = 5
+		}
+		if = {
+			limit = {
+				is_player = yes
+			}
+			var:tesla_engineer_var = {
+				set_character_busy_and_immortal = no
+			}
+		}
+	}
+
+	weight = 500
+	transferable = yes
+}
+
+#Transpacific Cable
+je_tesla_transpacific_cable = {
+	should_be_pinned_by_default = yes
+	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	scripted_progress_bar = tesla_submarine_cable_pacific_progress_bar
+	scripted_progress_bar = tesla_submarine_cable_shareholder_confidence_bar
+
+	group = je_group_tesla_engineers
+
+	immediate = {
+		
+	}
+
+	on_monthly_pulse = {
+		events = {
+			tesla.3011 #Tesla 3011: Transatlantic cable expedition ready
+			tesla.3041 #Tesla 3041: Return of the submarine cable laying fleet
+		}
+		random_events = {
+			15 = 0
+			###Phase 1###
+			1 = tesla.3002 #Tesla 3002: Enthusiastic Investors
+			1 = tesla.3003 #Tesla 3003: A Political Cable?
+			1 = tesla.3004 #Tesla 3004: Reluctant Investors
+			1 = tesla.3005 #Tesla 3005: Industrialists Give Their Backing
+			1 = tesla.3006 #Tesla 3006: Nervous Shareholders
+			1 = tesla.3007 #Tesla 3007: Engineering Breakthrough
+			###Phase 2###
+			1 = tesla.3021 #Tesla 3021: Cable breaks!
+			1 = tesla.3024 #Tesla 3024: Storm Front Approaching
+			1 = tesla.3025 #Tesla 3025: Unexpected Seafloor Conditions
+			1 = tesla.3026 #Tesla 3026: Cable Accident
+			1 = tesla.3027 #Tesla 3027: Illnes Among the Crew
+			1 = tesla.3028 #Tesla 3028: Suspicious Activity Below Deck
+			1 = tesla.3030 #Tesla 3030: Smooth Progress
+			###Science###
+			5 = tesla.3033 #Tesla 3033: Experiments
+			1 = tesla.3040 #Tesla 3040: Giant Shadow
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = tesla_submarine_cable_pacific_progress_bar_at_full_tt
+			je:je_tesla_transpacific_cable = {
+				"scripted_bar_progress(tesla_submarine_cable_pacific_progress_bar)" >= 48
+			}
+		}
+	}
+
+	on_complete = {
+		remove_submarine_cable_variables_effect = yes
+		set_global_variable = {
+			name = tesla_transpacific_cable_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = tesla_transpacific_cable_country_global_var
+				value = this
+			}
+		}
+		trigger_event = {
+			id = tesla.3071 #The First Message Across the Pacific
+		}
+		add_investment_pool = 20000000
+		add_modifier = {
+			name = tesla_transpacific_cable_modifier
+			years = 25
+		}
+		if = {
+			limit = {
+				is_player = yes
+			}
+			var:tesla_engineer_var = {
+				set_character_busy_and_immortal = no
+				set_variable = {
+					name = tesla_engineer_achievement_transpacific_cable_var
+					value = flag:tesla_engineer_achievement_transpacific_cable_loc
+				}
+			}
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_engineer_dies_tt
+			NOT = {
+				has_variable = tesla_engineer_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_submarine_cable_variables_effect = yes
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = tesla_submarine_cable_shareholder_confidence_bar_at_zero_tt
+			je:je_tesla_transpacific_cable  = {
+				"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" = 0
+			}
+		}
+	}
+
+	on_fail = {
+		remove_submarine_cable_variables_effect = yes
+		trigger_event = {
+			id = tesla.3053 #Stock Market Crash
+		}
+		add_investment_pool = -20000000
+		add_modifier = {
+			name = tesla_transpacific_cable_expedition_failed_modifier
+			years = 5
+		}
+		if = {
+			limit = {
+				is_player = yes
+			}
+			var:tesla_engineer_var = {
+				set_character_busy_and_immortal = no
+			}
+		}
+	}
+
+	weight = 500
+	transferable = yes
 }

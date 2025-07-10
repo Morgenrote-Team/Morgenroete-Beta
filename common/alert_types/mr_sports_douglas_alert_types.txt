@@ -1,0 +1,297 @@
+﻿# script_context = <script context>	# see later for list of valid script contexts
+# texture = <path>					# the path is relative to the "game" folder
+# valid = <trigger>					# an invalid alert will not be shown
+# open_panel = <panel_name>[|<tab>]	# if specified, this panel will open when the alert is clicked. Cannot specify both open_panel and open_popup
+									# an optional tab name can be specified after a | character
+# open_popup = <popup_name>			# if specified, this popup will open when the alert is clicked. Cannot specify both open_panel and open_popup
+# type = alert | important_action | angry_important_action	# if unspecified or "alert", this will be a standard alert. Otherwise, it will be shown inside the important actions alert (angry_important_action alerts are sorted first)
+# alert_group = <alert_group_name>	# if specified, multiple alerts in the same group will be grouped in the important actions alert (if they are "important_action"). "important_actions with unspecified alert_group will never be grouped together
+#
+# ------------------------------------------------------------------------------
+# Valid script contexts
+# ------------------------------------------------------------------------------
+# player_country
+# player_diplomatic_play
+# player_diplomatic_pact
+# player_diplomatic_action
+# player_diplomatic_relations
+# player_interest_group
+# player_invaded_state
+# player_national_market
+# player_involved_market
+# player_state
+# player_building
+# player_market_goods
+# player_commander
+# player_trade_route
+
+douglas_mountaineer_possible_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/alert_icons/douglas_mountaineering_alert.dds"
+
+	valid = {
+		NOT = {
+			has_variable = douglas_mountaineer_var
+		}
+		douglas_has_mountaineering_club_trigger = yes
+		custom_tooltip = {
+			text = MR_ALPINE_HERITAGE_50_TRIGGER_TT
+			var:douglas_alpine_heritage_var >= 50
+		}
+	}
+
+#	open_panel = tech_tree
+	type = important_action
+	alert_group = morgenroete
+}
+
+douglas_mountaineering_expedition_possible_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/alert_icons/douglas_mountaineering_alert.dds"
+
+	valid = {
+		douglas_has_active_mountaineer = yes
+		NOR = {
+			has_modifier = douglas_mountaineering_success_modifier
+			has_modifier = douglas_mountaineering_disaster_modifier
+			has_modifier = douglas_mountaineering_disappointment_modifier
+		}
+		OR = {
+			AND = {
+				OR = {
+					has_modifier = douglas_mountaineering_equipment_level_1_modifier
+					has_modifier = douglas_mountaineering_equipment_level_2_modifier
+					has_modifier = douglas_mountaineering_equipment_level_3_modifier
+					has_modifier = douglas_mountaineering_equipment_level_4_modifier
+					has_modifier = douglas_mountaineering_equipment_level_5_modifier
+				}
+				OR = {
+					douglas_has_unconquered_level_1_summit_trigger = yes
+					any_country = {
+						douglas_has_unconquered_level_1_summit_trigger = yes
+						has_diplomatic_pact = {
+							who = ROOT
+							type = mountaineering_license
+						}
+					}
+				}
+			}
+			AND = {
+				OR = {
+					has_modifier = douglas_mountaineering_equipment_level_2_modifier
+					has_modifier = douglas_mountaineering_equipment_level_3_modifier
+					has_modifier = douglas_mountaineering_equipment_level_4_modifier
+					has_modifier = douglas_mountaineering_equipment_level_5_modifier
+				}
+				OR = {
+					douglas_has_unconquered_level_2_summit_trigger = yes
+					any_country = {
+						douglas_has_unconquered_level_2_summit_trigger = yes
+						has_diplomatic_pact = {
+							who = ROOT
+							type = mountaineering_license
+						}
+					}
+				}
+			}
+			AND = {
+				OR = {
+					has_modifier = douglas_mountaineering_equipment_level_3_modifier
+					has_modifier = douglas_mountaineering_equipment_level_4_modifier
+					has_modifier = douglas_mountaineering_equipment_level_5_modifier
+				}
+				OR = {
+					douglas_has_unconquered_level_3_summit_trigger = yes
+					any_country = {
+						douglas_has_unconquered_level_3_summit_trigger = yes
+						has_diplomatic_pact = {
+							who = ROOT
+							type = mountaineering_license
+						}
+					}
+				}
+			}
+			AND = {
+				OR = {
+					has_modifier = douglas_mountaineering_equipment_level_4_modifier
+					has_modifier = douglas_mountaineering_equipment_level_5_modifier
+				}
+				OR = {
+					douglas_has_unconquered_level_4_summit_trigger = yes
+					any_country = {
+						douglas_has_unconquered_level_4_summit_trigger = yes
+						has_diplomatic_pact = {
+							who = ROOT
+							type = mountaineering_license
+						}
+					}
+				}
+			}
+			AND = {
+				has_modifier = douglas_mountaineering_equipment_level_5_modifier
+				OR = {
+					douglas_has_unconquered_level_5_summit_trigger = yes
+					any_country = {
+						douglas_has_unconquered_level_5_summit_trigger = yes
+						has_diplomatic_pact = {
+							who = ROOT
+							type = mountaineering_license
+						}
+					}
+				}
+			}
+		}
+	}
+
+#	open_panel = tech_tree
+	type = important_action
+	alert_group = morgenroete
+}
+
+douglas_mountaineering_organization_possible_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/alert_icons/douglas_mountaineering_alert.dds"
+
+	valid = {
+		OR = {
+			AND = {
+				douglas_has_active_mountaineer = yes
+				douglas_has_safe_mountain_trigger = yes
+			}
+			AND = {
+				NOT = {
+					has_modifier = douglas_mountaineering_regiment_modifier
+				}
+				mr_gui_has_defense_in_depth_tech_trigger = yes
+				douglas_has_mountaineer = yes
+				douglas_has_mountaineering_club_trigger = yes
+				douglas_has_mountain_trigger = yes
+				any_scope_character = {
+					has_role = general
+					is_busy = no
+					OR = {
+						has_trait = douglas_mountaineer
+						has_trait = douglas_mountaineer_veteran
+						has_trait = explorer
+						has_trait = mountain_commander
+					}
+				}
+				var:douglas_alpine_heritage_var >= 25
+			}
+			AND = {
+				NOT = {
+					has_modifier = douglas_mountaineering_equipment_level_5_modifier
+				}
+				douglas_has_active_mountaineer = yes
+				var:douglas_alpine_heritage_var >= 25
+				OR = {
+					AND = {
+						NOT = {
+							has_modifier = douglas_mountaineering_equipment_level_1_modifier
+						}
+						mr_gui_has_geology_tech_trigger = yes
+					}
+					AND = {
+						has_modifier = douglas_mountaineering_equipment_level_1_modifier
+						mr_gui_has_logistics_tech_trigger = yes
+					}
+					AND = {
+						has_modifier = douglas_mountaineering_equipment_level_2_modifier
+						mr_gui_has_modern_nursing_tech_trigger = yes
+					}
+					AND = {
+						has_modifier = douglas_mountaineering_equipment_level_3_modifier
+						mr_gui_has_seismology_tech_trigger = yes
+					}
+					AND = {
+						has_modifier = douglas_mountaineering_equipment_level_5_modifier
+						mr_gui_has_chemical_warfare_tech_trigger = yes
+					}
+				}
+			}
+		}
+	}
+
+#	open_panel = tech_tree
+	type = important_action
+	alert_group = morgenroete
+}
+
+douglas_mountaineering_club_possible_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/alert_icons/douglas_mountaineering_alert.dds"
+
+	valid = {
+		OR = {
+			AND = {
+				NOT = {
+					has_variable = douglas_mountaineering_club_var
+				}
+				mr_gui_has_geology_tech_trigger = yes
+				any_scope_character = {
+					has_role = general
+					is_busy = no
+					OR = {
+						has_trait = douglas_mountaineer
+						has_trait = douglas_mountaineer_veteran
+						has_trait = explorer
+						has_trait = mountain_commander
+						has_trait = surveyor
+					}
+				}
+			}
+			AND = {
+				NOT = {
+					has_global_variable = douglas_alpine_club_founded_global_var
+				}
+				has_variable = douglas_mountaineering_club_var
+				douglas_has_mountaineer = yes
+				mr_gui_has_nationalism_tech_trigger = yes
+				any_country = {
+					has_variable = douglas_mountaineering_club_var
+					count >= 6
+				}
+				var:douglas_mountaineer_var = {
+					var:douglas_mountaineer_experience_var >= 50
+					var:douglas_num_mountain_ascents_var >= 2
+					var:douglas_summits_conquered_var >= 2
+				}
+			}
+			AND = {
+				OR = {
+					has_variable = douglas_alpine_club_founding_country_var
+					has_variable = douglas_alpine_club_board_member_var
+				}
+				douglas_has_active_mountaineer = yes
+				any_country = {
+					has_variable = douglas_alpine_club_founding_country_var
+					NOT = {
+						has_modifier = douglas_mountaineering_international_expedition_modifier
+					}
+					OR = {
+						has_modifier = douglas_mountaineering_equipment_level_3_modifier
+						has_modifier = douglas_mountaineering_equipment_level_4_modifier
+						has_modifier = douglas_mountaineering_equipment_level_5_modifier
+					}
+					OR = {
+						douglas_has_unconquered_level_2_summit_trigger = yes
+						douglas_has_unconquered_level_3_summit_trigger = yes
+						douglas_has_unconquered_level_4_summit_trigger = yes
+					}
+				}
+				NOT = {
+					has_modifier = douglas_mountaineering_international_expedition_setback_modifier
+				}
+			}
+			AND = {
+				has_variable = douglas_alpine_club_board_member_var
+				douglas_has_active_mountaineer = yes
+				has_journal_entry = je_douglas_international_mountaineering_expedition_preparation
+			}
+		}
+	}
+
+#	open_panel = tech_tree
+	type = important_action
+	alert_group = morgenroete
+}

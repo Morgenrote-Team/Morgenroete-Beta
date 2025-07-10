@@ -210,3 +210,2910 @@ tesla.225 = {
 		tesla_add_x_mechanical_computer_progress_effect = { AMOUNT = -10 }
 	}
 }
+
+###############################################################################################################
+
+######TRANSATLANTIC CABLE EXPEDITION######
+
+#Tesla 3001: Telegraph Company
+tesla.3001 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = tesla.3001.t
+    desc = tesla.3001.d
+    flavor = tesla.3001.f
+
+    gui_window = event_window_1char_tabloid
+
+	left_icon = scope:tesla_telegraph_boss_scope
+
+	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	immediate = {
+		company:mr_basic_telegraphy ?= {
+    		executive = {
+        		save_scope_as = tesla_telegraph_boss_scope
+    		}
+		}
+	}
+
+	option = {
+		name = tesla.3001.g #The state will participate in this venture.
+		default_option = yes
+		if = {
+			limit = {
+				has_journal_entry = je_tesla_transatlantic_cable
+			}
+			je:je_tesla_transatlantic_cable = {
+				add_modifier = {
+					name = tesla_transatlantic_cable_expedition_cost_modifier
+					multiplier = money_amount_multiplier_small
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_tesla_suez_india_cable
+			}
+			je:je_tesla_suez_india_cable = {
+				add_modifier = {
+					name = tesla_suez_india_cable_expedition_cost_modifier
+					multiplier = money_amount_multiplier_small
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_tesla_transpacific_cable
+			}
+			je:je_tesla_transpacific_cable = {
+				add_modifier = {
+					name = tesla_transpacific_cable_expedition_cost_modifier
+					multiplier = money_amount_multiplier_small
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {
+		name = tesla.3001.h #The company wants to build the cable, so they should pay for it.
+		add_tesla_submarine_confidence_2_decrease_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	after = {
+	}
+}
+
+### FUND RAISING ###
+
+#Tesla 3002: Enthusiastic Investors
+tesla.3002 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:tesla_fund_state
+
+	title = tesla.3002.t
+	desc = tesla.3002.d
+  	flavor = tesla.3002.f
+
+  	event_image = {
+		video = "europenorthamerica_capitalists_meeting"
+  	}
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+ 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/capitalists_meeting"
+
+  	cooldown = {
+		months = 3
+  	}
+
+  	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	duration = 3
+
+	cancellation_trigger = {
+		tesla_submarine_cable_cancellation_1_trigger = yes
+	}
+	
+	trigger = {
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+		tesla_submarine_cable_phase_1_trigger = yes
+		any_scope_state = {
+			is_incorporated = yes
+			total_urbanization >= 300
+			any_scope_pop = {
+				is_pop_type = capitalists
+			}
+			NOT = {
+				has_modifier = tesla_submarine_cable_investment_modifier
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				total_urbanization >= 300
+				any_scope_pop = {
+					is_pop_type = capitalists
+				}
+				NOT = {
+					has_modifier = tesla_submarine_cable_investment_modifier
+				}
+			}
+			save_scope_as = tesla_fund_state
+		}
+	}
+
+	option = {
+		name = tesla.3002.g
+		default_option = yes
+		scope:tesla_fund_state = {
+			add_modifier = {
+				name = tesla_submarine_cable_investment_modifier
+				years = 5
+			}
+		}
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+}
+
+#Tesla 3003: A Political Cable?
+tesla.3003 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = root
+
+	title = tesla.3003.t
+	desc = tesla.3003.d
+	flavor = tesla.3003.f
+
+  	event_image = {
+    	video = "unspecific_signed_contract"
+  	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+  	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	cooldown = {
+		months = 3
+	}
+
+	duration = 3
+
+	cancellation_trigger = {
+		tesla_submarine_cable_cancellation_1_trigger = yes
+	}
+	
+	trigger = {
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+		tesla_submarine_cable_phase_1_trigger = yes
+		any_interest_group = {
+			is_powerful = yes
+			ig_approval > 3
+			is_in_government = no
+			NOT = {
+				has_modifier = tesla_submarine_ig_investment_modifier
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+		random_interest_group = {
+			limit = {
+				is_powerful = yes
+				ig_approval > 3
+				is_in_government = no
+				NOT = {
+					has_modifier = tesla_submarine_ig_investment_modifier
+				}
+			}
+			save_scope_as = tesla_fund_ig
+		}
+	}
+
+	option = {
+		name = tesla.3003.g #This will promote trust in the project
+		default_option = yes
+		add_tesla_submarine_confidence_05_increase_effect = yes
+		scope:tesla_fund_ig = {
+			add_modifier = {
+				name = tesla_submarine_ig_investment_modifier
+				years = 5
+				is_decaying = yes
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {
+		name = tesla.3003.h #This will promote the work of our engineer
+		add_tesla_submarine_progress_2_increase_effect = yes
+		scope:tesla_fund_ig = {
+			add_modifier = {
+				name = tesla_submarine_ig_investment_modifier
+				years = 5
+				is_decaying = yes
+			}
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	option = {
+		name = tesla.3003.i #This interest group is far too powerful.
+		scope:tesla_fund_ig = {
+			add_modifier = {
+				name = tesla_submarine_ig_insulted_modifier
+				years = 2
+			}
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+}
+
+#Tesla 3004: Reluctant Investors
+tesla.3004 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:tesla_fund_state
+
+	title = tesla.3004.t
+	desc = tesla.3004.d
+  	flavor = tesla.3004.f
+
+  	event_image = {
+		video = "europenorthamerica_capitalists_meeting"
+  	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+ 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/capitalists_meeting"
+
+  	cooldown = {
+		months = 3
+  	}
+
+  	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	duration = 3
+
+	cancellation_trigger = {
+		tesla_submarine_cable_cancellation_1_trigger = yes
+	}
+	
+	trigger = {
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+		tesla_submarine_cable_phase_1_trigger = yes
+		any_scope_state = {
+			is_incorporated = yes
+			total_urbanization >= 300
+			any_scope_pop = {
+				is_pop_type = capitalists
+			}
+			NOT = {
+				has_modifier = tesla_submarine_cable_investment_modifier
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				total_urbanization >= 300
+				any_scope_pop = {
+					is_pop_type = capitalists
+				}
+				NOT = {
+					has_modifier = tesla_submarine_cable_investment_modifier
+				}
+			}
+			save_scope_as = tesla_fund_state
+		}
+	}
+
+	option = {
+		name = tesla.3004.g #Disappointing.
+		default_option = yes
+		add_tesla_submarine_confidence_025_decrease_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	option = {
+		name = tesla.3004.h #Divert money from the submarine cable project into a PR campaign.
+		default_option = yes
+		add_tesla_submarine_progress_3_decrease_effect = yes
+		add_tesla_submarine_confidence_1_increase_effect = yes
+		scope:tesla_fund_state = {
+			add_modifier = {
+				name = tesla_submarine_cable_investment_modifier
+				years = 5
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+}
+
+#Tesla 3005: Industrialists Give Their Backing
+tesla.3005 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = root
+
+	title = tesla.3005.t
+	desc = tesla.3005.d
+	flavor = tesla.3005.f
+
+  	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:tesla_telegraph_boss_scope
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	cooldown = {
+		years = 5
+	}
+
+	duration = 3
+
+	cancellation_trigger = {
+		tesla_submarine_cable_cancellation_1_trigger = yes
+	}
+	
+	trigger = {
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+		tesla_submarine_cable_phase_1_trigger = yes
+		ig:ig_industrialists = {
+			is_in_government = yes
+			ig_approval > 0
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+		ig:ig_industrialists = {
+			save_scope_as = tesla_industrialists_ig
+		}
+		company:mr_basic_telegraphy ?= {
+    		executive = {
+        		save_scope_as = tesla_telegraph_boss_scope
+    		}
+		}
+	}
+
+	option = {
+		name = tesla.3005.g #Fantastic
+		default_option = yes
+		add_tesla_submarine_confidence_1_increase_effect = yes
+		add_tesla_submarine_progress_2_increase_effect = yes
+		scope:tesla_fund_ig = {
+			add_modifier = {
+				name = tesla_submarine_ig_investment_modifier
+				years = 5
+				is_decaying = yes
+			}
+		}
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+}
+
+#Tesla 3006: Nervous Shareholders
+tesla.3006 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:tesla_fund_state
+
+	title = tesla.3006.t
+	desc = tesla.3006.d
+  	flavor = tesla.3006.f
+
+  	event_image = {
+		video = "europenorthamerica_capitalists_meeting"
+  	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+ 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/capitalists_meeting"
+
+  	cooldown = {
+		months = 9
+  	}
+
+  	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	duration = 3
+
+	cancellation_trigger = {
+		tesla_submarine_cable_cancellation_1_trigger = yes
+	}
+	
+	trigger = {
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+		tesla_submarine_cable_phase_1_trigger = yes
+		any_scope_state = {
+			has_modifier = tesla_submarine_cable_investment_modifier
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+		random_scope_state = {
+			limit = {
+				has_modifier = tesla_submarine_cable_investment_modifier
+			}
+			save_scope_as = tesla_fund_state
+		}
+	}
+
+	option = {
+		name = tesla.3006.g #Prevent the loss of confidence by buying stocks.
+		default_option = yes
+		add_treasury = -100000
+		add_tesla_submarine_progress_1_decrease_effect = yes
+		add_tesla_submarine_confidence_025_increase_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #AI will try to preserve shareholder confidence
+				trigger = {
+					je:je_tesla_transatlantic_cable = {
+						"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" < 3
+					}
+				}
+				add = 100
+			}
+		}
+	}
+
+	option = {
+		name = tesla.3006.h #Anyone who doesn’t want to participate can leave.
+		add_tesla_submarine_confidence_05_decrease_effect = yes
+		scope:tesla_fund_state = {
+			remove_modifier = tesla_submarine_cable_investment_modifier
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+}
+
+#Tesla 3007: Engineering Breakthrough
+tesla.3007 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3007.t
+	desc = tesla.3007.d
+  	flavor = tesla.3007.f
+
+  	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:tesla_engine_scope
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	duration = 3
+
+	cooldown = {
+		months = 9
+  	}
+
+	cancellation_trigger = {
+		tesla_submarine_cable_cancellation_1_trigger = yes
+	}
+	
+	trigger = {
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+		tesla_submarine_cable_phase_1_trigger = yes
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+		var:tesla_engineer_var = {
+			save_scope_as = tesla_engine_scope
+		}
+	}
+
+	option = {
+		name = tesla.3007.g #Wonderful news!
+		default_option = yes
+		add_tesla_submarine_progress_3_increase_effect = yes
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {
+		name = tesla.3007.h #This will reassure shareholders.
+		add_tesla_submarine_confidence_05_increase_effect = yes
+		add_tesla_submarine_progress_1_increase_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #AI will try to preserve shareholder confidence
+				trigger = {
+					je:je_tesla_transatlantic_cable = {
+						"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" < 7
+					}
+				}
+				add = 100
+			}
+		}
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+}
+
+#Tesla 3011: Departure of submarine cable laying fleet
+tesla.3011 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3011.t
+	desc = tesla.3011.d
+  	flavor = tesla.3011.f
+
+	event_image = {
+    	video = "unspecific_steam_ship"
+  	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  	on_opened_soundeffect = "event:/SFX/Events/unspecific/steam_ship"
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	duration = 3
+	
+	trigger = {
+		NOR = {
+			has_variable = tesla_submarine_cable_phase_2_var
+			has_variable = tesla_submarine_cable_phase_3_var
+			has_variable = tesla_submarine_cable_event_var
+		}
+		tesla_submarine_cable_cancellation_1_trigger = yes
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_phase_2_var
+		set_variable = tesla_submarine_cable_event_var
+	}
+
+	option = {
+		name = tesla.3011.g
+		default_option = yes
+		add_tesla_submarine_progress_1_increase_effect = yes
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+		if = {
+			limit = {
+				has_journal_entry = je_tesla_transatlantic_cable
+				NOR = {
+					has_variable = dubois_naturalist_var
+					has_variable = rapanui_adventurer_var
+				}
+				any_scope_building = {
+                	is_building_type = building_university
+            	}
+			}
+			trigger_event = {
+				id = tesla.3012
+				days = { 3 7 }
+			}
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_tesla_suez_india_cable
+				NOR = {
+					has_variable = lepsius_archaeologist_var
+					has_variable = rapanui_adventurer_var
+				}
+				any_scope_building = {
+                	is_building_type = building_university
+            	}
+			}
+			trigger_event = {
+				id = tesla.3013
+				days = { 3 7 }
+			}
+		}
+		#if = {
+		#	limit = {
+		#		has_journal_entry = je_tesla_transpacific_cable
+		#		NOR = {
+		#			has_variable = roy_ethnologist_var
+		#			has_variable = rapanui_adventurer_var
+		#		}
+		#		any_scope_building = {
+        #        	is_building_type = building_university
+        #	       	level > 0
+        #	       	has_active_production_method = pm_dubois_university_humanities
+        #    	}
+		#	}
+		#	trigger_event = {
+		#		id = tesla.3014
+		#		days = { 3 7 }
+		#	}
+		#}
+	}
+}
+
+#Tesla 3012: A Stowaway!
+tesla.3012 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3012.t
+	desc = tesla.3012.d
+  	flavor = tesla.3012.f
+
+  	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_adventurer_scope
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+  	cooldown = {
+		months = 9
+  	}
+
+  	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+		create_adventurer_effect = yes
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = tesla.3012.g #He may stay.
+		default_option = yes
+		add_tesla_submarine_confidence_05_decrease_effect = yes
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {
+		name = tesla.3012.h #
+		kill_adventurer_effect = yes
+		add_tesla_submarine_progress_1_increase_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #AI will try to preserve shareholder confidence
+				trigger = {
+					je:je_tesla_transatlantic_cable = {
+						"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" < 3
+					}
+				}
+				add = 100
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Tesla 3013: An Extra Passenger from the Excavations
+tesla.3013 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3013.t
+	desc = tesla.3013.d
+  	flavor = tesla.3013.f
+
+  	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_adventurer_scope
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+  	cooldown = {
+		months = 9
+  	}
+
+  	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+		create_adventurer_effect = yes
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = tesla.3013.g #He may stay.
+		default_option = yes
+		add_tesla_submarine_confidence_05_decrease_effect = yes
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {
+		name = tesla.3013.h #
+		kill_adventurer_effect = yes
+		add_tesla_submarine_progress_1_increase_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #AI will try to preserve shareholder confidence
+				trigger = {
+					je:je_tesla_transatlantic_cable = {
+						"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" < 3
+					}
+				}
+				add = 100
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Tesla 3021: Cable breaks!
+tesla.3021 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3021.t
+	desc = tesla.3021.d
+  	flavor = tesla.3021.f
+
+	event_image = {
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_transatlantic_cable.dds"
+	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  	on_opened_soundeffect = "event:/SFX/Events/unspecific/naval_battle"
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	duration = 3
+
+	cooldown = {
+		months = 12
+  	}
+	
+	trigger = {
+		has_variable = tesla_submarine_cable_phase_2_var
+		tesla_submarine_cable_phase_2_trigger = yes
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+	}
+
+	option = {
+		name = tesla.3021.g
+		default_option = yes
+		remove_variable = tesla_submarine_cable_event_var
+		random_list = {
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:tesla_engineer_var = {
+								OR = {
+									has_trait = alcoholic
+									has_trait = opium_addiction
+									has_trait = cocaine_addiction
+									has_trait = psychological_affliction
+									has_trait = senile
+								}
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:tesla_engineer_var = {
+								OR = {
+									has_trait = wrathful
+									has_trait = hedonist
+									has_trait = grifter
+								}
+							}
+						}
+						add = 1
+					}
+				}
+				trigger_event = { 
+					id = tesla.3023 #Fail
+					days = 3
+					popup = yes
+				}
+			}
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:tesla_engineer_var = {
+								has_trait = meticulous
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:tesla_engineer_var = {
+								has_trait = innovative
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:tesla_engineer_var = {
+								has_trait = persistent
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:tesla_engineer_var = {
+								has_trait = gaudi_electrical_engineer
+							}
+						}
+						add = 5 #He is literally MacGyver
+					}
+				}
+				trigger_event = { 
+					id = tesla.3022 #Win
+					days = 3
+					popup = yes
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Tesla 3022: Cable repaired
+tesla.3022 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3022.t
+	desc = tesla.3022.d
+  	flavor = tesla.3022.f
+
+	event_image = {
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_transatlantic_cable.dds"
+	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	duration = 3
+	
+	trigger = {
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+	}
+
+	option = {
+		name = tesla.3022.g
+		default_option = yes
+		electrical_engineer_experience_gain_effect = { AMOUNT = 20 }
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+}
+
+#Tesla 3023: Cable not patched...
+tesla.3023 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3023.t
+	desc = tesla.3023.d
+  	flavor = tesla.3023.f
+
+	event_image = {
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_transatlantic_cable.dds"
+	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  	on_opened_soundeffect = "event:/SFX/Events/unspecific/naval_battle"
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	duration = 3
+	
+	trigger = {
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+	}
+
+	option = {
+		name = tesla.3023.g
+		default_option = yes
+		add_treasury = -100000
+		add_tesla_submarine_progress_4_decrease_effect = yes
+		add_tesla_submarine_confidence_1_decrease_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #AI will try to preserve shareholder confidence
+				trigger = {
+					je:je_tesla_transatlantic_cable = {
+						"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" < 3
+					}
+				}
+				add = 100
+			}
+		}
+	}
+
+	option = {
+		name = tesla.3023.h
+		add_tesla_submarine_progress_5_decrease_effect = yes
+		add_tesla_submarine_confidence_2_decrease_effect = yes
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+}
+
+#Tesla 3024: Storm Front Approaching
+tesla.3024 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3024.t
+	desc = tesla.3024.d
+  	flavor = tesla.3024.f
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_storm.dds"
+	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	duration = 3
+
+	cooldown = {
+		months = 6
+  	}
+	
+	trigger = {
+		has_variable = tesla_submarine_cable_phase_2_var
+		tesla_submarine_cable_phase_2_trigger = yes
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+	}
+
+	option = {
+		name = tesla.3024.g
+		default_option = yes
+		remove_variable = tesla_submarine_cable_event_var
+		random_list = {
+			6 = {}
+			4 = {
+				trigger_event = { 
+					id = tesla.3021 #Tesla 3021: Cable breaks!
+					days = 2
+					popup = yes
+				}
+			}
+		}
+	}
+
+	option = {
+		name = tesla.3024.h
+		remove_variable = tesla_submarine_cable_event_var
+		add_tesla_submarine_progress_3_decrease_effect = yes
+		add_tesla_submarine_confidence_05_decrease_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Tesla 3025: Unexpected Seafloor Conditions
+tesla.3025 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3025.t
+	desc = tesla.3025.d
+  	flavor = tesla.3025.f
+
+	event_image = {
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_cable_ship.dds"
+	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	duration = 3
+
+	cooldown = {
+		months = 6
+  	}
+	
+	trigger = {
+		has_variable = tesla_submarine_cable_phase_2_var
+		tesla_submarine_cable_phase_2_trigger = yes
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+	}
+
+	option = {
+		name = tesla.3025.g
+		default_option = yes
+		remove_variable = tesla_submarine_cable_event_var
+		random_list = {
+			7 = {}
+			3 = {
+				trigger_event = { 
+					id = tesla.3021 #Tesla 3021: Cable breaks!
+					days = 2
+					popup = yes
+				}
+			}
+		}
+	}
+
+	option = {
+		name = tesla.3025.h
+		remove_variable = tesla_submarine_cable_event_var
+		add_tesla_submarine_progress_4_decrease_effect = yes
+		add_tesla_submarine_confidence_025_increase_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Tesla 3026: Cable Accident
+tesla.3026 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3026.t
+	desc = tesla.3026.d
+  	flavor = tesla.3026.f
+
+	event_image = {
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_cable_ship.dds"
+	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	duration = 3
+
+	cooldown = {
+		months = 6
+  	}
+	
+	trigger = {
+		has_variable = tesla_submarine_cable_phase_2_var
+		tesla_submarine_cable_phase_2_trigger = yes
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+	}
+
+	option = {
+		name = tesla.3026.g
+		default_option = yes
+		add_tesla_submarine_progress_3_decrease_effect = yes
+		add_tesla_submarine_confidence_025_increase_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #AI will try to preserve shareholder confidence
+				trigger = {
+					je:je_tesla_transatlantic_cable = {
+						"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" < 3
+					}
+				}
+				add = 100
+			}
+		}
+	}
+
+	option = {
+		name = tesla.3026.h
+		add_tesla_submarine_progress_1_increase_effect = yes
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = tesla_submarine_cable_accident_modifier
+				years = 3
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+}
+
+#Tesla 3027: Illnes Among the Crew
+tesla.3027 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3027.t
+	desc = tesla.3027.d
+  	flavor = tesla.3027.f
+
+	event_image = {
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_cable_deck.dds"
+	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	duration = 3
+
+	cooldown = {
+		months = 12
+  	}
+	
+	trigger = {
+		has_variable = tesla_submarine_cable_phase_2_var
+		tesla_submarine_cable_phase_2_trigger = yes
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+	}
+
+	option = {
+		name = tesla.3027.g
+		default_option = yes
+		add_tesla_submarine_progress_2_decrease_effect = yes
+		add_tesla_submarine_confidence_05_decrease_effect = yes
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+}
+
+#Tesla 3028: Suspicious Activity Below Deck
+tesla.3028 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3028.t
+	desc = tesla.3028.d
+  	flavor = tesla.3028.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_adventurer_scope
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	duration = 3
+
+	cooldown = {
+		months = 36
+  	}
+	
+	trigger = {
+		has_variable = tesla_submarine_cable_phase_2_var
+		has_variable = rapanui_adventurer_var
+		tesla_submarine_cable_phase_2_trigger = yes
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = tesla.3028.g
+		default_option = yes
+		kill_adventurer_effect = yes
+		hidden_effect = {
+			trigger_event = {
+				id = tesla.3029
+				days = { 7 14 }
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {
+		name = tesla.3028.h
+		add_tesla_submarine_progress_2_decrease_effect = yes
+		add_tesla_submarine_confidence_025_decrease_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #AI will try to preserve shareholder confidence
+				trigger = {
+					je:je_tesla_transatlantic_cable = {
+						"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" < 7
+					}
+				}
+				add = 100
+			}
+		}
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+}
+
+#Tesla 3029: The Wrong Man
+tesla.3029 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3029.t
+	desc = tesla.3029.d
+  	flavor = tesla.3029.f
+
+	event_image = {
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_cable_ship.dds"
+	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	duration = 3
+	
+	trigger = {
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+	}
+
+	option = {
+		name = tesla.3029.g
+		add_tesla_submarine_confidence_1_decrease_effect = yes
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+}
+
+#Tesla 3030: Smooth Progress
+tesla.3030 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3030.t
+	desc = tesla.3030.d
+  	flavor = tesla.3030.f
+
+	event_image = {
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_cable_deck.dds"
+	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	duration = 3
+	
+	trigger = {
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+		has_variable = tesla_submarine_cable_phase_2_var
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+	}
+
+	option = {
+		name = tesla.3030.g
+		add_tesla_submarine_progress_3_increase_effect = yes
+		add_tesla_submarine_confidence_025_increase_effect = yes
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+}
+
+#Tesla 3031: Whales & Dolphins
+tesla.3031 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3031.t
+	desc = tesla.3031.d
+	flavor = tesla.3031.f
+
+	placement = scope:tesla_cable_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_whale.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 5
+	}
+
+	trigger = {
+		has_variable = tesla_submarine_cable_phase_2_var
+		has_variable = rapanui_adventurer_var
+		tesla_submarine_cable_phase_2_trigger = yes
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+		random_state = {
+			limit = {
+				state_region = s:STATE_AZORES
+			}
+			save_scope_as = tesla_cable_expedition_location
+		}
+	}
+
+	option = {
+		name = tesla.3031.g #Study this wonderful creatures
+		custom_tooltip = {
+			text = tesla_cable_student_gains_experience_tt
+			set_variable = tesla_naturalist_student_education_var
+		}
+		dubois_small_add_technology = yes
+		add_tesla_submarine_progress_2_decrease_effect = yes
+		add_tesla_submarine_confidence_025_decrease_effect = yes
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {
+		name = tesla.3031.h #We don't have time for this.
+		default_option = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #AI will try to preserve shareholder confidence
+				trigger = {
+					je:je_tesla_transatlantic_cable = {
+						"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" < 3
+					}
+				}
+				add = 100
+			}
+		}
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+
+	weight_multiplier = {
+	}
+}
+
+#Tesla 3032: Fish
+tesla.3032 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3032.t
+	desc = tesla.3032.d
+	flavor = tesla.3032.f
+
+	placement = scope:tesla_cable_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_whale.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 5
+	}
+
+	trigger = {
+		has_variable = tesla_submarine_cable_phase_2_var
+		has_variable = rapanui_adventurer_var
+		tesla_submarine_cable_phase_2_trigger = yes
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+		random_state = {
+			limit = {
+				state_region = s:STATE_AZORES
+			}
+			save_scope_as = tesla_cable_expedition_location
+		}
+	}
+
+	option = {
+		name = tesla.3032.g #Catch the fish!
+		custom_tooltip = {
+			text = tesla_cable_student_gains_experience_tt
+			set_variable = tesla_naturalist_student_education_var
+		}
+		dubois_add_x_specimen_effect = { AMOUNT = 3000 }
+		add_tesla_submarine_progress_2_decrease_effect = yes
+		add_tesla_submarine_confidence_025_decrease_effect = yes
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {
+		name = rapanui.511.h #We don't have time for this.
+		default_option = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #AI will try to preserve shareholder confidence
+				trigger = {
+					je:je_tesla_transatlantic_cable = {
+						"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" < 3
+					}
+				}
+				add = 100
+			}
+		}
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+
+	weight_multiplier = {
+	}
+}
+
+#Tesla 3033: Experiments
+tesla.3033 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3033.t
+	desc = tesla.3033.d
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_journal_entry = je_tesla_transatlantic_cable
+			}
+			desc = tesla.3033.atlantic
+		}
+		triggered_desc = {
+			trigger = {
+				has_journal_entry = je_tesla_suez_india_cable
+			}
+			desc = tesla.3033.indian
+		}
+		triggered_desc = {
+			trigger = {
+				has_journal_entry = je_tesla_transpacific_cable
+			}
+			desc = tesla.3033.pacific
+		}
+	}
+
+	placement = scope:tesla_cable_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_transatlantic_cable.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = {
+		years = 3
+	}
+
+	trigger = {
+		has_variable = tesla_submarine_cable_phase_2_var
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+		if = {
+			limit = {
+				has_journal_entry = je_tesla_transatlantic_cable
+			}
+			random_state = {
+				limit = {
+					state_region = s:STATE_AZORES
+				}
+				save_scope_as = tesla_cable_expedition_location
+			}
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_tesla_suez_india_cable
+			}
+			random_state = {
+				limit = {
+					state_region = s:STATE_YEMEN
+				}
+				save_scope_as = tesla_cable_expedition_location
+			}
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_tesla_transpacific_cable
+			}
+			random_state = {
+				limit = {
+					state_region = s:STATE_POLYNESIA
+				}
+				save_scope_as = tesla_cable_expedition_location
+			}
+		}
+	}
+
+	option = {
+		name = tesla.3033.g #Do geomagnetic experiment
+		default_option = yes
+		tesla_naval_engineering_small_add_technology = yes
+		tesla_add_x_magnetic_data = {
+			AMOUNT = 2
+		}
+	}
+
+	option = {
+		name = tesla.3033.h #Do oceanographic experiment
+		tesla_naval_engineering_small_add_technology = yes
+		rapanui_add_x_oceanographic_understanding_effect = {
+			AMOUNT = 2
+		}
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+
+	weight_multiplier = {
+	}
+}
+
+#Tesla 3034: Mid-Atlantic Ridge
+tesla.3034 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3034.t
+	desc = tesla.3034.d
+	flavor = tesla.3034.f
+
+	placement = scope:tesla_cable_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_cable_deck.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = dubois_mid_atlantic_ridge_global_var
+		}
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+		has_variable = tesla_submarine_cable_phase_2_var
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+		set_global_variable = dubois_mid_atlantic_ridge_global_var
+		random_state = {
+			limit = {
+				state_region = s:STATE_AZORES
+			}
+			save_scope_as = tesla_cable_expedition_location
+		}
+	}
+
+	option = {
+		name = tesla.3034.g #Is there an undersea mountain range?
+		set_global_variable = dubois_mid_atlantic_ridge_global_var
+		dubois_add_x_academy_progress = { AMOUNT = 30 }
+		dubois_large_add_technology = yes
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+
+	weight_multiplier = {
+	}
+}
+
+#Tesla 3035: The Awwam Temple
+tesla.3035 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3035.t
+	desc = tesla.3035.d
+	flavor = tesla.3035.f
+
+	placement = scope:tesla_cable_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_writer.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 5
+	}
+
+	trigger = {
+		has_variable = tesla_submarine_cable_phase_2_var
+		has_variable = rapanui_adventurer_var
+		tesla_submarine_cable_phase_2_trigger = yes
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+		random_state = {
+			limit = {
+				state_region = s:STATE_YEMEN
+			}
+			save_scope_as = tesla_cable_expedition_location
+		}
+	}
+
+	option = {
+		name = tesla.3035.g #Study the ruins
+		custom_tooltip = {
+			text = tesla_cable_student_gains_experience_tt
+			set_variable = tesla_archaeologist_student_education_var
+		}
+		lepsius_small_add_technology = yes
+		add_tesla_submarine_progress_2_decrease_effect = yes
+		add_tesla_submarine_confidence_025_decrease_effect = yes
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {
+		name = tesla.3035.h #We don't have time for this.
+		default_option = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #AI will try to preserve shareholder confidence
+				trigger = {
+					je:je_tesla_transatlantic_cable = {
+						"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" < 3
+					}
+				}
+				add = 100
+			}
+		}
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+
+	weight_multiplier = {
+	}
+}
+
+#Tesla 3036: Socotra
+tesla.3036 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3036.t
+	desc = tesla.3036.d
+	flavor = tesla.3036.f
+
+	placement = scope:tesla_cable_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_writer.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 5
+	}
+
+	trigger = {
+		has_variable = tesla_submarine_cable_phase_2_var
+		has_variable = rapanui_adventurer_var
+		tesla_submarine_cable_phase_2_trigger = yes
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+		random_state = {
+			limit = {
+				state_region = s:STATE_YEMEN
+			}
+			save_scope_as = tesla_cable_expedition_location
+		}
+	}
+
+	option = {
+		name = tesla.3036.g #Collect the artifacts
+		custom_tooltip = {
+			text = tesla_cable_student_gains_experience_tt
+			set_variable = tesla_archaeologist_student_education_var
+		}
+		add_treasury = -30000
+		lepsius_add_x_egyptian_artifacts_effect = { AMOUNT = 3 }
+		add_tesla_submarine_progress_2_decrease_effect = yes
+		add_tesla_submarine_confidence_025_decrease_effect = yes
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {
+		name = tesla.3036.h #We don't have time for this.
+		default_option = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #AI will try to preserve shareholder confidence
+				trigger = {
+					je:je_tesla_transatlantic_cable = {
+						"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" < 3
+					}
+				}
+				add = 100
+			}
+		}
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+	}
+
+	weight_multiplier = {
+	}
+}
+
+#Tesla 3040: Giant Shadow
+tesla.3040 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3040.t
+	desc = tesla.3040.d
+  	flavor = tesla.3040.f
+
+	event_image = {
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_cable_deck.dds"
+	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 25
+	}
+	
+	trigger = {
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+		has_variable = tesla_submarine_cable_phase_2_var
+		tesla_submarine_cable_phase_2_trigger = yes
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+	}
+
+	option = {
+		name = tesla.3040.g
+		add_tesla_submarine_progress_1_decrease_effect = yes
+		add_tesla_submarine_confidence_05_decrease_effect = yes
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+		if = {
+			limit = {
+				is_player = yes
+				NOT = {
+					has_game_rule = lepsius_only_historical_rule
+				}
+			}
+			trigger_event = {
+				id = gaudi.90
+				days = { 60 90 }
+			}
+		}
+	}
+}
+
+#Tesla 3041: Return of cable laying fleet
+tesla.3041 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3041.t
+	desc = tesla.3041.d
+  	flavor = tesla.3041.f
+
+	event_image = {
+    	video = "unspecific_steam_ship"
+  	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  	on_opened_soundeffect = "event:/SFX/Events/unspecific/steam_ship"
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	duration = 3
+	
+	trigger = {
+		has_variable = tesla_submarine_cable_phase_2_var
+		tesla_submarine_cable_phase_3_trigger = yes
+		NOT = {
+			has_variable = tesla_submarine_cable_phase_3_var
+		}
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+		set_variable = tesla_submarine_cable_phase_3_var
+		remove_variable = tesla_submarine_cable_phase_2_var
+	}
+
+	option = {
+		name = tesla.3041.g
+		default_option = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					has_journal_entry = je_tesla_transatlantic_cable
+					NOT = {
+						has_variable = tesla_first_transatlantic_cable_failed_var
+					}
+				}
+				random_list = {
+					1 = {}
+					2 = {
+						set_variable = tesla_first_transatlantic_cable_failed_var
+						trigger_event = {
+							id = tesla.3052
+							days = { 21 28 }
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_journal_entry = je_tesla_suez_india_cable
+					NOT = {
+						has_variable = tesla_first_suez_india_cable_failed_var
+					}
+				}
+				random_list = {
+					1 = {}
+					1 = {
+						set_variable = tesla_first_suez_india_cable_failed_var
+						trigger_event = {
+							id = tesla.3052
+							days = { 21 28 }
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_journal_entry = je_tesla_transpacific_cable
+					NOT = {
+						has_variable = tesla_first_transpacific_cable_failed_var
+					}
+				}
+				random_list = {
+					2 = {}
+					1 = {
+						set_variable = tesla_first_transpacific_cable_failed_var
+						trigger_event = {
+							id = tesla.3052
+							days = { 21 28 }
+						}
+					}
+				}
+			}
+		}
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+		if = {
+			limit = {
+				has_variable = rapanui_adventurer_var
+				has_variable = tesla_naturalist_student_education_var
+			}
+			trigger_event = {
+				id = tesla.3042
+				days = { 7 14 }
+			}
+		}
+		else_if = {
+			limit = {
+				has_variable = rapanui_adventurer_var
+				has_variable = tesla_archaeologist_student_education_var
+			}
+			trigger_event = {
+				id = tesla.3043
+				days = { 7 14 }
+			}
+		}
+		#else_if = {
+		#	limit = {
+		#		has_variable = tesla_ethnologist_student_education_var
+		#	}
+		#	trigger_event = {
+		#		id = tesla.3044
+		#		days = { 7 14 }
+		#	}
+		#}
+		else_if = {
+			limit = {
+				has_variable = rapanui_adventurer_var
+			}
+			kill_adventurer_effect = yes
+		}
+	}
+}
+
+#Tesla 3042: An Expert of the Ocean
+tesla.3042 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3042.t
+	desc = tesla.3042.d
+  	flavor = tesla.3042.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_adventurer_scope
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+		remove_variable = tesla_naturalist_student_education_var
+	}
+
+	option = {
+		name = tesla.3042.g
+		default_option = yes
+		promote_adventurer_to_naturalist_effect = yes
+	}
+
+	option = {
+		name = tesla.3042.h
+		dubois_add_x_specimen_effect = { AMOUNT = 5000 }
+		dubois_medium_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Tesla 3043: A Chronicle of Ruins and Routes
+tesla.3043 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3043.t
+	desc = tesla.3043.d
+  	flavor = tesla.3043.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_adventurer_scope
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+		remove_variable = tesla_archaeologist_student_education_var
+	}
+
+	option = {
+		name = tesla.3042.g
+		default_option = yes
+		promote_adventurer_to_archaeologist_effect = yes
+	}
+
+	option = {
+		name = tesla.3043.h
+		lepsius_add_x_egyptian_artifacts_effect = { AMOUNT = 5 }
+		lepsius_medium_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Tesla 3051: The First Word Across the Ocean
+tesla.3051 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:tesla_state
+
+	title = tesla.3051.t
+	desc = tesla.3051.d
+  	flavor = tesla.3051.f
+
+  	gui_window = event_window_2char
+  	left_icon = scope:tesla_leader_1
+  	right_icon = scope:tesla_leader_2
+	
+  	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				state_region = s:STATE_DISTRICT_OF_COLUMBIA
+			}
+			owner = {
+				save_scope_as = tesla_country_1
+				random_scope_character = {
+					limit = {
+						is_ruler = yes
+					}
+					save_scope_as = tesla_leader_1
+				}
+			}
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_HOME_COUNTIES
+			}
+			save_scope_as = tesla_state
+			owner = {
+				save_scope_as = tesla_country_2
+				random_scope_character = {
+					limit = {
+						is_ruler = yes
+					}
+					save_scope_as = tesla_leader_2
+				}
+			}
+		}
+		company:mr_basic_telegraphy ?= {
+    		executive = {
+        		save_scope_as = tesla_telegraph_boss_scope
+    		}
+		}
+	}
+
+	option = {
+		name = tesla.3051.g
+		default_option = yes
+		electrical_engineer_experience_gain_effect = { AMOUNT = 50 }
+		tesla_electrical_engineering_large_add_technology = yes
+		if = {
+			limit = {
+				scope:tesla_telegraph_boss_scope = {
+					has_trait = experienced_entrepreneur
+				}
+			}
+			scope:tesla_telegraph_boss_scope = {
+				add_trait = expert_entrepreneur
+				remove_trait = experienced_entrepreneur
+			}
+		}
+		else_if = {
+			limit = {
+				scope:tesla_telegraph_boss_scope = {
+					has_trait = basic_entrepreneur
+				}
+			}
+			scope:tesla_telegraph_boss_scope = {
+				add_trait = experienced_entrepreneur
+				remove_trait = basic_entrepreneur
+			}
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				has_journal_entry = je_tesla_transatlantic_cable
+			}
+			trigger_event = {
+				id = tesla.3054
+			}
+		}
+	}
+}
+
+#Tesla 3052: Silence
+tesla.3052 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3052.t
+	desc = tesla.3052.d
+  	flavor = tesla.3052.f
+
+	event_image = {
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_cable_deck.dds"
+	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	duration = 3
+
+	cancellation_trigger = {
+		NOR = {
+			has_journal_entry = je_tesla_transatlantic_cable
+			has_journal_entry = je_tesla_suez_india_cable
+			has_journal_entry = je_tesla_transpacific_cable
+		}
+	}
+	
+	trigger = {
+		NOT = {
+			has_variable = tesla_submarine_cable_event_var
+		}
+	}
+
+	immediate = {
+		set_variable = tesla_submarine_cable_event_var
+	}
+
+	option = {
+		name = tesla.3052.g
+		custom_tooltip = tesla.3052.tt
+		add_modifier = {
+			name = tesla_submarine_cable_communication_failure_modifier
+			years = 5
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_tesla_transatlantic_cable
+			}
+			add_tesla_submarine_progress_15_decrease_effect = yes
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_tesla_suez_india_cable
+			}
+			add_tesla_submarine_progress_25_decrease_effect = yes
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_tesla_transpacific_cable
+			}
+			add_tesla_submarine_progress_35_decrease_effect = yes
+		}
+		add_tesla_submarine_confidence_5_decrease_effect = yes
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+		remove_variable = tesla_submarine_cable_phase_3_var
+	}
+}
+
+#Tesla 3053: Collapse
+tesla.3053 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = tesla.3053.t
+	desc = tesla.3053.d
+  	flavor = tesla.3053.f
+
+	event_image = {
+    	video = "unspecific_politicians_arguing"
+  	}
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/politician_parliament_motion"
+
+  	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+		company:mr_basic_telegraphy ?= {
+    		executive = {
+        		save_scope_as = tesla_telegraph_boss_scope
+    		}
+		}
+	}
+
+	option = {
+		name = tesla.3053.g
+		scope:tesla_telegraph_boss_scope = {
+			kill_character = yes
+		}
+		every_scope_state = {
+			limit = {
+				has_modifier = tesla_submarine_cable_investment_modifier
+			}
+			add_radicals_in_state = {
+				pop_type = capitalists
+				value = huge_radicals
+			}
+			remove_modifier = tesla_submarine_cable_investment_modifier
+		}
+	}
+
+	after = {
+		remove_variable = tesla_submarine_cable_event_var
+		remove_variable = tesla_submarine_cable_phase_3_var
+	}
+}
+
+#Tesla 3054: Beaten
+tesla.3054 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:tesla_state
+
+	title = tesla.3054.t
+	desc = tesla.3054.d
+  	flavor = tesla.3054.f
+
+	gui_window = event_window_2char
+  	left_icon = scope:tesla_leader_1
+  	right_icon = scope:tesla_leader_2
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				state_region = s:STATE_DISTRICT_OF_COLUMBIA
+			}
+			owner = {
+				save_scope_as = tesla_country_1
+				random_scope_character = {
+					limit = {
+						is_ruler = yes
+					}
+					save_scope_as = tesla_leader_1
+				}
+			}
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_HOME_COUNTIES
+			}
+			save_scope_as = tesla_state
+			owner = {
+				save_scope_as = tesla_country_2
+				random_scope_character = {
+					limit = {
+						is_ruler = yes
+					}
+					save_scope_as = tesla_leader_2
+				}
+			}
+		}
+	}
+
+	option = {
+		name = tesla.3054.g
+		add_tesla_submarine_progress_15_decrease_effect = yes
+		add_tesla_submarine_confidence_10_decrease_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Tesla 3061: The Eastern Telegraph Completed
+tesla.3061 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:tesla_state
+
+	title = tesla.3061.t
+	desc = tesla.3061.d
+  	flavor = tesla.3061.f
+
+  	gui_window = event_window_2char
+  	left_icon = scope:tesla_leader_1
+  	right_icon = scope:tesla_leader_2
+	
+  	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				state_region = s:STATE_LOWER_EGYPT
+			}
+			owner = {
+				save_scope_as = tesla_country_1
+				random_scope_character = {
+					limit = {
+						is_ruler = yes
+					}
+					save_scope_as = tesla_leader_1
+				}
+			}
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_BOMBAY
+			}
+			save_scope_as = tesla_state
+			owner = {
+				save_scope_as = tesla_country_2
+				random_scope_character = {
+					limit = {
+						is_ruler = yes
+					}
+					save_scope_as = tesla_leader_2
+				}
+			}
+		}
+		company:mr_basic_telegraphy ?= {
+    		executive = {
+        		save_scope_as = tesla_telegraph_boss_scope
+    		}
+		}
+	}
+
+	option = {
+		name = tesla.3061.g
+		default_option = yes
+		electrical_engineer_experience_gain_effect = { AMOUNT = 75 }
+		tesla_electrical_engineering_large_add_technology = yes
+		if = {
+			limit = {
+				scope:tesla_telegraph_boss_scope = {
+					has_trait = experienced_entrepreneur
+				}
+			}
+			scope:tesla_telegraph_boss_scope = {
+				add_trait = expert_entrepreneur
+				remove_trait = experienced_entrepreneur
+			}
+		}
+		else_if = {
+			limit = {
+				scope:tesla_telegraph_boss_scope = {
+					has_trait = basic_entrepreneur
+				}
+			}
+			scope:tesla_telegraph_boss_scope = {
+				add_trait = experienced_entrepreneur
+				remove_trait = basic_entrepreneur
+			}
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				has_journal_entry = je_tesla_suez_india_cable
+			}
+			trigger_event = {
+				id = tesla.3064
+			}
+		}
+	}
+}
+
+#Tesla 3064: Beaten
+tesla.3064 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:tesla_state
+
+	title = tesla.3054.t
+	desc = tesla.3054.d
+  	flavor = tesla.3054.f
+
+	gui_window = event_window_2char
+  	left_icon = scope:tesla_leader_1
+  	right_icon = scope:tesla_leader_2
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				state_region = s:STATE_LOWER_EGYPT
+			}
+			owner = {
+				save_scope_as = tesla_country_1
+				random_scope_character = {
+					limit = {
+						is_ruler = yes
+					}
+					save_scope_as = tesla_leader_1
+				}
+			}
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_BOMBAY
+			}
+			save_scope_as = tesla_state
+			owner = {
+				save_scope_as = tesla_country_2
+				random_scope_character = {
+					limit = {
+						is_ruler = yes
+					}
+					save_scope_as = tesla_leader_2
+				}
+			}
+		}
+	}
+
+	option = {
+		name = tesla.3054.g
+		add_tesla_submarine_progress_25_decrease_effect = yes
+		add_tesla_submarine_confidence_10_decrease_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Tesla 3071: The First Message Across the Pacific
+tesla.3071 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:tesla_state
+
+	title = tesla.3071.t
+	desc = tesla.3071.d
+  	flavor = tesla.3071.f
+
+  	gui_window = event_window_2char
+  	left_icon = scope:tesla_leader_1
+  	right_icon = scope:tesla_leader_2
+	
+  	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				state_region = s:STATE_QUEENSLAND
+			}
+			owner = {
+				save_scope_as = tesla_country_1
+				random_scope_character = {
+					limit = {
+						is_ruler = yes
+					}
+					save_scope_as = tesla_leader_1
+				}
+			}
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_BRITISH_COLUMBIA
+			}
+			save_scope_as = tesla_state
+				owner = {
+					save_scope_as = tesla_country_2
+					random_scope_character = {
+						limit = {
+							is_ruler = yes
+						}
+					save_scope_as = tesla_leader_2
+				}
+			}
+		}
+		company:mr_basic_telegraphy ?= {
+    		executive = {
+        		save_scope_as = tesla_telegraph_boss_scope
+    		}
+		}
+	}
+
+	option = {
+		name = tesla.3071.g
+		default_option = yes
+		electrical_engineer_experience_gain_effect = { AMOUNT = 75 }
+		tesla_electrical_engineering_large_add_technology = yes
+		if = {
+			limit = {
+				scope:tesla_telegraph_boss_scope = {
+					has_trait = experienced_entrepreneur
+				}
+			}
+			scope:tesla_telegraph_boss_scope = {
+				add_trait = expert_entrepreneur
+				remove_trait = experienced_entrepreneur
+			}
+		}
+		else_if = {
+			limit = {
+				scope:tesla_telegraph_boss_scope = {
+					has_trait = basic_entrepreneur
+				}
+			}
+			scope:tesla_telegraph_boss_scope = {
+				add_trait = experienced_entrepreneur
+				remove_trait = basic_entrepreneur
+			}
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				has_journal_entry = je_tesla_transpacific_cable
+			}
+			trigger_event = {
+				id = tesla.3074
+			}
+		}
+	}
+}
+
+#Tesla 3074: Beaten
+tesla.3074 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:tesla_state
+
+	title = tesla.3054.t
+	desc = tesla.3054.d
+  	flavor = tesla.3054.f
+
+	gui_window = event_window_2char
+  	left_icon = scope:tesla_leader_1
+  	right_icon = scope:tesla_leader_2
+
+  	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+  	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				state_region = s:STATE_QUEENSLAND
+			}
+			owner = {
+				save_scope_as = tesla_country_1
+				random_scope_character = {
+					limit = {
+						is_ruler = yes
+					}
+					save_scope_as = tesla_leader_1
+				}
+			}
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_BRITISH_COLUMBIA
+			}
+			save_scope_as = tesla_state
+				owner = {
+					save_scope_as = tesla_country_2
+					random_scope_character = {
+						limit = {
+							is_ruler = yes
+						}
+					save_scope_as = tesla_leader_2
+				}
+			}
+		}
+	}
+
+	option = {
+		name = tesla.3054.g
+		add_tesla_submarine_progress_35_decrease_effect = yes
+		add_tesla_submarine_confidence_10_decrease_effect = yes
+	}
+
+	after = {
+	}
+}

@@ -15,11 +15,21 @@ je_douglas_mountaineering_training = {
 
 	scripted_button = douglas_stop_mountaineering_project_button
 
+	on_yearly_pulse = {
+		random_events = {
+			1 = 0
+			1 = douglas.121 #Douglas 121: Courage Forged at Home
+			1 = douglas.122 #Douglas 122: Steps Never Wasted
+			1 = douglas.123 #Douglas 123: Beyond the Known Maps
+			1 = douglas.124 #Douglas 124: Steel and Stone
+		}
+	}
+
 	immediate = {
 		set_variable = douglas_can_stop_active_mountaineering_project #This is used to check if the country has a project already
 	}
 
-	timeout = 1825
+	timeout = 1095
 
 	on_timeout = {
 		trigger_event = { 
@@ -103,7 +113,7 @@ je_douglas_mountaineering_equipment = {
 
 	on_complete = {
 		douglas_mountaineering_equipment_event_effect = yes
-		var:douglas_mountaineer_var = {
+		var:douglas_mountaineer_var ?= {
 			set_character_busy_and_immortal = no
 		}
 	}
@@ -145,32 +155,61 @@ je_douglas_mountaineering_expedition = {
 
 	group = je_group_vikelas_sports
 
+	scripted_progress_bar = douglas_mountain_expedition_progress_bar
+	scripted_progress_bar = douglas_mountain_danger_progress_bar
+
 	on_monthly_pulse = {
-		events = {
-			dubois.442 #Dubois 442: Geological Knowledge
-		}
 		random_events = {
 			1 = 0
-			10 = dubois.430 #Dubois 430: An Easy Climb
-			10 = dubois.431 #Dubois 431: A Slope
-			10 = dubois.432 #Dubois 432: Steep Wall
-			10 = dubois.433 #Dubois 433: Avalanche
-			10 = dubois.434 #Dubois 434: Abyss
-			10 = dubois.435 #Dubois 435: Weather Change
-			10 = dubois.436 #Dubois 436: Death Step
-			20 = dubois.437 #Dubois 437: Lack of Oxygen
-			20 = dubois.438 #Dubois 438: Severe Injuries
-			20 = dubois.439 #Dubois 439: Rope Group
-			5 = dubois.440 #Dubois 440: Scientist does Science
-			5 = dubois.441 #Dubois 441: The Red Panda
-			5 = dubois.443 #Dubois 443: A Fine Mineral
+			1 = douglas.221 #Douglas 221: An Easy Climb
+			1 = douglas.222 #Douglas 222: A Slope
+			1 = douglas.223 #Douglas 223: Steep Wall
+			1 = douglas.224 #Douglas 224: Avalanche
+			1 = douglas.225 #Douglas 225: Abyss
+			1 = douglas.226 #Douglas 226: Death Step
+			1 = douglas.227 #Douglas 227: Weather Change
+			1 = douglas.228 #Douglas 228: Rockfall
+			1 = douglas.229 #Douglas 229: Dizzying Heights
+			1 = douglas.230 #Douglas 230: Readings in Stone
+			1 = douglas.231 #Douglas 231: Scientist does Science
+			1 = douglas.232 #Douglas 232: A Fine Mineral
+			1 = douglas.233 #Douglas 233: The Red Panda
 		}
 	}
 	
 	immediate = {
-		set_douglas_location_scope_effect = yes
-		set_douglas_height_difficulty_effect = yes
-		set_douglas_risk_difficulty_effect = yes
+		if = {
+			limit = {
+				var:douglas_mountaineer_var = {
+					OR = {
+						has_trait = brave
+						has_trait = charismatic
+						has_trait = douglas_mountaineer_veteran
+					}
+				}
+			}
+			trigger_event = {
+				id = douglas.208
+				days = { 7 14 }
+			}
+		}
+		if = {
+			limit = {
+				douglas_has_advanced_equpiment_trigger = yes
+			}
+			trigger_event = {
+				id = douglas.209
+				days = { 21 28 }
+			}
+		}
+		if = {
+			limit = {
+				has_variable = agassiz_geologist_var
+			}
+			trigger_event = {
+				id = douglas.210
+			}
+		}
 	}
 
 	complete = {
@@ -185,6 +224,9 @@ je_douglas_mountaineering_expedition = {
 	on_complete = {
 		trigger_event = {
 			id = douglas.211
+		}
+		var:douglas_mountaineer_var ?= {
+			set_character_busy_and_immortal = no
 		}
 	}
 
@@ -201,11 +243,14 @@ je_douglas_mountaineering_expedition = {
 		remove_variable = douglas_mountain_expedition_var
 	}
 
-	timeout = 365
+	timeout = douglas_mountain_motivation_value
 
 	on_timeout = {
 		trigger_event = { 
 			id = douglas.212
+		}
+		var:douglas_mountaineer_var ?= {
+			set_character_busy_and_immortal = no
 		}
 	}
 
@@ -222,9 +267,223 @@ je_douglas_mountaineering_expedition = {
 		trigger_event = {
 			id = douglas.213
 		}
+		var:douglas_mountaineer_var ?= {
+			set_character_busy_and_immortal = no
+		}
 	}
 
 	should_be_pinned_by_default = yes
 
 	weight = 25
+}
+
+###International Mountaineering Expedition######
+
+je_douglas_international_mountaineering_expedition = {
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	group = je_group_vikelas_sports
+
+	scripted_progress_bar = douglas_international_mountain_expedition_progress_bar
+
+	immediate = {
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = douglas_international_mountain_expedition_progress_bar_at_full_tt
+			je:je_douglas_international_mountaineering_expedition = {
+				"scripted_bar_progress(douglas_international_mountain_expedition_progress_bar)" >= 60
+			}
+		}
+	}
+
+	on_complete = {
+		every_country = {
+			limit = {
+				OR = {
+					has_variable = douglas_alpine_club_founding_country_var
+					has_variable = douglas_alpine_club_board_member_var
+				}
+			}
+			trigger_event = {
+				id = douglas.351
+			}
+			var:douglas_mountaineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+		}
+	}
+
+	#invalid = {
+	#	custom_tooltip = {
+	#		text = je_mountaineer_dies_tt
+	#		NOT = {
+	#			has_variable = douglas_mountaineer_var
+	#		}
+	#	}
+	#}
+
+	#on_invalid = {
+	#	remove_variable = douglas_mountain_expedition_var
+	#}
+
+	should_be_pinned_by_default = yes
+
+	weight = 25
+}
+
+je_douglas_international_mountaineering_expedition_preparation = {
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	group = je_group_vikelas_sports
+
+	timeout = 365
+
+	on_timeout = {
+		if = {
+			limit = {
+				has_variable = douglas_alpine_club_founding_country_var
+			}
+			trigger_event = {
+				id = douglas.341
+				popup = yes 
+			}
+		}
+	}
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+###Mount Everest Expedition######
+
+je_douglas_mount_everest_expedition = {
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	group = je_group_vikelas_sports
+
+	scripted_progress_bar = douglas_everest_expedition_progress_bar
+	scripted_progress_bar = douglas_mountain_danger_progress_bar
+
+	on_monthly_pulse = {
+		events = {
+			### South Route ###
+			douglas.411 #Douglas 411: The Forbidden Valley
+			douglas.412 #Douglas 412: The Seracs Above
+			douglas.413 #Douglas 413: The White Furnace
+			douglas.414 #Douglas 414: The Blue Wall
+			douglas.415 #Douglas 415: The Last Camp
+			douglas.416 #Douglas 416: The CHARACTER Step
+
+			### North Route ###
+			douglas.421 #Douglas 421: The Forbidden Face
+			douglas.422 #Douglas 422: The Glacier Cracks
+			douglas.423 #Douglas 423: The Ice Wall
+			douglas.424 #Douglas 424: The Edge of Breath
+			douglas.425 #Douglas 425: The Second Step
+		}
+	}
+	
+	immediate = {
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = douglas_mountain_expedition_progress_bar_at_full_tt
+			je:je_douglas_mount_everest_expedition = {
+				"scripted_bar_progress(douglas_everest_expedition_progress_bar)" >= 10
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = douglas.431
+			days = 7
+		}
+		var:douglas_mountaineer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		remove_variable = douglas_mount_everest_north_route_var
+		remove_variable = douglas_mount_everest_south_route_var
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_mountaineer_dies_tt
+			NOT = {
+				has_variable = douglas_mountaineer_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = douglas_mountain_expedition_var
+		remove_variable = douglas_mount_everest_north_route_var
+		remove_variable = douglas_mount_everest_south_route_var
+	}
+
+	timeout = douglas_mountain_motivation_value
+
+	on_timeout = {
+		trigger_event = { 
+			id = douglas.432
+		}
+		var:douglas_mountaineer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		remove_variable = douglas_mount_everest_north_route_var
+		remove_variable = douglas_mount_everest_south_route_var
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = douglas_mountain_danger_progress_bar_at_full_tt
+			je:je_douglas_mount_everest_expedition  = {
+				"scripted_bar_progress(douglas_mountain_danger_progress_bar)" >= 5
+			}
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = douglas.433
+		}
+		var:douglas_mountaineer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		remove_variable = douglas_mount_everest_north_route_var
+		remove_variable = douglas_mount_everest_south_route_var
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 25
+}
+
+je_douglas_mount_everest_expedition_preparation = {
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	group = je_group_vikelas_sports
+
+	scripted_button = douglas_mount_everest_physicist_button
+	scripted_button = douglas_mount_everest_engineer_button
+	scripted_button = douglas_mount_everest_physician_button
+	scripted_button = douglas_mount_everest_ethnologist_button
+	scripted_button = douglas_mount_everest_geologist_button
+
+	timeout = 365
+
+	on_timeout = {
+		trigger_event = {
+			id = douglas.401
+			popup = yes 
+		}
+	}
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
 }
