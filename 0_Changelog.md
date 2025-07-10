@@ -79,6 +79,7 @@ Archaeology
 
 Companies:
 - Added Carl Zeiss Company. This produces Microscopes as prestige goods.
+- FICA and Porto Ferreira need Joint Stock Companies, not Central Planning.
 
 Architecture:
 - Blueprint buildings can be build once in a nation (there are still some other triggers, though). One building of a certain category per state was to complicated, the rule was therefore removed.
