@@ -8,3 +8,4 @@ Changes:
 
 Fixes:
 - The Mountaineer Experience Tooltip now works properly again.
+- Various small bug fixes.
