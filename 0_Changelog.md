@@ -22,3 +22,4 @@ Fixes:
 - Characters will now keep their glasses even if they hold something in their hands (silly Paradox making people take of their glasses cause they hold something).
 - The number of Disease Descriptions and Treatments are now counted correctly, even if you get it from a Medical Congress.
 - The Geologist will no longer stay busy forever after finding the highest mountain of the world.
+- Various scientists now look better positioned in their portraits.
