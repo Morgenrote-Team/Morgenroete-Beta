@@ -9,3 +9,4 @@ Changes:
 Fixes:
 - The Mountaineer Experience Tooltip now works properly again.
 - Various small bug fixes.
+- Volcanoes now reduce the infrastructure by 5% to keep infrastructure from going negative.
