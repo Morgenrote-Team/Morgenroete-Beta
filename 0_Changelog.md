@@ -7,6 +7,7 @@ Characters:
 Changes:
 - Composers are no longer exhausted. Instead you can use them again immediately.
 - The Magnetic Association is now possible with just an engineer.
+- Switzerland now starts with Mechanical Tools.
 
 Fixes:
 - The Mountaineer Experience Tooltip now works properly again.
