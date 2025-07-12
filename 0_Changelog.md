@@ -19,3 +19,4 @@ Fixes:
 - Writers on a Writing Tour will no longer go to a Pacific Island if they could instead go to France.
 - Characters will now keep their glasses even if they hold something in their hands (silly Paradox making people take of their glasses cause they hold something).
 - The number of Disease Descriptions and Treatments are now counted correctly, even if you get it from a Medical Congress.
+- The Geologist will no longer stay busy forever after finding the highest mountain of the world.
