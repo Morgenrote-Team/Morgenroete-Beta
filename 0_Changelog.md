@@ -10,3 +10,4 @@ Fixes:
 - The Mountaineer Experience Tooltip now works properly again.
 - Various small bug fixes.
 - Volcanoes now reduce the infrastructure by 5% to keep infrastructure from going negative.
+- Writers on a Writing Tour will no longer go to a Pacific Island if they could instead go to France.
