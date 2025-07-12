@@ -4,6 +4,7 @@ Characters:
 - Ferdinand Reich (random German Chemist and Physicist)
 - Adolph Strecker (random German Chemist)
 - Clemens Winkler (random German Chemist)
+- Friedrich Wöhler (random German Chemist)
 - Carl Gustav Jung (random Swiss Physician)
 - Gottlieb Samuel Studer (random Swiss Mountaineer)
 
