@@ -1,6 +1,7 @@
 Changelog fot 2.4.2a "Mallory"
 
 Characters:
+- Carl Gustav Jung (random Swiss Physician)
 - Gottlieb Samuel Studer (random Swiss Mountaineer)
 
 Changes:
