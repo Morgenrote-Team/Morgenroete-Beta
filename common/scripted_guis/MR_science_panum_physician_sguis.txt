@@ -276,85 +276,20 @@ mr_physician_medical_research_button_sgui = {
 				is_busy = no
 			}
 		}
+		NOT = {
+			has_journal_entry = je_panum_medical_research_project
+		}
 	}
 	effect = {
-		show_as_tooltip = {
-			add_modifier = {
-				name = panum_medical_research_cost_modifier
-				multiplier = money_amount_multiplier_small
-			}
-		}
 		add_journal_entry = { type = je_panum_medical_research_project }
-		if = {
-			limit = {
-				has_variable = panum_physician_var
-			}
-			var:panum_physician_var = {
-				set_character_busy_and_immortal = yes
-			}
-		}
 	}
-
-	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
-	ai_chance = {
-		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
-		modifier = {
-			trigger = {
-				var:panum_physician_var ?= {
-					OR = {
-						has_trait = panum_military_physician
-						has_trait = panum_red_cross
-					}
-				}
-				has_variable = panum_physician_advanced_medical_support_var
-				var:panum_physician_advanced_medical_support_var > 2
-			}
-			add = -100 #The AI will try to update the military medicine first, because the traits are rare
-		}
-		modifier = {
-			trigger = {
-				institution_investment_level = {
-					institution	= institution_health_system
-					value >= 1
-				}
-				OR = {
-					any_scope_state = {
-						any_scope_building = {
-							is_building_type = building_government_administration
-							level >= 5
-							has_active_production_method = pm_panum_no_clinic
-						}
-					}
-					any_scope_state = {
-						any_scope_building = {
-							is_building_type = building_government_administration
-							level >= 20
-							has_active_production_method = pm_panum_clinic
-						}
-					}
-				}
-			}
-			add = -100 #The AI will try to expand the medical System second, because the traits are rare
-		}
-	}
-	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
 #Active
-mr_physician_medical_research_stop_button_sgui = {
+mr_physician_medical_research_active_sgui = {
 	scope = country
 	is_shown = {
 		has_journal_entry = je_panum_medical_research_project
-	}
-	is_valid = {
-		custom_tooltip = {
-			text = MR_PHYSICIAN_MEDICAL_RESEARCH_STOP_BUTTON_TRIGGER_TT
-			NOT = {
-				has_variable = panum_stop_medical_project_var
-			}
-		}
-	}
-	effect = {
-		set_variable = panum_stop_medical_project_var
+		panum_has_active_physician_no_tooltip_trigger = yes
 	}
 }
 
@@ -494,7 +429,6 @@ mr_physician_introduce_medical_techniques_level_button_sgui = {
 			mr_gui_has_antibiotics_tech_trigger = yes
 			mr_gui_has_military_aviation_tech_trigger = yes
 		}
-
     }
     effect = {
 		set_variable = mr_physician_introduce_medical_techniques_var
@@ -2697,7 +2631,6 @@ mr_stop_physician_project_button_sgui = {
 			text = MR_STOP_PHYSICIAN_PROJECT_HAS_ACTIVE_PROJECT_TT
 			OR = {
 				has_journal_entry = je_panum_medical_system_project
-				has_journal_entry = je_panum_medical_research_project
 				has_journal_entry = je_panum_medical_techniques_project
 				has_journal_entry = je_panum_military_medicine_project
 			}
