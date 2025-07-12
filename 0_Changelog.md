@@ -5,6 +5,7 @@ Characters:
 - Adolph Strecker (random German Chemist)
 - Clemens Winkler (random German Chemist)
 - Friedrich Wöhler (random German Chemist)
+- Edward Frankland, (random British Chemist)
 - Carl Gustav Jung (random Swiss Physician)
 - Gottlieb Samuel Studer (random Swiss Mountaineer)
 
