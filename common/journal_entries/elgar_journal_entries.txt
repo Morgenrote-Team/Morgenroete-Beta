@@ -13,23 +13,16 @@ je_elgar_composer_composing = {
 
 	group = je_group_elgar_music
 
-	on_yearly_pulse = {
-		effect = {
-			composer_experience_gain_effect = { AMOUNT = 5 }
+	immediate = {
+		scope:journal_entry = {
 			set_variable = {
-				name = elgar_composer_num_yearly_compositions
-				value = elgar_yearly_compositions_score
-				months = 2
+				name = elgar_composer_month_counter
+				value = 0
 			}
-			var:elgar_composer_var = {
-				change_variable = {
-					name = elgar_composer_num_compositions_var
-					add = root.var:elgar_composer_num_yearly_compositions
-				}
-			}
-
-			post_notification = elgar_composer_yearly_compositions_notification
 		}
+	}
+
+	on_yearly_pulse = {
 		random_events = {
 			5000 = 0
 			
@@ -47,44 +40,88 @@ je_elgar_composer_composing = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_elgar_composer_composing_stop_tt
-			always = no
-		}
-	}
+	on_monthly_pulse = {
+		effect = {
+			#Compatibility with existing save games
+			if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						is_busy = yes
+					}
+					NOR = {
+						has_journal_entry = je_elgar_composer_conducting
+						has_journal_entry = je_elgar_composer_touring
+						has_journal_entry = je_elgar_composer_masterpiece
+						has_journal_entry = je_elgar_composer_anthem
+					}
+				}
 
-	on_complete = {
-		var:elgar_composer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-	}
-
-	fail = {
-		OR = {
-			custom_tooltip = {
-				text = je_stopped_composing_tt
-				has_variable = elgar_stopped_composing_remover_var
+				var:elgar_composer_var = {
+					set_character_busy_and_immortal = no
+				}
 			}
-			custom_tooltip = {
-				text = je_composer_dies_tt
-				NOT = {
-					has_variable = elgar_composer_var
+
+			#Only active if the Composer is not busy
+			if = {
+				limit = {
+					elgar_has_active_composer_no_tooltip_trigger = yes
+				}
+				#Changes the counter
+				scope:journal_entry = {
+					change_variable = {
+						name = elgar_composer_month_counter
+						add = 1
+					}
+				}
+				#Checks if 12 months have passed
+				if = {
+					limit = {
+						scope:journal_entry = {
+							var:elgar_composer_month_counter >= 12
+						}
+					}
+					#Resets Timer
+					scope:journal_entry = {
+						set_variable = {
+							name = elgar_composer_month_counter
+							value = 0
+						}
+					}
+					#Adds Compositions and Reputation
+					composer_experience_gain_effect = { AMOUNT = 5 }
+					elgar_add_x_music_tradition_effect = { AMOUNT = 5 }
+					set_variable = {
+						name = elgar_composer_num_yearly_compositions
+						value = elgar_yearly_compositions_score
+						months = 2
+					}
+					var:elgar_composer_var = {
+						change_variable = {
+							name = elgar_composer_num_compositions_var
+							add = root.var:elgar_composer_num_yearly_compositions
+						}
+					}
+
+					post_notification = elgar_composer_yearly_compositions_notification
 				}
 			}
 		}
 	}
 
+	fail = {
+		custom_tooltip = {
+			text = je_composer_dies_tt
+			NOT = {
+				has_variable = elgar_composer_var
+			}
+		}
+	}
+
 	on_fail = {
-		remove_variable = elgar_stopped_composing_remover_var
 		var:elgar_composer_var ?= {
 			set_character_busy_and_immortal = no
 		}
 	}
-
-	scripted_button = elgar_stop_composing_button
-
-	progressbar = no
 
 	weight = 50
 }
@@ -232,6 +269,8 @@ je_elgar_composer_masterpiece = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	group = je_group_elgar_music
+
+	scripted_button = elgar_stop_composing_button
 
 	on_monthly_pulse = {
 		effect = {
@@ -1146,8 +1185,6 @@ je_elgar_composer_masterpiece = {
 			set_character_busy_and_immortal = no
 		}
 	}
-
-	scripted_button = elgar_stop_composing_button
 
 	progressbar = yes
 
