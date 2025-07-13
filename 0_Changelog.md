@@ -33,3 +33,4 @@ Fixes:
 - The Geologist will no longer stay busy forever after finding the highest mountain of the world.
 - Various scientists now look better positioned in their portraits.
 - Promoting Architects now displays the correct text in the UI.
+- The Anthem Melody event has now a button to close the event.
