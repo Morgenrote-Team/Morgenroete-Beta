@@ -7,6 +7,7 @@ Characters:
 - Friedrich Wöhler (random German Chemist)
 - Edward Frankland, (random British Chemist)
 - William Odling (random British Chemist)
+- William Ramsay (random British Chemist)
 - Henry Roscoe (random British Chemist)
 - Carl Gustav Jung (random Swiss Physician)
 - Gottlieb Samuel Studer (random Swiss Mountaineer)
