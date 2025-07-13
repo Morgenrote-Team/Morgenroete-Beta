@@ -20,6 +20,7 @@ Changes:
 Quality of Life:
 - Physicians now do medical research by default. You no longer lose progress if you start another project and you don't have to worry about them not doing anything.
 - Naturalists now have a default project called Specimen Collection. You will receive Specimens whenever the Naturalist is not working on another project.
+- Architects now have the public construction project as a default project. You will now gain free construction, whenever no other project is active.
 
 Fixes:
 - The Mountaineer Experience Tooltip now works properly again.
