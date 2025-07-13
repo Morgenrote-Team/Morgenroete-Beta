@@ -34,3 +34,4 @@ Fixes:
 - Various scientists now look better positioned in their portraits.
 - Promoting Architects now displays the correct text in the UI.
 - The Anthem Melody event has now a button to close the event.
+- The Button to write and Anthem Melody can no longer be pressed, when there is no Anthem to write anymore.
