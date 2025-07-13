@@ -32,3 +32,4 @@ Fixes:
 - The number of Disease Descriptions and Treatments are now counted correctly, even if you get it from a Medical Congress.
 - The Geologist will no longer stay busy forever after finding the highest mountain of the world.
 - Various scientists now look better positioned in their portraits.
+- Promoting Architects now displays the correct text in the UI.
