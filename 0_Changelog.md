@@ -16,6 +16,7 @@ Changes:
 - Composers are no longer exhausted. Instead you can use them again immediately.
 - The Magnetic Association is now possible with just an engineer.
 - Switzerland now starts with Mechanical Tools.
+- Travelling Composers now gain compositions passively.
 
 Quality of Life:
 - Physicians now do medical research by default. You no longer lose progress if you start another project and you don't have to worry about them not doing anything.
