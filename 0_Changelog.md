@@ -14,6 +14,10 @@ Changes:
 - The Magnetic Association is now possible with just an engineer.
 - Switzerland now starts with Mechanical Tools.
 
+Quality of Life:
+- Physicians now do medical research by default. You no longer lose progress if you start another project and you don't have to worry about them not doing anything.
+- Naturalists now have a default project called Specimen Collection. You will receive Specimens whenever the Naturalist is not working on another project.
+
 Fixes:
 - The Mountaineer Experience Tooltip now works properly again.
 - Various small bug fixes.
