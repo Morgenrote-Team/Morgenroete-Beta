@@ -7,7 +7,53 @@
 
 ############################
 
-######NATIVE ANIMAL######
+######Specimen Collection######
+
+je_ito_specimen_collection = {
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	group = je_group_dubois_nature
+
+	immediate = {
+		set_variable = {
+			name = ito_estimated_specimen_on_specimen_collection_var
+			value = ito_specimen_collection_monthly_specimen_rounded_value
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			#Adds Specimens each month
+			if = {
+				limit = {
+					dubois_has_active_naturalist_no_tooltip = yes
+				}
+
+				dubois_add_x_specimen_effect = { AMOUNT = ito_specimen_collection_monthly_specimen_value }
+				#Estimated yield
+				set_variable = {
+					name = ito_estimated_specimen_on_specimen_collection_var
+					value = ito_specimen_collection_monthly_specimen_rounded_value
+				}
+			}
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = ito_naturalist_is_dead_tt
+			dubois_has_naturalist = no
+		}
+	}
+
+	on_invalid = {
+		remove_variable = ito_estimated_specimen_on_specimen_collection_var
+	}
+
+	weight = 50
+}
+
+######BOTANICAL EXPEDITION######
 
 je_ito_botanical_expedition = {
 	icon = "gfx/interface/icons/event_icons/event_botany.dds"
@@ -21,6 +67,10 @@ je_ito_botanical_expedition = {
 			name = ito_total_specimen_current_botanical_expedition_var
 			value = 0
 		}
+		set_variable = {
+			name = ito_estimated_specimen_on_botanical_expedition_var
+			value = ito_botanical_expedition_monthly_specimen_rounded_value
+		}
 
 		scope:journal_entry = {
 			add_modifier = {
@@ -33,10 +83,16 @@ je_ito_botanical_expedition = {
 	on_monthly_pulse = {
 		#Effect to add Specimen
 		effect = {
+			#Adds Specimen each month
 			dubois_add_x_specimen_effect = { AMOUNT = ito_botanical_expedition_monthly_specimen_value }
 			change_variable = {
 				name = ito_total_specimen_current_botanical_expedition_var
 				add = ito_botanical_expedition_monthly_specimen_value
+			}
+			#Estimated yield
+			set_variable = {
+				name = ito_estimated_specimen_on_botanical_expedition_var
+				value = ito_botanical_expedition_monthly_specimen_rounded_value
 			}
 		}
 
@@ -74,6 +130,9 @@ je_ito_botanical_expedition = {
 			remove_modifier = dubois_botanical_expedition_cost_modifier
 		}
 		trigger_event = dubois.390
+
+		remove_variable = ito_total_specimen_current_botanical_expedition_var
+		remove_variable = ito_estimated_specimen_on_botanical_expedition_var
 	}
 
 	invalid = {
@@ -90,6 +149,7 @@ je_ito_botanical_expedition = {
 			remove_modifier = dubois_botanical_expedition_cost_modifier
 		}
 		remove_variable = ito_total_specimen_current_botanical_expedition_var
+		remove_variable = ito_estimated_specimen_on_botanical_expedition_var
 	}
 
 	weight = 50

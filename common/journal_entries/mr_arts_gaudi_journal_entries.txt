@@ -13,56 +13,112 @@ je_gaudi_public_construction = {
 
 	group = je_group_gaudi_architecture
 
-	scripted_button = gaudi_stop_architectural_project_button
-
 	immediate = {
-		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
-	}
-
-	timeout = 1825
-
-	on_timeout = {
-		trigger_event = { 
-			id = gaudi.10
-			popup = yes 
-		}
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_architectural_project_tt
-			has_variable = gaudi_stop_architectural_project_var
-		}
-	}
-
-	on_invalid = {
-		remove_variable = gaudi_stop_architectural_project_var
-		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
-		var:gaudi_architect_var ?= {
-			set_character_busy_and_immortal = no
-		}
-	}
-
-	fail = {
-		custom_tooltip = {
-			text = je_architect_dies_tt
-			NOT = {
-				has_variable = gaudi_architect_var
+		scope:journal_entry = {
+			set_variable = {
+				name = gaudi_architect_month_counter_var
+				value = 0
 			}
 		}
 	}
 
+	on_monthly_pulse = {
+		effect = {
+			#Compatibility with existing save games
+			if = {
+				limit = {
+					var:gaudi_architect_var ?= {
+						is_busy = yes
+					}
+					gaudi_has_active_architecture_project_trigger = no
+				}
+
+				var:gaudi_architect_var = {
+					set_character_busy_and_immortal = no
+				}
+			}
+
+			#Removes the Modifier
+			scope:journal_entry = {
+				if = {
+					limit = {
+						has_modifier = gaudi_architect_public_construction_modifier
+					}
+					remove_modifier = gaudi_architect_public_construction_modifier
+				}
+			}
+			#Only if the Architect is not busy
+			if = {
+				limit = { gaudi_has_active_architect_no_tooltip_trigger = yes }
+
+				#Adds the modifier if the JE doesn't have it yet
+				scope:journal_entry = {
+					if = {
+						limit = {
+							NOT = {
+								has_modifier = gaudi_architect_public_construction_modifier
+							}
+						}
+						add_modifier = {
+							name = gaudi_architect_public_construction_modifier
+							multiplier = gaudi_architect_public_construction_value #Multiplies the base construction (1) with the public construction value
+						}
+					}
+				}
+
+				#Changes the counter
+				scope:journal_entry = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = gaudi_architect_month_counter_var
+							}
+						}
+						set_variable = {
+							name = gaudi_architect_month_counter_var
+							value = 0
+						}
+					}
+					change_variable = {
+						name = gaudi_architect_month_counter_var
+						add = 1
+					}
+				}
+
+				#If the Counter reaches 12, the architect gets some Reputation
+				if = {
+					limit = {
+						scope:journal_entry = {
+							var:gaudi_architect_month_counter_var >= 12
+						}
+					}
+
+					#Adds Reputation to the Architect
+					architect_experience_gain_effect = { AMOUNT = 10 }
+
+					#Resets the Counter
+					scope:journal_entry = {
+						set_variable = {
+							name = gaudi_architect_month_counter_var
+							value = 0
+						}
+					}
+				}
+			}
+		}
+	}
+
+	fail = {
+		gaudi_has_architect = no
+	}
+
 	on_fail = {
-		remove_variable = gaudi_stop_architectural_project_var
-		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
 		var:gaudi_architect_var ?= {
 			set_character_busy_and_immortal = no
 		}
 	}
 
 	weight = 25
-
-	should_be_pinned_by_default = yes
 }
 
 #################################################################

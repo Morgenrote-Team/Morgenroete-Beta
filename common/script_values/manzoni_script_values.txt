@@ -1142,6 +1142,7 @@ manzoni_writer_rating_new_writer_value = {
 ############################################################################
 #This value determines how interesting a location is for a writer on tour
 manzoni_writer_destination_score = {
+	save_temporary_scope_as = target_country
 	######NO GO######
 	if = {
 		limit = {
@@ -1217,32 +1218,149 @@ manzoni_writer_destination_score = {
 			}
 			add = 5 #Freedom of speech is important for Writers
 		}
-		######NEAR&FAR######
-		if = { #Should prefer countries with similar culture
+		######Recognition Status######
+		if = {
 			limit = {
-				manzoni_has_writer_no_tooltip = yes
+				is_country_type = unrecognized
 			}
-			if = {
-				limit = {
-					root.var:manzoni_writer_var = {
-						culture = {
-							shares_non_heritage_trait_with_any_primary_culture = prev
-						}
-					}
-				}
-				add = 50 #Should prefer countries with similar culture
-			}
-			else_if = {
-				limit = {
-					root.var:manzoni_writer_var = {
-						culture = {
-							shares_heritage_trait_with_any_primary_culture = prev
-						}
-					}
-				}
-				add = 25 #Should prefer countries with similar culture
-			}
+			add = -25
 		}
+		######NEAR&FAR######
+		#Should prefer countries with similar culture
+		if = {
+			limit = {
+				root.var:manzoni_writer_var = {
+					culture = {
+						shares_non_heritage_trait_with_any_primary_culture = scope:target_country
+					}
+				}
+			}
+			add = 75 #Should prefer countries with similar culture
+		}
+		else_if = {
+			limit = {
+				root.var:manzoni_writer_var = {
+					culture = {
+						shares_heritage_trait_with_any_primary_culture = scope:target_country
+					}
+				}
+			}
+			add = 25 #Should prefer countries with similar culture
+		}
+		#Before advanced culture techs, Writers will not travel too far
+		if = {
+			limit = {
+				NOR = {
+					has_technology_researched = elgar_impressionism_tech
+					has_technology_researched = elgar_expressionism_tech
+					has_technology_researched = elgar_art_nouveau_tech
+				}
+				#European countries
+				trigger_if = {
+					limit = {
+						root = {
+							country_is_in_europe = yes
+						}
+					}
+					country_is_in_europe = no
+				}
+				#North American countries
+				trigger_if = {
+					limit = {
+						root = {
+							country_is_in_north_america = yes
+						}
+					}
+					country_is_in_north_america = no
+					country_is_in_central_america = no
+				}
+				#Central American countries
+				trigger_if = {
+					limit = {
+						root = {
+							country_is_in_central_america = yes
+						}
+					}
+					country_is_in_north_america = no
+					country_is_in_central_america = no
+					country_is_in_south_america = no
+				}
+				#South American countries
+				trigger_if = {
+					limit = {
+						root = {
+							country_is_in_south_america = yes
+						}
+					}
+					country_is_in_south_america = no
+					country_is_in_central_america = no
+				}
+				#Subsaharan African countries
+				trigger_if = {
+					limit = {
+						root = {
+							country_is_in_subsaharan_africa = yes
+						}
+					}
+					country_is_in_subsaharan_africa = no
+				}
+				#North Africa and middle East
+				trigger_if = {
+					limit = {
+						root = {
+							OR = {
+								country_is_in_north_africa = yes
+								country_is_in_middle_east = yes
+							}
+						}
+					}
+					country_is_in_north_africa = no
+					country_is_in_middle_east = no
+				}
+				#Central Asian Countries
+				trigger_if = {
+					limit = {
+						root = {
+							country_is_in_central_asia = yes
+						}
+					}
+					country_is_in_central_asia = no
+				}
+				#Indian Countries
+				trigger_if = {
+					limit = {
+						root = {
+							country_is_in_india = yes
+						}
+					}
+					country_is_in_india = no
+				}
+				#East and South East Countries
+				trigger_if = {
+					limit = {
+						root = {
+							OR = {
+								country_is_in_east_asia = yes
+								country_is_in_southeast_asia = yes
+							}
+						}
+					}
+					country_is_in_east_asia = no
+					country_is_in_southeast_asia = no
+				}
+				#Oceanian Countries
+				trigger_if = {
+					limit = {
+						root = {
+							rapanui_country_is_in_oceania = yes
+						}
+					}
+					rapanui_country_is_in_oceania = no
+				}
+			}
+			add = -50
+		}
+		#Before advanced culture techs, Writers will not travel too far
 		if = {
 			limit = {
 				NOT = {
@@ -1254,7 +1372,7 @@ manzoni_writer_destination_score = {
 					has_technology_researched = elgar_art_nouveau_tech
 				}
 			}
-			add = -50 #Before advanced culture techs, Writers will not travel too far
+			add = -50
 		}
 	}
 }
