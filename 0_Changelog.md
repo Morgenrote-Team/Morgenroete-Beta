@@ -1,7 +1,7 @@
 Changelog fot 2.4.2b "Mallory"
 
 Graphics:
-- The Instrument Workshop now has a 3D model.
+- The Instrument Workshop now has a 3D model (generic plus Indian).
 - The Publishing Industry now has a 3D model.
 - The Observatory now has a 3D model.
 - Improved the Opera House with trees and a ground texture.
@@ -12,3 +12,4 @@ Quality of Live:
 
 Fixes:
 - Various localization fixes.
+- Opera Houses now appear in Indian and French Cities if you own the DLCs.
