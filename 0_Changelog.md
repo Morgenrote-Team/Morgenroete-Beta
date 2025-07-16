@@ -13,3 +13,4 @@ Quality of Live:
 Fixes:
 - Various localization fixes.
 - Opera Houses now appear in Indian and French Cities if you own the DLCs.
+- The Naturalist now properly receives the Specimens from the Journal Entries as well instead of thinking he is a country.
