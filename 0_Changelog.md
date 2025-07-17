@@ -7,3 +7,6 @@ Characters:
 - Louis Pasteur (random French Chemist)
 - Morris Travers (random British Chemist)
 - Frederick Banting (random Canadian Physician)
+
+Fixes:
+- The Petite Bourgeoisie no longer needs a clout of 1500% to create Football.
