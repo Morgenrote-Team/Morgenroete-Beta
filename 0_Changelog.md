@@ -8,8 +8,10 @@ Characters:
 - Jean-Baptiste Dumas (random French Chemist)
 - Paul-Émile Lecoq de Boisbaudran (random French Chemist)
 - Louis Pasteur (random French Chemist)
+- Eugène-Melchior Péligot (random French Chemist)
 - Morris Travers (random British Chemist)
 - Frederick Banting (random Canadian Physician)
 
 Fixes:
 - The Petite Bourgeoisie no longer needs a clout of 1500% to create Football.
+- Only chemists without a specialization will gain one when they get created.
