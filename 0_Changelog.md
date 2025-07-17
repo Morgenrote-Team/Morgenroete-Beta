@@ -4,6 +4,7 @@ Characters:
 - Antoine Jérôme Balard (random French Chemist)
 - Jean-Baptiste Boussingault (random French Chemist)
 - Auguste André Thomas Cahours (random French Chemist)
+- Done Eugène-Anatole Demarçay (random French Chemist)
 - Paul-Émile Lecoq de Boisbaudran (random French Chemist)
 - Louis Pasteur (random French Chemist)
 - Morris Travers (random British Chemist)
