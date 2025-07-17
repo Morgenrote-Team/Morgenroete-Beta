@@ -5132,6 +5132,36 @@ create_new_chemist_effect = {
 
 			set_global_variable = mr_pasteur_louis_created_global_var
 		}
+		100 = { #Eugène-Melchior Péligot, France
+			trigger = {
+				NOT = { has_global_variable = mr_peligot_eugene_melchior_created_global_var }
+				has_state_in_state_region = STATE_ILE_DE_FRANCE #Born in Paris
+				country_average_cultural_acceptance = {
+					target = cu:french
+					value >= acceptance_status_4
+				}
+				game_date < 1866.03.24 #Age 55
+				year >= 1836 #Age 25
+			}
+			create_character = {
+				template = mr_fra_peligot_eugene_melchior_character_template
+
+				save_scope_as = mendelejew_new_chemist_scope
+			}
+			scope:mendelejew_new_chemist_scope = {
+				set_variable = mr_is_chemist_var
+				set_variable = mr_no_headgear_var
+				chemist_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = mendelejew_new_chemist_var
+				value = scope:mendelejew_new_chemist_scope
+			}
+
+			set_global_variable = mr_peligot_eugene_melchior_created_global_var
+		}
 		100 = { #Albert Boehringer, Germany
 			trigger = {
 				NOT = { has_global_variable = mr_boehringer_created_global_var }
@@ -6800,7 +6830,7 @@ chemist_experience_set_up_effect = {
 		UNI_PM = pm_dubois_university_mathematics
 	}
 	
-	if = { #Adds the Experienced Astronomer Trait if Experience is above 100
+	if = { #Adds the Experienced Chemist Trait if Experience is above 100
 		limit = {
 			var:mendelejew_chemist_experience_var >= 100
 			NOT = {
@@ -6814,7 +6844,7 @@ chemist_experience_set_up_effect = {
 		remove_trait = mendelejew_chemist
 		add_trait = mendelejew_chemist_experienced
 	}
-	if = { #Adds the Famous Astronomer Trait if Experience is above 300
+	if = { #Adds the Famous Chemist Trait if Experience is above 300
 		limit = {
 			var:mendelejew_chemist_experience_var >= 300
 			NOT = {
@@ -6929,11 +6959,21 @@ set_start_chemist_stats_effect = {
 		name = mendelejew_isolated_elements_character_number_var
 		value = 0
 	}
-	random_list = {
-		1 = { add_trait = mendelejew_chemist_theorist }
-		1 = { add_trait = mendelejew_chemist_analyst }
-		1 = { add_trait = mendelejew_chemist_inspector }
-		3 = {}
+	if = {
+		limit = {
+			NOR = {
+				has_trait = mendelejew_chemist_theorist
+				has_trait = mendelejew_chemist_analyst
+				has_trait = mendelejew_chemist_inspector
+			}
+		}
+
+		random_list = {
+			1 = { add_trait = mendelejew_chemist_theorist }
+			1 = { add_trait = mendelejew_chemist_analyst }
+			1 = { add_trait = mendelejew_chemist_inspector }
+			3 = {}
+		}
 	}
 }
 
