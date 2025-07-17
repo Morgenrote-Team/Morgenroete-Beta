@@ -15,3 +15,7 @@ Characters:
 Fixes:
 - The Petite Bourgeoisie no longer needs a clout of 1500% to create Football.
 - Only chemists without a specialization will gain one when they get created.
+
+3D Models:
+- Improved look of existing buildings.
+- Added French Tooling Workshop variation.
