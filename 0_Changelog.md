@@ -16,6 +16,10 @@ Fixes:
 - The Petite Bourgeoisie no longer needs a clout of 1500% to create Football.
 - Only chemists without a specialization will gain one when they get created.
 
+2D:
+- Replaces some Technology icons with better ones (Thanks Warhammer/Lorenzo!).
+
 3D Models:
 - Improved look of existing buildings.
-- Added French Tooling Workshop variation.
+- Added Arabic Instrument Workshop variation.
+- Added French Instrument Workshop variation.
