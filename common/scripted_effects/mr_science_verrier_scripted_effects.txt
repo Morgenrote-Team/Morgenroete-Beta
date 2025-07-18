@@ -2359,3 +2359,40 @@ verrier_update_astronomical_prestige_effect = {
 		}
 	}
 }
+
+#Effect to determine the Prime Meridian
+verrier_set_prime_meridian_effect = {
+	ordered_country = {
+		limit = {
+			has_modifier = verrier_standard_time_modifier
+		}
+		order_by = verrier_prime_median_value
+		max = 1 #Limits the list to the ten top countries
+		check_range_bounds = no #prevents errors
+
+		#This part checks one after another whether the first, second, etc. ranked countries are saved already.
+		#Luckily the ordered_country effect iterates through the countries one after another.
+		#So the first country gets saved to the first variable but as that variable now is set,
+		# the second country gets saved to the second variable and so on.
+		if = {
+			limit = {
+				NOT = { 
+					has_global_variable = verrier_prime_meridian_global_var
+				}
+			}
+			set_variable = verrier_has_prime_meridian_var
+			set_global_variable = {
+				name =  verrier_prime_meridian_global_var
+				value = THIS
+			}
+			capital = {
+				state_region = {
+					set_global_variable = { #This is used in the GUI to display the state
+            			name = verrier_prime_meridian_city_global_var
+           				value = this
+        			}
+				}
+			}
+		}
+	}
+}
