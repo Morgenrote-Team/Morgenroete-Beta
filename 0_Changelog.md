@@ -5,3 +5,4 @@ Fixes:
 
 3D Models:
 - Added African Instrument Workshop variation.
+- Added Asian Instrument Workshop variation.
