@@ -12,3 +12,4 @@ Characters:
 - Adolphe Wurtz (random French Chemist)
 - Josiah Willard Gibbs (random American Chemist)
 - Franklin Bache (random American Chemist and Physician)
+- George B. Wood (random Physician and Chemist)
