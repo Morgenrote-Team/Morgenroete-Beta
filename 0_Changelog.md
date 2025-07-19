@@ -1,9 +1,8 @@
-Changelog fot 2.4.2d "Mallory"
+Changelog fot 2.4.2e "Mallory"
 
 Fixes:
-- Fixed The medical Mobilization Option using an insane amount of liquor.
+- Cautious rulers will no longer die all the time in furniture factories.
+- Hitler is now Catholic.
 
-3D Models:
-- Added African Instrument Workshop variation.
-- Added Asian Instrument Workshop variation.
-- Added Latin Instrument Workshop variation.
+Characters:
+- Théophile-Jules Pelouze (random French Chemist)
