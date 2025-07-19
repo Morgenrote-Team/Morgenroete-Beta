@@ -8,3 +8,4 @@ Fixes:
 Characters:
 - Théophile-Jules Pelouze (random French Chemist)
 - Henri Victor Regnault (random French Chemist)
+- Adolphe Wurtz (random French Chemist)
