@@ -10,3 +10,4 @@ Characters:
 - Henri Victor Regnault (random French Chemist)
 - Adolphe Wurtz (random French Chemist)
 - Josiah Willard Gibbs (random American Chemist)
+- Franklin Bache (random American Chemist and Physician)
