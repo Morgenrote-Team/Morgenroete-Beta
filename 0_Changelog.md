@@ -13,4 +13,5 @@ Characters:
 - Josiah Willard Gibbs (random American Chemist)
 - Franklin Bache (random American Chemist and Physician)
 - Charles Loring Jackson (random American Chemist)
+- Linus Pauling (random American Chemist)
 - George B. Wood (random Physician and Chemist)
