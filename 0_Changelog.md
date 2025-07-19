@@ -15,4 +15,5 @@ Characters:
 - Charles Loring Jackson (random American Chemist)
 - Linus Pauling (random American Chemist)
 - George B. Wood (random Physician and Chemist)
+- J. Peter Lesley (random American Geologist)
 - Lunsford P. Yandell (random Physician, Geologist and Paleontologist)
