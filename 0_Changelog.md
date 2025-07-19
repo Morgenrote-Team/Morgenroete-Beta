@@ -4,6 +4,7 @@ Fixes:
 - Cautious rulers will no longer die all the time in furniture factories.
 - Hitler is now Catholic.
 - The Composing Journal Entry now gets correctly added if you recruit a new composer.
+- The Public Construction Journal Entry now gets added correctly, if you recruit a new Architect.
 
 Characters:
 - Théophile-Jules Pelouze (random French Chemist)
