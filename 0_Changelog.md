@@ -3,6 +3,13 @@ Changelog fot 2.4.2e "Mallory"
 Fixes:
 - Cautious rulers will no longer die all the time in furniture factories.
 - Hitler is now Catholic.
+- The Composing Journal Entry now gets correctly added if you recruit a new composer.
+- The Public Construction Journal Entry now gets added correctly, if you recruit a new Architect.
 
 Characters:
 - Théophile-Jules Pelouze (random French Chemist)
+- Henri Victor Regnault (random French Chemist)
+- Adolphe Wurtz (random French Chemist)
+- Josiah Willard Gibbs (random American Chemist)
+- Franklin Bache (random American Chemist and Physician)
+- George B. Wood (random Physician and Chemist)
