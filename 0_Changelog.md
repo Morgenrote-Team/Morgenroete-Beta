@@ -16,6 +16,7 @@ Characters:
 - Henri Victor Regnault (random French Chemist)
 - Adolphe Wurtz (random French Chemist)
 - Carl Bosch (random German Chemist)
+- Giulio Natta (random Italian Chemist)
 - Josiah Willard Gibbs (random American Chemist)
 - Franklin Bache (random American Chemist and Physician)
 - Charles Loring Jackson (random American Chemist)
