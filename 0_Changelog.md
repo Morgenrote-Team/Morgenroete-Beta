@@ -8,6 +8,7 @@ Fixes:
 - Construction Sectors now get ordered by level instead of earnings in the list.
 - Generals, Admirals and Executives can now be sent to the Asylum as well.
 - Fixed various Publishing Industries events.
+- Fixed and Improvet Blueprint choice Events.
 
 Characters:
 - Théophile-Jules Pelouze (random French Chemist)
