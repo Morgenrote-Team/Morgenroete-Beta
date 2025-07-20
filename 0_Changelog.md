@@ -12,6 +12,7 @@ Fixes:
 - If you get a retirement event it should now disappear after a bit if your scientist is under 65 years old.
 
 Characters:
+- Fritz Pregel (random Austrian Chemist)
 - Théophile-Jules Pelouze (random French Chemist)
 - Henri Victor Regnault (random French Chemist)
 - Adolphe Wurtz (random French Chemist)
