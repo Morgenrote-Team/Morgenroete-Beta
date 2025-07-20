@@ -18,3 +18,4 @@ Characters:
 - Charles Albert Ashburner (random American Geologist)
 - J. Peter Lesley (random American Geologist)
 - Lunsford P. Yandell (random Physician, Geologist and Paleontologist)
+- Daniel Burnham (random American Architect)
