@@ -11,6 +11,7 @@ Time, Timezones and Prime Meridian
 - Added Achievement "It's Greenwich ... right?" - Make sure the prime meridian is aligned with your observatory.
 
 Sports
+- Organized Sports is now a Tier 2 technology. A new technology International Sports (Tier 4) was introduced for the more advanced sports setting you know from earlier Morgenröte versions.
 - Cricket, Baseball, Football and Basketball are available national sports. The inventor ("Motherland") gains more prestige and diplomatic influence for every country which adopts the sport as national sport.
 - Cricket is invented from the beginning, the motherland is the UK. I will only spread via subjects and bloc members.
 - Baseball can be invented in North America. It will only spread in North America, or via subjects and bloc members.
@@ -18,3 +19,4 @@ Sports
 - Basketball can be invented by everyone. It will spread everywhere.
 - Coaches can have, depending on the national sport, one of these traits: Cricket Player, Baseball Player, Football Player, Basketball Player.
 - School Sport is now in the "Coach" section and needs a Senior Coach to be introduced.
+- The Alpine CLub needs Organized Sports instead of Nationalism to be founded.
