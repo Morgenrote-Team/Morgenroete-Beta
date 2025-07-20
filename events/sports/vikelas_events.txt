@@ -530,6 +530,33 @@ vikelas.41 = {
 			base = 1
 		}
 	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					scope:vikelas_football_state = {
+						any_neighbouring_state = {
+							is_homeland_of_country_cultures = owner
+							is_incorporated = yes
+							any_scope_building = {
+								is_building_type = building_government_administration
+								OR = {
+									has_active_production_method = pm_vikelas_sports_field
+									has_active_production_method = pm_vikelas_sports_facilities
+								}
+							}
+							vikelas_state_has_sports_club_trigger = no
+						}
+					}
+				}
+				trigger_event = {
+					id = vikelas.331
+					days = { 30 60 }
+				}
+			}
+		}
+	}
 }
 
 #Vikelas 51: Basketball
@@ -5566,6 +5593,7 @@ vikelas.301 = {
 		NOT = {
 			has_variable = vikelas_cricket_country_var
 		}
+		has_technology_researched = organized_sports
 		OR = {
 			AND = {
 				is_subject = yes
@@ -5604,9 +5632,7 @@ vikelas.301 = {
 					is_building_type = building_government_administration
 					has_active_production_method = pm_vikelas_sports_facilities
 				}
-				NOT = {
-					has_modifier = vikelas_cricket_club_modifier
-				}
+				vikelas_state_has_sports_club_trigger = no
 			}
 			save_scope_as = vikelas_cricket_club_state_scope
 		}
@@ -5707,6 +5733,7 @@ vikelas.302 = {
 		NOT = {
 			has_variable = vikelas_baseball_country_var
 		}
+		has_technology_researched = organized_sports
 		OR = {
 			country_is_in_north_america = yes
 			country_is_in_central_america = yes
@@ -5849,6 +5876,7 @@ vikelas.303 = {
 		NOT = {
 			has_variable = vikelas_football_country_var
 		}
+		has_technology_researched = organized_sports
 		OR = {
 			has_law = law_type:law_protected_speech
 			has_law = law_type:law_right_of_assembly
@@ -5911,21 +5939,23 @@ vikelas.303 = {
 		hidden_effect = {
 			if = {
 				limit = {
-					any_neighbouring_state = {
-						is_homeland_of_country_cultures = owner
-						is_incorporated = yes
-						any_scope_building = {
-							is_building_type = building_government_administration
-							OR = {
-								has_active_production_method = pm_vikelas_sports_field
-								has_active_production_method = pm_vikelas_sports_facilities
+					scope:vikelas_football_state = {
+						any_neighbouring_state = {
+							is_homeland_of_country_cultures = owner
+							is_incorporated = yes
+							any_scope_building = {
+								is_building_type = building_government_administration
+								OR = {
+									has_active_production_method = pm_vikelas_sports_field
+									has_active_production_method = pm_vikelas_sports_facilities
+								}
 							}
+							vikelas_state_has_sports_club_trigger = no
 						}
-						vikelas_state_has_sports_club_trigger = no
 					}
 				}
 				trigger_event = {
-					id = vikelas.330
+					id = vikelas.331
 					days = { 30 60 }
 				}
 			}
@@ -5989,6 +6019,7 @@ vikelas.304 = {
 		NOT = {
 			has_variable = vikelas_basketball_country_var
 		}
+		has_technology_researched = organized_sports
 		any_scope_state = {
 			is_homeland_of_country_cultures = owner
 			is_incorporated = yes
@@ -6060,18 +6091,372 @@ vikelas.304 = {
 	}
 }
 
+#Vikelas 310: New Cricket Club (hidden)
+vikelas.310 = {
+	dlc = dlc_morgenrote
 
+	type = country_event
 
+	hidden = yes
 
-#Vikelas 330: Rival Football Club in $STATE$
+	trigger = {
+		any_scope_state = {
+			is_homeland_of_country_cultures = owner
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_government_administration
+				OR = {
+					has_active_production_method = pm_vikelas_sports_field
+					has_active_production_method = pm_vikelas_sports_facilities
+				}
+			}
+			NOT = {
+				has_modifier = vikelas_cricket_club_modifier
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_cricket_country_var
+		random_scope_state = {
+			limit = {
+				is_homeland_of_country_cultures = owner
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_government_administration
+					has_active_production_method = pm_vikelas_sports_facilities
+				}
+				NOT = {
+					has_modifier = vikelas_cricket_club_modifier
+				}
+			}
+			add_modifier = {
+				name = vikelas_cricket_club_modifier
+			}
+		}
+	}
+}
+
+#Vikelas 311: Sports Gazette
+vikelas.311 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.311.t
+	desc = vikelas.311.d
+	flavor = vikelas.311.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_gazetta.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = vikelas_sports_gazette_var
+		}
+		manzoni_has_printing_industry = yes
+	}
+
+	immediate = {
+		set_variable = vikelas_sports_gazette_var
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_manzoni_publishing_industry
+					is_under_construction = no
+				}
+			}
+			save_scope_as = vikelas_gazette_state
+		}
+	}
+
+	option = {
+		name = vikelas.311.g #
+		default_option = yes
+		scope:vikelas_gazette_state = {
+			add_modifier = {
+				name = vikelas_sports_gazette_modifier
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 312: Sports Radio
+vikelas.312 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.312.t
+	desc = vikelas.312.d
+	flavor = vikelas.312.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_gazetta.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = vikelas_sports_radio_var
+		}
+		manzoni_has_printing_industry = yes
+	}
+
+	immediate = {
+		set_variable = vikelas_sports_radio_var
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_electrics_industry
+					is_under_construction = no
+					has_active_production_method = pm_radios
+				}
+			}
+			save_scope_as = vikelas_radio_state
+		}
+	}
+
+	option = {
+		name = vikelas.312.g #
+		default_option = yes
+		scope:vikelas_radio_state = {
+			add_modifier = {
+				name = vikelas_sports_radio_modifier
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 320: New Baseball Club (hidden)
+vikelas.320 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		any_scope_state = {
+			is_homeland_of_country_cultures = owner
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_government_administration
+				OR = {
+					has_active_production_method = pm_vikelas_sports_field
+					has_active_production_method = pm_vikelas_sports_facilities
+				}
+			}
+			NOT = {
+				has_modifier = vikelas_baseball_club_modifier
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_baseball_country_var
+		random_scope_state = {
+			limit = {
+				is_homeland_of_country_cultures = owner
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_government_administration
+					has_active_production_method = pm_vikelas_sports_facilities
+				}
+				NOT = {
+					has_modifier = vikelas_baseball_club_modifier
+				}
+			}
+			add_modifier = {
+				name = vikelas_baseball_club_modifier
+			}
+		}
+	}
+}
+
+#Vikelas 321: Baseball for Japan and Cuba
+vikelas.321 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.321.t
+	desc = vikelas.321.d
+	flavor = vikelas.321.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		game_date >= 1870
+		has_global_variable = vikelas_baseball_motherland_global_var
+		OR = {
+			c:JAP ?= this
+			c:CUB ?= this
+		}
+		NOT = {
+			has_variable = vikelas_baseball_country_var
+		}
+		has_technology_researched = organized_sports
+	}
+
+	immediate = {
+		set_variable = vikelas_baseball_country_var
+	}
+
+	option = {
+		name = vikelas.321.g #Get your club!
+		default_option = yes
+		
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 322: Baseball Cards
+vikelas.322 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.322.t
+	desc = vikelas.322.d
+	flavor = vikelas.322.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = vikelas_baseball_cards_var
+		}
+		has_technology_researched = camera
+		any_company = {
+			company_is_prosperous = yes
+			is_producing_prestige_goods = yes
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_baseball_cards_var
+		random_company = {
+			limit = {
+				company_is_prosperous = yes
+				is_producing_prestige_goods = yes
+			}
+			save_scope_as = vikelas_baseballcards_company
+		}
+	}
+
+	option = {
+		name = vikelas.322.g #When will the scrapbooks be released?
+		default_option = yes
+		every_scope_state = {
+			limit = {
+				has_modifier = vikelas_baseball_club_modifier
+			}
+			add_loyalists_in_state = {
+				value = 0.02
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 330: New Football Club (hidden)
 vikelas.330 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = vikelas.302.t
-	desc = vikelas.302.d
-	flavor = vikelas.302.f
+	hidden = yes
+
+	trigger = {
+		any_scope_state = {
+			is_homeland_of_country_cultures = owner
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_government_administration
+				OR = {
+					has_active_production_method = pm_vikelas_sports_field
+					has_active_production_method = pm_vikelas_sports_facilities
+				}
+			}
+			NOT = {
+				has_modifier = vikelas_football_club_modifier
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_football_country_var
+		random_scope_state = {
+			limit = {
+				is_homeland_of_country_cultures = owner
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_government_administration
+					has_active_production_method = pm_vikelas_sports_facilities
+				}
+				NOT = {
+					has_modifier = vikelas_football_club_modifier
+				}
+			}
+			add_modifier = {
+				name = vikelas_football_club_modifier
+			}
+		}
+	}
+}
+
+#Vikelas 331: Rival Football Club in $STATE$
+vikelas.331 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.331.t
+	desc = vikelas.331.d
+	flavor = vikelas.331.f
 
 	duration = 3
 
@@ -6103,7 +6488,7 @@ vikelas.330 = {
 	}
 
 	option = {
-		name = vikelas.302.g #Is this a brewing rivalry?
+		name = vikelas.331.g #Is this a brewing rivalry?
 		default_option = yes
 		ig:ig_trade_unions = {
 			add_modifier = {
@@ -6155,39 +6540,26 @@ vikelas.332 = {
 	icon = "gfx/interface/icons/event_icons/event_sports.dds"
 
 	cooldown = {
-		years = { 2 5 }
+		years = 5
 	}
 
 	trigger = {
-		has_variable = vikelas_football_association_var
 		any_scope_state = {
 			count >= 2
-			is_homeland_of_country_cultures = owner
-			any_scope_building = {
-				is_building_type = building_government_administration
-				has_active_production_method = pm_vikelas_sports_facilities
-			}
+			has_modifier = vikelas_football_club_modifier
 		}
 	}
 
 	immediate = {
 		random_scope_state = {
 			limit = {
-				is_homeland_of_country_cultures = owner
-				any_scope_building = {
-					is_building_type = building_government_administration
-					has_active_production_method = pm_vikelas_sports_facilities
-				}
+				has_modifier = vikelas_football_club_modifier
 			}
 			save_scope_as = vikelas_rival_state_1_scope
 		}
 		random_scope_state = {
 			limit = {
-				is_homeland_of_country_cultures = owner
-				any_scope_building = {
-					is_building_type = building_government_administration
-					has_active_production_method = pm_vikelas_sports_facilities
-				}
+				has_modifier = vikelas_football_club_modifier
 				NOT = { this = scope:vikelas_rival_state_1_scope }
 			}
 			save_scope_as = vikelas_rival_state_2_scope
@@ -6346,55 +6718,49 @@ vikelas.334 = {
 	}
 }
 
-
-#Vikelas 320: Baseball for Japan and Cuba
-vikelas.320 = {
+#Vikelas 340: New Basketball Club (hidden)
+vikelas.340 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = vikelas.320.t
-	desc = vikelas.320.d
-	flavor = vikelas.320.f
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+	hidden = yes
 
 	trigger = {
-		has_technology_researched = organized_sports
-		NOR = {
-			has_variable = vikelas_football_country_var
-			has_variable = vikelas_baseball_country_var
-			has_variable = vikelas_cricket_country_var
-		}
-		OR = {
-			c:JAP ?= this
-			c:CUB ?= this
+		any_scope_state = {
+			is_homeland_of_country_cultures = owner
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_government_administration
+				OR = {
+					has_active_production_method = pm_vikelas_sports_field
+					has_active_production_method = pm_vikelas_sports_facilities
+				}
+			}
+			NOT = {
+				has_modifier = vikelas_basketball_club_modifier
+			}
 		}
 	}
 
 	immediate = {
-		set_variable = vikelas_baseball_country_var
-	}
-
-	option = {
-		name = vikelas.320.g #Get your club!
-		default_option = yes
-		custom_tooltip = vikelas.300.baseball.tt
-
-		ai_chance = {
-			base = 90
+		set_variable = vikelas_basketball_country_var
+		random_scope_state = {
+			limit = {
+				is_homeland_of_country_cultures = owner
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_government_administration
+					has_active_production_method = pm_vikelas_sports_facilities
+				}
+				NOT = {
+					has_modifier = vikelas_basketball_club_modifier
+				}
+			}
+			add_modifier = {
+				name = vikelas_basketball_club_modifier
+			}
 		}
-	}
-
-	after = {
 	}
 }
 
