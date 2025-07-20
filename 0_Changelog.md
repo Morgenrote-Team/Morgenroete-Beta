@@ -9,3 +9,12 @@ Time, Timezones and Prime Meridian
 - The Prime Meridian confers astronomical prestige; after all, all observatories orient themselves by it. 
 - Nations participating in the International Meridian Conference can then decide whether to adhere unconditionally to the time zone system or stick to a national time zone.
 - Added Achievement "It's Greenwich ... right?" - Make sure the prime meridian is aligned with your observatory.
+
+Sports
+- Cricket, Baseball, Football and Basketball are available national sports. The inventor ("Motherland") gains more prestige and diplomatic influence for every country which adopts the sport as national sport.
+- Cricket is invented from the beginning, the motherland is the UK. I will only spread via subjects and bloc members.
+- Baseball can be invented in North America. It will only spread in North America, or via subjects and bloc members.
+- Football can be invented in Europe or South America. It will spread everywhere.
+- Basketball can be invented by everyone. It will spread everywhere.
+- Coaches can have, depending on the national sport, one of these traits: Cricket Player, Baseball Player, Football Player, Basketball Player.
+- School Sport is now in the "Coach" section and needs a Senior Coach to be introduced.

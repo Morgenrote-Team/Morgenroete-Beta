@@ -2092,53 +2092,6 @@ vikelas_grand_prix_championship_effect = {
 
 ##############################
 
-###Vikelas Variables###
-
-#Add variables
-vikelas_add_variables = {
-	set_variable = {
-        name = vikelas_gold_medals_var
-        value = 0
-	}
-	set_variable = {
-		name = vikelas_mechanical_innovation_var
-		value = 0
-	}
-	set_variable = {
-		name = vikelas_endurance_race_number_var
-		value = 0
-	}
-	set_variable = {
-		name = vikelas_endurance_race_victories_var
-		value = 0
-	}
-	set_variable = {
-		name = vikelas_grand_prix_number_var
-		value = 0
-	}
-	set_variable = {
-		name = vikelas_grand_prix_victories_var
-		value = 0
-	}
-	set_variable = {
-		name = vikelas_engine_level_var
-		value = 1
-	}
-	set_variable = {
-		name = vikelas_safety_level_var
-		value = 1
-	}
-	set_variable = {
-		name = vikelas_body_level_var
-		value = 1
-	}
-	set_global_variable = {
-		name = vikelas_num_aiacr_members_global_var
-		value = 0
-	}
-	vikelas_racecar_custom_effect = yes
-	set_variable = vikelas_variables_var
-}
 
 #############################################################################
 
@@ -2350,4 +2303,291 @@ vikelas_create_fifa_winner_teams_effect = {
 			save_scope_as = vikelas_eighth_winner_team_scope
 		}
 	}
+}
+
+#############################################################################
+
+###### SPORTS GAME START ######
+
+vikelas_sports_at_game_start_effect = {
+	if = {
+		limit = {
+			game_date >= 1787.1.1 #Marylebone Cricket Club
+			exists = c:GBR
+		}
+		set_global_variable = {
+			name = vikelas_cricket_invented_global_var
+			value = 1722
+		}
+		set_global_variable = {
+			name = vikelas_num_cricket_nations_global_var
+			value = 1
+		}
+		c:GBR = {
+			country_definition = {
+				set_global_variable = {
+					name = vikelas_cricket_motherland_global_var
+					value = this
+				}
+			}
+			vikelas_set_cricket_as_national_sport_effect = yes
+			set_variable = vikelas_cricket_country_var
+			add_modifier = {
+				name = vikelas_cricket_motherland_modifier
+			}
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				add_modifier = {
+					name = vikelas_cricket_club_modifier
+				}
+			}
+		}
+	}
+}
+
+###### SPORTS INVENTION ######
+
+vikelas_cricket_invented_effect = {
+	custom_tooltip = {
+		text = vikelas_cricket_invented_effect_tt
+		country_definition = {
+			set_global_variable = {
+				name = vikelas_cricket_motherland_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = vikelas_cricket_invented_global_var
+			value = year
+		}
+		set_global_variable = {
+			name = vikelas_num_cricket_nations_global_var
+			value = 0
+		}
+		set_variable = vikelas_cricket_country_var
+	}
+}
+
+vikelas_baseball_invented_effect = {
+	custom_tooltip = {
+		text = vikelas_baseball_invented_effect_tt
+		country_definition = {
+			set_global_variable = {
+				name = vikelas_baseball_motherland_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = vikelas_baseball_invented_global_var
+			value = year
+		}
+		set_global_variable = {
+			name = vikelas_num_baseball_nations_global_var
+			value = 0
+		}
+		set_variable = vikelas_baseball_country_var
+	}
+}
+
+vikelas_football_invented_effect = {
+	custom_tooltip = {
+		text = vikelas_football_invented_effect_tt
+		country_definition = {
+			set_global_variable = {
+				name = vikelas_football_motherland_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = vikelas_football_invented_global_var
+			value = year
+		}
+		set_global_variable = {
+			name = vikelas_num_football_nations_global_var
+			value = 0
+		}
+		set_variable = vikelas_football_country_var
+	}
+}
+
+vikelas_basketball_invented_effect = {
+	custom_tooltip = {
+		text = vikelas_basketball_invented_effect_tt
+		country_definition = {
+			set_global_variable = {
+				name = vikelas_basketball_motherland_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = vikelas_basketball_invented_global_var
+			value = year
+		}
+		set_global_variable = {
+			name = vikelas_num_basketball_nations_global_var
+			value = 0
+		}
+		set_variable = vikelas_basketball_country_var
+	}
+}
+
+###### NATIONAL SPORTS ######
+
+vikelas_set_cricket_as_national_sport_effect = {
+	custom_tooltip = {
+		text = vikelas_set_cricket_as_national_sport_effect_tt
+		set_variable = {
+			name = vikelas_national_sport_var
+			value = flag:vikelas_cricket_flag
+		}
+		change_global_variable = {
+			name = vikelas_num_cricket_nations_global_var
+			add = 1
+		}
+		random_country = {
+			limit = {
+				has_modifier = vikelas_cricket_motherland_modifier
+			}
+			remove_modifier = vikelas_cricket_motherland_modifier
+			add_modifier = {
+				name = vikelas_cricket_motherland_modifier
+				multiplier = global_var:vikelas_num_cricket_nations_global_var #Multiplies the base prestige (1) and influence (5) with the number of countries
+			}
+		}
+	}
+}
+
+vikelas_set_baseball_as_national_sport_effect = {
+	custom_tooltip = {
+		text = vikelas_set_baseball_as_national_sport_effect_tt
+		set_variable = {
+			name = vikelas_national_sport_var
+			value = flag:vikelas_baseball_flag
+		}
+		change_global_variable = {
+			name = vikelas_num_baseball_nations_global_var
+			add = 1
+		}
+		random_country = {
+			limit = {
+				has_modifier = vikelas_baseball_motherland_modifier
+			}
+			add_modifier = {
+				name = vikelas_baseball_motherland_modifier
+				multiplier = global_var:vikelas_num_baseball_nations_global_var #Multiplies the base prestige (1) and influence (5) with the number of countries
+			}
+		}
+	}
+}
+
+vikelas_set_football_as_national_sport_effect = {
+	custom_tooltip = {
+		text = vikelas_set_football_as_national_sport_effect_tt
+		set_variable = {
+			name = vikelas_national_sport_var
+			value = flag:vikelas_football_flag
+		}
+		change_global_variable = {
+			name = vikelas_num_football_nations_global_var
+			add = 1
+		}
+		random_country = {
+			limit = {
+				has_modifier = vikelas_football_motherland_modifier
+			}
+			add_modifier = {
+				name = vikelas_football_motherland_modifier
+				multiplier = global_var:vikelas_num_football_nations_global_var #Multiplies the base prestige (1) and influence (5) with the number of countries
+			}
+		}
+	}
+}
+
+vikelas_set_basketball_as_national_sport_effect = {
+	custom_tooltip = {
+		text = vikelas_set_basketball_as_national_sport_effect_tt
+		set_variable = {
+			name = vikelas_national_sport_var
+			value = flag:vikelas_basketball_flag
+		}
+		change_global_variable = {
+			name = vikelas_num_basketball_nations_global_var
+			add = 1
+		}
+		random_country = {
+			limit = {
+				has_modifier = vikelas_basketball_motherland_modifier
+			}
+			add_modifier = {
+				name = vikelas_basketball_motherland_modifier
+				multiplier = global_var:vikelas_num_basketball_nations_global_var #Multiplies the base prestige (1) and influence (5) with the number of countries
+			}
+		}
+	}
+}
+
+###### SPORT MOTHERLAND ######
+
+#This effect replaces the current Prestige Modifier
+vikelas_update_sports_motherland_prestige_modifier_effect = {
+	if = { #The if keepes countries that do not have victories from getting the modifier.
+		limit = { has_variable = vikelas_grand_prix_victories_var }
+		remove_modifier = vikelas_grand_prix_prestige_modifier
+		add_modifier = {
+			name = vikelas_grand_prix_prestige_modifier
+			multiplier = root.var:vikelas_grand_prix_victories_var #Multiplies the base prestige per victory (15) with the number of victories
+		}
+	}
+}
+
+#############################################################################
+
+###Vikelas Variables###
+
+#Add variables
+vikelas_add_variables = {
+	set_variable = {
+        name = vikelas_gold_medals_var
+        value = 0
+	}
+	set_variable = {
+		name = vikelas_mechanical_innovation_var
+		value = 0
+	}
+	set_variable = {
+		name = vikelas_endurance_race_number_var
+		value = 0
+	}
+	set_variable = {
+		name = vikelas_endurance_race_victories_var
+		value = 0
+	}
+	set_variable = {
+		name = vikelas_grand_prix_number_var
+		value = 0
+	}
+	set_variable = {
+		name = vikelas_grand_prix_victories_var
+		value = 0
+	}
+	set_variable = {
+		name = vikelas_engine_level_var
+		value = 1
+	}
+	set_variable = {
+		name = vikelas_safety_level_var
+		value = 1
+	}
+	set_variable = {
+		name = vikelas_body_level_var
+		value = 1
+	}
+	set_global_variable = {
+		name = vikelas_num_aiacr_members_global_var
+		value = 0
+	}
+	vikelas_racecar_custom_effect = yes
+	set_variable = vikelas_variables_var
 }
