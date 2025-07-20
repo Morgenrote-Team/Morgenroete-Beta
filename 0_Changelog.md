@@ -6,7 +6,7 @@ Fixes:
 - The Composing Journal Entry now gets correctly added if you recruit a new composer.
 - The Public Construction Journal Entry now gets added correctly, if you recruit a new Architect.
 - Construction Sectors now get ordered by level instead of earnings in the list.
-- Executives can now be sent to the Asylum as well.
+- Generals, Admirals and Executives can now be sent to the Asylum as well.
 
 Characters:
 - Théophile-Jules Pelouze (random French Chemist)
