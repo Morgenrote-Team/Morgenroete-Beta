@@ -13,8 +13,9 @@ Time, Timezones and Prime Meridian
 Sports
 - Organized Sports is now a Tier 2 technology. A new technology International Sports (Tier 4) was introduced for the more advanced sports setting you know from earlier Morgenröte versions.
 - Cricket, Baseball, Football and Basketball are available national sports. The inventor ("Motherland") gains more prestige and diplomatic influence for every country which adopts the sport as national sport.
+- The player can change the national sport if another sport has set foot in his country; this will radicalize the sports community. AI will not change national sports, except if they are not the motherland of an existing sport and become the motherland of a new sport.
 - Cricket is invented from the beginning, the motherland is the UK. I will only spread via subjects and bloc members.
-- Baseball can be invented in North America. It will only spread in North America, or via subjects and bloc members.
+- Baseball can be invented in North America. It will only spread in North America, Central America and Japan, or via subjects and bloc members.
 - Football can be invented in Europe or South America. It will spread everywhere.
 - Basketball can be invented by everyone. It will spread everywhere.
 - Coaches can have, depending on the national sport, one of these traits: Cricket Player, Baseball Player, Football Player, Basketball Player.
