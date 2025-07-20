@@ -10,6 +10,7 @@ Fixes:
 - Fixed various Publishing Industries events.
 - Fixed and Improvet Blueprint choice Events.
 - If you get a retirement event it should now disappear after a bit if your scientist is under 65 years old.
+- Fixed the literacy rate in some tooltips.
 
 Characters:
 - Fritz Pregel (random Austrian Chemist)
