@@ -5,6 +5,7 @@ Fixes:
 - Hitler is now Catholic.
 - The Composing Journal Entry now gets correctly added if you recruit a new composer.
 - The Public Construction Journal Entry now gets added correctly, if you recruit a new Architect.
+- Construction Sectors now get ordered by level instead of earnings in the list.
 
 Characters:
 - Théophile-Jules Pelouze (random French Chemist)
