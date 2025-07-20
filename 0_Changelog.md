@@ -9,6 +9,7 @@ Fixes:
 - Generals, Admirals and Executives can now be sent to the Asylum as well.
 - Fixed various Publishing Industries events.
 - Fixed and Improvet Blueprint choice Events.
+- If you get a retirement event it should now disappear after a bit if your scientist is under 65 years old.
 
 Characters:
 - Théophile-Jules Pelouze (random French Chemist)
