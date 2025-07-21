@@ -13,10 +13,48 @@ je_gaudi_civil_research_project = {
 
 	group = je_group_tesla_engineers
 
-	scripted_progress_bar = tesla_general_civil_engineering_research_project_progress_bar
+	scripted_progress_bar = tesla_civil_engineering_research_project_progress_bar
 
 	on_monthly_pulse = {
 		effect = {
+			#Sets Engineer unbussy if no other project is active
+			if = {
+				limit = {
+					var:tesla_engineer_var ?= {
+						is_busy = yes
+					}
+					tesla_has_active_engineering_project_with_busy_engineer_trigger = no
+				}
+
+				var:tesla_engineer_var ?= {
+					set_character_busy_and_immortal = no
+				}
+			}
+
+			#Sets Variables if they are not yet set
+			scope:journal_entry = {
+				if = {
+					limit = {
+						NOT = { has_variable = mr_monthly_progress_var }
+					}
+
+					set_variable = {
+						name = mr_monthly_progress_var
+						value = root.tesla_monthly_civil_engineering_progress_for_research_value #Calculated in script value
+					}
+				}
+				if = {
+					limit = {
+						NOT = { has_variable = mr_je_progress_var }
+					}
+
+					set_variable = {
+						name = mr_je_progress_var
+						value = 0
+					}
+				}
+			}
+
 			#Adds monthly change
 			scope:journal_entry = {
 				change_variable = {
@@ -43,11 +81,13 @@ je_gaudi_civil_research_project = {
 						subtract = tesla_research_progress_cost
 					}
 					set_bar_progress = { 
-						name = tesla_general_civil_engineering_research_project_progress_bar
+						name = tesla_civil_engineering_research_project_progress_bar
 						value = var:mr_je_progress_var
 					}
 				}
 			}
+
+
 		}
 	}
 
@@ -185,7 +225,6 @@ je_gaudi_road_project = {
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
-		remove_variable = engineer_civil_experience_add_var
 
 		var:tesla_engineer_var ?= {
 			set_character_busy_and_immortal = no
@@ -233,7 +272,6 @@ je_gaudi_road_project = {
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
-		remove_variable = engineer_civil_experience_add_var
 
 		var:tesla_engineer_var ?= {
 			set_character_busy_and_immortal = no
@@ -402,7 +440,6 @@ je_tesla_irrigation_project = {
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
-		remove_variable = engineer_civil_experience_add_var
 
 		#Should clean the lists
 		clear_variable_list = prioritized_states_for_irrigation_improvement_variable_list
@@ -456,7 +493,6 @@ je_tesla_irrigation_project = {
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
-		remove_variable = engineer_civil_experience_add_var
 
 		#Should clean the lists
 		clear_variable_list = prioritized_states_for_irrigation_improvement_variable_list
@@ -582,7 +618,6 @@ je_gaudi_bridge_project = {
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
-		remove_variable = engineer_civil_experience_add_var
 
 		var:tesla_engineer_var ?= {
 			set_character_busy_and_immortal = no
@@ -630,7 +665,6 @@ je_gaudi_bridge_project = {
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
-		remove_variable = engineer_civil_experience_add_var
 
 		var:tesla_engineer_var ?= {
 			set_character_busy_and_immortal = no
@@ -752,7 +786,6 @@ je_gaudi_tunnel_project = {
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
-		remove_variable = engineer_civil_experience_add_var
 
 		var:tesla_engineer_var ?= {
 			set_character_busy_and_immortal = no
@@ -800,7 +833,6 @@ je_gaudi_tunnel_project = {
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
-		remove_variable = engineer_civil_experience_add_var
 
 		var:tesla_engineer_var ?= {
 			set_character_busy_and_immortal = no
@@ -1004,7 +1036,6 @@ je_gaudi_railway_project = {
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
-		remove_variable = engineer_civil_experience_add_var
 
 		var:tesla_engineer_var ?= {
 			set_character_busy_and_immortal = no
@@ -1052,7 +1083,6 @@ je_gaudi_railway_project = {
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
-		remove_variable = engineer_civil_experience_add_var
 
 		var:tesla_engineer_var ?= {
 			set_character_busy_and_immortal = no
@@ -1175,7 +1205,6 @@ je_gaudi_construction_sector_project = {
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
-		remove_variable = engineer_civil_experience_add_var
 
 		var:tesla_engineer_var ?= {
 			set_character_busy_and_immortal = no
@@ -1224,7 +1253,6 @@ je_gaudi_construction_sector_project = {
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
-		remove_variable = engineer_civil_experience_add_var
 
 		var:tesla_engineer_var ?= {
 			set_character_busy_and_immortal = no
@@ -1392,7 +1420,6 @@ je_gaudi_topographic_map_project = {
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
-		remove_variable = engineer_civil_experience_add_var
 
 		#Should clean the lists
 		clear_variable_list = prioritized_states_for_topographic_improvement_variable_list
@@ -1446,7 +1473,6 @@ je_gaudi_topographic_map_project = {
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
-		remove_variable = engineer_civil_experience_add_var
 
 		#Should clean the lists
 		clear_variable_list = prioritized_states_for_topographic_improvement_variable_list
