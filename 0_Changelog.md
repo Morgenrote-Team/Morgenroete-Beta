@@ -11,3 +11,6 @@ Fixes:
 
 3D:
 - Made the Observatory building smaller.
+
+Fixes:
+- Mountaineering license should show correctly if a mountain is conquerable or not. 
