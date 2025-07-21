@@ -8,3 +8,6 @@ Fixes:
 
 2D:
 - Replaced some more icons (Thanks Warhammer/Lorenzo)
+
+3D:
+- Made the Observatory building smaller.
