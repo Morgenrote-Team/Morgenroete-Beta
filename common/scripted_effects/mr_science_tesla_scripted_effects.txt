@@ -5831,139 +5831,27 @@ tesla_civil_engineering_progress = {
 
 #This Scripted Effect calculates the Mechanical Engineering Progress
 tesla_mechanical_engineering_progress = {
-	set_variable = {
-		name = gaudi_monthly_mechanical_engineering_progress_var
-		value = 1 #Base Value
-	}
-	if = { #Has Mechanical Engineer
-		limit = {
-			tesla_has_mechanical_engineer_trigger = yes
-		}
-		change_variable = {
-			name = gaudi_monthly_mechanical_engineering_progress_var
-			add = 1
-		}
-	}
-	if = { #Experience of the Engineer divided by 100
-		limit = {
-			tesla_has_mechanical_engineer_trigger = yes
-		}
-		if = {
-			limit = {
-				var:tesla_engineer_var.var:tesla_mechanical_engineer_experience_var < 300
-			}
-			set_local_variable = {
-				name = engineer_experience_add
-				value = var:tesla_engineer_var.var:tesla_mechanical_engineer_experience_var
-			}
-			change_local_variable = {
-				name = engineer_experience_add
-				divide = 300
-			}
-			change_variable = {
-				name = gaudi_monthly_mechanical_engineering_progress_var
-				add = local_var:engineer_experience_add
-			}
-		}
-		else = {
-			change_variable = {
-				name = gaudi_monthly_mechanical_engineering_progress_var
-				add = 1
-			}
-		}
-		if = {
-			limit = {
-				var:tesla_engineer_var.var:tesla_mechanical_engineer_experience_var < 300
-			}
-			set_variable = {
-				name = engineer_mechanical_experience_add_var
-				value = var:tesla_engineer_var.var:tesla_mechanical_engineer_experience_var
-			}
-			change_variable = {
-				name = engineer_mechanical_experience_add_var
-				divide = 300
-			}
-		}
-		else = {
-			set_variable = {
-				name = engineer_mechanical_experience_add_var
-				value = 1
-			}
-		}
-	}
-	if = { #Engineer has Civil Engineer Trait
-		limit = {
-			tesla_has_mechanical_engineer_trigger = yes
-			var:tesla_engineer_var = {
-				has_trait = gaudi_mechanical_engineer
-			}
-		}
-		change_variable = {
-			name = gaudi_monthly_mechanical_engineering_progress_var
-			add = 1
-		}
-	}
-	if = { #Engineer has Meticulous Trait
-		limit = {
-			tesla_has_engineer = yes
-			var:tesla_engineer_var = {
-				has_trait = meticulous
-			}
-		}
-		change_variable = {
-			name = gaudi_monthly_mechanical_engineering_progress_var
-			add = 0.1
-		}
-	}
-	if = { #Engineer has Persistent Trait
-		limit = {
-			tesla_has_engineer = yes
-			var:tesla_engineer_var = {
-				has_trait = persistent
-			}
-		}
-		change_variable = {
-			name = gaudi_monthly_mechanical_engineering_progress_var
-			add = 0.1
-		}
-	}
-	if = { #Engineer has Innovative Trait
-		limit = {
-			tesla_has_engineer = yes
-			var:tesla_engineer_var = {
-				has_trait = innovative
-			}
-		}
-		change_variable = {
-			name = gaudi_monthly_mechanical_engineering_progress_var
-			add = 0.1
-		}
-	}
-	if = { #Engineer has Physicist Trait
-		limit = {
-			tesla_has_engineer = yes
-			var:tesla_engineer_var = {
-				has_trait = curie_physicist
-			}
-		}
-		change_variable = {
-			name = gaudi_monthly_mechanical_engineering_progress_var
-			add = 0.1
-		}
-	}
+	### Safety to make sure the engineer has the right experienc type ###
 	if = {
 		limit = {
-			has_modifier = gaudi_additional_support_for_civil_engineer_modifier
+			has_variable = tesla_engineer_var
+			var:tesla_engineer_var = {
+				NOT = {
+					has_variable = tesla_mechanical_engineer_experience_var
+				}
+			}
 		}
-		change_variable = {
-			name = gaudi_monthly_mechanical_engineering_progress_var
-			add = 1
+		var:tesla_engineer_var = {
+			set_variable = {
+				name = tesla_mechanical_engineer_experience_var
+				value = 0
+			}
 		}
 	}
-	#Specialized Universities
-	change_variable = {
+
+	set_variable = {
 		name = gaudi_monthly_mechanical_engineering_progress_var
-		add = academics_mathematical_university_multiplier_tiny
+		value = tesla_monthly_mechanical_engineering_progress_value #Calculated in script value
 	}
 }
 
