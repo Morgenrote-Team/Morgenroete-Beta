@@ -1,0 +1,83 @@
+﻿##################################
+# TESLA PROJECT SCRIPTED EFFECTS #
+##################################
+
+#by Marco Dandolo
+
+############################################################################
+
+###### General Project effect ######
+
+#### General effect to use in JEs that calculates progress, etc. ###
+#Takes these Parameters:
+# VALUE_NAME = name of the value for the monthly progress
+# PROGRESS_BAR_NAME = Name of the Progress Bar used in the JE
+# PROGRESS_COSTS = name of script_value that controls the cost of the next step
+# PROGRESS_FILLED_EFFECT = effect that gets executed when the progress bar is filled
+tesla_engineering_project_monthly_effect = {
+	#Sets Variables if they are not yet set
+	scope:journal_entry = {
+		if = {
+			limit = {
+				NOT = { has_variable = mr_monthly_progress_var }
+			}
+
+			set_variable = {
+				name = mr_monthly_progress_var
+				value = root.$VALUE_NAME$ #Calculated in script value
+			}
+		}
+		if = {
+			limit = {
+				NOT = { has_variable = mr_je_progress_var }
+			}
+
+			set_variable = {
+				name = mr_je_progress_var
+				value = 0
+			}
+		}
+	}
+
+	#Adds monthly change
+	scope:journal_entry = {
+		change_variable = {
+			name = mr_je_progress_var
+			add = root.$VALUE_NAME$
+		}
+	}
+
+	#If the Progress reaches the cost, the modifier will be added to a state
+	if = {
+		limit = {
+			scope:journal_entry = {
+				var:mr_je_progress_var >= $PROGRESS_COSTS$
+			}
+		}
+
+		#The cost will be subtracted from the current progress
+		scope:journal_entry = {
+			change_variable = {
+				name = mr_je_progress_var
+				subtract = $PROGRESS_COSTS$
+			}
+			set_bar_progress = { 
+				name = $PROGRESS_BAR_NAME$
+				value = var:mr_je_progress_var
+			}
+		}
+
+		#Effect when stage is completed
+		$PROGRESS_FILLED_EFFECT$ = yes
+	}
+}
+
+###### Civil Engineering Projects effects ######
+
+#Civil Engineering Research Effect
+tesla_civil_research_project_effect = {
+	tesla_civil_engineering_small_add_technology = yes
+	civil_engineer_experience_gain_effect = { AMOUNT = 5 }
+	post_notification = tesla_civil_engineering_technology_boost_from_engineer_notification
+}
+
