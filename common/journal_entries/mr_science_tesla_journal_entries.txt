@@ -17,30 +17,19 @@ je_gaudi_civil_research_project = {
 
 	on_monthly_pulse = {
 		effect = {
-			#Calculates whether the next tick would create an overflow
+			#Adds monthly change
 			scope:journal_entry = {
-				set_variable = {
-					name = overflow_variable
-					value = {
-						value = "scripted_bar_progress(tesla_general_civil_engineering_research_project_progress_bar)"
-						add = root.tesla_monthly_civil_engineering_progress_for_research_value #Calculated in script value
-						subtract = tesla_research_progress_cost
-					}
+				change_variable = {
+					name = mr_je_progress_var
+					add = root.tesla_monthly_civil_engineering_progress_for_research_value
 				}
 			}
 
-			#Calculates the Progress added (see gaudi_scripted_effects for calculation) for the Tooltip
-			scope:journal_entry = {
-				set_variable = {
-					name = gaudi_monthly_civil_engineering_progress_var
-					value = root.tesla_monthly_civil_engineering_progress_for_research_value #Calculated in script value
-				}
-			}
+			#If the Progress reaches the cost, the modifier will be added to a state
 			if = {
-				#If the Progress reaches the cost, the modifier will be added to a state
 				limit = {
 					scope:journal_entry = {
-						"scripted_bar_progress(tesla_general_civil_engineering_research_project_progress_bar)" >= tesla_research_progress_cost
+						var:mr_je_progress_var >= tesla_research_progress_cost
 					}
 				}
 
@@ -49,9 +38,13 @@ je_gaudi_civil_research_project = {
 				post_notification = tesla_civil_engineering_technology_boost_from_engineer_notification
 				#The cost will be subtracted from the current progress
 				scope:journal_entry = {
+					change_variable = {
+						name = mr_je_progress_var
+						subtract = tesla_research_progress_cost
+					}
 					set_bar_progress = { 
 						name = tesla_general_civil_engineering_research_project_progress_bar
-						value = var:overflow_variable
+						value = var:mr_je_progress_var
 					}
 				}
 			}
@@ -62,8 +55,12 @@ je_gaudi_civil_research_project = {
 		#Sets the Estimated Civil Engineering Progress at the beginning
 		scope:journal_entry = {
 			set_variable = {
-				name = gaudi_monthly_civil_engineering_progress_var
+				name = mr_monthly_progress_var
 				value = root.tesla_monthly_civil_engineering_progress_for_research_value #Calculated in script value
+			}
+			set_variable = {
+				name = mr_je_progress_var
+				value = 0
 			}
 		}
 	}
