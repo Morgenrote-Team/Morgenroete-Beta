@@ -21,6 +21,7 @@ Characters:
 - Bunjirō Kotō (random Japanese Geologist)
 - Kiyoo Wadati (random Japanese Geologist)
 - Matsuura Takeshirō (Japanese Geologist, Writer and Painter, spawns in an event)
+- Yanosuke Otsuka (random Japanese Geologist)
 - Shigeyasu Tokunaga (random Japanese Paleontologist and Geologist)
 - Baien Mōri (random Japanese Naturalist)
 - Shinkurō Kunisawa (random Japanese Painter)
