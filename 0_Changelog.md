@@ -14,8 +14,10 @@ Fixes:
 
 Characters:
 - Shūhan Takashima (random Japanese Engineer)
+- Matsuura Takeshirō (Japanese Geologist, Writer and Painter, spawns in an event)
 - Shigeyasu Tokunaga (random Japanese Paleontologist and Geologist)
 - Baien Mōri (random Japanese Naturalist)
+- Shinkurō Kunisawa (random Japanese Painter)
 
 Fixes:
 - Mountaineering license should show correctly if a mountain is conquerable or not. 
