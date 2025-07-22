@@ -13,6 +13,7 @@ Fixes:
 - Made the Observatory building smaller.
 
 Characters:
+- Shūhan Takashima (random Japanese Engineer)
 - Shigeyasu Tokunaga (random Japanese Paleontologist and Geologist)
 - Baien Mōri (random Japanese Naturalist)
 
