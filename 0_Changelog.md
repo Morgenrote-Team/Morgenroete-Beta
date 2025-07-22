@@ -14,3 +14,6 @@ Fixes:
 
 Characters:
 - Shigeyasu Tokunaga (random Japanese Paleontologist and Geologist)
+
+Fixes:
+- Mountaineering license should show correctly if a mountain is conquerable or not. 
