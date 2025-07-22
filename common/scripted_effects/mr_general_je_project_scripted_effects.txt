@@ -61,13 +61,18 @@ mr_journal_entry_project_monthly_effect = {
 
 		#The cost will be subtracted from the current progress
 		scope:journal_entry = {
-			change_variable = {
-				name = mr_je_progress_var
-				subtract = $PROGRESS_COSTS$
+			if = {
+				limit = { root.$VALUE_NAME$ >= $PROGRESS_COSTS$ }
+				set_bar_progress = { 
+					name = $PROGRESS_BAR_NAME$
+					value = $PROGRESS_COSTS$
+				}
 			}
-			set_bar_progress = { 
-				name = $PROGRESS_BAR_NAME$
-				value = var:mr_je_progress_var
+			else = {
+				set_bar_progress = { 
+					name = $PROGRESS_BAR_NAME$
+					value = var:mr_je_progress_var
+				}
 			}
 		}
 
