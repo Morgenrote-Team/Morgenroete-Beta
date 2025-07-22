@@ -1,0 +1,176 @@
+﻿####################
+# MATSUURA EVENTS  #
+####################
+
+#by Lord R
+
+###################
+
+namespace = matsuura
+
+###################
+
+###Science and Arts###
+
+#Matsuura 101: A young man wants to travel to Ezo
+
+#################################################################################
+
+#Matsuura 101: A young man wants to travel to Ezo
+
+matsuura.101 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = matsuura.101.t
+	desc = matsuura.101.d
+	flavor = matsuura.101.f
+
+	duration = 3
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:character_1_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	placement = scope:location_scope
+
+	trigger = {
+		NOT = {
+			has_global_variable = matsuura_travel_event_global_var
+		}
+		has_state_in_state_region = STATE_TOHOKU
+		c:JAP ?= this
+		year >= 1843
+	}
+
+	immediate = {
+		set_global_variable = matsuura_travel_event_global_var
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_TOHOKU
+			}
+			save_scope_as = location_scope
+		}
+		create_character = {
+			template = mr_matsuura_takeshiro_character_template
+
+			save_scope_as = character_1_scope
+
+			on_created = {
+				set_variable = mr_no_headgear_var
+				place_character_in_void = 1200
+				
+				geologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				writer_experience_set_up_effect = yes
+				painter_experience_set_up_effect = yes
+			}
+		}
+
+		set_variable = {
+			name = agassiz_new_geologist_var
+			value = scope:character_1_scope
+		}
+		set_variable = {
+			name = manzoni_new_writer_var
+			value = scope:character_1_scope
+		}
+		set_variable = {
+			name = klimt_new_painter_var
+			value = scope:character_1_scope
+		}
+	}
+
+	option = { #He could study the landscape there!
+	default_option = yes
+		name = matsuura.101.g
+
+		scope:character_1_scope = {
+			set_variable = mr_is_geologist_var #Could be used for clothing or a role in the future
+
+			save_scope_as = agassiz_new_geologist_scope
+		}
+		dubois_set_new_geologist_as_geologist_effect = yes
+
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_closed_borders
+					value > neutral
+				}
+			}
+
+			add_modifier = {
+				name = matsuura_allowed_travels_modifier
+				years = 2
+				is_decaying = yes
+			}
+		}
+	}
+
+	option = { #I heard he is a poet, maybe he will be inspired by his travels?
+		name = matsuura.101.h
+
+		scope:character_1_scope = {
+			set_variable = mr_is_writer_var
+			writer_experience_set_up_effect = yes
+
+			save_scope_as = manzoni_new_writer_scope
+		}
+		manzoni_set_new_writer_local_writer_effect = yes
+
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_closed_borders
+					value > neutral
+				}
+			}
+
+			add_modifier = {
+				name = matsuura_allowed_travels_modifier
+				years = 2
+				is_decaying = yes
+			}
+		}
+	}
+
+	option = { #Maybe he could create paintings of the region?
+		name = matsuura.101.i
+
+		scope:character_1_scope = {
+			set_variable = mr_is_painter_var
+			painter_experience_set_up_effect = yes
+
+			save_scope_as = klimt_new_painter_scope
+		}
+		klimt_set_new_painter_as_painter_effect = yes
+
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_closed_borders
+					value > neutral
+				}
+			}
+
+			add_modifier = {
+				name = matsuura_allowed_travels_modifier
+				years = 2
+				is_decaying = yes
+			}
+		}
+	}
+
+	option = { #No one is allowed to leave.
+		name = matsuura.101.j
+
+		scope:character_1_scope = {
+			kill_character = yes
+		}
+	}
+}
