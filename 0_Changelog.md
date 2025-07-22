@@ -14,6 +14,7 @@ Fixes:
 
 Characters:
 - Shigeyasu Tokunaga (random Japanese Paleontologist and Geologist)
+- Baien Mōri (random Japanese Naturalist)
 
 Fixes:
 - Mountaineering license should show correctly if a mountain is conquerable or not. 
