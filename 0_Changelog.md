@@ -18,6 +18,8 @@ Fixes:
 
 Characters:
 - Shūhan Takashima (random Japanese Engineer)
+- Jōkichi Takamine (random Japanese Chemist)
+- Yōan Udagawa (Japanese CHemist, spawns in an event)
 - Bunjirō Kotō (random Japanese Geologist)
 - Kiyoo Wadati (random Japanese Geologist)
 - Matsuura Takeshirō (Japanese Geologist, Writer and Painter, spawns in an event)
