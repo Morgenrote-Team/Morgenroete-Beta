@@ -31,6 +31,213 @@ gaudi_engineering_project_possible_alert = {
 
 	valid = {
 		tesla_has_active_engineer_trigger = yes
+		OR = {
+			### Civil Engineering Projects ###
+			trigger_if = {
+				limit = {
+					tesla_has_civil_engineer_no_tooltip_trigger = yes
+				}
+				#Infrastructure Project
+				OR = {
+					any_scope_state = {
+						OR = {
+							NOT = { has_modifier = gaudi_modern_roads_modifier }
+							NOT = { has_modifier = gaudi_new_bridge_modifier }
+							NOT = { has_modifier = gaudi_new_tunnel_modifier }
+						}
+					}
+				}
+				#Railway Project
+				any_scope_building = {
+					tesla_railway_valid_for_improvement_trigger = yes
+				}
+				#Irrigation System Project
+				any_scope_state = {
+					tesla_state_region_has_no_irrigation_system = yes
+				}
+				#Construction Sector Project
+				any_scope_building = {
+					tesla_construction_sector_valid_for_improvement_trigger = yes
+				}
+				#Topographic Map Project
+				AND = {
+					any_scope_state = {
+						NOT = { has_modifier = gaudi_topographic_state_map_modifier }
+					}
+					NOT = { has_journal_entry = je_dufour_carte_dufour }
+				}
+			}
+			### Mechanical Engineering Projects ###
+			trigger_if = {
+				limit = {
+					tesla_has_mechanical_engineer_no_tooltip_trigger = yes
+				}
+				OR = {
+					#Locomotive Project
+					any_scope_building = {
+						is_building_type = building_railway
+						level > 0
+						NOR = {
+							has_modifier = gaudi_locomotive_tier_1_modifier
+							has_modifier = gaudi_locomotive_tier_2_modifier
+							has_modifier = gaudi_locomotive_tier_3_modifier
+							has_modifier = gaudi_locomotive_tier_4_modifier
+							has_modifier = gaudi_locomotive_tier_5_modifier
+						}
+					}
+					#Mechanical Improvement Project
+					any_scope_building = {
+						tesla_building_valid_for_mechanical_improvement_trigger = yes
+					}
+					#Mechanical Computer Project
+					AND = {
+						has_technology_researched = atmospheric_engine
+						has_technology_researched = mechanical_tools
+						any_scope_building = {
+							is_building_type = building_verrier_observatory
+							level > 0
+						}
+					}
+				}
+			}
+			### Military Engineering Projects ###
+			trigger_if = {
+				limit = {
+					tesla_has_military_engineer_no_tooltip_trigger = yes
+				}
+				OR = {
+					#Advanced Defenses Project
+					AND = {
+						#Necessary Research available?
+						has_technology_researched = field_works
+						#Is the project not finished 3 times yet?
+						trigger_if = {
+							limit = { has_variable = gaudi_military_engineer_advanced_defence_var }
+							var:gaudi_military_engineer_advanced_defence_var < 3
+						}
+					}
+					#Advanced Weapons Project
+					AND = {
+						#Is the project not finished 3 times yet?
+						trigger_if = {
+							limit = { has_variable = gaudi_military_engineer_advanced_weapon }
+							var:gaudi_military_engineer_advanced_weapon < 3
+						}
+						#Necessary Research available?
+						has_technology_researched = rifling
+					}
+					#Advanced Tanks Project
+					AND = {
+						#Is the project not finished 3 times yet?
+						trigger_if = {
+							limit = { has_variable = gaudi_military_engineer_advanced_tanks }
+							var:gaudi_military_engineer_advanced_tanks < 3
+						}
+						#Necessary Research available?
+						has_technology_researched = nco_training
+						has_technology_researched = mobile_armor
+					}
+				}
+			}
+			### Geomagnetic Observatory
+			AND = {
+				NOT = {
+					has_variable = gaudi_magnetic_station_var
+				}
+				NOT = {
+					any_scope_building = {
+						is_building_type = building_verrier_observatory
+						has_active_production_method = pm_gaudi_magnetic_observatory
+					}
+				}
+				#Has an observatory
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					level > 0
+				}
+			}
+			### Electrical Engineering Projects ###
+			trigger_if = {
+				limit = {
+					tesla_has_electrical_engineer_no_tooltip_trigger = yes
+				}
+				OR = {
+					#Telegraph Network Project
+					AND = {
+						has_technology_researched = electric_telegraph
+						NOT = {
+							has_technology_researched = radio
+						}
+						any_scope_state = {
+							any_scope_building = {
+								is_building_type = building_railway
+								has_active_production_method = pm_gaudi_telegraph_office
+							}
+							percent >= 1
+						}
+						any_scope_state = {
+							is_capital = yes
+							has_building = building_railway
+						}
+						any_scope_state = {
+							has_building = building_railway
+							percent >= 0.65
+						}
+					}
+					#Radio Network Project
+					AND = {
+						has_technology_researched = radio
+						any_scope_state = {
+							any_scope_building = {
+								is_building_type = building_railway
+								has_active_production_method = pm_elgar_radio_stations
+							}
+							percent >= 1
+						}
+						any_scope_state = {
+							is_capital = yes
+							has_building = building_railway
+						}
+						any_scope_state = {
+							has_building = building_railway
+							percent >= 0.65
+						}
+					}
+				}
+			}
+			### Aeronautical Engineering Projects ###
+			trigger_if = {
+				limit = {
+					tesla_has_aeronautical_engineer_no_tooltip_trigger = yes
+				}
+				OR = {
+					#Airport Project
+					any_scope_building = {
+						tesla_airport_valid_for_improvement_trigger = yes
+					}
+					#Advanced Airplanes Project
+					AND = {
+						has_technology_researched = military_aviation
+						trigger_if = {
+							limit = { has_variable = gaudi_aeronautical_engineer_advanced_aircrafts_var }
+							var:gaudi_aeronautical_engineer_advanced_aircrafts_var < 3
+						}
+					}
+					#Giant Airplane Project
+					AND = {
+						has_technology_researched = military_aviation
+						NOR = {
+							has_modifier = curtiss_zeppelin_focus_modifier
+							has_variable = curtiss_built_spruce_goose
+						}
+						has_variable = curtiss_private_airline
+						has_modifier = curtiss_airline_level_6_modifier
+						has_modifier = curtiss_airplane_focus_modifier
+						curtiss_has_aeroplane_production_size_x_trigger = { LEVEL = 10 }
+					}
+				}
+			}
+		}
 	}
 
 #	open_panel = tech_tree
