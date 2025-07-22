@@ -30,9 +30,249 @@ gaudi_architect_unused_alert = {
 	texture = "gfx/interface/icons/event_icons/event_architecture.dds"
 
 	valid = {
-		gaudi_has_architect_no_tooltip_trigger = yes
-		var:gaudi_architect_var = {
-			is_busy = no
+		gaudi_has_active_architect_no_tooltip_trigger = yes
+		OR = {
+			#Modern Splendour
+			AND = {
+				NOR = {
+					has_journal_entry = je_gaudi_splendour_bauhaus
+					has_journal_entry = je_gaudi_splendour_neoclassical
+					has_journal_entry = je_gaudi_splendour_art_deco
+				}
+				NOR = {
+					has_modifier = gaudi_bauhaus_splendour_modifier
+					has_modifier = gaudi_neoclassical_splendour_modifier
+					has_modifier = gaudi_art_deco_splendour_modifier
+				}
+				OR = {
+					has_modifier = gaudi_bauhaus_modifier
+					has_modifier = gaudi_neoclassicism_modifier
+					has_modifier = gaudi_art_deco_modifier
+				}
+			}
+			#Study Trip
+			var:gaudi_architect_var = {
+				NOT = {
+					has_variable = gaudi_architect_achievement_study_trip_var
+				}
+			}
+			#Treatise
+			AND = {
+				var:gaudi_architect_var = {
+					NOT = {
+						has_variable = gaudi_architect_achievement_treatise_var
+					}
+					var:gaudi_architect_experience >= 250
+				}
+				has_variable = gaudi_architecture_treatise_var
+				gaudi_architecture_treatise_value > var:gaudi_architecture_treatise_var
+			}
+			#Urban Planning
+			AND = {
+				NOT = {
+					has_variable = gaudi_urban_planning_project_building_choser_var
+				}
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level > 0
+					NAND = {
+						has_modifier = gaudi_urban_building_throughput_add_modifier
+						has_modifier = gaudi_urban_building_production_mult_modifier
+						has_modifier = gaudi_urban_building_goods_input_mult_modifier
+					}
+				}
+			}
+			#Custom Monument
+			AND = {
+				NOR = {
+					has_variable = building_gaudi_people_monument_blueprint_var
+					has_variable = building_gaudi_people_forum_blueprint_var
+					has_variable = building_gaudi_people_palace_blueprint_var
+				}
+				var:gaudi_architect_var = {
+					has_trait = gaudi_great_architect
+					OR = {
+						has_trait = gaudi_bauhaus_style
+						has_trait = gaudi_neoclassical_style
+						has_trait = gaudi_art_deco_style
+					}
+				}
+				OR = {
+					has_modifier = gaudi_bauhaus_modifier
+					has_modifier = gaudi_neoclassicism_modifier
+					has_modifier = gaudi_art_deco_modifier
+				}
+			}
+			#Captal Expansion
+			AND = {
+				NOT = {
+					capital = {
+						has_modifier = gaudi_capital_expansion_level_4_modifier
+					}
+				}
+				has_technology_researched = urban_planning
+				has_technology_researched = elgar_classicism_tech
+				trigger_if = {
+					limit = { 
+						capital = {
+							has_modifier = gaudi_capital_expansion_level_1_modifier
+						}
+					}
+					var:gaudi_architect_var = {
+						OR = {
+							has_trait = gaudi_historicism_style
+							has_trait = gaudi_bauhaus_style
+							has_trait = gaudi_neoclassical_style
+							has_trait = gaudi_art_deco_style
+						}
+					}
+					has_technology_researched = modern_sewerage
+					has_technology_researched = romanticism
+				}
+				trigger_if = {
+					limit = { 
+						capital = {
+							has_modifier = gaudi_capital_expansion_level_2_modifier
+						}
+					}
+					var:gaudi_architect_var = {
+						OR = {
+							has_trait = gaudi_historicism_style
+							has_trait = gaudi_bauhaus_style
+							has_trait = gaudi_neoclassical_style
+							has_trait = gaudi_art_deco_style
+						}
+					}
+					has_technology_researched = steel_frame_buildings
+					has_technology_researched = realism
+				}
+				trigger_if = {
+					limit = { 
+						capital = {
+							has_modifier = gaudi_capital_expansion_level_3_modifier
+						}
+					}
+					var:gaudi_architect_var = {
+						OR = {
+							has_trait = gaudi_bauhaus_style
+							has_trait = gaudi_neoclassical_style
+							has_trait = gaudi_art_deco_style
+						}
+					}
+					has_technology_researched = elevator
+					OR = {
+						has_technology_researched = elgar_art_deco_tech
+						has_technology_researched = elgar_neoclassicism_tech
+						has_technology_researched = elgar_new_objectivity_tech
+					}
+				}
+			}
+			#Blueprints
+			AND = {
+				NAND = {
+					has_variable = building_gaudi_statue_blueprint_var
+					has_variable = building_gaudi_fountain_blueprint_var
+					has_variable = building_gaudi_arch_blueprint_var
+					has_variable = building_gaudi_park_blueprint_var
+					has_variable = building_gaudi_luna_blueprint_var
+					has_variable = building_gaudi_parade_blueprint_var
+					has_variable = building_gaudi_almshouse_blueprint_var
+					has_variable = building_gaudi_school_blueprint_var
+					has_variable = building_gaudi_prison_blueprint_var
+					has_variable = building_gaudi_canalization_blueprint_var
+					has_variable = building_gaudi_hospital_blueprint_var
+					has_variable = building_gaudi_health_blueprint_var
+					has_variable = building_gaudi_science_blueprint_var
+					has_variable = building_gaudi_arts_blueprint_var
+					has_variable = building_gaudi_sports_blueprint_var
+				}
+				OR = {
+					AND = {
+						has_technology_researched = elgar_classicism_tech
+						NOT = {
+							has_variable = building_gaudi_statue_blueprint_var
+						}
+					}
+					AND = {
+						has_technology_researched = napoleonic_warfare
+						NOT = {
+							has_variable = building_gaudi_arch_blueprint_var
+						}
+					}
+					NOT = {
+						has_variable = building_gaudi_fountain_blueprint_var
+					}
+					AND = {
+						has_technology_researched = curtiss_tourism_tech
+						NOT = {
+							has_variable = building_gaudi_luna_blueprint_var
+						}
+					}
+					AND = {
+						has_technology_researched = nationalism
+						NOT = {
+							has_variable = building_gaudi_parade_blueprint_var
+						}
+					}
+					NOT = {
+						has_variable = building_gaudi_park_blueprint_var
+						}
+					AND = {
+						has_technology_researched = egalitarianism
+						NOT = {
+							has_variable = building_gaudi_almshouse_blueprint_var
+						}
+					}
+					AND = {
+						has_technology_researched = empiricism
+						NOT = {
+							has_variable = building_gaudi_school_blueprint_var
+						}
+					}
+					AND = {
+						has_technology_researched = law_enforcement
+						NOT = {
+							has_variable = building_gaudi_prison_blueprint_var
+						}
+						}
+					AND = {
+						has_technology_researched = modern_sewerage
+						NOT = {
+							has_variable = building_gaudi_canalization_blueprint_var
+						}
+					}
+					AND = {
+						has_technology_researched = theiler_microbiology_tech
+						NOT = {
+							has_variable = building_gaudi_hospital_blueprint_var
+						}
+					}
+					AND = {
+						has_technology_researched = pharmaceuticals
+						NOT = {
+							has_variable = building_gaudi_health_blueprint_var
+						}
+					}
+					AND = {
+						has_technology_researched = dialectics
+						NOT = {
+							has_variable = building_gaudi_science_blueprint_var
+						}
+					}
+					AND = {
+						has_technology_researched = romanticism
+						NOT = {
+							has_variable = building_gaudi_arts_blueprint_var
+						}
+					}
+					AND = {
+						has_technology_researched = organized_sports
+						NOT = {
+							has_variable = building_gaudi_sports_blueprint_var
+						}
+					}
+				}
+			}
 		}
 	}
 

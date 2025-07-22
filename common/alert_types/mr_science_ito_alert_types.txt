@@ -1,0 +1,186 @@
+﻿# script_context = <script context>	# see later for list of valid script contexts
+# texture = <path>					# the path is relative to the "game" folder
+# valid = <trigger>					# an invalid alert will not be shown
+# open_panel = <panel_name>[|<tab>]	# if specified, this panel will open when the alert is clicked. Cannot specify both open_panel and open_popup
+									# an optional tab name can be specified after a | character
+# open_popup = <popup_name>			# if specified, this popup will open when the alert is clicked. Cannot specify both open_panel and open_popup
+# type = alert | important_action | angry_important_action	# if unspecified or "alert", this will be a standard alert. Otherwise, it will be shown inside the important actions alert (angry_important_action alerts are sorted first)
+# alert_group = <alert_group_name>	# if specified, multiple alerts in the same group will be grouped in the important actions alert (if they are "important_action"). "important_actions with unspecified alert_group will never be grouped together
+#
+# ------------------------------------------------------------------------------
+# Valid script contexts
+# ------------------------------------------------------------------------------
+# player_country
+# player_diplomatic_play
+# player_diplomatic_pact
+# player_diplomatic_action
+# player_diplomatic_relations
+# player_interest_group
+# player_invaded_state
+# player_national_market
+# player_involved_market
+# player_state
+# player_building
+# player_market_goods
+# player_commander
+# player_trade_route
+
+dubois_zoo_extension_possible_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/alert_icons/dubois_zoo_animal_alert.dds"
+
+	valid = {
+		NOT = {
+			has_modifier = dubois_zoo_extension_modifier
+		}
+		capital = {
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+		}
+		OR = {
+			AND = {
+				capital = {
+					any_scope_building = {
+						is_building_type = building_dubois_zoo
+						level > 0
+						has_active_production_method = pm_zoo_level_1
+					}
+				}
+				NOT = {
+					has_variable = dubois_zoo_first_extension
+				}
+				var:dubois_zoo_animal_total >= 10
+				OR = {
+					var:dubois_zoo_animal_africa >= 2
+					var:dubois_zoo_animal_asia >= 2
+					var:dubois_zoo_animal_australia >= 2
+				}
+			}
+			AND = {
+				capital = {
+					any_scope_building = {
+						is_building_type = building_dubois_zoo
+						level > 0
+						has_active_production_method = pm_zoo_level_2
+					}
+				}
+				NOT = {
+					has_variable = dubois_zoo_second_extension
+				}
+				var:dubois_zoo_animal_total >= 20
+				OR = {
+					var:dubois_zoo_animal_africa >= 5
+					var:dubois_zoo_animal_asia >= 5
+					var:dubois_zoo_animal_australia >= 5
+					var:dubois_zoo_animal_australia >= 5
+				}
+			}
+			AND = {
+				capital = {
+					any_scope_building = {
+						is_building_type = building_dubois_zoo
+						level > 0
+						has_active_production_method = pm_zoo_level_3
+					}
+				}
+				NOT = {
+					has_variable = dubois_zoo_third_extension
+				}
+				var:dubois_zoo_animal_total >= 30
+			}
+			AND = {
+				capital = {
+					any_scope_building = {
+						is_building_type = building_dubois_zoo
+						level > 0
+						has_active_production_method = pm_zoo_level_4
+					}
+				}
+				NOT = {
+					has_variable = dubois_zoo_fourth_extension
+				}
+				var:dubois_zoo_animal_total >= 40
+			}
+		}
+	}
+
+#	open_panel = tech_tree
+	type = important_action
+	alert_group = morgenroete
+}
+
+dubois_naturalist_unused_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/alert_icons/dubois_botanical_expedition_alert.dds"
+
+	valid = {
+		dubois_has_active_naturalist_no_tooltip = yes
+		OR = {
+			has_technology_researched = malaria_prevention
+			any_scope_building = {
+				is_building_type = building_logging_camp
+				level > 0
+				NOR = {
+					has_modifier = dubois_building_throughput_add_modifier
+					has_modifier = dubois_building_production_mult_modifier
+					has_modifier = dubois_building_goods_input_mult_modifier
+				}
+			}
+			AND = {
+				has_technology_researched = dubois_theory_of_evolution_tech
+				dubois_has_local_animal = yes
+				NOT = {
+					has_modifier = dubois_search_local_animal_modifier
+				}
+			}
+			AND = {
+				OR = {
+					dubois_has_undocumented_animal_film = yes
+					dubois_has_undocumented_animal = yes
+				}
+			}
+		}
+	}
+
+#	open_panel = tech_tree
+	type = important_action
+	alert_group = morgenroete
+}
+
+dubois_hippocampus_congress_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/alert_icons/dubois_botanical_expedition_alert.dds"
+
+	valid = {
+		NOT = {
+			has_global_variable = dubois_hippocampus_congress_hosted_var
+		}
+		var:dubois_specimen >= 20000
+		global_var:dubois_global_specimen >= 100000
+		NOT = {
+			any_country = {
+				has_modifier = dubois_congress_host_modifier
+			}
+		}
+		country_rank >= rank_value:major_power
+		has_technology_researched = dubois_theory_of_evolution_tech
+		country_has_building_type_levels = {  
+			target = bt:building_university  
+			value  >= 10
+		}
+		any_scope_building = {
+			is_building_type = building_dubois_zoo
+		}
+		dubois_has_naturalist_no_tooltip_trigger = yes
+		any_country = {
+			dubois_has_naturalist_no_tooltip_trigger = yes
+			count >= 5
+		}
+	}
+
+#	open_panel = tech_tree
+	type = important_action
+	alert_group = morgenroete
+}
