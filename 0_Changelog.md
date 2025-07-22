@@ -11,3 +11,6 @@ Fixes:
 
 3D:
 - Made the Observatory building smaller.
+
+Characters:
+- Shigeyasu Tokunaga (random Japanese Paleontologist and Geologist)
