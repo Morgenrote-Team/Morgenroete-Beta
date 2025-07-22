@@ -2,6 +2,8 @@ Changelog fot 2.4.2f "Mallory"
 
 QoL:
 - Engineering Research Projects are now Default Actions that are active when the Engineer is busy.
+- The Engineer Alert now only triggers if another project is possible.
+- The Composer Alert now only triggers if another project is possible.
 
 Fixes:
 - Composers should no longer keep your country paying when they don't even work anymore.
