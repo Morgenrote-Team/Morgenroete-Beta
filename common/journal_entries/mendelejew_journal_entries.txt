@@ -7,6 +7,70 @@
 
 ############################
 
+###Chemical Research###
+
+je_mendelejew_chemical_research_project = {
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	group = je_group_mendelejew_chemistry
+
+	scripted_progress_bar = je_mendelejew_chemical_research_project_progress_bar
+
+	on_monthly_pulse = {
+		effect = {
+			#Sets Chemist unbusy if no other project is active
+			if = {
+				limit = {
+					var:mendelejew_chemist_var ?= {
+						is_busy = yes
+					}
+					mendelejew_chemist_project_active_trigger = no
+				}
+
+				var:mendelejew_chemist_var ?= {
+					set_character_busy_and_immortal = no
+				}
+			}
+			
+			#Calculates and executes potential effects
+			mr_journal_entry_project_monthly_effect = {
+				VALUE_NAME = mendelejew_monthly_chemistry_progress_for_research_value
+				PROGRESS_BAR_NAME = je_mendelejew_chemical_research_project_progress_bar
+				PROGRESS_COSTS = tesla_research_progress_cost
+				PROGRESS_FILLED_EFFECT = mendelejew_chemical_research_project_effect
+			}
+		}
+	}
+
+	immediate = {
+		#Sets the Estimated Chemical Progress at the beginning
+		scope:journal_entry = {
+			set_variable = {
+				name = mr_monthly_progress_var
+				value = root.mendelejew_monthly_chemistry_progress_for_research_value #Calculated in script value
+			}
+			set_variable = {
+				name = mr_je_progress_var
+				value = 0
+			}
+		}
+	}
+
+	invalid = {
+		mendelejew_has_active_chemist_no_tooltip_trigger = no
+	}
+
+	on_invalid = {
+		var:mendelejew_chemist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 30
+
+	should_be_pinned_by_default = no
+}
+
 ######ELEMENTS######
 
 ###Theory of a New Element###
