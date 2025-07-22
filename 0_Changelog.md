@@ -18,6 +18,7 @@ Fixes:
 
 Characters:
 - Shūhan Takashima (random Japanese Engineer)
+- Bunjirō Kotō (random Japanese Geologist)
 - Matsuura Takeshirō (Japanese Geologist, Writer and Painter, spawns in an event)
 - Shigeyasu Tokunaga (random Japanese Paleontologist and Geologist)
 - Baien Mōri (random Japanese Naturalist)
