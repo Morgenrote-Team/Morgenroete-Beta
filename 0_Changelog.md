@@ -28,6 +28,7 @@ Characters:
 - Yanosuke Otsuka (random Japanese Geologist)
 - Shigeyasu Tokunaga (random Japanese Paleontologist and Geologist)
 - Baien Mōri (random Japanese Naturalist)
+- Ine Kusumoto (random Japanese Physician)
 - Shinkurō Kunisawa (random Japanese Painter)
 
 Fixes:
