@@ -1,36 +1,5 @@
-Changelog fot 2.4.2f "Mallory"
-
-QoL:
-- Engineering Research Projects are now Default Actions that are active when the Engineer is busy.
-- The Engineer Alert now only triggers if another project is possible.
-- The Composer Alert now only triggers if another project is possible.
-- The Architect Alert now only triggers if another project is possible.
-
-Fixes:
-- Composers should no longer keep your country paying when they don't even work anymore.
-- Mountaineering license should show correctly if a mountain is conquerable or not. 
-- Various small fixes.
-
-2D:
-- Replaced some more icons (Thanks Warhammer/Lorenzo)
-
-3D:
-- Made the Observatory building smaller.
-- Added a model for the Archaeological Museum.
+Changelog for 2.4.2g "Mallory"
 
 Characters:
-- Shūhan Takashima (random Japanese Engineer)
-- Nagayoshu Nagai (random Japanese Chemist)
-- Masataka Ogawa (random Japanese Chemist)
-- Jōkichi Takamine (random Japanese Chemist)
-- Yōan Udagawa (Japanese Chemist, spawns in an event)
-- Bunjirō Kotō (random Japanese Geologist)
-- Kiyoo Wadati (random Japanese Geologist)
-- Matsuura Takeshirō (Japanese Geologist, Writer and Painter, spawns in an event)
-- Yanosuke Otsuka (random Japanese Geologist)
-- Shigeyasu Tokunaga (random Japanese Paleontologist and Geologist)
-- Baien Mōri (random Japanese Naturalist)
-- Tanemichi Aoyama (random Japanese Physician)
-- Ine Kusumoto (random Japanese Physician)
-- Kōan Ogata (random Japanese Physician)
-- Shinkurō Kunisawa (random Japanese Painter)
+- Fujiro Katsurada (random Japanese Physician)
+- Jō'un Kurimoto (random Japanese Physician)
