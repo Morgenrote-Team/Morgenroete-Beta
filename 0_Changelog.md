@@ -10,3 +10,9 @@ Characters:
 - Fujiro Katsurada (random Japanese Physician)
 - Jō'un Kurimoto (random Japanese Physician)
 - Ryōjun Matsumoto (random Japanese Physician)
+
+Fixes:
+- Fixed the Engineering values.
+
+Localizations:
+- Slight rework of some texts.
