@@ -29,6 +29,7 @@ Characters:
 - Shigeyasu Tokunaga (random Japanese Paleontologist and Geologist)
 - Baien Mōri (random Japanese Naturalist)
 - Ine Kusumoto (random Japanese Physician)
+- Kōan Ogata (random Japanese Physician)
 - Shinkurō Kunisawa (random Japanese Painter)
 
 Fixes:
