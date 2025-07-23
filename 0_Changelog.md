@@ -18,8 +18,9 @@ Fixes:
 
 Characters:
 - Shūhan Takashima (random Japanese Engineer)
-- Jōkichi Takamine (random Japanese Chemist)
+- Nagayoshu Nagai (random Japanese Chemist)
 - Masataka Ogawa (random Japanese Chemist)
+- Jōkichi Takamine (random Japanese Chemist)
 - Yōan Udagawa (Japanese Chemist, spawns in an event)
 - Bunjirō Kotō (random Japanese Geologist)
 - Kiyoo Wadati (random Japanese Geologist)
