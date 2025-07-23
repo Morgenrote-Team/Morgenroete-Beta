@@ -8,6 +8,8 @@ QoL:
 
 Fixes:
 - Composers should no longer keep your country paying when they don't even work anymore.
+- Mountaineering license should show correctly if a mountain is conquerable or not. 
+- Various small fixes.
 
 2D:
 - Replaced some more icons (Thanks Warhammer/Lorenzo)
@@ -28,9 +30,7 @@ Characters:
 - Yanosuke Otsuka (random Japanese Geologist)
 - Shigeyasu Tokunaga (random Japanese Paleontologist and Geologist)
 - Baien Mōri (random Japanese Naturalist)
+- Tanemichi Aoyama (random Japanese Physician)
 - Ine Kusumoto (random Japanese Physician)
 - Kōan Ogata (random Japanese Physician)
 - Shinkurō Kunisawa (random Japanese Painter)
-
-Fixes:
-- Mountaineering license should show correctly if a mountain is conquerable or not. 
