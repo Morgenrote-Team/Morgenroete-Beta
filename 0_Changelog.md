@@ -12,6 +12,9 @@ Characters:
 - Ryōjun Matsumoto (random Japanese Physician)
 - Tatsuzō Sone (random Japanese Architect)
 
+Changes:
+- The Medical System Project now advances faster with each level of Humanities focussed Universities.
+
 Fixes:
 - Fixed the Engineering values.
 
