@@ -4884,6 +4884,77 @@ astronomer_experience_gain_effect = { #adds XP to the Astronomer
 	}
 }
 
+#Astronomer Experience gain
+astronomer_character_experience_gain_effect = { #adds XP to the Astronomer
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+	save_scope_as = character
+
+	custom_tooltip = {
+		text = verrier_astronomer_experience_gain_character_tt
+		if = {
+			limit = {
+				NOT = {
+					has_variable = verrier_astronomer_experience_var
+				}
+			}
+			astronomer_experience_set_up_effect = yes
+		}
+		change_variable = {
+			name = verrier_astronomer_experience_var
+			add = $AMOUNT$
+		}
+		clamp_variable = {
+			name = verrier_astronomer_experience_var
+			min = 0
+			max = 300
+		}
+	}
+	if = {
+		limit = {
+			var:verrier_astronomer_experience_var >= 100
+			NOT = {
+				var:verrier_astronomer_experience_var >= 300
+			}
+			NOR = {
+				has_trait = verrier_astronomer_experienced
+				has_trait = verrier_astronomer_famous
+			}
+		}
+		if = {
+			limit = {
+				has_trait = verrier_astronomer
+			}
+			remove_trait = verrier_astronomer
+		}
+		add_trait = verrier_astronomer_experienced
+	}
+	if = {
+		limit = {
+			var:verrier_astronomer_experience_var >= 300
+			NOT = {
+				has_trait = verrier_astronomer_famous
+			}
+		}
+		if = {
+			limit = {
+				has_trait = verrier_astronomer
+			}
+			remove_trait = verrier_astronomer
+		}
+		if = {
+			limit = {
+				has_trait = verrier_astronomer_experienced
+			}
+			remove_trait = verrier_astronomer_experienced
+		}
+		add_trait = verrier_astronomer_famous
+	}
+}
+
 ######Chemist######
 
 #Effect to kill the current Chemist
