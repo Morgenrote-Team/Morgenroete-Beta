@@ -6,6 +6,126 @@
 
 ############################
 
+############################
+
+###Archaeological Projects in [ROOT]###
+
+je_lepsius_archaeological_default_project = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	scripted_progress_bar = je_lepsius_archaeological_default_project_progress_bar
+
+	on_monthly_pulse = {
+		effect = {
+			#Sets Archaeologist unbusy if no other project is active
+			if = {
+				limit = {
+					var:lepsius_archaeologist_var ?= {
+						is_busy = yes
+					}
+					lepsius_archaeologist_project_active_trigger = no
+				}
+
+				var:lepsius_archaeologist_var ?= {
+					set_character_busy_and_immortal = no
+				}
+			}
+			
+			#Calculates and executes potential effects
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(je_lepsius_archaeological_default_project_progress_bar)" >= 12
+					}
+				}
+
+				#Resets Progress Bar
+				scope:journal_entry = {
+					set_bar_progress = { 
+						name = je_lepsius_archaeological_default_project_progress_bar
+						value = 0
+					}
+				}
+
+				#Experience for the Archaeologist
+				archaeologist_experience_gain_effect = { AMOUNT = 5 }
+
+				#Adds Artifacts
+				random_list = {
+					1 = { #Egyptian
+						trigger = {
+							any_scope_state = {
+								OR = {
+									has_state_trait = lepsius_state_trait_lower_egypt
+									has_state_trait = lepsius_state_trait_upper_egypt
+								}
+							}
+						}
+
+						lepsius_add_x_egyptian_artifacts_effect = { AMOUNT = 1 }
+					}
+					1 = { #Mesopotamian
+						trigger = {
+							any_scope_state = {
+								OR = {
+									has_state_trait = lepsius_state_trait_babylonia
+									has_state_trait = lepsius_state_trait_assyria
+								}
+							}
+						}
+
+						lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 1 }
+					}
+					1 = { #Aegean
+						trigger = {
+							any_scope_state = {
+								OR = {
+									has_state_trait = lepsius_state_trait_argolis
+									has_state_trait = lepsius_state_trait_crete
+								}
+							}
+						}
+
+						lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1 }
+					}
+					1 = { #Precolumbian
+						trigger = {
+							any_scope_state = {
+								OR = {
+									has_state_trait = lepsius_state_trait_yucatan
+									has_state_trait = lepsius_state_trait_peru
+								}
+							}
+						}
+
+						lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 1 }
+					}
+					1 = { #Local
+
+						lepsius_add_x_local_artifacts_effect = { AMOUNT = 1 }
+					}
+				}
+			}
+		}
+	}
+
+	invalid = {
+		lepsius_has_archaeologist_no_tooltip_trigger = no
+	}
+
+	on_invalid = {
+		var:lepsius_archaeologist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 30
+
+	should_be_pinned_by_default = no
+}
+
 ###### DISCOVERIES ######
 
 #Lepsius' letter to Rosellini, access to Upper Egypt and Lower Egypt
