@@ -12,3 +12,4 @@ Characters:
 - Ole Bull (random Norwegian Composer)
 - Theodor Kittelsen (random Norwegian Painter)
 - Adolph Tidemand (random Norwegian Painter)
+- Erik Werenskiold (random Norwegian Painter)
