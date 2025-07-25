@@ -4,6 +4,7 @@ Fixes:
 - You should no longer get research boosts when a scientist is busy.
 
 Characters:
+- Hilma af Klint (random Swedish Painter)
 - Isaac Grünewald (random Swedish Painter)
 - Sigrid Hjertén (random Swedish Painter)
 - Carl Larsson (random Swedish Painter)
