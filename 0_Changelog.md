@@ -4,4 +4,5 @@ Characters:
 - Isaac Grünewald (random Swedish Painter)
 - Carl Larsson (random Swedish Painter)
 - Bruno Liljefors (random Swedish Painter)
+- Jenny Nyström (random Swedish Painter)
 - Anders Zorn (random Swedish Painter)
