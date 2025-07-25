@@ -5,3 +5,4 @@ Fixes:
 
 Characters:
 - Ole Bull (random Norwegian Composer)
+- Adolph Tidemand (random Norwegian Painter)
