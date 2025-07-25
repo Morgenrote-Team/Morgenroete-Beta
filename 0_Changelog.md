@@ -10,4 +10,5 @@ Quality of Life:
 Characters:
 - Georg Andreas Bull (random Norwegian Architect)
 - Ole Bull (random Norwegian Composer)
+- Theodor Kittelsen (random Norwegian Painter)
 - Adolph Tidemand (random Norwegian Painter)
