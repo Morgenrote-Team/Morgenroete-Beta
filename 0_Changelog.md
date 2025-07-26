@@ -5,6 +5,7 @@ Fixes:
 
 Characters:
 - Gerhard Armauer Hansen (random Norwegian Physician)
+- Ivar Aasen (random Norwegian Writer)
 - Camilla Collett (random Norwegian Writer)
 - Hilma af Klint (random Swedish Painter)
 - Isaac Grünewald (random Swedish Painter)
