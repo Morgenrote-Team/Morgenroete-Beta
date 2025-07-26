@@ -45,7 +45,7 @@ jobs:
         id: project
         run: |
           echo "last-version=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_OUTPUT
-          echo "release-tag=$(echo '${{ inputs.release-version }}' | tr -dc '[:alnum:]')" >> $GITHUB_OUTPUT
+          echo "release-tag=$(echo '${{ inputs.release-version }}' | tr -dc '[:alnum:].')" >> $GITHUB_OUTPUT
 
         # Collect commits since the last tag
         # Format them as a Markdown list and put them into the summary
@@ -83,6 +83,7 @@ jobs:
           rm -rf script/
           rm -f .gitattributes
           rm -f .gitignore
+          rm -f .DS_Store
           rm -f README.md
 
         # Package clean mod folder into a zip file
@@ -130,7 +131,7 @@ jobs:
         id: metadata
         shell: bash
         run: |
-          ../steam-release/create-release-vdf.sh ${{ github.workspace }} ../steam-release/STEAM_PAGE.bbcode "${{ inputs.workshop-id }}"
+          ../steam-release/create-release-vdf.sh ${{ github.workspace }} "${{ inputs.workshop-id }}"
           mv workshop.vdf ../steam-release/workshop.vdf
           echo "vdf=$(realpath ../steam-release/workshop.vdf)" >> "$GITHUB_OUTPUT"
           echo "# Workflow Metadata" >> $GITHUB_STEP_SUMMARY
