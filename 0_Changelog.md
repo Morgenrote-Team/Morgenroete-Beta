@@ -7,5 +7,8 @@ Characters:
 - Wojciech Gerson (random Polish Painter/Architect)
 - Jan Matejko (random Polish Painter)
 
+Balancing:
+- The construction Project now gives a small technology boost instead of a large one.
+
 Fixes:
 - If Sweden starts with Berzelius, it now gets the Chemical Research Journal Entry as well.
