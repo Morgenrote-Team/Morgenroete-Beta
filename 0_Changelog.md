@@ -14,3 +14,6 @@ Characters:
 - Bruno Liljefors (random Swedish Painter)
 - Jenny Nyström (random Swedish Painter)
 - Anders Zorn (random Swedish Painter)
+
+Localizations:
+- Various texts/localizations reworked.
