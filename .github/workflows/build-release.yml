@@ -1,0 +1,148 @@
+name: Publish Release
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      release-version:
+        description: 'Release Version'
+        required: true
+        type: string
+      publish:
+        description: 'Publish on Workshop'
+        required: false
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+      workshop-id:
+        description: 'Workshop Identifier'
+        required: false
+        default: '0'
+        type: string
+
+jobs:
+  release:
+    name: "Publish Release"
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Checkout Tags
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch --prune --unshallow --tags
+
+        # Get the latest tag from git
+        # Tag is used as the last version
+      - name: Get Version
+        id: project
+        run: |
+          echo "last-version=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_OUTPUT
+
+        # Collect commits since the last tag
+        # Format them as a Markdown list and put them into the summary
+        # Report: Commit list
+      - name: Collect Changes
+        id: commits
+        run: |
+          {
+            echo 'markdown<<EOF'
+            echo "$(git log ${{ steps.project.outputs.last-version }}..HEAD --no-merges --pretty=format:' - %s')"
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+          echo "# Commits" >> $GITHUB_STEP_SUMMARY
+          echo "$(git log ${{ steps.project.outputs.last-version }}..HEAD --no-merges --pretty=format:' - %s')" >> $GITHUB_STEP_SUMMARY
+
+        # Replace the old version in metadata.json with the new one
+        # Commit the metadata.json
+        # Report: Last and Next version
+      - name: Update Version
+        run: |
+          sed -i 's/  "version".*/  "version" : "${{ inputs.release-version }}",/g' .metadata/metadata.json
+          echo "# Versions" >> $GITHUB_STEP_SUMMARY
+          echo "Last Version: **${{ steps.project.outputs.last-version }}**" >> $GITHUB_STEP_SUMMARY
+          echo "Next Version: **${{ inputs.release-version }}**" >> $GITHUB_STEP_SUMMARY
+
+        # Move files relevant for the steam release into a separate folder
+        # Remove all other folders and files that should not be in the release
+      - name: Clean Repository
+        run: |
+          mkdir ../steam-release
+          mv script/create-release-vdf.sh ../steam-release/create-release-vdf.sh
+          rm -rf .git/
+          rm -rf .github/
+          rm -rf docs/
+          rm -rf script/
+          rm -f /path/to/directory/{*,.*}
+
+        # Package clean mod folder into a zip file
+      - name: Create Release Artifact
+        run: |
+          zip -r release-${{ inputs.release-version }}.zip .
+
+        # Attach mod package to the workflow run
+      - name: Upload Release Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Release
+          path: release-${{ inputs.release-version }}.zip
+
+        # Create a GitHub release
+        # Includes the list of commits
+        # Includes the mod package
+      - name: Publish GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2.2.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: false
+          prerelease: false
+          files: release-${{ inputs.release-version }}.zip
+          tag_name: ${{ inputs.release-version }}
+          name: ${{ inputs.release-version }}
+          body: |
+            Released a new version of **Morgenröte**.
+
+            ### Commits:
+            ${{ steps.commits.outputs.markdown }}
+
+
+        # Delete mod package so it is not published to steam
+      - name: Clean Release Artifact
+        run: |
+          rm -f release-${{ inputs.release-version }}.zip
+
+        # Create mod metadata for the steam release
+        # Uses STEAM_PAGE.bbcode to update steam description
+        # Report: Generated metadata
+      - name: Create Workshop Metadata
+        if: ${{ inputs.publish == 'true' }}
+        id: metadata
+        shell: bash
+        run: |
+          ../steam-release/create-release-vdf.sh ${{ github.workspace }} ../steam-release/STEAM_PAGE.bbcode "${{ inputs.workshop-id }}"
+          mv workshop.vdf ../steam-release/workshop.vdf
+          echo "vdf=$(realpath ../steam-release/workshop.vdf)" >> "$GITHUB_OUTPUT"
+          echo "# Workflow Metadata" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "$(cat < ../steam-release/workshop.vdf)" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+
+      - name: Setup SteamCMD
+        if: ${{ inputs.publish == 'true' }}
+        uses: CyberAndrii/setup-steamcmd@v1
+
+        # Publish to steam workshop
+        # Uses generated metadata and configured workshop user
+      - name: Publish to Workshop
+        if: ${{ inputs.publish == 'true' }}
+        shell: bash
+        run: |
+          steamcmd +login ${{ secrets.WORKSHOP_USERNAME }} ${{ secrets.WORKSHOP_PASSWORD }} +workshop_build_item ${{ steps.metadata.outputs.vdf }} +quit
