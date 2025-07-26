@@ -10,23 +10,13 @@ else
   printf 'Usage: ./create-release-vdf.sh MOD_DIR DESC_FILE [MOD_ID]'
   exit 1
 fi
-# Check mod description
-if [ -f "$2" ]
-then
-  description="$(cat < "$2")"
-else
-  printf 'Missing Steam description'
-  printf '\n'
-  printf 'Usage: ./create-release-vdf.sh MOD_DIR DESC_FILE [MOD_ID]'
-  exit 1
-fi
 
 title=$(grep -Po '(?<=\s\"name\"\s:\s\").+(?=\",)' "$mod_path/.metadata/metadata.json")
 
 # Read mod id
-if [ -n "$3" ]
+if [ -n "$2" ]
 then
-  mod_id="$3"
+  mod_id="$2"
 else
   mod_id='0'
 fi
@@ -47,8 +37,6 @@ printf '\n' >> workshop.vdf
 printf '\t"previewfile" "%s/thumbnail.png"' "$mod_path" >> workshop.vdf
 printf '\n' >> workshop.vdf
 printf '\t"title" "%s"' "$title" >> workshop.vdf
-printf '\n' >> workshop.vdf
-printf '\t"description" "%s"' "$description" >> workshop.vdf
 printf '\n' >> workshop.vdf
 printf '}' >> workshop.vdf
 
