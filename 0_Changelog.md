@@ -12,3 +12,4 @@ Balancing:
 
 Fixes:
 - If Sweden starts with Berzelius, it now gets the Chemical Research Journal Entry as well.
+- The event at the end of the Botanical expedition now shows the correct amount of specimens that was collected.
