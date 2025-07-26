@@ -4,5 +4,5 @@ Characters:
 - Stanisław Moniuszko (random Polish Composer)
 - Ignacy Jan Paderewski (random Polish Composer)
 - Józef Chełmoński (random Polish Painter)
-- Wojciech Gerson (random Polish Painter)
+- Wojciech Gerson (random Polish Painter/Architect)
 - Jan Matejko (random Polish Painter)
