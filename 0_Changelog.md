@@ -1,19 +1,2 @@
-Changelog for 2.4.2j "Mallory"
+Changelog for 2.4.2k "Mallory"
 
-Fixes:
-- You should no longer get research boosts when a scientist is busy.
-
-Characters:
-- Gerhard Armauer Hansen (random Norwegian Physician)
-- Ivar Aasen (random Norwegian Writer)
-- Camilla Collett (random Norwegian Writer)
-- Hilma af Klint (random Swedish Painter)
-- Isaac Grünewald (random Swedish Painter)
-- Sigrid Hjertén (random Swedish Painter)
-- Carl Larsson (random Swedish Painter)
-- Bruno Liljefors (random Swedish Painter)
-- Jenny Nyström (random Swedish Painter)
-- Anders Zorn (random Swedish Painter)
-
-Localizations:
-- Various texts/localizations reworked.
