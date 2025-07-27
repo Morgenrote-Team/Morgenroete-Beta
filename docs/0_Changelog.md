@@ -3,6 +3,7 @@ Changelog for 2.4.2k "Mallory"
 Characters:
 - Stanisław Moniuszko (random Polish Composer)
 - Ignacy Jan Paderewski (random Polish Composer)
+- Volkmar Andreae (random Swiss Composer)
 - Charles Samuel Bovy-Lysberg (random Swiss Composer)
 - Friedrich Hegar (random Swiss Composer)
 - Arthur Honegger (random Swiss Composer)
