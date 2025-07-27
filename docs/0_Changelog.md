@@ -7,6 +7,7 @@ Characters:
 - Charles Samuel Bovy-Lysberg (random Swiss Composer)
 - Friedrich Hegar (random Swiss Composer)
 - Arthur Honegger (random Swiss Composer)
+- Giovannino Guareschi (random Italian Writer)
 - Józef Chełmoński (random Polish Painter)
 - Wojciech Gerson (random Polish Painter/Architect)
 - Jan Matejko (random Polish Painter)
