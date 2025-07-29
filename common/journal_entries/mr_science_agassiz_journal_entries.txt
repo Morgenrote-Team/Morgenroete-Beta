@@ -10,18 +10,41 @@
 je_agassiz_geological_research = {
 	icon = "gfx/interface/icons/event_icons/event_geology.dds"
 
-	scripted_button = agassiz_stop_geologist_project_button
-
 	group = je_group_agassiz_geology
 
-	on_yearly_pulse = {
+	scripted_progress_bar = je_agassiz_geological_research_progress_bar
+
+	on_monthly_pulse = {
 		effect = {
-			#Adds the yearly progress to the variable
-			change_variable = {
-				name = agassiz_geological_research_progress_var
-				add = 12
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(je_agassiz_geological_research_progress_bar)" >= 60
+					}
+				}
+
+				#Adds Minerals and Trait
+				geologist_experience_gain_effect = { AMOUNT = 10 }
+				agassiz_add_x_rare_minerals_effect = { AMOUNT = 1 }
+				agassiz_add_x_generic_minerals_effect = { AMOUNT = 25000 }
+				if = {
+					limit = {
+						NOT = {
+							var:agassiz_geologist_var = {
+								has_trait = agassiz_mineralogist
+							}
+						}
+					}
+					var:agassiz_geologist_var = {
+						add_trait = agassiz_mineralogist
+					}
+				}
+
+				#Notification for Player
+
 			}
 		}
+
 		random_events = {
 			#Geological Discoveries
 			1000 = curie.10 #Curie 10: Uranium deposits discovered
@@ -39,7 +62,7 @@ je_agassiz_geological_research = {
 			100 = verrier.414 #Verrier 414: Willamette meteorite
 			100 = verrier.415 #Verrier 415: Hoba meteorite
 
-			5 = 0
+			60 = 0
 			1 = agassiz.311 #Agassiz 311: Meteorite
 			1 = agassiz.312 #Agassiz 312: Geological Survey
 			1 = agassiz.313 #Agassiz 313: Mineral Deposits
@@ -47,37 +70,6 @@ je_agassiz_geological_research = {
 			1 = agassiz.315 #Agassiz 315: Geological Insights
 			1 = agassiz.316 #Agassiz 316: Neighbour Country
 		}
-	}
-
-	immediate = {
-		set_variable = {
-			name = agassiz_geological_research_progress_var
-			value = 0
-		}
-	}
-
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
-
-	on_complete = {
-		trigger_event = {
-			id = agassiz.301
-			popup = yes
-		}
-		var:agassiz_geologist_var = {
-			set_character_busy_and_immortal = no
-		}
-	}
-
-	current_value = {
-		value = var:agassiz_geological_research_progress_var
-	}
-
-	goal_add_value = {
-		value = 60
 	}
 
 	invalid = {
@@ -88,29 +80,14 @@ je_agassiz_geological_research = {
 					has_variable = agassiz_geologist_var
 				}
 			}
-			custom_tooltip = {
-				text = agassiz_stop_geologist_improving_project_tt
-				OR = {
-					trigger_if = {
-						limit = { is_ai = yes }
-						agassiz_has_geologist_trigger = yes
-						agassiz_has_geologist_no_tooltip_trigger = yes
-					}
-					has_variable = agassiz_stop_geologist_improving_project_var
-				}
-			}
 		}
 	}
 
 	on_invalid = {
-		remove_variable = agassiz_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
 		var:agassiz_geologist_var = {
 			set_character_busy_and_immortal = no
 		}
 	}
-
-	progressbar = yes
-
 	weight = 30
 
 	should_be_pinned_by_default = yes
