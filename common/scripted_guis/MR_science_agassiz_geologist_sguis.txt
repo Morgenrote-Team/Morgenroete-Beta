@@ -17,116 +17,25 @@ mr_geologist_ranking_sgui = {
 #MR_GEOLOGIST_GEOLOGICAL_RESEARCH_BUTTON
 mr_geologist_geological_research_button_sgui = {
 	scope = country
-	is_shown = {
-		NOT = {
-			has_journal_entry = je_agassiz_geological_research
-		}
-	}
 	is_valid = {
 		custom_tooltip = {
-			text = MR_GEOLOGIST_ACTIVE_TRIGGER_TT
-			dubois_has_active_geologist = yes
+			text = MR_NOT_HAS_GEOLOGIST_GEOLOGICAL_RESEARCH_TT
+
+			NOT = {
+				has_journal_entry = je_agassiz_geological_research
+			}
+			agassiz_has_geologist_trigger = yes
 		}
 	}
 	effect = {
-		remove_variable = agassiz_stop_geologist_improving_project_var
 		add_journal_entry = { type = je_agassiz_geological_research }
-		if = {
-			limit = {
-				has_variable = agassiz_geologist_var
-			}
-			var:agassiz_geologist_var ?= {
-				set_character_busy_and_immortal = yes
-			}
-		}
 	}
-
-	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
-	ai_chance = {
-		base = 0 # The chance that the AI will activate this SGUI (script value between 1 and 100)
-		modifier = { #Less than 100000 Minerals
-			trigger = {
-				trigger_if = {
-					limit = {
-						has_variable = agassiz_generic_minerals_var
-					}
-					var:agassiz_generic_minerals_var < 100000
-				}
-				trigger_else = {
-					always = yes
-				}
-			}
-			add = 10
-		}
-		modifier = { #Should activated when there is a cave
-			trigger = {
-				any_scope_state = {
-					lepsius_has_cave = yes
-					lepsius_has_discovered_cave = no
-				}
-			}
-			add = 100
-		}
-		modifier = { #Should activated when there is formation
-			trigger = {
-				any_scope_state = {
-					state_region = {
-						has_variable = dubois_has_normal_formation_var
-					}
-					NOT = {
-						has_state_trait = dubois_state_trait_normal_formation
-					}
-				}
-			}
-			add = 100
-		}
-		modifier = { #Should activated when there is Great formation
-			trigger = {
-				any_scope_state = {
-					state_region = {
-						has_variable = dubois_has_great_formation_var
-					}
-					NOR = {
-						has_state_trait = dubois_state_trait_great_north_american_formation
-						has_state_trait = dubois_state_trait_south_american_formation
-						has_state_trait = dubois_state_trait_great_european_formation
-						has_state_trait = dubois_state_trait_great_african_formation
-						has_state_trait = dubois_state_trait_great_asian_formation
-						has_state_trait = dubois_state_trait_great_australian_formation
-					}
-				}
-			}
-			add = 100
-		}
-		modifier = { #Should activated when there is Uranium
-			trigger = {
-				has_technology_researched = verrier_modern_physics_tech
-				any_scope_state = {
-					curie_is_uranium_state = yes
-					NOT = {
-						has_state_trait = curie_state_trait_uranium
-					}
-				}
-			}
-			add = 100
-		}
-	}
-	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
-#MR_GEOLOGIST_GEOLOGICAL_RESEARCH_STOP_BUTTON
-mr_geologist_geological_research_stop_button_sgui = {
+mr_geologist_geological_research_active_sgui = {
 	scope = country
 	is_shown = {
+		agassiz_has_active_geologist_no_tooltip_trigger = yes
 		has_journal_entry = je_agassiz_geological_research
-	}
-	is_valid = {
-		NOT = { has_variable = agassiz_stop_geologist_improving_project_var }
-	}
-	effect = {
-		custom_tooltip = {
-			text = mr_geologist_geological_research_stop_effect_tt
-			set_variable = agassiz_stop_geologist_improving_project_var
-		}
 	}
 }
 
