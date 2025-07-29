@@ -1420,17 +1420,25 @@ je_dubois_improve_rubber_project = {
 je_systemize_fossils = {
 	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
 
-	scripted_button = dubois_stop_paleontologist_project_button
-
 	group = je_group_dubois_nature
 
+	scripted_progress_bar = je_systemize_fossils_project_progress_bar
+	
 	on_monthly_pulse = {
 		effect = {
-			change_variable = {
-				name = dubois_paleontologist_systemization_progress_var
-				add = 1
+			#Effect if the Paleontologist is active
+			if = {
+				limit = { dubois_has_active_paleontologist_no_tooltip_trigger = yes }
+
+				mr_journal_entry_project_monthly_effect = {
+					VALUE_NAME = dubois_paleontology_progress_max_1_value
+					PROGRESS_BAR_NAME = je_systemize_fossils_project_progress_bar
+					PROGRESS_COSTS = 6
+					PROGRESS_FILLED_EFFECT = dubois_systemize_fossils_project_effect
+				}
 			}
 		}
+
 		random_events = {
 			100 = 0
 			1 = dubois.262 #Dubois 262: History of the ancestry of the ANIMAL
@@ -1440,85 +1448,30 @@ je_systemize_fossils = {
 		}
 	}
 
-	on_yearly_pulse = {
-		effect = {
-			#Removes JE if a better project is possible for the Paleontologist
-			if = {
-				limit = {
-					dubois_is_paleontology_automated_trigger = yes
-					OR = {
-						dubois_paleontology_automation_build_skeleton_possible_trigger = yes
-						dubois_paleontology_automation_expedition_possible_trigger = yes
-						dubois_paleontology_automation_remount_skeleton_possible_trigger = yes
-						dubois_paleontology_automation_cretaceous_scenery_possible_trigger = yes
-						dubois_paleontology_automation_jurassic_scenery_possible_trigger = yes
-						dubois_paleontology_automation_triassic_scenery_possible_trigger = yes
-					}
-				}
-	
-				set_variable = dubois_stop_paleontologist_project_var
+	immediate = {
+		#Sets the Estimated Civil Engineering Progress at the beginning
+		scope:journal_entry = {
+			set_variable = {
+				name = mr_monthly_progress_var
+				value = root.dubois_paleontology_progress_max_1_value #Calculated in script value
+			}
+			set_variable = {
+				name = mr_je_progress_var
+				value = 0
 			}
 		}
-	}
-
-	immediate = {
-		set_variable = dubois_can_stop_active_paleontologist_project_var
-		set_variable = {
-			name = dubois_paleontologist_systemization_progress_var
-			value = 0
-		}
-	}
-
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
-
-	on_complete = {
-		trigger_event = {
-			id = dubois.261
-		}
-
-		#Starts the next project for AI or automated player
-		ai_paleontologist_automation_effect = yes
-	}
-
-	current_value = {
-		value = var:dubois_paleontologist_systemization_progress_var
-	}
-
-	goal_add_value = {
-		value = 60
 	}
 
 	invalid = {
-		OR = {
-			custom_tooltip = {
-				text = je_paleontologist_dies_tt
-				NOT = {
-					has_variable = dubois_paleontologist_var
-				}
-			}
-			custom_tooltip = {
-				text = dubois_stop_paleontologist_project_tt
-				has_variable = dubois_stop_paleontologist_project_var
-			}
-		}
+		dubois_has_paleontologist = no
 	}
 
 	on_invalid = {
-		remove_variable = dubois_can_stop_active_paleontologist_project_var #Needs to be removed, when the JE is removed
 		remove_variable = dubois_stop_paleontologist_project_var
 		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = no
 		}
-
-		#Starts the next project for AI or automated player
-		ai_paleontologist_automation_effect = yes
 	}
-
-	progressbar = yes
 
 	weight = 30
 
@@ -1553,6 +1506,7 @@ je_prehistoric_scenery = {
 			name = dubois_paleontologist_scenery_progress_var
 			value = 0
 		}
+		set_variable = dubois_can_stop_active_paleontologist_project_var
 	}
 
 	complete = {
