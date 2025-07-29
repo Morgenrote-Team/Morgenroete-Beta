@@ -7,3 +7,4 @@ Characters:
 
 Quality of Life:
 - Paleontologists now Systemize Fossils by default. This will give you 1 fossil every time the progress reaches 6.
+- Geologists now conduct Geological Research by default.
