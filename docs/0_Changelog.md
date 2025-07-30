@@ -12,3 +12,4 @@ Quality of Life:
 
 Fixes:
 - Removed Modifiers that don't do anything from Character Traits.
+- Removed a non working Modifier from the Medical Support Mobilization Option.
