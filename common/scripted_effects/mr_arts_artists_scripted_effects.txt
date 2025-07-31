@@ -3582,9 +3582,9 @@ set_writer_local_writer_effect = {
 }
 
 #This effect makes the local writer an agitator
-set_writer_to_agitator_character_scope_effect = {
+set_mr_character_to_agitator_character_scope_effect = {
 	custom_tooltip = {
-		text = set_writer_to_agitator_character_scope_effect_tt
+		text = set_mr_character_to_agitator_character_scope_effect_tt
 
 		#Frees the character from the void.
 		free_character_from_void = yes
@@ -3623,7 +3623,7 @@ set_writer_to_agitator_character_scope_effect = {
 			}
 			#Removes writer character variable
 			remove_variable = mr_is_writer_var
-
+			
 			#Removes the writer variable
 			root = {
 				remove_variable = manzoni_writer_var
@@ -3644,6 +3644,20 @@ set_writer_to_agitator_character_scope_effect = {
 					name = mr_local_writers_list
 					target = prev
 				}
+			}
+		}
+
+		#If this is a painter the variable gets removed
+		if = {
+			limit = {
+				has_variable = mr_is_painter_var
+			}
+			#Removes the local writer character variable
+			remove_variable = mr_is_painter_var
+			
+			#Removes the painter variable
+			root = {
+				remove_variable = klimt_painter_var
 			}
 		}
 	}
@@ -8110,6 +8124,36 @@ create_new_painter_effect = {
 			}
 
 			set_global_variable = mr_diday_created_global_var
+		}
+		4 = { #Martin Disteli, Switzerland
+			trigger = {
+				NOT = { has_global_variable = mr_disteli_martin_created_global_var }
+				mr_country_owns_solothurn_trigger = yes #Born in Olten
+				country_average_cultural_acceptance = {
+					target = cu:alemannic
+					value >= acceptance_status_3
+				}
+				game_date < 1857.05.28 #Age 55
+				year >= 1829 #Return to Olten
+			}
+			create_character = {
+				template = mr_swi_disteli_martin_character_template
+
+				save_scope_as = klimt_new_painter_scope
+			}
+			scope:klimt_new_painter_scope = {
+				set_variable = mr_is_painter_var
+				set_variable = mr_no_headgear_var
+				painter_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = klimt_new_painter_var
+				value = scope:klimt_new_painter_scope
+			}
+
+			set_global_variable = mr_disteli_martin_created_global_var
 		}
 		4 = { #Augusto Giacometti, Switzerland
 			trigger = {
