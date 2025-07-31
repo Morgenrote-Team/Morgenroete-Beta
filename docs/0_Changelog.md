@@ -10,6 +10,7 @@ Characters:
 - Alfred Werner (random Swiss Chemist)
 - Johann Jakob Früh (random Swiss Geologist)
 - Franz Josef Hugi (random Swiss Geologist, Paleontologist and Mountaineer)
+- Martin Disteli (Swiss starting Painter)
 
 Quality of Life:
 - Paleontologists now Systemize Fossils by default. This will give you 1 fossil every time the progress reaches 6.
