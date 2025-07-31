@@ -10,6 +10,7 @@ Characters:
 - Alfred Werner (random Swiss Chemist)
 - Johann Jakob Früh (random Swiss Geologist)
 - Franz Josef Hugi (random Swiss Geologist, Paleontologist and Mountaineer)
+- Peter Merian (random Swiss Geologist and Paleontologist)
 - Martin Disteli (Swiss starting Painter)
 
 Changes:
