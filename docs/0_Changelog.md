@@ -12,6 +12,9 @@ Characters:
 - Franz Josef Hugi (random Swiss Geologist, Paleontologist and Mountaineer)
 - Martin Disteli (Swiss starting Painter)
 
+Changes:
+Switzerland now starts with a Painter at game start. He might become a Agitator though.
+
 Quality of Life:
 - Paleontologists now Systemize Fossils by default. This will give you 1 fossil every time the progress reaches 6.
 - Geologists now conduct Geological Research by default.
