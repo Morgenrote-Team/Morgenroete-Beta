@@ -11,6 +11,7 @@ Characters:
 - Johann Jakob Früh (random Swiss Geologist)
 - Franz Josef Hugi (random Swiss Geologist, Paleontologist and Mountaineer)
 - Peter Merian (random Swiss Geologist and Paleontologist)
+- Bernhard Studer (random Swiss Geologist)
 - Martin Disteli (Swiss starting Painter)
 
 Changes:
