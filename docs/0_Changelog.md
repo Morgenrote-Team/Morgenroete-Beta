@@ -9,6 +9,7 @@ Characters:
 - Johann Heinrich Ziegler (random Swiss Chemist)
 - Alfred Werner (random Swiss Chemist)
 - Johann Jakob Früh (random Swiss Geologist)
+- Franz Josef Hugi (random Swiss Geologist, Paleontologist and Mountaineer)
 
 Quality of Life:
 - Paleontologists now Systemize Fossils by default. This will give you 1 fossil every time the progress reaches 6.
