@@ -19,6 +19,7 @@ Characters:
 - Johann Jakob Guggenbühl (random Swiss Physician)
 - Ernest Guglielminetti (random Swiss Physician)
 - Fritz Müller (random Swiss Physician)
+- Moritz Roth (random Swiss Physician)
 - Martin Disteli (Swiss starting Painter)
 
 Changes:
