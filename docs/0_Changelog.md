@@ -17,6 +17,7 @@ Characters:
 - Peter Merian (random Swiss Geologist and Paleontologist)
 - Bernhard Studer (random Swiss Geologist)
 - Johann Jakob Guggenbühl (random Swiss Physician)
+- Ernest Guglielminetti (random Swiss Physician)
 - Martin Disteli (Swiss starting Painter)
 
 Changes:
