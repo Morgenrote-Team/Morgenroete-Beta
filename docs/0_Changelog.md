@@ -9,6 +9,7 @@ Characters:
 - Johann Heinrich Ziegler (random Swiss Chemist)
 - Alfred Werner (random Swiss Chemist)
 - Leopold Courvoisier (random Swiss Astronomer)
+- Kaspar Gottfried Schweizer (random Swiss Astronomer)
 - Johann Jakob Früh (random Swiss Geologist)
 - Ulrich Grubenmann (random Swiss Geologist)
 - Franz Josef Hugi (random Swiss Geologist, Paleontologist and Mountaineer)
