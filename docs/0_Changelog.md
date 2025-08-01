@@ -18,6 +18,7 @@ Characters:
 - Bernhard Studer (random Swiss Geologist)
 - Johann Jakob Guggenbühl (random Swiss Physician)
 - Ernest Guglielminetti (random Swiss Physician)
+- Fritz Müller (random Swiss Physician)
 - Martin Disteli (Swiss starting Painter)
 
 Changes:
