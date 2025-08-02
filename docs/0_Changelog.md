@@ -4,3 +4,4 @@ Fixes:
 - Added a Notification for finishing the Geological Research.
 - The Geologist Notification now only appears if there is a valid project.
 - Fixed Metadata Error (hopefully).
+- The Observatory Alert no longer triggers if you are currently constructing an Observatory.
