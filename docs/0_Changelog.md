@@ -7,3 +7,4 @@ Fixes:
 - Added Cooldown to the Neighbour Country event of the Geologist.
 - Fixed Impressionism Button glowing after being unlocked.
 - The Submarine Telegraph Cable alert now sends you to the correct tab.
+- You can no longer start another Submarine Telegraph Cable Expedition, if you already have one.
