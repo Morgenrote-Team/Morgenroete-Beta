@@ -16,3 +16,6 @@ Changes:
 
 3D models:
 - Added an Arabic variant of the Publishing Industries building.
+
+2D:
+- Replaced various icons with better ones by Warhammer/Lorenzo.
