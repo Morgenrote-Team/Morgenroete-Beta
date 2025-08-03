@@ -9,6 +9,7 @@ Fixes:
 - The Submarine Telegraph Cable alert now sends you to the correct tab.
 - You can no longer start another Submarine Telegraph Cable Expedition, if you already have one.
 - Anthropology in other countries should now give you some unique bones as well.
+- Fixed the Civil Engineer alert.
 
 Changes:
 - Some Technologies now improve the chances of a positive outcome of the Exotic Disease event during archaeological expeditions.
