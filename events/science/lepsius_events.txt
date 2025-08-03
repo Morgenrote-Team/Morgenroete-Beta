@@ -322,8 +322,8 @@ namespace = lepsius
 #801-900 Excavation Events
 
 #Lepsius 801: Excavation Inspection - Site
-#Lepsius 802: Excavation Inspection - Archaeologist
-#Lepsius 803: Excavation Inspection - Departure
+#Lepsius 802: Excavation Inspection - Archaeologist (removed)
+#Lepsius 803: Excavation Inspection - Departure (removed)
 #Lepsius 811: Small Site
 #Lepsius 812: Medium Site
 #Lepsius 813: Large Site
@@ -17671,6 +17671,10 @@ lepsius.801 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	immediate = {
+		set_archaeological_excavation_leader_effect = yes
+	}
+
 	option = {
 		name = lepsius.801.g #Upper Egypt
 		trigger = {
@@ -17680,7 +17684,13 @@ lepsius.801 = {
 				has_global_variable = lepsius_discovery_tut_found_var
 			}
 		}
-		set_variable = lepsius_excavation_inspection_vok_var
+		scope:lepsius_archaeological_excavation_leader = {
+			set_character_busy_and_immortal = yes
+		}
+		add_modifier = {
+			name = lepsius_upper_egypt_inspection_modifier
+			multiplier = money_amount_multiplier_small
+		}
 	}
 
 	option = {
@@ -17692,7 +17702,13 @@ lepsius.801 = {
 				has_global_variable = lepsius_discovery_ship_found_var
 			}
 		}
-		set_variable = lepsius_excavation_inspection_pyr_var
+		scope:lepsius_archaeological_excavation_leader = {
+			set_character_busy_and_immortal = yes
+		}
+		add_modifier = {
+			name = lepsius_lower_egypt_inspection_modifier
+			multiplier = money_amount_multiplier_small
+		}
 	}
 
 	option = {
@@ -17704,7 +17720,13 @@ lepsius.801 = {
 				has_global_variable = lepsius_discovery_babylon_found_var
 			}
 		}
-		set_variable = lepsius_excavation_inspection_bab_var
+		scope:lepsius_archaeological_excavation_leader = {
+			set_character_busy_and_immortal = yes
+		}
+		add_modifier = {
+			name = lepsius_babylonia_inspection_modifier
+			multiplier = money_amount_multiplier_small
+		}
 	}
 
 	option = {
@@ -17716,7 +17738,13 @@ lepsius.801 = {
 				has_global_variable = lepsius_discovery_semiramis_found_var
 			}
 		}
-		set_variable = lepsius_excavation_inspection_ass_var
+		scope:lepsius_archaeological_excavation_leader = {
+			set_character_busy_and_immortal = yes
+		}
+		add_modifier = {
+			name = lepsius_assyria_inspection_modifier
+			multiplier = money_amount_multiplier_small
+		}
 	}
 
 	option = {
@@ -17728,7 +17756,13 @@ lepsius.801 = {
 				has_global_variable = lepsius_discovery_mycenae_found_var
 			}
 		}
-		set_variable = lepsius_excavation_inspection_arg_var
+		scope:lepsius_archaeological_excavation_leader = {
+			set_character_busy_and_immortal = yes
+		}
+		add_modifier = {
+			name = lepsius_argolis_inspection_modifier
+			multiplier = money_amount_multiplier_small
+		}
 	}
 
 	option = {
@@ -17740,7 +17774,13 @@ lepsius.801 = {
 				has_global_variable = lepsius_discovery_pakal_found_var
 			}
 		}
-		set_variable = lepsius_excavation_inspection_yuc_var
+		scope:lepsius_archaeological_excavation_leader = {
+			set_character_busy_and_immortal = yes
+		}
+		add_modifier = {
+			name = lepsius_yucatan_inspection_modifier
+			multiplier = money_amount_multiplier_small
+		}
 	}
 
 	option = {
@@ -17752,7 +17792,13 @@ lepsius.801 = {
 				has_global_variable = lepsius_discovery_vilcabamba_found_var
 			}
 		}
-		set_variable = lepsius_excavation_inspection_per_var
+		scope:lepsius_archaeological_excavation_leader = {
+			set_character_busy_and_immortal = yes
+		}
+		add_modifier = {
+			name = lepsius_peru_inspection_modifier
+			multiplier = money_amount_multiplier_small
+		}
 	}
 
 	option = {
@@ -17762,171 +17808,12 @@ lepsius.801 = {
 	}
 
 	after = {
-		hidden_effect = {
-			if = {
-				limit = {
+		if = {
+			limit = {
+				NOT = {
 					has_variable = lepsius_inspect_excavation_decision_on
 				}
-				trigger_event = { 
-					id = lepsius.802
-					days = 7
-					popup = yes
-				}
 			}
-		}
-	}
-}
-
-#Lepsius 802: Excavation Inspection - Archaeologist
-
-lepsius.802 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-    placement = ROOT
-
-    title = lepsius.802.t
-    desc = lepsius.802.d
-    flavor = lepsius.802.f
-
-    event_image = {
-		video = "gfx/event_pictures/unspecific_politicians_arguing.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
-
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
-
-    duration = 3
-
-	immediate = {
-		set_archaeological_excavation_leader_effect = yes
-	}
-
-	option = {
-		name = lepsius.802.g
-		default_option = yes
-		scope:lepsius_archaeological_excavation_leader = {
-			set_character_busy_and_immortal = yes
-		}
-	}
-
-	after = {
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.803
-				days = 7
-				popup = yes
-			}
-		}
-	}
-}
-
-#Lepsius 803: Excavation Inspection - Departure
-
-lepsius.803 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-    placement = ROOT
-
-	title = lepsius.803.t
-	desc = lepsius.803.d
-	flavor = lepsius.803.f
-
-	duration = 3
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:lepsius_archaeological_excavation_leader
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
-
-	immediate = {
-		set_archaeological_excavation_leader_effect = yes
-	}
-
-	option = {
-		name = lepsius.803.g 
-		if = {
-			limit = {
-				has_variable = lepsius_excavation_inspection_vok_var
-			}
-			add_modifier = {
-				name = lepsius_upper_egypt_inspection_modifier
-				multiplier = money_amount_multiplier_small
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_excavation_inspection_pyr_var
-			}
-			add_modifier = {
-				name = lepsius_lower_egypt_inspection_modifier
-				multiplier = money_amount_multiplier_small
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_excavation_inspection_bab_var
-			}
-			add_modifier = {
-				name = lepsius_babylonia_inspection_modifier
-				multiplier = money_amount_multiplier_small
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_excavation_inspection_ass_var
-			}
-			add_modifier = {
-				name = lepsius_assyria_inspection_modifier
-				multiplier = money_amount_multiplier_small
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_excavation_inspection_arg_var
-			}
-			add_modifier = {
-				name = lepsius_argolis_inspection_modifier
-				multiplier = money_amount_multiplier_small
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_excavation_inspection_yuc_var
-			}
-			add_modifier = {
-				name = lepsius_yucatan_inspection_modifier
-				multiplier = money_amount_multiplier_small
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_excavation_inspection_per_var
-			}
-			add_modifier = {
-				name = lepsius_peru_inspection_modifier
-				multiplier = money_amount_multiplier_small
-			}
-		}
-	}
-
-	after = {
-		hidden_effect = {
-			remove_variable = lepsius_inspect_excavation_decision_on
-			remove_variable = lepsius_excavation_inspection_vok_var
-			remove_variable = lepsius_excavation_inspection_pyr_var
-			remove_variable = lepsius_excavation_inspection_bab_var
-			remove_variable = lepsius_excavation_inspection_ass_var
-			remove_variable = lepsius_excavation_inspection_arg_var
-			remove_variable = lepsius_excavation_inspection_yuc_var
-			remove_variable = lepsius_excavation_inspection_per_var
 			random_list = {
 				25 = {
 					modifier = {
@@ -18004,8 +17891,13 @@ lepsius.803 = {
 				}
 			}
 		}
+		remove_variable = lepsius_inspect_excavation_decision_on
 	}
 }
+
+#Lepsius 802: Excavation Inspection - Archaeologist (removed)
+
+#Lepsius 803: Excavation Inspection - Departure (removed)
 
 #Lepsius 811: Small Site
 

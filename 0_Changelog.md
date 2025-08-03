@@ -21,3 +21,8 @@ Sports
 - Coaches can have, depending on the national sport, one of these traits: Cricket Player, Baseball Player, Football Player, Basketball Player.
 - School Sport is now in the "Coach" section and needs a Senior Coach to be introduced.
 - The Alpine Club needs Organized Sports instead of Nationalism to be founded.
+
+Changes:
+- Italian Irredenta is now alos possible to enact if you lack the interest group, but have Mass Propaganda.
+- When doing an Archeaological Inspection, you will immediately go to the inspection without intermediate events.
+- Removed Rome decision for Italy - we have our own decision.
