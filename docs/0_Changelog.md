@@ -8,3 +8,4 @@ Fixes:
 
 Characters:
 - Louis Blondel (random Swiss Archaeologist and Architect)
+- Ernst Fiechter (random Swiss Archaeologist and Architect)
