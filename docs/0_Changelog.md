@@ -5,3 +5,6 @@ Changes:
 
 Fixes:
 - The Paddock now correctly shows the Mechanic instead of the Car Racer.
+
+Characters:
+- Louis Blondel (random Swiss Archaeologist and Architect)
