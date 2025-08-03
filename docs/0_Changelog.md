@@ -13,3 +13,6 @@ Fixes:
 
 Changes:
 - Some Technologies now improve the chances of a positive outcome of the Exotic Disease event during archaeological expeditions.
+
+3D models:
+- Added an Arabic variant of the Publishing Industries building.
