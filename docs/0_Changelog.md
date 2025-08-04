@@ -12,4 +12,5 @@ Characters:
 - Louis Blondel (random Swiss Archaeologist and Architect)
 - Ernst Fiechter (random Swiss Archaeologist and Architect)
 - Jakob Heierli (random Swiss Archaeologist)
+- Édouard Naville (random Swiss Archaeologist)
 - Adolph von Morlot (random Swiss Archaeologist and Geologist)
