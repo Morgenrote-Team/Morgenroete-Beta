@@ -8,6 +8,9 @@ Changes:
 Fixes:
 - The Paddock now correctly shows the Mechanic instead of the Car Racer.
 
+3D:
+- Added an Asian variant of the Publishing Industry building.
+
 Characters:
 - Louis Blondel (random Swiss Archaeologist and Architect)
 - Ernst Fiechter (random Swiss Archaeologist and Architect)
