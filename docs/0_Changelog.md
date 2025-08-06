@@ -13,6 +13,7 @@ Fixes:
 - Added an Asian variant of the Publishing Industry building.
 
 Characters:
+- Ping-Tse Kao (random Chinese Astronomer)
 - Yuzhe Zhang (random Chinese Astronomer)
 - Zhonghai Tang (random Chinese Physician)
 - Yan Yu (random Chinese Physician)
