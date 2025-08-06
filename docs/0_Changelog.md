@@ -14,6 +14,7 @@ Fixes:
 
 Characters:
 - Zhonghai Tang (random Chinese Physician)
+- Yan Yu (random Chinese Physician)
 - Xichun Zhang (random Chinese Physician)
 - Louis Blondel (random Swiss Archaeologist and Architect)
 - Ernst Fiechter (random Swiss Archaeologist and Architect)
