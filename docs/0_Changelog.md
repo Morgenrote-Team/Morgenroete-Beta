@@ -17,3 +17,4 @@ Characters:
 - Jakob Heierli (random Swiss Archaeologist)
 - Édouard Naville (random Swiss Archaeologist)
 - Adolph von Morlot (random Swiss Archaeologist and Geologist)
+- Laoshe Shu (random Chinese Writer)
