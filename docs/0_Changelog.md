@@ -19,3 +19,4 @@ Characters:
 - Adolph von Morlot (random Swiss Archaeologist and Geologist)
 - Zanxian Huang (random Chinese Writer)
 - Laoshe Shu (random Chinese Writer)
+- Zhimo Xu (random Chinese Writer)
