@@ -16,6 +16,7 @@ Characters:
 - Hui Jiang (random Chinese Astronomer)
 - Ping-Tse Kao (random Chinese Astronomer)
 - Yuzhe Zhang (random Chinese Astronomer)
+- King Eng Hü (random Chinese Physician)
 - Zhonghai Tang (random Chinese Physician)
 - Yan Yu (random Chinese Physician)
 - Xichun Zhang (random Chinese Physician)
