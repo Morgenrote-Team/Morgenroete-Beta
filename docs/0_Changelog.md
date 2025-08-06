@@ -4,6 +4,7 @@ Changes:
 - Paleontologists are no longer exhausted.
 - Improved the readability of the character achievements.
 - Moved the pop creation effect from Global history to populations
+- Reduced the probability for a random character to appear if there is a historical one possibe.
 
 Fixes:
 - The Paddock now correctly shows the Mechanic instead of the Car Racer.
