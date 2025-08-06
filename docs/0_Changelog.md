@@ -13,6 +13,7 @@ Fixes:
 - Added an Asian variant of the Publishing Industry building.
 
 Characters:
+- Zhonghai Tang (random Chinese Physician)
 - Louis Blondel (random Swiss Archaeologist and Architect)
 - Ernst Fiechter (random Swiss Archaeologist and Architect)
 - Jakob Heierli (random Swiss Archaeologist)
