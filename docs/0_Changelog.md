@@ -19,6 +19,7 @@ Characters:
 - Ping-Tse Kao (random Chinese Astronomer)
 - Yuzhe Zhang (random Chinese Astronomer)
 - Jinglan Feng (random Chinese Geologist)
+- Zhongjian Yang (random Chinese Geologist and Paleontologist)
 - King Eng Hü (random Chinese Physician)
 - Zhonghai Tang (random Chinese Physician)
 - Yan Yu (random Chinese Physician)
