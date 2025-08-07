@@ -24,6 +24,7 @@ Characters:
 - Zhonghai Tang (random Chinese Physician)
 - Yan Yu (random Chinese Physician)
 - Xichun Zhang (random Chinese Physician)
+- E Liu (random Archaeologist and Writer)
 - Zhenyu Luo (random Chinese Archaeologist)
 - Louis Blondel (random Swiss Archaeologist and Architect)
 - Ernst Fiechter (random Swiss Archaeologist and Architect)
