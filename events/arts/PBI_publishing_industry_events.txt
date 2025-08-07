@@ -22,7 +22,7 @@ namespace = pbi_publishing_industry_events
 ######FULL OF LIES######
 
 #PBI 200: Is There a Santa Claus?
-#PBI 205: Authoritative Newspaper Criticizes [GetGoods('pbi_goods_penny_press').GetName]
+#PBI 205: Authoritative Newspaper Criticizes
 #PBI 210: Injured honor
 #PBI 215: Newspaper like a patchwork
 #PBI 220: Very Exciting
@@ -98,12 +98,12 @@ pbi_publishing_industry_events.100 = {
 			desc = pbi_publishing_industry_events.100.d.4
 		}
 	}
-  flavor = pbi_publishing_industry_events.100.f
-  event_image = {
-    video = "europenorthamerica_capitalists_meeting"
-  }
-  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-  on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/capitalists_meeting"
+	flavor = pbi_publishing_industry_events.100.f
+	event_image = {
+		video = "europenorthamerica_capitalists_meeting"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/capitalists_meeting"
 
 	icon = "gfx/interface/icons/event_icons/event_publishing_industry.dds"
 
@@ -142,14 +142,14 @@ pbi_publishing_industry_events.100 = {
 			if = {
 				limit = {
 					NOT = {
-						exists = scope:target_party_1
+						exists = scope:target_ig_1
 					}
 				}
 				random_interest_group = {
 					limit = {
 						has_party = yes
 					}
-					save_scope_as = target_party_1
+					save_scope_as = interest_group_1
 				}
 			}
 			random_interest_group = {
@@ -292,8 +292,12 @@ pbi_publishing_industry_events.105 = {
 			}
 			save_scope_as = target_state
 		}
-		company:manzoni_company_basic_publishing_industries ?= {
-    		executive = {
+		random_company = {
+			limit = {
+				manzoni_is_publishing_company = yes
+			}
+			save_scope_as = manzoni_company_basic_publishing_industries
+			executive = {
         		save_scope_as = target_character_1
 				interest_group = {
 					save_scope_as = target_ig_1
@@ -377,15 +381,15 @@ pbi_publishing_industry_events.110 = {
 
 	title = pbi_publishing_industry_events.110.t
 	desc = pbi_publishing_industry_events.110.d
-  flavor = pbi_publishing_industry_events.110.f
+	flavor = pbi_publishing_industry_events.110.f
 
 	gui_window = event_window_1char_tabloid
-  left_icon = scope:target_character
+	left_icon = scope:target_character
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
 	
-  icon = "gfx/interface/icons/event_icons/event_publishing_industry.dds"
+	icon = "gfx/interface/icons/event_icons/event_publishing_industry.dds"
 
 	duration = 3
 	cooldown = { years = 10 }
@@ -396,8 +400,12 @@ pbi_publishing_industry_events.110 = {
 	}
 
 	immediate = {
-		company:manzoni_company_basic_publishing_industries ?= {
-    		executive = {
+		random_company = {
+			limit = {
+				manzoni_is_publishing_company = yes
+			}
+			save_scope_as = manzoni_company_basic_publishing_industries
+			executive = {
         		save_scope_as = target_character
 				interest_group = {
 					save_scope_as = target_ig
@@ -501,8 +509,12 @@ pbi_publishing_industry_events.115 = {
 		currently_enacting_law = {
 			save_scope_as = target_law
 		}
-		company:manzoni_company_basic_publishing_industries ?= {
-    		executive = {
+		random_company = {
+			limit = {
+				manzoni_is_publishing_company = yes
+			}
+			save_scope_as = manzoni_company_basic_publishing_industries
+			executive = {
         		save_scope_as = target_character
 				interest_group = {
 					save_scope_as = target_ig
@@ -651,8 +663,12 @@ pbi_publishing_industry_events.125 = {
 	}
 
 	immediate = {
-		company:manzoni_company_basic_publishing_industries ?= {
-    		executive = {
+		random_company = {
+			limit = {
+				manzoni_is_publishing_company = yes
+			}
+			save_scope_as = manzoni_company_basic_publishing_industries
+			executive = {
         		save_scope_as = target_character
 				interest_group = {
 					save_scope_as = target_ig
@@ -2695,18 +2711,15 @@ pbi_publishing_industry_events.335 = {
 		NOT = {
 			has_variable = pbi_flag_did_pbi_publishing_industry_events_335
 		}
-		trigger_if = {
-			exists = c:FRA
-			c:FRA = {
-				any_scope_state = {
-					state_region = s:STATE_ILE_DE_FRANCE
-					has_building = building_manzoni_publishing_industry
-					any_scope_building = {
-						is_under_construction = no
-						OR = {
-							has_active_production_method = manzoni_pm_rotary_presses
-							has_active_production_method = manzoni_pm_linotype
-						}
+		c:FRA ?= {
+			any_scope_state = {
+				state_region = s:STATE_ILE_DE_FRANCE
+				has_building = building_manzoni_publishing_industry
+				any_scope_building = {
+					is_under_construction = no
+					OR = {
+						has_active_production_method = manzoni_pm_rotary_presses
+						has_active_production_method = manzoni_pm_linotype
 					}
 				}
 			}
@@ -3530,6 +3543,8 @@ pbi_publishing_industry_events.425 = {
 #PBI 430: Newspapers are fomenting social unrest
 pbi_publishing_industry_events.430 = {
 	dlc = dlc_morgenrote
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	type = country_event
 	placement = scope:target_state
@@ -3574,24 +3589,18 @@ pbi_publishing_industry_events.430 = {
 			has_variable = pbi_flag_target_building_is_plantation
 		}
 		video = "southamerica_war_civilians"
-		on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-		on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
 	}
 	event_image = {
 		trigger = {
 			has_variable = pbi_flag_target_building_is_mine
 		}
     video = "southamerica_child_labor"
-		on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-		on_opened_soundeffect = "event:/SFX/Events/southamerica/child_labor"
 	}
 	event_image = {
 		trigger = {
 			has_variable = pbi_flag_target_building_is_agriculture
 		}
     video = "asia_dead_cattle_poor_harvest"
-		on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-		on_opened_soundeffect = "event:/SFX/Events/asia/dead_cattle_poor_harvest"
 	}
 
 	icon = "gfx/interface/icons/event_icons/event_publishing_industry.dds"

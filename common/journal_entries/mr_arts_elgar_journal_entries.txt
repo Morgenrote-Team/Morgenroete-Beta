@@ -1,0 +1,1485 @@
+﻿##########################
+# ELGAR JOURNAL ENTRIES  #
+##########################
+
+#by Marco Dandolo
+
+############################
+
+######COMPOSER ACTION######
+
+je_elgar_composer_composing = {
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	group = je_group_elgar_music
+
+	immediate = {
+		scope:journal_entry = {
+			set_variable = {
+				name = elgar_composer_month_counter_var
+				value = 0
+			}
+		}
+		#Estimated Compositions per 12 months
+		set_variable = {
+			name = elgar_estimated_yearly_compositions_var
+			value = elgar_yearly_compositions_score
+		}
+	}
+
+	on_yearly_pulse = {
+		random_events = {
+			5000 = 0
+			
+			20 = elgar.440 #Elgar 440: Folk music
+			20 = elgar.441 #Elgar 441: Sea Shanty
+			20 = elgar.442 #Elgar 442: March
+			20 = elgar.443 #Elgar 443: Kunstlied
+			20 = elgar.444 #Elgar 444: Sonata for Piano
+			20 = elgar.445 #Elgar 445: Treatise on Music
+			20 = elgar.446 #Elgar 446: Requiem
+			20 = elgar.447 #Elgar 447: A daring opera
+			40 = elgar.448 #Elgar 448: Composer Duel
+
+			1 = elgar.406 #Elgar 406: Composer dies
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			#Compatibility with existing save games
+			if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						is_busy = yes
+					}
+					NOR = {
+						has_journal_entry = je_elgar_composer_conducting
+						has_journal_entry = je_elgar_composer_touring
+						has_journal_entry = je_elgar_composer_masterpiece
+						has_journal_entry = je_elgar_composer_anthem
+					}
+				}
+
+				var:elgar_composer_var = {
+					set_character_busy_and_immortal = no
+				}
+			}
+
+			#Only active if the Composer is not busy
+			if = {
+				limit = {
+					elgar_has_active_composer_no_tooltip_trigger = yes
+				}
+
+				#Estimated Compositions per 12 months
+				set_variable = {
+					name = elgar_estimated_yearly_compositions_var
+					value = elgar_yearly_compositions_score
+				}
+
+				#Changes the counter
+				scope:journal_entry = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = elgar_composer_month_counter_var
+							}
+						}
+						set_variable = {
+							name = elgar_composer_month_counter_var
+							value = 0
+						}
+					}
+					change_variable = {
+						name = elgar_composer_month_counter_var
+						add = 1
+					}
+				}
+				#Checks if 12 months have passed
+				if = {
+					limit = {
+						scope:journal_entry = {
+							var:elgar_composer_month_counter_var >= 12
+						}
+					}
+					#Resets Timer
+					scope:journal_entry = {
+						set_variable = {
+							name = elgar_composer_month_counter_var
+							value = 0
+						}
+					}
+					#Adds Compositions and Reputation
+					composer_experience_gain_effect = { AMOUNT = 5 }
+					elgar_add_x_music_tradition_effect = { AMOUNT = 5 }
+					set_variable = {
+						name = elgar_composer_num_yearly_compositions
+						value = elgar_yearly_compositions_score
+						months = 2
+					}
+					var:elgar_composer_var = {
+						change_variable = {
+							name = elgar_composer_num_compositions_var
+							add = root.var:elgar_composer_num_yearly_compositions
+						}
+					}
+
+					post_notification = elgar_composer_yearly_compositions_notification
+				}
+			}
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_composer_dies_tt
+			NOT = {
+				has_variable = elgar_composer_var
+			}
+		}
+	}
+
+	on_fail = {
+		var:elgar_composer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 50
+}
+
+je_elgar_composer_conducting = {
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	group = je_group_elgar_music
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = elgar_composer_on_conducting_modifier
+				multiplier = money_amount_multiplier_very_small
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			elgar_add_x_composer_progress = { AMOUNT = 1 }
+		}
+		random_events = {
+			240 = 0
+			
+			10 = elgar.411 #Elgar 411: Superb concerto
+			10 = elgar.412 #Elgar 412: Mediocre Concerto
+			10 = elgar.413 #Elgar 413: Poor Concerto
+			10 = elgar.414 #Elgar 414: Ambassador in audience
+			10 = elgar.415 #Elgar 415: Ballet
+			10 = elgar.416 #Elgar 416: Film music
+
+			1 = elgar.406 #Elgar 406: Composer dies
+		}
+	}
+
+	current_value = {
+		value = var:elgar_composer_progress
+	}
+
+	goal_add_value = {
+		add = 24
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = elgar.417
+			popup = yes
+		}
+		var:elgar_composer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		remove_modifier = elgar_composer_on_conducting_modifier
+	}
+
+	fail = {
+		OR = {
+			custom_tooltip = {
+				text = je_composer_dies_tt
+				NOT = {
+					has_variable = elgar_composer_var
+				}
+			}
+			custom_tooltip = {
+				text = je_changed_composer_tt
+				has_variable = elgar_stopped_composing_remover_var
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = elgar_stopped_composing_remover_var
+		var:elgar_composer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		remove_modifier = elgar_composer_on_conducting_modifier
+	}
+
+	progressbar = yes
+
+	weight = 50
+}
+
+je_elgar_composer_touring = {
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	group = je_group_elgar_music
+
+	on_monthly_pulse = {
+		effect = {
+			elgar_add_x_composer_progress = { AMOUNT = 1 }
+		}
+		events = {
+			elgar.454 #Elgar 454: Composer destination (hidden)
+		}
+	}
+
+	current_value = {
+		value = var:elgar_composer_progress
+	}
+
+	goal_add_value = {
+		add = 30
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = elgar.455
+			popup = yes
+		}
+		var:elgar_composer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		OR = {
+			custom_tooltip = {
+				text = je_composer_dies_tt
+				NOT = {
+					has_variable = elgar_composer_var
+				}
+			}
+			custom_tooltip = {
+				text = je_changed_composer_tt
+				has_variable = elgar_stopped_composing_remover_var
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = elgar_stopped_composing_remover_var
+		var:elgar_composer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	progressbar = yes
+
+	weight = 50
+}
+
+je_elgar_composer_masterpiece = {
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	group = je_group_elgar_music
+
+	scripted_button = elgar_stop_composing_button
+
+	on_monthly_pulse = {
+		effect = {
+			elgar_add_x_composer_progress = { AMOUNT = 1 }
+		}
+		random_events = {
+			600 = 0
+			
+			10 = elgar.421 #Elgar 421: No inspiration
+			10 = elgar.422 #Elgar 422: A walk
+			10 = elgar.423 #Elgar 423: Disturbances
+			10 = elgar.424 #Elgar 424: Not enough comfort
+
+			1 = elgar.406 #Elgar 406: Composer dies
+		}
+	}
+
+	current_value = {
+		value = var:elgar_composer_progress
+	}
+
+	goal_add_value = {
+		value = 24 #A Great Composer with 500 Reputation will create a masterpiece in 2 years
+		if = {
+			limit = {
+				var:elgar_composer_var = {
+					var:elgar_composer_experience < 500
+				}
+			}
+			add = 12 #At this point, 3 years
+		}
+		if = {
+			limit = {
+				var:elgar_composer_var = {
+					var:elgar_composer_experience < 450
+				}
+			}
+			add = 24 #At this point, 5 years
+		}
+		if = {
+			limit = {
+				var:elgar_composer_var = {
+					var:elgar_composer_experience < 400
+				}
+			}
+			add = 36 #At this point, 8 years
+		}
+		if = {
+			limit = {
+				var:elgar_composer_var = {
+					var:elgar_composer_experience < 350
+				}
+			}
+			add = 48 #At this point, 12 years
+		}
+		if = {
+			limit = {
+				var:elgar_composer_var = {
+					var:elgar_composer_experience < 300
+				}
+			}
+			add = 60 #At this point, 17 years
+		}
+		if = {
+			limit = {
+				var:elgar_composer_var = {
+					var:elgar_composer_experience < 250
+				}
+			}
+			add = 96 #At this point, 25 years. Do you really want to try?
+		}
+	}
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = elgar_composer_on_masterpiece_modifier
+				multiplier = money_amount_multiplier_very_small
+			}
+		}
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		custom_tooltip = {
+			text = je_elgar_composer_masterpiece_work_tt
+			elgar_add_elgar_composer_num_masterworks_effect = yes
+			var:elgar_composer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			random_list = {
+				1 = {}
+				2 = {
+					var:elgar_composer_var = {
+						save_scope_as = manzoni_artist_scope
+					}
+					trigger_event = {
+						id = manzoni.14
+						days = { 7 21 }
+					}
+				}
+			}
+			###Donizetti###
+			if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_ita_donizetti_gaetano_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_pasquale_var }
+						}
+						trigger_event = {
+							id = elgar.1011 #Don Pasquale
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger = {
+							NOT = { has_global_variable = elgar_sebastien_var }
+						}
+						trigger_event = {
+							id = elgar.1012 #Dom Sébastian
+							popup = yes
+						}
+					}
+				}
+			}
+			###Berlioz###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_fra_berlioz_hector_character_template
+					}
+				}
+				random_list = {
+					1 = { 
+						trigger = {
+							NOT = { has_global_variable = elgar_troyens_var }
+						}
+						trigger_event = {
+							id = elgar.1021 #Les Troyens
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_damnation_var }
+						}
+						trigger_event = {
+							id = elgar.1022 #La damnation de Faust
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_traite_instrumental_var }
+						}
+						trigger_event = {
+							id = elgar.1023 #Traite Instrumental
+							popup = yes
+						}
+					}
+				}
+			}
+			###Liszt###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_aus_liszt_franz_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_les_preludes_var }
+						}
+						trigger_event = {
+							id = elgar.1031 #Les Preludes
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_hungarian_rhapsody_var }
+						}
+						trigger_event = {
+							id = elgar.1032 #Hungarian Rhapsodies
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_dante_var }
+						}
+						trigger_event = {
+							id = elgar.1033 #Dante Symphony
+							popup = yes
+						}
+					}
+				}
+			}
+			###Wagner###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_ger_wagner_richard_composer_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_meistersinger_var }
+						}
+						trigger_event = {
+							id = elgar.1041 #Die Meistersinger von Nürnberg
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_walkuere_var }
+						}
+						trigger_event = {
+							id = elgar.1042 #Die Walküre
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_parsifal_var }
+						}
+						trigger_event = {
+							id = elgar.1043 #Parsifal
+							popup = yes
+						}
+					}
+				}
+			}
+			###Grieg###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_nor_grieg_edvard_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_peer_gynt_var }
+						}
+						trigger_event = {
+							id = elgar.1051 #Peer Gynt
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_lyric_pieces_var }
+						}
+						trigger_event = {
+							id = elgar.1052 #Lyric Pieces
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_norwegian_dances_var }
+						}
+						trigger_event = {
+							id = elgar.1053 #Norwegian Dances
+							popup = yes
+						}
+					}
+				}
+			}
+			###Brahms###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_ger_brahms_johannes_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_deutsches_requiem_var }
+						}
+						trigger_event = {
+							id = elgar.1061 #Deutsches Requiem
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_hungarian_dances_var }
+						}
+						trigger_event = {
+							id = elgar.1062 #Hungarian Dances
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_brahms_symphony_var }
+						}
+						trigger_event = {
+							id = elgar.1063 #Symphony No. 4
+							popup = yes
+						}
+					}
+				}
+			}
+			###Mahler###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_aus_mahler_gustav_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_mahler_symphony_5_var }
+						}
+						trigger_event = {
+							id = elgar.1071 #Symphony No. 5
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_lied_erde_var }
+						}
+						trigger_event = {
+							id = elgar.1072 #Lied von der Erde
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_kindertotenlieder_var }
+						}
+						trigger_event = {
+							id = elgar.1073 #Kindertotenlieder
+							popup = yes
+						}
+					}
+				}
+			}
+			###Rachmaninov###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_rus_rachmaninov_sergei_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_rachmaninov_concerto_var }
+						}
+						trigger_event = {
+							id = elgar.1081 #Piano Concerto No. 3
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_rhapsody_paganini_var }
+						}
+						trigger_event = {
+							id = elgar.1082 #Rhapsody on a Theme of Paganini
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_rachmaninov_symphony_var }
+						}
+						trigger_event = {
+							id = elgar.1083 #Symphony No. 3
+							popup = yes
+						}
+					}
+				}
+			}
+			###Prokofiev###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_rus_prokofiev_sergei_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_romeo_juliet_var }
+						}
+						trigger_event = {
+							id = elgar.1091 #Romeo and Juliet
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_kije_var }
+						}
+						trigger_event = {
+							id = elgar.1092 #Lieutenant Kijé
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_peter_wolf_var }
+						}
+						trigger_event = {
+							id = elgar.1093 #Peter and the Wolf
+							popup = yes
+						}
+					}
+				}
+			}
+			###STRAUSS II###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_aus_strauss_ii_johann_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_die_fledermaus_var }
+						}
+						trigger_event = {
+							id = elgar.1101 #Die Fledermaus
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_donauwalzer_var }
+						}
+						trigger_event = {
+							id = elgar.1102 #Donauwalzer
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_eine_nacht_in_venedig_var }
+						}
+						trigger_event = {
+							id = elgar.1103 #Eine Nacht in Venedig
+							popup = yes
+						}
+					}
+				}
+			}
+			###Verdi###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_ita_verdi_giuseppe_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_rigoletto_var }
+						}
+						trigger_event = {
+							id = elgar.1111 #Rigoletto
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_la_traviata_var }
+						}
+						trigger_event = {
+							id = elgar.1112 #La traviata
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_messa_da_requiem_var }
+						}
+						trigger_event = {
+							id = elgar.1113 #Messa da Requiem
+							popup = yes
+						}
+					}
+				}
+			}
+			###Debussy###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_fra_debussy_claude_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_prelude_faune_var }
+						}
+						trigger_event = {
+							id = elgar.1121 #Prélude à l'après-midi d'un faune
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_la_mer_var }
+						}
+						trigger_event = {
+							id = elgar.1122 #La Mer
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_pelleas_et_melisande_var }
+						}
+						trigger_event = {
+							id = elgar.1123 #Pelléas et Mélisande
+							popup = yes
+						}
+					}
+				}
+			}
+			###Tchaikovsky###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_rus_tchaikovsky_pyotr_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_swan_lake_var }
+						}
+						trigger_event = {
+							id = elgar.1131 #Swan Lake
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_tchaikovsky_symphony_var }
+						}
+						trigger_event = {
+							id = elgar.1132 #Symphony No. 6
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_tchaikovsky_violin_var }
+						}
+						trigger_event = {
+							id = elgar.1133 #Violin Concerto
+							popup = yes
+						}
+					}
+				}
+			}
+			###Elgar###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_gbr_elgar_edgar_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_pomp_circumstance_var }
+						}
+						trigger_event = {
+							id = elgar.1141 #Pomp & Circumstance
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_crown_of_india_var }
+						}
+						trigger_event = {
+							id = elgar.1142 #Crown of India
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_enigma_variations_var }
+						}
+						trigger_event = {
+							id = elgar.1143 #Enigma Variations
+							popup = yes
+						}
+					}
+				}
+			}
+			###Dvořák###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_aus_dvorak_antonin_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_dvorak_symphony_var }
+						}
+						trigger_event = {
+							id = elgar.1151 #Symphony No. 9 "New World"
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_slavonic_dances_var }
+						}
+						trigger_event = {
+							id = elgar.1152 #Slavonic Dances
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_rusalka_var }
+						}
+						trigger_event = {
+							id = elgar.1153 #Rusalka
+							popup = yes
+						}
+					}
+				}
+			}
+			###Schumann###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_ger_schumann_robert_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_fantasie_in_c_var }
+						}
+						trigger_event = {
+							id = elgar.1161 #Fantasie in C maior
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_schumann_piano_var }
+						}
+						trigger_event = {
+							id = elgar.1162 #Piano Concerto in A minor
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_kinderszenen_var }
+						}
+						trigger_event = {
+							id = elgar.1163 #Kinderszenen
+							popup = yes
+						}
+					}
+				}
+			}
+			###Mendelssohn###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_sax_mendelssohn_bartholdy_felix_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_mendelssohn_violin_var }
+						}
+						trigger_event = {
+							id = elgar.1171 #Violin Concerto
+							popup = yes
+						}
+					}
+				}
+			}
+			###Chopin###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_fra_chopin_frederic_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_chopin_etudes_var }
+						}
+						trigger_event = {
+							id = elgar.1181 #Etudes
+							popup = yes
+						}
+					}
+				}
+			}
+			###Glinka###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_rus_glinka_mikhail_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_life_for_zar_var }
+						}
+						trigger_event = {
+							id = elgar.1191 #A Life for the Zar
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_rusland_and_ljudmila_var }
+						}
+						trigger_event = {
+							id = elgar.1192 #Ruslan and Ljudmila
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_kamarinskaya_var }
+						}
+						trigger_event = {
+							id = elgar.1193 #Kamarinskaya
+							popup = yes
+						}
+					}
+				}
+			}
+			###Ravel###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_fra_ravel_maurice_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_daphnis_et_chloe_var }
+						}
+						trigger_event = {
+							id = elgar.1201 #Daphnis et Chloé
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_rhapsodie_espagnole_var }
+						}
+						trigger_event = {
+							id = elgar.1202 #Rhapsodie Espagnole
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_bolero_var }
+						}
+						trigger_event = {
+							id = elgar.1203 #Boléro
+							popup = yes
+						}
+					}
+				}
+			}
+			###Schönberg###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_aus_schoenberg_arnold_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_twelve_tone_var }
+						}
+						trigger_event = {
+							id = elgar.1211 #Twelve-tone technique
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_string_quartett_2_var }
+						}
+						trigger_event = {
+							id = elgar.1212 #String Quartett No. 2
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_chamber_symphony_var }
+						}
+						trigger_event = {
+							id = elgar.1213 #Chamber Symphony No. 1
+							popup = yes
+						}
+					}
+				}
+			}
+			###Stravinsky###
+			else_if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_rus_stravinsky_igor_character_template
+					}
+				}
+				random_list = {
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_firebird_var }
+						}
+						trigger_event = {
+							id = elgar.1221 #The Firebird
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_petrouchka_var }
+						}
+						trigger_event = {
+							id = elgar.1222 #Petrouchka
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = {
+							NOT = { has_global_variable = elgar_sacre_var }
+						}
+						trigger_event = {
+							id = elgar.1223 #Sacre du printemps
+							popup = yes
+						}
+					}
+				}
+			}
+			###Generic Masterpieces###
+			else = {
+				random_list = {
+					1 = {
+						trigger_event = {
+							id = elgar.431 #Concerto
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.432 #Symphony
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.433 #Opera
+							popup = yes
+						}
+					}
+				}
+			}
+		}
+	}
+
+	fail = {
+		OR = {
+			custom_tooltip = {
+				text = je_stopped_composing_tt
+				has_variable = elgar_stopped_composing_remover_var
+			}
+			custom_tooltip = {
+				text = je_composer_dies_tt
+				NOT = {
+					has_variable = elgar_composer_var
+				}
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = elgar_stopped_composing_remover_var
+		var:elgar_composer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	progressbar = yes
+
+	weight = 50
+}
+
+je_elgar_composer_anthem = {
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	group = je_group_elgar_music
+
+	on_monthly_pulse = {
+		effect = {
+			elgar_add_x_composer_progress = { AMOUNT = 1 }
+		}
+	}
+
+	current_value = {
+		value = var:elgar_composer_progress
+	}
+
+	goal_add_value = {
+		add = 6
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = elgar.822
+			popup = yes
+		}
+		var:elgar_composer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	fail = {
+		OR = {
+			custom_tooltip = {
+				text = je_composer_dies_tt
+				NOT = {
+					has_variable = elgar_composer_var
+				}
+			}
+			custom_tooltip = {
+				text = je_changed_composer_tt
+				has_variable = elgar_stopped_composing_remover_var
+			}
+		}
+	}
+
+	on_fail = {
+		remove_variable = elgar_stopped_composing_remover_var
+		var:elgar_composer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	progressbar = yes
+
+	weight = 50
+}
+
+######COMPOSER DUEL######
+
+je_elgar_composer_duel = {
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	group = je_group_elgar_music
+
+	immediate = {
+		scope:target = {
+			var:elgar_composer_var = {
+				save_scope_as = rival_composer_scope
+			}
+		}
+	}
+
+	current_value = {
+		value = var:elgar_composer_var.var:elgar_composer_experience
+	}
+
+	goal_add_value = {
+		add = 100
+	}
+
+	complete = {
+		OR = {
+			custom_tooltip = {
+				text = je_elgar_composer_duel_success
+				scope:journal_entry = {
+					is_goal_complete = yes
+				}
+			}
+			scope:target = {
+				is_country_alive = no
+			}
+			custom_tooltip = {
+				text = je_elgar_composer_duel_rival_death
+				scope:target = {
+					elgar_has_composer = no
+				}
+			}
+		}
+	}
+
+	on_complete = {
+		add_modifier = {
+			name = elgar_composer_duel_victory_modifier
+			years = 5
+		}
+		trigger_event = { 
+			id = elgar.449
+			popup = yes 
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_elgar_composer_duel_fail
+			scope:target = {
+				has_modifier = elgar_composer_duel_victory_modifier
+			}
+		}
+	}
+
+	on_fail = {
+		trigger_event = { 
+			id = elgar.450
+			popup = yes 
+		}
+	}
+
+	progressbar = yes
+
+	weight = 50
+}
+
+######HISTORICAL######
+
+je_elgar_accademia_santa_cecilia = { 
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	group = je_group_elgar_music
+
+	is_shown_when_inactive = {
+		exists = c:PAP
+		c:PAP = root
+	}
+
+	possible = {
+		has_technology_researched = romanticism
+	}
+
+	complete = {
+		any_scope_state = {
+			state_region = s:STATE_LAZIO
+			any_scope_building = {
+				has_active_production_method = pm_artists_arts_academy_conservatory
+			}
+		}
+	}
+
+	on_complete = {
+		elgar_add_x_music_tradition_effect = { AMOUNT = 50 }
+		artists_add_x_artistic_progress = {
+			AMOUNT = 100
+		}
+	}
+
+	invalid = {
+		NOT = { exists = c:PAP }
+	}
+
+	weight = 10
+}
+
+je_elgar_leipzig_conservatory = { 
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	group = je_group_elgar_music
+
+	is_shown_when_inactive = {
+		exists = c:SAX
+		c:SAX = root
+	}
+
+	possible = {
+		has_technology_researched = romanticism
+	}
+
+	complete = {
+		any_scope_state = {
+			state_region = s:STATE_SAXONY
+			any_scope_building = {
+				has_active_production_method = pm_artists_arts_academy_conservatory
+			}
+		}
+	}
+
+	on_complete = {
+		elgar_add_x_music_tradition_effect = { AMOUNT = 50 }
+		artists_add_x_artistic_progress = {
+			AMOUNT = 100
+		}
+	}
+
+	invalid = {
+		NOT = { exists = c:SAX }
+	}
+
+	weight = 10
+}
+
+je_elgar_petrograd_conservatory = { 
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	group = je_group_elgar_music
+
+	is_shown_when_inactive = {
+		exists = c:RUS
+		c:RUS = root
+	}
+
+	possible = {
+		has_technology_researched = romanticism
+	}
+
+	complete = {
+		any_scope_state = {
+			state_region = s:STATE_INGRIA
+			any_scope_building = {
+				has_active_production_method = pm_artists_arts_academy_conservatory
+			}
+		}
+	}
+
+	on_complete = {
+		elgar_add_x_music_tradition_effect = { AMOUNT = 50 }
+		artists_add_x_artistic_progress = {
+			AMOUNT = 100
+		}
+	}
+
+	invalid = {
+		NOT = { exists = c:RUS }
+	}
+
+	weight = 10
+}

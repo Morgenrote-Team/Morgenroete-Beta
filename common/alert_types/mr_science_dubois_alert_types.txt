@@ -25,186 +25,45 @@
 # player_commander
 # player_trade_route
 
-dubois_zoo_extension_possible_alert = {
-	script_context = player_country
-	texture = "gfx/interface/icons/alert_icons/dubois_zoo_animal_alert.dds"
-
-	valid = {
-		NOT = {
-			has_modifier = dubois_zoo_extension_modifier
-		}
-		capital = {
-			any_scope_building = {
-				is_building_type = building_dubois_zoo
-				level > 0
-			}
-		}
-		OR = {
-			AND = {
-				capital = {
-					any_scope_building = {
-						is_building_type = building_dubois_zoo
-						level > 0
-						has_active_production_method = pm_zoo_level_1
-					}
-				}
-				NOT = {
-					has_variable = dubois_zoo_first_extension
-				}
-				var:dubois_zoo_animal_total >= 10
-				OR = {
-					var:dubois_zoo_animal_africa >= 2
-					var:dubois_zoo_animal_asia >= 2
-					var:dubois_zoo_animal_australia >= 2
-				}
-			}
-			AND = {
-				capital = {
-					any_scope_building = {
-						is_building_type = building_dubois_zoo
-						level > 0
-						has_active_production_method = pm_zoo_level_2
-					}
-				}
-				NOT = {
-					has_variable = dubois_zoo_second_extension
-				}
-				var:dubois_zoo_animal_total >= 20
-				OR = {
-					var:dubois_zoo_animal_africa >= 5
-					var:dubois_zoo_animal_asia >= 5
-					var:dubois_zoo_animal_australia >= 5
-					var:dubois_zoo_animal_australia >= 5
-				}
-			}
-			AND = {
-				capital = {
-					any_scope_building = {
-						is_building_type = building_dubois_zoo
-						level > 0
-						has_active_production_method = pm_zoo_level_3
-					}
-				}
-				NOT = {
-					has_variable = dubois_zoo_third_extension
-				}
-				var:dubois_zoo_animal_total >= 30
-			}
-			AND = {
-				capital = {
-					any_scope_building = {
-						is_building_type = building_dubois_zoo
-						level > 0
-						has_active_production_method = pm_zoo_level_4
-					}
-				}
-				NOT = {
-					has_variable = dubois_zoo_fourth_extension
-				}
-				var:dubois_zoo_animal_total >= 40
-			}
-		}
-	}
-
-#	open_panel = tech_tree
-	type = important_action
-	alert_group = morgenroete
-}
-
-#dubois_mountain_expedition_possible_alert = {
-#	script_context = player_country
-#	texture = "gfx/interface/icons/alert_icons/douglas_mountaineering_alert.dds"
-#
-#	valid = {
-#		has_technology_researched = prospecting
-#		has_technology_researched = nationalism
-#		OR = {
-#			dubois_has_unconquered_summit_no_tt_trigger = yes
-#			any_country = {
-#				dubois_has_unconquered_summit_no_tt_trigger = yes
-#				has_diplomatic_pact = {
-#					who = ROOT
-#					type = mountaineering_license
-#				}
-#			}
-#		}
-#		any_scope_character = {
-#			has_role = general
-#			is_busy = no
-#			OR = {
-#				has_trait = douglas_mountaineer
-#				has_trait = explorer
-#				has_trait = mountain_commander
-#				has_trait = surveyor
-#			}
-#		}
-#		NOR = {
-#			has_modifier = dubois_summit_level_1_modifier
-#			has_modifier = dubois_summit_level_2_modifier
-#			has_modifier = dubois_summit_level_3_modifier
-#			has_modifier = dubois_summit_level_4_modifier
-#			has_modifier = dubois_summit_level_5_modifier
-#			has_modifier = dubois_summit_level_6_modifier
-#			has_modifier = douglas_mountaineering_disaster_modifier
-#			has_modifier = douglas_mountaineering_disappointment_modifier
-#			has_journal_entry = je_dubois_mountain_expedition
-#			has_variable = dubois_current_mountain_expedition_var
-#		}
-#	}
-#
-#	type = important_action
-#	alert_group = morgenroete
-#}
-
-dubois_naturalist_unused_alert = {
-	script_context = player_country
-	texture = "gfx/interface/icons/alert_icons/dubois_botanical_expedition_alert.dds"
-
-	valid = {
-		has_variable = dubois_naturalist_var
-		var:dubois_naturalist_var = {
-			is_busy = no
-		}
-		OR = {
-			has_technology_researched = malaria_prevention
-			any_scope_building = {
-				is_building_type = building_logging_camp
-				level > 0
-				NOR = {
-					has_modifier = dubois_building_throughput_add_modifier
-					has_modifier = dubois_building_production_mult_modifier
-					has_modifier = dubois_building_goods_input_mult_modifier
-				}
-			}
-			AND = {
-				has_technology_researched = dubois_theory_of_evolution_tech
-				dubois_has_local_animal = yes
-				NOT = {
-					has_modifier = dubois_search_local_animal_modifier
-				}
-			}
-			AND = {
-				OR = {
-					dubois_has_undocumented_animal_film = yes
-					dubois_has_undocumented_animal = yes
-				}
-			}
-		}
-	}
-
-#	open_panel = tech_tree
-	type = important_action
-	alert_group = morgenroete
-}
-
 dubois_paleontologist_unused_alert = {
 	script_context = player_country
 	texture = "gfx/interface/icons/alert_icons/dubois_dinosaur_bones_alert.dds"
 
 	valid = {
-		has_variable = dubois_paleontologist_var
-		var:dubois_paleontologist_var = {
-			is_busy = no
+		dubois_has_active_paleontologist_no_tooltip_trigger = yes
+		OR = {
+			#Paleontological Expedition
+			AND = {
+				NOR = {
+					has_journal_entry = je_dubois_paleontological_expedition
+					has_variable = dubois_paleontological_expedition_destination_selection_var
+					has_modifier = dubois_had_expedition_modifier
+				}
+				OR = {
+					dubois_has_formation = yes
+					any_country = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = paleontological_license
+						}				
+						dubois_has_formation = yes
+					}
+				}
+			}
+			#Mount Skeleton
+			AND = {
+				NOT = { has_variable = mr_mount_dinosaur_skeleton_button_var }
+				dubois_paleontology_mounting_skeletons_possible_trigger = yes
+			}
+			#Remount Skeleton
+			AND = {
+				NOT = { has_variable = mr_remount_dinosaur_skeleton_button_var }
+				dubois_has_imperfect_dinosaur_skeleton_no_tooltip_trigger = yes
+			}
+			#Dioramas
+			dubois_paleontology_automation_cretaceous_scenery_possible_trigger = yes
+			dubois_paleontology_automation_jurassic_scenery_possible_trigger = yes
+			dubois_paleontology_automation_triassic_scenery_possible_trigger = yes
 		}
 	}
 
@@ -243,42 +102,6 @@ dubois_paleontological_team_possible_alert = {
 	alert_group = morgenroete
 }
 
-dubois_hippocampus_congress_alert = {
-	script_context = player_country
-	texture = "gfx/interface/icons/alert_icons/dubois_botanical_expedition_alert.dds"
-
-	valid = {
-		NOT = {
-			has_global_variable = dubois_hippocampus_congress_hosted_var
-		}
-		var:dubois_specimen >= 20000
-		global_var:dubois_global_specimen >= 100000
-		NOT = {
-			any_country = {
-				has_modifier = dubois_congress_host_modifier
-			}
-		}
-		country_rank >= rank_value:major_power
-		has_technology_researched = dubois_theory_of_evolution_tech
-		country_has_building_type_levels = {  
-			target = bt:building_university  
-			value  >= 10
-		}
-		any_scope_building = {
-			is_building_type = building_dubois_zoo
-		}
-		dubois_has_naturalist_no_tooltip_trigger = yes
-		any_country = {
-			dubois_has_naturalist_no_tooltip_trigger = yes
-			count >= 5
-		}
-	}
-
-#	open_panel = tech_tree
-	type = important_action
-	alert_group = morgenroete
-}
-
 dubois_paleontological_collection_alert = {
 	script_context = player_country
 	texture = "gfx/interface/icons/alert_icons/dubois_dinosaur_bones_alert.dds"
@@ -295,6 +118,44 @@ dubois_paleontological_collection_alert = {
 		}
 		var:dubois_fossil >= 100
 		dubois_has_paleontologist_no_tooltip_trigger = yes
+	}
+
+#	open_panel = tech_tree
+	type = important_action
+	alert_group = morgenroete
+}
+
+dubois_extinction_congress_possible_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/alert_icons/dubois_dinosaur_bones_alert.dds"
+
+	valid = {
+		has_global_variable = dubois_hippocampus_congress_hosted_var
+		NOR = {
+			has_global_variable = dubois_extinction_congress_hosted_var
+			any_country = {
+				has_modifier = dubois_congress_host_modifier
+			}
+		}
+		has_technology_researched = dubois_paleontology_tech
+		dubois_has_paleontologist_no_tooltip_trigger = yes
+		global_var:dubois_global_fossil >= 550
+		country_has_building_type_levels = {  
+			target = bt:building_university  
+			value  >= 20
+		}
+		any_scope_building = {
+			is_building_type = building_dubois_zoo
+		}
+		any_country = {
+			dubois_has_paleontologist_no_tooltip_trigger = yes
+			count >= 15
+		}
+		dubois_has_dinosaur_skeleton_no_tooltip_trigger = yes
+		any_country = {
+			dubois_has_dinosaur_skeleton_no_tooltip_trigger = yes
+			count >= 5
+		}
 	}
 
 #	open_panel = tech_tree
