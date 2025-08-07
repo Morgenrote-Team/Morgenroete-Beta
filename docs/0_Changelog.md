@@ -33,3 +33,4 @@ Characters:
 - Laoshe Shu (random Chinese Writer)
 - Zhimo Xu (random Chinese Writer)
 - Qua Lam (starting Painter of China)
+- Baishi Qi (random Chinese Painter)
