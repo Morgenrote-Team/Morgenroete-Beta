@@ -36,6 +36,7 @@ Characters:
 - Yepin Hu (random Chinese Writer)
 - Zanxian Huang (random Chinese Writer)
 - Laoshe Shu (random Chinese Writer)
+- Jin Qin (random Chinese Writer)
 - Wanying "Bing Xin" Xie (random Chinese Writer)
 - Zhimo Xu (random Chinese Writer)
 - Qua Lam (starting Painter of China)
