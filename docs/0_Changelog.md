@@ -13,6 +13,7 @@ Fixes:
 - Added an Asian variant of the Publishing Industry building.
 
 Characters:
+- Charles Yu Shuinling (random Chinese Engineer)
 - John Yu Shuinling (random Chinese Engineer)
 - Hui Jiang (random Chinese Astronomer)
 - Ping-Tse Kao (random Chinese Astronomer)
