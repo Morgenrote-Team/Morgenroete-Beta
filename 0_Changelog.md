@@ -1,7 +1,7 @@
 Changelog fot 2.4.3 "Filopanti"
 
 
-Time, Timezones and Prime Meridian
+Time, Timezones and Prime Meridian:
 - Each country starts with a negative modifier in the absence of a standard time.
 - The invention of railway or telegraphy improves this modifier to "Railway Time".
 - An astronomer can help establish a true standard time in a nation and turn the negative modifier into a positive one.
@@ -10,7 +10,7 @@ Time, Timezones and Prime Meridian
 - Nations participating in the International Meridian Conference can then decide whether to adhere unconditionally to the time zone system or stick to a national time zone.
 - Added Achievement "It's Greenwich ... right?" - Make sure the prime meridian is aligned with your observatory.
 
-Sports
+Sports:
 - Organized Sports is now a Tier 3 technology.
 - New technology Sports Clubs (Tier 2) was introduced for the most basic sports settings.
 - New technology International Sports (Tier 4) was introduced for the more advanced sports setting you know from earlier Morgenröte versions.
@@ -28,7 +28,10 @@ Sports
 - The Alpine Club needs Organized Sports instead of Nationalism to be founded.
 - Sports Stadium, not Sports Facilities, give an Olympic advantage.
 
-Changes:
+Medicine:
+- No negative epidemic disease events will trigger anymore if you have a treatment for that disease.
+
+Other Changes:
 - Italian Irredenta is now alos possible to enact if you lack the interest group, but have Mass Propaganda.
 - When doing an Archaeological Inspection, you will immediately go to the inspection without intermediate events.
 - Removed Rome decision for Italy - we have our own decision.
