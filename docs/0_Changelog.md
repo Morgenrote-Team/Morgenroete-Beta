@@ -32,3 +32,4 @@ Characters:
 - Zanxian Huang (random Chinese Writer)
 - Laoshe Shu (random Chinese Writer)
 - Zhimo Xu (random Chinese Writer)
+- Qua Lam (starting Painter of China)
