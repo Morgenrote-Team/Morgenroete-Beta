@@ -25,10 +25,12 @@ Sports:
 - Power Blocs and Overlords can organize an international championship in their own national sport (Like a Confed Cup) for all their other bloc members or subject. You need at least 3 other bloc members or subjects to do this. Be aware that this will only work for football if you are not member of the FIFA (they won't allow a rival event!).
 - FIFA Board will change every 5 years. Power Status is very important, countries with a good football team will have chances, too.
 - Only the President and Board Members are available as hosts for a FIFA World Cup.
+- Founding the FIFA needs Mass Culture.
+- Hosting the FIFA World Cup needs a Stadium and 16 FIFA Members.
 - You may join and leave the FIFA if you want.
 - School Sport is now in the "Coach" section and needs a Senior Coach to be introduced.
 - The Alpine Club needs Organized Sports instead of Nationalism to be founded.
-- Sports Stadium, not Sports Facilities, give an Olympic advantage.
+- Sports Stadium, not Sports Facilities, gives an Olympic advantage.
 
 Medicine:
 - No negative epidemic disease events will trigger anymore if you have a treatment for that disease.
