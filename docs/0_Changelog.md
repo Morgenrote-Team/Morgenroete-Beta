@@ -40,6 +40,7 @@ Characters:
 - Jin Qin (random Chinese Writer)
 - Wanying "Bing Xin" Xie (random Chinese Writer)
 - Zhimo Xu (random Chinese Writer)
+- Paolo Mantegazza (random Italian Writer and Physician)
 - Emilio Salgari (random Italian Writer)
 - Qua Lam (starting Painter of China)
 - Baishi Qi (random Chinese Painter)
