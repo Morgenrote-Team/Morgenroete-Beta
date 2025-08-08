@@ -36,6 +36,7 @@ Medicine:
 - No negative epidemic disease events will trigger anymore if you have a treatment for that disease.
 
 Other Changes:
+- Modern Physics PM in the Observatory does not need Uranium anymore.
 - Italian Irredenta is now alos possible to enact if you lack the interest group, but have Mass Propaganda.
 - When doing an Archaeological Inspection, you will immediately go to the inspection without intermediate events.
 - Removed Rome decision for Italy - we have our own decision.
