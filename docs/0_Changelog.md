@@ -35,8 +35,17 @@ Sports:
 Medicine:
 - No negative epidemic disease events will trigger anymore if you have a treatment for that disease.
 
-Other Changes:
+Chemistry & Physics:
+- Added Radioactivity Tech.
+- Radium will be theorized, discovered and isolated by the first nation which invents radioactivity.
+- The Noble Gases Radon, Neon, Argon, Krypton, Xenon can be theorized, discovered and isolated seperately.
+- Helium can be isolated.
+- Removed Noble Gases JE.
+- Uranium Mine is available with Radioactivity Tech, not Modern Physics.
+- Uranium Glass PM is available with Radioactivity Tech, not Modern Physics.
 - Modern Physics PM in the Observatory does not need Uranium anymore.
+
+Other Changes:
 - Italian Irredenta is now alos possible to enact if you lack the interest group, but have Mass Propaganda.
 - When doing an Archaeological Inspection, you will immediately go to the inspection without intermediate events.
 - Removed Rome decision for Italy - we have our own decision.
