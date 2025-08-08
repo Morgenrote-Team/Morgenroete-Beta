@@ -2097,6 +2097,127 @@ vikelas_grand_prix_championship_effect = {
 
 ###### FIFA WORLD CUP ######
 
+#Join FIFA
+vikelas_join_fifa_effect = {
+	custom_tooltip = {
+		text = vikelas_join_fifa_effect_tt
+		set_variable = vikelas_fifa_member_var
+		change_global_variable = {
+			name = vikelas_num_fifa_members_global_var
+			add = 1
+		}
+	}
+}
+
+#Leave FIFA
+vikelas_leave_fifa_effect = {
+	custom_tooltip = {
+		text = vikelas_leave_fifa_effect_tt
+		remove_variable = vikelas_fifa_member_var
+		change_global_variable = {
+			name = vikelas_num_fifa_members_global_var
+			add = -1
+		}
+	}
+}
+
+#Effect to add FIFA Board Members
+vikelas_add_fifa_board_effect = {
+	custom_tooltip = vikelas_add_fifa_board_effect_tt
+	#Removes the NATIONAL variables
+	every_country = {
+		limit = {
+			has_variable = vikelas_fifa_board_member_var
+		}
+		remove_variable = vikelas_fifa_board_member_var
+	}
+	#Removes the GLOBAL ranking variables
+	remove_global_variable = vikelas_fifa_board_member_1_global_var
+	remove_global_variable = vikelas_fifa_board_member_2_global_var
+	remove_global_variable = vikelas_fifa_board_member_3_global_var
+	remove_global_variable = vikelas_fifa_board_member_4_global_var
+	remove_global_variable = vikelas_fifa_board_member_5_global_var
+
+	ordered_country = {
+		limit = {
+			vikelas_has_football_association_trigger = yes
+			vikelas_is_fifa_member_trigger = yes
+			NOT = {
+				has_variable = vikelas_fifa_founding_country_var
+			}
+		}
+		order_by = vikelas_fifa_board_member_quality_value
+		max = 5 #Limits the list to the three top countries
+		check_range_bounds = no #prevents errors
+
+		#This part checks one after another whether the the first, second, etc. ranked countries are saved already.
+		#Luckily the ordered_country effect iterates through the countries one after another.
+		#So the first country gets saved to the first variable but as that variable now is set,
+		# the second country gets saved to the second variable and so on.
+		if = {
+			limit = {
+				NOT = { 
+					has_global_variable = vikelas_fifa_board_member_1_global_var
+				}
+			}
+			set_variable = vikelas_fifa_board_member_var
+			set_global_variable = {
+				name =  vikelas_fifa_board_member_1_global_var
+				value = THIS
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { 
+					has_global_variable = vikelas_fifa_board_member_2_global_var
+				}
+			}
+			set_variable = vikelas_fifa_board_member_var
+			set_global_variable = {
+				name =  vikelas_fifa_board_member_2_global_var
+				value = THIS
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { 
+					has_global_variable = vikelas_fifa_board_member_3_global_var
+				}
+			}
+			set_variable = vikelas_fifa_board_member_var
+			set_global_variable = {
+				name =  vikelas_fifa_board_member_3_global_var
+				value = THIS
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { 
+					has_global_variable = vikelas_fifa_board_member_4_global_var
+				}
+			}
+			set_variable = vikelas_fifa_board_member_var
+			set_global_variable = {
+				name =  vikelas_fifa_board_member_4_global_var
+				value = THIS
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { 
+					has_global_variable = vikelas_fifa_board_member_5_global_var
+				}
+			}
+			set_variable = vikelas_fifa_board_member_var
+			set_global_variable = {
+				name =  vikelas_fifa_board_member_5_global_var
+				value = THIS
+			}
+		}
+	}
+}
+
+
 #Creates Table of qualified teams
 vikelas_create_fifa_qualified_teams_effect = {
 	#Removes the GLOBAL ranking variables

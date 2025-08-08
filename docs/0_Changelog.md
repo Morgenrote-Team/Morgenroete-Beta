@@ -1,4 +1,4 @@
-Changelog fot 2.4.3 "Filopanti"
+Changelog fot 2.4.4 "Filopanti"
 
 
 Time, Timezones and Prime Meridian:
@@ -23,6 +23,8 @@ Sports:
 - Sports Facilities is a new building. First PMG has three different PMs: Sports Field, Sports Facility, Sports Stadium. Other PMGs for the Sports Clubs.
 - Coaches can have, depending on the national sport, one of these traits: Cricket Player, Baseball Player, Football Player, Basketball Player. Naturally, a baseball trainer will give a baseball team an advantage.
 - Power Blocs and Overlords can organize an international championship in their own national sport (Like a Confed Cup) for all their other bloc members or subject. You need at least 3 other bloc members or subjects to do this. Be aware that this will only work for football if you are not member of the FIFA (they won't allow a rival event!).
+- FIFA Board will change every 5 years. Power Status is very important, countries with a good football team will have chances, too.
+- Only the President and Board Members are available as hosts for a FIFA World Cup.
 - You may join and leave the FIFA if you want.
 - School Sport is now in the "Coach" section and needs a Senior Coach to be introduced.
 - The Alpine Club needs Organized Sports instead of Nationalism to be founded.
