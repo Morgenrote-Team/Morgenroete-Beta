@@ -5,6 +5,7 @@ Changes:
 - Improved the readability of the character achievements.
 - Moved the pop creation effect from Global history to populations
 - Reduced the probability for a random character to appear if there is a historical one possibe.
+- Neuschwanstein can now be built by countries with South German primary culture and a capital in Bavaria.
 
 Fixes:
 - The Paddock now correctly shows the Mechanic instead of the Car Racer.
