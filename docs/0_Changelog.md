@@ -37,13 +37,16 @@ Medicine:
 
 Chemistry & Physics:
 - Added Radioactivity Tech.
-- Radium will be theorized, discovered and isolated by the first nation which invents radioactivity.
+- Radium will be theorized, discovered and isolated by the first nation which invents radioactivity via event.
 - The Noble Gases Radon, Neon, Argon, Krypton, Xenon can be theorized, discovered and isolated seperately.
 - Helium can be isolated.
 - Removed Noble Gases JE.
 - Uranium Mine is available with Radioactivity Tech, not Modern Physics.
 - Uranium Glass PM is available with Radioactivity Tech, not Modern Physics.
 - Modern Physics PM in the Observatory does not need Uranium anymore.
+- Added Spectroscopy Tech.
+- Spectroscopic Analysis PM is now available with Spectroscopy Tech, not Electromagnetism.
+- Fraunhofer Lines triggers with the invention of Spectroscopy Tech.
 
 Other Changes:
 - Italian Irredenta is now alos possible to enact if you lack the interest group, but have Mass Propaganda.
