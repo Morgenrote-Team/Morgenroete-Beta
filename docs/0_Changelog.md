@@ -43,3 +43,4 @@ Characters:
 - Qua Lam (starting Painter of China)
 - Baishi Qi (random Chinese Painter)
 - Xiong Ren (random Chinese Painter)
+- Giovanni Fattori (random Italian Painter)
