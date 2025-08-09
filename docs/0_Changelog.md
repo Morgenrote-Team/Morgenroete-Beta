@@ -26,7 +26,7 @@ Characters:
 - Yan Yu (random Chinese Physician)
 - Xichun Zhang (random Chinese Physician)
 - Moruo Guo (random Archaeologist and Writer)
-- E Liu (random Archaeologist and Writer)
+- E Liu (random Chinese Archaeologist and Writer)
 - Zhenyu Luo (random Chinese Archaeologist)
 - Louis Blondel (random Swiss Archaeologist and Architect)
 - Ernst Fiechter (random Swiss Archaeologist and Architect)
@@ -47,3 +47,4 @@ Characters:
 - Baishi Qi (random Chinese Painter)
 - Xiong Ren (random Chinese Painter)
 - Giovanni Fattori (random Italian Painter)
+- Ramón López Velarde (random Mexican Writer)
