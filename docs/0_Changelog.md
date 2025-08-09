@@ -47,4 +47,5 @@ Characters:
 - Baishi Qi (random Chinese Painter)
 - Xiong Ren (random Chinese Painter)
 - Giovanni Fattori (random Italian Painter)
+- Manuel Maples Arce (random Mexican Writer)
 - Ramón López Velarde (random Mexican Writer)
