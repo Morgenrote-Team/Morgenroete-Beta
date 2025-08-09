@@ -9,6 +9,7 @@ Changes:
 
 Fixes:
 - The Paddock now correctly shows the Mechanic instead of the Car Racer.
+- Possibly fixed the retirement events occuring twice.
 
 3D:
 - Added an Asian variant of the Publishing Industry building.
