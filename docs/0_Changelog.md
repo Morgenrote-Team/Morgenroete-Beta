@@ -52,6 +52,10 @@ Chemistry, Physics & Geology:
 - Spectroscopic Analysis PM is now available with Spectroscopy Tech, not Electromagnetism.
 - Fraunhofer Lines triggers with the invention of Spectroscopy Tech.
 
+Aviation:
+- Added Air War Doctrin Tech. This is needed for Strategic bombing MO.
+- Added Airlines Tech. This is needed for airports. It also adds +1 company, so you are guaranteed to found an airline.
+
 Mountaineering:
 - After the first triggering of a trait event for a mountaineer, this event will only trigger in a hidden manner and you will be notified via notification. For example, if your mountaineer has become "brave" once, the next mountaineer will only receive a notification that they have become brave, since you are aware of the event.
 
