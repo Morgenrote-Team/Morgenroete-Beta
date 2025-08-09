@@ -49,6 +49,9 @@ Chemistry & Physics:
 - Spectroscopic Analysis PM is now available with Spectroscopy Tech, not Electromagnetism.
 - Fraunhofer Lines triggers with the invention of Spectroscopy Tech.
 
+Mountaineering:
+- After the first triggering of a trait event for a mountaineer, this event will only trigger in a hidden manner and you will be notified via notification. For example, if your mountaineer has become "brave" once, the next mountaineer will only receive a notification that they have become brave, since you are aware of the event.
+
 Other Changes:
 - Italian Irredenta is now alos possible to enact if you lack the interest group, but have Mass Propaganda.
 - When doing an Archaeological Inspection, you will immediately go to the inspection without intermediate events.
