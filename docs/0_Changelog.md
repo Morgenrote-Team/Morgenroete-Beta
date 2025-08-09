@@ -36,7 +36,7 @@ Medicine:
 - No negative epidemic disease events will trigger anymore if you have a treatment for that disease.
 - The events Ancient Disease, Strange Medicine and Herbel Remedies will only trigger once per game.
 
-Chemistry & Physics:
+Chemistry, Physics & Geology:
 - Added Radioactivity Tech.
 - Radium will be theorized, discovered and isolated by the first nation which invents radioactivity via event.
 - The Noble Gases Radon, Neon, Argon, Krypton, Xenon can be theorized, discovered and isolated seperately.
@@ -45,6 +45,7 @@ Chemistry & Physics:
 - Uranium Mine is available with Radioactivity Tech, not Modern Physics.
 - Uranium Glass PM is available with Radioactivity Tech, not Modern Physics.
 - Modern Physics PM in the Observatory does not need Uranium anymore.
+- When playing with historical Uranium Deposits, the owner of Joachimsthal (Bohemia) will get immediately the Uranium State Trait and an Uranium Mine after discovering the Radioactivity tech; historically, this is the place were Uranium was originally found in the early 19th century.
 - Added Spectroscopy Tech.
 - Spectroscopic Analysis PM is now available with Spectroscopy Tech, not Electromagnetism.
 - Fraunhofer Lines triggers with the invention of Spectroscopy Tech.
