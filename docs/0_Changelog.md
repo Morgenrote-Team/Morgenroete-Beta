@@ -34,6 +34,7 @@ Sports:
 
 Medicine:
 - No negative epidemic disease events will trigger anymore if you have a treatment for that disease.
+- The events Ancient Disease, Strange Medicine and Herbel Remedies will only trigger once per game.
 
 Chemistry & Physics:
 - Added Radioactivity Tech.
