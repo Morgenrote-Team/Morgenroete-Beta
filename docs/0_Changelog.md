@@ -45,6 +45,7 @@ Chemistry, Physics & Geology:
 - Uranium Mine is available with Radioactivity Tech, not Modern Physics.
 - Uranium Glass PM is available with Radioactivity Tech, not Modern Physics.
 - Modern Physics PM in the Observatory does not need Uranium anymore.
+- Your Geologist finds Uranium Deposits via Geological Research if you researched Radioactivity Tech, not Modern Physics.
 - When playing with historical Uranium Deposits, the owner of Joachimsthal (Bohemia) will get immediately the Uranium State Trait and an Uranium Mine after discovering the Radioactivity tech; historically, this is the place were Uranium was originally found in the early 19th century.
 - Added Spectroscopy Tech.
 - Spectroscopic Analysis PM is now available with Spectroscopy Tech, not Electromagnetism.
