@@ -3,6 +3,7 @@ Changelog for 2.4.3e "Hugi"
 Fixes:
 - Fixed a missing loc key.
 - Laoshe's first name is now Quingchun.
+- The Botanical Expedition is requiring technologies again.
 
 Characters:
 - Enrico Dalgas (random Danish Engineer)
