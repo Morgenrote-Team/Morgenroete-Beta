@@ -10,7 +10,7 @@ Time, Timezones and Prime Meridian:
 - Nations participating in the International Meridian Conference can then decide whether to adhere unconditionally to the time zone system or stick to a national time zone.
 - Added Achievement "It's Greenwich ... right?" - Make sure the prime meridian is aligned with your observatory.
 
-Sports:
+National Sports:
 - Organized Sports is now a Tier 3 technology.
 - New technology Sports Clubs (Tier 2) was introduced for the most basic sports settings.
 - New technology International Sports (Tier 4) was introduced for the more advanced sports setting you know from earlier Morgenröte versions.
@@ -30,6 +30,12 @@ Sports:
 - You may join and leave the FIFA if you want.
 - School Sport is now in the "Coach" section and needs a Senior Coach to be introduced.
 - The Alpine Club needs Organized Sports instead of Nationalism to be founded.
+
+Olympic Games:
+- Olympic Games have now Olympic Disciplines associated with medals. There are 16 classical Olympic Disciplines. The 4 national sports can become Olympic Disciplines, too. Therefore, 20 Disciplines and 20 medals are possible.
+- The 16 Disciplines are: Athletics, Archery, Boxing, Cycling, Equestrian Sports, Fencing, Gymnastics, Hockey, Rowing, Polo, Sailing, Shooting, Swimming, Tennis, Weightlifting, Wrestling.
+- Every country starts with a specific Olympic Discipline in which it excels. It has a higher chance to get a medal in this area.
+- The first Olympic Games will have 10 Disciplines. More Disciplines can be added with more IOC members.
 - Sports Stadium, not Sports Facilities, gives an Olympic advantage.
 
 Medicine:
