@@ -4,6 +4,7 @@ Fixes:
 - Fixed a missing loc key.
 - Laoshe's first name is now Quingchun.
 - The Botanical Expedition is requiring technologies again.
+- Guo Muro is now a Communist.
 
 Characters:
 - Charles Ambdt (random Danish Engineer and Architect)
