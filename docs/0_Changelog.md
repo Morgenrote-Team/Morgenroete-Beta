@@ -5,4 +5,5 @@ Fixes:
 - Laoshe's first name is now Quingchun.
 
 Characters:
-- Antonio Mediz Bolio (Random Mexican Writer)
+- Enrico Dalgas (random Danish Engineer)
+- Antonio Mediz Bolio (random Mexican Writer)
