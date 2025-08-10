@@ -6,6 +6,7 @@ Fixes:
 - The Botanical Expedition is requiring technologies again.
 
 Characters:
+- Charles Ambdt (random Danish Engineer and Architect)
 - Enrico Dalgas (random Danish Engineer)
 - Søren Hjorth (random Danish Engineer)
 - Antonio Mediz Bolio (random Mexican Writer)
