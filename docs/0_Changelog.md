@@ -7,4 +7,5 @@ Fixes:
 
 Characters:
 - Enrico Dalgas (random Danish Engineer)
+- Søren Hjorth (random Danish Engineer)
 - Antonio Mediz Bolio (random Mexican Writer)
