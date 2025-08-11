@@ -29,7 +29,8 @@ National Sports:
 - Hosting the FIFA World Cup needs a Stadium and 16 FIFA Members.
 - You may join and leave the FIFA if you want.
 - School Sport is now in the "Coach" section and needs a Senior Coach to be introduced.
-- The Alpine Club needs Organized Sports instead of Nationalism to be founded.
+- Home Counties, West Bengal and Ontario start with a Sports Facility, Cricket Clubs and Cricket as National Sport. Additionally, New York starts with a Sports Facility, but no clubs (giving the USA some help to invent Baseball).
+
 
 Olympic Games:
 - Olympic Games have now Olympic Disciplines associated with medals. There are 16 classical Olympic Disciplines. The 4 national sports can become Olympic Disciplines, too. Therefore, 20 Disciplines and 20 medals are possible.
@@ -65,6 +66,7 @@ Aviation:
 
 Mountaineering:
 - After the first triggering of a trait event for a mountaineer, this event will only trigger in a hidden manner and you will be notified via notification. For example, if your mountaineer has become "brave" once, the next mountaineer will only receive a notification that they have become brave, since you are aware of the event.
+- The Alpine Club needs Organized Sports instead of Nationalism to be founded.
 
 Localization:
 - Internal: Tried to order the locs from the mr_GUI file to mr_gui_sports_vikelas_racer, mr_gui_sports_vikelas_mechanic, mr_gui_sports_vikelas_coach and mr_gui_sports_vikelas_olympics for a better overview.
