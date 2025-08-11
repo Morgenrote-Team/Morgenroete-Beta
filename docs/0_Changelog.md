@@ -66,6 +66,9 @@ Aviation:
 Mountaineering:
 - After the first triggering of a trait event for a mountaineer, this event will only trigger in a hidden manner and you will be notified via notification. For example, if your mountaineer has become "brave" once, the next mountaineer will only receive a notification that they have become brave, since you are aware of the event.
 
+Localization:
+- Internal: Tried to order the locs from the mr_GUI file to mr_gui_sports_vikelas_racer, mr_gui_sports_vikelas_mechanic, mr_gui_sports_vikelas_coach and mr_gui_sports_vikelas_olympics for a better overview.
+
 Other Changes:
 - Italian Irredenta is now alos possible to enact if you lack the interest group, but have Mass Propaganda.
 - When doing an Archaeological Inspection, you will immediately go to the inspection without intermediate events.
