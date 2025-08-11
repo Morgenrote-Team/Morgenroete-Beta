@@ -9,3 +9,4 @@ Characters:
 - Sunthorn Phu (Starting Writer of Siam)
 - Muen Phromsomphatson (Random Thai writer)
 - Narathip Praphanphong (Random Thai writer)
+- Nimitmongkol Nawarat (Random Thai writer & pilot)
