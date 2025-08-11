@@ -5,6 +5,7 @@ Characters:
 - Gustav Adolph Hagemann (random Danish Engineer and Chemist)
 - Holger Hammerich (random Danish Engineer)
 - Niels Steenberg (random Danish Engineer and Chemist)
+- S. P. L. Sørensen (random Danish Chemist)
 
 Changes:
 - Ejnar Hertzsprung can now spawn as Chemist as well.
