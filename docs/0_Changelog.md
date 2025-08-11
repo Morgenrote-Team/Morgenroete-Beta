@@ -1,14 +1,16 @@
-Changelog for 2.4.3e "Hugi"
-
-Fixes:
-- Fixed a missing loc key.
-- Laoshe's first name is now Quingchun.
-- The Botanical Expedition is requiring technologies again.
-- Guo Muro is now a Communist.
+Changelog for 2.4.3f "Hugi"
 
 Characters:
-- Charles Ambdt (random Danish Engineer and Architect)
-- Enrico Dalgas (random Danish Engineer)
-- Søren Hjorth (random Danish Engineer)
-- Antonio Mediz Bolio (random Mexican Writer)
-- Valdemar Poulsen (random Danish Engineer)
+- Povl Bentson (random Danish Engineer)
+- Gustav Adolph Hagemann (random Danish Engineer and Chemist)
+- Holger Hammerich (random Danish Engineer)
+- Niels Steenberg (random Danish Engineer and Chemist)
+- S. P. L. Sørensen (random Danish Chemist)
+- John Louis Emil Dreyer (random Danish Astronomer)
+- Peter Andreas Hansen (random Danish Astronomer)
+- Hans Schjellerup (random Danish Astronomer)
+- Thorvald N. Thiele (random Danish Astronomer)
+- Frederik Johnstrup (random Danish Geologist and Paleontologist)
+
+Changes:
+- Ejnar Hertzsprung can now spawn as Chemist as well.
