@@ -6,6 +6,7 @@ Characters:
 - Holger Hammerich (random Danish Engineer)
 - Niels Steenberg (random Danish Engineer and Chemist)
 - S. P. L. Sørensen (random Danish Chemist)
+- John Louis Emil Dreyer (random Danish Astronomer)
 - Peter Andreas Hansen (random Danish Astronomer)
 - Thorvald N. Thiele (random Danish Astronomer)
 
