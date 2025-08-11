@@ -15,3 +15,4 @@ Characters:
 - Sa-nga Kanchanakhaphan (Random Thai Writer)
 - So Setthabut (Random Thai Writer)
 - Yong Sathiankoset (Random Thai Writer)
+- Dan Beach Bradley (Random Yankee Physician & Writer)
