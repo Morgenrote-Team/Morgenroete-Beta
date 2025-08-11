@@ -8,6 +8,7 @@ Characters:
 - S. P. L. Sørensen (random Danish Chemist)
 - John Louis Emil Dreyer (random Danish Astronomer)
 - Peter Andreas Hansen (random Danish Astronomer)
+- Hans Schjellerup (random Danish Astronomer)
 - Thorvald N. Thiele (random Danish Astronomer)
 
 Changes:
