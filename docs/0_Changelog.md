@@ -36,6 +36,7 @@ Olympic Games:
 - The 16 Disciplines are: Athletics, Archery, Boxing, Cycling, Equestrian Sports, Fencing, Gymnastics, Hockey, Rowing, Polo, Sailing, Shooting, Swimming, Tennis, Weightlifting, Wrestling.
 - Every country starts with a specific Olympic Discipline in which it excels. It has a higher chance to get a medal in this area.
 - The first Olympic Games will have 10 Disciplines. More Disciplines can be added with more IOC members.
+- The IOC consists of 1 President and 14 Board Members. The Board composition has been changed a bit: 4 Great Powers, 2 Major Powers, 2 Random European Powers, 2 Random American Powers, 2 Random Asian Powers, 1 Random African Power, 1 Random Oceanian Power.
 - Sports Stadium, not Sports Facilities, gives an Olympic advantage.
 
 Medicine:
