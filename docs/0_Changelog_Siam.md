@@ -8,3 +8,4 @@ Characters:
 - Lhiam Sarnkrai (Random Thai Writer)
 - Sunthorn Phu (Starting Writer of Siam)
 - Muen Phromsomphatson (Random Thai writer)
+- Narathip Praphanphong (Random Thai writer)
