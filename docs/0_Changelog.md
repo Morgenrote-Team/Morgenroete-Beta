@@ -2,6 +2,7 @@ Changelog for 2.4.3f "Hugi"
 
 Characters:
 - Povl Bentson (random Danish Engineer)
+- Gustav Adolph Hagemann (random Danish Engineer and Chemist)
 - Niels Steenberg (random Danish Engineer and Chemist)
 
 Changes:
