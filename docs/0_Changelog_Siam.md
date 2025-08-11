@@ -11,3 +11,4 @@ Characters:
 - Narathip Praphanphong (Random Thai writer)
 - Nimitmongkol Nawarat (Random Thai writer & pilot)
 - Noi Acharayangkun (Random Thai writer)
+- Nokyung Wisetkun (Random Thai writer)
