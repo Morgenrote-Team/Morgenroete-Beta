@@ -21421,10 +21421,118 @@ physician_experience_gain_effect = { #adds XP to the Physician
 
 ######ETHNOLOGIST######
 
+# Creates a new Ethnologist without losing the old one
+create_new_ethnologist_effect = {
+	#Chooses whether a historical or random character is chosen
+	random_list = {
+		#Historical Characters
+		100 = { #Antonio Mediz Bolio, Mexico
+			trigger = {
+				NOT = { has_global_variable = mr_mediz_bolio_antonio_created_global_var }
+				has_state_in_state_region = STATE_YUCATAN #Born in Mérida
+				country_average_cultural_acceptance = {
+					target = cu:mexican
+					value >= acceptance_status_3
+				}
+				game_date < 1939.10.13 #Age 55
+				year >= 1904 #Age 20
+			}
+			create_character = {
+				template = mr_mex_mediz_bolio_antonio_character_template
+				save_scope_as = roy_new_ethnologist_scope
+			}
+			scope:roy_new_ethnologist_scope = {
+				set_variable = mr_is_ethnologist_var
+				set_variable = mr_no_headgear_var
+				ethnologist_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = roy_new_ethnologist_var
+				value = scope:roy_new_ethnologist_scope
+			}
+			set_global_variable = mr_mediz_bolio_antonio_created_global_var
+		}
+		#Random Characters
+		1 = { #Random Ethnologist (fallback and to make it uncertain for historical once to appear)
+			random_list = {
+				1 = {
+					create_character = {
+						female = yes
+						trait_generation = {}
+						save_scope_as = roy_new_ethnologist_scope
+					}
+					scope:roy_new_ethnologist_scope = {
+						add_trait = roy_ethnologist
+						set_variable = mr_is_ethnologist_var
+						ethnologist_experience_set_up_effect = yes
+						mr_trait_generation_ethnologist_effect = yes
+						place_character_in_void = 1200
+					}
+					set_variable = {
+						name = roy_new_ethnologist_var
+						value = scope:roy_new_ethnologist_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 19
+						}
+					}
+				}
+				99 = {
+					create_character = {
+						trait_generation = {}
+						save_scope_as = roy_new_ethnologist_scope
+					}
+					scope:roy_new_ethnologist_scope = {
+						add_trait = roy_ethnologist
+						set_variable = mr_is_ethnologist_var
+						ethnologist_experience_set_up_effect = yes
+						mr_trait_generation_ethnologist_effect = yes
+						place_character_in_void = 1200
+					}
+					set_variable = {
+						name = roy_new_ethnologist_var
+						value = scope:roy_new_ethnologist_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -19
+						}
+					}
+				}
+			}
+		}
+	}
+	var:roy_new_ethnologist_var = {
+		save_scope_as = roy_new_ethnologist_scope
+	}
+}
+
 # Set new Ethnologist as official Ethnologist
 roy_set_new_ethnologist_as_ethnologist_effect = {
-#	custom_tooltip = {
-#		text = roy_replace_ethnologist_with_new_ethnologist_tt
+	custom_tooltip = {
+		text = roy_replace_ethnologist_with_new_ethnologist_tt
 	
 		if = {
 			limit = {
@@ -21437,7 +21545,7 @@ roy_set_new_ethnologist_as_ethnologist_effect = {
 
 		set_variable = {
 			name = roy_ethnologist_var
-#			value = scope:roy_new_ethnologist_scope
+			value = scope:roy_new_ethnologist_scope
 		}
 
 		#Sets the Ethnologist busy if there is an active project he is involved in
@@ -21448,16 +21556,52 @@ roy_set_new_ethnologist_as_ethnologist_effect = {
 #			}
 #		}
 
-#		remove_variable = roy_new_ethnologist_var
-#	}
+		remove_variable = roy_new_ethnologist_var
+	}
 }
 
 # Remove new Ethnologist
 roy_remove_new_ethnologist_effect = {
-#	scope:roy_new_ethnologist_scope = {
-#		free_character_from_void = no
-#	}
-#	remove_variable = roy_new_ethnologist_var
+	scope:roy_new_ethnologist_scope = {
+		free_character_from_void = no
+	}
+
+	remove_variable = roy_new_ethnologist_var
+}
+
+# Used to set up the Experience of a character 
+ethnologist_experience_set_up_effect = {
+	#Adds ethnologist experience (see effect for further information)
+	general_experience_set_up_effect = {
+		TYPE = roy_ethnologist_experience_var
+		UNI_PM = pm_dubois_university_humanities
+	}
+	
+	if = { #Adds the Experienced physician Trait if Experience is above 100
+		limit = {
+			var:roy_ethnologist_experience_var >= 100
+			NOT = {
+				var:roy_ethnologist_experience_var >= 300
+			}
+			NOR = {
+				has_trait = roy_ethnologist_experienced
+				has_trait = roy_ethnologist
+			}
+		}
+		remove_trait = roy_ethnologist
+		add_trait = roy_ethnologist_experienced
+	}
+	if = { #Adds the Famous physician Trait if Experience is above 300
+		limit = {
+			var:roy_ethnologist_experience_var >= 300
+			NOT = {
+				has_trait = roy_ethnologist_famous
+			}
+		}
+		remove_trait = roy_ethnologist
+		remove_trait = roy_ethnologist_experienced
+		add_trait = roy_ethnologist_famous
+	}
 }
 
 ##########################################################################
