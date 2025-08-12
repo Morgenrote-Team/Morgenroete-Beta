@@ -5,8 +5,9 @@ Characters:
 - Johan Georg Forchhammer (random Danish Geologist)
 - K. J. V. Steenstrup (random Danish Geologist)
 - Þorvaldur Thoroddsen (random Icelandic Geologist)
-- Gerhard Heilmann (random Paleontologist and Painter)
-- Peter Wilhelm Lund (random Paleontologist, Naturalist and Archaeologist)
+- Gerhard Heilmann (random Danish Paleontologist and Painter)
+- Peter Wilhelm Lund (random Danish Paleontologist, Naturalist and Archaeologist)
+- Frederik Adolph de Roepstorff (random Danish Naturalist and Ethnologist)
 
 Fixes:
 - Archaeological Teams should now properly be copied to revolutions.
