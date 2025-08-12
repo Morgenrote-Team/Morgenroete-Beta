@@ -5,6 +5,8 @@ Characters:
 - Johan Georg Forchhammer (random Danish Geologist)
 - K. J. V. Steenstrup (random Danish Geologist)
 - Þorvaldur Thoroddsen (random Icelandic Geologist)
+- Gerhard Heilmann (random Paleontologist and Painter)
 
 Fixes:
 - Archaeological Teams should now properly be copied to revolutions.
+- Fixed the culture of d'Orbigny.
