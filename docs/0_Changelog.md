@@ -1,6 +1,7 @@
 Changelog for 2.4.3g "Hugi"
 
 Characters:
+- Karen Callisen (random Danish Geologist)
 - Johan Georg Forchhammer (random Danish Geologist)
 - K. J. V. Steenstrup (random Danish Geologist)
 
