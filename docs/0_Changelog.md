@@ -4,6 +4,7 @@ Characters:
 - Karen Callisen (random Danish Geologist)
 - Johan Georg Forchhammer (random Danish Geologist)
 - K. J. V. Steenstrup (random Danish Geologist)
+- Þorvaldur Thoroddsen (random Icelandic Geologist)
 
 Fixes:
 - Archaeological Teams should now properly be copied to revolutions.
