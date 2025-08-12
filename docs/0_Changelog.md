@@ -8,6 +8,7 @@ Characters:
 - Gerhard Heilmann (random Danish Paleontologist and Painter)
 - Peter Wilhelm Lund (random Danish Paleontologist, Naturalist and Archaeologist)
 - Frederik Adolph de Roepstorff (random Danish Naturalist and Ethnologist)
+- Carl Peter Holbøll (random Danish Naturalist)
 
 Fixes:
 - Archaeological Teams should now properly be copied to revolutions.
