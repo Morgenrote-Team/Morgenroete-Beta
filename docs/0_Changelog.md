@@ -6,6 +6,7 @@ Characters:
 - K. J. V. Steenstrup (random Danish Geologist)
 - Þorvaldur Thoroddsen (random Icelandic Geologist)
 - Gerhard Heilmann (random Paleontologist and Painter)
+- Peter Wilhelm Lund (random Paleontologist, Naturalist and Archaeologist)
 
 Fixes:
 - Archaeological Teams should now properly be copied to revolutions.
