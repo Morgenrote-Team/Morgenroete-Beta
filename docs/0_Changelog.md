@@ -1,16 +1,17 @@
-Changelog for 2.4.3f "Hugi"
+Changelog for 2.4.3g "Hugi"
 
 Characters:
-- Povl Bentson (random Danish Engineer)
-- Gustav Adolph Hagemann (random Danish Engineer and Chemist)
-- Holger Hammerich (random Danish Engineer)
-- Niels Steenberg (random Danish Engineer and Chemist)
-- S. P. L. Sørensen (random Danish Chemist)
-- John Louis Emil Dreyer (random Danish Astronomer)
-- Peter Andreas Hansen (random Danish Astronomer)
-- Hans Schjellerup (random Danish Astronomer)
-- Thorvald N. Thiele (random Danish Astronomer)
-- Frederik Johnstrup (random Danish Geologist and Paleontologist)
+- Karen Callisen (random Danish Geologist)
+- Johan Georg Forchhammer (random Danish Geologist)
+- K. J. V. Steenstrup (random Danish Geologist)
+- Þorvaldur Thoroddsen (random Icelandic Geologist)
+- Gerhard Heilmann (random Danish Paleontologist and Painter)
+- Peter Wilhelm Lund (random Danish Paleontologist, Naturalist and Archaeologist)
+- Frederik Adolph de Roepstorff (random Danish Naturalist and Ethnologist)
+- Carl Peter Holbøll (random Danish Naturalist)
+- Nielsine Nielsen (random Danish Physician)
+- Knud Pontoppidan (random Danish Physician)
 
-Changes:
-- Ejnar Hertzsprung can now spawn as Chemist as well.
+Fixes:
+- Archaeological Teams should now properly be copied to revolutions.
+- Fixed the culture of d'Orbigny.
