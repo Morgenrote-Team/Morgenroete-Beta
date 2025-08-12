@@ -9,6 +9,7 @@ Characters:
 - Peter Wilhelm Lund (random Danish Paleontologist, Naturalist and Archaeologist)
 - Frederik Adolph de Roepstorff (random Danish Naturalist and Ethnologist)
 - Carl Peter Holbøll (random Danish Naturalist)
+- Nielsine Nielsen (random Danish Physician)
 - Knud Pontoppidan (random Danish Physician)
 
 Fixes:
