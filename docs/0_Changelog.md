@@ -9,3 +9,4 @@ Characters:
 - Christian Herbst (random Danish Archaeologist)
 - Karl Frederik Kinch (random Danish Archaeologist)
 - Balduin Dahl (random Danish Composer)
+- Carl Nielsen (random Danish Composer)
