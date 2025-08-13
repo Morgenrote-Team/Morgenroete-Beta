@@ -5,4 +5,5 @@ Characters:
 - Emil Aarestrup (random Danish Physician)
 - Carl Julius Salomonsen (random Danish Physician and Biologist)
 - Oscar Wanscher (random Danish Physician)
+- Frans Blom (random Danish Archaeologist)
 - Christian Herbst (random Danish Archaeologist)
