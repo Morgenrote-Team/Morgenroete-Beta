@@ -7,3 +7,4 @@ Characters:
 - Oscar Wanscher (random Danish Physician)
 - Frans Blom (random Danish Archaeologist)
 - Christian Herbst (random Danish Archaeologist)
+- Karl Frederik Kinch (random Danish Archaeologist)
