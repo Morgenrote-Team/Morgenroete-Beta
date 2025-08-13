@@ -8,3 +8,4 @@ Characters:
 - Frans Blom (random Danish Archaeologist)
 - Christian Herbst (random Danish Archaeologist)
 - Karl Frederik Kinch (random Danish Archaeologist)
+- Balduin Dahl (random Danish Composer)
