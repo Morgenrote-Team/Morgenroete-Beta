@@ -10,4 +10,5 @@ Characters:
 - Karl Frederik Kinch (random Danish Archaeologist)
 - Balduin Dahl (random Danish Composer)
 - Niels Gade (random Danish Composer)
+- Johan Peter Emilius Hartmann (random Danish Composer)
 - Carl Nielsen (random Danish Composer)
