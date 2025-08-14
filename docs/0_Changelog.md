@@ -12,5 +12,6 @@ Characters:
 - Niels Gade (random Danish Composer)
 - Johan Peter Emilius Hartmann (random Danish Composer)
 - Carl Nielsen (random Danish Composer)
+- Vilhelm Hammershøi (random Danish Painter)
 - Peder Severin Krøyer (random Danish Painter)
 - Frederik Vermehren (random Danish Painter)
