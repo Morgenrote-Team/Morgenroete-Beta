@@ -13,3 +13,4 @@ Characters:
 - Johan Peter Emilius Hartmann (random Danish Composer)
 - Carl Nielsen (random Danish Composer)
 - Peder Severin Krøyer (random Danish Painter)
+- Frederik Vermehren (random Danish Painter)
