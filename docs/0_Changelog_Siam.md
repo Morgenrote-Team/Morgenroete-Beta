@@ -31,3 +31,5 @@ Characters:
 - Puan Inthuwong (random Thai Archaeologist)
 - Wichit Wichitwatakan (random Thai Archaeologist & Writer)
 - Aab Raktaprajit (random Thai Astronomer)
+- Tua Lapanukrom (random Thai Chemist)
+- Waan Lhorphinij (random Thai Chemist)
