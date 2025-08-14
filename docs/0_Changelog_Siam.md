@@ -30,3 +30,4 @@ Characters:
 - Kulap Tarydsananun (random Thai Archaeologist)
 - Puan Inthuwong (random Thai Archaeologist)
 - Wichit Wichitwatakan (random Thai Archaeologist & Writer)
+- Aab Raktaprajit (random Thai Astronomer)
