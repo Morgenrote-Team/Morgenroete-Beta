@@ -5,3 +5,6 @@ Characters:
 - Theophilus Hansen (random Danish Architect)
 - Johan Henrik Nebelong (random Danish Architect)
 - Martin Nyrop (random Danish Architect)
+
+Changes:
+- Reduced the base chance for geologist events during Geological Research.
