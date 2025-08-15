@@ -8,3 +8,4 @@ Characters:
 
 Changes:
 - Reduced the base chance for geologist events during Geological Research.
+- Reduced the size of the 3D models of the pubnlishing industry buildings to fit better with the rest of the buildings.
