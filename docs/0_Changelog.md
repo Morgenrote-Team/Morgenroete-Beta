@@ -20,3 +20,4 @@ Fixes:
 - You can now longer send your mountaineer to a mountain expedition just after a recent mountain expedition if you do not click the option of the ending event.
 - Revolutions should no longer end up with stuck special buildings that are no longer buildable.
 - The AI is now able to switch to higher versions of the mobilization options.
+- Various small loc fixes.
