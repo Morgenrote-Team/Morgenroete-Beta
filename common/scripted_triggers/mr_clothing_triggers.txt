@@ -12,17 +12,30 @@ mr_no_hat_historic_person_trigger = {
 }
 
 mr_european_plus_clothes_trigger = {
-	OR = {
-		european_clothes_trigger = yes
-		scope:character ?= {
-			OR = {
-				culture = cu:cherokee
-				culture = cu:muskogean
-			}
-		}
-		african_diaspora_clothes_trigger = yes
-		WCR_has_completed_westernization_trigger = yes
-	}
+    trigger_if = {
+        limit = {
+            WCR_is_active_trigger = yes
+        }
+        WCR_is_westernized_trigger = yes # Checks for both western countries and countries that have westernized
+    }
+    trigger_else = {
+        OR = {
+            european_clothes_trigger = yes
+            scope:character ?= {
+                OR = {
+                    culture = cu:cherokee
+                    culture = cu:muskogean
+                    AND = { # Westernized Japan is caught by european_clothes_trigger but not Korea for some reason
+                        culture = cu:korean
+                        owner ?= {
+                            has_variable = KOR_korean_empire_declared
+                        }
+                    }
+                }
+            }
+            african_diaspora_clothes_trigger = yes
+        }
+    }
 }
 
 mr_special_characters_clothes_trigger = {
