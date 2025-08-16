@@ -18,3 +18,4 @@ Fixes:
 - Agitators that become Poets now properly receive a genre trait.
 - Choe Hangi can no longer appear twice if you play with James' Korea Flavor Pack.
 - You can now longer send your mountaineer to a mountain expedition just after a recent mountain expedition if you do not click the option of the ending event.
+- Revolutions should no longer end up with stuck special buildings that are no longer buildable.
