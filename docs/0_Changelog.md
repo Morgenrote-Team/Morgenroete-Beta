@@ -21,3 +21,4 @@ Fixes:
 - Revolutions should no longer end up with stuck special buildings that are no longer buildable.
 - The AI is now able to switch to higher versions of the mobilization options.
 - Various small loc fixes.
+- Changed the vanilla disaster events into our modified ones.
