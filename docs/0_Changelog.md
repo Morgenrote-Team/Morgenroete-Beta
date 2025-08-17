@@ -6,6 +6,7 @@ Characters:
 - Louis Adolf Gölsdorf (random German/Austrian Engineer)
 - Ferdinand Redtenbacher (random Austrian Engineer)
 - Josef Ressel (random Austrian Engineer and Naturalist)
+- Stanisław Wyspiański (random Polish Writer and Painter)
 
 Quality of Life:
 - Added ratings to Engineers.
