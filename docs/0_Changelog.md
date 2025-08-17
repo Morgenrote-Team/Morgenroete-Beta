@@ -7,6 +7,7 @@ Characters:
 - Ferdinand Redtenbacher (random Austrian Engineer)
 - Josef Ressel (random Austrian Engineer and Naturalist)
 - Bruno Abakanowicz (random Polish Engineer)
+- Stefan Bryła (random Polish Engineer)
 - Ignacy Łukasiewicz (random Polish Engineer and Chemist)
 - Ignacy Mościcki (random Polish Chemist)
 - Stanisław Wyspiański (random Polish Writer and Painter)
