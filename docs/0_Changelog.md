@@ -7,5 +7,8 @@ Characters:
 - Ferdinand Redtenbacher (random Austrian Engineer)
 - Josef Ressel (random Austrian Engineer and Naturalist)
 
+Quality of Life:
+- Added ratings to Engineers.
+
 Fixes:
 - The Composing Action should now properly add Musical Tradition every 12 months.
