@@ -4,6 +4,7 @@ Changelog for 2.4.3k "Hugi"
 - Added a African Publishing Industry variant.
 - Added a French Publishing Industry variant.
 - Added a Latin Publishing Industry variant.
+- Improved the ground textures of the Publishing Industry and Instruments Workshop buildings.
 
 Fixes:
 - The Highest Mountain button now appears in the condensed view of the GUI as well.
