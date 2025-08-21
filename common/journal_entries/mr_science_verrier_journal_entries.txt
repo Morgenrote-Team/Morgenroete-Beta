@@ -341,12 +341,50 @@ je_verrier_neptune = {
 			id = verrier.10
 			popup = yes 
 		}
+		set_temporary_variable = {
+			name = verrier_neptune_race_winner
+			value = scope:country
+		}
+
+# The Consolation Prize (Triton)
+
+		set_variable = {
+			name = verrier_consolation_prize_triton_value
+			value = 0
+		}
+		every_country = {
+			limit = {
+				NOT = { is_same_country = verrier_neptune_race_winner }
+				exists = var:verrier_astronomical_objects
+			}
+			set_variable = {
+				name = verrier_triton_points
+				value = var:verrier_astronomical_objects
+			}
+			if = {
+				limit = {
+					var:verrier_triton_points > var:consolation_prize_triton_value
+				}
+				set_global_variable = verrier_consolation_prize_triton
+				set_variable = {
+					name = consolation_prize_triton_value
+					value = var:verrier_triton_points
+				}
+			}
+		}
+		country = global_variable:verrier_consolation_prize_triton {
+			trigger_event = {
+				id = verrier.551
+				popup = yes
+			}
+		}
 	}
 
 	fail = {
 		custom_tooltip = {
 			text = je_verrier_neptune_fail
 			has_global_variable = verrier_neptune_discovered_var
+			NOT = { has variable = verrier_consolation_prize_triton }
 		}
     }
 
@@ -908,13 +946,17 @@ je_verrier_neptune_satellites = {
 		custom_tooltip = {
 			text = je_verrier_satellites_success
 			random_list = {
-				1 = {
-					trigger = { verrier_can_discover_triton_trigger = yes }
-					trigger_event = { 
-						id = verrier.551 #Verrier 551: Triton discovered
-						popup = yes 
-					}
-				}
+
+### Triton now discovered by whoever has the second most astronomical objects when someone finds Neptune
+
+#				1 = {
+#					trigger = { verrier_can_discover_triton_trigger = yes }
+#					trigger_event = { 
+#						id = verrier.551 #Verrier 551: Triton discovered
+#						popup = yes 
+#					}
+#				}
+
 				1 = {
 					trigger = { verrier_can_discover_nereid_trigger = yes }
 					trigger_event = { 
