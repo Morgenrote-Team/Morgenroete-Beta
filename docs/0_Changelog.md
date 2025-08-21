@@ -1,6 +1,7 @@
 Changelog for 2.4.3k "Hugi"
 
 3D Models:
+- Added a African Publishing Industry variant.
 - Added a French Publishing Industry variant.
 - Added a Latin Publishing Industry variant.
 
