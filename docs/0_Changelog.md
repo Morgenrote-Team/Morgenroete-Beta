@@ -1,5 +1,8 @@
 Changelog for 2.4.3k "Hugi"
 
+Changes:
+- South Tyrol now starts with historically correct population numbers and enough arable land to support the people.
+
 3D Models:
 - Added a African Publishing Industry variant.
 - Added a French Publishing Industry variant.
