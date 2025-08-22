@@ -64,6 +64,9 @@ Aviation:
 - Added Air War Doctrin Tech. This is needed for Strategic bombing MO.
 - Added Airlines Tech. This is needed for airports. It also adds +1 company, so you are guaranteed to found an airline.
 
+Ballooning:
+- Added Gordon Bennett Cup. It can be established with an action in the Balloonist GUI. Every two years, the best distance Balloonist will win the race.
+
 Mountaineering:
 - After the first triggering of a trait event for a mountaineer, this event will only trigger in a hidden manner and you will be notified via notification. For example, if your mountaineer has become "brave" once, the next mountaineer will only receive a notification that they have become brave, since you are aware of the event.
 - The Alpine Club needs Organized Sports instead of Nationalism to be founded.
