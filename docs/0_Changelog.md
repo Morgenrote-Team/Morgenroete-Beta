@@ -11,3 +11,4 @@ Changes:
 
 Fixes:
 - The Highest Mountain button now appears in the condensed view of the GUI as well.
+- The Telegraph System Project should no longer instaclose if you closed it once before.
