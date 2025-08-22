@@ -1928,7 +1928,42 @@ ai_congresses_effect = {
 				years = 5
 			}
 		}
-		#TODO: Origin of the Moon Congress
+		#Great Debate Congress
+		if = {
+			limit = {
+				has_modifier = verrier_standard_time_modifier
+				NOR = {
+					has_global_variable = verrier_prime_meridian_hosted_var
+					any_country = {
+						has_modifier = verrier_congress_host_modifier
+					}
+				}
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+				}
+				any_country = {
+					country_rank = rank_value:great_power
+					has_modifier = verrier_standard_time_modifier
+					count >= 3
+				}
+				any_country = {
+					has_modifier = verrier_standard_time_modifier
+					count >= 20
+				}
+				verrier_has_astronomer_no_tooltip_trigger = yes
+			}
+
+			#Effect
+			trigger_event = { 
+				id = verrier.173
+				popup = yes 
+			}
+			set_global_variable = verrier_prime_meridian_hosted_var
+			add_modifier = {
+				name = verrier_congress_host_modifier
+				years = 5
+			}
+		}
 		#Hippocampus Congress
 		if = {
 			limit = {
@@ -2167,6 +2202,30 @@ ai_special_building_construction_effect = {
 		#Effect
 		capital = {
 			start_building_construction = building_klimt_gallery
+		}
+	}
+	# Sports Facility
+	if = {
+		limit = {
+			any_scope_state = {
+				NOT = {
+					any_scope_building = {
+						is_building_type = building_vikelas_sports
+					}
+				}
+				can_construct_building = building_vikelas_sports
+			}
+		}
+		#Effect
+		random_scope_state = {
+			limit = {
+				NOT = {
+					any_scope_building = {
+						is_building_type = building_vikelas_sports
+					}
+				}
+			}
+			start_building_construction = building_vikelas_sports
 		}
 	}
 }
@@ -2493,6 +2552,7 @@ ai_painter_vernissage_effect = {
 
 #Handles the Balloonist Recruitment for the AI
 ai_balloonist_recruitment_effect = {
+	#Balloonist Recruitment
 	if = {
 		limit = { #Only valid for countries that have montgolfier balloons but no balloonist
 			has_technology_researched = curtiss_montgolfier_balloon_tech
@@ -2507,6 +2567,24 @@ ai_balloonist_recruitment_effect = {
 			id = curtiss.657
 			popup = yes
 			days = { 1 7 }
+		}
+	}
+	#Foundation of the Gordon Bennett Cup
+	if = {
+		limit = { #Only valid for countries that have a balloonist
+			NOT = {
+				has_global_variable = santos_gordon_bennett_cup_found_global_var
+			}
+			curtiss_has_balloonist_trigger = yes
+			mr_gui_has_vikelas_international_sports_tech_trigger = yes
+			mr_gui_has_early_aviation_tech_trigger = yes
+		}
+		
+		#Gordon Bennett Cup established
+		set_global_variable = santos_gordon_bennett_cup_found_global_var
+		trigger_event = {
+			id = curtiss.681
+			popup = yes
 		}
 	}
 }
@@ -2740,7 +2818,6 @@ ai_mountaineer_club_effect = {
 				has_variable = douglas_mountaineering_club_var
 			}
 			mr_gui_has_geology_tech_trigger = yes
-			mr_gui_has_nationalism_tech_trigger = yes
 			any_scope_character = {
 				has_role = general
 				is_busy = no
@@ -2773,17 +2850,13 @@ ai_mountaineer_club_effect = {
 				has_global_variable = douglas_alpine_club_founded_global_var
 			}
 			has_variable = douglas_mountaineering_club_var
-			has_technology_researched = nationalism
+			mr_gui_has_organized_sports_tech_trigger = yes
 			douglas_has_mountaineer = yes
 			var:douglas_mountaineer_var = {
 				var:douglas_mountaineer_experience_var >= 50
 			}
-			var:douglas_mountaineer_var = {
-				var:douglas_mountaineer_num_mountain_ascents_var >= 2
-			}
-			var:douglas_mountaineer_var = {
-				var:douglas_mountaineer_num_summits_reached_var >= 1
-			}
+			var:douglas_num_mountain_ascents_var >= 2
+			var:douglas_summits_conquered_var >= 2
 			global_var:douglas_num_alpine_club_members_global_var >= 6
 		}
 
@@ -2967,5 +3040,35 @@ ai_mountaineer_club_effect = {
 				set_character_busy_and_immortal = yes
 			}
 		}
+	}
+}
+
+#Handles Standard time
+ai_astronomer_standard_time_effect = {
+	if = {
+		limit = {
+			has_modifier = verrier_railway_time_modifier
+			mr_gui_has_shift_work_tech_trigger = yes
+			mr_gui_has_electric_telegraph_tech_trigger = yes
+			mr_gui_has_nationalism_tech_trigger = yes
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+			}
+			any_scope_state = {
+				has_building = building_railway
+				percent >= 0.65
+			}
+			verrier_has_astronomer = yes
+		}
+
+		#Effect
+		trigger_event = {
+			id = verrier.172
+			popup = yes 
+		}
+		add_modifier = {
+			name = verrier_standard_time_modifier
+		}
+		remove_modifier = verrier_railway_time_modifier
 	}
 }

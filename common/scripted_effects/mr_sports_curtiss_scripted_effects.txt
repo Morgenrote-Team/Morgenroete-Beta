@@ -2559,3 +2559,46 @@ curtiss_test_airplane_speed_effect = { #this is only a test speed for curtiss.70
 		nearest = 0.1
 	}
 }
+
+############################
+
+### GORDON BENNETT CUP ###
+
+curtiss_gordon_bennett_cup_effect = {
+	remove_global_variable = curtiss_gordon_bennett_cup_winner_global_var
+	every_country = {
+		limit = {
+			has_modifier = curtiss_gordon_bennett_cup_modifier
+		}
+		remove_modifier = curtiss_gordon_bennett_cup_modifier
+	}
+
+	ordered_country = {
+		limit = {
+			curtiss_has_balloonist_trigger = yes
+		}
+		order_by = curtiss_gordon_bennett_cup_score
+		max = 1 #Limits the list to top country
+		check_range_bounds = no #prevents errors
+
+		#This part checks one after another whether the first, second, etc. ranked countries are saved already.
+		#Luckily the ordered_country effect iterates through the countries one after another.
+		#So the first country gets saved to the first variable but as that variable now is set,
+		# the second country gets saved to the second variable and so on.
+		if = {
+			limit = {
+				NOT = { has_global_variable = curtiss_gordon_bennett_cup_winner_global_var }
+			}
+			set_global_variable = {
+				name = curtiss_gordon_bennett_cup_winner_global_var
+				value = this
+			}
+			balloonist_experience_gain_effect = { AMOUNT = 25 }
+			add_modifier = {
+				name = curtiss_gordon_bennett_cup_modifier
+			}
+			save_scope_as = curtiss_gordon_bennett_cup_winner
+			post_notification = curtiss_gordon_bennett_cup_notification
+		}
+	}
+}

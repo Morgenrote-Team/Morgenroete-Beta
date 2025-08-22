@@ -97,16 +97,6 @@ namespace = vikelas
 
 ###Events 300-399: Football, Baseball, Cricket###
 
-#Vikelas 301: Football Club in $STATE$
-#Vikelas 302: Rival Football Club in $STATE$
-#Vikelas 303: Football Association
-#Vikelas 304: Football Rivalry
-#Vikelas 305: Football Hooligans
-#Vikelas 306: A Football Champion is born!
-
-#Vikelas 311: Baseball Club in $STATE$
-#Vikelas 321: Cricket Club in $STATE$
-
 #Events 500-499: Auto Race
 
 #Vikelas 501: Automobile Club founded
@@ -264,7 +254,7 @@ vikelas.11 = {
 	}
 }
 
-#Vikelas 21: Basketball
+#Vikelas 21: Cricket
 vikelas.21 = {
 	dlc = dlc_morgenrote
 
@@ -276,13 +266,13 @@ vikelas.21 = {
 
 	flavor = vikelas.21.f
 
-	placement = scope:vikelas_basketball_state
+	placement = scope:vikelas_cricket_state
 	
 	duration = 3
 
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:vikelas_basketball_inventor_scope
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_cricket_game.dds"
+	}
 
 	icon = "gfx/interface/icons/event_icons/event_sports.dds"
 
@@ -294,15 +284,325 @@ vikelas.21 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
+				is_incorporated = yes
+				total_urbanization >= 1000
+				average_sol >= 5
+				any_scope_building = {
+					is_building_type = building_vikelas_sports
+					level >= 1
+				}
+			}
+			save_scope_as = vikelas_cricket_state
+		}
+	}
+
+	option = {	#Nice.
+		name = vikelas.21.g
+		default_option = yes
+		vikelas_set_cricket_as_national_sport_effect = yes
+		add_modifier = {
+			name = vikelas_cricket_motherland_modifier
+		}
+		scope:vikelas_cricket_state = {
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_cricket_club
+			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = { #AI should keep old national sport
+				trigger = {
+					vikelas_is_sports_motherland_trigger = yes
+				}
+				add = -1
+			}
+		}
+	}
+
+	option = {	#No
+		name = vikelas.21.h
+		trigger = {
+			OR = {
+				is_player = yes
+				vikelas_is_sports_motherland_trigger = yes
+			}
+		}
+		add_modifier = {
+			name = vikelas_cricket_motherland_modifier
+		}
+		scope:vikelas_cricket_state = {
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_cricket_club
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+#Vikelas 31: Baseball
+vikelas.31 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.31.t
+
+	desc = vikelas.31.d
+
+	flavor = vikelas.31.f
+
+	placement = scope:vikelas_baseball_state
+	
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				total_urbanization >= 1500
+				average_sol >= 10
+				any_scope_building = {
+					is_building_type = building_vikelas_sports
+					level >= 1
+				}
+			}
+			save_scope_as = vikelas_baseball_state
+		}
+	}
+
+	option = {	#Nice.
+		name = vikelas.31.g
+		default_option = yes
+		vikelas_set_baseball_as_national_sport_effect = yes
+		add_modifier = {
+			name = vikelas_baseball_motherland_modifier
+		}
+		scope:vikelas_baseball_state = {
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_baseball_club
+			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = { #AI should keep old national sport
+				trigger = {
+					vikelas_is_sports_motherland_trigger = yes
+				}
+				add = -1
+			}
+		}
+	}
+
+	option = {	#No
+		name = vikelas.21.h
+		trigger = {
+			OR = {
+				is_player = yes
+				vikelas_is_sports_motherland_trigger = yes
+			}
+		}
+		add_modifier = {
+			name = vikelas_baseball_motherland_modifier
+		}
+		scope:vikelas_baseball_state = {
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_baseball_club
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+#Vikelas 41: Football
+vikelas.41 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.41.t
+
+	desc = vikelas.41.d
+
+	flavor = vikelas.41.f
+
+	placement = scope:vikelas_football_state
+	
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				total_urbanization >= 2000
+				average_sol >= 15
+				any_scope_building = {
+					is_building_type = building_vikelas_sports
+					level >= 1
+					OR = {
+						has_active_production_method = pm_vikelas_sports_facility
+						has_active_production_method = pm_vikelas_sports_stadium
+					}
+				}
+			}
+			save_scope_as = vikelas_football_state
+		}
+	}
+
+	option = {	#Nice.
+		name = vikelas.41.g
+		default_option = yes
+		vikelas_set_football_as_national_sport_effect = yes
+		add_modifier = {
+			name = vikelas_football_motherland_modifier
+		}
+		scope:vikelas_football_state = {
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_football_club
+			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = { #AI should keep old national sport
+				trigger = {
+					vikelas_is_sports_motherland_trigger = yes
+				}
+				add = -1
+			}
+		}
+	}
+
+	option = {	#No
+		name = vikelas.21.h
+		trigger = {
+			OR = {
+				is_player = yes
+				vikelas_is_sports_motherland_trigger = yes
+			}
+		}
+		add_modifier = {
+			name = vikelas_football_motherland_modifier
+		}
+		scope:vikelas_football_state = {
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_football_club
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					scope:vikelas_football_state = {
+						any_neighbouring_state = {
+							is_incorporated = yes
+							any_scope_building = {
+								is_building_type = building_vikelas_sports
+								has_active_production_method = pm_vikelas_no_football_club
+								OR = {
+									has_active_production_method = pm_vikelas_sports_facility
+									has_active_production_method = pm_vikelas_sports_stadium
+								}
+							}
+						}
+					}
+				}
+				trigger_event = {
+					id = vikelas.331
+					days = { 30 60 }
+				}
+			}
+		}
+	}
+}
+
+#Vikelas 51: Basketball
+vikelas.51 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.51.t
+
+	desc = vikelas.51.d
+
+	flavor = vikelas.51.f
+
+	placement = scope:vikelas_basketball_state
+	
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_basketball_game.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				total_urbanization >= 2500
+				average_sol >= 20
 				any_scope_building = {
 					is_building_type = building_university
 					level >= 1
 				}
 				any_scope_building = {
-					is_building_type = building_government_administration
-					has_active_production_method = pm_vikelas_sports_facilities
+					is_building_type = building_vikelas_sports
 					level >= 1
+					OR = {
+						has_active_production_method = pm_vikelas_sports_facility
+						has_active_production_method = pm_vikelas_sports_stadium
+					}
 				}
+
 			}
 			save_scope_as = vikelas_basketball_state
 		}
@@ -312,10 +612,17 @@ vikelas.21 = {
 	}
 
 	option = {	#Nice.
-		name = vikelas.21.g
+		name = vikelas.51.g
 		default_option = yes
+		vikelas_set_basketball_as_national_sport_effect = yes
 		add_modifier = {
-			name = vikelas_basketball_modifier
+			name = vikelas_basketball_motherland_modifier
+		}
+		scope:vikelas_basketball_state = {
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_basketball_club
+			}
 		}
 		var:panum_physician_var = {
 			set_variable = {
@@ -326,6 +633,49 @@ vikelas.21 = {
 				name = panum_physician_achievement_basketball_inventor_year_var
 				value = year
 			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = { #AI should keep old national sport
+				trigger = {
+					vikelas_is_sports_motherland_trigger = yes
+				}
+				add = -1
+			}
+		}
+	}
+
+	option = {	#No
+		name = vikelas.21.h
+		trigger = {
+			OR = {
+				is_player = yes
+				vikelas_is_sports_motherland_trigger = yes
+			}
+		}
+		add_modifier = {
+			name = vikelas_basketball_motherland_modifier
+		}
+		scope:vikelas_basketball_state = {
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_basketball_club
+			}
+		}
+		var:panum_physician_var = {
+			set_variable = {
+				name = panum_physician_achievement_basketball_inventor_var
+				value = flag:panum_physician_achievement_basketball_inventor_loc
+			}
+			set_variable = {
+				name = panum_physician_achievement_basketball_inventor_year_var
+				value = year
+			}
+		}
+
+		ai_chance = {
+			base = 1
 		}
 	}
 }
@@ -456,7 +806,8 @@ vikelas.101 = {
 	#The Board consists of:
 	#The Founder Country
 	#The President Country (if President and Founder are not the same)
-	#Five Greater Powers which are neither Founder nor President
+	#Four Greater Powers which are neither Founder nor President
+	#Two Major Powers
 	#Two Random IOC Members from Europe
 	#Two Random IOC Members from America
 	#Two Random IOC Members from Asia
@@ -479,7 +830,7 @@ vikelas.101 = {
 			}
 			set_variable = vikelas_ioc_board_member_var
 		}
-		###Five Great Powers are part of the Board###
+		###Four Great Powers are part of the Board###
 		random_country = {
 			limit = {
 				country_rank = rank_value:great_power
@@ -521,9 +872,20 @@ vikelas.101 = {
 			set_variable = vikelas_ioc_board_member_var
 			set_variable = vikelas_ioc_member_var
 		}
+		###Two Major Powers are part of the Board
 		random_country = {
 			limit = {
-				country_rank = rank_value:great_power
+				country_rank = rank_value:major_power
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+			set_variable = vikelas_ioc_member_var
+		}
+		random_country = {
+			limit = {
+				country_rank = rank_value:major_power
 				NOT = {
 					has_variable = vikelas_ioc_board_member_var
 				}
@@ -545,17 +907,7 @@ vikelas.101 = {
 			set_variable = vikelas_ioc_board_member_var
 			set_variable = vikelas_ioc_member_var
 		}
-		###Two Random IOC Members from Europe###
-		random_country = {
-			limit = {
-				NOT = {
-					has_variable = vikelas_ioc_board_member_var
-				}
-				has_variable = vikelas_ioc_member_var
-				country_is_in_europe = yes
-			}
-			set_variable = vikelas_ioc_board_member_var
-		}
+		###One Random IOC Members from Europe###
 		random_country = {
 			limit = {
 				NOT = {
@@ -735,22 +1087,22 @@ vikelas.102 = {
 		if = {
 			limit = {
 				NOT = {
-					has_technology_researched = organized_sports
+					has_technology_researched = vikelas_international_sports_tech
 				}
 				OR = {
 					c:GRE ?= this
 					was_formed_from = GRE
 				}
 			}
-			add_technology_researched = organized_sports
+			add_technology_researched = vikelas_international_sports_tech
 		}
 		else_if = {
 			limit = {
 				NOT = {
-					has_technology_researched = organized_sports
+					has_technology_researched = vikelas_international_sports_tech
 				}
 			}
-			add_technology_progress = { progress = 8500 technology = organized_sports }
+			add_technology_progress = { progress = 8500 technology = vikelas_international_sports_tech }
 		}
 
 		ai_chance = {
@@ -900,10 +1252,10 @@ vikelas.104 = {
 		if = {
 			limit = {
 				NOT = {
-					has_technology_researched = organized_sports
+					has_technology_researched = vikelas_international_sports_tech
 				}
 			}
-			add_technology_progress = { progress = 8500 technology = organized_sports }
+			add_technology_progress = { progress = 8500 technology = vikelas_international_sports_tech }
 		}
 
 		ai_chance = {
@@ -1399,9 +1751,20 @@ vikelas.111 = {
 			}
 			set_variable = vikelas_ioc_board_member_var
 		}
+		###Two Major Powers are part of the Board
 		random_country = {
 			limit = {
-				country_rank = rank_value:great_power
+				country_rank = rank_value:major_power
+				has_variable = vikelas_ioc_member_var
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		random_country = {
+			limit = {
+				country_rank = rank_value:major_power
 				has_variable = vikelas_ioc_member_var
 				NOT = {
 					has_variable = vikelas_ioc_board_member_var
@@ -1608,8 +1971,8 @@ vikelas.112 = {
 					has_variable = vikelas_olympics_candidate_2_var
 				}
 				any_scope_building = {
-					is_building_type = building_government_administration
-					has_active_production_method = pm_vikelas_sports_facilities
+					is_building_type = building_vikelas_sports
+					has_active_production_method = pm_vikelas_sports_stadium
 				}
 			}
 			set_variable = vikelas_olympics_candidate_3_var
@@ -2730,10 +3093,10 @@ vikelas.120 = {
 		if = {
 			limit = {
 				NOT = {
-					has_technology_researched = organized_sports
+					has_technology_researched = vikelas_international_sports_tech
 				}
 			}
-			add_technology_progress = { progress = 8500 technology = organized_sports }
+			add_technology_progress = { progress = 8500 technology = vikelas_international_sports_tech }
 		}
 
 		ai_chance = {
@@ -2919,8 +3282,6 @@ vikelas.122 = {
 	}
 }
 
-#Vikelas 122: The Reactionary Tennis Chap
-
 #Vikelas 123: Athlete misses event because of calender (participants)
 vikelas.123 = {
 	dlc = dlc_morgenrote
@@ -3011,6 +3372,7 @@ vikelas.124 = {
 	}
 
 	trigger = {
+		has_global_variable = vikelas_olympic_disciplines_cycling_enabled_global_var
 	}
 
 	immediate = {
@@ -3085,6 +3447,7 @@ vikelas.125 = {
 	}
 
 	trigger = {
+		has_global_variable = vikelas_olympic_disciplines_cycling_enabled_global_var
 		any_country = {
 			has_technology_researched = combustion_engine
 		}
@@ -3149,6 +3512,7 @@ vikelas.126 = {
 	}
 
 	trigger = {
+		has_global_variable = vikelas_olympic_disciplines_cycling_enabled_global_var
 	}
 
 	immediate = {
@@ -3188,6 +3552,7 @@ vikelas.127 = {
 	}
 
 	trigger = {
+		has_global_variable = vikelas_olympic_disciplines_cycling_enabled_global_var
 	}
 
 	immediate = {
@@ -3250,6 +3615,7 @@ vikelas.128 = {
 	}
 
 	trigger = {
+		has_global_variable = vikelas_olympic_disciplines_cycling_enabled_global_var
 	}
 
 	immediate = {
@@ -3520,6 +3886,7 @@ vikelas.131 = {
 			has_modifier = vikelas_inspiring_athlete_modifier
 		}
 		any_scope_character = {
+			age <= 50
 			is_female = no
 			has_role = general
 			is_busy = no
@@ -3563,7 +3930,10 @@ vikelas.131 = {
 					value = 2
 				}
 			}
-			1 = { 
+			1 = {
+				trigger = {
+					has_global_variable = vikelas_olympic_disciplines_equestrian_enabled_global_var
+				}
 				set_variable = {
 					name = vikelas_riding_flavor_randomizer_var
 					value = 3
@@ -3703,6 +4073,7 @@ vikelas.132 = {
 			has_modifier = vikelas_inspiring_athlete_modifier
 		}
 		any_scope_character = {
+			age <= 50
 			is_female = no
 			has_role = admiral
 			is_busy = no
@@ -3734,13 +4105,19 @@ vikelas.132 = {
 			years = 3
 		}
 		random_list = { #randomizes flavor text
-			1 = { 
+			1 = {
+				trigger = {
+					has_global_variable = vikelas_olympic_disciplines_rowing_enabled_global_var
+				}
 				set_variable = {
 					name = vikelas_rowing_flavor_randomizer_var
 					value = 1
 				}
 			}
-			1 = { 
+			1 = {
+				trigger = {
+					has_global_variable = vikelas_olympic_disciplines_sailing_enabled_global_var
+				}
 				set_variable = {
 					name = vikelas_sailing_flavor_randomizer_var
 					value = 2
@@ -3886,6 +4263,7 @@ vikelas.133 = {
 			has_modifier = vikelas_inspiring_athlete_modifier
 		}
 		any_scope_character = {
+			age <= 50
 			is_female = no
 			has_role = politician
 			is_busy = no
@@ -3914,7 +4292,10 @@ vikelas.133 = {
 			years = 3
 		}
 		random_list = { #randomizes flavor text
-			1 = { 
+			1 = {
+				trigger = {
+					has_global_variable = vikelas_olympic_disciplines_boxing_enabled_global_var
+				}
 				set_variable = {
 					name = vikelas_boxing_flavor_randomizer_var
 					value = 1
@@ -3926,7 +4307,10 @@ vikelas.133 = {
 					value = 2
 				}
 			}
-			1 = { 
+			1 = {
+				trigger = {
+					has_global_variable = vikelas_olympic_disciplines_archery_enabled_global_var
+				}
 				set_variable = {
 					name = vikelas_archery_flavor_randomizer_var
 					value = 3
@@ -4084,6 +4468,7 @@ vikelas.141 = {
 	}
 
 	trigger = {
+		has_global_variable = vikelas_olympic_disciplines_sailing_enabled_global_var
 	}
 
 	immediate = {
@@ -4921,142 +5306,9 @@ vikelas.183 = {
 
 #################################################################################
 
-###Events 300-399: Football, Baseball, Cricket###
+###Events 300-399: National Sports (Cricket, Baseball, Football, Basketball)###
 
-#Vikelas 300: Introduction of Sports
-
-vikelas.300 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = vikelas.300.t
-	desc = {
-		triggered_desc = {
-			trigger = {
-				overlord = {
-					has_variable = vikelas_football_country_var
-				}
-			}
-			desc = vikelas.300.d_football
-		}
-		triggered_desc = {
-			trigger = {
-				overlord = {
-					has_variable = vikelas_baseball_country_var
-				}
-			}
-			desc = vikelas.300.d_baseball
-		}
-		triggered_desc = {
-			trigger = {
-				overlord = {
-					has_variable = vikelas_cricket_country_var
-				}
-			}
-			desc = vikelas.300.d_cricket
-		}
-	}
-	flavor = vikelas.300.f
-
-	duration = 3
-
-	event_image = {
-		trigger = {
-			overlord = {
-				has_variable = vikelas_football_country_var
-			}
-		}
-
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
-	}
-
-	event_image = {
-		trigger = {
-			overlord = {
-				has_variable = vikelas_baseball_country_var
-			}
-		}
-
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
-	}
-
-	event_image = {
-		trigger = {
-			overlord = {
-				has_variable = vikelas_cricket_country_var
-			}
-		}
-
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_cricket_game.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_sports.dds"
-
-	trigger = {
-		has_technology_researched = organized_sports
-		NOR = {
-			has_variable = vikelas_football_country_var
-			has_variable = vikelas_baseball_country_var
-			has_variable = vikelas_cricket_country_var
-		}
-		overlord = {
-			OR = {
-				has_variable = vikelas_football_country_var
-				has_variable = vikelas_baseball_country_var
-				has_variable = vikelas_cricket_country_var
-			}
-		}
-	}
-
-	immediate = {
-		overlord = {
-			save_scope_as = vikelas_overlord_country_scope
-		}
-	}
-
-	option = {
-		name = vikelas.300.g #Football will be introduced
-		default_option = yes
-		trigger = {
-			overlord = {
-				has_variable = vikelas_football_country_var
-			}
-		}
-		set_variable = vikelas_football_country_var
-		custom_tooltip = vikelas.300.football.tt
-	}
-
-	option = {
-		name = vikelas.300.h #Baseball will be introduced
-		trigger = {
-			overlord = {
-				has_variable = vikelas_baseball_country_var
-			}
-		}
-		set_variable = vikelas_baseball_country_var
-		custom_tooltip = vikelas.300.baseball.tt
-	}
-
-	option = {
-		name = vikelas.300.i #Cricket will be introduced
-		trigger = {
-			overlord = {
-				has_variable = vikelas_cricket_country_var
-			}
-		}
-		set_variable = vikelas_cricket_country_var
-		custom_tooltip = vikelas.300.cricket.tt
-	}
-
-	after = {
-	}
-}
-
-#Vikelas 301: Football Club in $STATE$
-
+#Vikelas 301: Cricket Club in $STATE$
 vikelas.301 = {
 	dlc = dlc_morgenrote
 
@@ -5069,752 +5321,6 @@ vikelas.301 = {
 	duration = 3
 
 	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_sports.dds"
-
-	cooldown = {
-		years = 15
-	}
-
-	trigger = {
-		#OR = {
-		#	has_variable = vikelas_football_country_var
-		#	country_is_in_europe = yes
-		#	country_is_in_south_america = yes
-		#}
-		OR = {
-			has_law = law_type:law_protected_speech
-			has_law = law_type:law_right_of_assembly
-			ig:ig_petty_bourgeoisie = {
-				ig_clout >= 0.15
-			}
-			average_sol >= 25
-		}
-		any_scope_state = {
-			is_homeland_of_country_cultures = owner
-			any_scope_building = {
-				is_building_type = building_government_administration
-				has_active_production_method = pm_vikelas_sports_facilities
-			}
-			NOT = {
-				has_modifier = vikelas_football_club_modifier
-			}
-		}
-	}
-
-	immediate = {
-		set_variable = vikelas_football_country_var
-		random_scope_state = {
-			limit = {
-				is_homeland_of_country_cultures = owner
-				any_scope_building = {
-					is_building_type = building_government_administration
-					has_active_production_method = pm_vikelas_sports_facilities
-				}
-				NOT = {
-					has_modifier = vikelas_football_club_modifier
-				}
-			}
-			save_scope_as = vikelas_football_club_state_scope
-		}
-	}
-
-	option = {
-		name = vikelas.301.g #A sport worth supporting.
-		default_option = yes
-		ig:ig_trade_unions = {
-			add_modifier = {
-				name = vikelas_worker_organized_club_modifier
-				years = 5
-			}
-	    }
-		scope:vikelas_football_club_state_scope = {
-			add_modifier = {
-				name = vikelas_football_club_modifier
-			}
-			add_loyalists_in_state = {
-				value = 0.03
-				pop_type = laborers
-			}
-			add_loyalists_in_state = {
-				value = 0.03
-				pop_type = machinists
-			}
-		}
-		hidden_effect = {
-			if = {
-				limit = {
-					any_neighbouring_state = {
-						is_homeland_of_country_cultures = owner
-						any_scope_building = {
-							is_building_type = building_government_administration
-							has_active_production_method = pm_vikelas_sports_facilities
-						}
-						NOT = {
-							has_modifier = vikelas_football_club_modifier
-						}
-					}
-				}
-				trigger_event = {
-					id = vikelas.302
-					days = { 30 60 }
-				}
-			}
-		}
-
-		ai_chance = {
-			base = 90
-		}
-	}
-
-	option = {
-		name = vikelas.301.h #What a boring game.
-		scope:vikelas_football_club_state_scope = {
-			add_radicals_in_state = {
-				value = 0.01
-				pop_type = laborers
-			}
-			add_radicals_in_state = {
-				value = 0.01
-				pop_type = machinists
-			}
-		}
-		ig:ig_intelligentsia = {
-			add_modifier = {
-				name = vikelas_football_is_boring_modifier
-				years = 3
-			}
-	    }
-
-		ai_chance = {
-			base = 10
-		}
-	}
-
-	after = {
-	}
-}
-
-#Vikelas 302: Rival Football Club in $STATE$
-
-vikelas.302 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = vikelas.302.t
-	desc = vikelas.302.d
-	flavor = vikelas.302.f
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_sports.dds"
-
-	trigger = {
-	}
-
-	immediate = {
-		random_scope_state = {
-			limit = {
-				is_homeland_of_country_cultures = owner
-				any_scope_building = {
-					is_building_type = building_government_administration
-					has_active_production_method = pm_vikelas_sports_facilities
-				}
-				NOT = {
-					has_modifier = vikelas_football_club_modifier
-				}
-			}
-			save_scope_as = vikelas_football_club_state_scope
-		}
-	}
-
-	option = {
-		name = vikelas.302.g #Is this a brewing rivalry?
-		default_option = yes
-		ig:ig_trade_unions = {
-			add_modifier = {
-				name = vikelas_worker_organized_football_modifier
-				years = 5
-			}
-	    }
-		scope:vikelas_football_club_state_scope = {
-			add_modifier = {
-				name = vikelas_football_club_modifier
-			}
-			add_loyalists_in_state = {
-				value = 0.03
-				pop_type = laborers
-			}
-			add_loyalists_in_state = {
-				value = 0.03
-				pop_type = machinists
-			}
-		}
-
-		ai_chance = {
-			base = 90
-		}
-	}
-
-	after = {
-	}
-}
-
-#Vikelas 303: Football Association founded
-
-vikelas.303 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = vikelas.303.t
-	desc = vikelas.303.d
-	flavor = vikelas.303.f
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_association.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_sports.dds"
-
-	trigger = {
-		NOT = {
-			has_variable = vikelas_football_association_var
-		}
-		OR = {
-			AND = {
-				country_rank <= rank_value:major_power
-				any_scope_state = {
-					has_modifier = vikelas_football_club_modifier
-					count >= 2
-				}
-			}
-			AND = {
-				country_rank = rank_value:great_power
-				any_scope_state = {
-					has_modifier = vikelas_football_club_modifier
-					count >= 3
-				}
-			}
-		}
-	}
-
-	immediate = {
-		set_variable = vikelas_football_association_var
-	}
-
-	option = {
-		name = vikelas.303.g #Is this a brewing rivalry?
-		default_option = yes
-		add_modifier = {
-			name = vikelas_football_culture_modifier
-			years = 10
-		}
-
-		ai_chance = {
-			base = 90
-		}
-	}
-
-	after = {
-	}
-}
-
-#Vikelas 304: Football Rivalry
-
-vikelas.304 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = vikelas.304.t
-	desc = vikelas.304.d
-	flavor = vikelas.304.f
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_sports.dds"
-
-	cooldown = {
-		years = { 2 5 }
-	}
-
-	trigger = {
-		has_variable = vikelas_football_association_var
-		any_scope_state = {
-			count >= 2
-			is_homeland_of_country_cultures = owner
-			any_scope_building = {
-				is_building_type = building_government_administration
-				has_active_production_method = pm_vikelas_sports_facilities
-			}
-		}
-	}
-
-	immediate = {
-		random_scope_state = {
-			limit = {
-				is_homeland_of_country_cultures = owner
-				any_scope_building = {
-					is_building_type = building_government_administration
-					has_active_production_method = pm_vikelas_sports_facilities
-				}
-			}
-			save_scope_as = vikelas_rival_state_1_scope
-		}
-		random_scope_state = {
-			limit = {
-				is_homeland_of_country_cultures = owner
-				any_scope_building = {
-					is_building_type = building_government_administration
-					has_active_production_method = pm_vikelas_sports_facilities
-				}
-				NOT = { this = scope:vikelas_rival_state_1_scope }
-			}
-			save_scope_as = vikelas_rival_state_2_scope
-		}
-	}
-
-	option = {
-		name = vikelas.304.g #[Team 1]
-		default_option = yes
-		
-		scope:vikelas_rival_state_1_scope = {
-			add_loyalists_in_state = {
-				value = 0.07
-				strata = lower
-			}
-		}
-		scope:vikelas_rival_state_2_scope = {
-			add_radicals_in_state = {
-				value = 0.03
-				strata = lower
-			}
-		}
-
-		set_variable = {
-			name = vikelas_rival_state_var
-			value = scope:vikelas_rival_state_1_scope
-		}
-	}
-
-	option = {
-		name = vikelas.304.h #[Team 2]
-
-		scope:vikelas_rival_state_2_scope = {
-			add_loyalists_in_state = {
-				value = 0.07
-				strata = lower
-			}
-		}
-		scope:vikelas_rival_state_1_scope = {
-			add_radicals_in_state = {
-				value = 0.03
-				strata = lower
-			}
-		}
-
-		set_variable = {
-			name = vikelas_rival_state_var
-			value = scope:vikelas_rival_state_2_scope
-		}
-	}
-
-	after = {
-		random_list = {
-			6 = {}
-			3 = {
-				trigger_event = {
-					id = vikelas.305
-					days = { 2 7 }
-				}
-			}
-			1 = {
-				trigger_event = {
-					id = vikelas.306
-					days = { 2 7 }
-				}
-			}
-		}
-	}
-}
-
-#Vikelas 305: Football Hooligans
-
-vikelas.305 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = vikelas.305.t
-	desc = vikelas.305.d
-	flavor = vikelas.305.f
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_sports.dds"
-
-	trigger = {
-	}
-
-	immediate = {
-	}
-
-	option = {
-		name = vikelas.305.g #What a mess!
-		default_option = yes
-
-		var:vikelas_rival_state_var = {
-			add_radicals_in_state = {
-				value = 0.05
-			}
-			state_region = {
-				add_devastation = 2
-			}
-		}
-	}
-
-	after = {
-		remove_variable = vikelas_rival_state_var
-	}
-}
-
-#Vikelas 306: A Football Champion is born!
-
-vikelas.306 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = vikelas.306.t
-	desc = vikelas.306.d
-	flavor = vikelas.306.f
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_sports.dds"
-
-	trigger = {
-	}
-
-	immediate = {
-	}
-
-	option = {
-		name = vikelas.306.g #We are the Champions!
-		default_option = yes
-
-		var:vikelas_rival_state_var = {
-			add_loyalists_in_state = {
-				value = 0.2
-				strata = lower
-			}
-		}
-	}
-
-	after = {
-		remove_variable = vikelas_rival_state_var
-	}
-}
-
-#Vikelas 311: Baseball Club in $STATE$
-
-vikelas.311 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = vikelas.311.t
-	desc = vikelas.311.d
-	flavor = vikelas.311.f
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_sports.dds"
-
-	cooldown = {
-		years = 15
-	}
-
-	trigger = {
-		OR = {
-			c:USA ?= this
-			has_variable = vikelas_baseball_country_var
-		}
-		OR = {
-			has_law = law_type:law_protected_speech
-			has_law = law_type:law_right_of_assembly
-		}
-		any_scope_state = {
-			is_homeland_of_country_cultures = owner
-			any_scope_building = {
-				is_building_type = building_government_administration
-				has_active_production_method = pm_vikelas_sports_facilities
-			}
-			NOT = {
-				has_modifier = vikelas_baseball_club_modifier
-			}
-		}
-	}
-
-	immediate = {
-		set_variable = vikelas_baseball_country_var
-		random_scope_state = {
-			limit = {
-				is_homeland_of_country_cultures = owner
-				any_scope_building = {
-					is_building_type = building_government_administration
-					has_active_production_method = pm_vikelas_sports_facilities
-				}
-				NOT = {
-					has_modifier = vikelas_baseball_club_modifier
-				}
-			}
-			save_scope_as = vikelas_baseball_club_state_scope
-		}
-	}
-
-	option = {
-		name = vikelas.301.g #A sport worth supporting.
-		default_option = yes
-		ig:ig_petty_bourgeoisie = {
-			add_modifier = {
-				name = vikelas_citizen_organized_club_modifier
-				years = 5
-			}
-	    }
-		scope:vikelas_baseball_club_state_scope = {
-			add_modifier = {
-				name = vikelas_baseball_club_modifier
-			}
-			add_loyalists_in_state = {
-				value = 0.03
-				pop_type = clerks
-			}
-			add_loyalists_in_state = {
-				value = 0.03
-				pop_type = engineers
-			}
-			add_loyalists_in_state = {
-				value = 0.03
-				pop_type = shopkeepers
-			}
-			add_loyalists_in_state = {
-				value = 0.03
-				pop_type = bureaucrats
-			}
-		}
-
-		ai_chance = {
-			base = 90
-		}
-	}
-
-	option = {
-		name = vikelas.311.h #What a boring game.
-		scope:vikelas_baseball_club_state_scope = {
-			add_radicals_in_state = {
-				value = 0.01
-				pop_type = clerks
-			}
-			add_radicals_in_state = {
-				value = 0.01
-				pop_type = engineers
-			}
-			add_radicals_in_state = {
-				value = 0.01
-				pop_type = shopkeepers
-			}
-			add_radicals_in_state = {
-				value = 0.01
-				pop_type = bureaucrats
-			}
-		}
-		ig:ig_intelligentsia = {
-			add_modifier = {
-				name = vikelas_baseball_is_overrated_modifier
-				years = 3
-			}
-	    }
-
-		ai_chance = {
-			base = 10
-		}
-	}
-
-	after = {
-	}
-}
-
-#Vikelas 313: Baseball League founded
-
-vikelas.313 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = vikelas.313.t
-	desc = vikelas.313.d
-	flavor = vikelas.313.f
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_sports.dds"
-
-	trigger = {
-		NOT = {
-			has_variable = vikelas_baseball_league_var
-		}
-		OR = {
-			AND = {
-				country_rank <= rank_value:major_power
-				any_scope_state = {
-					has_modifier = vikelas_baseball_club_modifier
-					count >= 2
-				}
-			}
-			AND = {
-				country_rank = rank_value:great_power
-				any_scope_state = {
-					has_modifier = vikelas_baseball_club_modifier
-					count >= 3
-				}
-			}
-		}
-	}
-
-	immediate = {
-		set_variable = vikelas_baseball_league_var
-	}
-
-	option = {
-		name = vikelas.313.g #Is this a brewing rivalry?
-		default_option = yes
-		add_modifier = {
-			name = vikelas_baseball_culture_modifier
-			years = 10
-		}
-
-		ai_chance = {
-			base = 90
-		}
-	}
-
-	after = {
-	}
-}
-
-#Vikelas 314: Baseball for Japan and Cuba
-
-vikelas.314 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = vikelas.314.t
-	desc = vikelas.314.d
-	flavor = vikelas.314.f
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_sports.dds"
-
-	trigger = {
-		has_technology_researched = organized_sports
-		NOR = {
-			has_variable = vikelas_football_country_var
-			has_variable = vikelas_baseball_country_var
-			has_variable = vikelas_cricket_country_var
-		}
-		OR = {
-			c:JAP ?= this
-			c:CUB ?= this
-		}
-	}
-
-	immediate = {
-		set_variable = vikelas_baseball_country_var
-	}
-
-	option = {
-		name = vikelas.314.g #Get your club!
-		default_option = yes
-		custom_tooltip = vikelas.300.baseball.tt
-
-		ai_chance = {
-			base = 90
-		}
-	}
-
-	after = {
-	}
-}
-
-#Vikelas 321: Cricket Club in $STATE$
-
-vikelas.321 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = vikelas.321.t
-	desc = vikelas.321.d
-	flavor = vikelas.321.f
-
-	duration = 3
-
-	event_image = {
 		texture = "gfx/event_pictures/vikelas_pictures/vikelas_cricket_game.dds"
 	}
 
@@ -5822,35 +5328,30 @@ vikelas.321 = {
 
 	icon = "gfx/interface/icons/event_icons/event_sports.dds"
 
-	cooldown = {
-		years = 15
-	}
-
 	trigger = {
-		OR = {
+		has_global_variable = vikelas_cricket_motherland_global_var
+		NOT = {
 			has_variable = vikelas_cricket_country_var
-			exists = c:GBR
-			has_subject_relation_with = c:GBR
-			country_has_primary_culture = cu:british
-			country_has_primary_culture = cu:irish
-			country_has_primary_culture = cu:scottish
-			country_has_primary_culture = cu:welsh
-			country_has_primary_culture = cu:australian
-			country_has_primary_culture = cu:afro_caribbean
-			country_has_primary_culture = cu:anglo_canadian
 		}
 		OR = {
-			has_law = law_type:law_protected_speech
-			has_law = law_type:law_right_of_assembly
+			AND = {
+				is_subject = yes
+				overlord = {
+					vikelas_has_national_sport_cricket_trigger = yes
+				}
+			}
+			AND = {
+				is_in_power_bloc = yes
+				power_bloc.power_bloc_leader = {
+					vikelas_has_national_sport_cricket_trigger = yes
+				}
+			}
 		}
 		any_scope_state = {
-			is_homeland_of_country_cultures = owner
+			is_incorporated = yes
 			any_scope_building = {
-				is_building_type = building_government_administration
-				has_active_production_method = pm_vikelas_sports_facilities
-			}
-			NOT = {
-				has_modifier = vikelas_cricket_club_modifier
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_no_cricket_club
 			}
 		}
 	}
@@ -5859,13 +5360,10 @@ vikelas.321 = {
 		set_variable = vikelas_cricket_country_var
 		random_scope_state = {
 			limit = {
-				is_homeland_of_country_cultures = owner
+				is_incorporated = yes
 				any_scope_building = {
-					is_building_type = building_government_administration
-					has_active_production_method = pm_vikelas_sports_facilities
-				}
-				NOT = {
-					has_modifier = vikelas_cricket_club_modifier
+					is_building_type = building_vikelas_sports
+					has_active_production_method = pm_vikelas_no_cricket_club
 				}
 			}
 			save_scope_as = vikelas_cricket_club_state_scope
@@ -5888,8 +5386,9 @@ vikelas.321 = {
 			}
 	    }
 		scope:vikelas_cricket_club_state_scope = {
-			add_modifier = {
-				name = vikelas_cricket_club_modifier
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_cricket_club
 			}
 			add_loyalists_in_state = {
 				value = 0.03
@@ -5911,8 +5410,12 @@ vikelas.321 = {
 	}
 
 	option = {
-		name = vikelas.321.h #What a boring game.
+		name = vikelas.301.h #What a boring game.
 		scope:vikelas_cricket_club_state_scope = {
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_cricket_club
+			}
 			add_radicals_in_state = {
 				value = 0.01
 				pop_type = aristocrats
@@ -5942,6 +5445,2995 @@ vikelas.321 = {
 	}
 }
 
+#Vikelas 302: Baseball Club in $STATE$
+vikelas.302 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.302.t
+	desc = vikelas.302.d
+	flavor = vikelas.302.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		has_global_variable = vikelas_baseball_motherland_global_var
+		NOT = {
+			has_variable = vikelas_baseball_country_var
+		}
+		OR = {
+			country_is_in_north_america = yes
+			country_is_in_central_america = yes
+			AND = {
+				is_subject = yes
+				overlord = {
+					vikelas_has_national_sport_baseball_trigger = yes
+				}
+			}
+			AND = {
+				is_in_power_bloc = yes
+				power_bloc.power_bloc_leader = {
+					vikelas_has_national_sport_baseball_trigger = yes
+				}
+			}
+		}
+		any_scope_state = {
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_no_baseball_club
+				OR = {
+					has_active_production_method = pm_vikelas_sports_facility
+					has_active_production_method = pm_vikelas_sports_stadium
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_baseball_country_var
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_vikelas_sports
+					has_active_production_method = pm_vikelas_no_baseball_club
+					OR = {
+						has_active_production_method = pm_vikelas_sports_facility
+						has_active_production_method = pm_vikelas_sports_stadium
+					}
+				}
+			}
+			save_scope_as = vikelas_baseball_club_state_scope
+		}
+	}
+
+	option = {
+		name = vikelas.302.g #A sport worth supporting.
+		default_option = yes
+		ig:ig_petty_bourgeoisie = {
+			add_modifier = {
+				name = vikelas_citizen_organized_club_modifier
+				years = 5
+			}
+	    }
+		scope:vikelas_baseball_club_state_scope = {
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_baseball_club
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = clerks
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = engineers
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = shopkeepers
+			}
+		}
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	option = {
+		name = vikelas.302.h #What a boring game.
+		scope:vikelas_baseball_club_state_scope = {
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_baseball_club
+			}
+			add_radicals_in_state = {
+				value = 0.01
+				pop_type = clerks
+			}
+			add_radicals_in_state = {
+				value = 0.01
+				pop_type = engineers
+			}
+			add_radicals_in_state = {
+				value = 0.01
+				pop_type = shopkeepers
+			}
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = vikelas_baseball_is_overrated_modifier
+				years = 3
+			}
+	    }
+
+		ai_chance = {
+			base = 10
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 303: Football Club in $STATE$
+vikelas.303 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.303.t
+	desc = vikelas.303.d
+	flavor = vikelas.303.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		has_global_variable = vikelas_football_motherland_global_var
+		NOT = {
+			has_variable = vikelas_football_country_var
+		}
+		any_scope_state = {
+			is_incorporated = yes
+			average_sol >= 15
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_no_football_club
+				OR = {
+					has_active_production_method = pm_vikelas_sports_facility
+					has_active_production_method = pm_vikelas_sports_stadium
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_football_country_var
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_vikelas_sports
+					has_active_production_method = pm_vikelas_no_football_club
+					OR = {
+						has_active_production_method = pm_vikelas_sports_facility
+						has_active_production_method = pm_vikelas_sports_stadium
+					}
+				}
+			}
+			save_scope_as = vikelas_football_club_state_scope
+		}
+	}
+
+	option = {
+		name = vikelas.303.g #A sport worth supporting.
+		default_option = yes
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = vikelas_worker_organized_club_modifier
+				years = 5
+			}
+	    }
+		scope:vikelas_football_club_state_scope = {
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_football_club
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = laborers
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = machinists
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					scope:vikelas_football_state = {
+						any_neighbouring_state = {
+							is_incorporated = yes
+							any_scope_building = {
+								is_building_type = building_vikelas_sports
+								has_active_production_method = pm_vikelas_no_football_club
+								OR = {
+									has_active_production_method = pm_vikelas_sports_facility
+									has_active_production_method = pm_vikelas_sports_stadium
+								}
+							}
+						}
+					}
+				}
+				trigger_event = {
+					id = vikelas.331
+					days = { 30 60 }
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	option = {
+		name = vikelas.303.h #What a boring game.
+		scope:vikelas_football_club_state_scope = {
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_football_club
+			}
+			add_radicals_in_state = {
+				value = 0.01
+				pop_type = laborers
+			}
+			add_radicals_in_state = {
+				value = 0.01
+				pop_type = machinists
+			}
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = vikelas_football_is_boring_modifier
+				years = 3
+			}
+	    }
+
+		ai_chance = {
+			base = 10
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 304: Basketball Club in $STATE$
+vikelas.304 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.304.t
+	desc = vikelas.304.d
+	flavor = vikelas.304.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_basketball_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		has_global_variable = vikelas_basketball_motherland_global_var
+		NOT = {
+			has_variable = vikelas_basketball_country_var
+		}
+		any_scope_state = {
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_no_basketball_club
+				has_active_production_method = pm_vikelas_sports_stadium
+			}
+			any_scope_building = {
+				is_building_type = building_university
+				level >= 1
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_basketball_country_var
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_vikelas_sports
+					has_active_production_method = pm_vikelas_no_basketball_club
+					has_active_production_method = pm_vikelas_sports_stadium
+				}
+				any_scope_building = {
+					is_building_type = building_university
+					level >= 1
+				}
+			}
+			save_scope_as = vikelas_basketball_club_state_scope
+		}
+	}
+
+	option = {
+		name = vikelas.304.g #A sport worth supporting.
+		default_option = yes
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = vikelas_academy_organized_club_modifier
+				years = 5
+			}
+	    }
+		scope:vikelas_basketball_club_state_scope = {
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_basketball_club
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = bureaucrats
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = academics
+			}
+		}
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 310: New Cricket Club (hidden)
+vikelas.310 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		any_scope_state = {
+			is_incorporated = yes
+			is_production_method_active = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_no_cricket_club
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_cricket_country_var
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				is_production_method_active = {
+					building_type = building_vikelas_sports
+					production_method = pm_vikelas_no_cricket_club
+				}
+			}
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_cricket_club
+			}
+			save_scope_as = vikelas_club_state_scope
+		}
+		post_notification = vikelas_new_cricket_club
+	}
+}
+
+#Vikelas 311: Sports Gazette
+vikelas.311 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.311.t
+	desc = vikelas.311.d
+	flavor = vikelas.311.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_gazetta.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = vikelas_sports_gazette_var
+		}
+		manzoni_has_printing_industry = yes
+	}
+
+	immediate = {
+		set_variable = vikelas_sports_gazette_var
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_manzoni_publishing_industry
+					is_under_construction = no
+				}
+			}
+			save_scope_as = vikelas_gazette_state
+		}
+	}
+
+	option = {
+		name = vikelas.311.g #
+		default_option = yes
+		scope:vikelas_gazette_state = {
+			add_modifier = {
+				name = vikelas_sports_gazette_modifier
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 312: Sports Radio
+vikelas.312 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.312.t
+	desc = vikelas.312.d
+	flavor = vikelas.312.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_gazetta.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = vikelas_sports_radio_var
+		}
+		manzoni_has_printing_industry = yes
+	}
+
+	immediate = {
+		set_variable = vikelas_sports_radio_var
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_electrics_industry
+					is_under_construction = no
+					has_active_production_method = pm_radios
+				}
+			}
+			save_scope_as = vikelas_radio_state
+		}
+	}
+
+	option = {
+		name = vikelas.312.g #
+		default_option = yes
+		scope:vikelas_radio_state = {
+			add_modifier = {
+				name = vikelas_sports_radio_modifier
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 318: Cricket Association
+vikelas.318 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.318.t
+	desc = vikelas.318.d
+	flavor = vikelas.318.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_cricket_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		vikelas_has_cricket_association_trigger = no
+		OR = {
+			any_scope_building = {
+				filter = {
+					is_building_type = building_vikelas_sports
+				}
+				has_active_production_method = pm_vikelas_cricket_club
+				percent >= 0.35
+			}
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_cricket_club
+				count >= 4
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_cricket_association_var
+	}
+
+	option = {
+		name = vikelas.318.g #Found the Association.
+		default_option = yes		
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 319: International cricket match (hidden)
+vikelas.319 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		has_technology_researched = vikelas_international_sports_tech
+		vikelas_has_coach = yes
+		vikelas_has_cricket_association_trigger = yes
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_technology_researched = vikelas_international_sports_tech
+				has_journal_entry = je_vikelas_cricket_national_league
+				NOT = {
+					this = ROOT
+				}
+			}
+			save_scope_as = vikelas_rival_scope
+		}
+		if = {
+			limit = {
+				vikelas_national_cricket_team_game_value > scope:vikelas_rival_scope.vikelas_national_cricket_team_game_value
+			}
+			coach_experience_gain_effect = {
+				AMOUNT = 10
+			}
+			post_notification = vikelas_national_sports_match_won
+			random_list = { #randomizes flavor match number 1
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 101 200 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 0 100 }
+    						round = yes
+						}
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 151 350 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 100 150 }
+    						round = yes
+						}
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 251 300 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 150 250 }
+    						round = yes
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				vikelas_national_cricket_team_game_value < scope:vikelas_rival_scope.vikelas_national_cricket_team_game_value
+			}
+			post_notification = vikelas_national_sports_match_lost
+			random_list = { #randomizes flavor match number 
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 50 150 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 151 200 }
+    						round = yes
+						}
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 101 200 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 201 250 }
+    						round = yes
+						}
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 250 300 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 350 400 }
+    						round = yes
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				vikelas_national_cricket_team_game_value = scope:vikelas_rival_scope.vikelas_national_cricket_team_game_value
+			}
+			coach_experience_gain_effect = {
+				AMOUNT = 5
+			}
+			post_notification = vikelas_national_sports_match_undecided
+			random_list = { #randomizes flavor match number 1
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = 149
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = 149
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = 166
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = 166
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = 223
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = 223
+					}
+				}
+			}
+		}
+	}
+
+	after = {
+		remove_variable = vikelas_first_match_number_var
+		remove_variable = vikelas_second_match_number_var
+	}
+}
+
+#Vikelas 320: New Baseball Club (hidden)
+vikelas.320 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		any_scope_state = {
+			is_incorporated = yes
+			is_production_method_active = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_no_baseball_club
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_baseball_country_var
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				is_production_method_active = {
+					building_type = building_vikelas_sports
+					production_method = pm_vikelas_no_baseball_club
+				}
+			}
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_baseball_club
+			}
+			save_scope_as = vikelas_club_state_scope
+		}
+		post_notification = vikelas_new_baseball_club
+	}
+}
+
+#Vikelas 321: Baseball for Japan and Cuba
+vikelas.321 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.321.t
+	desc = vikelas.321.d
+	flavor = vikelas.321.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		game_date >= 1870
+		has_global_variable = vikelas_baseball_motherland_global_var
+		OR = {
+			c:JAP ?= this
+			c:CUB ?= this
+		}
+		NOT = {
+			has_variable = vikelas_baseball_country_var
+		}
+		has_technology_researched = organized_sports
+		any_scope_state = {
+			is_production_method_active = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_no_baseball_club
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_baseball_country_var
+		random_scope_state = {
+			limit = {
+				is_production_method_active = {
+					building_type = building_vikelas_sports
+					production_method = pm_vikelas_no_baseball_club
+				}
+			}
+			save_scope_as = vikelas_baseball_club_state_scope
+		}
+	}
+
+	option = {
+		name = vikelas.321.g #Get your club!
+		default_option = yes
+		scope:vikelas_baseball_club_state_scope = {
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_baseball_club
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 322: Baseball Cards
+vikelas.322 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.322.t
+	desc = vikelas.322.d
+	flavor = vikelas.322.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = vikelas_baseball_cards_var
+		}
+		has_technology_researched = camera
+		any_company = {
+			company_is_prosperous = yes
+			is_producing_prestige_goods = yes
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_baseball_cards_var
+		random_company = {
+			limit = {
+				company_is_prosperous = yes
+				is_producing_prestige_goods = yes
+			}
+			save_scope_as = vikelas_baseballcards_company
+		}
+	}
+
+	option = {
+		name = vikelas.322.g #When will the scrapbooks be released?
+		default_option = yes
+		every_scope_state = {
+			limit = {
+				is_production_method_active = {
+					building_type = building_vikelas_sports
+					production_method = pm_vikelas_baseball_club
+				}
+			}
+			add_loyalists_in_state = {
+				value = 0.02
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 328: Baseball Association
+vikelas.328 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.318.t
+	desc = vikelas.318.d
+	flavor = vikelas.318.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_team.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		vikelas_has_baseball_association_trigger = no
+		OR = {
+			any_scope_building = {
+				filter = {
+					is_building_type = building_vikelas_sports
+				}
+				has_active_production_method = pm_vikelas_baseball_club
+				percent >= 0.35
+			}
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_baseball_club
+				count >= 4
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_baseball_association_var
+	}
+
+	option = {
+		name = vikelas.318.g #Found the Association.
+		default_option = yes		
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 329: International baseball match (hidden)
+vikelas.329 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		has_technology_researched = vikelas_international_sports_tech
+		vikelas_has_coach = yes
+		vikelas_has_baseball_association_trigger = yes
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_journal_entry = je_vikelas_baseball_national_league
+				NOT = {
+					this = ROOT
+				}
+			}
+			save_scope_as = vikelas_rival_scope
+		}
+		if = {
+			limit = {
+				vikelas_national_baseball_team_game_value > scope:vikelas_rival_scope.vikelas_national_baseball_team_game_value
+			}
+			coach_experience_gain_effect = {
+				AMOUNT = 10
+			}
+			post_notification = vikelas_national_sports_match_won
+			random_list = { #randomizes flavor match number 1
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 51 55 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 45 50 }
+    						round = yes
+						}
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 56 61 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 51 55 }
+    						round = yes
+						}
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 62 64 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 56 61 }
+    						round = yes
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				vikelas_national_baseball_team_game_value < scope:vikelas_rival_scope.vikelas_national_baseball_team_game_value
+			}
+			post_notification = vikelas_national_sports_match_lost
+			random_list = { #randomizes flavor match number 
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 45 50 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 51 55 }
+    						round = yes
+						}
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 45 50 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 51 60 }
+    						round = yes
+						}
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 51 55 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 56 65 }
+    						round = yes
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				vikelas_national_baseball_team_game_value = scope:vikelas_rival_scope.vikelas_national_baseball_team_game_value
+			}
+			coach_experience_gain_effect = {
+				AMOUNT = 5
+			}
+			post_notification = vikelas_national_sports_match_undecided
+			random_list = { #randomizes flavor match number 1
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = 41
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = 41
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = 53
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = 53
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = 61
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = 61
+					}
+				}
+			}
+		}
+	}
+}
+
+#Vikelas 330: New Football Club (hidden)
+vikelas.330 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		any_scope_state = {
+			is_incorporated = yes
+			is_production_method_active = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_no_football_club
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_football_country_var
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				is_production_method_active = {
+					building_type = building_vikelas_sports
+					production_method = pm_vikelas_no_football_club
+				}
+			}
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_football_club
+			}
+			save_scope_as = vikelas_club_state_scope
+		}
+		post_notification = vikelas_new_football_club
+	}
+}
+
+#Vikelas 331: Rival Football Club in $STATE$
+vikelas.331 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.331.t
+	desc = vikelas.331.d
+	flavor = vikelas.331.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_vikelas_sports
+					has_active_production_method = pm_vikelas_no_football_club
+					OR = {
+						has_active_production_method = pm_vikelas_sports_facility
+						has_active_production_method = pm_vikelas_sports_stadium
+					}
+				}
+			}
+			save_scope_as = vikelas_football_club_state_scope
+		}
+	}
+
+	option = {
+		name = vikelas.331.g #Is this a brewing rivalry?
+		default_option = yes
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = vikelas_worker_organized_football_modifier
+				years = 5
+			}
+	    }
+		scope:vikelas_football_club_state_scope = {
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_football_club
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = laborers
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = machinists
+			}
+		}
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 332: Football Rivalry
+vikelas.332 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.332.t
+	desc = vikelas.332.d
+	flavor = vikelas.332.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+		vikelas_has_football_association_trigger = yes
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_vikelas_sports
+					has_active_production_method = pm_vikelas_football_club
+				}
+			}
+			save_scope_as = vikelas_rival_state_1_scope
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_vikelas_sports
+					has_active_production_method = pm_vikelas_football_club
+				}
+				NOT = { this = scope:vikelas_rival_state_1_scope }
+			}
+			save_scope_as = vikelas_rival_state_2_scope
+		}
+	}
+
+	option = {
+		name = vikelas.332.g #[Team 1]
+		default_option = yes
+		
+		scope:vikelas_rival_state_1_scope = {
+			add_loyalists_in_state = {
+				value = 0.07
+				strata = lower
+			}
+		}
+		scope:vikelas_rival_state_2_scope = {
+			add_radicals_in_state = {
+				value = 0.03
+				strata = lower
+			}
+		}
+
+		set_variable = {
+			name = vikelas_rival_state_var
+			value = scope:vikelas_rival_state_1_scope
+		}
+	}
+
+	option = {
+		name = vikelas.332.h #[Team 2]
+
+		scope:vikelas_rival_state_2_scope = {
+			add_loyalists_in_state = {
+				value = 0.07
+				strata = lower
+			}
+		}
+		scope:vikelas_rival_state_1_scope = {
+			add_radicals_in_state = {
+				value = 0.03
+				strata = lower
+			}
+		}
+
+		set_variable = {
+			name = vikelas_rival_state_var
+			value = scope:vikelas_rival_state_2_scope
+		}
+	}
+
+	after = {
+		random_list = {
+			6 = {}
+			3 = {
+				trigger_event = {
+					id = vikelas.333
+					days = { 2 7 }
+				}
+			}
+			1 = {
+				trigger_event = {
+					id = vikelas.334
+					days = { 2 7 }
+				}
+			}
+		}
+	}
+}
+
+#Vikelas 333: Football Hooligans
+vikelas.333 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.333.t
+	desc = vikelas.333.d
+	flavor = vikelas.333.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.333.g #What a mess!
+		default_option = yes
+
+		var:vikelas_rival_state_var = {
+			add_radicals_in_state = {
+				value = 0.05
+			}
+			state_region = {
+				add_devastation = 2
+			}
+		}
+	}
+
+	after = {
+		remove_variable = vikelas_rival_state_var
+	}
+}
+
+#Vikelas 334: A Football Champion is born!
+vikelas.334 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.334.t
+	desc = vikelas.334.d
+	flavor = vikelas.334.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.334.g #We are the Champions!
+		default_option = yes
+
+		var:vikelas_rival_state_var = {
+			add_loyalists_in_state = {
+				value = 0.2
+				strata = lower
+			}
+		}
+	}
+
+	after = {
+		remove_variable = vikelas_rival_state_var
+	}
+}
+
+#Vikelas 338: Football Association
+vikelas.338 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.318.t
+	desc = vikelas.318.d
+	flavor = vikelas.318.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_team.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		vikelas_has_football_association_trigger = no
+		OR = {
+			any_scope_building = {
+				filter = {
+					is_building_type = building_vikelas_sports
+				}
+				has_active_production_method = pm_vikelas_football_club
+				percent >= 0.35
+			}
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_football_club
+				count >= 4
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_football_association_var
+	}
+
+	option = {
+		name = vikelas.318.g #Found the Association.
+		default_option = yes		
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 339: International football match (hidden)
+vikelas.339 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		has_technology_researched = vikelas_international_sports_tech
+		vikelas_has_coach = yes
+		vikelas_has_football_association_trigger = yes
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_journal_entry = je_vikelas_football_national_league
+				NOT = {
+					this = ROOT
+				}
+			}
+			save_scope_as = vikelas_rival_scope
+		}
+		if = {
+			limit = {
+				vikelas_national_football_team_game_value > scope:vikelas_rival_scope.vikelas_national_football_team_game_value
+			}
+			coach_experience_gain_effect = {
+				AMOUNT = 10
+			}
+			post_notification = vikelas_national_sports_match_won
+			random_list = { #randomizes flavor match number 1
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 1 3 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = 0
+    						round = yes
+						}
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 3 5 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 1 2 }
+    						round = yes
+						}
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 4 6 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 2 3 }
+    						round = yes
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				vikelas_national_football_team_game_value < scope:vikelas_rival_scope.vikelas_national_football_team_game_value
+			}
+			post_notification = vikelas_national_sports_match_lost
+			random_list = { #randomizes flavor match number 
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = 0
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 1 2 }
+    						round = yes
+						}
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 1 2 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 3 5 }
+    						round = yes
+						}
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 2 3 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 4 6 }
+    						round = yes
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				vikelas_national_football_team_game_value = scope:vikelas_rival_scope.vikelas_national_football_team_game_value
+			}
+			coach_experience_gain_effect = {
+				AMOUNT = 5
+			}
+			post_notification = vikelas_national_sports_match_undecided
+			random_list = { #randomizes flavor match number 1
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = 1
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = 1
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = 2
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = 2
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = 0
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = 0
+					}
+				}
+			}
+		}
+	}
+}
+
+#Vikelas 340: New Basketball Club (hidden)
+vikelas.340 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		any_scope_state = {
+			is_incorporated = yes
+			is_production_method_active = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_no_basketball_club
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_basketball_country_var
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				is_production_method_active = {
+					building_type = building_vikelas_sports
+					production_method = pm_vikelas_no_basketball_club
+				}
+			}
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_basketball_club
+			}
+			save_scope_as = vikelas_club_state_scope
+		}
+		post_notification = vikelas_new_basketball_club
+	}
+}
+
+#Vikelas 348: Basketball Association
+vikelas.348 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.318.t
+	desc = vikelas.318.d
+	flavor = vikelas.318.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_basketball_team.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		vikelas_has_basketball_association_trigger = no
+		OR = {
+			any_scope_building = {
+				filter = {
+					is_building_type = building_vikelas_sports
+				}
+				has_active_production_method = pm_vikelas_basketball_club
+				percent >= 0.35
+			}
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_basketball_club
+				count >= 4
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = vikelas_basketball_association_var
+	}
+
+	option = {
+		name = vikelas.318.g #Found the Association.
+		default_option = yes		
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 349: International basketball match (hidden)
+vikelas.349 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		has_technology_researched = vikelas_international_sports_tech
+		vikelas_has_coach = yes
+		vikelas_has_basketball_association_trigger = yes
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_journal_entry = je_vikelas_basketball_national_league
+				NOT = {
+					this = ROOT
+				}
+			}
+			save_scope_as = vikelas_rival_scope
+		}
+		if = {
+			limit = {
+				vikelas_national_basketball_team_game_value > scope:vikelas_rival_scope.vikelas_national_basketball_team_game_value
+			}
+			coach_experience_gain_effect = {
+				AMOUNT = 10
+			}
+			post_notification = vikelas_national_sports_match_won
+			random_list = { #randomizes flavor match number 1
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 91 100 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 80 90 }
+    						round = yes
+						}
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 111 120 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 101 110 }
+    						round = yes
+						}
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 126 139 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 115 125 }
+    						round = yes
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				vikelas_national_basketball_team_game_value < scope:vikelas_rival_scope.vikelas_national_basketball_team_game_value
+			}
+			post_notification = vikelas_national_sports_match_lost
+			random_list = { #randomizes flavor match number 
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 80 90 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 91 100 }
+    						round = yes
+						}
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 91 100 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 101 110 }
+    						round = yes
+						}
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = {
+    						value = { 101 120 }
+    						round = yes
+						}
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = {
+    						value = { 121 130 }
+    						round = yes
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				vikelas_national_basketball_team_game_value = scope:vikelas_rival_scope.vikelas_national_basketball_team_game_value
+			}
+			coach_experience_gain_effect = {
+				AMOUNT = 5
+			}
+			post_notification = vikelas_national_sports_match_undecided
+			random_list = { #randomizes flavor match number 1
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = 88
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = 88
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = 102
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = 102
+					}
+				}
+				1 = { 
+					set_variable = {
+						name = vikelas_first_match_number_var
+						value = 116
+					}
+					set_variable = {
+						name = vikelas_second_match_number_var
+						value = 116
+					}
+				}
+			}
+		}
+	}
+}
+
+#Vikelas 350: National League Cup (hidden)
+vikelas.350 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		vikelas_has_coach = yes
+		OR = {
+			vikelas_has_cricket_association_trigger = yes
+			vikelas_has_baseball_association_trigger = yes
+			vikelas_has_football_association_trigger = yes
+			vikelas_has_basketball_association_trigger = yes
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				any_scope_state = {
+					has_modifier = vikelas_national_league_champion_modifier
+				}
+			}
+			every_scope_state = {
+				limit = {
+					has_modifier = vikelas_national_league_champion_modifier
+				}
+				remove_modifier = vikelas_national_league_champion_modifier
+			}
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_vikelas_cricket_national_league
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_vikelas_sports
+						production_method = pm_vikelas_cricket_club
+					}
+					count >= 2
+				}
+			}
+			random_scope_state = {
+				limit = {
+					any_scope_building = {
+						is_building_type = building_vikelas_sports
+						has_active_production_method = pm_vikelas_cricket_club
+					}
+				}
+				save_scope_as = vikelas_rival_state_1_scope
+				add_modifier = {
+					name = vikelas_national_league_champion_modifier
+					days = 365
+				}
+			}
+			random_scope_state = {
+				limit = {
+					any_scope_building = {
+						is_building_type = building_vikelas_sports
+						has_active_production_method = pm_vikelas_cricket_club
+					}
+					NOT = { this = scope:vikelas_rival_state_1_scope }
+				}
+				save_scope_as = vikelas_rival_state_2_scope
+			}
+			set_variable = {
+				name = vikelas_national_league_champion_var
+				value = scope:vikelas_rival_state_1_scope
+			}
+			post_notification = vikelas_national_cricket_league_champion
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_vikelas_baseball_national_league
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_vikelas_sports
+						production_method = pm_vikelas_baseball_club
+					}
+					count >= 2
+				}
+			}
+			random_scope_state = {
+				limit = {
+					any_scope_building = {
+						is_building_type = building_vikelas_sports
+						has_active_production_method = pm_vikelas_baseball_club
+					}
+				}
+				save_scope_as = vikelas_rival_state_1_scope
+				add_modifier = {
+					name = vikelas_national_league_champion_modifier
+					days = 365
+				}
+			}
+			random_scope_state = {
+				limit = {
+					any_scope_building = {
+						is_building_type = building_vikelas_sports
+						has_active_production_method = pm_vikelas_baseball_club
+					}
+					NOT = { this = scope:vikelas_rival_state_1_scope }
+				}
+				save_scope_as = vikelas_rival_state_2_scope
+			}
+			set_variable = {
+				name = vikelas_national_league_champion_var
+				value = scope:vikelas_rival_state_1_scope
+			}
+			post_notification = vikelas_national_baseball_league_champion
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_vikelas_football_national_league
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_vikelas_sports
+						production_method = pm_vikelas_football_club
+					}
+					count >= 2
+				}
+			}
+			random_scope_state = {
+				limit = {
+					any_scope_building = {
+						is_building_type = building_vikelas_sports
+						has_active_production_method = pm_vikelas_football_club
+					}
+				}
+				save_scope_as = vikelas_rival_state_1_scope
+				add_modifier = {
+					name = vikelas_national_league_champion_modifier
+					days = 365
+				}
+			}
+			random_scope_state = {
+				limit = {
+					any_scope_building = {
+						is_building_type = building_vikelas_sports
+						has_active_production_method = pm_vikelas_football_club
+					}
+					NOT = { this = scope:vikelas_rival_state_1_scope }
+				}
+				save_scope_as = vikelas_rival_state_2_scope
+			}
+			set_variable = {
+				name = vikelas_national_league_champion_var
+				value = scope:vikelas_rival_state_1_scope
+			}
+			post_notification = vikelas_national_football_league_champion
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_vikelas_basketball_national_league
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_vikelas_sports
+						production_method = pm_vikelas_basketball_club
+					}
+					count >= 2
+				}
+			}
+			random_scope_state = {
+				limit = {
+					any_scope_building = {
+						is_building_type = building_vikelas_sports
+						has_active_production_method = pm_vikelas_football_club
+					}
+				}
+				save_scope_as = vikelas_rival_state_1_scope
+				add_modifier = {
+					name = vikelas_national_league_champion_modifier
+					days = 365
+				}
+			}
+			random_scope_state = {
+				limit = {
+					any_scope_building = {
+						is_building_type = building_vikelas_sports
+						has_active_production_method = pm_vikelas_football_club
+					}
+					NOT = { this = scope:vikelas_rival_state_1_scope }
+				}
+				save_scope_as = vikelas_rival_state_2_scope
+			}
+			set_variable = {
+				name = vikelas_national_league_champion_var
+				value = scope:vikelas_rival_state_1_scope
+			}
+			post_notification = vikelas_national_basketball_league_champion
+		}
+	}
+}
+
+#Vikelas 391: Adapt National Sport
+vikelas.391 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.391.t
+
+	desc = vikelas.391.d
+
+	flavor = vikelas.391.f
+	
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_croquet.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Cricket
+		name = vikelas.391.g
+		trigger = {
+			has_variable = vikelas_cricket_country_var
+		}
+		default_option = yes
+		vikelas_set_cricket_as_national_sport_effect = yes
+	}
+
+	option = {	#Baseball
+		name = vikelas.391.h
+		trigger = {
+			has_variable = vikelas_baseball_country_var
+		}
+		vikelas_set_baseball_as_national_sport_effect = yes
+	}
+
+	option = {	#Football
+		name = vikelas.391.i
+		trigger = {
+			has_variable = vikelas_football_country_var
+		}
+		vikelas_set_football_as_national_sport_effect = yes
+	}
+
+	option = {	#Basketball
+		name = vikelas.391.j
+		trigger = {
+			has_variable = vikelas_basketball_country_var
+		}
+		vikelas_set_basketball_as_national_sport_effect = yes
+	}
+
+	after = {
+		remove_variable = vikelas_adapt_national_sport_var
+		if = {
+			limit = {
+				is_subject = yes
+				overlord = {
+					var:vikelas_national_sport_var ?= root.var:vikelas_national_sport_var
+				}
+			}
+			add_modifier = {
+				name = vikelas_common_national_sports_modifier
+			}
+		}
+		if = {
+			limit = {
+				is_subject = yes
+				NOT = {
+					overlord = {
+						var:vikelas_national_sport_var ?= root.var:vikelas_national_sport_var
+					}
+				}
+			}
+			remove_modifier = vikelas_common_national_sports_modifier
+		}
+	}
+}
+
+#Vikelas 392: Change National Sport
+vikelas.392 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.392.t
+
+	desc = vikelas.392.d
+
+	flavor = vikelas.392.f
+	
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_croquet.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Cricket
+		name = vikelas.391.g
+		trigger = {
+			has_variable = vikelas_cricket_country_var
+			vikelas_has_national_sport_cricket_trigger = no
+		}
+		default_option = yes
+		vikelas_set_cricket_as_national_sport_effect = yes
+		add_radicals = {
+			value = 0.05
+		}
+	}
+
+	option = {	#Baseball
+		name = vikelas.391.h
+		trigger = {
+			has_variable = vikelas_baseball_country_var
+			vikelas_has_national_sport_baseball_trigger = no
+		}
+		vikelas_set_baseball_as_national_sport_effect = yes
+		add_radicals = {
+			value = 0.05
+		}
+	}
+
+	option = {	#Football
+		name = vikelas.391.i
+		trigger = {
+			has_variable = vikelas_football_country_var
+			vikelas_has_national_sport_football_trigger = no
+		}
+		vikelas_set_football_as_national_sport_effect = yes
+		add_radicals = {
+			value = 0.05
+		}
+	}
+
+	option = {	#Basketball
+		name = vikelas.391.j
+		trigger = {
+			has_variable = vikelas_basketball_country_var
+			vikelas_has_national_sport_basketball_trigger = no
+		}
+		vikelas_set_basketball_as_national_sport_effect = yes
+		add_radicals = {
+			value = 0.05
+		}
+	}
+
+	option = {	#Nevermind
+		name = vikelas.391.k
+	}
+
+	after = {
+		remove_variable = vikelas_change_national_sport_var
+		if = {
+			limit = {
+				is_subject = yes
+				overlord = {
+					var:vikelas_national_sport_var ?= root.var:vikelas_national_sport_var
+				}
+			}
+			add_modifier = {
+				name = vikelas_common_national_sports_modifier
+			}
+		}
+		if = {
+			limit = {
+				is_subject = yes
+				NOT = {
+					overlord = {
+						var:vikelas_national_sport_var ?= root.var:vikelas_national_sport_var
+					}
+				}
+			}
+			remove_modifier = vikelas_common_national_sports_modifier
+		}
+	}
+}
+
+#Vikelas 393: Overlord introduces National Sport
+vikelas.393 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.393.t
+	desc = vikelas.393.d
+	flavor = vikelas.393.f
+
+	duration = 3
+
+	event_image = {
+		trigger = {
+			overlord = {
+				vikelas_has_national_sport_cricket_trigger = yes
+			}
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_cricket_game.dds"
+	}
+
+	event_image = {
+		trigger = {
+			overlord = {
+				vikelas_has_national_sport_baseball_trigger = yes
+			}
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
+	}
+
+	event_image = {
+		trigger = {
+			overlord = {
+				vikelas_has_national_sport_football_trigger = yes
+			}
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	event_image = {
+		trigger = {
+			overlord = {
+				vikelas_has_national_sport_basketball_trigger = yes
+			}
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_basketball_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		overlord = {
+			save_scope_as = vikelas_overlord_country_scope
+		}
+	}
+
+	option = {
+		name = vikelas.393.g #Cricket will be introduced
+		default_option = yes
+		trigger = {
+			overlord = {
+				vikelas_has_national_sport_cricket_trigger = yes
+			}
+		}
+		vikelas_set_cricket_as_national_sport_effect = yes
+		set_variable = vikelas_cricket_country_var
+		if = {
+			limit = {
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_vikelas_sports
+						production_method = pm_vikelas_no_cricket_club
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_vikelas_sports
+						production_method = pm_vikelas_no_cricket_club
+					}
+				}
+				activate_production_method = {
+					building_type = building_vikelas_sports
+					production_method = pm_vikelas_cricket_club
+				}
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.393.h #Baseball will be introduced
+		default_option = yes
+		trigger = {
+			overlord = {
+				vikelas_has_national_sport_baseball_trigger = yes
+			}
+		}
+		vikelas_set_baseball_as_national_sport_effect = yes
+		set_variable = vikelas_baseball_country_var
+		if = {
+			limit = {
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_vikelas_sports
+						production_method = pm_vikelas_no_baseball_club
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_vikelas_sports
+						production_method = pm_vikelas_no_baseball_club
+					}
+				}
+				activate_production_method = {
+					building_type = building_vikelas_sports
+					production_method = pm_vikelas_baseball_club
+				}
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.393.i #Football will be introduced
+		default_option = yes
+		trigger = {
+			overlord = {
+				vikelas_has_national_sport_football_trigger = yes
+			}
+		}
+		vikelas_set_football_as_national_sport_effect = yes
+		set_variable = vikelas_football_country_var
+		if = {
+			limit = {
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_vikelas_sports
+						production_method = pm_vikelas_no_football_club
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_vikelas_sports
+						production_method = pm_vikelas_no_football_club
+					}
+				}
+				activate_production_method = {
+					building_type = building_vikelas_sports
+					production_method = pm_vikelas_football_club
+				}
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.393.j #Basketball will be introduced
+		default_option = yes
+		trigger = {
+			overlord = {
+				vikelas_has_national_sport_basketball_trigger = yes
+			}
+		}
+		vikelas_set_basketball_as_national_sport_effect = yes
+		set_variable = vikelas_basketball_country_var
+		if = {
+			limit = {
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_vikelas_sports
+						production_method = pm_vikelas_no_basketball_club
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_vikelas_sports
+						production_method = pm_vikelas_no_basketball_club
+					}
+				}
+				activate_production_method = {
+					building_type = building_vikelas_sports
+					production_method = pm_vikelas_basketball_club
+				}
+			}
+		}
+	}
+
+	after = {
+		add_modifier = {
+			name = vikelas_common_national_sports_modifier
+		}
+	}
+}
+
+#Vikelas 394: A Common Sport
+vikelas.394 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.394.t
+	desc = vikelas.394.d
+	flavor = vikelas.394.f
+
+	duration = 3
+
+	event_image = {
+		trigger = {
+			vikelas_has_national_sport_cricket_trigger = yes
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_cricket_game.dds"
+	}
+
+	event_image = {
+		trigger = {
+			vikelas_has_national_sport_baseball_trigger = yes
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
+	}
+
+	event_image = {
+		trigger = {
+			vikelas_has_national_sport_football_trigger = yes
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	event_image = {
+		trigger = {
+			vikelas_has_national_sport_basketball_trigger = yes
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_basketball_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		NOT = {
+			has_modifier = vikelas_common_national_sports_modifier
+		}
+		OR = {
+			AND = {
+				is_subject = yes
+				overlord = {
+					var:vikelas_national_sport_var ?= root.var:vikelas_national_sport_var
+				}
+			}
+			#AND = {
+			#	is_in_power_bloc = yes
+			#	power_bloc.power_bloc_leader = {
+			#		var:vikelas_national_sport_var ?= root.var:vikelas_national_sport_var
+			#		NOT = {
+			#			this = ROOT
+			#		}
+			#	}
+			#}
+		}
+	}
+
+	immediate = {
+		overlord = {
+			save_scope_as = vikelas_overlord_country_scope
+		}
+	}
+
+	option = {
+		name = vikelas.394.g #Common interests, common sports
+		default_option = yes
+		add_modifier = {
+			name = vikelas_common_national_sports_modifier
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 395: International Sports Event
+vikelas.395 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.395.t
+	desc = vikelas.395.d
+	flavor = vikelas.395.f
+
+	duration = 3
+
+	event_image = {
+		trigger = {
+			vikelas_has_national_sport_cricket_trigger = yes
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_cricket_game.dds"
+	}
+
+	event_image = {
+		trigger = {
+			vikelas_has_national_sport_baseball_trigger = yes
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
+	}
+
+	event_image = {
+		trigger = {
+			vikelas_has_national_sport_football_trigger = yes
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	event_image = {
+		trigger = {
+			vikelas_has_national_sport_basketball_trigger = yes
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_basketball_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		ROOT = {
+			save_scope_as = vikelas_international_sports_host_scope
+		}
+	}
+
+	option = {
+		name = vikelas.395.g #Let the games begin!
+		default_option = yes
+		trigger = {
+			vikelas_has_national_sport_cricket_trigger = yes
+		}
+		add_modifier = {
+			name = vikelas_international_sports_event_modifier
+			days = 100
+		}
+		vikelas_create_cricket_winner_teams_effect = yes
+	}
+
+	option = {
+		name = vikelas.395.g #Let the games begin!
+		default_option = yes
+		trigger = {
+			vikelas_has_national_sport_baseball_trigger = yes
+		}
+		add_modifier = {
+			name = vikelas_international_sports_event_modifier
+			days = 100
+		}
+		vikelas_create_baseball_winner_teams_effect = yes
+	}
+
+	option = {
+		name = vikelas.393.g #Let the games begin!
+		default_option = yes
+		trigger = {
+			vikelas_has_national_sport_football_trigger = yes
+		}
+		add_modifier = {
+			name = vikelas_international_sports_event_modifier
+			days = 100
+		}
+		vikelas_create_football_winner_teams_effect = yes
+	}
+
+	option = {
+		name = vikelas.393.g #Let the games begin!
+		default_option = yes
+		trigger = {
+			vikelas_has_national_sport_basketball_trigger = yes
+		}
+		add_modifier = {
+			name = vikelas_international_sports_event_modifier
+			days = 100
+		}
+		vikelas_create_basketball_winner_teams_effect = yes
+	}
+
+	after = {
+		scope:vikelas_first_winner_team_scope = {
+			trigger_event = {
+				id = vikelas.396
+				days = 90
+			}
+		}
+	}
+}
+
+#Vikelas 396: International Sports Champion
+vikelas.396 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.396.t
+	desc = vikelas.396.d
+	flavor = vikelas.396.f
+
+	duration = 3
+
+	event_image = {
+		trigger = {
+			vikelas_has_national_sport_cricket_trigger = yes
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_cricket_game.dds"
+	}
+
+	event_image = {
+		trigger = {
+			vikelas_has_national_sport_baseball_trigger = yes
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
+	}
+
+	event_image = {
+		trigger = {
+			vikelas_has_national_sport_football_trigger = yes
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	event_image = {
+		trigger = {
+			vikelas_has_national_sport_basketball_trigger = yes
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_basketball_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:vikelas_international_sports_host_scope = {
+			trigger_event = {
+				id = vikelas.397
+				days = 10
+			}
+		}
+		create_character = {
+			female = no
+			save_scope_as = vikelas_schaefer_scope
+		}
+		create_character = {
+			female = no
+			save_scope_as = vikelas_morlock_scope
+		}
+		create_character = {
+			female = no
+			save_scope_as = vikelas_bozsik_scope
+		}
+		create_character = {
+			female = no
+			save_scope_as = vikelas_rahn_scope
+		}
+	}
+
+	option = {
+		name = vikelas.396.g #We are the Champions!
+		default_option = yes
+		add_loyalists = {
+			value = 0.02
+		}
+		coach_experience_gain_effect = {
+			AMOUNT = 20
+		}
+	}
+
+	after = {
+		scope:vikelas_schaefer_scope = {
+			free_character_from_void = no
+		}
+		scope:vikelas_morlock_scope = {
+			free_character_from_void = no
+		}
+		scope:vikelas_bozsik_scope = {
+			free_character_from_void = no
+		}
+		scope:vikelas_rahn_scope = {
+			free_character_from_void = no
+		}
+	}
+}
+
+#Vikelas 397: International Sports End
+vikelas.397 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.397.t
+	desc = vikelas.397.d
+	flavor = vikelas.397.f
+
+	duration = 3
+
+	event_image = {
+		trigger = {
+			vikelas_has_national_sport_cricket_trigger = yes
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_cricket_game.dds"
+	}
+
+	event_image = {
+		trigger = {
+			vikelas_has_national_sport_baseball_trigger = yes
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
+	}
+
+	event_image = {
+		trigger = {
+			vikelas_has_national_sport_football_trigger = yes
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	event_image = {
+		trigger = {
+			vikelas_has_national_sport_basketball_trigger = yes
+		}
+
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_basketball_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.397.g #
+		default_option = yes
+		add_modifier = {
+			name = vikelas_recent_international_sports_event_modifier
+			years = 4
+		}
+		if = {
+			limit = {
+				is_power_bloc_leader = yes
+			}
+			root.power_bloc = {
+				add_cohesion_number = 5
+				every_power_bloc_member = {
+					limit = {
+						vikelas_has_sports_association_trigger = yes
+						var:vikelas_national_sport_var ?= root.var:vikelas_national_sport_var
+						is_subject = no
+					}
+					change_relations = {
+						country = ROOT
+						value = 10
+					}
+				}
+			}
+		}
+		every_direct_subject = {
+			limit = {
+				vikelas_has_sports_association_trigger = yes
+				var:vikelas_national_sport_var ?= root.var:vikelas_national_sport_var
+			}
+			add_liberty_desire = -5
+			change_relations = {
+				country = ROOT
+				value = 10
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#################################################################################
+
 #Vikelas 401: FIFA Founded
 vikelas.401 = {
 	dlc = dlc_morgenrote
@@ -5955,7 +8447,7 @@ vikelas.401 = {
 	duration = 3
 
 	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_association.dds"
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_team.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -5971,6 +8463,17 @@ vikelas.401 = {
 
 	option = {
 		name = vikelas.401.g #
+		vikelas_join_fifa_effect = yes
+		if = {
+			limit = {
+				has_variable = vikelas_fifa_founding_country_var
+			}
+			hidden_effect = {
+				trigger_event = {
+					id = vikelas.402
+				}
+			}
+		}
 		if = {
 			limit = {
 				NOT = {
@@ -5996,6 +8499,9 @@ vikelas.401 = {
 			}
 			else_if = {
 				limit = {
+					NOT = {
+						has_global_variable = vikelas_fifa_board_member_4_global_var
+					}
 					has_global_variable =  vikelas_fifa_board_member_3_global_var
 				}
 				ROOT = {
@@ -6009,6 +8515,9 @@ vikelas.401 = {
 			}
 			else_if = {
 				limit = {
+					NOT = {
+						has_global_variable = vikelas_fifa_board_member_3_global_var
+					}
 					has_global_variable =  vikelas_fifa_board_member_2_global_var
 				}
 				ROOT = {
@@ -6022,6 +8531,9 @@ vikelas.401 = {
 			}
 			else_if = {
 				limit = {
+					NOT = {
+						has_global_variable = vikelas_fifa_board_member_2_global_var
+					}
 					has_global_variable =  vikelas_fifa_board_member_1_global_var
 				}
 				ROOT = {
@@ -6055,6 +8567,93 @@ vikelas.401 = {
 	}
 }
 
+#Vikelas 402: FIFA - New Board (hidden)
+vikelas.402 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	immediate = {
+		vikelas_add_fifa_board_effect = yes
+		every_country = {
+			limit = {
+				vikelas_is_fifa_member_trigger = yes
+			}
+			trigger_event = {
+				id = vikelas.403
+				days = { 14 28 }
+			}
+		}
+	}
+}
+
+#Vikelas 403: FIFA - New Board
+vikelas.403 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = vikelas.403.t
+
+	desc = vikelas.403.d
+
+	flavor = vikelas.403.f
+
+	placement = scope:vikelas_fifa_state
+	
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_team.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cancellation_trigger = {
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_building = building_vikelas_fifa
+			}
+			save_scope_as = vikelas_fifa_state
+		}
+	}
+
+	option = {	#
+		name = vikelas.403.g #A good selection.
+		trigger = {
+			has_variable = vikelas_fifa_founding_country_var
+		}
+		default_option = yes
+	}
+
+	option = {	#
+		name = vikelas.403.g #A good selection.
+		trigger = {
+			has_variable = vikelas_fifa_board_member_var
+		}
+	}
+
+	option = {	#
+		name = vikelas.403.h #And there was no bribery involved?
+		trigger = {
+			NOR = {
+				has_variable = vikelas_fifa_founding_country_var
+				has_variable = vikelas_fifa_board_member_var
+			}
+		}
+	}
+}
+
 #Vikelas 410: New World Cup, hidden host
 vikelas.410 = {
 	dlc = dlc_morgenrote
@@ -6082,7 +8681,7 @@ vikelas.410 = {
 			}
 			random_country = {
 				limit = {
-					has_variable = vikelas_football_association_var
+					vikelas_has_football_association_trigger = yes
 					NOT = {
 						has_variable = vikelas_recent_fifa_host_var
 					}
@@ -6099,7 +8698,7 @@ vikelas.410 = {
 		}	
 		every_country = {
 			limit = {
-				has_variable = vikelas_football_association_var
+				vikelas_has_football_association_trigger = yes
 			}
 			trigger_event = {
 				id = vikelas.411
@@ -6232,7 +8831,7 @@ vikelas.412 = {
 		name = vikelas.412.g #We are the champions!
 		add_modifier = {
 			name = vikelas_fifa_champion_modifier
-			years = 3
+			years = 4
 		}
 		add_loyalists = {
 			value = 0.05
@@ -6373,143 +8972,6 @@ vikelas.414 = {
 	}
 }
 
-#Vikelas 421: International football match (hidden)
-vikelas.421 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	hidden = yes
-
-	trigger = {
-		has_variable = vikelas_football_association_var
-	}
-
-	immediate = {
-		random_country = {
-			limit = {
-				has_variable = vikelas_football_association_var
-				NOT = {
-					this = ROOT
-				}
-			}
-			save_scope_as = vikelas_football_rival_scope
-		}
-		if = {
-			limit = {
-				vikelas_national_football_team_game_value > scope:vikelas_football_rival_scope.vikelas_national_football_team_game_value
-			}
-			coach_experience_gain_effect = {
-				AMOUNT = 10
-			}
-		}
-		if = {
-			limit = {
-				vikelas_national_football_team_game_value < scope:vikelas_football_rival_scope.vikelas_national_football_team_game_value
-			}
-			scope:vikelas_football_rival_scope = {
-				coach_experience_gain_effect = {
-					AMOUNT = 10
-				}
-			}
-		}
-		if = {
-			limit = {
-				vikelas_national_football_team_game_value = scope:vikelas_football_rival_scope.vikelas_national_football_team_game_value
-			}
-			coach_experience_gain_effect = {
-				AMOUNT = 10
-			}
-			scope:vikelas_football_rival_scope = {
-				coach_experience_gain_effect = {
-					AMOUNT = 5
-				}
-			}
-		}
-	}
-}
-
-
-#Vikelas 490: [Scope] is now a famous Coach
-vikelas.490 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = vikelas.490.t
-	desc = vikelas.490.d
-	flavor = vikelas.490.f
-
-	placement = ROOT
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:vikelas_coach_scope
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_sports.dds"
-
-	trigger = {
-	}
-
-	immediate = {
-		var:vikelas_coach_var = {
-			save_scope_as = vikelas_coach_scope
-		}
-	}
-
-	option = {
-		name = vikelas.490.g
-		default_option = yes
-
-		show_as_tooltip = {
-			var:vikelas_coach_var = {
-				remove_trait = vikelas_coach
-				add_trait = vikelas_coach_senior
-			}
-		}
-	}
-}
-
-#Vikelas 495: New Coach
-vikelas.495 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = vikelas.495.t
-
-	desc = vikelas.495.d
-
-	#flavor = vikelas.495.f
-	
-	duration = 3
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:vikelas_new_coach_scope
-
-	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	trigger = {
-	}
-
-	immediate = {
-		create_new_coach_effect = yes
-		vikelas_set_new_coach_as_coach_effect = yes
-		var:vikelas_coach_var = {
-			save_scope_as = vikelas_new_coach_scope
-		}
-	}
-
-	option = {	#Welcome
-		name = vikelas.495.g
-	}
-}
-
 #################################################################################
 
 ######AUTO RACE######
@@ -6540,10 +9002,6 @@ vikelas.501 = {
 	immediate = {
 		var:vikelas_racer_var = {
 			save_scope_as = vikelas_racer_scope
-		}
-		change_global_variable = {
-			name = vikelas_num_aiacr_members_global_var
-			add = 1
 		}
 	}
 
@@ -9742,7 +12200,7 @@ vikelas.571 = {
 			state_region = s:STATE_MAINE_ANJOU
 		}
 		has_variable = vikelas_automobile_club_var
-		mr_gui_has_organized_sports_tech_trigger = yes
+		mr_gui_has_vikelas_international_sports_tech_trigger = yes
 	}
 
 	immediate = {
@@ -9796,7 +12254,7 @@ vikelas.572 = {
 			state_region = s:STATE_SICILY
 		}
 		has_variable = vikelas_automobile_club_var
-		mr_gui_has_organized_sports_tech_trigger = yes
+		mr_gui_has_vikelas_international_sports_tech_trigger = yes
 	}
 
 	immediate = {
@@ -9850,7 +12308,7 @@ vikelas.573 = {
 			state_region = s:STATE_AUSTRIA
 		}
 		has_variable = vikelas_automobile_club_var
-		mr_gui_has_organized_sports_tech_trigger = yes
+		mr_gui_has_vikelas_international_sports_tech_trigger = yes
 	}
 
 	immediate = {

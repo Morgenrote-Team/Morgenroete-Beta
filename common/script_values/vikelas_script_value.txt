@@ -49,8 +49,8 @@ vikelas_olympic_success_value = {
 		}
 		multiply = 0.75
 	}
-	#Adds the total level of sports facilities of the country
-	add = vikelas_sports_facilities_score
+	#Adds the total level of sports stadiums of the country
+	add = vikelas_sports_stadiums_score
 	#In case that the country has an athlete it gets a flat 50 bonus
 	if = {
 		limit = {
@@ -176,13 +176,13 @@ vikelas_olympic_success_value = {
 	multiply = { 0.9 1.1 }
 }
 
-#This value counts the total level of sports facilities of a country
-vikelas_sports_facilities_score = {
+#This value counts the total level of sports stadiums of a country
+vikelas_sports_stadiums_score = {
 	value = 0
 	every_scope_building = {
 		limit = {
-			is_building_type = building_government_administration
-			has_active_production_method = pm_vikelas_sports_facilities
+			is_building_type = building_vikelas_sports
+			has_active_production_method = pm_vikelas_sports_stadium
 		}
 		add = level
 	}
@@ -1396,8 +1396,8 @@ vikelas_monthly_body_mechanic_progress_value = {
 
 ###################################################################
 
-#Football Team value
-vikelas_national_football_team_value = {
+#Cricket Team value
+vikelas_national_cricket_team_value = {
 	value = 0 #base value
 	#Standard of Living: Fitness
 	add = {
@@ -1408,24 +1408,72 @@ vikelas_national_football_team_value = {
 	add = {
         value = ig:ig_petty_bourgeoisie.ig_clout
 		multiply = 2
+		if = {
+			limit = {
+				has_law = law_type:law_protected_speech
+			}
+			multiply = 1.5
+		}
     }
-	#Literacy: Football Tactics
+	#Literacy: Cricket Tactics
 	add = {
         value = literacy_rate
 		multiply = 0.3
     }
+	#Sports Stadiums: Better Grounds, better Training
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_stadium
+			}
+		}
+		add = 4
+	}
+	else_if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_facility
+			}
+		}
+		add = 2
+	}
 	#Tradition: Countries with National Sport are better
 	if = {
 		limit = {
-			has_variable = vikelas_football_country_var
+			vikelas_has_national_sport_cricket_trigger = yes
 		}
-		add = 10
+		add = 5
+	}
+	#Association: Countries with Association are better
+	if = {
+		limit = {
+			vikelas_has_cricket_association_trigger = yes
+		}
+		add = 4
+	}
+	#Motherland: They invented the sport after all
+	if = {
+		limit = {
+			has_modifier = vikelas_cricket_motherland_modifier
+		}
+		add = 3
 	}
 }
 
-#Football Team Game value
-vikelas_national_football_team_game_value = {
-	value = vikelas_national_football_team_value
+#Cricket Team Game value
+vikelas_national_cricket_team_game_value = {
+	value = vikelas_national_cricket_team_value
+	#Profession
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = vikelas_cricket_player
+			}
+		}
+		add = 10
+	}
 	#Experience
 	if = {
 		limit = {
@@ -1552,4 +1600,663 @@ vikelas_national_football_team_game_value = {
 	}
 	#Luck: Weather, Team Condition
 	add = { 1 10 }
+}
+
+#Baseball Team value
+vikelas_national_baseball_team_value = {
+	value = 0 #base value
+	#Standard of Living: Fitness
+	add = {
+		value = average_sol
+		multiply = 2
+	}
+	#Petty Bourgeoise: Associations, civic life
+	add = {
+        value = ig:ig_petty_bourgeoisie.ig_clout
+		multiply = 2
+		if = {
+			limit = {
+				has_law = law_type:law_protected_speech
+			}
+			multiply = 1.5
+		}
+    }
+	#Literacy: Baseball Tactics
+	add = {
+        value = literacy_rate
+		multiply = 0.3
+    }
+	#Sports Stadiums: Better Grounds, better Training
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_stadium
+			}
+		}
+		add = 4
+	}
+	else_if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_facility
+			}
+		}
+		add = 2
+	}
+	#Tradition: Countries with National Sport are better
+	if = {
+		limit = {
+			vikelas_has_national_sport_baseball_trigger = yes
+		}
+		add = 5
+	}
+	#Association: Countries with Association are better
+	if = {
+		limit = {
+			vikelas_has_baseball_association_trigger = yes
+		}
+		add = 4
+	}
+	#Motherland: They invented the sport after all
+	if = {
+		limit = {
+			has_modifier = vikelas_baseball_motherland_modifier
+		}
+		add = 3
+	}
+}
+
+#Baseball Team Game value
+vikelas_national_baseball_team_game_value = {
+	value = vikelas_national_baseball_team_value
+	#Profession
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = vikelas_baseball_player
+			}
+		}
+		add = 10
+	}
+	#Experience
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_variable = vikelas_coach_experience
+			}
+		}
+		add = {
+			value = var:vikelas_coach_var.var:vikelas_coach_experience
+			divide = 10
+		}
+	}
+
+	#Positive Traits
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = ambitious
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = charismatic
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = brave
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = innovative
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = meticulous
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = honorable
+			}
+		}
+		add = 5
+	}
+
+	#Negative Traits
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = ruthless
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = reckless
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = wrathful
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = cruel
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = hedonist
+			}
+		}
+		add = -5
+	}
+
+	#Negative Condition
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				OR = {
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = syphilis
+					has_trait = psychological_affliction
+					has_trait = senile
+					has_trait = panum_cholera
+					has_trait = panum_tuberculosis
+					has_trait = panum_yellow_fever
+				}
+			}
+		}
+		add = -5
+	}
+	#Luck: Weather, Team Condition
+	add = { 1 10 }
+}
+
+#Football Team value
+vikelas_national_football_team_value = {
+	value = 0 #base value
+	#Standard of Living: Fitness
+	add = {
+		value = average_sol
+		multiply = 2
+	}
+	#Petty Bourgeoise: Associations, civic life
+	add = {
+        value = ig:ig_petty_bourgeoisie.ig_clout
+		multiply = 2
+		if = {
+			limit = {
+				has_law = law_type:law_protected_speech
+			}
+			multiply = 1.5
+		}
+    }
+	#Literacy: Football Tactics
+	add = {
+        value = literacy_rate
+		multiply = 0.3
+    }
+	#Sports Stadiums: Better Grounds, better Training
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_stadium
+			}
+		}
+		add = 4
+	}
+	else_if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_facility
+			}
+		}
+		add = 2
+	}
+	#Tradition: Countries with National Sport are better
+	if = {
+		limit = {
+			vikelas_has_national_sport_football_trigger = yes
+		}
+		add = 5
+	}
+	#Association: Countries with Association are better
+	if = {
+		limit = {
+			vikelas_has_football_association_trigger = yes
+		}
+		add = 4
+	}
+	#Motherland: They invented the sport after all
+	if = {
+		limit = {
+			has_modifier = vikelas_football_motherland_modifier
+		}
+		add = 3
+	}
+}
+
+#Football Team Game value
+vikelas_national_football_team_game_value = {
+	value = vikelas_national_football_team_value
+	#Profession
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = vikelas_football_player
+			}
+		}
+		add = 10
+	}
+	#Experience
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_variable = vikelas_coach_experience
+			}
+		}
+		add = {
+			value = var:vikelas_coach_var.var:vikelas_coach_experience
+			divide = 10
+		}
+	}
+
+	#Positive Traits
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = ambitious
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = charismatic
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = brave
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = innovative
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = meticulous
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = honorable
+			}
+		}
+		add = 5
+	}
+
+	#Negative Traits
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = ruthless
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = reckless
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = wrathful
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = cruel
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = hedonist
+			}
+		}
+		add = -5
+	}
+
+	#Negative Condition
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				OR = {
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = syphilis
+					has_trait = psychological_affliction
+					has_trait = senile
+					has_trait = panum_cholera
+					has_trait = panum_tuberculosis
+					has_trait = panum_yellow_fever
+				}
+			}
+		}
+		add = -5
+	}
+	#Luck: Weather, Team Condition
+	add = { 1 10 }
+}
+
+#Basketball Team value
+vikelas_national_basketball_team_value = {
+	value = 0 #base value
+	#Standard of Living: Fitness
+	add = {
+		value = average_sol
+		multiply = 2
+	}
+	#Petty Bourgeoise: Associations, civic life
+	add = {
+        value = ig:ig_petty_bourgeoisie.ig_clout
+		multiply = 2
+		if = {
+			limit = {
+				has_law = law_type:law_protected_speech
+			}
+			multiply = 1.5
+		}
+    }
+	#Literacy: Basketball Tactics
+	add = {
+        value = literacy_rate
+		multiply = 0.3
+    }
+	#Sports Stadiums: Better Grounds, better Training
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_stadium
+			}
+		}
+		add = 4
+	}
+	else_if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_facility
+			}
+		}
+		add = 2
+	}
+	#Tradition: Countries with National Sport are better
+	if = {
+		limit = {
+			vikelas_has_national_sport_basketball_trigger = yes
+		}
+		add = 5
+	}
+	#Association: Countries with Association are better
+	if = {
+		limit = {
+			vikelas_has_basketball_association_trigger = yes
+		}
+		add = 4
+	}
+	#Motherland: They invented the sport after all
+	if = {
+		limit = {
+			has_modifier = vikelas_basketball_motherland_modifier
+		}
+		add = 3
+	}
+}
+
+#Basketball Team Game value
+vikelas_national_basketball_team_game_value = {
+	value = vikelas_national_basketball_team_value
+	#Profession
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = vikelas_basketball_player
+			}
+		}
+		add = 10
+	}
+	#Experience
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_variable = vikelas_coach_experience
+			}
+		}
+		add = {
+			value = var:vikelas_coach_var.var:vikelas_coach_experience
+			divide = 10
+		}
+	}
+
+	#Positive Traits
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = ambitious
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = charismatic
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = brave
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = innovative
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = meticulous
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = honorable
+			}
+		}
+		add = 5
+	}
+
+	#Negative Traits
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = ruthless
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = reckless
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = wrathful
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = cruel
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = hedonist
+			}
+		}
+		add = -5
+	}
+
+	#Negative Condition
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				OR = {
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = syphilis
+					has_trait = psychological_affliction
+					has_trait = senile
+					has_trait = panum_cholera
+					has_trait = panum_tuberculosis
+					has_trait = panum_yellow_fever
+				}
+			}
+		}
+		add = -5
+	}
+	#Luck: Weather, Team Condition
+	add = { 1 10 }
+}
+
+#Calculation of board member quality
+vikelas_fifa_board_member_quality_value = {
+	#Base: The number of summits conquered
+	value = vikelas_national_football_team_game_value 
+
+	#Experienced Coach
+	if = {
+		limit = {
+			has_variable = vikelas_coach_var
+		}
+		add = {
+			value = var:vikelas_coach_var.var:vikelas_coach_experience
+			divide = 30
+		}
+	}
+
+	#School Sports
+	if = {
+		limit = {
+			has_variable = vikelas_school_sport_var
+		}
+		add = 10
+	}
+
+	#Great Powers are very important
+	if = {
+		limit = {
+			country_rank = rank_value:great_power
+		}
+		add = 40
+	}
+
+	#Major Powers are important
+	if = {
+		limit = {
+			country_rank = rank_value:major_power
+		}
+		add = 20
+	}
 }

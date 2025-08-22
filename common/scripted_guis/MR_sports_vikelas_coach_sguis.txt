@@ -10,16 +10,74 @@ mr_has_coach_sgui = {
 	}
 }
 
+#MR_ADAPT_NATIONAL_SPORT
+mr_adapt_national_sport_button_sgui = {
+    scope = country
+	
+	is_shown = {
+		NOR = {
+			has_variable = vikelas_national_sport_var
+			has_variable = vikelas_adapt_national_sport_var
+		}
+	}
+
+    is_valid = {
+		mr_gui_has_nationalism_tech_trigger = yes
+		vikelas_has_potential_national_sport_trigger = yes
+    }
+
+    effect = {
+		set_variable = vikelas_adapt_national_sport_var
+		trigger_event = {
+			id = vikelas.391
+			popup = yes
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_CHANGE_NATIONAL_SPORT
+mr_change_national_sport_button_sgui = {
+    scope = country
+	
+	is_shown = {
+		has_variable = vikelas_national_sport_var
+		is_player = yes
+		NOT = {
+			has_variable = vikelas_change_national_sport_var
+		}
+	}
+
+    is_valid = {
+		mr_gui_has_organized_sports_tech_trigger = yes
+		vikelas_has_potential_national_sport_trigger = yes
+    }
+
+    effect = {
+		set_variable = vikelas_change_national_sport_var
+		trigger_event = {
+			id = vikelas.392
+			popup = yes
+		}
+    }
+}
+
 #MR_HIRE_COACH
 mr_hire_coach_button_sgui = {
     scope = country
 	
 	is_shown = {
-		has_global_variable = vikelas_fifa_founded_global_var
+		#has_global_variable = vikelas_fifa_founded_global_var
 	}
 
     is_valid = {
 		mr_gui_has_organized_sports_tech_trigger = yes
+		vikelas_has_national_sport_trigger = yes
 		custom_tooltip = {
 			text = MR_NO_RECENT_COACH_TRIGGER_TT
 			NOT = {
@@ -40,8 +98,110 @@ mr_hire_coach_button_sgui = {
 			years = 3
 		}
 		trigger_event = {
-			id = vikelas.495
+			id = athletes.53
 			popup = yes
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_SCHOOL_SPORTS_BUTTON
+mr_school_sport_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = vikelas_school_sport_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_SCHOOL_SPORTS_PUBLIC_SCHOOLS_TRIGGER_TT
+			has_law = law_type:law_public_schools
+		}
+		vikelas_has_coach_senior = yes
+		custom_tooltip = {
+			text = MR_SCHOOL_SPORTS_STADIUM_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_stadium
+			}
+		}
+		mr_gui_has_theory_of_evolution_tech_trigger = yes
+    }
+    effect = {
+		set_variable = vikelas_school_sport_var
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_INTERNATIONAL_SPORTS_EVENT
+mr_international_sports_event_sgui = {
+    scope = country
+	is_shown = {
+		vikelas_has_national_sport_trigger = yes
+		OR = {
+			AND = {
+				is_power_bloc_leader = yes
+				root.power_bloc = {
+					num_power_bloc_members = 4
+				}
+			}
+			num_subjects = 3
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_INTERNATIONAL_SPORTS_MEMBER_TRIGGER_TT
+			OR = {
+				root.power_bloc = {
+					any_power_bloc_member = {
+						count >= 4
+						vikelas_has_sports_association_trigger = yes
+						var:vikelas_national_sport_var ?= root.var:vikelas_national_sport_var
+					}
+				}
+				any_direct_subject = {
+					count >= 3
+					vikelas_has_sports_association_trigger = yes
+					var:vikelas_national_sport_var ?= root.var:vikelas_national_sport_var
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_SCHOOL_SPORTS_STADIUM_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_stadium
+			}
+		}
+		custom_tooltip = {
+			text = MR_INTERNATIONAL_SPORTS_NO_FIFA_TRIGGER_TT
+			NAND = {
+				has_variable = vikelas_fifa_member_var
+				vikelas_has_national_sport_football_trigger = yes
+			}
+		}
+		custom_tooltip = {
+			text = MR_INTERNATIONAL_SPORTS_MODIFIER_TRIGGER_TT
+			NOR = {
+				has_modifier = vikelas_international_sports_event_modifier
+				has_modifier = vikelas_recent_international_sports_event_modifier
+			}
+		}
+    }
+    effect = {
+		trigger_event = {
+			id = vikelas.395
 		}
     }
 
@@ -62,19 +222,21 @@ mr_fifa_button_sgui = {
 		has_variable = vikelas_football_country_var
 	}
     is_valid = {
+		vikelas_has_football_association_trigger = yes
 		custom_tooltip = {
 			text = MR_FIFA_TRIGGER_TT
 			any_country = {
-				has_variable = vikelas_football_association_var
+				vikelas_has_football_association_trigger = yes
 				count >= 6
 			}
 		}
-		mr_gui_has_organized_sports_tech_trigger = yes
+		mr_gui_has_vikelas_international_sports_tech_trigger = yes
+		mr_gui_has_mass_culture_tech_trigger = yes
     }
     effect = {
 		custom_tooltip = vikelas_become_fifa_president_tt
-		set_global_variable = vikelas_fifa_founded_global_var
 		set_variable = vikelas_fifa_founding_country_var
+		set_global_variable = vikelas_fifa_founded_global_var
 		capital = {
 			create_building = {
 				building = building_vikelas_fifa
@@ -95,7 +257,7 @@ mr_fifa_button_sgui = {
 		}
 		every_country = {
 			limit = {
-				has_variable = vikelas_football_association_var
+				vikelas_has_football_association_trigger = yes
 			}
 			trigger_event = {
 				id = vikelas.401
@@ -110,12 +272,116 @@ mr_fifa_button_sgui = {
 	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
 
+#MR_WORLDCUP_BUTTON
+mr_football_worldcup_button_sgui = {
+    scope = country
+	is_shown = {
+		NOR = {
+			has_global_variable = vikelas_football_worldcup_global_var
+			has_variable = vikelas_recent_fifa_host_var
+		}
+		OR = {
+			has_variable = vikelas_fifa_founding_country_var
+			has_variable = vikelas_fifa_board_member_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_FIFA_MEMBER_TRIGGER_TT
+			global_var:vikelas_num_fifa_members_global_var >= 16
+		}
+		custom_tooltip = {
+			text = MR_SCHOOL_SPORTS_STADIUM_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_stadium
+			}
+		}
+		mr_gui_has_mass_culture_tech_trigger = yes
+    }
+    effect = {
+		set_global_variable = {
+			name = vikelas_football_worldcup_global_var
+			years = 4
+		}
+		set_global_variable = {
+			name = vikelas_num_football_worldcup_global_var
+			value = 0
+		}
+		set_variable = {
+			name = vikelas_recent_fifa_host_var
+			years = 30
+		}
+		add_modifier = {
+			name = vikelas_fifa_worldcup_host_modifier
+			days = 365
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = vikelas.410
+				days = 1
+			}
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_JOIN_FIFA_BUTTON
+mr_join_fifa_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = vikelas_fifa_member_var
+		}
+		has_global_variable = vikelas_fifa_founded_global_var
+		has_variable = vikelas_football_country_var
+	}
+    is_valid = {
+		mr_gui_has_vikelas_international_sports_tech_trigger = yes
+    }
+    effect = {
+		vikelas_join_fifa_effect = yes
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_LEAVE_FIFA_BUTTON
+mr_leave_fifa_button_sgui = {
+    scope = country
+	is_shown = {
+		has_variable = vikelas_fifa_member_var
+		is_player = yes
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_LEAVE_FIFA_TRIGGER_TT
+			NOR = {
+				has_variable = vikelas_fifa_founding_country_var
+				has_variable = vikelas_fifa_board_member_var
+			}
+		}
+    }
+    effect = {
+		vikelas_leave_fifa_effect = yes
+    }
+}
+
 #MR_FIFA_PRESIDENT_BUTTON
 mr_fifa_president_button_sgui = {
     scope = country
 	is_shown = {
 		has_global_variable = vikelas_fifa_founded_global_var
-		has_variable = vikelas_football_association_var
+		vikelas_has_football_association_trigger = yes
 		NOT = {
 			any_country = {
 				has_variable = vikelas_fifa_founding_country_var
@@ -143,56 +409,6 @@ mr_fifa_president_button_sgui = {
 			set_global_variable = {
 				name = vikelas_fifa_president_global_var
 				value = ROOT
-			}
-		}
-    }
-
-	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
-	ai_chance = {
-		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
-	}
-	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
-}
-
-#MR_WORLDCUP_BUTTON
-vikelas_football_worldcup_button_sgui = {
-    scope = country
-	is_shown = {
-		NOT = {
-			has_global_variable = vikelas_football_worldcup_global_var
-		}
-		has_global_variable = vikelas_fifa_founded_global_var
-		has_variable = vikelas_football_country_var
-	}
-    is_valid = {
-		custom_tooltip = {
-			text = MR_FOOTBALL_WORLDCUP_FOOTBALL_ASSOCIATION_TRIGGER_TT
-			any_country = {
-				has_variable = vikelas_football_association_var
-				count >= 10
-			}
-		}
-		mr_gui_has_mass_culture_tech_trigger = yes
-		mr_gui_has_organized_sports_tech_trigger = yes
-    }
-    effect = {
-		set_global_variable = vikelas_football_worldcup_global_var
-		set_global_variable = {
-			name = vikelas_num_football_worldcup_global_var
-			value = 0
-		}
-		set_variable = {
-			name = vikelas_recent_fifa_host_var
-			years = 20
-		}
-		add_modifier = {
-			name = vikelas_fifa_worldcup_host_modifier
-			days = 365
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = vikelas.410
-				days = 1
 			}
 		}
     }
