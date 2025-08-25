@@ -4,4 +4,5 @@ Fixes:
 - Fixed the character treatment alert.
 
 Characters:
+- Stefan Tyszkiewicz (random Polish Engineer)
 - Isaac Peral (random Spanish Engineer)
