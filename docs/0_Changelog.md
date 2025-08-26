@@ -12,3 +12,4 @@ Characters:
 - Stefan Tyszkiewicz (random Polish Engineer)
 - Isaac Peral (random Spanish Engineer)
 - Jan Czochralski (random Polish Chemist)
+- Jan Czerski (randim Polish Geologist and Paleontologist)
