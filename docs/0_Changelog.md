@@ -15,6 +15,7 @@ Characters:
 - Stefan Tyszkiewicz (random Polish Engineer)
 - Isaac Peral (random Spanish Engineer)
 - Jan Czochralski (random Polish Chemist)
+- Pedro de Moura (random Brazilian Geologist)
 - Jan Czerski (random Polish Geologist and Paleontologist)
 - Zofia Licharewa (random Polish Geologist)
 - Orville Adalbert Derby (random American Geologist)
