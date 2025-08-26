@@ -14,3 +14,4 @@ Characters:
 - Jan Czochralski (random Polish Chemist)
 - Jan Czerski (random Polish Geologist and Paleontologist)
 - Zofia Licharewa (random Polish Geologist)
+- Orville Adalbert Derby (random American Geologist)
