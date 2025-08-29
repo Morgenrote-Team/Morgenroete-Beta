@@ -1,6 +1,7 @@
 Changelog for 2.4.3l "Hugi"
 
 Quality of Life:
+- The projects of the Chemist can now be automated.
 - The projects of the Astronomer can now be automated.
 
 Changes:
