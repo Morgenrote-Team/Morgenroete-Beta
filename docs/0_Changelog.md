@@ -10,6 +10,7 @@ Changes:
 Fixes:
 - Fixed the character treatment alert.
 - Fixed wrong Mountaineering Variables in the GUI and for the Mountaineering ranking.
+- The Axolotl and Gila Monster can now be bred properly and the habitat gets added instead of removed.
 
 Characters:
 - Christian Hülsmeyer (random German Engineer)
