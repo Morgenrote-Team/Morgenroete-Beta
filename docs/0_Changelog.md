@@ -19,6 +19,7 @@ Characters:
 - Jan Czochralski (random Polish Chemist)
 - Theodor Fuchs (random Austrian Geologist and Paleontologist)
 - Franz von Hauer (random Austrian Geologist and Paleontologist)
+- August Emanuel Reuss (random Austrian Geologist, Paleontologist and Physician)
 - Pedro de Moura (random Brazilian Geologist)
 - Jan Czerski (random Polish Geologist and Paleontologist)
 - Zofia Licharewa (random Polish Geologist)
