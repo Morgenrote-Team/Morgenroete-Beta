@@ -22,6 +22,7 @@ Characters:
 - August Emanuel Reuss (random Austrian Geologist, Paleontologist and Physician)
 - Joseph Russegger (random Austrian Geologist)
 - Emil Tietze (random Austrian Geologist)
+- Viktor Uhlig (random Austrian Geologist and Paleontologist)
 - Pedro de Moura (random Brazilian Geologist)
 - Jan Czerski (random Polish Geologist and Paleontologist)
 - Zofia Licharewa (random Polish Geologist)
