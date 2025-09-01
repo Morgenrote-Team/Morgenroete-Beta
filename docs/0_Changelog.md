@@ -21,6 +21,7 @@ Characters:
 - Franz von Hauer (random Austrian Geologist and Paleontologist)
 - August Emanuel Reuss (random Austrian Geologist, Paleontologist and Physician)
 - Joseph Russegger (random Austrian Geologist)
+- Emil Tietze (random Austrian Geologist)
 - Pedro de Moura (random Brazilian Geologist)
 - Jan Czerski (random Polish Geologist and Paleontologist)
 - Zofia Licharewa (random Polish Geologist)
