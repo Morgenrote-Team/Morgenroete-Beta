@@ -20,6 +20,7 @@ Characters:
 - Theodor Fuchs (random Austrian Geologist and Paleontologist)
 - Franz von Hauer (random Austrian Geologist and Paleontologist)
 - August Emanuel Reuss (random Austrian Geologist, Paleontologist and Physician)
+- August Rosiwal (random Austrian Geologist)
 - Joseph Russegger (random Austrian Geologist)
 - Emil Tietze (random Austrian Geologist)
 - Viktor Uhlig (random Austrian Geologist and Paleontologist)
