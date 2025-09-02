@@ -2454,20 +2454,100 @@ ai_writer_effects = {
 	}
 }
 
+#Handles the Painter for the AI and automation
+ai_painter_automation_effect = {
+	if = {
+		limit = {
+			klimt_has_active_painter_no_tooltip_trigger = yes
+			klimt_is_painter_automated_trigger = yes
+		}
+
+		ai_painter_vernissage_effect = yes
+		ai_painter_trip_effect = yes
+	}
+}
+
 #Handles the Painter Trip for the AI
 ai_painter_trip_effect = {
 	if = {
 		limit = {
-			NOT = { has_variable = klimt_trip_destination_var }
-			klimt_has_active_painter_no_tooltip_trigger = yes
 			klimt_painter_trip_possible_no_tooltip_trigger = yes
 		}
 
-		#Effect
-		set_variable = klimt_trip_destination_var
-		trigger_event = { 
-			id = klimt.401
-			popup = yes
+		#Determines a valid target
+		random_list = {
+			#Classicism
+			1 = {
+				trigger = {
+					has_global_variable = elgar_classicism_discovered
+					NOT = {
+						var:klimt_painter_var ?= {
+							has_trait = klimt_classic_school
+						}
+					}
+				}
+
+				#Effect
+				var:klimt_painter_var ?= {
+					set_character_busy_and_immortal = yes
+					set_variable = klimt_painter_on_classic_school_trip
+				}
+				set_variable = {
+					name = klimt_painter_progress
+					value = -1
+				}
+				set_klimt_center_of_art_scope = yes
+				add_journal_entry = {
+					type = je_klimt_painter_trip
+				}
+				random_country = {
+					limit = {
+						any_scope_state = {
+							has_state_trait = artists_state_trait_center_classicism
+						}
+					}
+					klimt_add_x_painting_tradition_unscaled_effect = {
+						AMOUNT = 2
+					}
+					post_notification = klimt_classic_school_visit_notification
+				}
+			}
+			#Classicism
+			1 = {
+				trigger = {
+					has_global_variable = elgar_classicism_discovered
+					NOT = {
+						var:klimt_painter_var ?= {
+							has_trait = klimt_classic_school
+						}
+					}
+				}
+
+				#Effect
+				var:klimt_painter_var ?= {
+					set_character_busy_and_immortal = yes
+					set_variable = klimt_painter_on_classic_school_trip
+				}
+				set_variable = {
+					name = klimt_painter_progress
+					value = -1
+				}
+				set_klimt_center_of_art_scope = yes
+				add_journal_entry = {
+					type = je_klimt_painter_trip
+				}
+				random_country = {
+					limit = {
+						any_scope_state = {
+							has_state_trait = artists_state_trait_center_classicism
+						}
+					}
+					klimt_add_x_painting_tradition_unscaled_effect = {
+						AMOUNT = 2
+					}
+					post_notification = klimt_classic_school_visit_notification
+				}
+			}
 		}
 	}
 }
@@ -2476,7 +2556,6 @@ ai_painter_trip_effect = {
 ai_painter_vernissage_effect = {
 	if = {
 		limit = {
-			klimt_has_active_painter_no_tooltip_trigger = yes
 			any_scope_building = {
 				has_active_production_method = pm_artists_arts_academy_studio
 			}
