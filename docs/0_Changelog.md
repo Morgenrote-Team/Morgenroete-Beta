@@ -4,5 +4,6 @@ Characters:
 - Karl Ludwig Littrow (random Austrian Astronomer)
 - Otto Littrow (random Austrian Astronomer and Physicist)
 - Joseph Rheden (random Austrian Astronomer)
+- Rudolf Ferdinand Spitaler (random Austrian Astronomer and Physicist)
 - Oswald Thomas (random Austrian Astronomer)
 - Edmund Weiss (random Austrain Astronomer)
