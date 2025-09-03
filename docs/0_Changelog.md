@@ -1,6 +1,11 @@
 Changelog for 2.4.3l "Hugi"
 
+Quality of Life:
+- The Engineer can now be automated.
+- The Painter can now be automated
+
 Characters:
+- Rudolf König (random Austrian Astronomer)
 - Karl Ludwig Littrow (random Austrian Astronomer)
 - Otto Littrow (random Austrian Astronomer and Physicist)
 - Joseph Rheden (random Austrian Astronomer)
