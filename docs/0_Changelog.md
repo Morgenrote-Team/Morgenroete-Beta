@@ -5,6 +5,7 @@ Quality of Life:
 - The Painter can now be automated
 
 Characters:
+- Josef Redtenbacher (random Austrian Chemist)
 - Rudolf König (random Austrian Astronomer)
 - Karl Ludwig Littrow (random Austrian Astronomer)
 - Otto Littrow (random Austrian Astronomer and Physicist)
