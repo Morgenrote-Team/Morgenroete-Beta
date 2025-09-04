@@ -8,6 +8,7 @@ Characters:
 - Rudolf König (random Austrian Astronomer)
 - Karl Ludwig Littrow (random Austrian Astronomer)
 - Otto Littrow (random Austrian Astronomer and Physicist)
+- Johann Palisa (random Austrian Astronomer)
 - Joseph Rheden (random Austrian Astronomer)
 - Rudolf Ferdinand Spitaler (random Austrian Astronomer and Physicist)
 - Oswald Thomas (random Austrian Astronomer)
