@@ -6,6 +6,7 @@ Quality of Life:
 
 Characters:
 - Adolf Lieben (random Austrian Chemist)
+- Richard Pribram (random Austrian Chemist)
 - Josef Redtenbacher (random Austrian Chemist)
 - Rudolf König (random Austrian Astronomer)
 - Karl Ludwig Littrow (random Austrian Astronomer)
