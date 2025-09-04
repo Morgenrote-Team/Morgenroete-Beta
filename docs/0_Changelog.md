@@ -8,6 +8,7 @@ Characters:
 - Adolf Lieben (random Austrian Chemist)
 - Richard Pribram (random Austrian Chemist)
 - Josef Redtenbacher (random Austrian Chemist)
+- Jan Svatopluk Presl (random Austrian/Czech Chemist)
 - Rudolf König (random Austrian Astronomer)
 - Karl Ludwig Littrow (random Austrian Astronomer)
 - Otto Littrow (random Austrian Astronomer and Physicist)
