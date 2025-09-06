@@ -19,3 +19,4 @@ Characters:
 - Edmund Weiss (random Austrain Astronomer)
 - Andreas Reischek (random Austrian Naturalist)
 - Georg Anton Rollett (random Austrian Naturalist and Physician)
+- Ludwig Karl Schmarda (random Austrian Naturalist and Physician)
