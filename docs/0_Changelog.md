@@ -4,6 +4,9 @@ Quality of Life:
 - The Engineer can now be automated.
 - The Painter can now be automated
 
+GUI:
+- The top 5 Painters were moved to the Painter rankings. This change also allows you to see all the painters in the world.
+
 Fixes:
 - Tourism income should no longer be able to be negative.
 
