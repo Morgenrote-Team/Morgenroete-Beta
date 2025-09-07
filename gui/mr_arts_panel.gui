@@ -1335,17 +1335,52 @@ types mr_main_arts_panel_types {
                     blockoverride "ranking_on_finish" {
                         on_finish = "[GetScriptedGui('mr_painting_tradition_ranking_sgui').Execute( GuiScope.SetRoot( Country.MakeScope ).End )]" #Resets the Ranking
                     }
+                    blockoverride "buttons_visible" {
+                        visible = yes
+                    }
+                    blockoverride "button_1_content" {
+                        enabled = "[Not( GetVariableSystem.HasValue('mr_painter_ranking', 'painting_tradition') )]"
+                        text = "MR_PAINTING_TRADITION_RANKING_BUTTON"
+                        tooltip = "MR_RANKING_BY_PAINTING_TRADITION"
+
+                        onclick = "[GetVariableSystem.Set('mr_painter_ranking', 'painting_tradition')]"
+                    }
+                    blockoverride "button_2_content" {
+                        enabled = "[Not( GetVariableSystem.HasValue('mr_painter_ranking', 'painter_ranking') )]"
+                        text = "MR_PAINTER_RANKING_BUTTON"
+                        tooltip = "MR_RANKING_BY_PAINTER"
+
+                        onclick = "[GetVariableSystem.Set('mr_painter_ranking', 'painter_ranking')]"
+                    }
                     blockoverride "text_1" {
                         raw_text = "PAINTER_PAINTING_TRADITION_RANKING_HEADER"
                     }
                     blockoverride "ranking_1_visible" {
-                        visible = yes
+                        visible = "[GetVariableSystem.HasValue('mr_painter_ranking', 'painting_tradition')]"
                     }
                     blockoverride "ranking_1_datamodel" {
                         datamodel = "[GetGlobalList('mr_painting_tradition_ranking_global_list')]"
                     }
                     blockoverride "ranking_variable_used_1" {
                         raw_text = "[Country.MakeScope.GetVariable('klimt_painting_tradition_var').GetValue|*V0]"
+                    }
+                    blockoverride "text_2" {
+                        raw_text = "PAINTER_PAINTER_RANKING_HEADER"
+                    }
+                    blockoverride "ranking_2_visible" {
+                        visible = "[GetVariableSystem.HasValue('mr_painter_ranking', 'painter_ranking')]"
+                    }
+                    blockoverride "ranking_2_datamodel" {
+                        datamodel = "[GetGlobalList('mr_painter_ranking_global_list')]"
+                    }
+                    blockoverride "ranking_2_datacontext"{
+                        datacontext = "[Scope.GetCharacter]"
+                    }
+                    blockoverride "ranking_2_text_column_2"{
+                        raw_text = "#tooltip:[GetRawTextTooltipTag('klimt_official_painter_rating_tt_loc')] [Character.GetCustom('klimt_painter_rating_new_painter_icon_type')] #! [Character.GetFullName]"
+                    }
+                    blockoverride "ranking_variable_used_2" {
+                        raw_text = "[Character.MakeScope.GetVariable('klimt_painter_experience').GetValue|V0]"
                     }
                 }
             }
@@ -1387,13 +1422,6 @@ types mr_main_arts_panel_types {
                 }
                 text = "MR_TOTAL_MASTERWORKS_COUNTRY"
                 tooltip = "MR_TOTAL_MASTERWORKS_COUNTRY_TT"
-            }
-            # Painter Ranking
-            mr_shared_data_text = {
-                blockoverride "size" {
-                    layoutpolicy_horizontal = growing
-                }
-                text = "RANKING_PAINTER_TOP_5"
             }
         }
         blockoverride "visit_button" {
