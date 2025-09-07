@@ -4,6 +4,9 @@ Quality of Life:
 - The Engineer can now be automated.
 - The Painter can now be automated
 
+Fixes:
+- Tourism income should no longer be able to be negative.
+
 Characters:
 - Adolf Lieben (random Austrian Chemist)
 - Richard Pribram (random Austrian Chemist)
