@@ -20,6 +20,7 @@ Characters:
 - Rudolf Ferdinand Spitaler (random Austrian Astronomer and Physicist)
 - Oswald Thomas (random Austrian Astronomer)
 - Edmund Weiss (random Austrain Astronomer)
+- Karl Moriz Diesing (random Austrian Naturalist)
 - Andreas Reischek (random Austrian Naturalist)
 - Georg Anton Rollett (random Austrian Naturalist and Physician)
 - Ludwig Karl Schmarda (random Austrian Naturalist and Physician)
