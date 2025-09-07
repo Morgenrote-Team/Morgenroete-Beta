@@ -1894,27 +1894,23 @@ elgar_liszt_destination_effect = {
 
 #Adds the 5 best composers as global variables
 elgar_create_composer_ranking_effect = {
-	remove_global_variable = elgar_composer_rank_1_global_var
-	remove_global_variable = elgar_composer_rank_2_global_var
-	remove_global_variable = elgar_composer_rank_3_global_var
-	remove_global_variable = elgar_composer_rank_4_global_var
-	remove_global_variable = elgar_composer_rank_5_global_var
-
+	#Sets experience if Composers don't have experience yet
 	every_character_in_void = {
 		limit = {
-			AND = {
-				OR = {
-					has_variable = mr_is_composer_var
-					has_variable = mr_is_travelling_composer_var
-				}
-				NOT = { has_variable = elgar_composer_experience }
+			OR = {
+				has_variable = mr_is_composer_var
+				has_variable = mr_is_travelling_composer_var
 			}
+			NOT = { has_variable = elgar_composer_experience }
 		}
 		set_variable = {
 			name = elgar_composer_experience
 			value = 0
 		}
 	}
+
+	#Removes the global variable list
+	clear_global_variable_list = mr_composer_ranking_global_list
 
 	ordered_character_in_void = {
 		limit = {
@@ -1923,65 +1919,14 @@ elgar_create_composer_ranking_effect = {
 				has_variable = mr_is_travelling_composer_var
 			}
 		}
-
 		order_by = var:elgar_composer_experience
-		max = 5
+		max = 1000
 		check_range_bounds = no
 
-		if = {
-			limit = {
-				NOT = {
-					has_global_variable = elgar_composer_rank_1_global_var
-				}
-			}
-			set_global_variable = {
-				name = elgar_composer_rank_1_global_var
-				value = this
-			}
-		}
-		else_if = {
-			limit = {
-				NOT = {
-					has_global_variable = elgar_composer_rank_2_global_var
-				}
-			}
-			set_global_variable = {
-				name = elgar_composer_rank_2_global_var
-				value = this
-			}
-		}
-		else_if = {
-			limit = {
-				NOT = {
-					has_global_variable = elgar_composer_rank_3_global_var
-				}
-			}
-			set_global_variable = {
-				name = elgar_composer_rank_3_global_var
-				value = this
-			}
-		}
-		else_if = {
-			limit = {
-				NOT = {
-					has_global_variable = elgar_composer_rank_4_global_var
-				}
-			}
-			set_global_variable = {
-				name = elgar_composer_rank_4_global_var
-				value = this
-			}
-		}
-		else_if = {
-			limit = {
-				NOT = {
-					has_global_variable = elgar_composer_rank_5_global_var
-				}
-			}
-			set_global_variable = {
-				name = elgar_composer_rank_5_global_var
-				value = this
-			}
+		#This part adds all the countries to the list
+		add_to_global_variable_list = {
+			name = mr_composer_ranking_global_list
+			target = this
 		}
 	}
 }
