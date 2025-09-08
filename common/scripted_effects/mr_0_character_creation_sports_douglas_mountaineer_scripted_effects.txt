@@ -1,0 +1,142 @@
+﻿###################################################
+# DOUGLAS NEW CHARACTER CREATION SCRPITED EFFECTS #
+###################################################
+
+############################################################################
+
+# Creates a new Mountaineer without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
+mr_create_historical_mountaineer_for_character_creation_effect = {
+	random_list = {
+		100 = { #Franz Josef Hugi, Switzerland
+			trigger = {
+				NOT = { has_global_variable = mr_hugi_franz_josef_created_global_var }
+				mr_country_owns_solothurn_trigger = yes #Born in Grenchen
+				country_average_cultural_acceptance = {
+					target = cu:alemannic
+					value >= acceptance_status_4
+				}
+				game_date < 1846.01.23 #Age 55
+				year >= 1819 #Teacher at a Cantonal School
+			}
+			create_character = {
+				template = mr_swi_hugi_franz_josef_character_template
+
+				save_scope_as = douglas_new_mountaineer_scope
+			}
+			scope:douglas_new_mountaineer_scope = {
+				set_variable = mr_is_mountaineer_var #Could be used for clothing or a role in the future
+				set_variable = mr_no_headgear_var
+				mountaineer_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = douglas_new_mountaineer_var
+				value = scope:douglas_new_mountaineer_scope
+			}
+
+			set_global_variable = mr_hugi_franz_josef_created_global_var
+		}
+		100 = { #Gottlieb Samuel Studer, Switzerland
+			trigger = {
+				NOT = { has_global_variable = mr_studer_samuel_gottlieb_created_global_var }
+				mr_country_owns_bern_trigger = yes
+				country_average_cultural_acceptance = {
+					target = cu:alemannic
+					value >= acceptance_status_4
+				}
+				game_date < 1859.08.05
+				year >= 1829 #25 years old
+			}
+			create_character = {
+				template = mr_swi_studer_samuel_gottlieb_character_template
+				save_scope_as = douglas_new_mountaineer_scope
+			}
+			scope:douglas_new_mountaineer_scope = {
+				set_variable = mr_is_mountaineer_var
+				set_variable = mr_no_headgear_var
+				mountaineer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = douglas_new_mountaineer_var
+				value = scope:douglas_new_mountaineer_scope
+			}
+			set_global_variable = mr_studer_samuel_gottlieb_created_global_var
+		}
+	}
+}
+
+mr_create_random_mountaineer_for_character_creation_effect = {
+	random_list = {
+		1 = {
+			create_character = {
+				female = yes
+				age = { 20 25 }
+				trait_generation = {}
+				save_scope_as = douglas_new_mountaineer_scope
+			}
+			scope:douglas_new_mountaineer_scope = {
+				add_trait = douglas_mountaineer
+				set_variable = mr_is_mountaineer_var
+				mountaineer_experience_set_up_effect = yes
+				mr_trait_generation_mountaineer_effect = yes
+				place_character_in_void = 1200	
+			}
+			set_variable = {
+				name = douglas_new_mountaineer_var
+				value = scope:douglas_new_mountaineer_scope
+			}
+
+			modifier = {
+				if = {
+					limit = { has_law = law_type:law_women_own_property }
+					add = 4
+				}
+				if = {
+					limit = { has_law = law_type:law_women_in_the_workplace }
+					add = 9
+				}
+				if = {
+					limit = { has_law = law_type:law_womens_suffrage }
+					add = 19
+				}
+			}
+		}
+		99 = {
+			create_character = {
+				age = { 20 25 }
+				trait_generation = {}
+				save_scope_as = douglas_new_mountaineer_scope
+			}
+			scope:douglas_new_mountaineer_scope = {
+				add_trait = douglas_mountaineer
+				set_variable = mr_is_mountaineer_var
+				mountaineer_experience_set_up_effect = yes
+				mr_trait_generation_mountaineer_effect = yes
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = douglas_new_mountaineer_var
+				value = scope:douglas_new_mountaineer_scope
+			}
+
+			modifier = {
+				if = {
+					limit = { has_law = law_type:law_women_own_property }
+					add = -4
+				}
+				if = {
+					limit = { has_law = law_type:law_women_in_the_workplace }
+					add = -9
+				}
+				if = {
+					limit = { has_law = law_type:law_womens_suffrage }
+					add = -19
+				}
+			}
+		}
+	}
+}
