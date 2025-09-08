@@ -2,7 +2,8 @@ Changelog for 2.4.3l "Hugi"
 
 Quality of Life:
 - The Engineer can now be automated.
-- The Painter can now be automated
+- The Painter can now be automated.
+- Added a game rule to choose the probability of event (e.g. promoted) spawned historical characters.
 
 GUI:
 - You can now see all Architects in the world in the Writer ranking.
@@ -26,6 +27,7 @@ Characters:
 - Rudolf Ferdinand Spitaler (random Austrian Astronomer and Physicist)
 - Oswald Thomas (random Austrian Astronomer)
 - Edmund Weiss (random Austrain Astronomer)
+- Carl Ludolf Griesbach (random Austrian Geologist)
 - Karl Moriz Diesing (random Austrian Naturalist)
 - Andreas Reischek (random Austrian Naturalist)
 - Georg Anton Rollett (random Austrian Naturalist and Physician)
