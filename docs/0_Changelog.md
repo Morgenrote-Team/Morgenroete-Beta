@@ -5,7 +5,8 @@ Quality of Life:
 - The Painter can now be automated
 
 GUI:
-- You can now access all Writers in the world in the Writer ranking.
+- You can now see all Architects in the world in the Writer ranking.
+- You can now see all Writers in the world in the Writer ranking.
 - The top 5 Composers were moved to the Composer rankings. This change also allows you to see all the composers in the world.
 - The top 5 Painters were moved to the Painter rankings. This change also allows you to see all the painters in the world.
 
