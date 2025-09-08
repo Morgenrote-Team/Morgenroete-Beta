@@ -1,0 +1,37 @@
+﻿######################################################
+# MBASE NEW CHARACTER CREATION SCRPITED EFFECTS #
+######################################################
+
+############################################################################
+
+#Creates a new character without losing the old one
+# This effect works by calling other effects by replacing strings:
+# CHARACTER = type of character to spawn
+# PROJECT = Name of the project of the character
+# A problem is that scopes somehow do not work properly with random_lists, so I use a variable in between.
+create_new_character_base_effect = {
+	#Chooses either a historical or random character depending on game rules
+	random_list = {
+		100 = {
+			mr_create_historical_$CHARACTER$_for_character_creation_effect = yes
+		}
+		0 = {
+			mr_create_random_$CHARACTER$_for_character_creation_effect = yes
+		}
+	}
+
+	#Makes sure a random character spawns if there is none spawned yet.
+	if = {
+		limit = {
+			NOT = {
+				has_variable = $PROJECT$_new_$CHARACTER$_var
+			}
+		}
+
+		mr_create_random_$CHARACTER$_for_character_creation_effect = yes
+	}
+
+	var:$PROJECT$_new_$CHARACTER$_var = {
+		save_scope_as = $PROJECT$_new_$CHARACTER$_scope
+	}
+}
