@@ -506,6 +506,47 @@ types mr_main_science_panel_types {
                 }
             }
         }
+        blockoverride "occupation_ranking_visible" {
+            visible = yes
+        }
+        blockoverride "occupation_ranking" {
+            tooltipwidget = {
+                MR_TooltipRankingType = {
+                    blockoverride "ranking_on_finish" {
+                        on_finish = "[GetScriptedGui('mr_engineer_ranking_sgui').Execute( GuiScope.SetRoot( Country.MakeScope ).End )]" #Resets the Ranking
+                        on_finish = "[GetVariableSystem.Set('mr_science_engineer_ranking', 'engineer_ranking')]"
+                    }
+                    blockoverride "buttons_visible" {
+                        visible = no
+                    }
+                    blockoverride "button_1_content" {
+                        enabled = "[Not( GetVariableSystem.HasValue('mr_science_engineer_ranking', 'engineer_ranking') )]"
+                        text = "MR_ENGINEER_RANKING_BUTTON"
+                        tooltip = "MR_RANKING_BY_ENGINEER"
+
+                        onclick = "[GetVariableSystem.Set('mr_science_engineer_ranking', 'engineer_ranking')]"
+                    }
+                    blockoverride "text_1" {
+                        raw_text = "ENGINEER_ENGINEER_RANKING_HEADER"
+                    }
+                    blockoverride "ranking_1_visible" {
+                        visible = "[GetVariableSystem.HasValue('mr_science_engineer_ranking', 'engineer_ranking')]"
+                    }
+                    blockoverride "ranking_1_datamodel" {
+                        datamodel = "[GetGlobalList('mr_engineer_ranking_global_list')]"
+                    }
+                    blockoverride "ranking_1_datacontext"{
+                        datacontext = "[Scope.GetCharacter]"
+                    }
+                    blockoverride "ranking_1_text_column_2"{
+                        raw_text = "#tooltip:[GetRawTextTooltipTag('tesla_engineer_rating_tt_loc')] [Character.GetCustom('tesla_engineer_rating_icon_type')] #! [Character.GetFullName]"
+                    }
+                    blockoverride "ranking_variable_used_1" {
+                        raw_text = "[Character.GetCustom('tesla_experience_current_specialization_type')]"
+                    }
+                }
+            }
+        }
         blockoverride "occupation_data_header_text" {
             text = mr_science_engineer_data_header
         }
