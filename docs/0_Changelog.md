@@ -11,3 +11,6 @@ Quality of Life:
 
 Fixes:
 - Fixed the Painter Automation Button.
+
+Characters:
+- Leopold Oser (random Austrian Physician)
