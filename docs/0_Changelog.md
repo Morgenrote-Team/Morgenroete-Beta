@@ -37,3 +37,4 @@ Characters:
 - Georg Anton Rollett (random Austrian Naturalist and Physician)
 - Viktor Schauberger (random Austrian Naturalist)
 - Ludwig Karl Schmarda (random Austrian Naturalist and Physician)
+- Samuel Siegfried Karl Basch (random Austrian Physician)
