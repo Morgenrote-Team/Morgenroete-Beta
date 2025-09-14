@@ -13,5 +13,6 @@ Fixes:
 - Fixed the Painter Automation Button.
 
 Characters:
+- Theodor von Oppolzer (random Austrian Astronomer and Physician)
 - Johann Oppolzer (random Austrian Physician)
 - Leopold Oser (random Austrian Physician)
