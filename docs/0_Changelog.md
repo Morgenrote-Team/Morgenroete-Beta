@@ -3,7 +3,7 @@ Changelog for 2.4.3l "Hugi"
 Quality of Life:
 - The Engineer can now be automated.
 - The Painter can now be automated.
-- Added a game rule to choose the probability of event (e.g. promoted) spawned historical characters.
+- Added a game rule to choose the probability of event spawned (e.g. promoted) historical characters. This does not apply for special events that spawn a certain character.
 
 GUI:
 - You can now see all Architects in the world in the Writer ranking.
