@@ -28,6 +28,7 @@ Characters:
 - Oswald Thomas (random Austrian Astronomer)
 - Edmund Weiss (random Austrain Astronomer)
 - Carl Ludolf Griesbach (random Austrian Geologist)
+- Josef Victor Rohon (random Austrian Paleontologist and Physician)
 - Franz Toula (random Austrian Paleontologist and Geologist)
 - Franz Unger (random Austrian Paleontologist, Naturalist and Physician)
 - Karl Moriz Diesing (random Austrian Naturalist)
