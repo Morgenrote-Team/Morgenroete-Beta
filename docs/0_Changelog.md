@@ -7,6 +7,7 @@ Quality of Life:
 - You can now see all Naturalists in the world in the Naturalist ranking.
 - You can now see all Physicians in the world in the Physician ranking.
 - You can now see all Archaeologists in the world in the Archaeologist ranking.
+- You can now see all Anthropologists in the world in the Anthropologist ranking.
 
 Fixes:
 - Fixed the Painter Automation Button.
