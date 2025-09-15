@@ -8,3 +8,4 @@ Characters:
 - Felix von Luschan (random Austrian Anthropologist, Archaeologist and Ethnologist)
 - József Szombathy (random Hungarian Archaeologist)
 - Rudolf Pöch (random Austrian Anthropologist)
+- Joseph Maria Olbrich (random Austrian Architect)
