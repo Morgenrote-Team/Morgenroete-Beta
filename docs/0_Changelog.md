@@ -13,3 +13,4 @@ Characters:
 - Joseph Maria Olbrich (random Austrian Architect)
 - Camillo Sitte (random Austrian Architect)
 - Franz Sitte (random Austrian Architect)
+- Eduard van der Nüll (random Austrian Architect)
