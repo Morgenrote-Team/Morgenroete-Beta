@@ -8,6 +8,7 @@ Characters:
 - Felix von Luschan (random Austrian Anthropologist, Archaeologist and Ethnologist)
 - József Szombathy (random Hungarian Archaeologist)
 - Rudolf Pöch (random Austrian Anthropologist)
+- Julius Deininger (random Austrian Architect)
 - Joseph Maria Olbrich (random Austrian Architect)
 - Camillo Sitte (random Austrian Architect)
 - Franz Sitte (random Austrian Architect)
