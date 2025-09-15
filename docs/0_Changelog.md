@@ -10,6 +10,7 @@ Characters:
 - Rudolf Pöch (random Austrian Anthropologist)
 - Julius Deininger (random Austrian Architect)
 - Heinrich Ferstel (random Austrian Architect)
+- Josef Hoffmann (random Austrian Architect)
 - Joseph Maria Olbrich (random Austrian Architect)
 - Camillo Sitte (random Austrian Architect)
 - Franz Sitte (random Austrian Architect)
