@@ -20,5 +20,6 @@ Characters:
 - Franz Sitte (random Austrian Architect)
 - Eduard van der Nüll (random Austrian Architect)
 - Peter Johann Nepomuk Geiger (random Austrian Painter)
+- Hans Makart (random Austrian Painter)
 - Egon Schiele (random Austrian Painter)
 - Ferdinand Georg Waldmüller (random Austrian Painter)
