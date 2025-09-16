@@ -1,5 +1,9 @@
 Changelog for 2.4.3p "Hugi"
 
+Fixes:
+- Gustav Klimt should now properly spawn in his event.
+- Fixed Klimt's Outfit.
+
 Characters:
 - Josef Keil (random Austrian Archaeologist)
 - Johann Krahuletz (random Austrian Archaeologist and Paelontologist)
