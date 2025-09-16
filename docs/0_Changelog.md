@@ -19,6 +19,7 @@ Characters:
 - Camillo Sitte (random Austrian Architect)
 - Franz Sitte (random Austrian Architect)
 - Eduard van der Nüll (random Austrian Architect)
+- Friedrich Amerling (random Austrian Architect)
 - Peter Johann Nepomuk Geiger (random Austrian Painter)
 - Oskar Kokoschka (random Austrian Painter)
 - Hans Makart (random Austrian Painter)
