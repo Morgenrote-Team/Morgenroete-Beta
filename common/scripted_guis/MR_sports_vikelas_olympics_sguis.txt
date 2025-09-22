@@ -99,67 +99,41 @@ mr_ioc_bribe_button_sgui = {
     scope = country
 	is_shown = {
 		has_variable = vikelas_ioc_member_var
-	}
-    is_valid = {
-		mr_gui_has_vikelas_international_sports_tech_trigger = yes
-		custom_tooltip = {
-			text = MR_IOC_MEMBER_NOT_HOSTING_TRIGGER_TT
-			NOT = {
-				any_state = {
-					has_modifier = vikelas_olympics_hosting_modifier
-				}
-			}
-		}
-		custom_tooltip = {
-			text = MR_IOC_BRIBE_NOT_BRIBING_ALREADY_TRIGGER_TT
-			NOT = {
-				any_state = {
-					has_modifier = vikelas_olympics_hosting_modifier
-				}
-			}
-		}
 		NOT = {
 			has_modifier = vikelas_olympics_bribed_modifier
 		}
+	}
+    is_valid = {
+		mr_gui_has_vikelas_international_sports_tech_trigger = yes
     }
     effect = {
-		add_treasury = -1000000
 		add_modifier = {
 			name = vikelas_olympics_bribed_modifier
-			years = 5
 		}
-		change_infamy = 3
-		every_country = {
-			limit = {
-				has_variable = vikelas_ioc_board_member_var
-				NOT = { root = this }
-			}
-			add_treasury = 75000
-			change_relations = {
-				country = ROOT
-				value = 5
-			}
+		set_variable = {
+			name = vikelas_olympics_recent_bribe_var
+			months = 48
 		}
-		every_country = {
-			limit = {
-				has_variable = vikelas_ioc_member_var
-				NOT = {
-					has_variable = vikelas_ioc_board_member_var
-				}
-				NOT = { root = this }
-			}
-			change_relations = {
-				country = ROOT
-				value = -5
+    }
+}
+
+#MR_IOC_NO_BRIBE_BUTTON
+mr_ioc_no_bribe_button_sgui = {
+    scope = country
+	is_shown = {
+		has_modifier = vikelas_olympics_bribed_modifier
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_IOC_BRIBE_AT_LEAST_3_YEARS_TRIGGER_TT
+			NOT = {
+				has_variable = vikelas_olympics_recent_bribe_var
 			}
 		}
     }
-
-	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
-	ai_chance = {
-		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
-	}
-	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+    effect = {
+		remove_modifier = vikelas_olympics_bribed_modifier
+    }
 }
 
 #MR_IOC_DISCIPLINE_BUTTON

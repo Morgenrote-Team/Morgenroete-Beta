@@ -36,9 +36,10 @@ Olympic Games:
 - Olympic Games have now Olympic Disciplines associated with medals. There are 16 classical Olympic Disciplines. The 4 national sports can become Olympic Disciplines, too. Therefore, 20 Disciplines and 20 medals are possible.
 - The 16 Disciplines are: Athletics, Archery, Boxing, Cycling, Equestrian Sports, Fencing, Gymnastics, Hockey, Rowing, Polo, Sailing, Shooting, Swimming, Tennis, Weightlifting, Wrestling.
 - Every country starts with a specific Olympic Discipline in which it excels. It has a higher chance to get a medal in this area.
-- The first Olympic Games will have 10 Disciplines. More Disciplines can be added with more IOC members.
+- The first Olympic Games will have 8-10 Disciplines. More Disciplines can be added with more IOC members.
 - The IOC consists of 1 President and 14 Board Members. The Board composition has been changed a bit: 4 Great Powers, 2 Major Powers, 2 Random European Powers, 2 Random American Powers, 2 Random Asian Powers, 1 Random African Power, 1 Random Oceanian Power.
 - Sports Stadium, not Sports Facilities, gives an Olympic advantage.
+- Bribing the IOC to become host of the Olympic Games should be more successfull. Instead of a timed modifier, you can cancel the bribing after four years. Bribing will not change relations anymore. Bribing is a cost modifier instead of a one time sum. AI will not bribe the IOC.
 
 Medicine:
 - No negative epidemic disease events will trigger anymore if you have a treatment for that disease.
