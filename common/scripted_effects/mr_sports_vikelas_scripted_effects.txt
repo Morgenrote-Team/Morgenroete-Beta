@@ -25,21 +25,14 @@ vikelas_medals_of_this_olympia_effect = {
 #This effect adds all the medals to the correct countries
 vikelas_add_medals_effect = {
 
-	### Countries with best Scores ###
-	set_local_variable = {
-		name = best_three_nations_local_var
-		value = 3
-	}
-	ordered_country = {
+	### Remove medals from last year, add medals, if the country never participated ###
+	every_country = {
 		limit = {
 			has_variable = vikelas_ioc_member_var
 		}
-		order_by = vikelas_olympic_success_value
-		max = 3
-
 		set_variable = {
 			name = vikelas_gold_medals_this_year_var
-			value = local_var:best_three_nations_local_var
+			value = 0
 		}
 		if = {
 			limit = {
@@ -50,589 +43,448 @@ vikelas_add_medals_effect = {
 				value = 0
 			}
 		}
-		change_variable = {
-			name = vikelas_gold_medals_var
-			add = local_var:best_three_nations_local_var
-		}
-		change_local_variable = {
-			name = best_three_nations_local_var
-			add = -1
-		}
 	}
 
-	### Random participant countries ###
-	while = {
-		count = 4 #Hands out 4 medals
-
-		#Chooses whether all nations have a chance or only smaller nations
-		random_list = {
-			1 = { #All nations
-				random_country = {
-					limit = {
-						has_variable = vikelas_ioc_member_var
-					}
-					if = {
-						limit = {
-							NOT = { has_variable = vikelas_gold_medals_this_year_var }
-						}
-						set_variable = {
-							name = vikelas_gold_medals_this_year_var
-							value = 1
-						}
-					}
-					else = {
-						change_variable = {
-							name = vikelas_gold_medals_this_year_var
-							add = 1
-						}
-					}
-					if = {
-						limit = {
-							NOT = { has_variable = vikelas_gold_medals_var }
-						}
-						set_variable = {
-							name = vikelas_gold_medals_var
-							value = 1
-						}
-					}
-					else = {
-						change_variable = {
-							name = vikelas_gold_medals_var
-							add = 1
-						}
-					}
-				}
-			}
-			4 = { #Host nation
-				trigger = {
-					any_country = {
-						has_modifier = vikelas_olympics_hosting_modifier
-					}
-				}
-				random_country = {
-					limit = {
-						has_modifier = vikelas_olympics_hosting_modifier
-					}
-					if = {
-						limit = {
-							NOT = { has_variable = vikelas_gold_medals_this_year_var }
-						}
-						set_variable = {
-							name = vikelas_gold_medals_this_year_var
-							value = 1
-						}
-					}
-					else = {
-						change_variable = {
-							name = vikelas_gold_medals_this_year_var
-							add = 1
-						}
-					}
-					if = {
-						limit = {
-							NOT = { has_variable = vikelas_gold_medals_var }
-						}
-						set_variable = {
-							name = vikelas_gold_medals_var
-							value = 1
-						}
-					}
-					else = {
-						change_variable = {
-							name = vikelas_gold_medals_var
-							add = 1
-						}
-					}
-				}
-			}
-			4 = { #Small nations
-				trigger = {
-					any_country = {
-						has_variable = vikelas_ioc_member_var
-						country_rank <= rank_value:major_power
-					}
-				}
-
-				random_country = {
-					limit = {
-						has_variable = vikelas_ioc_member_var
-						country_rank <= rank_value:major_power
-					}
-					if = {
-						limit = {
-							NOT = { has_variable = vikelas_gold_medals_this_year_var }
-						}
-						set_variable = {
-							name = vikelas_gold_medals_this_year_var
-							value = 1
-						}
-					}
-					else = {
-						change_variable = {
-							name = vikelas_gold_medals_this_year_var
-							add = 1
-						}
-					}
-					if = {
-						limit = {
-							NOT = { has_variable = vikelas_gold_medals_var }
-						}
-						set_variable = {
-							name = vikelas_gold_medals_var
-							value = 1
-						}
-					}
-					else = {
-						change_variable = {
-							name = vikelas_gold_medals_var
-							add = 1
-						}
-					}
-				}
-			}
-		}
-	}
-
-	### Sailing Medals ###
+	### Medals per Disciplines ###
+	#Archery
 	if = {
 		limit = {
-			any_country = {
-				has_variable = vikelas_ioc_member_var
-				any_scope_character = {
-					OR = {
-						has_trait = expert_naval_commander
-						has_trait = expert_convoy_raider
-					}
-				}
-			}
+			has_global_variable = vikelas_olympic_disciplines_archery_enabled_global_var
 		}
-		random_country = {
+		ordered_country = {
 			limit = {
 				has_variable = vikelas_ioc_member_var
-				any_scope_character = {
-					OR = {
-						has_trait = expert_naval_commander
-						has_trait = expert_convoy_raider
-					}
-				}
 			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_this_year_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_this_year_var
-					value = 1
-				}
+			order_by = vikelas_olympic_archery_success_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
 			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_this_year_var
-					add = 1
-				}
-			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_var
-					value = 1
-				}
-			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_var
-					add = 1
-				}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
 			}
 		}
 	}
-	else_if = {
+	#Athletics
+	if = {
 		limit = {
-			any_country = {
-				has_variable = vikelas_ioc_member_var
-				any_scope_character = {
-					OR = {
-						has_trait = experienced_naval_commander
-						has_trait = experienced_convoy_raider
-					}
-				}
-			}
+			has_global_variable = vikelas_olympic_disciplines_athletics_enabled_global_var
 		}
-		random_country = {
+		ordered_country = {
 			limit = {
 				has_variable = vikelas_ioc_member_var
-				any_scope_character = {
-					OR = {
-						has_trait = experienced_naval_commander
-						has_trait = experienced_convoy_raider
-					}
-				}
 			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_this_year_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_this_year_var
-					value = 1
-				}
+			order_by = vikelas_olympic_athletics_success_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
 			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_this_year_var
-					add = 1
-				}
-			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_var
-					value = 1
-				}
-			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_var
-					add = 1
-				}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
 			}
 		}
 	}
-	else_if = {
+	#Boxing
+	if = {
 		limit = {
-			any_country = {
-				has_variable = vikelas_ioc_member_var
-				any_scope_character = {
-					OR = {
-						has_trait = basic_naval_commander
-						has_trait = convoy_raider_commander
-					}
-				}
-			}
+			has_global_variable = vikelas_olympic_disciplines_boxing_enabled_global_var
 		}
-		random_country = {
+		ordered_country = {
 			limit = {
 				has_variable = vikelas_ioc_member_var
-				any_scope_character = {
-					OR = {
-						has_trait = basic_naval_commander
-						has_trait = convoy_raider_commander
-					}
-				}
 			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_this_year_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_this_year_var
-					value = 1
-				}
+			order_by = vikelas_olympic_boxing_success_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
 			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_this_year_var
-					add = 1
-				}
-			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_var
-					value = 1
-				}
-			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_var
-					add = 1
-				}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
 			}
 		}
 	}
-	else = {
-		random_country = {
+	#Cycling
+	if = {
+		limit = {
+			has_global_variable = vikelas_olympic_disciplines_cycling_enabled_global_var
+		}
+		ordered_country = {
 			limit = {
 				has_variable = vikelas_ioc_member_var
 			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_this_year_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_this_year_var
-					value = 1
-				}
+			order_by = vikelas_olympic_cycling_success_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
 			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_this_year_var
-					add = 1
-				}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
 			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_var
-					value = 1
-				}
+		}
+	}
+	#Equestrian
+	if = {
+		limit = {
+			has_global_variable = vikelas_olympic_disciplines_equestrian_enabled_global_var
+		}
+		ordered_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
 			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_var
-					add = 1
-				}
+			order_by = vikelas_olympic_equestrian_success_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
+			}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
+			}
+		}
+	}
+	#Fencing
+	if = {
+		limit = {
+			has_global_variable = vikelas_olympic_disciplines_fencing_enabled_global_var
+		}
+		ordered_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			order_by = vikelas_olympic_fencing_success_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
+			}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
+			}
+		}
+	}
+	#Gymnastics
+	if = {
+		limit = {
+			has_global_variable = vikelas_olympic_disciplines_gymnastics_enabled_global_var
+		}
+		ordered_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			order_by = vikelas_olympic_gymnastics_success_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
+			}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
+			}
+		}
+	}
+	#Hockey
+	if = {
+		limit = {
+			has_global_variable = vikelas_olympic_disciplines_hockey_enabled_global_var
+		}
+		ordered_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			order_by = vikelas_olympic_hockey_success_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
+			}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
+			}
+		}
+	}
+	#Polo
+	if = {
+		limit = {
+			has_global_variable = vikelas_olympic_disciplines_polo_enabled_global_var
+		}
+		ordered_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			order_by = vikelas_olympic_polo_success_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
+			}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
+			}
+		}
+	}
+	#Rowing
+	if = {
+		limit = {
+			has_global_variable = vikelas_olympic_disciplines_rowing_enabled_global_var
+		}
+		ordered_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			order_by = vikelas_olympic_rowing_success_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
+			}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
+			}
+		}
+	}
+	#Sailing
+	if = {
+		limit = {
+			has_global_variable = vikelas_olympic_disciplines_sailing_enabled_global_var
+		}
+		ordered_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			order_by = vikelas_olympic_sailing_success_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
+			}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
+			}
+		}
+	}
+	#Shooting
+	if = {
+		limit = {
+			has_global_variable = vikelas_olympic_disciplines_shooting_enabled_global_var
+		}
+		ordered_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			order_by = vikelas_olympic_shooting_success_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
+			}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
+			}
+		}
+	}
+	#Swimming
+	if = {
+		limit = {
+			has_global_variable = vikelas_olympic_disciplines_swimming_enabled_global_var
+		}
+		ordered_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			order_by = vikelas_olympic_swimming_success_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
+			}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
+			}
+		}
+	}
+	#Tennis
+	if = {
+		limit = {
+			has_global_variable = vikelas_olympic_disciplines_tennis_enabled_global_var
+		}
+		ordered_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			order_by = vikelas_olympic_tennis_success_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
+			}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
+			}
+		}
+	}
+	#Weightlifting
+	if = {
+		limit = {
+			has_global_variable = vikelas_olympic_disciplines_weightlifting_enabled_global_var
+		}
+		ordered_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			order_by = vikelas_olympic_weightlifting_success_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
+			}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
+			}
+		}
+	}
+	#Wrestling
+	if = {
+		limit = {
+			has_global_variable = vikelas_olympic_disciplines_wrestling_enabled_global_var
+		}
+		ordered_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			order_by = vikelas_olympic_wrestling_success_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
+			}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
 			}
 		}
 	}
 
-	### Shooting Medals ###
+	### Medals per National Sport ###
+	#Cricket
 	if = {
 		limit = {
-			any_country = {
-				has_variable = vikelas_ioc_member_var
-				any_scope_character = {
-					OR = {
-						has_trait = expert_offensive_planner
-						has_trait = expert_defensive_strategist
-					}
-				}
-			}
+			has_global_variable = vikelas_olympic_disciplines_cricket_enabled_global_var
 		}
-		random_country = {
-			limit = {
-				has_variable = vikelas_ioc_member_var
-				any_scope_character = {
-					OR = {
-						has_trait = expert_offensive_planner
-						has_trait = expert_defensive_strategist
-					}
-				}
-			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_this_year_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_this_year_var
-					value = 1
-				}
-			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_this_year_var
-					add = 1
-				}
-			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_var
-					value = 1
-				}
-			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_var
-					add = 1
-				}
-			}
-		}
-	}
-	else_if = {
-		limit = {
-			any_country = {
-				has_variable = vikelas_ioc_member_var
-				any_scope_character = {
-					OR = {
-						has_trait = experienced_offensive_planner
-						has_trait = experienced_defensive_strategist
-					}
-				}
-			}
-		}
-		random_country = {
-			limit = {
-				has_variable = vikelas_ioc_member_var
-				any_scope_character = {
-					OR = {
-						has_trait = experienced_offensive_planner
-						has_trait = experienced_defensive_strategist
-					}
-				}
-			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_this_year_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_this_year_var
-					value = 1
-				}
-			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_this_year_var
-					add = 1
-				}
-			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_var
-					value = 1
-				}
-			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_var
-					add = 1
-				}
-			}
-		}
-	}
-	else_if = {
-		limit = {
-			any_country = {
-				has_variable = vikelas_ioc_member_var
-				any_scope_character = {
-					OR = {
-						has_trait = basic_offensive_planner
-						has_trait = basic_defensive_strategist
-					}
-				}
-			}
-		}
-		random_country = {
-			limit = {
-				has_variable = vikelas_ioc_member_var
-				any_scope_character = {
-					OR = {
-						has_trait = basic_offensive_planner
-						has_trait = basic_defensive_strategist
-					}
-				}
-			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_this_year_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_this_year_var
-					value = 1
-				}
-			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_this_year_var
-					add = 1
-				}
-			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_var
-					value = 1
-				}
-			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_var
-					add = 1
-				}
-			}
-		}
-	}
-	else = {
-		random_country = {
+		ordered_country = {
 			limit = {
 				has_variable = vikelas_ioc_member_var
 			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_this_year_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_this_year_var
-					value = 1
-				}
+			order_by = vikelas_national_cricket_team_game_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
 			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_this_year_var
-					add = 1
-				}
-			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_var
-					value = 1
-				}
-			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_var
-					add = 1
-				}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
 			}
 		}
 	}
-	### Bicycle Medals ###
+	#Baseball
 	if = {
 		limit = {
-			has_global_variable = vikelas_bicycle_global_var
+			has_global_variable = vikelas_olympic_disciplines_baseball_enabled_global_var
 		}
-		random_country = {
+		ordered_country = {
 			limit = {
 				has_variable = vikelas_ioc_member_var
-				has_modifier = vikelas_bicycle_race_modifier
 			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_this_year_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_this_year_var
-					value = 1
-				}
+			order_by = vikelas_national_baseball_team_game_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
 			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_this_year_var
-					add = 1
-				}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
 			}
-			if = {
-				limit = {
-					NOT = { has_variable = vikelas_gold_medals_var }
-				}
-				set_variable = {
-					name = vikelas_gold_medals_var
-					value = 1
-				}
+		}
+	}
+	#Basketball
+	if = {
+		limit = {
+			has_global_variable = vikelas_olympic_disciplines_basketball_enabled_global_var
+		}
+		ordered_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
 			}
-			else = {
-				change_variable = {
-					name = vikelas_gold_medals_var
-					add = 1
-				}
+			order_by = vikelas_national_basketball_team_game_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
+			}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
+			}
+		}
+	}
+	#Football
+	if = {
+		limit = {
+			has_global_variable = vikelas_olympic_disciplines_football_enabled_global_var
+		}
+		ordered_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			order_by = vikelas_national_football_team_game_value
+			max = 1
+
+			change_variable = {
+				name = vikelas_gold_medals_this_year_var
+				add = 1
+			}
+			change_variable = {
+				name = vikelas_gold_medals_var
+				add = 1
 			}
 		}
 	}
