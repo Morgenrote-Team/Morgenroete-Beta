@@ -1,0 +1,1490 @@
+﻿#############################
+# ATHLETES SCRPITED EFFECTS #
+#############################
+
+############################################################################
+
+######PILOT######
+
+#This effect kills the current pilot
+# !!! Change stuff in both of the following effects !!!
+kill_pilot_effect = {
+	var:curtiss_pilot_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = curtiss_pilot_var
+}
+#This Effect retires the current pilot
+# Use "set_retirement_variable_effect" in the immediate effect when using this effect.
+retire_pilot_effect = {
+	custom_tooltip = {
+		text = retire_pilot_effect_tt
+
+		var:curtiss_pilot_var = {
+			free_character_from_void = no
+		}
+	}
+
+	remove_variable = curtiss_pilot_var
+}
+
+# Creates a new pilot without losing the old one
+create_new_pilot_effect = {
+	random_list = {
+		5 = { #Antoine de Saint-Exupéry, France
+			trigger = {
+				NOT = { has_global_variable = mr_de_saint_exupery_created_global_var }
+				country_has_primary_culture = cu:french
+				has_state_in_state_region = STATE_RHONE
+				game_date < 1940.6.29 #Age 40
+				year >= 1922 #Sometimes around then was military pilot
+			}
+			create_character = {
+				template = mr_fra_de_saint_exupery_antoine_character_template
+
+				save_scope_as = curtiss_new_pilot_scope
+			}
+			scope:curtiss_new_pilot_scope = {
+				add_trait = curtiss_pilot
+				set_variable = mr_is_pilot_var
+				pilot_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = curtiss_new_pilot_var
+				value = scope:curtiss_new_pilot_scope
+			}
+
+			set_global_variable = mr_de_saint_exupery_created_global_var
+		}
+		10 = { #Manfred von Richthofen, Germany
+			trigger = {
+				NOT = { has_global_variable = curtiss_richthofen_created_global_var }
+				OR = {
+					country_has_primary_culture = cu:north_german
+					country_has_primary_culture = cu:south_german
+				}
+				has_state_in_state_region = STATE_SILESIA
+				game_date < 1932.5.2 #Age 40
+				game_date >= 1915.5.30
+			}
+			create_character = {
+				template = mr_ger_richthofen_manfred_character_template
+
+				save_scope_as = curtiss_new_pilot_scope
+			}
+			scope:curtiss_new_pilot_scope = {
+				set_variable = mr_is_pilot_var
+				pilot_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = curtiss_new_pilot_var
+				value = scope:curtiss_new_pilot_scope
+			}
+
+			set_global_variable = curtiss_richthofen_created_global_var
+		}
+		2 = { #Nimitmongkol Nawarat, Siam
+			trigger = {
+				NOT = { has_global_variable = mr_nimitmongkol_nawarat_created_global_var }
+				has_state_in_state_region = STATE_BANGKOK
+				country_average_cultural_acceptance = {
+					target = cu:thai
+					value >= acceptance_status_3
+				}
+				game_date < 1948.4.21 #Age 40
+				year >= 1924 #Graduated Flight School around this time
+			}
+			create_character = {
+				template = mr_sia_nawarat_nimitmongkol_character_template
+				save_scope_as = curtiss_new_pilot_scope
+			}
+			scope:curtiss_new_pilot_scope = {
+				set_variable = mr_is_pilot_var
+				pilot_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = curtiss_new_pilot_var
+				value = scope:curtiss_new_pilot_scope
+			}
+
+			set_global_variable = mr_nimitmongkol_nawarat_created_global_var
+		}
+		1 = { #Random pilot
+			random_list = {
+				1 = {
+					create_character = {
+						female = yes
+						trait_generation = {}
+						save_scope_as = curtiss_new_pilot_scope
+					}
+					scope:curtiss_new_pilot_scope = {
+						add_trait = curtiss_pilot
+						set_variable = mr_is_pilot_var
+						pilot_experience_set_up_effect = yes
+						mr_trait_generation_pilot_effect = yes
+						place_character_in_void = 1200	
+					}
+					set_variable = {
+						name = curtiss_new_pilot_var
+						value = scope:curtiss_new_pilot_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 19
+						}
+					}
+				}
+				99 = {
+					create_character = {
+						age = { 20 25 }
+						trait_generation = {}
+						save_scope_as = curtiss_new_pilot_scope
+					}
+					scope:curtiss_new_pilot_scope = {
+						add_trait = curtiss_pilot
+						set_variable = mr_is_pilot_var
+						pilot_experience_set_up_effect = yes
+						mr_trait_generation_pilot_effect = yes
+						place_character_in_void = 1200
+					}
+					set_variable = {
+						name = curtiss_new_pilot_var
+						value = scope:curtiss_new_pilot_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -19
+						}
+					}
+				}
+			}
+		}
+	}
+
+	var:curtiss_new_pilot_var = {
+		save_scope_as = curtiss_new_pilot_scope
+	}
+}
+
+# Set new Pilot as official Pilot
+curtiss_set_new_pilot_as_pilot_effect = {
+	custom_tooltip = {
+		text = curtiss_replace_pilot_with_new_pilot_tt
+	
+		if = {
+			limit = {
+				has_variable = curtiss_pilot_var
+			}
+			var:curtiss_pilot_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = curtiss_pilot_var
+			value = scope:curtiss_new_pilot_scope
+		}
+
+		remove_variable = curtiss_new_pilot_var
+	}
+}
+
+# Remove new Pilot
+curtiss_remove_new_pilot_effect = {
+	scope:curtiss_new_pilot_scope = {
+		free_character_from_void = no
+	}
+	remove_variable = curtiss_new_pilot_var
+}
+
+# Used to set up the Experience of a character 
+pilot_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = curtiss_pilot_experience
+			}
+		}
+
+		if = {
+			limit = {
+				owner = {
+					has_modifier = curtiss_pilot_school_modifier
+				}
+			}
+			set_variable = {
+				name = curtiss_pilot_experience
+				value = { 100 150 }
+			}
+		}
+		else = {
+			set_variable = {
+				name = curtiss_pilot_experience
+				value = { 0 50 }
+			}
+		}
+		if = {
+			limit = {
+				owner = {
+					any_scope_building = {
+						is_building_type = building_gaudi_sports
+					}
+				}
+			}
+			change_variable = {
+				name = curtiss_pilot_experience
+				add = 75
+			}
+		}
+	}
+	set_variable = {
+		name = curtiss_pilot_num_kills_var
+		value = 0
+	}
+	set_variable = {
+		name = curtiss_pilot_num_records_var
+		value = 0
+	}
+	set_variable = {
+		name = curtiss_pilot_num_schneider_races_var
+		value = 0
+	}
+	set_variable = {
+		name = curtiss_pilot_num_schneider_victories_var
+		value = 0
+	}
+}
+
+#Pilot Experience gain
+pilot_experience_gain_effect = { #adds XP to the Pilot
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = curtiss_pilot_var #should only add experience if there actually is a pilot
+		}
+		custom_tooltip = {
+			text = curtiss_pilot_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:curtiss_pilot_var = { #Fallback to make sure there are no errors if the pilot does not have the variable yet
+							has_variable = curtiss_pilot_experience
+						}
+					}
+				}
+				var:curtiss_pilot_var = { #Sets the experience in case it was not set yet
+					pilot_experience_set_up_effect = yes
+				}
+			}
+			var:curtiss_pilot_var = {
+				change_variable = {
+					name = curtiss_pilot_experience
+					add = $AMOUNT$
+				}
+				clamp_variable = {
+					name = curtiss_pilot_experience
+					min = 0
+					max = 300
+				}
+			}
+		}
+		if = {
+			limit = {
+				var:curtiss_pilot_var = {
+					var:curtiss_pilot_experience >= 300
+					NOT = {
+						has_trait = curtiss_pilot_ace
+					}
+				}
+			}
+			trigger_event = {
+				id = curtiss.314
+				popup = yes
+			}
+			hidden_effect = {
+				var:curtiss_pilot_var = {
+					add_trait = curtiss_pilot_ace
+				}
+			}
+		}
+	}
+}
+
+######Racer######
+
+#This effect kills the current racer
+kill_racer_effect = {
+	var:vikelas_racer_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = vikelas_racer_var
+}
+
+#This effect kills the current racer and creates a new one
+kill_and_replace_racer_effect = {
+	kill_racer_effect = yes
+	create_new_racer_effect = yes
+	vikelas_set_new_racer_as_racer_effect = yes
+}
+
+# Creates a new Racer without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
+create_new_racer_effect = {
+	random_list = {
+		4 = { #Juan Manuel Fangio, Anrgentina
+			trigger = {
+				NOT = { has_global_variable = vikelas_fangio_created_global_var }
+				has_state_in_state_region = STATE_BUENOS_AIRES
+				year >= 1931 #20 years old
+			}
+			create_character = {
+				template = mr_arg_fangio_juan_manuel_character_template
+				save_scope_as = vikelas_new_racer_scope
+			}
+			scope:vikelas_new_racer_scope = {
+				set_variable = mr_flatcap_var
+				set_variable = mr_is_racer_var
+				racer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = vikelas_new_racer_var
+				value = scope:vikelas_new_racer_scope
+			}
+			set_global_variable = vikelas_fangio_created_global_var
+		}
+		4 = { #Marcel Renault, France
+			trigger = {
+				NOT = { has_global_variable = vikelas_renault_marcel_created_global_var }
+				has_state_in_state_region = STATE_ILE_DE_FRANCE
+				country_average_cultural_acceptance = {
+					target = cu:french
+					value >= acceptance_status_3
+				}
+				game_date < 1927.5.14 #Age 55
+				year >= 1899 #Renault founded
+			}
+			create_character = {
+				template = mr_fra_renault_marcel_character_template
+				save_scope_as = vikelas_new_racer_scope
+			}
+			scope:vikelas_new_racer_scope = {
+				set_variable = mr_flatcap_var
+				set_variable = mr_is_racer_var
+				racer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = vikelas_new_racer_var
+				value = scope:vikelas_new_racer_scope
+			}
+			set_global_variable = vikelas_renault_marcel_created_global_var
+		}
+		4 = { #Dubonnet, André, France
+			trigger = {
+				NOT = { has_global_variable = vikelas_dubonnet_created_global_var }
+				has_state_in_state_region = STATE_ILE_DE_FRANCE
+				country_average_cultural_acceptance = {
+					target = cu:french
+					value >= acceptance_status_3
+				}
+				year >= 1921 #Grand Prix de France
+			}
+			create_character = {
+				template = mr_fra_dubonnet_andre_character_template
+				save_scope_as = vikelas_new_racer_scope
+			}
+			scope:vikelas_new_racer_scope = {
+				set_variable = mr_flatcap_var
+				set_variable = mr_is_racer_var
+				racer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = vikelas_new_racer_var
+				value = scope:vikelas_new_racer_scope
+			}
+			set_global_variable = vikelas_dubonnet_created_global_var
+		}
+		4 = { #Segrave, Henry, Great Britain
+			trigger = {
+				NOT = { has_global_variable = vikelas_segrave_created_global_var }
+				has_state_in_state_region = STATE_HOME_COUNTIES #He was born in Baltimore, but he should be very british
+				country_average_cultural_acceptance = {
+					target = cu:british
+					value >= acceptance_status_3
+				}
+				game_date < 1930.6.13 #Fatal crash
+				year >= 1921 #200 miles race
+			}
+			create_character = {
+				template = mr_gbr_segrave_henry_character_template
+				save_scope_as = vikelas_new_racer_scope
+			}
+			scope:vikelas_new_racer_scope = {
+				set_variable = mr_flatcap_var
+				set_variable = mr_is_racer_var
+				racer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = vikelas_new_racer_var
+				value = scope:vikelas_new_racer_scope
+			}
+			set_global_variable = vikelas_segrave_created_global_var
+		}
+		4 = { #Rudolf Caracciola, Germany
+			trigger = {
+				NOT = { has_global_variable = vikelas_caracciola_created_global_var }
+				has_state_in_state_region = STATE_HESSE
+				country_average_cultural_acceptance = {
+					target = cu:north_german
+					value >= acceptance_status_3
+				}
+				game_date < 1956.1.30 #Age 55
+				year >= 1922 #participated in the first races
+			}
+			create_character = {
+				template = mr_ger_caracciola_rudolf_character_template
+				save_scope_as = vikelas_new_racer_scope
+			}
+			scope:vikelas_new_racer_scope = {
+				set_variable = mr_is_racer_var
+				racer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = vikelas_new_racer_var
+				value = scope:vikelas_new_racer_scope
+			}
+			set_global_variable = vikelas_caracciola_created_global_var
+		}
+		4 = { #Antonio Ascari, Italy
+			trigger = {
+				NOT = { has_global_variable = vikelas_ascari_created_global_var }
+				has_state_in_state_region = STATE_LOMBARDY
+				country_average_cultural_acceptance = {
+					target = cu:north_italian
+					value >= acceptance_status_3
+				}
+				game_date < 1943.9.15 #Age 55
+				year >= 1911 #First drive
+			}
+			create_character = {
+				template = mr_ita_ascari_antonio_character_template
+				save_scope_as = vikelas_new_racer_scope
+			}
+			scope:vikelas_new_racer_scope = {
+				set_variable = mr_flatcap_var
+				set_variable = mr_is_racer_var
+				racer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = vikelas_new_racer_var
+				value = scope:vikelas_new_racer_scope
+			}
+			set_global_variable = vikelas_ascari_created_global_var
+		}
+		4 = { #Tazio Nuvolari, Italy
+			trigger = {
+				NOT = { has_global_variable = vikelas_nuvolari_created_global_var }
+				has_state_in_state_region = STATE_LOMBARDY
+				country_average_cultural_acceptance = {
+					target = cu:north_italian
+					value >= acceptance_status_3
+				}
+				year >= 1921 #Coppa Verona
+			}
+			create_character = {
+				template = mr_ita_nuvolari_tazio_character_template
+				save_scope_as = vikelas_new_racer_scope
+			}
+			scope:vikelas_new_racer_scope = {
+				set_variable = mr_flatcap_var
+				set_variable = mr_is_racer_var
+				racer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = vikelas_new_racer_var
+				value = scope:vikelas_new_racer_scope
+			}
+			set_global_variable = vikelas_nuvolari_created_global_var
+		}
+		4 = { #Ralph DePalma, USA
+			trigger = {
+				NOT = { has_global_variable = vikelas_depalma_created_global_var }
+				c:USA ?= this
+				country_average_cultural_acceptance = {
+					target = cu:south_italian
+					value >= acceptance_status_3
+				}
+				year >= 1909 #First Dirt TrackRace
+			}
+			create_character = {
+				template = mr_usa_depalma_ralph_character_template
+				save_scope_as = vikelas_new_racer_scope
+			}
+			scope:vikelas_new_racer_scope = {
+				set_variable = mr_flatcap_var
+				set_variable = mr_is_racer_var
+				racer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = vikelas_new_racer_var
+				value = scope:vikelas_new_racer_scope
+			}
+			set_global_variable = vikelas_depalma_created_global_var
+		}
+		4 = { #Tommy Milton, USA
+			trigger = {
+				NOT = { has_global_variable = vikelas_milton_created_global_var }
+				has_state_in_state_region = STATE_MINNESOTA
+				country_average_cultural_acceptance = {
+					target = cu:yankee
+					value >= acceptance_status_3
+				}
+				year >= 1919 #First Indianapolis Race
+			}
+			create_character = {
+				template = mr_usa_milton_tommy_character_template
+				save_scope_as = vikelas_new_racer_scope
+			}
+			scope:vikelas_new_racer_scope = {
+				set_variable = mr_flatcap_var
+				set_variable = mr_is_racer_var
+				racer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = vikelas_new_racer_var
+				value = scope:vikelas_new_racer_scope
+			}
+			set_global_variable = vikelas_milton_created_global_var
+		}
+		1 = { #Random Racer
+			create_character = {
+				save_scope_as = vikelas_new_racer_scope
+				age = { 18 30 }
+				trait_generation = {
+					add_random_trait = personality
+					random_list = {
+						1 = { add_trait = vikelas_speedster_racer }
+						1 = { add_trait = vikelas_enduring_racer }
+						1 = { add_trait = vikelas_prudent_racer }
+					}
+					random_list = {
+						10 = {}
+						15 = { add_trait = gaudi_mechanical_engineer }
+						10 = { add_trait = curtiss_pilot }
+						10 = { add_trait = brave }
+						10 = { add_trait = ambitious }
+						10 = { add_trait = persistent }
+						10 = { add_trait = cautious }
+						5 = { add_trait = reckless }
+						5 = { add_trait = tactful }
+						5 = { add_trait = meticulous }
+						5 = { add_trait = ruthless }
+						5 = { add_trait = wrathful }
+						5 = { add_trait = reserved }
+						5 = { add_trait = pious }
+					}
+					random_list = {
+						80 = {}
+						5 = { add_trait = alcoholic }
+						5 = { add_trait = opium_addiction }
+						5 = { add_trait = cocaine_addiction }
+						5 = { add_trait = expensive_tastes }
+					}
+				}
+			}
+
+			scope:vikelas_new_racer_scope = {
+				add_trait = vikelas_racer
+				set_variable = mr_is_racer_var
+				racer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = vikelas_new_racer_var
+				value = scope:vikelas_new_racer_scope
+			}
+		}
+	}
+
+	var:vikelas_new_racer_var = {
+		save_scope_as = vikelas_new_racer_scope
+	}
+}
+
+# Set new Racer as official Racer
+vikelas_set_new_racer_as_racer_effect = {
+	custom_tooltip = {
+		text = vikelas_replace_racer_with_new_racer_tt
+	
+		if = {
+			limit = {
+				has_variable = vikelas_racer_var
+			}
+			var:vikelas_racer_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = vikelas_racer_var
+			value = scope:vikelas_new_racer_scope
+		}
+
+		remove_variable = vikelas_new_racer_var
+	}
+}
+
+# Remove new Racer
+vikelas_remove_new_racer_effect = {
+	scope:vikelas_new_racer_scope = {
+		free_character_from_void = no
+	}
+
+	remove_variable = vikelas_new_racer_var
+}
+
+# Used to set up the Experience of a character 
+racer_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = vikelas_racer_experience
+			}
+		}
+		if = {
+			limit = {
+				age > 20
+			}
+			set_variable = {
+				name = vikelas_racer_experience
+				value = age
+			}
+			change_variable = {
+				name = vikelas_racer_experience
+				subtract = 20
+			}
+			change_variable = {
+				name = vikelas_racer_experience
+				multiply = 10
+			}
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							is_building_type = building_gaudi_sports
+						}
+					}
+				}
+				change_variable = {
+					name = vikelas_racer_experience
+					add = 75
+				}
+			}
+		}
+		else = {
+			set_variable = {
+				name = vikelas_racer_experience
+				value = 0
+			}
+		}
+		if = { #Adds the Famous Racer Trait if Experience is above 150
+			limit = {
+				var:vikelas_racer_experience >= 150
+				NOT = {
+					has_trait = vikelas_racer_champion
+				}
+			}
+			remove_trait = vikelas_racer
+			add_trait = vikelas_racer_champion
+		}
+	}
+}
+
+#Racer Experience gain
+racer_experience_gain_effect = { #adds XP to the Racer
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = vikelas_racer_var #should only add experience if there actually is a Painter
+		}
+		custom_tooltip = {
+			text = vikelas_racer_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:vikelas_racer_var = { #Fallback to make sure there are no errors if the Painter does not have the variable yet
+							has_variable = vikelas_racer_experience
+						}
+					}
+				}
+				var:vikelas_racer_var = { #Sets the experience in case it was not set yet
+					racer_experience_set_up_effect = yes
+				}
+			}
+			var:vikelas_racer_var = {
+				change_variable = {
+					name = vikelas_racer_experience
+					add = $AMOUNT$
+				}
+				clamp_variable = {
+					name = vikelas_racer_experience
+					min = 0
+					max = 150
+				}
+			}
+		}
+		if = {
+			limit = {
+				var:vikelas_racer_var = {
+					var:vikelas_racer_experience >= 150
+					NOT = {
+						has_trait = vikelas_racer_champion
+					}
+				}
+			}
+			var:vikelas_racer_var = {
+				remove_trait = vikelas_racer
+				add_trait = vikelas_racer_champion
+			}
+			trigger_event = {
+				id = vikelas.590
+				popup = yes
+			}
+		}
+	}
+}
+
+######Mechanic######
+
+#This effect kills the current mechanic
+kill_mechanic_effect = {
+	var:vikelas_mechanic_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = vikelas_mechanic_var
+}
+
+#This effect kills the current mechanic and creates a new one
+kill_and_replace_mechanic_effect = {
+	kill_mechanic_effect = yes
+	create_new_mechanic_effect = yes
+	vikelas_set_new_mechanic_as_mechanic_effect = yes
+}
+
+# Creates a new Mechanic without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
+create_new_mechanic_effect = {
+	random_list = {
+		1 = { #Random Mechanic
+			create_character = {
+				save_scope_as = vikelas_new_mechanic_scope
+				age = { 18 30 }
+				trait_generation = {
+					add_random_trait = personality
+					random_list = {
+						85 = {}
+						5 = { add_trait = alcoholic }
+						5 = { add_trait = opium_addiction }
+						5 = { add_trait = cocaine_addiction }
+					}
+				}
+			}
+
+			scope:vikelas_new_mechanic_scope = {
+				add_trait = gaudi_mechanical_engineer
+				set_variable = mr_is_mechanic_var
+				mechanic_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = vikelas_new_mechanic_var
+				value = scope:vikelas_new_mechanic_scope
+			}
+		}
+	}
+
+	var:vikelas_new_mechanic_var = {
+		save_scope_as = vikelas_new_mechanic_scope
+	}
+}
+
+# Set new Mechanic as official Mechanic
+vikelas_set_new_mechanic_as_mechanic_effect = {
+	custom_tooltip = {
+		text = vikelas_replace_mechanic_with_new_mechanic_tt
+	
+		if = {
+			limit = {
+				has_variable = vikelas_mechanic_var
+			}
+			var:vikelas_mechanic_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = vikelas_mechanic_var
+			value = scope:vikelas_new_mechanic_scope
+		}
+
+		remove_variable = vikelas_new_mechanic_var
+	}
+}
+
+# Remove new Mechanic
+vikelas_remove_new_mechanic_effect = {
+	scope:vikelas_new_mechanic_scope = {
+		free_character_from_void = no
+	}
+
+	remove_variable = vikelas_new_mechanic_var
+}
+
+# Used to set up the Experience of a character 
+mechanic_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = vikelas_mechanic_experience
+			}
+		}
+		if = {
+			limit = {
+				age > 20
+			}
+			set_variable = {
+				name = vikelas_mechanic_experience
+				value = age
+			}
+			change_variable = {
+				name = vikelas_mechanic_experience
+				subtract = 20
+			}
+			change_variable = {
+				name = vikelas_mechanic_experience
+				multiply = 10
+			}
+		}
+		else = {
+			set_variable = {
+				name = vikelas_mechanic_experience
+				value = 0
+			}
+		}
+	}
+}
+
+#Mechanic Experience gain
+mechanic_experience_gain_effect = { #adds XP to the Mechanic
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = vikelas_mechanic_var #should only add experience if there actually is a Painter
+		}
+		custom_tooltip = {
+			text = vikelas_mechanic_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:vikelas_mechanic_var = { #Fallback to make sure there are no errors if the Painter does not have the variable yet
+							has_variable = vikelas_mechanic_experience
+						}
+					}
+				}
+				var:vikelas_mechanic_var = { #Sets the experience in case it was not set yet
+					mechanic_experience_set_up_effect = yes
+				}
+			}
+			var:vikelas_mechanic_var = {
+				change_variable = {
+					name = vikelas_mechanic_experience
+					add = $AMOUNT$
+				}
+				clamp_variable = {
+					name = vikelas_mechanic_experience
+					min = 0
+					max = 150
+				}
+			}
+		}
+	}
+}
+
+#####COACH######
+
+#This effect kills the current Coach
+kill_coach_effect = {
+	var:vikelas_coach_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = vikelas_coach_var
+}
+
+#This effect kills the current Coach and creates a new one
+kill_and_replace_coach_effect = {
+	kill_coach_effect = yes
+	create_new_coach_effect = yes
+	vikelas_set_new_coach_as_coach_effect = yes
+}
+
+# Creates a new Coach without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
+create_new_coach_effect = {
+	random_list = {
+		1 = { #Random Coach
+			create_character = {
+				save_scope_as = vikelas_new_coach_scope
+				age = { 25 45 }
+				trait_generation = {
+					add_random_trait = personality
+					random_list = {
+						10 = {}
+						5 = { add_trait = brave }
+						5 = { add_trait = ambitious }
+						5 = { add_trait = persistent }
+						5 = { add_trait = cautious }
+						5 = { add_trait = reckless }
+						5 = { add_trait = tactful }
+						5 = { add_trait = meticulous }
+						5 = { add_trait = ruthless }
+						5 = { add_trait = wrathful }
+						5 = { add_trait = reserved }
+						5 = { add_trait = pious }
+					}
+					random_list = {
+						80 = {}
+						5 = { add_trait = alcoholic }
+						5 = { add_trait = opium_addiction }
+						5 = { add_trait = cocaine_addiction }
+						5 = { add_trait = expensive_tastes }
+					}
+				}
+			}
+
+			scope:vikelas_new_coach_scope = {
+				add_trait = vikelas_coach
+				set_variable = mr_is_coach_var
+				coach_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = vikelas_new_coach_var
+				value = scope:vikelas_new_coach_scope
+			}
+		}
+	}
+
+	var:vikelas_new_coach_var = {
+		save_scope_as = vikelas_new_coach_scope
+	}
+}
+
+# Set new coach as official coach
+vikelas_set_new_coach_as_coach_effect = {
+	custom_tooltip = {
+		text = vikelas_replace_coach_with_new_coach_tt
+	
+		if = {
+			limit = {
+				has_variable = vikelas_coach_var
+			}
+			var:vikelas_coach_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = vikelas_coach_var
+			value = scope:vikelas_new_coach_scope
+		}
+
+		remove_variable = vikelas_new_coach_var
+	}
+}
+
+# Remove new coach
+vikelas_remove_new_coach_effect = {
+	scope:vikelas_new_coach_scope = {
+		free_character_from_void = no
+	}
+
+	remove_variable = vikelas_new_coach_var
+}
+
+# Used to set up the Experience of a character 
+coach_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = vikelas_coach_experience
+			}
+		}
+		if = {
+			limit = {
+				age > 20
+			}
+			set_variable = {
+				name = vikelas_coach_experience
+				value = age
+			}
+			change_variable = {
+				name = vikelas_coach_experience
+				subtract = 20
+			}
+			change_variable = {
+				name = vikelas_coach_experience
+				multiply = 10
+			}
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							is_building_type = building_gaudi_sports
+						}
+					}
+				}
+				change_variable = {
+					name = vikelas_coach_experience
+					add = 75
+				}
+			}
+		}
+		else = {
+			set_variable = {
+				name = vikelas_coach_experience
+				value = 0
+			}
+		}
+		if = { #Adds the Famous coach Trait if Experience is above 150
+			limit = {
+				var:vikelas_coach_experience >= 150
+				NOT = {
+					has_trait = vikelas_coach_senior
+				}
+			}
+			remove_trait = vikelas_coach
+			add_trait = vikelas_coach_senior
+		}
+	}
+}
+
+#coach Experience gain
+coach_experience_gain_effect = { #adds XP to the coach
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = vikelas_coach_var #should only add experience if there actually is a Painter
+		}
+		custom_tooltip = {
+			text = vikelas_coach_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:vikelas_coach_var = { #Fallback to make sure there are no errors if the Painter does not have the variable yet
+							has_variable = vikelas_coach_experience
+						}
+					}
+				}
+				var:vikelas_coach_var = { #Sets the experience in case it was not set yet
+					coach_experience_set_up_effect = yes
+				}
+			}
+			var:vikelas_coach_var = {
+				change_variable = {
+					name = vikelas_coach_experience
+					add = $AMOUNT$
+				}
+				clamp_variable = {
+					name = vikelas_coach_experience
+					min = 0
+					max = 150
+				}
+			}
+		}
+		if = {
+			limit = {
+				var:vikelas_coach_var = {
+					var:vikelas_coach_experience >= 150
+					NOT = {
+						has_trait = vikelas_coach_senior
+					}
+				}
+			}
+			root = {
+				var:vikelas_coach_var = {
+					remove_trait = vikelas_coach
+					add_trait = vikelas_coach_senior
+				}
+				trigger_event = {
+					id = vikelas.490
+					popup = yes
+				}
+			}
+		}
+	}
+}
+
+######MOUNTAINEER######
+
+#This effect kills the current mountaineer
+# !!! Change stuff in both of the following effects !!!
+kill_mountaineer_effect = {
+	var:douglas_mountaineer_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = douglas_mountaineer_var
+}
+#This Effect retires the current mountaineer
+# Use "set_retirement_variable_effect" in the immediate effect when using this effect.
+retire_mountaineer_effect = {
+	custom_tooltip = {
+		text = retire_mountaineer_effect_tt
+
+		var:douglas_mountaineer_var = {
+			free_character_from_void = no
+		}
+	}
+
+	remove_variable = douglas_mountaineer_var
+}
+
+# Creates a new mountaineer without losing the old one
+create_new_mountaineer_effect = {
+	random_list = {
+		100 = { #Franz Josef Hugi, Switzerland
+			trigger = {
+				NOT = { has_global_variable = mr_hugi_franz_josef_created_global_var }
+				mr_country_owns_solothurn_trigger = yes #Born in Grenchen
+				country_average_cultural_acceptance = {
+					target = cu:alemannic
+					value >= acceptance_status_4
+				}
+				game_date < 1846.01.23 #Age 55
+				year >= 1819 #Teacher at a Cantonal School
+			}
+			create_character = {
+				template = mr_swi_hugi_franz_josef_character_template
+
+				save_scope_as = douglas_new_mountaineer_scope
+			}
+			scope:douglas_new_mountaineer_scope = {
+				set_variable = mr_is_mountaineer_var #Could be used for clothing or a role in the future
+				set_variable = mr_no_headgear_var
+				mountaineer_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = douglas_new_mountaineer_var
+				value = scope:douglas_new_mountaineer_scope
+			}
+
+			set_global_variable = mr_hugi_franz_josef_created_global_var
+		}
+		100 = { #Gottlieb Samuel Studer, Switzerland
+			trigger = {
+				NOT = { has_global_variable = mr_studer_samuel_gottlieb_created_global_var }
+				mr_country_owns_bern_trigger = yes
+				country_average_cultural_acceptance = {
+					target = cu:alemannic
+					value >= acceptance_status_4
+				}
+				game_date < 1859.08.05
+				year >= 1829 #25 years old
+			}
+			create_character = {
+				template = mr_swi_studer_samuel_gottlieb_character_template
+				save_scope_as = douglas_new_mountaineer_scope
+			}
+			scope:douglas_new_mountaineer_scope = {
+				set_variable = mr_is_mountaineer_var
+				set_variable = mr_no_headgear_var
+				mountaineer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = douglas_new_mountaineer_var
+				value = scope:douglas_new_mountaineer_scope
+			}
+			set_global_variable = mr_studer_samuel_gottlieb_created_global_var
+		}
+		1 = { #Random mountaineer
+			random_list = {
+				1 = {
+					create_character = {
+						female = yes
+						age = { 20 25 }
+						trait_generation = {}
+						save_scope_as = douglas_new_mountaineer_scope
+					}
+					scope:douglas_new_mountaineer_scope = {
+						add_trait = douglas_mountaineer
+						set_variable = mr_is_mountaineer_var
+						mountaineer_experience_set_up_effect = yes
+						mr_trait_generation_mountaineer_effect = yes
+						place_character_in_void = 1200	
+					}
+					set_variable = {
+						name = douglas_new_mountaineer_var
+						value = scope:douglas_new_mountaineer_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 19
+						}
+					}
+				}
+				99 = {
+					create_character = {
+						age = { 20 25 }
+						trait_generation = {}
+						save_scope_as = douglas_new_mountaineer_scope
+					}
+					scope:douglas_new_mountaineer_scope = {
+						add_trait = douglas_mountaineer
+						set_variable = mr_is_mountaineer_var
+						mountaineer_experience_set_up_effect = yes
+						mr_trait_generation_mountaineer_effect = yes
+						place_character_in_void = 1200
+					}
+					set_variable = {
+						name = douglas_new_mountaineer_var
+						value = scope:douglas_new_mountaineer_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -19
+						}
+					}
+				}
+			}
+		}
+	}
+
+	var:douglas_new_mountaineer_var = {
+		save_scope_as = douglas_new_mountaineer_scope
+	}
+}
+
+# Set new mountaineer as official mountaineer
+douglas_set_new_mountaineer_as_mountaineer_effect = {
+	custom_tooltip = {
+		text = douglas_replace_mountaineer_with_new_mountaineer_tt
+	
+		if = {
+			limit = {
+				has_variable = douglas_mountaineer_var
+			}
+			var:douglas_mountaineer_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = douglas_mountaineer_var
+			value = scope:douglas_new_mountaineer_scope
+		}
+
+		remove_variable = douglas_new_mountaineer_var
+	}
+}
+
+# Remove new mountaineer
+douglas_remove_new_mountaineer_effect = {
+	scope:douglas_new_mountaineer_scope = {
+		free_character_from_void = no
+	}
+	remove_variable = douglas_new_mountaineer_var
+}
+
+# Used to set up the Experience of a character 
+mountaineer_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = douglas_mountaineer_experience_var
+			}
+		}
+
+		set_variable = {
+			name = douglas_mountaineer_experience_var
+			value = { 0 50 }
+		}
+		if = {
+			limit = {
+				ROOT = {
+					any_scope_state = {
+						any_scope_building = {
+							is_building_type = building_gaudi_sports
+						}
+					}
+				}
+			}
+			change_variable = {
+				name = douglas_mountaineer_experience_var
+				add = 75
+			}
+		}
+	}
+	set_variable = {
+		name = douglas_mountaineer_num_mountain_ascents_var
+		value = 0
+	}
+	set_variable = {
+		name = douglas_mountaineer_num_climbs_aborted_var
+		value = 0
+	}
+	set_variable = {
+		name = douglas_mountaineer_num_summits_reached_var
+		value = 0
+	}
+	set_variable = {
+		name = douglas_mountaineer_num_disasters_suffered_var
+		value = 0
+	}
+}
+
+#mountaineer Experience gain
+mountaineer_experience_gain_effect = { #adds XP to the mountaineer
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = douglas_mountaineer_var #should only add experience if there actually is a mountaineer
+		}
+		custom_tooltip = {
+			text = douglas_mountaineer_experience_var_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:douglas_mountaineer_var = { #Fallback to make sure there are no errors if the mountaineer does not have the variable yet
+							has_variable = douglas_mountaineer_experience_var
+						}
+					}
+				}
+				var:douglas_mountaineer_var = { #Sets the experience in case it was not set yet
+					mountaineer_experience_set_up_effect = yes
+				}
+			}
+			var:douglas_mountaineer_var = {
+				change_variable = {
+					name = douglas_mountaineer_experience_var
+					add = $AMOUNT$
+				}
+				clamp_variable = {
+					name = douglas_mountaineer_experience_var
+					min = 0
+					max = 150
+				}
+			}
+		}
+		if = {
+			limit = {
+				var:douglas_mountaineer_var = {
+					var:douglas_mountaineer_experience_var >= 150
+					NOT = {
+						has_trait = douglas_mountaineer_veteran
+					}
+				}
+			}
+			trigger_event = {
+				id = athletes.102
+				popup = yes
+			}
+			hidden_effect = {
+				var:douglas_mountaineer_var = {
+					add_trait = douglas_mountaineer_veteran
+				}
+			}
+		}
+	}
+}
