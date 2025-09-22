@@ -1,6 +1,5 @@
 Changelog fot 2.5.0 "Filopanti"
 
-
 Time, Timezones and Prime Meridian:
 - Each country starts with a negative modifier in the absence of a standard time.
 - The invention of railway or telegraphy improves this modifier to "Railway Time".
@@ -30,7 +29,6 @@ National Sports:
 - You may join and leave the FIFA if you want.
 - School Sport is now in the "Coach" section and needs a Senior Coach to be introduced.
 - Home Counties, West Bengal and Ontario start with a Sports Facility, Cricket Clubs and Cricket as National Sport. Additionally, New York starts with a Sports Facility, but no clubs (giving the USA some help to invent Baseball).
-
 
 Olympic Games:
 - Olympic Games have now Olympic Disciplines associated with medals. There are 16 classical Olympic Disciplines. The 4 national sports can become Olympic Disciplines, too. Therefore, 20 Disciplines and 20 medals are possible.
@@ -80,3 +78,48 @@ Other Changes:
 - When doing an Archaeological Inspection, you will immediately go to the inspection without intermediate events.
 - Removed Rome decision for Italy - we have our own decision.
 - Publishing Industry companies no longer automatically have paper mills as a building, it is now instead an expansion option.
+Changelog for 2.4.3q "Hugi"
+
+Fixes:
+- You will no longer have a ghost tour the world when you no longer have a national writer.
+- Volcanology will no longer be un-done by various player actions like the state action to use the most common PMs.
+
+Balancing:
+- Rebalanced Arts Academies (thanks to MasterOfGrey).
+
+Quality of Life:
+- Changed some important actions to alerts to make them more visible (thanks to MasterOfGrey). You can change them the way you want in the alert settings by the way.
+
+Characters (Thanks to PPsyrius):
+- Buppha Kunchon (random Thai Writer)
+- Chit Chawangkul (random Thai Writer)
+- Kham Bunnag (random Thai Writer)
+- Kulap Saipradit (random Thai Writer)
+- Lhiam Sarnkrai (random Thai Writer)
+- Sunthorn Phu (Starting Writer of Siam)
+- Muen Phromsomphatson (random Thai writer)
+- Narathip Praphanphong (random Thai writer)
+- Nimitmongkol Nawarat (random Thai writer & pilot)
+- Noi Acharayangkun (random Thai writer)
+- Nokyung Wisetkun (random Thai writer)
+- Sa-nga Kanchanakhaphan (random Thai Writer)
+- So Setthabut (random Thai Writer)
+- Thianwan Wannapho (random Thai Writer)
+- Yong Sathiankoset (random Thai Writer)
+- Att Hasitawet (random Thai Physician)
+- Dan Beach Bradley (random Yankee Physician & Writer)
+- Laihuad Tittiyanont (random Thai Physician)
+- Leng Srichand (random Thai Physician)
+- Lhong Wetchachiwa (random Thai Physician)
+- Mahidol Adulyadej (random Thai Physician)
+- Margaret Lin Xavier (random Thai Physician)
+- Thianhee Sarasin (random Thai Physician)
+- Wongsa Dhiraj Snid (random Thai Physician)
+- Yod Mekfhalhan (random Thai Physician)
+- Ditsawarakuman Damrongrachanuphap (random Thai Archaeologist & Writer)
+- Kulap Tarydsananun (random Thai Archaeologist)
+- Puan Inthuwong (random Thai Archaeologist)
+- Wichit Wichitwatakan (random Thai Archaeologist & Writer)
+- Aab Raktaprajit (random Thai Astronomer)
+- Tua Lapanukrom (random Thai Chemist)
+- Waan Lhorphinij (random Thai Chemist)
