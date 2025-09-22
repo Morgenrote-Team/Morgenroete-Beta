@@ -10,7 +10,7 @@ Balancing:
 Quality of Life:
 - Changed some important actions to alerts to make them more visible (thanks to MasterOfGrey). You can change them the way you want in the alert settings by the way.
 
-Characters:
+Characters (Thanks to PPsyrius):
 - Buppha Kunchon (random Thai Writer)
 - Chit Chawangkul (random Thai Writer)
 - Kham Bunnag (random Thai Writer)
