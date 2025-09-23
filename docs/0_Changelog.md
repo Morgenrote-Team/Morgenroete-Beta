@@ -78,6 +78,8 @@ Other Changes:
 - When doing an Archaeological Inspection, you will immediately go to the inspection without intermediate events.
 - Removed Rome decision for Italy - we have our own decision.
 - Publishing Industry companies no longer automatically have paper mills as a building, it is now instead an expansion option.
+- Balkan cities in Croatia, Slovenia, Slovakia, Transsylvania and Hungary will keep their European GFX instead of the new Balkan GFX. Mines, harbours, farms etc. will have the Balkan GFX, however. This is done because cities like Budapest, Bratislava, Zagreb and Ljubljana have more in common with the Vienna architecture than with the rest of the Balkans.
+
 Changelog for 2.4.3q "Hugi"
 
 Fixes:
