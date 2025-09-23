@@ -2,17 +2,16 @@
 # VANILLA BUILDINGS  #
 ######################
 
-#by Lord R
+#by Lord R & Marco Dandolo
 
 ##########################
 
-#Government Administration
-
+#Government Administration: Add Hospital
 building_government_administration = {
 	building_group = bg_bureaucracy
 	city_type = city
 
-	levels_per_mesh = 10
+	levels_per_mesh = 50
 
 	unlocking_technologies = {
 		tech_bureaucracy
@@ -42,7 +41,100 @@ building_government_administration = {
 	background = "gfx/interface/icons/building_icons/backgrounds/building_panel_bg_monuments.dds"
 }
 
-#Telegraph and Radio Stations for Railway
+#University: Add University Focus
+building_university = {
+
+	building_group = bg_technology
+
+	city_type = city
+
+	levels_per_mesh = 50
+
+	unlocking_technologies = {
+		academia
+	}
+
+	production_method_groups = {
+		pmg_base_building_university
+		pmg_university_academia
+		pmg_principle_freedom_of_movement_3
+		pmg_university_focus #MORGENRÖTE
+	}
+
+	icon = "gfx/interface/icons/building_icons/building_university.dds"
+
+	required_construction = construction_cost_medium
+
+	background = "gfx/interface/icons/building_icons/backgrounds/building_panel_bg_monuments.dds"
+
+	ai_value = {
+		value = 1000
+
+		if = { # British dictates
+			limit = {
+				owner = {
+					has_journal_entry = je_british_dictate_universities
+				}
+				OR = {
+					state_region = s:STATE_WEST_BENGAL
+					state_region = s:STATE_BOMBAY
+					state_region = s:STATE_MADRAS
+				}
+				NOR = {
+					has_building = building_university
+					any_scope_building = {
+						is_building_type = building_university
+						level > 3
+					}
+				}
+			}
+			add = 2000
+		}
+	}
+}
+
+#Arts Academy: Add Academy Focus and Academy Sculpture
+building_arts_academy = {
+	building_group = bg_arts
+
+	city_type = city
+
+	levels_per_mesh = 50
+
+	unlocking_technologies = {
+		romanticism
+	}
+
+	production_method_groups = {
+		pmg_base_building_arts_academy
+		pmg_ownership_building_arts_academy
+		pmg_principle_freedom_of_movement_3
+		pmg_arts_academy_focus #MORGENRÖTE
+		pmg_arts_academy_sculpture #MORGENRÖTE
+	}
+
+	icon = "gfx/interface/icons/building_icons/building_arts_academy.dds"
+
+	required_construction = construction_cost_medium
+
+	ownership_type = self
+
+	background = "gfx/interface/icons/building_icons/backgrounds/building_panel_bg_monuments.dds"
+	ai_value = {
+		value = 1000
+		if = { # AI Metternich really wants arts academies
+			limit = {
+				owner ?= {
+					c:AUS ?= this
+					has_journal_entry = je_metternich
+				}
+			}
+            add = 500
+		}
+	}
+}
+
+#Railway: Telegraph and Radio Stations
 building_railway = {
 	building_group = bg_private_infrastructure
 	icon = "gfx/interface/icons/building_icons/building_railway.dds"
@@ -160,12 +252,31 @@ building_railway = {
 			}
 			add = 10000
 		}
+		else_if = { # AI Metternich wants railways
+			limit = {
+				owner ?= {
+					c:AUS ?= this
+					has_journal_entry = je_metternich
+				}
+				is_incorporated = yes
+				NOR = {
+					has_building = building_railway
+					any_scope_building = {
+						is_building_type = building_railway
+						is_under_construction = yes
+					}
+				}
+			}
+            add = 10000
+		}
 
 		if = { # Manchurian Railway
 			limit = {
 				exists = c:RUS
 				c:RUS ?= owner
-				region = sr:region_manchuria
+				OR = {
+					region = sr:region_manchuria
+				}
 				any_scope_building = {
 					is_building_type = building_railway
 					levels_owned_by_country = {
@@ -200,89 +311,6 @@ building_railway = {
 	ownership_type = self
 
 	background = "gfx/interface/icons/building_icons/backgrounds/building_panel_bg_railways.dds"
-}
-
-#Arts Academy
-
-building_arts_academy = {
-	building_group = bg_arts
-
-	city_type = city
-
-	levels_per_mesh = 5
-
-	unlocking_technologies = {
-		romanticism
-	}
-
-	production_method_groups = {
-		pmg_base_building_arts_academy
-		pmg_ownership_building_arts_academy
-		pmg_principle_freedom_of_movement_3
-		pmg_arts_academy_focus #MORGENRÖTE
-		pmg_arts_academy_sculpture #MORGENRÖTE
-	}
-
-	icon = "gfx/interface/icons/building_icons/building_arts_academy.dds"
-
-	required_construction = construction_cost_medium
-
-	ownership_type = self
-
-	background = "gfx/interface/icons/building_icons/backgrounds/building_panel_bg_monuments.dds"
-}
-
-#University
-
-building_university = {
-
-	building_group = bg_technology
-
-	city_type = city
-
-	levels_per_mesh = 5
-
-	unlocking_technologies = {
-		academia
-	}
-
-	production_method_groups = {
-		pmg_base_building_university
-		pmg_university_academia
-		pmg_principle_freedom_of_movement_3
-		pmg_university_focus #MORGENRÖTE
-	}
-
-	icon = "gfx/interface/icons/building_icons/building_university.dds"
-
-	required_construction = construction_cost_medium
-
-	background = "gfx/interface/icons/building_icons/backgrounds/building_panel_bg_monuments.dds"
-
-	ai_value = {
-		value = 1000
-
-		if = { # British dictates
-			limit = {
-				owner = {
-					has_journal_entry = je_british_dictate_universities
-				}
-				OR = {
-					state_region = s:STATE_WEST_BENGAL
-					state_region = s:STATE_BOMBAY
-					state_region = s:STATE_MADRAS
-				}
-				NOR = {
-					has_building = building_university
-					any_scope_building = {
-						is_building_type = building_university
-						level > 3
-					}
-				}
-			}
-			add = 2000
-		}
-	}
 }
 
 ##########################
@@ -336,7 +364,6 @@ building_eiffel_tower = {
 }
 
 #Statue of Liberty
-
 building_statue_of_liberty = {
 	building_group = bg_monuments
 	icon = "gfx/interface/icons/building_icons/statue_of_liberty.dds"
@@ -384,7 +411,6 @@ building_statue_of_liberty = {
 }
 
 #Big Ben
-
 building_big_ben = {
 	building_group = bg_monuments
 	icon = "gfx/interface/icons/building_icons/big_ben.dds"
@@ -427,7 +453,6 @@ building_big_ben = {
 }
 
 #Machu Picchu
-
 building_machu_picchu = {
 	building_group = bg_monuments
 	icon = "gfx/interface/icons/building_icons/machu_picchu.dds"
