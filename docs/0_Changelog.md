@@ -1,16 +1,1 @@
-Changelog fot 2.5.0c "Filopanti"
-
-Changes
-- "Curse of the Pharaoh" gives only -5% Research speed (instead of 10%)
-- Added an Archaeological Inspection JE. This will help to understand when to expect your next clue.
-- Inspection button will still be visible when the "recent inspection" modifier is active. This helps to understand that it will take two years until the next inspection is possible.
-- Rebalanced Olympics a bit; Host bonus for medals less strong.
-
-Quality of Life:
-- Added an alert for the founding of the Red Cross.
-
-Fixes:
-- Paleontological Expedition events should no longer fire when you finished the expedition already.
-- Chemists will no longer Work on Element 0.
-- The US is now able to build Bond's Observatory even if the capital does not have a university.
-- Various smaller fixes.
+Changelog fot 2.5.0d "Filopanti"
