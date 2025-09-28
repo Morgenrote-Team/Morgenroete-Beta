@@ -10,3 +10,4 @@ Quality of Life:
 
 Fixes:
 - Paleontological Expedition events should no longer fire when you finished the expedition already.
+- Chemists will no longer Work on Element 0.
