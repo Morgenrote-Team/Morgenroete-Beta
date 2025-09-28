@@ -13,3 +13,4 @@ Fixes:
 - Paleontological Expedition events should no longer fire when you finished the expedition already.
 - Chemists will no longer Work on Element 0.
 - The US is now able to build Bond's Observatory even if the capital does not have a university.
+- Various smaller fixes.
