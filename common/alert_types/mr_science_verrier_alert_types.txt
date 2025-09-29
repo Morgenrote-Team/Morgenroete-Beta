@@ -174,29 +174,34 @@ verrier_can_build_observatory_alert = {
 	texture = "gfx/interface/icons/alert_icons/verrier_astronomy_alert.dds"
 
 	valid = {
-		NOT = {
-			any_scope_building = {
-				is_building_type = building_verrier_observatory
-				OR = {
-					level > 0
-					is_under_construction = yes
+		#Only one observatory
+		owner = {
+			has_revolution = no
+			NOT = {
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
 				}
 			}
 		}
+		#Needs a university or event
 		OR = {
-			AND = {
+			any_scope_building = {
+				is_building_type = building_university
+				level >= 1
+			}
+			owner = {
+				has_variable = verrier_allowed_to_build_observatory
+			}
+		}
+		#Needs technologies, scientists or event
+		owner = {
+			OR = {
 				has_technology_researched = verrier_astronomy_tech
-				any_scope_building = {
-					is_building_type = building_university
-				}
-			}
-			AND = {
 				has_technology_researched = verrier_chemistry_tech
-				any_scope_building = {
-					is_building_type = building_university
-				}
+				verrier_has_astronomer_no_tooltip_trigger = yes
+				mendelejew_has_chemist_no_tooltip_trigger = yes
+				has_variable = verrier_allowed_to_build_observatory
 			}
-			has_variable = verrier_allowed_to_build_observatory
 		}
 	}
 
