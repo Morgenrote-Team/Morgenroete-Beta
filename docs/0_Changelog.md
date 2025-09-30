@@ -1,16 +1,9 @@
-Changelog fot 2.5.0c "Filopanti"
+Changelog fot 2.5.1 "Pasteur"
 
-Changes
-- "Curse of the Pharaoh" gives only -5% Research speed (instead of 10%)
-- Added an Archaeological Inspection JE. This will help to understand when to expect your next clue.
-- Inspection button will still be visible when the "recent inspection" modifier is active. This helps to understand that it will take two years until the next inspection is possible.
-- Rebalanced Olympics a bit; Host bonus for medals less strong.
-
-Quality of Life:
-- Added an alert for the founding of the Red Cross.
-
-Fixes:
-- Paleontological Expedition events should no longer fire when you finished the expedition already.
-- Chemists will no longer Work on Element 0.
-- The US is now able to build Bond's Observatory even if the capital does not have a university.
-- Various smaller fixes.
+Biology
+- New Technology: Cell Culture.
+- Biologists can do Microorganism Research. Doing so rewards players with new microorganisms and clues for the germ theory.
+- Biologists can modernize their microscope with an engineer: first from early compound microscope to achromatic microscope, later to electron microscope.
+- Biologists can Research Pathogens. You'll need a description of the disease, microbiology, aniline, a modern microscope and micrological knowledge (= certain number of microorganisms) to do that. Pathogen research is only possible with a verified germ theory.
+- Biologist can Research Vaccines. You'll need to research the pathogen of the disease first. In some cases, you also need Genetics or Cell Culture. Creating a vaccine costs specimens.
+- NOTE: There is no Scarlet Fever vaccine; even today there is no efficient vaccine for this disease. Polio vaccine and Measles vaccine are way beyond the Victorian time frame, so it is mostly impossible to create a vaccine; however, Morgenröte includes both vaccines to research them (in theory). Mods which have a later end date may offer the possibility to research a vaccine against polio or measles. 
