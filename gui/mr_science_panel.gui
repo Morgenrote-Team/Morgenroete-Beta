@@ -5209,6 +5209,325 @@ types mr_main_science_panel_types {
         }
     }
 
+
+    type mr_academic_biologist = mr_shared_occupation {
+        blockoverride "occupation_character_context" {
+            datacontext = "[Country.MakeScope.Var('theiler_biologist_var')]"
+        }
+        blockoverride "occupation_role_icon" {
+            texture = "gfx/interface/icons/character_role_icons/dubois_biologist_role.dds"
+        }
+        blockoverride "occupation_role_tooltip" {
+            tooltip = "[concept_theiler_biologist_desc]"
+        }
+        blockoverride "occupation_role_name" {
+            text = "BIOLOGIST_HEADER_TEXT"
+        }
+        blockoverride "occupation_character_name" {
+            text = "[Country.GetCustom('academics_has_biologist_gui_type')]"
+        }
+        blockoverride "occupation_achievement_tooltip" {
+            tooltip = MR_BIOLOGIST_ACHIEVEMENTS_TT
+        }
+        blockoverride "occupation_experience_value" {
+            value = "[Scope.Var('theiler_biologist_experience_var').GetValue]"
+        }
+        blockoverride "occupation_experience_tooltip" {
+            tooltip = "[Country.GetCustom('GUI_theiler_biologist_experience_type')]"
+        }
+        blockoverride "occupation_experience_bar_text" {
+            text = "[Country.GetCustom('GUI_theiler_biologist_experience_text_type')]"
+        }
+        blockoverride "occupation_ranking_visible" {
+            visible = yes
+        }
+        blockoverride "occupation_ranking" {
+            tooltipwidget = {
+                MR_TooltipRankingType = {
+                    blockoverride "ranking_on_finish" {
+                        on_finish = "[GetScriptedGui('mr_naturalist_ranking_sgui').Execute( GuiScope.SetRoot( Country.MakeScope ).End )]" #Resets the Ranking
+                        on_finish = "[GetVariableSystem.Set('mr_naturalist_ranking', 'specimens')]"
+                    }
+                    blockoverride "buttons_visible" {
+                        visible = yes
+                    }
+                    blockoverride "button_1_content" {
+                        enabled = "[Not( GetVariableSystem.HasValue('mr_naturalist_ranking', 'specimens') )]"
+                        text = "MR_SPECIMENS"
+                        tooltip = "MR_RANKING_BY_SPECIMENS"
+
+                        onclick = "[GetVariableSystem.Set('mr_naturalist_ranking', 'specimens')]"
+                    }
+                    blockoverride "button_2_content" {
+                        enabled = "[Not( GetVariableSystem.HasValue('mr_naturalist_ranking', 'zoo_animals') )]"
+                        text = "MR_ZOO_ANIMALS"
+                        tooltip = "MR_RANKING_BY_ZOO_ANIMALS"
+
+                        onclick = "[GetVariableSystem.Set('mr_naturalist_ranking', 'zoo_animals')]"
+                    }
+                    blockoverride "button_3_content" {
+                        enabled = "[Not( GetVariableSystem.HasValue('mr_naturalist_ranking', 'animal_documentations') )]"
+                        text = "MR_ANIMAL_DOCUMENTATIONS"
+                        tooltip = "MR_RANKING_BY_ANIMAL_DOCUMENTATIONS"
+
+                        onclick = "[GetVariableSystem.Set('mr_naturalist_ranking', 'animal_documentations')]"
+                    }
+                    blockoverride "button_4_content" {
+                        enabled = "[Not( GetVariableSystem.HasValue('mr_naturalist_ranking', 'naturalist_ranking') )]"
+                        text = "MR_NATURALIST_RANKING_BUTTON"
+                        tooltip = "MR_RANKING_BY_NATURALIST"
+
+                        onclick = "[GetVariableSystem.Set('mr_naturalist_ranking', 'naturalist_ranking')]"
+                    }
+                    blockoverride "text_1" {
+                        raw_text = "NATURALIST_SPECIMEN_RANKING_HEADER"
+                    }
+                    blockoverride "ranking_1_visible" {
+                        visible = "[GetVariableSystem.HasValue('mr_naturalist_ranking', 'specimens')]"
+                    }
+                    blockoverride "ranking_1_datamodel" {
+                        datamodel = "[GetGlobalList('mr_specimen_ranking_global_list')]"
+                    }
+                    blockoverride "ranking_variable_used_1" {
+                        raw_text = "[Country.MakeScope.GetVariable('dubois_specimen').GetValue|V*0]"
+                    }
+                    blockoverride "text_2" {
+                        raw_text = "NATURALIST_ZOO_ANIMALS_RANKING_HEADER"
+                    }
+                    blockoverride "ranking_2_visible" {
+                        visible = "[GetVariableSystem.HasValue('mr_naturalist_ranking', 'zoo_animals')]"
+                    }
+                    blockoverride "ranking_2_datamodel" {
+                        datamodel = "[GetGlobalList('mr_zoo_animal_ranking_global_list')]"
+                    }
+                    blockoverride "ranking_variable_used_2" {
+                        raw_text = "[Country.MakeScope.GetVariable('dubois_zoo_animal_total').GetValue|V0]"
+                    }
+                    blockoverride "text_3" {
+                        raw_text = "NATURALIST_ANIMAL_DOCUMENTATIONS_RANKING_HEADER"
+                    }
+                    blockoverride "ranking_3_visible" {
+                        visible = "[GetVariableSystem.HasValue('mr_naturalist_ranking', 'animal_documentations')]"
+                    }
+                    blockoverride "ranking_3_datamodel" {
+                        datamodel = "[GetGlobalList('mr_animal_documentation_ranking_global_list')]"
+                    }
+                    blockoverride "ranking_variable_used_3" {
+                        raw_text = "[Country.MakeScope.GetVariable('dubois_country_num_animal_documentation_var').GetValue|V0]"
+                    }
+                    blockoverride "text_4" {
+                        raw_text = "NATURALIST_NATURALIST_RANKING_HEADER"
+                    }
+                    blockoverride "ranking_4_visible" {
+                        visible = "[GetVariableSystem.HasValue('mr_naturalist_ranking', 'naturalist_ranking')]"
+                    }
+                    blockoverride "ranking_4_datamodel" {
+                        datamodel = "[GetGlobalList('mr_naturalist_ranking_global_list')]"
+                    }
+                    blockoverride "ranking_4_datacontext"{
+                        datacontext = "[Scope.GetCharacter]"
+                    }
+                    blockoverride "ranking_4_text_column_2"{
+                        raw_text = "#tooltip:[GetRawTextTooltipTag('dubois_official_naturalist_rating_tt_loc')] [Character.GetCustom('dubois_naturalist_rating_new_naturalist_icon_type')] #! [Character.GetFullName]"
+                    }
+                    blockoverride "ranking_variable_used_4" {
+                        raw_text = "[Character.MakeScope.GetVariable('dubois_naturalist_experience_var').GetValue|V0]"
+                    }
+                }
+            }
+        }
+        blockoverride "occupation_data_header_text" {
+            text = mr_science_biologist_data_header
+        }
+        blockoverride "occupation_data_content" {
+            mr_shared_data_text = {
+                ## "dubois_zoo_animal" Texticon followed by the variable "dubois_zoo_animal_total"
+                # followed by Text "Zoo Animals"
+                text = "ZOO_ANIMALS_VAR"
+                tooltip = "ZOO_ANIMALS_VAR_TT"
+                blockoverride "font_size" {
+                    using = fontsize_xxl
+                }
+            }
+        }
+        blockoverride "visit_button" {
+            text = "VISIT_ZOO_BUTTON"
+            datacontext = "[GetScriptedGui('mr_visit_zoo_sgui')]"
+            onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+            enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+            tooltip = "VISIT_ZOO_BUTTON_TT"
+        }
+        blockoverride "big_box_content" {
+            mr_shared_interactions = {
+                visible = "[Not(GetScriptedGui('mr_setting_academic_compact_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End))]"
+
+                blockoverride "tabs" {
+                    tab_buttons = {
+                        maximumsize = { @[ panel_button_width + 20 ] 0 }
+                        margin_bottom = -4
+                        blockoverride "first_button" {
+                            text = mr_science_biologist_tab_microbiology
+                        }
+                        blockoverride "first_button_click" {
+                            onclick = "[GetVariableSystem.Set('mr_science_biologist_tab', 'microbiology')]"
+                        }
+                        blockoverride "first_button_visibility" {
+                            visible = "[Or(GetVariableSystem.HasValue('mr_science_biologist_tab', 'microbiology'), Not(GetVariableSystem.Exists('mr_science_biologist_tab')))]"
+                        }
+                        blockoverride "first_button_visibility_checked" {
+                            visible = "[And(Not(GetVariableSystem.HasValue('mr_science_biologist_tab', 'microbiology')), GetVariableSystem.Exists('mr_science_biologist_tab'))]"
+                        }
+                        blockoverride "first_button_selected" {
+                            text = mr_science_biologist_tab_microbiology
+                        }
+
+                        blockoverride "second_button" {
+                            text = mr_science_biologist_tab_biology
+                        }
+                        blockoverride "second_button_click" {
+                            onclick = "[GetVariableSystem.Set('mr_science_biologist_tab', 'biology')]"
+                        }
+                        blockoverride "second_button_visibility" {
+                            visible = "[GetVariableSystem.HasValue('mr_science_biologist_tab', 'biology')]"
+                        }
+                        blockoverride "second_button_visibility_checked" {
+                            visible = "[Not(GetVariableSystem.HasValue('mr_science_biologist_tab', 'biology'))]"
+                        }
+                        blockoverride "second_button_selected" {
+                            text = mr_science_biologist_tab_biology
+                        }
+                    }
+                }
+                blockoverride "tab_content" {
+                    vbox = {
+                        visible = "[Or(GetVariableSystem.HasValue('mr_science_biologist_tab', 'microbiology'), Not(GetVariableSystem.Exists('mr_science_biologist_tab')))]"
+                        layoutpolicy_vertical = expanding
+                        spacing = 7
+                        minimumsize = { @panel_button_width 0 }
+
+                        # Specimen Collection
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_biologist_microorganism_research_button_sgui')]"
+                            blockoverride "button_content" {
+                                text = "MR_BIOLOGIST_MICROORGANISM_RESEARCH_BUTTON"
+                                tooltip = "MR_BIOLOGIST_MICROORGANISM_RESEARCH_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_biologist_microorganism_research_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_ito_specimen_collection_button.dds"
+                            }
+                        }
+
+                        expand = {}
+                    }
+                    vbox = {
+                        visible = "[GetVariableSystem.HasValue('mr_science_biologist_tab', 'biology')]"
+                        layoutpolicy_vertical = expanding
+                        spacing = 7
+                        minimumsize = { @panel_button_width 0 }
+
+                        # Botanical Expedition
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_botanical_expedition_button_sgui')]"
+                            blockoverride "button_content" {
+                                text = "mr_science_naturalist_botanical_expedition_button"
+                                tooltip = "MR_BOTANICAL_EXPEDITION_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_botanical_expedition_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_dubois_botanical_expedition_button.dds"
+                            }
+                        }
+
+                        expand = {}
+                    }
+                }
+                blockoverride "stop_context" {
+                    datacontext = "[GetScriptedGui('mr_stop_naturalist_project_button_sgui')]"
+                }
+            }
+            mr_shared_interactions_simple = {
+                visible = "[GetScriptedGui('mr_setting_academic_compact_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+
+                blockoverride "content" {
+                    margin_bottom = 20
+                    hbox = {
+                        spacing = 4
+
+                        # Medical Research
+                        widget = {
+                            size = { 40 40 }
+
+                            #Button itself
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 40 40 }
+
+                                datacontext = "[GetScriptedGui('mr_biologist_microorganism_research_button_sgui')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                                tooltip = "MR_BIOLOGIST_MICROORGANISM_RESEARCH_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_ito_specimen_collection_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 110% 110% }
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_biologist_microorganism_research_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 40 40 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_biologist_microorganism_research_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+
+                                tooltip = "MR_BIOLOGIST_MICROORGANISM_RESEARCH_ACTIVE_TT"
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 28 28 }
+
+                                texture = "gfx/interface/icons/GUI_icons/GUI_ito_specimen_collection_button.dds"
+                                visible = "[GetScriptedGui('mr_biologist_microorganism_research_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            }
+                        }
+                    }
+
+                    expand = {}
+
+                    # Ban Animal Export
+                    mr_shared_project_button = {
+                        datacontext = "[GetScriptedGui('mr_ban_animal_export_button_sgui')]"
+                        blockoverride "button_content" {
+                            text = "MR_BAN_ANIMAL_EXPORT_BUTTON"
+                            tooltip = "MR_BAN_ANIMAL_EXPORT_BUTTON_TT"
+                        }
+                        blockoverride "size" {
+                            size = { @[ panel_button_width - 20 ] 35 }
+                        }
+                    }
+                }
+                blockoverride "stop_context" {
+                    datacontext = "[GetScriptedGui('mr_stop_naturalist_project_button_sgui')]"
+                }
+            }
+        }
+    }
+
     type mr_academic_physician = mr_shared_occupation {
         blockoverride "occupation_character_context" {
             datacontext = "[Country.MakeScope.Var('panum_physician_var')]"
