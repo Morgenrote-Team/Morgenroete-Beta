@@ -2,7 +2,9 @@ Changelog fot 2.5.0e "Filopanti"
 
 Fixes:
 - Fixed the synthetic rubber and oil Journal Entries using the wrong progress value.
-- Small loc fixes
+- Fixed a bug that caused the "Railway Time" event to fire over and over again.
+- Fixed a bug that cause the "A Common Sport" event to fire over and over again.
+- Small loc fixes.
 
 Quality of Life:
 - Added an alert for the Vernissage.
