@@ -7,3 +7,4 @@ Fixes:
 Quality of Life:
 - Added an alert for the Vernissage.
 - Improved various project descriptions with tooltiped modifiers to show what the projects do.
+- Added State references to the exotic animal tooltips in the UI.
