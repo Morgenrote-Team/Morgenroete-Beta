@@ -2465,7 +2465,7 @@ je_theiler_polio_vaccine = {
 
 #Cochliomyia Eredication
 je_theiler_cochliomyia_eredication = { 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
 
 	group = je_group_theiler_biology
 
@@ -2474,17 +2474,9 @@ je_theiler_cochliomyia_eredication = {
 			name = theiler_cochliomyia_eredication_progress_var
 			value = 0
 		}
-		random_scope_state = {
-			limit = {
-				has_state_trait = theiler_state_trait_cochliomyia
-			}
-			add_modifier = {
-				name = theiler_cochliomyia_experiment_lab_modifier
-			}
-		}
 	}
 
-	on_weekly_pulse = {
+	on_monthly_pulse = {
 		effect = {
 			if = {
 				limit = {
@@ -2523,6 +2515,84 @@ je_theiler_cochliomyia_eredication = {
 
 	goal_add_value = {
 		add = 12
+	}
+
+	current_value = {
+		value = var:theiler_cochliomyia_eredication_progress_var
+	}
+
+	progressbar = yes
+
+	weight = 10
+}
+
+#Cochliomyia Eredication (per state)
+je_theiler_cochliomyia_eredication_state = { 
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	can_deactivate = yes
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_cochliomyia_eredication_cost_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+		set_variable = {
+			name = theiler_cochliomyia_eredication_progress_var
+			value = 0
+		}
+		random_scope_state = {
+			limit = {
+				has_state_trait = theiler_state_trait_cochliomyia
+			}
+			add_modifier = {
+				name = theiler_cochliomyia_experiment_lab_modifier
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					theiler_has_biologist_no_tooltip_trigger = yes
+					var:theiler_cochliomyia_eredication_progress_var < 36
+				}
+				change_variable = {
+					name = theiler_cochliomyia_eredication_progress_var
+					add = 1
+				}
+			}
+		}
+	}
+
+	complete = {
+		theiler_has_biologist = yes
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.22
+		}
+		var:theiler_biologist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		remove_variable = theiler_cochliomyia_eredication_progress_var
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
 	}
 
 	current_value = {
