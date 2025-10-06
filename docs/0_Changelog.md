@@ -1,6 +1,7 @@
 Changelog fot 2.5.0f "Filopanti"
 
 Characters:
+- Georg Theodor Chiewitz (random Swedish Engineer and Architect)
 - Johan Frederik Åbom (random Swedish Architect)
 - Gunnar Asplund (random Swedish Architect)
 - Ferdinand Boberg (random Swedish Architect)
