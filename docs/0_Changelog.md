@@ -13,3 +13,4 @@ Characters:
 
 Fixes:
 - The Public Construction Journal Entry does no longer cost you money as it is the default action and you can't stop it.
+- The character treatment alert will now also show if your physician is busy.
