@@ -5,3 +5,6 @@ Characters:
 - Gustaf de Frumerie (random Swedish Architect)
 - Ragnar Östberg (random Swedish Architect)
 - Axel Nyström (random Swedish Architect)
+
+Fixes:
+- The Public Construction Journal Entry does no longer cost you money as it is the default action and you can't stop it.
