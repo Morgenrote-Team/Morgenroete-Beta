@@ -15,3 +15,6 @@ Sports
 
 Other
 - Added "Good Soils" to Lombardy and Emilia (this is one of the most fertile lands in Europe!)
+
+Fixes
+- Fixed the Sports Radio event which triggered without radio.
