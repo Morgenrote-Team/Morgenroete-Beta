@@ -13,6 +13,7 @@ Characters:
 - Ragnar Östberg (random Swedish Architect)
 - Axel Nyström (random Swedish Architect)
 - Per Emanuel Werming (random Swedish Architect)
+- Carl Johan Billmark (random Swedish Painter)
 
 Fixes:
 - The Public Construction Journal Entry does no longer cost you money as it is the default action and you can't stop it.
