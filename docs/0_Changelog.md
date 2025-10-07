@@ -3,6 +3,7 @@ Changelog fot 2.5.0f "Filopanti"
 Characters:
 - Nils Johan Andersson (random Swedish Naturalist)
 - Elias Magnus Fries (random Swedish Naturalist)
+- Gustaf Kolthoff (random Swedish Naturalist)
 - Georg Theodor Chiewitz (random Swedish Engineer and Architect)
 - Johan Frederik Åbom (random Swedish Architect)
 - Gunnar Asplund (random Swedish Architect)
