@@ -15,3 +15,4 @@ Fixes:
 - The Public Construction Journal Entry does no longer cost you money as it is the default action and you can't stop it.
 - The character treatment alert will now also show if your physician is busy.
 - Fixed the Mountaineering Organization Alert.
+- Matsuura should no longer clone himself to become geologist, painter and writer.
