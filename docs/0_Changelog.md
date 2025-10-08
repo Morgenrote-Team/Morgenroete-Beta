@@ -20,3 +20,4 @@ Fixes:
 - The character treatment alert will now also show if your physician is busy.
 - Fixed the Mountaineering Organization Alert.
 - Matsuura should no longer clone himself to become geologist, painter and writer.
+- Various small fixes.
