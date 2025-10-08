@@ -1,13 +1,23 @@
-Changelog fot 2.5.0e "Filopanti"
+Changelog fot 2.5.0f "Filopanti"
+
+Characters:
+- Nils Johan Andersson (random Swedish Naturalist)
+- Elias Magnus Fries (random Swedish Naturalist)
+- Gustaf Kolthoff (random Swedish Naturalist)
+- Georg Theodor Chiewitz (random Swedish Engineer and Architect)
+- Johan Frederik Åbom (random Swedish Architect)
+- Gunnar Asplund (random Swedish Architect)
+- Ferdinand Boberg (random Swedish Architect)
+- Isak Gustaf Clason (random Swedish Architect)
+- Gustaf de Frumerie (random Swedish Architect)
+- Ragnar Östberg (random Swedish Architect)
+- Axel Nyström (random Swedish Architect)
+- Per Emanuel Werming (random Swedish Architect)
+- Carl Johan Billmark (random Swedish Painter)
 
 Fixes:
-- Fixed the synthetic rubber and oil Journal Entries using the wrong progress value.
-- Fixed a bug that caused the "Railway Time" event to fire over and over again.
-- Fixed a bug that cause the "A Common Sport" event to fire over and over again.
-- Heirs will no longer become writers because they are bored.
-- Small loc fixes.
-
-Quality of Life:
-- Added an alert for the Vernissage.
-- Improved various project descriptions with tooltiped modifiers to show what the projects do.
-- Added State references to the exotic animal tooltips in the UI.
+- The Public Construction Journal Entry does no longer cost you money as it is the default action and you can't stop it.
+- The character treatment alert will now also show if your physician is busy.
+- Fixed the Mountaineering Organization Alert.
+- Matsuura should no longer clone himself to become geologist, painter and writer.
+- Various small fixes.
