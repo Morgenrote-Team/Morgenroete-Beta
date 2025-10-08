@@ -214,6 +214,374 @@ theiler.22 = {
 	}
 }
 
+#Theiler 31: Lead Arsenate
+theiler.31 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:theiler_state_scope
+
+	title = theiler.31.t
+
+	desc = theiler.31.d
+
+	flavor = theiler.31.f
+	
+	duration = 3
+
+	left_icon = scope:mendelejew_chemist_scope
+	right_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:mendelejew_chemist_var = {
+			save_scope_as = mendelejew_chemist_scope
+		}
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = { #Poison them!
+		name = theiler.31.g
+		default_option = yes
+		custom_tooltip = theiler.31.tt
+	}
+}
+
+#Theiler 32: Cydia spreads
+theiler.32 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:theiler_state_scope
+
+	title = theiler.32.t
+
+	desc = theiler.32.d
+
+	flavor = theiler.32.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/theiler_pictures/theiler_cydia.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = theiler_cydia_lead_arsenate_var
+		}
+		any_scope_state = {
+			NOT = {
+				has_state_trait = theiler_state_trait_cydia
+			}
+			any_scope_building = {
+				OR = {
+					is_building_type = building_wheat_farm
+					is_building_type = building_maize_farm
+					is_building_type = building_rye_farm
+				}
+				OR = {
+					has_active_production_method = pm_apple_orchards
+					has_active_production_method = pm_citrus_orchards #normally the parasite would not attack these, but wheat farms should be affected, too.
+				}
+				level >= 3
+			}
+			any_neighbouring_state = {
+				has_state_trait = theiler_state_trait_cydia
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					OR = {
+						is_building_type = building_wheat_farm
+						is_building_type = building_maize_farm
+						is_building_type = building_rye_farm
+					}
+					OR = {
+						has_active_production_method = pm_apple_orchards
+						has_active_production_method = pm_citrus_orchards #normally the parasite would not attack these, but wheat farms should be affected, too.
+					}
+					level >= 3
+				}
+				any_neighbouring_state = {
+					has_state_trait = theiler_state_trait_cydia
+				}
+			}
+			save_scope_as = theiler_state_scope
+		}
+	}
+
+	option = { #My apples!
+		name = theiler.32.g
+		default_option = yes
+		scope:theiler_state_scope = {
+			add_state_trait = theiler_state_trait_cydia
+		}
+	}
+}
+
+#Theiler 33: Cydia spreads to South America
+theiler.33 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:theiler_state_scope
+
+	title = theiler.33.t
+
+	desc = theiler.33.d
+
+	flavor = theiler.32.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/theiler_pictures/theiler_cydia.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		game_date >= 1880.1.1
+		NOT = {
+			has_global_variable = theiler_cydia_spread_south_america_global_var
+		}
+		any_scope_state = {
+			NOT = {
+				has_state_trait = theiler_state_trait_cydia
+			}
+			state_is_in_south_america = yes
+			any_scope_building = {
+				OR = {
+					is_building_type = building_wheat_farm
+					is_building_type = building_maize_farm
+					is_building_type = building_rye_farm
+				}
+				OR = {
+					has_active_production_method = pm_apple_orchards
+					has_active_production_method = pm_citrus_orchards #normally the parasite would not attack these, but wheat farms should be affected, too.
+				}
+				level >= 5
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = theiler_cydia_spread_south_america_global_var
+		random_scope_state = {
+			limit = {
+				state_is_in_south_america = yes
+				any_scope_building = {
+					OR = {
+						is_building_type = building_wheat_farm
+						is_building_type = building_maize_farm
+						is_building_type = building_rye_farm
+					}
+					OR = {
+						has_active_production_method = pm_apple_orchards
+						has_active_production_method = pm_citrus_orchards #normally the parasite would not attack these, but wheat farms should be affected, too.
+					}
+					level >= 5
+				}
+			}
+			save_scope_as = theiler_state_scope
+		}
+	}
+
+	option = { #My apples!
+		name = theiler.33.g
+		default_option = yes
+		scope:theiler_state_scope = {
+			add_state_trait = theiler_state_trait_cydia
+		}
+	}
+}
+
+#Theiler 34: Cydia spreads to South Africa
+theiler.34 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:theiler_state_scope
+
+	title = theiler.34.t
+
+	desc = theiler.34.d
+
+	flavor = theiler.32.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/theiler_pictures/theiler_cydia.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		game_date >= 1890.1.1
+		NOT = {
+			has_global_variable = theiler_cydia_spread_south_africa_global_var
+		}
+		any_scope_state = {
+			NOT = {
+				has_state_trait = theiler_state_trait_cydia
+			}
+			region = sr:region_southern_africa
+			any_scope_building = {
+				OR = {
+					is_building_type = building_wheat_farm
+					is_building_type = building_maize_farm
+					is_building_type = building_rye_farm
+				}
+				OR = {
+					has_active_production_method = pm_apple_orchards
+					has_active_production_method = pm_citrus_orchards #normally the parasite would not attack these, but wheat farms should be affected, too.
+				}
+				level >= 5
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = theiler_cydia_spread_south_africa_global_var
+		random_scope_state = {
+			limit = {
+				region = sr:region_southern_africa
+				any_scope_building = {
+					OR = {
+						is_building_type = building_wheat_farm
+						is_building_type = building_maize_farm
+						is_building_type = building_rye_farm
+					}
+					OR = {
+						has_active_production_method = pm_apple_orchards
+						has_active_production_method = pm_citrus_orchards #normally the parasite would not attack these, but wheat farms should be affected, too.
+					}
+					level >= 5
+				}
+			}
+			save_scope_as = theiler_state_scope
+		}
+	}
+
+	option = { #My apples!
+		name = theiler.33.g
+		default_option = yes
+		scope:theiler_state_scope = {
+			add_state_trait = theiler_state_trait_cydia
+		}
+	}
+}
+
+#Theiler 35: Cydia spreads to Oceania
+theiler.35 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:theiler_state_scope
+
+	title = theiler.35.t
+
+	desc = theiler.35.d
+
+	flavor = theiler.32.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/theiler_pictures/theiler_cydia.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		game_date >= 1860.1.1
+		NOT = {
+			has_global_variable = theiler_cydia_spread_australia_global_var
+		}
+		any_scope_state = {
+			NOT = {
+				has_state_trait = theiler_state_trait_cydia
+			}
+			region = sr:region_oceania
+			any_scope_building = {
+				OR = {
+					is_building_type = building_wheat_farm
+					is_building_type = building_maize_farm
+					is_building_type = building_rye_farm
+				}
+				OR = {
+					has_active_production_method = pm_apple_orchards
+					has_active_production_method = pm_citrus_orchards #normally the parasite would not attack these, but wheat farms should be affected, too.
+				}
+				level >= 5
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = theiler_cydia_spread_australia_global_var
+		random_scope_state = {
+			limit = {
+				region = sr:region_oceania
+				any_scope_building = {
+					OR = {
+						is_building_type = building_wheat_farm
+						is_building_type = building_maize_farm
+						is_building_type = building_rye_farm
+					}
+					OR = {
+						has_active_production_method = pm_apple_orchards
+						has_active_production_method = pm_citrus_orchards #normally the parasite would not attack these, but wheat farms should be affected, too.
+					}
+					level >= 5
+				}
+			}
+			save_scope_as = theiler_state_scope
+		}
+	}
+
+	option = { #My apples!
+		name = theiler.33.g
+		default_option = yes
+		scope:theiler_state_scope = {
+			add_state_trait = theiler_state_trait_cydia
+		}
+	}
+}
+
 #################################################################################
 
 ######BIOLOGIST ACTIONS######
