@@ -1,4 +1,20 @@
-Changelog fot 2.5.0d "Filopanti"
+Changelog fot 2.5.1 "Pasteur"
 
-Fixes:
-- Fixed Observatory alert and construction triggers (hopefully).
+Biology
+- New Technology: Cell Culture.
+- Biologists can do Microorganism Research. Doing so rewards players with new microorganisms and clues for the germ theory.
+- Biologists can modernize their microscope with an engineer: first from early compound microscope to achromatic microscope, later to electron microscope.
+- Biologists can Research Pathogens. You'll need a description of the disease, microbiology, aniline, a modern microscope and micrological knowledge (= certain number of microorganisms) to do that. Pathogen research is only possible with a verified germ theory.
+- Biologist can Research Vaccines. You'll need to research the pathogen of the disease first. In some cases, you also need Genetics or Cell Culture. Creating a vaccine costs specimens.
+- NOTE: There is no Scarlet Fever vaccine; even today there is no efficient vaccine for this disease. Polio vaccine and Measles vaccine are way beyond the Victorian time frame, so it is mostly impossible to create a vaccine; however, Morgenröte includes both vaccines to research them (in theory). Mods which have a later end date may offer the possibility to research a vaccine against polio or measles.
+- American states in the southern US to northern Argentina receive a Cochliomyia modifier at the start of the game, which has a negative effect on the yield of ranches (-20%).
+- With the necessary technological equipment—modern aviation, nuclear physics, and cell culture—a biologist can research sterile insect technology. In a second step, they can free territories from the negative Cochliomyia modifier. Historically, this only happened in the 1950s, but it's possible for gameplay reasons.
+
+Sports
+- Like Japan and Cuba, China gets a special baseball event.
+
+Other
+- Added "Good Soils" to Lombardy and Emilia (this is one of the most fertile lands in Europe!)
+
+Fixes
+- Fixed the Sports Radio event which triggered without radio.
