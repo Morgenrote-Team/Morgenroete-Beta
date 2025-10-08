@@ -4,3 +4,4 @@ Characters:
 - Carl Munters (random Swedish Engineer)
 - Knut Lundmark (random Swedish Astronomer)
 - Axel Möller (random Swedish Astronomer)
+- Per Geijer (random Swedish Geologist)
