@@ -9,3 +9,4 @@ Characters:
 - Gustaf Lindström (random Swedish Paleontologist)
 - Erik Leonard Ekman (random Swedish Naturalist)
 - Carl Georg Brunius (random Swedish Archaeologist)
+- Herman Hofberg (random Swedish Archaeologist)
