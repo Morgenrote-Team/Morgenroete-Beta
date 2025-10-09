@@ -20,3 +20,6 @@ Characters:
 Fixes:
 - Bror Emil Hildebrands now spawns in the right century.
 - Fixed Ivar Lo-Johansson's birth date.
+
+Translations:
+- Lots of new Russian translations. Thanks to Hass!
