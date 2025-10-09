@@ -8,6 +8,7 @@ Characters:
 - Nils Peter Angelin (random Swedish Paleontologist)
 - Gustaf Lindström (random Swedish Paleontologist)
 - Erik Leonard Ekman (random Swedish Naturalist)
+- Herbert Olivecrona (random Swedish Physician)
 - Axel Boëthius (random Swedish Archaeologist)
 - Carl Georg Brunius (random Swedish Archaeologist)
 - Herman Hofberg (random Swedish Archaeologist)
