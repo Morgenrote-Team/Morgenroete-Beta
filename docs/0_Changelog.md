@@ -12,6 +12,7 @@ Characters:
 - Axel Boëthius (random Swedish Archaeologist)
 - Carl Georg Brunius (random Swedish Archaeologist)
 - Herman Hofberg (random Swedish Archaeologist)
+- Dag Wirén (random Swedish Composer)
 
 Fixes:
 - Bror Emil Hildebrands now spawns in the right century.
