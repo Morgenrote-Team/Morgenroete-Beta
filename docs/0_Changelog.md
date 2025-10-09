@@ -5,4 +5,5 @@ Characters:
 - Knut Lundmark (random Swedish Astronomer)
 - Axel Möller (random Swedish Astronomer)
 - Per Geijer (random Swedish Geologist)
+- Nils Peter Angelin (random Swedish Paleontologist)
 - Erik Leonard Ekman (random Swedish Naturalist)
