@@ -13,6 +13,8 @@ Characters:
 - Carl Georg Brunius (random Swedish Archaeologist)
 - Herman Hofberg (random Swedish Archaeologist)
 - Dag Wirén (random Swedish Composer)
+- Per Daniel Holm (random Swedish Painter)
 
 Fixes:
 - Bror Emil Hildebrands now spawns in the right century.
+- Fixed Ivar Lo-Johansson's birth date.
