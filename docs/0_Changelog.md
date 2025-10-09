@@ -8,5 +8,9 @@ Characters:
 - Nils Peter Angelin (random Swedish Paleontologist)
 - Gustaf Lindström (random Swedish Paleontologist)
 - Erik Leonard Ekman (random Swedish Naturalist)
+- Axel Boëthius (random Swedish Archaeologist)
 - Carl Georg Brunius (random Swedish Archaeologist)
 - Herman Hofberg (random Swedish Archaeologist)
+
+Fixes:
+- Bror Emil Hildebrands now spawns in the right century.
