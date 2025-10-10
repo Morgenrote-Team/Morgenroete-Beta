@@ -4,3 +4,4 @@ Characters:
 - Émile Gautier (random Swiss Astronomer)
 - Raoul Gautier (random Swiss Astronomer)
 - Jakob Hilfiker (random Swiss Astronomer)
+- August Tobler (random Swiss Geologist)
