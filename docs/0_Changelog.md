@@ -11,3 +11,4 @@ Characters:
 - Wilhelm Löffler (random Swiss Physician)
 - Hans Auer (random Swiss Architect)
 - Isabelle Eberhardt (random Swiss Writer)
+- Johannes Itten (random Swiss Painter)
