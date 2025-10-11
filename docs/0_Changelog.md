@@ -12,3 +12,4 @@ Characters:
 - Hans Auer (random Swiss Architect)
 - Isabelle Eberhardt (random Swiss Writer)
 - Johannes Itten (random Swiss Painter)
+- Paul Klee (random Swiss Painter)
