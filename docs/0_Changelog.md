@@ -9,3 +9,4 @@ Characters:
 - August Tobler (random Swiss Geologist)
 - Mosè Giacomo Bertoni (random Swiss Naturalist)
 - Wilhelm Löffler (random Swiss Physician)
+- Hans Auer (random Swiss Architect)
