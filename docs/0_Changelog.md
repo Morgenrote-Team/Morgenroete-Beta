@@ -7,3 +7,4 @@ Characters:
 - François de Loys (random Swiss Geologist)
 - Victor Goldschmidt (random Swiss Geologist)
 - August Tobler (random Swiss Geologist)
+- Mosè Giacomo Bertoni (random Swiss Naturalist)
