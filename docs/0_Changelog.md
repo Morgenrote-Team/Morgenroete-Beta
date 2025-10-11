@@ -13,3 +13,4 @@ Characters:
 - Isabelle Eberhardt (random Swiss Writer)
 - Johannes Itten (random Swiss Painter)
 - Paul Klee (random Swiss Painter)
+- Anton Pieck (random Dutch Painter)
