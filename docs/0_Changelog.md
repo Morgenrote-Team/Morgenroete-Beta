@@ -8,3 +8,4 @@ Characters:
 - Victor Goldschmidt (random Swiss Geologist)
 - August Tobler (random Swiss Geologist)
 - Mosè Giacomo Bertoni (random Swiss Naturalist)
+- Wilhelm Löffler (random Swiss Physician)
