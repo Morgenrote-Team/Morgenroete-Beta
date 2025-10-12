@@ -2788,3 +2788,103 @@ je_theiler_polio_vaccine = {
 
 	should_be_pinned_by_default = yes
 }
+
+#################################################################################################
+
+### Medical Plants JEs ###
+
+#Strychnos nux-vomica/Strychnine
+je_theiler_medicinal_plant_strychnine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = mendelejew_chemist_medicinal_plant_project_progress_bar
+	scripted_progress_bar = theiler_biologist_medicinal_plant_project_progress_bar
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_medicinal_plant_strychnos_var
+				}
+			}
+			set_variable = {
+				name = theiler_medicinal_plant_strychnos_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the plants are collected, the Chemical Isolation begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_collection_done_var
+					}
+					scope:journal_entry = {
+						is_goal_complete = yes
+					}
+				}
+				set_variable = theiler_medicinal_plant_collection_done_var
+			}
+			if = {
+				#If the Isolation is completed, the Pharmaceutical Production begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_isolation_done_var
+					}
+					je:je_theiler_medicinal_plant_strychnine = {
+						"scripted_bar_progress(mendelejew_chemist_medicinal_plant_project_progress_bar)" >= 15
+					}
+				}
+				set_variable = theiler_medicinal_plant_isolation_done_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = theiler_biologist_medicinal_plant_project_progress_bar_at_full_tt
+			je:je_theiler_medicinal_plant_strychnine = {
+				"scripted_bar_progress(theiler_biologist_medicinal_plant_project_progress_bar)" >= 15
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = theiler_medicinal_plant_demand_active_var
+		remove_variable = theiler_medicinal_plant_collection_done_var
+		remove_variable = theiler_medicinal_plant_isolation_done_var
+		trigger_event = {
+			id = theiler.2001 #Strychnine
+			popup = yes
+		}
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_medicinal_plant_strychnos_var
+		}
+	}
+
+	goal_add_value = {
+		value = 5
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
