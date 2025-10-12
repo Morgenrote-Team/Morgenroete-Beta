@@ -1,6 +1,7 @@
 Changelog fot 2.5.0h "Filopanti"
 
 Characters:
+- Switzerland and Sweden now have at least one historical Academic (except Anthropologist) and Artist for every year between 1836 and 1936
 - Émile Gautier (random Swiss Astronomer)
 - Raoul Gautier (random Swiss Astronomer)
 - Jakob Hilfiker (random Swiss Astronomer)
