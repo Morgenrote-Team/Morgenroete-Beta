@@ -11,3 +11,6 @@ Characters:
 - Felice Matteucci (random Italian Engineer)
 - Luigi Negrelli (random Italian Engineer)
 - Fortunato Padula (random Italian Engineer)
+
+Translations:
+Reworked and finished Russian translation
