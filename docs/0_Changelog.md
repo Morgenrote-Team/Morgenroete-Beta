@@ -7,6 +7,7 @@ Characters:
 - Galileo Ferraris (random Italian Engineer)
 - Enrico Forlanini (random Italian Engineer)
 - Elia Lombardini (random Italian Engineer)
+- Giulio Macchi (random Italian Engineer)
 - Felice Matteucci (random Italian Engineer)
 - Luigi Negrelli (random Italian Engineer)
 - Fortunato Padula (random Italian Engineer)
