@@ -1,16 +1,16 @@
-Changelog fot 2.5.0i "Filopanti"
+Changelog fot 2.5.0j "Filopanti"
 
 Characters:
-- Eugenio Barsanti (random Italian Engineer)
-- Benedetto Brin (random Italian Engineer)
-- Vittorio Cuniberti (random Italian Engineer)
-- Galileo Ferraris (random Italian Engineer)
-- Enrico Forlanini (random Italian Engineer)
-- Elia Lombardini (random Italian Engineer)
-- Giulio Macchi (random Italian Engineer)
-- Felice Matteucci (random Italian Engineer)
-- Luigi Negrelli (random Italian Engineer)
-- Fortunato Padula (random Italian Engineer)
+- Giovanni Battista Caproni (random Italian Engineer)
+- Mario Castoldi (random Italian Engineer)
+- Felice Bisleri (random Italian Engineer)
+- Bartolomeo Bizio (random Italian Chemist)
+- Antonio Carpenè (random Italian Chemist)
+- Faustino Malaguti (random Italian Chemist)
+- Augusto Piccini (random Italian Chemist)
+- Adolfo Avena (random Italian Architect and Engineer)
+- Ernesto Basile (random Italian Architect and Engineer)
+- Luigi Giura (random Italian Architect and Engineer)
 
-Translations:
-Reworked and finished Russian translation
+Changes:
+- Historical Engineers with multiple speciality traits will now choose a specialty randomly.
