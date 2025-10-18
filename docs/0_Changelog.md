@@ -8,3 +8,4 @@ Characters:
 
 Fixes:
 - Chemists will no longer act weirdly and either become ghosts or reappear after their death.
+- Fixed Malaria prevention not giving institution bonus.
