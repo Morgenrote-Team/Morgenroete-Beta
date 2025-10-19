@@ -2,6 +2,7 @@ Changelog fot 2.5.1 "Pasteur"
 
 Biology
 - New Technology: Cell Culture.
+- Cell Culture gives +1 Health Institution Investment (instead of Malaria Prevention).
 - Biologists can do Microorganism Research. Doing so rewards players with new microorganisms and clues for the germ theory.
 - Biologists can modernize their microscope with an engineer: first from early compound microscope to achromatic microscope, later to electron microscope.
 - Biologists can Research Pathogens. You'll need a description of the disease, microbiology, aniline, a modern microscope and micrological knowledge (= certain number of microorganisms) to do that. Pathogen research is only possible with a verified germ theory.
