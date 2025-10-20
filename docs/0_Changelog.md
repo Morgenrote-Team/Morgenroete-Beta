@@ -15,3 +15,4 @@ Fixes:
 - The Summer Palace is no longer burnt in the void but in Beijing as intended.
 - The Polio Epidemic now spawns in a state instead of nowhere.
 - The button to make your national sport an Olympic discipline no longer throws an error if you do not yet have a national sport.
+- Martin Disteli event now fires properly.
