@@ -11,3 +11,4 @@ Fixes:
 - Fixed Malaria prevention not giving institution bonus.
 - The Engineering Alert now works properly for the Electrical Engineer
 - The AI now builds Telegraph and Radio Networks if they have eligible buildings instead of when they do not have eligible buildings.
+- The Summer Palace is no longer burnt in the void but in Beijing as intended.
