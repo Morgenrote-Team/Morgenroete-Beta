@@ -1,16 +1,18 @@
-Changelog fot 2.5.0j "Filopanti"
+Changelog fot 2.5.0k "Filopanti"
 
 Characters:
-- Giovanni Battista Caproni (random Italian Engineer)
-- Mario Castoldi (random Italian Engineer)
-- Felice Bisleri (random Italian Engineer)
-- Bartolomeo Bizio (random Italian Chemist)
-- Antonio Carpenè (random Italian Chemist)
-- Faustino Malaguti (random Italian Chemist)
-- Augusto Piccini (random Italian Chemist)
-- Adolfo Avena (random Italian Architect and Engineer)
-- Ernesto Basile (random Italian Architect and Engineer)
-- Luigi Giura (random Italian Architect and Engineer)
+- Filippo Cassola (random Italian Chemist)
+- Andrea Francesco Cozzi (random Italian Chemist)
+- Francesco Giordani (random Italian Chemist)
+- Emanuele Paternò (random Italian Chemist)
+- Giuseppe Moscati (random Italian Physician)
 
-Changes:
-- Historical Engineers with multiple speciality traits will now choose a specialty randomly.
+Fixes:
+- Chemists will no longer act weirdly and either become ghosts or reappear after their death.
+- Fixed Malaria prevention not giving institution bonus.
+- The Engineering Alert now works properly for the Electrical Engineer
+- The AI now builds Telegraph and Radio Networks if they have eligible buildings instead of when they do not have eligible buildings.
+- The Summer Palace is no longer burnt in the void but in Beijing as intended.
+- The Polio Epidemic now spawns in a state instead of nowhere.
+- The button to make your national sport an Olympic discipline no longer throws an error if you do not yet have a national sport.
+- Martin Disteli event now fires properly.
