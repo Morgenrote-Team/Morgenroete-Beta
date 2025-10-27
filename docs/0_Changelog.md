@@ -1,5 +1,8 @@
 Changelog fot 2.5.0l "Filopanti"
 
+Characters:
+- Annibale de Gasparis (random Italian Astronomer)
+
 Graphics:
 - The Chemist can now appear holding their utensils in some events.
 - The geologist can now appear holding their utensils in some events.
