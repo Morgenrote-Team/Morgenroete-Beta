@@ -4,6 +4,7 @@ Characters:
 - Antonio Abetti (random Italian Astronomer)
 - Ernesto Capocci (random Italian Astronomer)
 - Annibale de Gasparis (random Italian Astronomer)
+- Caterina Scarpellini (random Italian Astronomer)
 - Angelo Secchi (random Italian Astronomer)
 
 Graphics:
