@@ -1,6 +1,7 @@
 Changelog fot 2.5.0l "Filopanti"
 
 Characters:
+- Antonio Abetti (random Italian Astronomer)
 - Ernesto Capocci (random Italian Astronomer)
 - Annibale de Gasparis (random Italian Astronomer)
 - Angelo Secchi (random Italian Astronomer)
