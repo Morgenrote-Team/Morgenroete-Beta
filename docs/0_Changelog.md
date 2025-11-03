@@ -14,6 +14,10 @@ Fixes:
 - Revolutions can no longer become Board Members of the Mountaineering club and generally messing with mountaineering stuff. (Thanks MasterOfGrey)
 - Revolutions can no longer spam requests to do paleontology/archeology/etc. (Thanks MasterOfGrey)
 - Giovanni Schiaparelli can now spawn properly.
+- Wyoming's Baseball club is no longer spawned in Wisconsin. (Thanks to PPsyrius)
 
 Other:
 - Changed various triggers to be more compatible (Thanks MasterOfGrey)
+- Added more historical Car manufacturers for race cars. (Thanks to PPsyrius)
+- Added historical Baseball clubs to Japan. (Thanks to PPsyrius)
+- Added fictional Thai Element names. (Thanks to PPsyrius)
