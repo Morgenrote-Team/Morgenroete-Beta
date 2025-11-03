@@ -4,3 +4,4 @@ Characters:
 - Giorgio Abetti (random Italian Astronomer)
 - Ercole Dembowski (random Italian Astronomer)
 - Giovanni Battista Donati (random Italian Astronomer)
+- Giovanni Lorenzoni (random Italian Astronomer)
