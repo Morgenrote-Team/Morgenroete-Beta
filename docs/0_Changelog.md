@@ -1,4 +1,4 @@
-Changelog fot 2.5.0m "Filopanti"
+Changelog fot 2.5.0n "Filopanti"
 
 Characters:
 - Corrado Feroci (random Italian Painter)
