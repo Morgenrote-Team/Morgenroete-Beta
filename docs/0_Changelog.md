@@ -2,6 +2,7 @@ Changelog fot 2.5.0m "Filopanti"
 
 Characters:
 - Joaquín Ezquerra del Bayo (random Spanish Engineer and Geologist)
+- Ramón Verea (random Spanish Engineer)
 - Giorgio Abetti (random Italian Astronomer)
 - Vincenzo Cerulli (random Italian Astronomer)
 - Ercole Dembowski (random Italian Astronomer)
