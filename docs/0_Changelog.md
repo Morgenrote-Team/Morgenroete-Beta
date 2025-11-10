@@ -1,6 +1,7 @@
 Changelog fot 2.5.0n "Filopanti"
 
 Characters:
+- Alberto Bosch y Fustegueras (random Spanish Engineer)
 - Corrado Feroci (random Italian Painter)
 - Khrua In Khong (random Thai Painter)
 - Kasin Sangwon (random Thai Painter)
