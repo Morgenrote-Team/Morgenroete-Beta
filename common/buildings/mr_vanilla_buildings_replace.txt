@@ -7,310 +7,32 @@
 ##########################
 
 #Government Administration: Add Hospital
-building_government_administration = {
-	building_group = bg_bureaucracy
-	city_type = city
-
-	levels_per_mesh = 50
-
-	unlocking_technologies = {
-		tech_bureaucracy
-	}
-
-	should_auto_expand = {
-		occupancy >= 0.8
-		OR = {
-			state.tax_capacity < state.tax_capacity_usage
-			owner = {
-				bureaucracy < -10
-			}
-		}
-	}
-
+TRY_INJECT:building_government_administration = {
 	production_method_groups = {
-		pmg_base_building_government_administration
-		pmg_government_administration_bureaucrat_professionalism
-		pmg_government_administration_religious_administration
 		pmg_panum_hospital #MORGENRÖTE
 	}
-
-	icon = "gfx/interface/icons/building_icons/building_government_administration.dds"
-
-	required_construction = construction_cost_very_low
-
-	background = "gfx/interface/icons/building_icons/backgrounds/building_panel_bg_monuments.dds"
 }
 
 #University: Add University Focus
-building_university = {
-
-	building_group = bg_technology
-
-	city_type = city
-
-	levels_per_mesh = 50
-
-	unlocking_technologies = {
-		academia
-	}
-
+TRY_INJECT:building_university = {
 	production_method_groups = {
-		pmg_base_building_university
-		pmg_university_academia
-		pmg_principle_freedom_of_movement_3
 		pmg_university_focus #MORGENRÖTE
-	}
-
-	icon = "gfx/interface/icons/building_icons/building_university.dds"
-
-	required_construction = construction_cost_medium
-
-	background = "gfx/interface/icons/building_icons/backgrounds/building_panel_bg_monuments.dds"
-
-	ai_value = {
-		value = 1000
-
-		if = { # British dictates
-			limit = {
-				owner = {
-					has_journal_entry = je_british_dictate_universities
-				}
-				OR = {
-					state_region = s:STATE_WEST_BENGAL
-					state_region = s:STATE_BOMBAY
-					state_region = s:STATE_MADRAS
-				}
-				NOR = {
-					has_building = building_university
-					any_scope_building = {
-						is_building_type = building_university
-						level > 3
-					}
-				}
-			}
-			add = 2000
-		}
 	}
 }
 
 #Arts Academy: Add Academy Focus and Academy Sculpture
-building_arts_academy = {
-	building_group = bg_arts
-
-	city_type = city
-
-	levels_per_mesh = 50
-
-	unlocking_technologies = {
-		romanticism
-	}
-
+TRY_INJECT:building_arts_academy = {
 	production_method_groups = {
-		pmg_base_building_arts_academy
-		pmg_ownership_building_arts_academy
-		pmg_principle_freedom_of_movement_3
 		pmg_arts_academy_focus #MORGENRÖTE
 		pmg_arts_academy_sculpture #MORGENRÖTE
-	}
-
-	icon = "gfx/interface/icons/building_icons/building_arts_academy.dds"
-
-	required_construction = construction_cost_medium
-
-	ownership_type = self
-
-	background = "gfx/interface/icons/building_icons/backgrounds/building_panel_bg_monuments.dds"
-	ai_value = {
-		value = 1000
-		if = { # AI Metternich really wants arts academies
-			limit = {
-				owner ?= {
-					c:AUS ?= this
-					has_journal_entry = je_metternich
-				}
-			}
-            add = 500
-		}
 	}
 }
 
 #Railway: Telegraph and Radio Stations
-building_railway = {
-	building_group = bg_private_infrastructure
-	icon = "gfx/interface/icons/building_icons/building_railway.dds"
-
-	ai_nationalization_desire = 0.5 # AI is reluctant to privatize railways since they are likely to need subsidies anyway
-
-	unlocking_technologies = {
-		railways
-	}
-
+TRY_INJECT:building_railway = {
 	production_method_groups = {
-		pmg_base_building_railway
-		pmg_passenger_trains
 		pmg_gaudi_communication #MORGENRÖTE
 	}
-
-	required_construction = construction_cost_very_high
-
-	ai_value = {
-		value = 2000 # Railways are important
-
-		if = { # Trans-Siberian Railway
-			limit = {
-				owner = {
-					has_journal_entry = je_trans_siberian_railway
-				}
-				OR = {
-					state_region = s:STATE_MOSCOW
-					state_region = s:STATE_YAROSLAVL
-					state_region = s:STATE_NIZHNY_NOVGOROD
-					state_region = s:STATE_CHUVASHIA
-					state_region = s:STATE_KAZAN
-					state_region = s:STATE_UFA
-					state_region = s:STATE_CHELYABINSK
-					state_region = s:STATE_URAL
-					state_region = s:STATE_TOBOLSK
-					state_region = s:STATE_TOMSK
-					state_region = s:STATE_KRASNOYARSK
-					state_region = s:STATE_IRKUTSK
-					state_region = s:STATE_BURYATIA
-					state_region = s:STATE_TRANS_BAIKAL
-					state_region = s:STATE_YAKUTSK
-					state_region = s:STATE_OKHOTSK
-					state_region = s:STATE_AMUR
-					state_region = s:STATE_OUTER_MANCHURIA
-				}
-				NOR = {
-					has_building = building_railway
-					any_scope_building = {
-						is_building_type = building_railway
-						is_under_construction = yes
-					}
-				}
-			}
-			add = 10000
-		}
-		else_if = { # Shinkansen, my beloved
-			limit = {
-				owner = {
-					has_journal_entry = je_meiji_economy
-				}
-				is_incorporated = yes # Japan proper
-				NOR = {
-					has_building = building_railway
-					any_scope_building = {
-						is_building_type = building_railway
-						is_under_construction = yes
-					}
-				}
-			}
-			add = 10000
-		}
-		else_if = { # Trans-Continental Railways
-			limit = {
-				owner = {
-					has_journal_entry = je_trans_continental_railway
-				}
-				OR = {
-					state_region = s:STATE_NEBRASKA
-					state_region = s:STATE_WYOMING
-					state_region = s:STATE_UTAH
-					state_region = s:STATE_NEVADA
-					state_region = s:STATE_CALIFORNIA
-				}
-				NOR = {
-					has_building = building_railway
-					any_scope_building = {
-						is_building_type = building_railway
-						is_under_construction = yes
-					}
-				}
-			}
-			add = 10000
-		}
-		else_if = { # Canadian Pacific Highway
-			limit = {
-				owner = {
-					has_journal_entry = je_canada_pacific_railway
-				}
-				OR = {
-					state_region = s:STATE_QUEBEC
-					state_region = s:STATE_BRITISH_COLUMBIA
-					state_region = s:STATE_ONTARIO
-					state_region = s:STATE_ALBERTA
-					state_region = s:STATE_SASKATCHEWAN
-					state_region = s:STATE_MANITOBA
-				}
-				NOR = {
-					has_building = building_railway
-					any_scope_building = {
-						is_building_type = building_railway
-						is_under_construction = yes
-					}
-				}
-			}
-			add = 10000
-		}
-		else_if = { # AI Metternich wants railways
-			limit = {
-				owner ?= {
-					c:AUS ?= this
-					has_journal_entry = je_metternich
-				}
-				is_incorporated = yes
-				NOR = {
-					has_building = building_railway
-					any_scope_building = {
-						is_building_type = building_railway
-						is_under_construction = yes
-					}
-				}
-			}
-            add = 10000
-		}
-
-		if = { # Manchurian Railway
-			limit = {
-				exists = c:RUS
-				c:RUS ?= owner
-				OR = {
-					region = sr:region_manchuria
-				}
-				any_scope_building = {
-					is_building_type = building_railway
-					levels_owned_by_country = {
-						target = c:RUS
-						value  < 1
-					}
-				}
-			}
-			add = 10000
-		}
-	}
-
-	should_auto_expand = {
-		occupancy >= 0.8
-		OR = {
-			cash_reserves_ratio > 0.5
-			is_subsidized = yes
-		}
-		OR = {
-			state = {
-				sg:transportation = {
-					state_goods_pricier > 0.5
-				}
-			}
-			state = {
-				infrastructure_delta <= -20
-			}
-		}
-		NOT = { is_under_construction = yes }
-
-	}
-	ownership_type = self
-
-	background = "gfx/interface/icons/building_icons/backgrounds/building_panel_bg_railways.dds"
 }
 
 ##########################
