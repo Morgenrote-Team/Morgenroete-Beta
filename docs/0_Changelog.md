@@ -1,8 +1,8 @@
-Changelog fot 2.5.0m "Filopanti"
+Changelog fot 2.5.0n "Filopanti"
 
 Characters:
-- Giorgio Abetti (random Italian Astronomer)
-- Vincenzo Cerulli (random Italian Astronomer)
-- Ercole Dembowski (random Italian Astronomer)
-- Giovanni Battista Donati (random Italian Astronomer)
-- Giovanni Lorenzoni (random Italian Astronomer)
+- Alberto Bosch y Fustegueras (random Spanish Engineer)
+- Corrado Feroci (random Italian Painter)
+- Khrua In Khong (random Thai Painter)
+- Kasin Sangwon (random Thai Painter)
+- Hem Wetchakon (random Thai Painter)
