@@ -5,6 +5,7 @@ Characters:
 - José Canalejas y Casas (random Spanish Engineer)
 - José Centeno y Garcia (random Spanish Engineer and Geologist)
 - José Antonio de Artigas Sanz (random Spanish Engineer)
+- Emilio Herrera Linares (randoms Spanish Engineer)
 - Corrado Feroci (random Italian Painter)
 - Khrua In Khong (random Thai Painter)
 - Kasin Sangwon (random Thai Painter)
