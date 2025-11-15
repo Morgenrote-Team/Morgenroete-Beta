@@ -6,7 +6,7 @@ Characters:
 - José Centeno y Garcia (random Spanish Engineer and Geologist)
 - José Antonio de Artigas Sanz (random Spanish Engineer)
 - Emilio Herrera Linares (randoms Spanish Engineer)
-- Emilio Herrera Linares (random Spanish Engineer)
+- Narcís Monturiol i Estarriol (random Spanish Engineer)
 - Corrado Feroci (random Italian Painter) (Thanks to PPsyrius)
 - Khrua In Khong (random Thai Painter) (Thanks to PPsyrius)
 - Kasin Sangwon (random Thai Painter) (Thanks to PPsyrius)
