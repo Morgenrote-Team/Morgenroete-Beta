@@ -3,6 +3,7 @@ Changelog fot 2.5.0o "Filopanti"
 Characters
 - Mónico Sánchez Moreno (random Spanish Engineer)
 - Mathieu Orfila (random Spanish Chemist)
+- Paulino Savirón Caravantes (random Spanish Chemist)
 - Torres Muñoz de Luna (random Spanish Chemist)
 
 Fixes:
