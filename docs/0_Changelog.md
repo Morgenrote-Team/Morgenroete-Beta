@@ -1,13 +1,12 @@
-Changelog fot 2.5.0n "Filopanti"
+Changelog fot 2.5.0o "Filopanti"
 
-Characters:
-- Alberto Bosch y Fustegueras (random Spanish Engineer)
-- José Canalejas y Casas (random Spanish Engineer)
-- José Centeno y Garcia (random Spanish Engineer and Geologist)
-- José Antonio de Artigas Sanz (random Spanish Engineer)
-- Emilio Herrera Linares (randoms Spanish Engineer)
-- Narcís Monturiol i Estarriol (random Spanish Engineer)
-- Corrado Feroci (random Italian Painter) (Thanks to PPsyrius)
-- Khrua In Khong (random Thai Painter) (Thanks to PPsyrius)
-- Kasin Sangwon (random Thai Painter) (Thanks to PPsyrius)
-- Hem Wetchakon (random Thai Painter) (Thanks to PPsyrius)
+Characters
+- Mónico Sánchez Moreno (random Spanish Engineer)
+- Mathieu Orfila (random Spanish Chemist)
+- León Pérez de Salmeán y Mendayo (random Spanish Chemist)
+- Paulino Savirón Caravantes (random Spanish Chemist)
+- Torres Muñoz de Luna (random Spanish Chemist)
+
+Fixes:
+- The Uranium Expedition should now properly get progress again.
+- Your Physician will no longer forget everything he learnt about Tetanus after researching it and therefore will no longer research it over and over again.
