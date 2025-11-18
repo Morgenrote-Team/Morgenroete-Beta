@@ -6,3 +6,4 @@ Characters
 
 Fixes:
 - The Uranium Expedition should now properly get progress again.
+- Your Physician will no longer forget everything he learnt about Tetanus after researching it and therefore will no longer research it over and over again.
