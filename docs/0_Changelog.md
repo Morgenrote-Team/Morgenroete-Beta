@@ -16,6 +16,13 @@ Biology
 Sports
 - Like Japan and Cuba, China gets a special baseball event.
 
+Technology
+- Technology bonuses at events have been reduced by around a third. 
+- The system now performs the following simple calculation, which depends on the tech tier of the technology being researched:
+-- Tech Tiers 1&2: 1000 points (small), 2000 points (medium), 3000 points (large)
+-- Tech Tiers 3&4: 2000 points (small), 4000 points (medium), 6000 points (large)
+-- Tech Tier 5: 3000 points (small), 6000 points (medium), 9000 points (large)
+
 Other
 - Added "Good Soils" to Lombardy and Emilia (this is one of the most fertile areas in Europe!)
 
