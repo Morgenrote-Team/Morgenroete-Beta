@@ -7,6 +7,7 @@ Characters:
 - José Rodríguez Mourelo (random Spanish Chemist)
 - Mariano Castillo y Ocsiero (random Spanish Astronomer)
 - Josep Comas i Solà (random Spanish Astronomer)
+- Francisco Íñiguez e Íñiguez (random Spanish Astronomer)
 - José Joaquín Landerer (random Spanish Astronomer)
 - Saturnino Montojo y Díaz (random Spanish Astronomer)
 - Mario Roso de Luna (random Spanish Astronomer)
