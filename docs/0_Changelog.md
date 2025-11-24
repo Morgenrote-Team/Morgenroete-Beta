@@ -6,6 +6,7 @@ Characters:
 - José Rodríguez Carracido (random Spanish Chemist)
 - José Rodríguez Mourelo (random Spanish Chemist)
 - Josep Comas i Solà (random Spanish Astronomer)
+- José Joaquín Landerer (random Spanish Astronomer)
 - Saturnino Montojo y Díaz (random Spanish Astronomer)
 
 Fixes:
