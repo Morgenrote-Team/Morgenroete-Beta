@@ -5,6 +5,7 @@ Characters:
 - Vicente Santiago Masarnáu Fernández (random Spanish Chemist)
 - José Rodríguez Carracido (random Spanish Chemist)
 - José Rodríguez Mourelo (random Spanish Chemist)
+- Pedro Carrasco Garrorena (random Spanish Astronomer)
 - Mariano Castillo y Ocsiero (random Spanish Astronomer)
 - Josep Comas i Solà (random Spanish Astronomer)
 - Francisco Íñiguez e Íñiguez (random Spanish Astronomer)
