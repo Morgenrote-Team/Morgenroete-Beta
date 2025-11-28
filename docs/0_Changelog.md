@@ -14,6 +14,7 @@ Characters:
 - Saturnino Montojo y Díaz (random Spanish Astronomer)
 - Dionisio Renart (random Spanish Astronomer)
 - Mario Roso de Luna (random Spanish Astronomer)
+- Eduardo Chao Fernández (random Spanish Geologist and Naturalist)
 - Amalio Maestre e Ibáñez (random Spanish Geologist)
 
 Fixes:
