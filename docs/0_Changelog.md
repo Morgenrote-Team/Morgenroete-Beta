@@ -1,12 +1,22 @@
-Changelog fot 2.5.0o "Filopanti"
+Changelog fot 2.5.0p "Filopanti"
 
-Characters
-- Mónico Sánchez Moreno (random Spanish Engineer)
-- Mathieu Orfila (random Spanish Chemist)
-- León Pérez de Salmeán y Mendayo (random Spanish Chemist)
-- Paulino Savirón Caravantes (random Spanish Chemist)
-- Torres Muñoz de Luna (random Spanish Chemist)
+Characters:
+- Bartolomé Feliú Pérez (random Spanish Chemist)
+- Vicente Santiago Masarnáu Fernández (random Spanish Chemist)
+- José Rodríguez Carracido (random Spanish Chemist)
+- José Rodríguez Mourelo (random Spanish Chemist)
+- Ramón María Aller Ulloa (random Spanish Astronomer)
+- Pedro Carrasco Garrorena (random Spanish Astronomer)
+- Mariano Castillo y Ocsiero (random Spanish Astronomer)
+- Josep Comas i Solà (random Spanish Astronomer)
+- Francisco Íñiguez e Íñiguez (random Spanish Astronomer)
+- José Joaquín Landerer (random Spanish Astronomer)
+- Saturnino Montojo y Díaz (random Spanish Astronomer)
+- Dionisio Renart (random Spanish Astronomer)
+- Mario Roso de Luna (random Spanish Astronomer)
+- Eduardo Chao Fernández (random Spanish Geologist and Naturalist)
+- Amalio Maestre e Ibáñez (random Spanish Geologist)
 
 Fixes:
-- The Uranium Expedition should now properly get progress again.
-- Your Physician will no longer forget everything he learnt about Tetanus after researching it and therefore will no longer research it over and over again.
+- Events and notifications that expect you to build an observatory now properly check if any of your states can construct an observatory.
+- Readded the button that allows you to stop patronizing the arts.
