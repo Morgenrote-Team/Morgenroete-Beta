@@ -19,3 +19,4 @@ Characters:
 
 Fixes:
 - Events and notifications that expect you to build an observatory now properly check if any of your states can construct an observatory.
+- Readded the button that allows you to stop patronizing the arts.
