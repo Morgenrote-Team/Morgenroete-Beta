@@ -14,6 +14,7 @@ Characters:
 - Saturnino Montojo y Díaz (random Spanish Astronomer)
 - Dionisio Renart (random Spanish Astronomer)
 - Mario Roso de Luna (random Spanish Astronomer)
+- Amalio Maestre e Ibáñez (random Spanish Geologist)
 
 Fixes:
 - Events and notifications that expect you to build an observatory now properly check if any of your states can construct an observatory.
