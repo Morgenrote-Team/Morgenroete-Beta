@@ -1,5 +1,6 @@
 Changelog fot 2.5.0r "Filopanti"
 
 Characters:
+- Jaime Almera Comas (random Spanish Geologist)
 - Juan Luna (random Filipino Painter)
 - Félix Resurrección Hidalgo (random Filipino Painer)
