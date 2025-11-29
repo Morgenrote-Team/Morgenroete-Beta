@@ -1,1 +1,1 @@
-Changelog fot 2.5.0q "Filopanti"
+Changelog fot 2.5.0r "Filopanti"
