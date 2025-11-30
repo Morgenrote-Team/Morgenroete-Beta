@@ -4,3 +4,6 @@ Characters:
 - Jaime Almera Comas (random Spanish Geologist)
 - Juan Luna (random Filipino Painter)
 - Félix Resurrección Hidalgo (random Filipino Painer)
+
+Fixes:
+- Zeppelin Expedition events should no longer fire when the Expedition has ended.
