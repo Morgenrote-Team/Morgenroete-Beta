@@ -9,4 +9,5 @@ Characters:
 - Félix Resurrección Hidalgo (random Filipino Painer)
 
 Fixes:
-- Zeppelin Expedition events should no longer fire when the Expedition has ended.
+- Zeppelin Expedition events should no longer show when the Expedition has ended.
+- Archaeology events should no show up when the Expedition has ended.
