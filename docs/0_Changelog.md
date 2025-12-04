@@ -5,6 +5,7 @@ Characters:
 - Eduardo Chao Fernández (random Spanish Geologist and Engineer)
 - Francisco de las Barras de Aragón (random Spanish Geologist)
 - Casiano de Prado y Vallo (random Spanish Geologist)
+- Norberto Font y Sagué (random Spanish Geologist)
 - Maximino San Miguel de la Cámara (random Spanish Geologist)
 - Antonio Machado y Núñez (random Spanish Physician, Geologist and Naturalist)
 - Juan Luna (random Filipino Painter)
