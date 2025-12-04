@@ -15,3 +15,6 @@ Characters:
 Fixes:
 - Zeppelin Expedition events should no longer show when the Expedition has ended.
 - Archaeology events should no show up when the Expedition has ended.
+
+Other:
+- Added more Racetrack names (thanks to PPsyrius)
