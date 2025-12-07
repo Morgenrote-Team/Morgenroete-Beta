@@ -20,6 +20,7 @@ Characters:
 - Carl Jörns (random German Racer) (Thanks to Cipherparadox)
 - Christian Lautenschlager (random German Racer) (Thanks to Cipherparadox)
 - Ferenc Szisz (random Hungarian Racer) (Thanks to Cipherparadox)
+- Boris Ivanowski (random Russian Racer) (Thanks to Cipherparadox)
 - Pierre de Vizcaya (random Spanish Racer) (Thanks to Cipherparadox)
 
 Fixes:
