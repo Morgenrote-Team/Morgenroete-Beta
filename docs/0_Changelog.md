@@ -2,14 +2,15 @@ Changelog fot 2.5.0s "Filopanti"
 
 Characters:
 - Florentino Azpeitia Moros (random Spanish Paleontologist)
-- Pierre Cuypers (random Dutch Architect) (Thanks to Cypherparadox)
-- Gerrit Rietveld (random Dutch Architect) (Thanks to Cypherparadox)
-- Louis Couperus (random Dutch Writer) (Thanks to Cypherparadox)
-- Elise van Calcar (random Dutch Writer) (Thanks to Cypherparadox)
-- Johannes Hermanus Koekkoek (random Dutch Painter) (Thanks to Cypherparadox)
-- Anton Mauve (random Dutch Painter) (Thanks to Cypherparadox)
-- Jan Hoynck van Papendrecht (random Dutch Painter) (Thanks to Cypherparadox)
-- Anthony Fokker (random Dutch Pilot)  (Thanks to Cypherparadox)
+- Gerard Heymans (random Dutch Physician) (Thanks to Cipherparadox)
+- Pierre Cuypers (random Dutch Architect) (Thanks to Cipherparadox)
+- Gerrit Rietveld (random Dutch Architect) (Thanks to Cipherparadox)
+- Louis Couperus (random Dutch Writer) (Thanks to Cipherparadox)
+- Elise van Calcar (random Dutch Writer) (Thanks to Cipherparadox)
+- Johannes Hermanus Koekkoek (random Dutch Painter) (Thanks to Cipherparadox)
+- Anton Mauve (random Dutch Painter) (Thanks to Cipherparadox)
+- Jan Hoynck van Papendrecht (random Dutch Painter) (Thanks to Cipherparadox)
+- Anthony Fokker (random Dutch Pilot)  (Thanks to Cipherparadox)
 
 Fixes:
 - Added localization for the Roskilde Ring.
