@@ -12,6 +12,7 @@ Characters:
 - Anton Mauve (random Dutch Painter) (Thanks to Cipherparadox)
 - Jan Hoynck van Papendrecht (random Dutch Painter) (Thanks to Cipherparadox)
 - Anthony Fokker (random Dutch Pilot) (Thanks to Cipherparadox)
+- William Watson (random English Racer) (Thanks to Cipherparadox)
 - Eddie Hertzberger (random Dutch Racer) (Thanks to Cipherparadox)
 
 Fixes:
