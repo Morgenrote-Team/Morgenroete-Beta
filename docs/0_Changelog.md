@@ -15,6 +15,7 @@ Characters:
 - Arthur Duray (random Belgian Racer) (Thanks to Cipherparadox)
 - William Watson (random English Racer) (Thanks to Cipherparadox)
 - Eddie Hertzberger (random Dutch Racer) (Thanks to Cipherparadox)
+- Carl Jörns (random German Racer) (Thanks to Cipherparadox)
 
 Fixes:
 - Added localization for the Roskilde Ring.
