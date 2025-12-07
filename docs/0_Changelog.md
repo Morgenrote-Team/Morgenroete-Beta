@@ -11,7 +11,8 @@ Characters:
 - Johannes Hermanus Koekkoek (random Dutch Painter) (Thanks to Cipherparadox)
 - Anton Mauve (random Dutch Painter) (Thanks to Cipherparadox)
 - Jan Hoynck van Papendrecht (random Dutch Painter) (Thanks to Cipherparadox)
-- Anthony Fokker (random Dutch Pilot)  (Thanks to Cipherparadox)
+- Anthony Fokker (random Dutch Pilot) (Thanks to Cipherparadox)
+- Eddie Hertzberger (random Dutch Racer) (Thanks to Cipherparadox)
 
 Fixes:
 - Added localization for the Roskilde Ring.
