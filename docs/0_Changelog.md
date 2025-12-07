@@ -17,6 +17,7 @@ Characters:
 - Eliška Junková (random Czech Racer) (Thanks to Cipherparadox)
 - William Watson (random English Racer) (Thanks to Cipherparadox)
 - Eddie Hertzberger (random Dutch Racer) (Thanks to Cipherparadox)
+- Louis Wagner (random French Racer) (Thanks to Cipherparadox)
 - Carl Jörns (random German Racer) (Thanks to Cipherparadox)
 - Christian Lautenschlager (random German Racer) (Thanks to Cipherparadox)
 - Ferenc Szisz (random Hungarian Racer) (Thanks to Cipherparadox)
