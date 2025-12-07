@@ -13,6 +13,7 @@ Characters:
 - Jan Hoynck van Papendrecht (random Dutch Painter) (Thanks to Cipherparadox)
 - Anthony Fokker (random Dutch Pilot) (Thanks to Cipherparadox)
 - Arthur Duray (random Belgian Racer) (Thanks to Cipherparadox)
+- Juan Zanelli (random Chilean Racer) (Thanks to Cipherparadox)
 - Eliška Junková (random Czech Racer) (Thanks to Cipherparadox)
 - William Watson (random English Racer) (Thanks to Cipherparadox)
 - Eddie Hertzberger (random Dutch Racer) (Thanks to Cipherparadox)
