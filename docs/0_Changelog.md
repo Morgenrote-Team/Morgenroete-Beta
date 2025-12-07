@@ -1,20 +1,31 @@
-Changelog fot 2.5.0r "Filopanti"
+Changelog fot 2.5.0s "Filopanti"
 
 Characters:
-- Jaime Almera Comas (random Spanish Geologist)
-- Eduardo Chao Fernández (random Spanish Geologist and Engineer)
-- Francisco de las Barras de Aragón (random Spanish Geologist)
-- Casiano de Prado y Vallo (random Spanish Geologist)
-- Norberto Font y Sagué (random Spanish Geologist)
-- Maximino San Miguel de la Cámara (random Spanish Geologist)
-- Antonio Machado y Núñez (random Spanish Physician, Geologist and Naturalist)
-- Juan Vilanova y Piera (random Spanish Geologist)
-- Juan Luna (random Filipino Painter)
-- Félix Resurrección Hidalgo (random Filipino Painer)
+- Florentino Azpeitia Moros (random Spanish Paleontologist)
+- Arturo Bofill y Poch (random Spanish Paleontologist)
+- José Royo Gómez (random Spanish Paleontologist)
+- Gerard Heymans (random Dutch Physician) (Thanks to Cipherparadox)
+- Samuel Sarphati (random Dutch Physician) (Thanks to Cipherparadox)
+- Pierre Cuypers (random Dutch Architect) (Thanks to Cipherparadox)
+- Gerrit Rietveld (random Dutch Architect) (Thanks to Cipherparadox)
+- Louis Couperus (random Dutch Writer) (Thanks to Cipherparadox)
+- Elise van Calcar (random Dutch Writer) (Thanks to Cipherparadox)
+- Johannes Hermanus Koekkoek (random Dutch Painter) (Thanks to Cipherparadox)
+- Anton Mauve (random Dutch Painter) (Thanks to Cipherparadox)
+- Jan Hoynck van Papendrecht (random Dutch Painter) (Thanks to Cipherparadox)
+- Anthony Fokker (random Dutch Pilot) (Thanks to Cipherparadox)
+- Arthur Duray (random Belgian Racer) (Thanks to Cipherparadox)
+- Juan Zanelli (random Chilean Racer) (Thanks to Cipherparadox)
+- Eliška Junková (random Czech Racer) (Thanks to Cipherparadox)
+- William Watson (random English Racer) (Thanks to Cipherparadox)
+- Eddie Hertzberger (random Dutch Racer) (Thanks to Cipherparadox)
+- Louis Wagner (random French Racer) (Thanks to Cipherparadox)
+- Carl Jörns (random German Racer) (Thanks to Cipherparadox)
+- Christian Lautenschlager (random German Racer) (Thanks to Cipherparadox)
+- Ferenc Szisz (random Hungarian Racer) (Thanks to Cipherparadox)
+- Boris Ivanowski (random Russian Racer) (Thanks to Cipherparadox)
+- Pierre de Vizcaya (random Spanish Racer) (Thanks to Cipherparadox)
+- Julio Villars (random Swiss Racer) (Thanks to Cipherparadox)
 
 Fixes:
-- Zeppelin Expedition events should no longer show when the Expedition has ended.
-- Archaeology events should no show up when the Expedition has ended.
-
-Other:
-- Added more Racetrack names (thanks to PPsyrius)
+- Added localization for the Roskilde Ring.
