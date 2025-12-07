@@ -23,6 +23,7 @@ Characters:
 - Ferenc Szisz (random Hungarian Racer) (Thanks to Cipherparadox)
 - Boris Ivanowski (random Russian Racer) (Thanks to Cipherparadox)
 - Pierre de Vizcaya (random Spanish Racer) (Thanks to Cipherparadox)
+- Julio Villars (random Swiss Racer) (Thanks to Cipherparadox)
 
 Fixes:
 - Added localization for the Roskilde Ring.
