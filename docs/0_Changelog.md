@@ -16,6 +16,7 @@ Characters:
 - William Watson (random English Racer) (Thanks to Cipherparadox)
 - Eddie Hertzberger (random Dutch Racer) (Thanks to Cipherparadox)
 - Carl Jörns (random German Racer) (Thanks to Cipherparadox)
+- Ferenc Szisz (random Hungarian Racer) (Thanks to Cipherparadox)
 
 Fixes:
 - Added localization for the Roskilde Ring.
