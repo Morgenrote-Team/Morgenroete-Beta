@@ -3,6 +3,7 @@ Changelog fot 2.5.0s "Filopanti"
 Characters:
 - Florentino Azpeitia Moros (random Spanish Paleontologist)
 - Gerard Heymans (random Dutch Physician) (Thanks to Cipherparadox)
+- Samuel Sarphati (random Dutch Physician) (Thanks to Cipherparadox)
 - Pierre Cuypers (random Dutch Architect) (Thanks to Cipherparadox)
 - Gerrit Rietveld (random Dutch Architect) (Thanks to Cipherparadox)
 - Louis Couperus (random Dutch Writer) (Thanks to Cipherparadox)
