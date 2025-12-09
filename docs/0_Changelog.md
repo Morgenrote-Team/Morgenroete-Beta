@@ -8,6 +8,7 @@ Characters:
 - Emilio Huguet del Villar (random Spanish Naturalist)
 - José Arias Teijeiro y Correa (random Spanish Naturalist)
 - Gregorio Chil y Naranjo (random Spanish Physician and Anthropologist)
+- Francisco de Paula Campá y Porta (random Spanish Physician)
 - Pedro Mata y Fontanet (random Spanish Physician)
 
 Fixes:
