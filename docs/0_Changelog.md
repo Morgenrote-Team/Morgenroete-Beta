@@ -7,6 +7,7 @@ Characters:
 - Mariano de la Paz Graells y de la Agüera (random Spanish Naturalist and Paleontologist)
 - Emilio Huguet del Villar (random Spanish Naturalist)
 - José Arias Teijeiro y Correa (random Spanish Naturalist)
+- Gregorio Chil y Naranjo (random Spanish Physician and Anthropologist)
 - Pedro Mata y Fontanet (random Spanish Physician)
 
 Fixes:
