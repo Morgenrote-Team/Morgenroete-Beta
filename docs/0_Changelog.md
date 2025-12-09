@@ -8,3 +8,6 @@ Characters:
 - Emilio Huguet del Villar (random Spanish Naturalist)
 - José Arias Teijeiro y Correa (random Spanish Naturalist)
 - Pedro Mata y Fontanet (random Spanish Physician)
+
+Fixes:
+- Fixed some Yellow Fever Treatment events never firing.
