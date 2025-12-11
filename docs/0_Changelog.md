@@ -5,6 +5,7 @@ General:
 
 Balancing:
 - Adapted the changes to airports made by MasterOfGrey for USU. This generally means that they should now be better balanced. One major change is that Air Travel is now a local good.
+
 Characters:
 - Eduardo Hernández-Pacheco (random Spanish Paleontologist)
 - Ignacio Bolívar y Urrutia (random Spanish Naturalist)
@@ -22,3 +23,4 @@ Fixes:
 
 Graphics:
 - Added a new Loading Screen created by Angel (see art credits for more information) which depicts a a Blériot XI during the Circuit of Europe 1911 over London.
+- Added a new animation for the Composer.
