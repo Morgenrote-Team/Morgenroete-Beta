@@ -1,4 +1,4 @@
-Changelog fot 2.5.0s "Filopanti"
+Changelog fot 2.6.0 "Peral"
 
 General:
 - Updated to game version 1.12.
