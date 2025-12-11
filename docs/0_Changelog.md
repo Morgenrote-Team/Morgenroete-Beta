@@ -1,4 +1,4 @@
-Changelog fot 2.5.0s "Filopanti"
+Changelog fot 2.6.0 "Peral"
 
 General:
 - Updated to game version 1.12.
@@ -19,3 +19,6 @@ Characters:
 
 Fixes:
 - Fixed some Yellow Fever Treatment events never firing.
+
+Graphics:
+- Added a new Loading Screen created by Angel (see art credits for more information) which depicts a a Blériot XI during the Circuit of Europe 1911 over London.
