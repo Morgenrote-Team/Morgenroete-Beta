@@ -6,3 +6,4 @@ Characters:
 - Miguel Rodríguez Ferrer (random Spanish Anthropologist)
 - Carlos de Haes (random Spanish Painter)
 - Antonio María Esquivel (Spanish starting Painter)
+- Joaquín Sorolla (random Spanish Painter)
