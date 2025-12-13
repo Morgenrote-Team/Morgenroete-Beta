@@ -9,3 +9,4 @@ Characters:
 - Manuel Almagro Vega (random Cuban Anthropologist and Physician)
 - Pedro González de Velasco (random Spanish Anthropologist and Physician)
 - Jose Miguel Barandiarán (random Spanish Anthropologist, Ethnologist and Archaeologist)
+- Gilbert Keith Chesterton (random British Writer) (Thanks to Cipherparadox)
