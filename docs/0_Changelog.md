@@ -6,4 +6,5 @@ Characters:
 - Francisco de Paula Álvarez-Ossorio (random Spanish Archaeologist)
 - Fidel Fita Colomé (random Spanish Archaeologist)
 - Buenaventura Hernández Sanahuja (random Spanish Archaeologist)
+- Pedro González de Velasco (random Spanish Anthropologist and Physician)
 - Jose Miguel Barandiarán (random Spanish Anthropologist, Ethnologist and Archaeologist)
