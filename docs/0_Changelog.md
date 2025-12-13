@@ -2,6 +2,7 @@ Changelog fot 2.6.0d "Peral"
 
 Characters:
 - Ildefons Cerdà Sunyer (random Spanish Engineer)
+- Johanna Goekoop-de Jongh (random Dutch Archaeologist) (Thanks to Cipherparadox)
 - Albert Egges van Giffen (random Dutch Archaeologist) (Thanks to Cipherparadox)
 - Pere Bosch-Gimpera (random Spanish Archaeologist)
 - Francisco de Paula Álvarez-Ossorio (random Spanish Archaeologist)
