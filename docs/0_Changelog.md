@@ -1,3 +1,4 @@
 Changelog fot 2.6.0e "Peral"
 
 Characters:
+- Manuel Antón y Ferrándiz (random Spanish Anthropologist)
