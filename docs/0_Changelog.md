@@ -13,3 +13,4 @@ Characters:
 - Nicolaas Beets (random Dutch Writer) (Thanks to Cipherparadox)
 - Jakob van Schevichaven (random Dutch Writer) (Thanks to Cipherparadox)
 - George Hendrik Breitner (random Dutch Painter) (Thanks to Cipherparadox)
+- Gerrit Willem Dijsselhof (random Dutch Painter) (Thanks to Cipherparadox)
