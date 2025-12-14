@@ -12,3 +12,6 @@ Characters:
 - Mariano Fortuny (random Spanish Painter)
 - Antonio María Esquivel (Spanish starting Painter)
 - Joaquín Sorolla (random Spanish Painter)
+
+Fixes:
+- Fixed an issue that caused AI countries to get more cost modifiers for the Mountaineering Training every half year.
