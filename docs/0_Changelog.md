@@ -6,6 +6,7 @@ Characters:
 - Miguel Rodríguez Ferrer (random Spanish Anthropologist)
 - Lluís Domènech i Montaner (random Spanish Architect)
 - José María Jujol Gibert (random Spanish Architect)
+- Josep Puig i Cadafalch (random Spanish Architect)
 - Secundino Zuazo Ugalde (random Spanish Architect)
 - Carlos de Haes (random Spanish Painter)
 - Mariano Fortuny (random Spanish Painter)
