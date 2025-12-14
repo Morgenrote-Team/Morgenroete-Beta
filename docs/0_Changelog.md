@@ -1,5 +1,9 @@
 Changelog fot 2.6.0e "Peral"
 
+Graphics:
+- Added Holst Conducting in the Queen's Hall 1 Loading Screen (CC4.0 BY-NC angel)
+- Added Holst Conducting in the Queen's Hall 2 Loading Screen (CC4.0 BY-NC angel)
+
 Characters:
 - Manuel Antón y Ferrándiz (random Spanish Anthropologist)
 - Luis de Hoyos Sainz (random Spanish Anthropologist)
