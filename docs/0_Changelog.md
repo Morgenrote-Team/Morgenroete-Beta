@@ -15,3 +15,4 @@ Characters:
 
 Fixes:
 - Fixed an issue that caused AI countries to get more cost modifiers for the Mountaineering Training every half year.
+- Fixed various error messages.
