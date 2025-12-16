@@ -21,3 +21,6 @@ Other
 
 Fixes
 - Fixed the Sports Radio event which triggered without radio.
+
+Performance:
+- Improved the performance of the Mountaineering Licence Diplomatic Action.
