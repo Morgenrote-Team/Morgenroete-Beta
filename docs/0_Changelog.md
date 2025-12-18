@@ -23,3 +23,4 @@ Fixes:
 - Fixed various error messages.
 - Removed duplicate extension buildings for Electrics Company.
 - Revolutions will no longer ask for Exotic Animals or Paleontological Licences.
+- Renamed Wildlife Preserve to Nature Reserve as they are available even without wildlife.
