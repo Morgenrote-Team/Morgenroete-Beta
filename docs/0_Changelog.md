@@ -13,6 +13,7 @@ Characters:
 - Lluís Domènech i Montaner (random Spanish Architect)
 - José María Jujol Gibert (random Spanish Architect)
 - Josep Puig i Cadafalch (random Spanish Architect)
+- Antoni Rovira i Trias (random Spanish Architect)
 - Secundino Zuazo Ugalde (random Spanish Architect)
 - Carlos de Haes (random Spanish Painter)
 - Mariano Fortuny (random Spanish Painter)
