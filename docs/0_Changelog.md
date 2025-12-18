@@ -1,4 +1,4 @@
-Changelog fot 2.6.0e "Peral"
+Changelog for 2.6.0e "Peral"
 
 Graphics:
 - Added Holst Conducting in the Queen's Hall 1 Loading Screen (CC4.0 BY-NC angel)
