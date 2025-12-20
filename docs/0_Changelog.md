@@ -5,3 +5,4 @@ Art:
 
 Characters:
 - Georges Vantongerloo (random Belgian Painter) (Thanks to Cipherparadox)
+- Théo van Rysselberghe (random Belgian Painter) (Thanks to Cipherparadox)
