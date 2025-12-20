@@ -5,5 +5,6 @@ Art:
 
 Characters:
 - Anna Boch (random Belgian Painter) (Thanks to Cipherparadox)
+- Alfred Stevens (random Belgian Painter) (Thanks to Cipherparadox)
 - Georges Vantongerloo (random Belgian Painter) (Thanks to Cipherparadox)
 - Théo van Rysselberghe (random Belgian Painter) (Thanks to Cipherparadox)
