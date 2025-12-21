@@ -16,6 +16,7 @@ Characters:
 - Tomás Bretón (random Spanish Composer)
 - Ramón Carnicer (Spanish travelling Composer)
 - Pablo de Sarasate (random Spanish Composer)
+- Felip Pedrell (random Spanish Composer)
 - Joaquín Rodrigo (random Spanish Composer)
 - Joaquín Turina (random Spanish Composer)
 - Friedrich Nietzsche (random German Writer) (Thanks to Cipherparadox)
