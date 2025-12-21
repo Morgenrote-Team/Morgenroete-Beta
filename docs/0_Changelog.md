@@ -5,6 +5,7 @@ Art:
 
 Characters:
 - Ferdinand Bordewijk (random Dutch Writer) (Thanks to Cipherparadox)
+- Jan ten Kate (random Dutch Writer) (Thanks to Cipherparadox)
 - Aart van der Leeuw (random Dutch Writer) (Thanks to Cipherparadox)
 - Frederik van Eeden (random Dutch Writer) (Thanks to Cipherparadox)
 - Anna Boch (random Belgian Painter) (Thanks to Cipherparadox)
