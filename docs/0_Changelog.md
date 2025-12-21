@@ -10,6 +10,7 @@ GUI:
 The Composer GUI now shows the number of musical tours and conduction seasons of a composer
 
 Characters:
+- Pedro Albéniz (Spanish Starting Composer)
 - Tomás Bretón (random Spanish Composer)
 - Pablo de Sarasate (random Spanish Composer)
 - Joaquín Rodrigo (random Spanish Composer)
