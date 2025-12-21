@@ -29,6 +29,7 @@ Characters:
 - Leopoldo Alas (random Spanish Writer) (Thanks to Cipherparadox)
 - Gustavo Adolfo Bécquer (random Spanish Writer) (Thanks to Cipherparadox)
 - Emilio Carrere (random Spanish Writer) (Thanks to Cipherparadox)
+- Eugenio de Ochoa (Spanish starting Writer)
 - Miguel de Unamuno (random Spanish Writer) (Thanks to Cipherparadox)
 - Enrique Gaspar (random Spanish Writer) (Thanks to Cipherparadox)
 - Ramón Pérez de Ayala (random Spanish Writer) (Thanks to Cipherparadox)
