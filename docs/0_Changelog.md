@@ -11,6 +11,7 @@ The Composer GUI now shows the number of musical tours and conduction seasons of
 
 Characters:
 - Tomás Bretón (random Spanish Composer)
+- Pablo de Sarasate (random Spanish Composer)
 - Joaquín Rodrigo (random Spanish Composer)
 - Friedrich Nietzsche (random German Writer) (Thanks to Cipherparadox)
 - Thomas Hardy (random British Writer) (Thanks to Cipherparadox)
