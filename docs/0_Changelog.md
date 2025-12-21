@@ -14,6 +14,7 @@ Characters:
 - Leopoldo Alas (random Spanish Writer) (Thanks to Cipherparadox)
 - Gustavo Adolfo Bécquer (random Spanish Writer) (Thanks to Cipherparadox)
 - Miguel de Unamuno (random Spanish Writer) (Thanks to Cipherparadox)
+- Ramón Pérez de Ayala (random Spanish Writer) (Thanks to Cipherparadox)
 - Benito Pérez Galdós (random Spanish Writer) (Thanks to Cipherparadox)
 - Anna Boch (random Belgian Painter) (Thanks to Cipherparadox)
 - Alfred Stevens (random Belgian Painter) (Thanks to Cipherparadox)
