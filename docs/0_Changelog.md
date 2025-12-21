@@ -3,6 +3,12 @@ Changelog for 2.6.0g "Peral"
 Art:
 - Added a new loading screen by Angel depicting Alexandre Yersin in Hong Kong searching for the origin of the plague.
 
+Changes:
+- New Composers now start with compositions, musical tours and conduction seasons depending on their age and traits.
+
+GUI:
+The Composer GUI now shows the number of musical tours and conduction seasons of a composer
+
 Characters:
 - Joaquín Rodrigo (random Spanish Composer)
 - Friedrich Nietzsche (random German Writer) (Thanks to Cipherparadox)
