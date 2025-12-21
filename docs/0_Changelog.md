@@ -4,6 +4,7 @@ Art:
 - Added a new loading screen by Angel depicting Alexandre Yersin in Hong Kong searching for the origin of the plague.
 
 Characters:
+- Thomas Hardy (random British Writer) (Thanks to Cipherparadox)
 - Ferdinand Bordewijk (random Dutch Writer) (Thanks to Cipherparadox)
 - Conrad Busken Huet (random Dutch Writer) (Thanks to Cipherparadox)
 - Jan ten Kate (random Dutch Writer) (Thanks to Cipherparadox)
