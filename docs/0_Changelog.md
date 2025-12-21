@@ -20,6 +20,7 @@ Characters:
 - Alfred Stevens (random Belgian Painter) (Thanks to Cipherparadox)
 - Georges Vantongerloo (random Belgian Painter) (Thanks to Cipherparadox)
 - Théo van Rysselberghe (random Belgian Painter) (Thanks to Cipherparadox)
+- Hermenegildo Anglada Camarasa (random Spanish Painter) (Thanks to Cipherparadox)
 - Eduardo Rosales (random Spanish Painter) (Thanks to Cipherparadox)
 - Santiago Rusiñol (random Spanish Painter) (Thanks to Cipherparadox)
 - Cassius Coolidge (random American Painter) (Thanks to Cipherparadox)
