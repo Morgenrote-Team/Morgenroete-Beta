@@ -14,6 +14,7 @@ Characters:
 - Emilio Arrieta (random Spanish Composer)
 - Francisco Asenjo Barbieri (random Spanish Composer)
 - Tomás Bretón (random Spanish Composer)
+- Ramón Carnicer (Spanish travelling Composer)
 - Pablo de Sarasate (random Spanish Composer)
 - Joaquín Rodrigo (random Spanish Composer)
 - Joaquín Turina (random Spanish Composer)
