@@ -12,6 +12,7 @@ Characters:
 - Aart van der Leeuw (random Dutch Writer) (Thanks to Cipherparadox)
 - Frederik van Eeden (random Dutch Writer) (Thanks to Cipherparadox)
 - Miguel de Unamuno (random Spanish Writer) (Thanks to Cipherparadox)
+- Benito Pérez Galdós (random Spanish Writer) (Thanks to Cipherparadox)
 - Anna Boch (random Belgian Painter) (Thanks to Cipherparadox)
 - Alfred Stevens (random Belgian Painter) (Thanks to Cipherparadox)
 - Georges Vantongerloo (random Belgian Painter) (Thanks to Cipherparadox)
