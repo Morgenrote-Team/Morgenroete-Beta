@@ -15,6 +15,7 @@ Characters:
 - Francisco Asenjo Barbieri (random Spanish Composer)
 - Tomás Bretón (random Spanish Composer)
 - Ramón Carnicer (Spanish travelling Composer)
+- Ruperto Chapí (random Spanish Composer)
 - Pablo de Sarasate (random Spanish Composer)
 - Felip Pedrell (random Spanish Composer)
 - Joaquín Rodrigo (random Spanish Composer)
