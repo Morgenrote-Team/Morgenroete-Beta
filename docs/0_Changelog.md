@@ -12,6 +12,7 @@ The Composer GUI now shows the number of musical tours and conduction seasons of
 Characters:
 - Pedro Albéniz (Spanish Starting Composer)
 - Emilio Arrieta (random Spanish Composer)
+- Francisco Asenjo Barbieri (random Spanish Composer)
 - Tomás Bretón (random Spanish Composer)
 - Pablo de Sarasate (random Spanish Composer)
 - Joaquín Rodrigo (random Spanish Composer)
