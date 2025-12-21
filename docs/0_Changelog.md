@@ -4,6 +4,7 @@ Art:
 - Added a new loading screen by Angel depicting Alexandre Yersin in Hong Kong searching for the origin of the plague.
 
 Characters:
+- Joaquín Rodrigo (random Spanish Composer)
 - Friedrich Nietzsche (random German Writer) (Thanks to Cipherparadox)
 - Thomas Hardy (random British Writer) (Thanks to Cipherparadox)
 - Ferdinand Bordewijk (random Dutch Writer) (Thanks to Cipherparadox)
