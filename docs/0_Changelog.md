@@ -9,6 +9,9 @@ Changes:
 GUI:
 The Composer GUI now shows the number of musical tours and conduction seasons of a composer
 
+Fixes:
+- Fixed missing names in the French Translation.
+
 Characters:
 - Pedro Albéniz (Spanish Starting Composer)
 - Emilio Arrieta (random Spanish Composer)
