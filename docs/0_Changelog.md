@@ -11,6 +11,7 @@ The Composer GUI now shows the number of musical tours and conduction seasons of
 
 Fixes:
 - Fixed missing names in the French Translation.
+- Darwin will now properly return again. Added a save guard in case something goes wrong as well.
 
 Characters:
 - Pedro Albéniz (Spanish Starting Composer)
