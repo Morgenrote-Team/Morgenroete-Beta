@@ -2,6 +2,7 @@ Changelog for 2.6.0h "Peral"
 
 Changes:
 - The Name of the Discoverer of Neptune will now be saved and displayed in the Neptune tooltip.
+- The Name of the Discoverer of Pluto will now be saved and displayed in the Neptune tooltip.
 
 Characters:
 - José Vitorino Damásio (random Portuguese Engineer)
