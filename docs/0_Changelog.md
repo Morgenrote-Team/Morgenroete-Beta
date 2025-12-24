@@ -11,3 +11,4 @@ Characters:
 - Raoul Mesnier du Ponsard (random Portuguese Engineer)
 - Duarte Pacheco (random Portuguese Engineer)
 - João Baptista Schiappa de Azevedo (random Portuguese Engineer and Geologist)
+- António Inácio da Cruz (random Portuguese Astronomer and Chemist)
