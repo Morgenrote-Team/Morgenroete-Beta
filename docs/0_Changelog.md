@@ -1,4 +1,4 @@
-Changelog for 2.6.0h "Peral"
+Changelog for 2.6.1 "da Cruz"
 
 Changes:
 - The Name of the Discoverer of Planets and Moons will now be saved and displayed.
