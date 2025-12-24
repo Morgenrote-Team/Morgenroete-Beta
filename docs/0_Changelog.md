@@ -12,3 +12,4 @@ Characters:
 - Duarte Pacheco (random Portuguese Engineer)
 - João Baptista Schiappa de Azevedo (random Portuguese Engineer and Geologist)
 - António Inácio da Cruz (random Portuguese Astronomer and Chemist)
+- Frederico Augusto Oom (random Portuguese Astronomer)
