@@ -7,5 +7,6 @@ Changes:
 Characters:
 - José Vitorino Damásio (random Portuguese Engineer)
 - João Maria Ferreira do Amaral II (random Portuguese Engineer)
+- Raoul Mesnier du Ponsard (random Portuguese Engineer)
 - Duarte Pacheco (random Portuguese Engineer)
 - João Baptista Schiappa de Azevedo (random Portuguese Engineer and Geologist)
