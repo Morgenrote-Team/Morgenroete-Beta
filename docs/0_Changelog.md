@@ -11,3 +11,4 @@ Characters:
 - Gerhart Hauptmann (random German Writer) (Thanks to Cipherparadox)
 - Robert Kraft (random German Writer) (Thanks to Cipherparadox)
 - Karl May (random German Writer) (Thanks to Cipherparadox)
+- Francis Scott Fitzgerald (random American Writer) (Thanks to Cipherparadox)
