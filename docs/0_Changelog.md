@@ -11,6 +11,7 @@ Characters:
 - Gerhart Hauptmann (random German Writer) (Thanks to Cipherparadox)
 - Robert Kraft (random German Writer) (Thanks to Cipherparadox)
 - Karl May (random German Writer) (Thanks to Cipherparadox)
+- Giuseppe Rovani (random Italian Writer) (Thanks to Cipherparadox)
 - Henry James (random American Writer) (Thanks to Cipherparadox)
 - Johnston McCulley (random American Writer) (Thanks to Cipherparadox)
 - Mary Roberts Rinehart (random American Writer) (Thanks to Cipherparadox)
