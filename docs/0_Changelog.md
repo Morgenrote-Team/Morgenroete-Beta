@@ -8,5 +8,6 @@ Characters:
 - Filipe Folque (random Portuguese Astronomer)
 - Wilhelm Busch (random German Writer) (Thanks to Cipherparadox)
 - Theodor Fontane (random German Writer) (Thanks to Cipherparadox)
+- Gerhart Hauptmann (random German Writer) (Thanks to Cipherparadox)
 - Robert Kraft (random German Writer) (Thanks to Cipherparadox)
 - Karl May (random German Writer) (Thanks to Cipherparadox)
