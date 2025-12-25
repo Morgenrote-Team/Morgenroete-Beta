@@ -7,6 +7,7 @@ Characters:
 - Rodrigo Ribeiro de Sousa Pinto (random Portuguese Astronomer)
 - Filipe Folque (random Portuguese Astronomer)
 - Raymundus de Kremer (random Belgian Writer) (Thanks to Cipherparadox)
+- Guido Gezelle (random Belgian Writer) (Thanks to Cipherparadox)
 - Maurice Maeterlinck (random Belgian Writer) (Thanks to Cipherparadox)
 - Wilhelm Busch (random German Writer) (Thanks to Cipherparadox)
 - Theodor Fontane (random German Writer) (Thanks to Cipherparadox)
