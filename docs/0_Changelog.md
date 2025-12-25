@@ -6,5 +6,6 @@ Characters:
 - Manuel de Melo e Simas (random Portuguese Astronomer)
 - Rodrigo Ribeiro de Sousa Pinto (random Portuguese Astronomer)
 - Filipe Folque (random Portuguese Astronomer)
+- Wilhelm Busch (random German Writer) (Thanks to Cipherparadox)
 - Robert Kraft (random German Writer) (Thanks to Cipherparadox)
 - Karl May (random German Writer) (Thanks to Cipherparadox)
