@@ -7,5 +7,6 @@ Characters:
 - Rodrigo Ribeiro de Sousa Pinto (random Portuguese Astronomer)
 - Filipe Folque (random Portuguese Astronomer)
 - Wilhelm Busch (random German Writer) (Thanks to Cipherparadox)
+- Theodor Fontane (random German Writer) (Thanks to Cipherparadox)
 - Robert Kraft (random German Writer) (Thanks to Cipherparadox)
 - Karl May (random German Writer) (Thanks to Cipherparadox)
