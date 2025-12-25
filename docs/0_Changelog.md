@@ -12,5 +12,6 @@ Characters:
 - Robert Kraft (random German Writer) (Thanks to Cipherparadox)
 - Karl May (random German Writer) (Thanks to Cipherparadox)
 - Henry James (random American Writer) (Thanks to Cipherparadox)
+- Johnston McCulley (random American Writer) (Thanks to Cipherparadox)
 - Mary Roberts Rinehart (random American Writer) (Thanks to Cipherparadox)
 - Francis Scott Fitzgerald (random American Writer) (Thanks to Cipherparadox)
