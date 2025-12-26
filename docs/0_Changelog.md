@@ -2,6 +2,7 @@ Changelog for 2.6.1a "da Cruz"
 
 Characters:
 - Johann Franz Encke (random German Astronomer)
+- Friedrich Georg Wilhelm von Struve (random German Astronomer)
 - Francisco Miranda da Costa Lobo (random Portuguese Astronomer)
 - Alfredo Filgueiras da Rocha Peixoto (random Portuguese Astronomer)
 - Manuel de Melo e Simas (random Portuguese Astronomer)
