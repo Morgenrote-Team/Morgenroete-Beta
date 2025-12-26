@@ -9,6 +9,7 @@ Characters:
 - João de Moraes Pereira (random Portuguese Astronomer)
 - Luís da Silva Mouzinho de Albuquerque (random Portuguese Chemist)
 - António Augusto de Aguiar (random Portuguese Chemist)
+- José António de Aguiar (random Portuguese Chemist)
 - Júlio Máximo de Oliveira Pimentel (random Portuguese Chemist)
 - Roberto Duarte Silva (random Portuguese Chemist)
 - Emílio Estácio (random Portuguese Chemist)
