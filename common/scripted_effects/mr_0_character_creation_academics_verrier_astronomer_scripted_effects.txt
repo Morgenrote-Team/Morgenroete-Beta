@@ -822,7 +822,7 @@ mr_create_historical_astronomer_for_character_creation_effect = {
 
 			set_global_variable = mr_zhang_yuzhe_global_var
 		}
-		100 = { #Jules Janssen, France
+		200 = { #Jules Janssen, France
 			trigger = {
 				NOT = { has_global_variable = mr_janssen_global_var }
 				c:FRA ?= this
@@ -848,7 +848,43 @@ mr_create_historical_astronomer_for_character_creation_effect = {
 
 			set_global_variable = mr_janssen_global_var
 		}
-		100 = { #Johann Gottfried Galle, Germany
+		100 = { #Johann Franz Encke, Germany
+			trigger = {
+				NOT = { has_global_variable = mr_encke_johann_franz_global_var }
+				OR = {
+					has_state_in_state_region = STATE_ELBE #Born in Hamburg
+					AND = { #Director of Observatory in Berlin
+						year >= 1825
+						has_state_in_state_region = STATE_BRANDENBURG
+					}
+				}
+				country_average_cultural_acceptance = {
+					target = cu:north_german
+					value >= acceptance_status_4
+				}
+				year >= 1816 #Age 25
+				year <= 1846 #Age 55
+			}
+			create_character = {
+				template = mr_ger_encke_johann_franz_character_template
+
+				save_scope_as = verrier_new_astronomer_scope
+			}
+			scope:verrier_new_astronomer_scope = {
+				set_variable = mr_is_astronomer_var
+				set_variable = mr_no_headgear_var
+				astronomer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = verrier_new_astronomer_var
+				value = scope:verrier_new_astronomer_scope
+			}
+
+			set_global_variable = mr_encke_johann_franz_global_var
+		}
+		200 = { #Johann Gottfried Galle, Germany
 			trigger = {
 				NOT = { has_global_variable = mr_galle_global_var }
 				OR = {
