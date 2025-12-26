@@ -13,6 +13,7 @@ Characters:
 - Júlio Máximo de Oliveira Pimentel (random Portuguese Chemist)
 - Roberto Duarte Silva (random Portuguese Chemist)
 - Emílio Estácio (random Portuguese Chemist)
+- António Joaquim Ferreira da Silva (random Portuguese Chemist)
 - Agostinho Vicente Lourenço (random Portuguese Chemist)
 - Branca Edmée Marques (random Portuguese Chemist)
 - António Pereira Forjaz (random Portuguese Chemist)
