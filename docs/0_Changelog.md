@@ -12,6 +12,7 @@ Characters:
 - Júlio Máximo de Oliveira Pimentel (random Portuguese Chemist)
 - Roberto Duarte Silva (random Portuguese Chemist)
 - Agostinho Vicente Lourenço (random Portuguese Chemist)
+- Branca Edmée Marques (random Portuguese Chemist)
 - Georges-Eugène Haussmann (random French Architect)
 - Raymundus de Kremer (random Belgian Writer) (Thanks to Cipherparadox)
 - Guido Gezelle (random Belgian Writer) (Thanks to Cipherparadox)
