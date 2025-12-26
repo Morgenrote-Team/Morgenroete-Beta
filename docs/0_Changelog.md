@@ -6,6 +6,7 @@ Characters:
 - Manuel de Melo e Simas (random Portuguese Astronomer)
 - Rodrigo Ribeiro de Sousa Pinto (random Portuguese Astronomer)
 - Filipe Folque (random Portuguese Astronomer)
+- Luís da Silva Mouzinho de Albuquerque (random Portuguese Chemist)
 - Júlio Máximo de Oliveira Pimentel (random Portuguese Chemist)
 - Georges-Eugène Haussmann (random French Architect)
 - Raymundus de Kremer (random Belgian Writer) (Thanks to Cipherparadox)
