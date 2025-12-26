@@ -4,6 +4,7 @@ Characters:
 - Heinrich Louis d'Arrest (random German Astronomer)
 - Johann Franz Encke (random German Astronomer)
 - Carl Ludwig Christian Rümker (random German Astronomer)
+- Carl August von Steinheil (random German Astronomer)
 - Friedrich Georg Wilhelm von Struve (random German Astronomer)
 - Francisco Miranda da Costa Lobo (random Portuguese Astronomer)
 - Alfredo Filgueiras da Rocha Peixoto (random Portuguese Astronomer)
