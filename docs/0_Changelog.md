@@ -14,6 +14,7 @@ Characters:
 - Emílio Estácio (random Portuguese Chemist)
 - Agostinho Vicente Lourenço (random Portuguese Chemist)
 - Branca Edmée Marques (random Portuguese Chemist)
+- António Pereira Forjaz (random Portuguese Chemist)
 - Georges-Eugène Haussmann (random French Architect)
 - Raymundus de Kremer (random Belgian Writer) (Thanks to Cipherparadox)
 - Guido Gezelle (random Belgian Writer) (Thanks to Cipherparadox)
