@@ -1,6 +1,7 @@
 Changelog for 2.6.1a "da Cruz"
 
 Characters:
+- Heinrich Louis d'Arrest (random German Astronomer)
 - Johann Franz Encke (random German Astronomer)
 - Carl Ludwig Christian Rümker (random German Astronomer)
 - Friedrich Georg Wilhelm von Struve (random German Astronomer)
