@@ -11,6 +11,7 @@ Characters:
 - António Augusto de Aguiar (random Portuguese Chemist)
 - Júlio Máximo de Oliveira Pimentel (random Portuguese Chemist)
 - Roberto Duarte Silva (random Portuguese Chemist)
+- Emílio Estácio (random Portuguese Chemist)
 - Agostinho Vicente Lourenço (random Portuguese Chemist)
 - Branca Edmée Marques (random Portuguese Chemist)
 - Georges-Eugène Haussmann (random French Architect)
