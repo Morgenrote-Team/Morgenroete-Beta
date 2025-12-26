@@ -20,6 +20,7 @@ Characters:
 - Agostinho Vicente Lourenço (random Portuguese Chemist)
 - Branca Edmée Marques (random Portuguese Chemist)
 - António Pereira Forjaz (random Portuguese Chemist)
+- Carlos Ribeiro (random Portuguese Geologist)
 - Georges-Eugène Haussmann (random French Architect)
 - Raymundus de Kremer (random Belgian Writer) (Thanks to Cipherparadox)
 - Guido Gezelle (random Belgian Writer) (Thanks to Cipherparadox)
