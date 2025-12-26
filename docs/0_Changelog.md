@@ -6,6 +6,7 @@ Characters:
 - Heinrich Eduard Lade (random German Astronomer)
 - Carl Ludwig Christian Rümker (random German Astronomer)
 - Carl August von Steinheil (random German Astronomer)
+- Johann Ludwig Tiarks (random German Astronomer)
 - Friedrich Georg Wilhelm von Struve (random German Astronomer)
 - Francisco Miranda da Costa Lobo (random Portuguese Astronomer)
 - Alfredo Filgueiras da Rocha Peixoto (random Portuguese Astronomer)
