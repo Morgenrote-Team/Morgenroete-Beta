@@ -28,6 +28,7 @@ Characters:
 - Agostinho Vicente Lourenço (random Portuguese Chemist)
 - Branca Edmée Marques (random Portuguese Chemist)
 - António Pereira Forjaz (random Portuguese Chemist)
+- Alfredo Bensaúde (random Portuguese Geologist)
 - Joaquim Nery Delgado (random Portuguese Geologist)
 - Carlos Ribeiro (random Portuguese Geologist)
 - António Egas Moniz (random Portuguese Physician)
