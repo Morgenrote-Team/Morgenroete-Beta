@@ -4,6 +4,7 @@ Characters:
 - Heinrich Louis d'Arrest (random German Astronomer)
 - Johann Franz Encke (random German Astronomer)
 - Heinrich Eduard Lade (random German Astronomer)
+- Friedrich Bernhard Gottfried Nicolai (random German Astronomer)
 - Carl Ludwig Christian Rümker (random German Astronomer)
 - Carl August von Steinheil (random German Astronomer)
 - Johann Ludwig Tiarks (random German Astronomer)
