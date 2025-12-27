@@ -30,6 +30,7 @@ Characters:
 - António Pereira Forjaz (random Portuguese Chemist)
 - Joaquim Nery Delgado (random Portuguese Geologist)
 - Carlos Ribeiro (random Portuguese Geologist)
+- António Egas Moniz (random Portuguese Physician)
 - Georges-Eugène Haussmann (random French Architect)
 - Raymundus de Kremer (random Belgian Writer) (Thanks to Cipherparadox)
 - Guido Gezelle (random Belgian Writer) (Thanks to Cipherparadox)
