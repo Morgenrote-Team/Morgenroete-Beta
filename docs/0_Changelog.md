@@ -1,5 +1,8 @@
 Changelog for 2.6.1a "da Cruz"
 
+Graphics:
+- Added a new Loading Screen (Tour de France 1935 - Free Beer!) by Angel (CC4.0 BY-NC angel).
+
 Characters:
 - Heinrich Louis d'Arrest (random German Astronomer)
 - Johann Franz Encke (random German Astronomer)
