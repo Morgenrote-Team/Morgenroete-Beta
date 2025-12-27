@@ -42,3 +42,6 @@ Characters:
 - Johnston McCulley (random American Writer) (Thanks to Cipherparadox)
 - Mary Roberts Rinehart (random American Writer) (Thanks to Cipherparadox)
 - Francis Scott Fitzgerald (random American Writer) (Thanks to Cipherparadox)
+
+Changes:
+- Baden now has its own Observatory as it historically did.
