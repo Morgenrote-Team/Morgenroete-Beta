@@ -42,6 +42,7 @@ Characters:
 - Karl May (random German Writer) (Thanks to Cipherparadox)
 - Giuseppe Rovani (random Italian Writer) (Thanks to Cipherparadox)
 - Alessandro Varaldo (random Italian Writer) (Thanks to Cipherparadox)
+- Eça de Queiroz (random Portuguese Writer)
 - Henry James (random American Writer) (Thanks to Cipherparadox)
 - Johnston McCulley (random American Writer) (Thanks to Cipherparadox)
 - Mary Roberts Rinehart (random American Writer) (Thanks to Cipherparadox)
