@@ -1,19 +1,55 @@
-Changelog for 2.6.1 "da Cruz"
+Changelog for 2.6.1a "da Cruz"
 
-Changes:
-- The Name of the Discoverer of Planets and Moons will now be saved and displayed.
-- The Name of the Discoverer of Comets is now saved and will be displayed in the tooltip of the Great Comets.
+Graphics:
+- Added a new Loading Screen (Tour de France 1935 - Free Beer!) by Angel (CC4.0 BY-NC angel).
 
 Characters:
-- José Vitorino Damásio (random Portuguese Engineer)
-- João Maria Ferreira do Amaral II (random Portuguese Engineer)
-- Joaquim José Machado (random Portuguese Engineer)
-- Raoul Mesnier du Ponsard (random Portuguese Engineer)
-- Duarte Pacheco (random Portuguese Engineer)
-- João Baptista Schiappa de Azevedo (random Portuguese Engineer and Geologist)
-- António Inácio da Cruz (random Portuguese Astronomer and Chemist)
-- Frederico Augusto Oom (random Portuguese Astronomer)
-- Campos Rodrigues (random Portuguese Astronomer)
+- Heinrich Louis d'Arrest (random German Astronomer)
+- Johann Franz Encke (random German Astronomer)
+- Heinrich Eduard Lade (random German Astronomer)
+- Friedrich Bernhard Gottfried Nicolai (random German Astronomer)
+- Carl Ludwig Christian Rümker (random German Astronomer)
+- Carl August von Steinheil (random German Astronomer)
+- Johann Ludwig Tiarks (random German Astronomer)
+- Friedrich Georg Wilhelm von Struve (random German Astronomer)
+- Francisco Miranda da Costa Lobo (random Portuguese Astronomer)
+- Alfredo Filgueiras da Rocha Peixoto (random Portuguese Astronomer)
+- Manuel de Melo e Simas (random Portuguese Astronomer)
+- Rodrigo Ribeiro de Sousa Pinto (random Portuguese Astronomer)
+- Filipe Folque (random Portuguese Astronomer)
+- João de Moraes Pereira (random Portuguese Astronomer)
+- Luís da Silva Mouzinho de Albuquerque (random Portuguese Chemist)
+- António Augusto de Aguiar (random Portuguese Chemist)
+- José António de Aguiar (random Portuguese Chemist)
+- Júlio Máximo de Oliveira Pimentel (random Portuguese Chemist)
+- Roberto Duarte Silva (random Portuguese Chemist)
+- Emílio Estácio (random Portuguese Chemist)
+- António Joaquim Ferreira da Silva (random Portuguese Chemist)
+- Agostinho Vicente Lourenço (random Portuguese Chemist)
+- Branca Edmée Marques (random Portuguese Chemist)
+- António Pereira Forjaz (random Portuguese Chemist)
+- Alfredo Bensaúde (random Portuguese Geologist)
+- Joaquim Nery Delgado (random Portuguese Geologist)
+- Francisco Luís Pereira de Sousa (random Portuguese Geologist)
+- Carlos Ribeiro (random Portuguese Geologist)
+- António Egas Moniz (random Portuguese Physician)
+- Georges-Eugène Haussmann (random French Architect)
+- Raymundus de Kremer (random Belgian Writer) (Thanks to Cipherparadox)
+- Guido Gezelle (random Belgian Writer) (Thanks to Cipherparadox)
+- Maurice Maeterlinck (random Belgian Writer) (Thanks to Cipherparadox)
+- Wilhelm Busch (random German Writer) (Thanks to Cipherparadox)
+- Theodor Fontane (random German Writer) (Thanks to Cipherparadox)
+- Gerhart Hauptmann (random German Writer) (Thanks to Cipherparadox)
+- Robert Kraft (random German Writer) (Thanks to Cipherparadox)
+- Karl May (random German Writer) (Thanks to Cipherparadox)
+- Giuseppe Rovani (random Italian Writer) (Thanks to Cipherparadox)
+- Alessandro Varaldo (random Italian Writer) (Thanks to Cipherparadox)
+- Camilo Castelo Branco (random Portuguese Writer)
+- Eça de Queiroz (random Portuguese Writer)
+- Henry James (random American Writer) (Thanks to Cipherparadox)
+- Johnston McCulley (random American Writer) (Thanks to Cipherparadox)
+- Mary Roberts Rinehart (random American Writer) (Thanks to Cipherparadox)
+- Francis Scott Fitzgerald (random American Writer) (Thanks to Cipherparadox)
 
-Fixes:
-- You no longer get crazy amounts of money from the "Attack on the Workhouse" event.
+Changes:
+- Baden now has its own Observatory as it historically did.
