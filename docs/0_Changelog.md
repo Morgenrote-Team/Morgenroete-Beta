@@ -29,6 +29,7 @@ Characters:
 - Branca Edmée Marques (random Portuguese Chemist)
 - António Pereira Forjaz (random Portuguese Chemist)
 - Alfredo Bensaúde (random Portuguese Geologist)
+- João Carrington da Costa (random Portuguese Geologist)
 - Joaquim Nery Delgado (random Portuguese Geologist)
 - Francisco Luís Pereira de Sousa (random Portuguese Geologist)
 - Carlos Ribeiro (random Portuguese Geologist)
@@ -50,6 +51,9 @@ Characters:
 - Johnston McCulley (random American Writer) (Thanks to Cipherparadox)
 - Mary Roberts Rinehart (random American Writer) (Thanks to Cipherparadox)
 - Francis Scott Fitzgerald (random American Writer) (Thanks to Cipherparadox)
+- Winslow Homer (random American Painter)
+- Nicola Marschall (random American Painter)
+- John Singer Sargent (random American Painter)
 
 Changes:
 - Baden now has its own Observatory as it historically did.
