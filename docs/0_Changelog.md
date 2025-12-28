@@ -52,6 +52,7 @@ Characters:
 - Mary Roberts Rinehart (random American Writer) (Thanks to Cipherparadox)
 - Francis Scott Fitzgerald (random American Writer) (Thanks to Cipherparadox)
 - Winslow Homer (random American Painter)
+- Nicola Marschall (random American Painter)
 - John Singer Sargent (random American Painter)
 
 Changes:
