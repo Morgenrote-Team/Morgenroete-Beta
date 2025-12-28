@@ -29,6 +29,7 @@ Characters:
 - Branca Edmée Marques (random Portuguese Chemist)
 - António Pereira Forjaz (random Portuguese Chemist)
 - Alfredo Bensaúde (random Portuguese Geologist)
+- João Carrington da Costa (random Portuguese Geologist)
 - Joaquim Nery Delgado (random Portuguese Geologist)
 - Francisco Luís Pereira de Sousa (random Portuguese Geologist)
 - Carlos Ribeiro (random Portuguese Geologist)
