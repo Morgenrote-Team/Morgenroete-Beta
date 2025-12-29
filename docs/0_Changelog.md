@@ -16,6 +16,7 @@ Characters:
 - Edward Charles Pickering (random American Astronomer)
 - Charles Herty (random American Chemist)
 - William Weightman (random American Chemist)
+- H. Foster Bain (random American Geologist)
 - Jacob Gijsbertus Samuël van Breda (random Dutch Naturalist and Paleontologist)
 - Tiberius Cornelis Winkler (random Dutch Naturalist, Geologist and Paleontologist)
 
