@@ -26,3 +26,4 @@ Archaeology:
 
 Astronomy:
 - William Cranch Bond can now spawn as a random Astronomer.
+- Edwin Hubble can now also spawn as a random Astronomer.
