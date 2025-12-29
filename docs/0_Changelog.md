@@ -1,6 +1,7 @@
 Changelog for 2.6.1b "da Cruz"
 
 Characters:
+- George Airy (random British Astronomer)
 - John Herschel (random British Astronomer and Chemist)
 - Lawrence Parsons (random Irish/British Astronomer)
 - Jacob Gijsbertus Samuël van Breda (random Dutch Naturalist and Paleontologist)
