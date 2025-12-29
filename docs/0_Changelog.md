@@ -11,6 +11,7 @@ Characters:
 - Norman Lockyer (random British Astronomer)
 - Lawrence Parsons (random Irish/British Astronomer)
 - Stephen Alexander (random American Astronomer)
+- Henry Draper (random American Astronomer and Physician)
 - Asaph Hall (random American Astronomer)
 - Edward Charles Pickering (random American Astronomer)
 - Jacob Gijsbertus Samuël van Breda (random Dutch Naturalist and Paleontologist)
