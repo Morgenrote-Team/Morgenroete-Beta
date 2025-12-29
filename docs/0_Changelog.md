@@ -4,6 +4,7 @@ Characters:
 - William Armstrong (random British Engineer)
 - Horatio Allen (random American Engineer)
 - George W. Hughes (random American Engineer)
+- George S. Morison (random American Engineer)
 - George Airy (random British Astronomer)
 - John Herschel (random British Astronomer and Chemist)
 - William Huggins (random British Astronomer)
