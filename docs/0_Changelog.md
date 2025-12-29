@@ -10,6 +10,7 @@ Characters:
 - William Huggins (random British Astronomer)
 - Norman Lockyer (random British Astronomer)
 - Lawrence Parsons (random Irish/British Astronomer)
+- Stephen Alexander (random American Astronomer)
 - Jacob Gijsbertus Samuël van Breda (random Dutch Naturalist and Paleontologist)
 - Tiberius Cornelis Winkler (random Dutch Naturalist, Geologist and Paleontologist)
 
@@ -22,3 +23,6 @@ Fixes:
 
 Archaeology:
 - If your Archaeologist is a Physician you will now have the option to treat the people that catch exotic diseases on Archaeologiscal Expeditions.
+
+Astronomy:
+- William Cranch Bond can now spawn as a random Astronomer.
