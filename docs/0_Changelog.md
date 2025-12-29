@@ -14,6 +14,7 @@ Characters:
 - Henry Draper (random American Astronomer and Physician)
 - Asaph Hall (random American Astronomer)
 - Edward Charles Pickering (random American Astronomer)
+- Charles Herty (random American Chemist)
 - William Weightman (random American Chemist)
 - Jacob Gijsbertus Samuël van Breda (random Dutch Naturalist and Paleontologist)
 - Tiberius Cornelis Winkler (random Dutch Naturalist, Geologist and Paleontologist)
