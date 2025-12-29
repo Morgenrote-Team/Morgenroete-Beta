@@ -10,3 +10,4 @@ Characters:
 
 Fixes:
 - Fixed a bug that made elements get immediately theorized/analyzed/isolated.
+- The Engineering Rating Tooltip no longer tells you about your Engineer having negative traits that they do not in fact have.
