@@ -21,6 +21,7 @@ GUI:
 Fixes:
 - Fixed a bug that made elements get immediately theorized/analyzed/isolated.
 - The Engineering Rating Tooltip no longer tells you about your Engineer having negative traits that they do not in fact have.
+- Vanilla Venceslau de Lima will no longer spawn when scientist de Lima spawned and vice versa.
 
 Archaeology:
 - If your Archaeologist is a Physician you will now have the option to treat the people that catch exotic diseases on Archaeologiscal Expeditions.
