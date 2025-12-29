@@ -1,6 +1,7 @@
 Changelog for 2.6.1b "da Cruz"
 
 Characters:
+- William Armstrong (random British Engineer)
 - George Airy (random British Astronomer)
 - John Herschel (random British Astronomer and Chemist)
 - William Huggins (random British Astronomer)
