@@ -12,6 +12,7 @@ Characters:
 - Lawrence Parsons (random Irish/British Astronomer)
 - Stephen Alexander (random American Astronomer)
 - Asaph Hall (random American Astronomer)
+- Edward Charles Pickering (random American Astronomer)
 - Jacob Gijsbertus Samuël van Breda (random Dutch Naturalist and Paleontologist)
 - Tiberius Cornelis Winkler (random Dutch Naturalist, Geologist and Paleontologist)
 
