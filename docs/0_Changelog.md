@@ -21,6 +21,7 @@ Characters:
 - Tiberius Cornelis Winkler (random Dutch Naturalist, Geologist and Paleontologist)
 - Benjamin Franklin Mudge (random American Paleontologist and Geologist)
 - Barnum Brown (random American Paleontologist)
+- Walter W. Granger (random American Paleontologist)
 - Charles Doolittle Walcott (random American Paelontologist)
 
 GUI:
