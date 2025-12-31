@@ -33,6 +33,7 @@ Characters:
 - Herbert Spencer Gasser (random American Physician)
 - William Le Baron Jenney (random American Architect)
 - John Notman (random American Architect)
+- Louis Sullivan (random American Architect)
 - Thomas Nelson Page (random American Writer)
 - George Caleb Bingham (random American Painter)
 - Arthur Dove (random American Painter)
