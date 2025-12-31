@@ -27,6 +27,7 @@ Characters:
 - John Woodhouse Audubon (random American Naturalist)
 - Spencer Fullerton Baird (random American Naturalist)
 - C. Suydam Cutting (random American Naturalist)
+- Henry Cadwalader Chapman (random Physician and Naturalist)
 - Harvey Cushing (random American Physician)
 - Herbert Spencer Gasser (random American Physician)
 
