@@ -19,6 +19,7 @@ Characters:
 - H. Foster Bain (random American Geologist)
 - Jacob Gijsbertus Samuël van Breda (random Dutch Naturalist and Paleontologist)
 - Tiberius Cornelis Winkler (random Dutch Naturalist, Geologist and Paleontologist)
+- Mildred Adams Fenton (random American Paleontologist)
 - Benjamin Franklin Mudge (random American Paleontologist and Geologist)
 - Barnum Brown (random American Paleontologist)
 - Walter W. Granger (random American Paleontologist)
