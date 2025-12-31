@@ -26,6 +26,7 @@ Characters:
 - Tiberius Cornelis Winkler (random Dutch Naturalist, Geologist and Paleontologist)
 - John Woodhouse Audubon (random American Naturalist)
 - Spencer Fullerton Baird (random American Naturalist)
+- C. Suydam Cutting (random American Naturalist)
 
 GUI:
 - Added the Geologist Ranking to the Ranking Tooltips
