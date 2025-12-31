@@ -27,6 +27,7 @@ Characters:
 - John Woodhouse Audubon (random American Naturalist)
 - Spencer Fullerton Baird (random American Naturalist)
 - C. Suydam Cutting (random American Naturalist)
+- Harvey Cushing (random American Physician)
 
 GUI:
 - Added the Geologist Ranking to the Ranking Tooltips
