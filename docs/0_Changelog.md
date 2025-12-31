@@ -31,6 +31,7 @@ Characters:
 - Harvey Cushing (random American Physician)
 - Joseph Goldberger (random American Physician)
 - Herbert Spencer Gasser (random American Physician)
+- Thomas Nelson Page (random American Writer)
 
 GUI:
 - Added the Geologist Ranking to the Ranking Tooltips
