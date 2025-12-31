@@ -28,6 +28,7 @@ Characters:
 - Spencer Fullerton Baird (random American Naturalist)
 - C. Suydam Cutting (random American Naturalist)
 - Harvey Cushing (random American Physician)
+- Herbert Spencer Gasser (random American Physician)
 
 GUI:
 - Added the Geologist Ranking to the Ranking Tooltips
