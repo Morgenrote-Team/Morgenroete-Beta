@@ -32,6 +32,7 @@ Characters:
 - Joseph Goldberger (random American Physician)
 - Herbert Spencer Gasser (random American Physician)
 - Thomas Nelson Page (random American Writer)
+- Arthur Dove (random American Painter)
 
 GUI:
 - Added the Geologist Ranking to the Ranking Tooltips
@@ -41,6 +42,7 @@ Fixes:
 - The Engineering Rating Tooltip no longer tells you about your Engineer having negative traits that they do not in fact have.
 - Vanilla Venceslau de Lima will no longer spawn when scientist de Lima spawned and vice versa.
 - Diphtheria Should now show the correct values in the GUI.
+- Fixed Elise van Calcar's traits.
 
 Archaeology:
 - If your Archaeologist is a Physician you will now have the option to treat the people that catch exotic diseases on Archaeologiscal Expeditions.
