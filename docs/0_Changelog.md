@@ -29,6 +29,7 @@ Characters:
 - C. Suydam Cutting (random American Naturalist)
 - Henry Cadwalader Chapman (random Physician and Naturalist)
 - Harvey Cushing (random American Physician)
+- Joseph Goldberger (random American Physician)
 - Herbert Spencer Gasser (random American Physician)
 
 GUI:
