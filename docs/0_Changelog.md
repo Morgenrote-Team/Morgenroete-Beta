@@ -17,13 +17,14 @@ Characters:
 - Charles Herty (random American Chemist)
 - William Weightman (random American Chemist)
 - H. Foster Bain (random American Geologist)
-- Jacob Gijsbertus Samuël van Breda (random Dutch Naturalist and Paleontologist)
-- Tiberius Cornelis Winkler (random Dutch Naturalist, Geologist and Paleontologist)
 - Mildred Adams Fenton (random American Paleontologist)
 - Benjamin Franklin Mudge (random American Paleontologist and Geologist)
 - Barnum Brown (random American Paleontologist)
 - Walter W. Granger (random American Paleontologist)
 - Charles Doolittle Walcott (random American Paelontologist)
+- Jacob Gijsbertus Samuël van Breda (random Dutch Naturalist and Paleontologist)
+- Tiberius Cornelis Winkler (random Dutch Naturalist, Geologist and Paleontologist)
+- John Woodhouse Audubon (random American Naturalist)
 
 GUI:
 - Added the Geologist Ranking to the Ranking Tooltips
