@@ -36,6 +36,7 @@ Characters:
 - John Notman (random American Architect)
 - Louis Sullivan (random American Architect)
 - Daniël de Lange (random Dutch Composer)
+- Willem Pijper (random Dutch Composer)
 - Johannes Verhulst (random Dutch Composer)
 - Gerard von Brucken Fock (random Dutch Composer)
 - Thomas Nelson Page (random American Writer)
