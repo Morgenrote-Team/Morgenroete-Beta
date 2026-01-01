@@ -1,4 +1,4 @@
-Changelog for 2.6.1b "da Cruz"
+Changelog for 2.6.2 "Goldberger"
 
 Characters:
 - William Armstrong (random British Engineer)
