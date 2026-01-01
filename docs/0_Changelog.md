@@ -35,6 +35,7 @@ Characters:
 - William Le Baron Jenney (random American Architect)
 - John Notman (random American Architect)
 - Louis Sullivan (random American Architect)
+- Daniël de Lange (random Dutch Composer)
 - Johannes Verhulst (random Dutch Composer)
 - Thomas Nelson Page (random American Writer)
 - Édouard Manet (random French Painter)
