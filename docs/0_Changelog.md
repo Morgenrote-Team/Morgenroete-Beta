@@ -42,6 +42,7 @@ Characters:
 - Frederic Edwin Church (random American Painter)
 - Arthur Dove (random American Painter)
 - Edward Hopper (random American Painter)
+- John Henry Twachtman (random American Painter)
 
 GUI:
 - Added the Geologist Ranking to the Ranking Tooltips
