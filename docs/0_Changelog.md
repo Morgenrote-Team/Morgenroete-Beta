@@ -31,6 +31,7 @@ Characters:
 - Harvey Cushing (random American Physician)
 - Joseph Goldberger (random American Physician)
 - Herbert Spencer Gasser (random American Physician)
+- William H. Welch (random American Physician)
 - William Le Baron Jenney (random American Architect)
 - John Notman (random American Architect)
 - Louis Sullivan (random American Architect)
