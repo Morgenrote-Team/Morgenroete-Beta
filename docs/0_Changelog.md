@@ -38,6 +38,7 @@ Characters:
 - Thomas Nelson Page (random American Writer)
 - George Caleb Bingham (random American Painter)
 - Arthur Dove (random American Painter)
+- Edward Hopper (random American Painter)
 
 GUI:
 - Added the Geologist Ranking to the Ranking Tooltips
