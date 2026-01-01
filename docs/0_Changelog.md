@@ -38,6 +38,7 @@ Characters:
 - Daniël de Lange (random Dutch Composer)
 - Willem Pijper (random Dutch Composer)
 - Johannes Verhulst (random Dutch Composer)
+- Jan van Gilse (random Dutch Composer)
 - Gerard von Brucken Fock (random Dutch Composer)
 - Bernard Zweers (random Dutch Composer)
 - Thomas Nelson Page (random American Writer)
