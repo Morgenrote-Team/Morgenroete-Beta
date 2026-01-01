@@ -39,6 +39,7 @@ Characters:
 - Édouard Manet (random French Painter)
 - John White Alexander (random American Painter)
 - George Caleb Bingham (random American Painter)
+- Frederic Edwin Church (random American Painter)
 - Arthur Dove (random American Painter)
 - Edward Hopper (random American Painter)
 
