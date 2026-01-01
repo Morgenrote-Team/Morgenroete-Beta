@@ -36,6 +36,7 @@ Characters:
 - John Notman (random American Architect)
 - Louis Sullivan (random American Architect)
 - Thomas Nelson Page (random American Writer)
+- John White Alexander (random American Painter)
 - George Caleb Bingham (random American Painter)
 - Arthur Dove (random American Painter)
 - Edward Hopper (random American Painter)
