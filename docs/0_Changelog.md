@@ -39,6 +39,7 @@ Characters:
 - Willem Pijper (random Dutch Composer)
 - Johannes Verhulst (random Dutch Composer)
 - Gerard von Brucken Fock (random Dutch Composer)
+- Bernard Zweers (random Dutch Composer)
 - Thomas Nelson Page (random American Writer)
 - Édouard Manet (random French Painter)
 - John White Alexander (random American Painter)
