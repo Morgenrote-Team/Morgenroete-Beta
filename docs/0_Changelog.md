@@ -1,59 +1,70 @@
-Changelog for 2.6.1a "da Cruz"
-
-Graphics:
-- Added a new Loading Screen (Tour de France 1935 - Free Beer!) by Angel (CC4.0 BY-NC angel).
+Changelog for 2.6.2 "Goldberger"
 
 Characters:
-- Heinrich Louis d'Arrest (random German Astronomer)
-- Johann Franz Encke (random German Astronomer)
-- Heinrich Eduard Lade (random German Astronomer)
-- Friedrich Bernhard Gottfried Nicolai (random German Astronomer)
-- Carl Ludwig Christian Rümker (random German Astronomer)
-- Carl August von Steinheil (random German Astronomer)
-- Johann Ludwig Tiarks (random German Astronomer)
-- Friedrich Georg Wilhelm von Struve (random German Astronomer)
-- Francisco Miranda da Costa Lobo (random Portuguese Astronomer)
-- Alfredo Filgueiras da Rocha Peixoto (random Portuguese Astronomer)
-- Manuel de Melo e Simas (random Portuguese Astronomer)
-- Rodrigo Ribeiro de Sousa Pinto (random Portuguese Astronomer)
-- Filipe Folque (random Portuguese Astronomer)
-- João de Moraes Pereira (random Portuguese Astronomer)
-- Luís da Silva Mouzinho de Albuquerque (random Portuguese Chemist)
-- António Augusto de Aguiar (random Portuguese Chemist)
-- José António de Aguiar (random Portuguese Chemist)
-- Júlio Máximo de Oliveira Pimentel (random Portuguese Chemist)
-- Roberto Duarte Silva (random Portuguese Chemist)
-- Emílio Estácio (random Portuguese Chemist)
-- António Joaquim Ferreira da Silva (random Portuguese Chemist)
-- Agostinho Vicente Lourenço (random Portuguese Chemist)
-- Branca Edmée Marques (random Portuguese Chemist)
-- António Pereira Forjaz (random Portuguese Chemist)
-- Alfredo Bensaúde (random Portuguese Geologist)
-- João Carrington da Costa (random Portuguese Geologist)
-- Joaquim Nery Delgado (random Portuguese Geologist)
-- Francisco Luís Pereira de Sousa (random Portuguese Geologist)
-- Carlos Ribeiro (random Portuguese Geologist)
-- António Egas Moniz (random Portuguese Physician)
-- Georges-Eugène Haussmann (random French Architect)
-- Raymundus de Kremer (random Belgian Writer) (Thanks to Cipherparadox)
-- Guido Gezelle (random Belgian Writer) (Thanks to Cipherparadox)
-- Maurice Maeterlinck (random Belgian Writer) (Thanks to Cipherparadox)
-- Wilhelm Busch (random German Writer) (Thanks to Cipherparadox)
-- Theodor Fontane (random German Writer) (Thanks to Cipherparadox)
-- Gerhart Hauptmann (random German Writer) (Thanks to Cipherparadox)
-- Robert Kraft (random German Writer) (Thanks to Cipherparadox)
-- Karl May (random German Writer) (Thanks to Cipherparadox)
-- Giuseppe Rovani (random Italian Writer) (Thanks to Cipherparadox)
-- Alessandro Varaldo (random Italian Writer) (Thanks to Cipherparadox)
-- Camilo Castelo Branco (random Portuguese Writer)
-- Eça de Queiroz (random Portuguese Writer)
-- Henry James (random American Writer) (Thanks to Cipherparadox)
-- Johnston McCulley (random American Writer) (Thanks to Cipherparadox)
-- Mary Roberts Rinehart (random American Writer) (Thanks to Cipherparadox)
-- Francis Scott Fitzgerald (random American Writer) (Thanks to Cipherparadox)
-- Winslow Homer (random American Painter)
-- Nicola Marschall (random American Painter)
-- John Singer Sargent (random American Painter)
+- William Armstrong (random British Engineer)
+- Horatio Allen (random American Engineer)
+- George W. Hughes (random American Engineer)
+- George S. Morison (random American Engineer)
+- George Airy (random British Astronomer)
+- John Herschel (random British Astronomer and Chemist)
+- William Huggins (random British Astronomer)
+- Norman Lockyer (random British Astronomer)
+- Lawrence Parsons (random Irish/British Astronomer)
+- Stephen Alexander (random American Astronomer)
+- Henry Draper (random American Astronomer and Physician)
+- Asaph Hall (random American Astronomer)
+- Edward Charles Pickering (random American Astronomer)
+- Charles Herty (random American Chemist)
+- William Weightman (random American Chemist)
+- H. Foster Bain (random American Geologist)
+- Mildred Adams Fenton (random American Paleontologist)
+- Benjamin Franklin Mudge (random American Paleontologist and Geologist)
+- Barnum Brown (random American Paleontologist)
+- Walter W. Granger (random American Paleontologist)
+- Charles Doolittle Walcott (random American Paelontologist)
+- Jacob Gijsbertus Samuël van Breda (random Dutch Naturalist and Paleontologist)
+- Tiberius Cornelis Winkler (random Dutch Naturalist, Geologist and Paleontologist)
+- John Woodhouse Audubon (random American Naturalist)
+- Spencer Fullerton Baird (random American Naturalist)
+- C. Suydam Cutting (random American Naturalist)
+- Henry Cadwalader Chapman (random Physician and Naturalist)
+- Harvey Cushing (random American Physician)
+- Joseph Goldberger (random American Physician)
+- Herbert Spencer Gasser (random American Physician)
+- William H. Welch (random American Physician)
+- William Le Baron Jenney (random American Architect)
+- John Notman (random American Architect)
+- Louis Sullivan (random American Architect)
+- Daniël de Lange (random Dutch Composer)
+- Willem Pijper (random Dutch Composer)
+- Johannes Verhulst (random Dutch Composer)
+- Jan van Gilse (random Dutch Composer)
+- Gerard von Brucken Fock (random Dutch Composer)
+- Bernard Zweers (random Dutch Composer)
+- Thomas Nelson Page (random American Writer)
+- Édouard Manet (random French Painter)
+- John White Alexander (random American Painter)
+- George Caleb Bingham (random American Painter)
+- Frederic Edwin Church (random American Painter)
+- Arthur Dove (random American Painter)
+- Edward Hopper (random American Painter)
+- Emanuel Leutze (random American Painter)
+- John Henry Twachtman (random American Painter)
 
-Changes:
-- Baden now has its own Observatory as it historically did.
+GUI:
+- Added the Geologist Ranking to the Ranking Tooltips
+
+Fixes:
+- Fixed a bug that made elements get immediately theorized/analyzed/isolated.
+- The Engineering Rating Tooltip no longer tells you about your Engineer having negative traits that they do not in fact have.
+- Vanilla Venceslau de Lima will no longer spawn when scientist de Lima spawned and vice versa.
+- Diphtheria Should now show the correct values in the GUI.
+- Fixed Elise van Calcar's traits.
+- Academics who no longer work anywhere are now properly deposed and do no longer appear in the Ranking.
+
+Archaeology:
+- If your Archaeologist is a Physician you will now have the option to treat the people that catch exotic diseases on Archaeologiscal Expeditions.
+
+Astronomy:
+- William Cranch Bond can now spawn as a random Astronomer.
+- Edwin Hubble can now also spawn as a random Astronomer.
