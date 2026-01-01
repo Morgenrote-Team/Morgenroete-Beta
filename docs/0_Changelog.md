@@ -48,6 +48,7 @@ Fixes:
 - Vanilla Venceslau de Lima will no longer spawn when scientist de Lima spawned and vice versa.
 - Diphtheria Should now show the correct values in the GUI.
 - Fixed Elise van Calcar's traits.
+- Academics who no longer work anywhere are now properly deposed and do no longer appear in the Ranking.
 
 Archaeology:
 - If your Archaeologist is a Physician you will now have the option to treat the people that catch exotic diseases on Archaeologiscal Expeditions.
