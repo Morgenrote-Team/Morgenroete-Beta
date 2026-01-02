@@ -3,6 +3,7 @@ Changelog for 2.6.2a "Goldberger"
 Characters:
 - João Baptista de Lacerda (random Brazilian Paleontologist, Anthropologist and Physician)
 - Johan Frans van Bemmelen (random Dutch Paleontologist)
+- Alojzy Alth (random Polish Paleontologist and Geologist)
 - Otto de Nobel (random Dutch Composer)
 - Henrik Karels (random Dutch Composer)
 
