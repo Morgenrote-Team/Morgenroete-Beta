@@ -7,6 +7,7 @@ Characters:
 - Alojzy Alth (random Polish Paleontologist and Geologist)
 - Otto de Nobel (random Dutch Composer)
 - Henrik Karels (random Dutch Composer)
+- César Cui (random Russian Composer and Engineer)
 
 Fixes:
 - Various minor loc fixes.
