@@ -1,6 +1,7 @@
 Changelog for 2.6.2a "Goldberger"
 
 Characters:
+- William Pope (random Canadian Naturalist)
 - Oswald de Andrade (random Brazilian Writer)
 - Ōgai Mori (random Japanese Writer)
 - José Zorrilla (random Spanish Writer)
