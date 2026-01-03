@@ -11,6 +11,7 @@ Characters:
 - César Cui (random Russian Composer and Engineer)
 - Nikolai Ge (random Russian Painter)
 - Valentin Serov (random Russian Painter)
+- Viktor Vasnetsov (random Russian Painter)
 - Vasily Vereshchagin (random Russian Painter)
 
 Fixes:
