@@ -13,6 +13,7 @@ Characters:
 - François Bailleux (random Belgian Writer) (Thanks to Cipherparadox)
 - Marie-Elisabeth Belpaire (random Belgian Writer) (Thanks to Cipherparadox)
 - Charles De Coster (random Belgian Writer) (Thanks to Cipherparadox)
+- Albert Mockel (random Belgian Writer) (Thanks to Cipherparadox)
 - Nikolai Ge (random Russian Painter)
 - Valentin Serov (random Russian Painter)
 - Viktor Vasnetsov (random Russian Painter)
