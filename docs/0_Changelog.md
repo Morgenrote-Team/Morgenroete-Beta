@@ -1,70 +1,42 @@
-Changelog for 2.6.2 "Goldberger"
+Changelog for 2.6.2a "Goldberger"
 
 Characters:
-- William Armstrong (random British Engineer)
-- Horatio Allen (random American Engineer)
-- George W. Hughes (random American Engineer)
-- George S. Morison (random American Engineer)
-- George Airy (random British Astronomer)
-- John Herschel (random British Astronomer and Chemist)
-- William Huggins (random British Astronomer)
-- Norman Lockyer (random British Astronomer)
-- Lawrence Parsons (random Irish/British Astronomer)
-- Stephen Alexander (random American Astronomer)
-- Henry Draper (random American Astronomer and Physician)
-- Asaph Hall (random American Astronomer)
-- Edward Charles Pickering (random American Astronomer)
-- Charles Herty (random American Chemist)
-- William Weightman (random American Chemist)
-- H. Foster Bain (random American Geologist)
-- Mildred Adams Fenton (random American Paleontologist)
-- Benjamin Franklin Mudge (random American Paleontologist and Geologist)
-- Barnum Brown (random American Paleontologist)
-- Walter W. Granger (random American Paleontologist)
-- Charles Doolittle Walcott (random American Paelontologist)
-- Jacob Gijsbertus Samuël van Breda (random Dutch Naturalist and Paleontologist)
-- Tiberius Cornelis Winkler (random Dutch Naturalist, Geologist and Paleontologist)
-- John Woodhouse Audubon (random American Naturalist)
-- Spencer Fullerton Baird (random American Naturalist)
-- C. Suydam Cutting (random American Naturalist)
-- Henry Cadwalader Chapman (random Physician and Naturalist)
-- Harvey Cushing (random American Physician)
-- Joseph Goldberger (random American Physician)
-- Herbert Spencer Gasser (random American Physician)
-- William H. Welch (random American Physician)
-- William Le Baron Jenney (random American Architect)
-- John Notman (random American Architect)
-- Louis Sullivan (random American Architect)
-- Daniël de Lange (random Dutch Composer)
-- Willem Pijper (random Dutch Composer)
-- Johannes Verhulst (random Dutch Composer)
-- Jan van Gilse (random Dutch Composer)
-- Gerard von Brucken Fock (random Dutch Composer)
-- Bernard Zweers (random Dutch Composer)
-- Thomas Nelson Page (random American Writer)
-- Édouard Manet (random French Painter)
-- John White Alexander (random American Painter)
-- George Caleb Bingham (random American Painter)
-- Frederic Edwin Church (random American Painter)
-- Arthur Dove (random American Painter)
-- Edward Hopper (random American Painter)
-- Emanuel Leutze (random American Painter)
-- John Henry Twachtman (random American Painter)
-
-GUI:
-- Added the Geologist Ranking to the Ranking Tooltips
+- Aleksandr Arbuzov (random Russian Chemist) (Thanks to Cipherparadox)
+- Alexander Butlerov (random Russian Chemist) (Thanks to Cipherparadox)
+- Sergey Lebedev (random Russian Chemist) (Thanks to Cipherparadox)
+- Nikolai Menshutkin (random Russian Chemist) (Thanks to Cipherparadox)
+- Nikolay Zinin (random Russian Chemist) (Thanks to Cipherparadox)
+- Nikolai Kurnakov (random Russian Chemist) (Thanks to Cipherparadox)
+- Charles Frederick Hartt (random Canadian Geologist, Paleontologist and Naturalist)
+- João Baptista de Lacerda (random Brazilian Paleontologist, Anthropologist and Physician)
+- Johan Frans van Bemmelen (random Dutch Paleontologist)
+- Alojzy Alth (random Polish Paleontologist and Geologist)
+- Ippolit Deminsky (random Russian Physician) (Thanks to Cipherparadox)
+- Nikolay Osipov (random Russian Physician) (Thanks to Cipherparadox)
+- Nikolay Pirogov (random Russian Physician) (Thanks to Cipherparadox)
+- Grigory Zakharyin (random Russian Physician) (Thanks to Cipherparadox)
+- Mary Edwards Walker (random American Physician) (Thanks to Cipherparadox)
+- Otto de Nobel (random Dutch Composer)
+- Henrik Karels (random Dutch Composer)
+- Mily Balakirev (random Russian Composer)
+- César Cui (random Russian Composer and Engineer)
+- François Bailleux (random Belgian Writer) (Thanks to Cipherparadox)
+- Marie-Elisabeth Belpaire (random Belgian Writer) (Thanks to Cipherparadox)
+- Charles De Coster (random Belgian Writer) (Thanks to Cipherparadox)
+- Charles Delchevalerie (random Belgian Writer) (Thanks to Cipherparadox)
+- Albert Mockel (random Belgian Writer) (Thanks to Cipherparadox)
+- Édouard Remouchamps (random Belgian Writer) (Thanks to Cipherparadox)
+- Alexander Belyaev (random Russian Writer) (Thanks to Cipherparadox)
+- Ivan Bunin (random Russian Writer) (Thanks to Cipherparadox)
+- Nikolai Leskov (random Russian Writer) (Thanks to Cipherparadox)
+- Dmitry Mamin-Sibiryak (random Russian Writer) (Thanks to Cipherparadox)
+- Evgeny Salias De Tournemire (random Russian Writer) (Thanks to Cipherparadox)
+- Andrei Zarin (random Russian Writer) (Thanks to Cipherparadox)
+- Nikolai Ge (random Russian Painter)
+- Valentin Serov (random Russian Painter)
+- Viktor Vasnetsov (random Russian Painter)
+- Vasily Vereshchagin (random Russian Painter)
 
 Fixes:
-- Fixed a bug that made elements get immediately theorized/analyzed/isolated.
-- The Engineering Rating Tooltip no longer tells you about your Engineer having negative traits that they do not in fact have.
-- Vanilla Venceslau de Lima will no longer spawn when scientist de Lima spawned and vice versa.
-- Diphtheria Should now show the correct values in the GUI.
-- Fixed Elise van Calcar's traits.
-- Academics who no longer work anywhere are now properly deposed and do no longer appear in the Ranking.
-
-Archaeology:
-- If your Archaeologist is a Physician you will now have the option to treat the people that catch exotic diseases on Archaeologiscal Expeditions.
-
-Astronomy:
-- William Cranch Bond can now spawn as a random Astronomer.
-- Edwin Hubble can now also spawn as a random Astronomer.
+- Various minor loc fixes.
+- Triton is no longer discoverable if it will be discovered shortly by the second best country in the Neptune JE.
