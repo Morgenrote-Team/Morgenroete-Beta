@@ -1,6 +1,7 @@
 Changelog for 2.6.2a "Goldberger"
 
 Characters:
+- Nikolay Zinin (random Russian Chemist) (Thanks to Cipherparadox)
 - Charles Frederick Hartt (random Canadian Geologist, Paleontologist and Naturalist)
 - João Baptista de Lacerda (random Brazilian Paleontologist, Anthropologist and Physician)
 - Johan Frans van Bemmelen (random Dutch Paleontologist)
