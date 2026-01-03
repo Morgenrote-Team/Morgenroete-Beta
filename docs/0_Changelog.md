@@ -20,6 +20,7 @@ Characters:
 - Ivan Bunin (random Russian Writer) (Thanks to Cipherparadox)
 - Nikolai Leskov (random Russian Writer) (Thanks to Cipherparadox)
 - Dmitry Mamin-Sibiryak (random Russian Writer) (Thanks to Cipherparadox)
+- Evgeny Salias De Tournemire (random Russian Writer) (Thanks to Cipherparadox)
 - Andrei Zarin (random Russian Writer) (Thanks to Cipherparadox)
 - Nikolai Ge (random Russian Painter)
 - Valentin Serov (random Russian Painter)
