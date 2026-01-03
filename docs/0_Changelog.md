@@ -10,6 +10,7 @@ Characters:
 - Mily Balakirev (random Russian Composer)
 - César Cui (random Russian Composer and Engineer)
 - Nikolai Ge (random Russian Painter)
+- Valentin Serov (random Russian Painter)
 - Vasily Vereshchagin (random Russian Painter)
 
 Fixes:
