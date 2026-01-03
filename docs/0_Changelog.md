@@ -17,6 +17,7 @@ Characters:
 - Albert Mockel (random Belgian Writer) (Thanks to Cipherparadox)
 - Édouard Remouchamps (random Belgian Writer) (Thanks to Cipherparadox)
 - Alexander Belyaev (random Russian Writer) (Thanks to Cipherparadox)
+- Andrei Zarin (random Russian Writer) (Thanks to Cipherparadox)
 - Nikolai Ge (random Russian Painter)
 - Valentin Serov (random Russian Painter)
 - Viktor Vasnetsov (random Russian Painter)
