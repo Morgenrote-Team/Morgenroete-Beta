@@ -11,6 +11,7 @@ Characters:
 - João Baptista de Lacerda (random Brazilian Paleontologist, Anthropologist and Physician)
 - Johan Frans van Bemmelen (random Dutch Paleontologist)
 - Alojzy Alth (random Polish Paleontologist and Geologist)
+- Grigory Zakharyin (random Russian Physician) (Thanks to Cipherparadox)
 - Mary Edwards Walker (random American Physician) (Thanks to Cipherparadox)
 - Otto de Nobel (random Dutch Composer)
 - Henrik Karels (random Dutch Composer)
