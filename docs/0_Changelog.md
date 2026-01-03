@@ -9,6 +9,7 @@ Characters:
 - Henrik Karels (random Dutch Composer)
 - Mily Balakirev (random Russian Composer)
 - César Cui (random Russian Composer and Engineer)
+- Charles De Coster (random Belgian Writer) (Thanks to Cipherparadox)
 - Nikolai Ge (random Russian Painter)
 - Valentin Serov (random Russian Painter)
 - Viktor Vasnetsov (random Russian Painter)
