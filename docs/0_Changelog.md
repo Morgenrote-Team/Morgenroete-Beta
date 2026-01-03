@@ -9,6 +9,7 @@ Characters:
 - Henrik Karels (random Dutch Composer)
 - Mily Balakirev (random Russian Composer)
 - César Cui (random Russian Composer and Engineer)
+- Nikolai Ge (random Russian Painter)
 
 Fixes:
 - Various minor loc fixes.
