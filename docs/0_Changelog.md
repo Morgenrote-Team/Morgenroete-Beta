@@ -11,6 +11,7 @@ Characters:
 - João Baptista de Lacerda (random Brazilian Paleontologist, Anthropologist and Physician)
 - Johan Frans van Bemmelen (random Dutch Paleontologist)
 - Alojzy Alth (random Polish Paleontologist and Geologist)
+- Ippolit Deminsky (random Russian Physician) (Thanks to Cipherparadox)
 - Nikolay Osipov (random Russian Physician) (Thanks to Cipherparadox)
 - Nikolay Pirogov (random Russian Physician) (Thanks to Cipherparadox)
 - Grigory Zakharyin (random Russian Physician) (Thanks to Cipherparadox)
