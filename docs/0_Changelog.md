@@ -2,6 +2,7 @@ Changelog for 2.6.2a "Goldberger"
 
 Characters:
 - Aleksandr Arbuzov (random Russian Chemist) (Thanks to Cipherparadox)
+- Alexander Butlerov (random Russian Chemist) (Thanks to Cipherparadox)
 - Nikolay Zinin (random Russian Chemist) (Thanks to Cipherparadox)
 - Nikolai Kurnakov (random Russian Chemist) (Thanks to Cipherparadox)
 - Charles Frederick Hartt (random Canadian Geologist, Paleontologist and Naturalist)
