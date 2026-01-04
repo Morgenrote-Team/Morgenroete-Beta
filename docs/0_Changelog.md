@@ -4,6 +4,7 @@ Characters:
 - William Pope (random Canadian Naturalist)
 - William Fraser Tolmie (random Canadian Naturalist and Physician)
 - John Goldie (random Canadian Naturalist)
+- Jan van der Hoeven (random Dutch Naturalist)
 - Oswald de Andrade (random Brazilian Writer)
 - Ōgai Mori (random Japanese Writer)
 - José Zorrilla (random Spanish Writer)
