@@ -9,3 +9,6 @@ Characters:
 - José Zorrilla (random Spanish Writer)
 - Ivan Franko (random Ukrainian Writer)
 - Taras Shevchenko (random Ukrainian Writer)
+
+Fixes:
+- Monuments and hidden Monuments should no longer appear in the Improvement Project of the Mechanical Engineer.
