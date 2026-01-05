@@ -8,6 +8,7 @@ Characters:
 - Oswald de Andrade (random Brazilian Writer)
 - Ōgai Mori (random Japanese Writer)
 - José Zorrilla (random Spanish Writer)
+- Eugène Rambert (random Swiss Writer and Naturalist)
 - Ivan Franko (random Ukrainian Writer)
 - Taras Shevchenko (random Ukrainian Writer)
 
