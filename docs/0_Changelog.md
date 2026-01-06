@@ -1,5 +1,8 @@
 Changelog for 2.6.2a "Goldberger"
 
+Graphics:
+- New Loading Screen by Angel depicting the first Football Game in Antarctica during the Imperial Trans-Antarctic Expedition under Ernest Shackleton. (CC4.0 BY-NC angel)
+
 Characters:
 - William Pope (random Canadian Naturalist)
 - William Fraser Tolmie (random Canadian Naturalist and Physician)
