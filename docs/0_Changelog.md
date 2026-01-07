@@ -5,3 +5,4 @@ Characters:
 - Shunrō Oshikawa (random Japanese Writer) (By Cipherparadox)
 - Kanagaki Robun (random Japanese Writer) (By Cipherparadox)
 - Sakuma Shōzan (random Japanese Writer) (By Cipherparadox)
+- Nakajima Utako (random Japanese Writer) (By Cipherparadox)
