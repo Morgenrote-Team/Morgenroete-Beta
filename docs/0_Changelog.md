@@ -6,3 +6,4 @@ Characters:
 - Kanagaki Robun (random Japanese Writer) (By Cipherparadox)
 - Sakuma Shōzan (random Japanese Writer) (By Cipherparadox)
 - Nakajima Utako (random Japanese Writer) (By Cipherparadox)
+- Fukuzawa Yukichi (random Japanese Writer) (By Cipherparadox)
