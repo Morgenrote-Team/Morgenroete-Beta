@@ -17,3 +17,4 @@ Characters:
 
 Fixes:
 - Monuments and hidden Monuments should no longer appear in the Improvement Project of the Mechanical Engineer.
+- Matsuura no longer pretends to be a geologist and is now a proper chemist.
