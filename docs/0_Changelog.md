@@ -1,6 +1,7 @@
 Changelog for 2.6.2c "Goldberger"
 
 Characters:
+- John Wesley Powell (random American Geologist)
 - Fukuchi Gen'ichirō (random Japanese Writer) (By Cipherparadox)
 - Kawatake Mokuami (random Japanese Writer) (By Cipherparadox)
 - Kodō Nomura (random Japanese Writer) (By Cipherparadox)
