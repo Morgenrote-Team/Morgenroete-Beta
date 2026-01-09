@@ -1,6 +1,7 @@
 Changelog for 2.6.2c "Goldberger"
 
 Characters:
+- Gustav Rose (random German Geologist)
 - John Wesley Powell (random American Geologist)
 - Fukuchi Gen'ichirō (random Japanese Writer) (By Cipherparadox)
 - Kawatake Mokuami (random Japanese Writer) (By Cipherparadox)
