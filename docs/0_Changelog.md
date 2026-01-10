@@ -2,6 +2,7 @@ Changelog for 2.6.2c "Goldberger"
 
 Characters:
 - Gustav Rose (random German Geologist)
+- Ebenezer Emmons (random American Geologist)
 - John Wesley Powell (random American Geologist)
 - James Hall (random American Paleontologist and Geologist)
 - Fukuchi Gen'ichirō (random Japanese Writer) (By Cipherparadox)
