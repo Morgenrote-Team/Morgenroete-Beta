@@ -16,3 +16,6 @@ Characters:
 - Sakuma Shōzan (random Japanese Writer) (By Cipherparadox)
 - Nakajima Utako (random Japanese Writer) (By Cipherparadox)
 - Fukuzawa Yukichi (random Japanese Writer) (By Cipherparadox)
+
+Changes:
+- The surveyor trait now gives a small bonus for Geologist Projects as well.
