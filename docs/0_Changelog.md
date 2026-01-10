@@ -1,6 +1,7 @@
 Changelog for 2.6.2c "Goldberger"
 
 Characters:
+- William Edmond Logan (random Canadian Geologist)
 - Gustav Rose (random German Geologist)
 - Ebenezer Emmons (random American Geologist)
 - John Wesley Powell (random American Geologist)
