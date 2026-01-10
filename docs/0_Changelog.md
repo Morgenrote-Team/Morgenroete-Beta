@@ -2,6 +2,7 @@ Changelog for 2.6.2c "Goldberger"
 
 Characters:
 - William Edmond Logan (random Canadian Geologist)
+- Julius von Haast (random German Geologist and Paleontologist)
 - Gustav Rose (random German Geologist)
 - Gustaaf Adolf Frederik Molengraaff (random Dutch Geologist)
 - Ebenezer Emmons (random American Geologist)
