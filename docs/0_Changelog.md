@@ -1,20 +1,34 @@
-Changelog for 2.6.2a "Goldberger"
+Changelog for 2.6.2c "Goldberger"
 
 Graphics:
-- New Loading Screen by Angel depicting the first Football Game in Antarctica during the Imperial Trans-Antarctic Expedition under Ernest Shackleton. (CC4.0 BY-NC angel)
+- Added a new Loading Screen by Angel depicting Louis Pasteur's Experiments (CC4.0 BY-NC)
 
 Characters:
-- William Pope (random Canadian Naturalist)
-- William Fraser Tolmie (random Canadian Naturalist and Physician)
-- John Goldie (random Canadian Naturalist)
-- Jan van der Hoeven (random Dutch Naturalist)
-- Oswald de Andrade (random Brazilian Writer)
-- Ōgai Mori (random Japanese Writer)
-- José Zorrilla (random Spanish Writer)
-- Eugène Rambert (random Swiss Writer and Naturalist)
-- Ivan Franko (random Ukrainian Writer)
-- Taras Shevchenko (random Ukrainian Writer)
+- William Edmond Logan (random Canadian Geologist)
+- Alexander Murray (random Canadian Geologist)
+- Julius Haast (random German Geologist and Paleontologist)
+- Ferdinand Hochstetter (random German Geologist)
+- Karl Martin (random German Geologist and Paleontologist)
+- Gustav Rose (random German Geologist)
+- Ferdinand von Richthofen (random German Geologist)
+- Henry De la Beche (random British Geologist and Paleontologist)
+- John Phillips (random British Geologist)
+- Gustaaf Adolf Frederik Molengraaff (random Dutch Geologist)
+- Thomas Chrowder Chamberlin (random American Geologist)
+- Ebenezer Emmons (random American Geologist)
+- Grove Karl Gilbert (random American Geologist)
+- Thomas Sterry Hunt (random American Geologist and Chemist)
+- John Wesley Powell (random American Geologist)
+- Gideon Mantell (random British Paleontologist and Geologist)
+- James Hall (random American Paleontologist and Geologist)
+- Fukuchi Gen'ichirō (random Japanese Writer) (By Cipherparadox)
+- Kawatake Mokuami (random Japanese Writer) (By Cipherparadox)
+- Kodō Nomura (random Japanese Writer) (By Cipherparadox)
+- Shunrō Oshikawa (random Japanese Writer) (By Cipherparadox)
+- Kanagaki Robun (random Japanese Writer) (By Cipherparadox)
+- Sakuma Shōzan (random Japanese Writer) (By Cipherparadox)
+- Nakajima Utako (random Japanese Writer) (By Cipherparadox)
+- Fukuzawa Yukichi (random Japanese Writer) (By Cipherparadox)
 
-Fixes:
-- Monuments and hidden Monuments should no longer appear in the Improvement Project of the Mechanical Engineer.
-- Matsuura no longer pretends to be a geologist and is now a proper chemist.
+Changes:
+- The surveyor trait now gives a small bonus for Geologist Projects as well.
