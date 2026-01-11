@@ -15,6 +15,7 @@ Characters:
 - John Phillips (random British Geologist)
 - Gustaaf Adolf Frederik Molengraaff (random Dutch Geologist)
 - Ebenezer Emmons (random American Geologist)
+- Grove Karl Gilbert (random American Geologist)
 - Thomas Sterry Hunt (random American Geologist and Chemist)
 - John Wesley Powell (random American Geologist)
 - Gideon Mantell (random British Paleontologist and Geologist)
