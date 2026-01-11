@@ -1,5 +1,8 @@
 Changelog for 2.6.2c "Goldberger"
 
+Graphics:
+- Added a new Loading Screen by Angel depicting Louis Pasteur's Experiments (CC4.0 BY-NC)
+
 Characters:
 - William Edmond Logan (random Canadian Geologist)
 - Alexander Murray (random Canadian Geologist)
@@ -7,6 +10,7 @@ Characters:
 - Ferdinand Hochstetter (random German Geologist)
 - Karl Martin (random German Geologist and Paleontologist)
 - Gustav Rose (random German Geologist)
+- John Phillips (random British Geologist)
 - Gustaaf Adolf Frederik Molengraaff (random Dutch Geologist)
 - Ebenezer Emmons (random American Geologist)
 - Thomas Sterry Hunt (random American Geologist and Chemist)
