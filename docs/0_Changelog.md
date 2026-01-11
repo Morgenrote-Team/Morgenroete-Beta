@@ -14,6 +14,7 @@ Characters:
 - Henry De la Beche (random British Geologist and Paleontologist)
 - John Phillips (random British Geologist)
 - Gustaaf Adolf Frederik Molengraaff (random Dutch Geologist)
+- Thomas Chrowder Chamberlin (random American Geologist)
 - Ebenezer Emmons (random American Geologist)
 - Grove Karl Gilbert (random American Geologist)
 - Thomas Sterry Hunt (random American Geologist and Chemist)
