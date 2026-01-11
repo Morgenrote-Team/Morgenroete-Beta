@@ -5,6 +5,7 @@ Characters:
 - Alexander Murray (random Canadian Geologist)
 - Julius Haast (random German Geologist and Paleontologist)
 - Ferdinand Hochstetter (random German Geologist)
+- Karl Martin (random German Geologist and Paleontologist)
 - Gustav Rose (random German Geologist)
 - Gustaaf Adolf Frederik Molengraaff (random Dutch Geologist)
 - Ebenezer Emmons (random American Geologist)
