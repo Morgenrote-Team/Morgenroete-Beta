@@ -2,6 +2,7 @@ Changelog for 2.6.2c "Goldberger"
 
 Characters:
 - William Edmond Logan (random Canadian Geologist)
+- Alexander Murray (random Canadian Geologist)
 - Julius Haast (random German Geologist and Paleontologist)
 - Ferdinand Hochstetter (random German Geologist)
 - Gustav Rose (random German Geologist)
