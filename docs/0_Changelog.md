@@ -8,6 +8,7 @@ Characters:
 - Gustav Rose (random German Geologist)
 - Gustaaf Adolf Frederik Molengraaff (random Dutch Geologist)
 - Ebenezer Emmons (random American Geologist)
+- Thomas Sterry Hunt (random American Geologist and Chemist)
 - John Wesley Powell (random American Geologist)
 - James Hall (random American Paleontologist and Geologist)
 - Fukuchi Gen'ichirō (random Japanese Writer) (By Cipherparadox)
