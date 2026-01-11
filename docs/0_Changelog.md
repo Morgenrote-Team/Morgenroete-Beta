@@ -17,6 +17,7 @@ Characters:
 - Ebenezer Emmons (random American Geologist)
 - Thomas Sterry Hunt (random American Geologist and Chemist)
 - John Wesley Powell (random American Geologist)
+- Gideon Mantell (random British Paleontologist and Geologist)
 - James Hall (random American Paleontologist and Geologist)
 - Fukuchi Gen'ichirō (random Japanese Writer) (By Cipherparadox)
 - Kawatake Mokuami (random Japanese Writer) (By Cipherparadox)
