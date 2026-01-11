@@ -10,6 +10,7 @@ Characters:
 - Ferdinand Hochstetter (random German Geologist)
 - Karl Martin (random German Geologist and Paleontologist)
 - Gustav Rose (random German Geologist)
+- Henry De la Beche (random British Geologist and Paleontologist)
 - John Phillips (random British Geologist)
 - Gustaaf Adolf Frederik Molengraaff (random Dutch Geologist)
 - Ebenezer Emmons (random American Geologist)
