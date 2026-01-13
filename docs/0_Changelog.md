@@ -11,3 +11,4 @@ Characters:
 
 Fixes:
 - You can no longer use Chemical Weapons if you signed the Third Convention. I'm sorry, pinky promises don't work anymore.
+- Women will hold fancy rocks and geodes again.
