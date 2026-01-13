@@ -9,6 +9,7 @@ Characters:
 - Florence Bascom (random American Geologist)
 - Joseph LeConte (random American Geologist)
 - Jean Albert Gaudry (random French Paleontologist)
+- Harry Seeley (random British Paleontologist)
 - Henry Woodward (random British Paleontologist)
 - Joseph Leidy (random American Paleontologist)
 
