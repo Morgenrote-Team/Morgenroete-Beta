@@ -6,6 +6,7 @@ Characters:
 - John William Dawson (random Canadian Geologist)
 - Andrija Mohorovičić (random Croatian Geologist)
 - John Milne (random British Geologist)
+- Florence Bascom (random American Geologist)
 - Joseph LeConte (random American Geologist)
 
 Fixes:
