@@ -13,6 +13,7 @@ Characters:
 - Harry Seeley (random British Paleontologist)
 - Henry Woodward (random British Paleontologist)
 - Joseph Leidy (random American Paleontologist)
+- Samuel Hubbard Scudder (random American Paleontologist)
 - Louis Wain (random British Painter)
 
 Fixes:
