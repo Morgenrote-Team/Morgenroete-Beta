@@ -8,6 +8,7 @@ Characters:
 - John Milne (random British Geologist)
 - Florence Bascom (random American Geologist)
 - Joseph LeConte (random American Geologist)
+- Joseph Leidy (random American Paleontologist)
 
 Fixes:
 - You can no longer use Chemical Weapons if you signed the Third Convention. I'm sorry, pinky promises don't work anymore.
