@@ -12,6 +12,7 @@ Characters:
 - Harry Seeley (random British Paleontologist)
 - Henry Woodward (random British Paleontologist)
 - Joseph Leidy (random American Paleontologist)
+- Louis Wain (random British Painter)
 
 Fixes:
 - You can no longer use Chemical Weapons if you signed the Third Convention. I'm sorry, pinky promises don't work anymore.
