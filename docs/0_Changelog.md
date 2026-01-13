@@ -1,6 +1,7 @@
 Changelog for 2.6.e "Mohorovičić"
 
 Characters:
+- Reginald A. Daly (random Canadian Geologist)
 - John William Dawson (random Canadian Geologist)
 - Andrija Mohorovičić (random Croatian Geologist)
 - John Milne (random British Geologist)
