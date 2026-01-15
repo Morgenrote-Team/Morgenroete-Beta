@@ -8,6 +8,7 @@ Characters:
 - John Milne (random British Geologist)
 - Florence Bascom (random American Geologist)
 - Joseph LeConte (random American Geologist)
+- Carlos Ameghino (random Argentinian Paleontologist)
 - Jean Albert Gaudry (random French Paleontologist)
 - Alphonse Milne-Edwards (random French Paleontologist)
 - Albert Oppel (random German Paleontologist)

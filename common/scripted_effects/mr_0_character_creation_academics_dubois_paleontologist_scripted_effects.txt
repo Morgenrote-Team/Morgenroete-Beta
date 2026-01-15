@@ -9,12 +9,55 @@
 #Therefore a Variable is set to save the scope again. then gets deleted
 mr_create_historical_paleontologist_for_character_creation_effect = {
 	random_list = {
-		100 = { #Florentino Ameghino, Argentina
+		200 = { #Carlos Ameghino, Argentina
+			trigger = {
+				NOT = { has_global_variable = mr_ameghino_carlos_created_global_var }
+				has_state_in_state_region = STATE_BUENOS_AIRES #Born in Luján
+				OR = {
+					country_average_cultural_acceptance = {
+						target = cu:platinean
+						value >= acceptance_status_4
+					}
+					country_average_cultural_acceptance = {
+						target = cu:argentine
+						value >= acceptance_status_4
+					}
+				}
+				year >= 1887 #Expedition to Southern Argentina
+				year <= 1920 #Age 55
+			}
+			create_character = {
+				template = mr_arg_ameghino_carlos_character_template
+
+				save_scope_as = dubois_new_paleontologist_scope
+			}
+			scope:dubois_new_paleontologist_scope = {
+				set_variable = mr_is_paleontologist_var #Could be used for clothing or a role in the future
+				set_variable = mr_no_headgear_var
+				paleontologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = dubois_new_paleontologist_var
+				value = scope:dubois_new_paleontologist_scope
+			}
+
+			set_global_variable = mr_ameghino_carlos_created_global_var #Makes sure Ameghino is not already created
+		}
+		200 = { #Florentino Ameghino, Argentina
 			trigger = {
 				NOT = { has_global_variable = mr_ameghino_created_global_var }
+				has_state_in_state_region = STATE_BUENOS_AIRES
 				OR = {
-					country_has_primary_culture = cu:platinean
-					c:ARG ?= this
+					country_average_cultural_acceptance = {
+						target = cu:platinean
+						value >= acceptance_status_4
+					}
+					country_average_cultural_acceptance = {
+						target = cu:argentine
+						value >= acceptance_status_4
+					}
 				}
 				year >= 1878 #The Antiquity of Man in the Río de la Plata published
 				year <= 1908 #Age 55
