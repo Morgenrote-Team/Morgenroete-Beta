@@ -15,6 +15,7 @@ Characters:
 - Harry Seeley (random British Paleontologist)
 - Arthur Smith Woodward (random British Paleontologist)
 - Henry Woodward (random British Paleontologist)
+- Franz Nopcsa von Felső-Szilvás (random Hungarian Paleontologist)
 - Joseph Leidy (random American Paleontologist)
 - Henry Fairfield Osborn (random American Paleontologist)
 - Samuel Hubbard Scudder (random American Paleontologist)
