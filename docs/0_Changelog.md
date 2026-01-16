@@ -12,6 +12,7 @@ Characters:
 - Jean Albert Gaudry (random French Paleontologist)
 - Alphonse Milne-Edwards (random French Paleontologist)
 - Albert Oppel (random German Paleontologist)
+- Friedrich von Huene (random German Paleontologist)
 - Harry Seeley (random British Paleontologist)
 - Arthur Smith Woodward (random British Paleontologist)
 - Henry Woodward (random British Paleontologist)
