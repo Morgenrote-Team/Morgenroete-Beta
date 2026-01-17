@@ -31,3 +31,4 @@ Fixes:
 Changes:
 - Historical Paleontologists now have a higher spawn chance if they are younger. This should make sure that you have a higher chance to get younger ones first.
 - Lowered various research speed multipliers as we now have way more of them and them stacking made research too fast.
+- The national park PM now gives an unscaled bonus on standard of living instead of society tech research as big countries otherwise were able to make society research very fast.
