@@ -28,6 +28,11 @@ Characters:
 - Samuel Hubbard Scudder (random American Paleontologist)
 - Louis Wain (random British Painter)
 
+Balance:
+- Lowered various research speed multipliers as we now have way more of them and them stacking made research too fast.
+- The national park PM now gives an unscaled bonus on standard of living instead of society tech research as big countries otherwise were able to make society research very fast.
+- Reduced the technology effects from Ballooning.
+
 Fixes:
 - You can no longer use Chemical Weapons if you signed the Third Convention. I'm sorry, pinky promises don't work anymore.
 - Women will hold fancy rocks and geodes again.
@@ -35,5 +40,3 @@ Fixes:
 
 Changes:
 - Historical Paleontologists now have a higher spawn chance if they are younger. This should make sure that you have a higher chance to get younger ones first.
-- Lowered various research speed multipliers as we now have way more of them and them stacking made research too fast.
-- The national park PM now gives an unscaled bonus on standard of living instead of society tech research as big countries otherwise were able to make society research very fast.
