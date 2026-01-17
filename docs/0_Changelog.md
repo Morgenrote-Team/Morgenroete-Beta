@@ -12,6 +12,7 @@ Characters:
 - Jean Albert Gaudry (random French Paleontologist)
 - Alphonse Milne-Edwards (random French Paleontologist)
 - Wilhelm Dames (random German Paleontologist)
+- Emanuel Kayser (random German Paleontologist and Geologist)
 - Ernst Koken (random German Paleontologist)
 - Albert Oppel (random German Paleontologist)
 - Friedrich von Huene (random German Paleontologist and Geologist)
