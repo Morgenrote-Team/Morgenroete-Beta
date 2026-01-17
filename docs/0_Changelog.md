@@ -11,6 +11,7 @@ Characters:
 - Carlos Ameghino (random Argentinian Paleontologist)
 - Jean Albert Gaudry (random French Paleontologist)
 - Alphonse Milne-Edwards (random French Paleontologist)
+- Ernst Koken (random German Paleontologist)
 - Albert Oppel (random German Paleontologist)
 - Friedrich von Huene (random German Paleontologist and Geologist)
 - Thomas Rupert Jones (random British Paleontologist and Geologist)
