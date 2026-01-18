@@ -1,34 +1,48 @@
-Changelog for 2.6.2c "Goldberger"
-
-Graphics:
-- Added a new Loading Screen by Angel depicting Louis Pasteur's Experiments (CC4.0 BY-NC)
+Changelog for 2.6.3 "Mohorovičić"
 
 Characters:
-- William Edmond Logan (random Canadian Geologist)
-- Alexander Murray (random Canadian Geologist)
-- Julius Haast (random German Geologist and Paleontologist)
-- Ferdinand Hochstetter (random German Geologist)
-- Karl Martin (random German Geologist and Paleontologist)
-- Gustav Rose (random German Geologist)
-- Ferdinand von Richthofen (random German Geologist)
-- Henry De la Beche (random British Geologist and Paleontologist)
-- John Phillips (random British Geologist)
-- Gustaaf Adolf Frederik Molengraaff (random Dutch Geologist)
-- Thomas Chrowder Chamberlin (random American Geologist)
-- Ebenezer Emmons (random American Geologist)
-- Grove Karl Gilbert (random American Geologist)
-- Thomas Sterry Hunt (random American Geologist and Chemist)
-- John Wesley Powell (random American Geologist)
-- Gideon Mantell (random British Paleontologist and Geologist)
-- James Hall (random American Paleontologist and Geologist)
-- Fukuchi Gen'ichirō (random Japanese Writer) (By Cipherparadox)
-- Kawatake Mokuami (random Japanese Writer) (By Cipherparadox)
-- Kodō Nomura (random Japanese Writer) (By Cipherparadox)
-- Shunrō Oshikawa (random Japanese Writer) (By Cipherparadox)
-- Kanagaki Robun (random Japanese Writer) (By Cipherparadox)
-- Sakuma Shōzan (random Japanese Writer) (By Cipherparadox)
-- Nakajima Utako (random Japanese Writer) (By Cipherparadox)
-- Fukuzawa Yukichi (random Japanese Writer) (By Cipherparadox)
+- Milutin Milanković (random Serbian Astronomer)
+- Reginald A. Daly (random Canadian Geologist)
+- John William Dawson (random Canadian Geologist)
+- Andrija Mohorovičić (random Croatian Geologist)
+- John Milne (random British Geologist)
+- Florence Bascom (random American Geologist)
+- Joseph LeConte (random American Geologist)
+- Carlos Ameghino (random Argentinian Paleontologist)
+- Jean Albert Gaudry (random French Paleontologist)
+- Alphonse Milne-Edwards (random French Paleontologist)
+- Wilhelm Dames (random German Paleontologist)
+- Wilhelm Dunker (random German Paleontologist and Geologist)
+- Eberhard Fraas (random German Paleontologist and Geologist)
+- Otto Jaekel (random German Paleontologist and Geologist)
+- Emanuel Kayser (random German Paleontologist and Geologist)
+- Ernst Koken (random German Paleontologist)
+- Albert Oppel (random German Paleontologist)
+- Friedrich von Huene (random German Paleontologist and Geologist)
+- Thomas Rupert Jones (random British Paleontologist and Geologist)
+- Harry Seeley (random British Paleontologist)
+- Arthur Smith Woodward (random British Paleontologist and Anthropologist)
+- Henry Woodward (random British Paleontologist)
+- Franz Nopcsa von Felső-Szilvás (random Hungarian Paleontologist and Geologist)
+- Joseph de Bosquet (random Dutch Paleontologist)
+- Roy Chapman Andrews (random American Paleontologist, Naturalist and Anthropologist)
+- Joseph Leidy (random American Paleontologist)
+- Henry Fairfield Osborn (random American Paleontologist)
+- Samuel Hubbard Scudder (random American Paleontologist)
+- Louis Wain (random British Painter)
+
+Balance:
+- Lowered various research speed multipliers as we now have way more of them and them stacking made research too fast.
+- The national park PM now gives an unscaled bonus on standard of living instead of society tech research as big countries otherwise were able to make society research very fast.
+- Reduced the technology effects from Ballooning.
+
+Fixes:
+- You can no longer use Chemical Weapons if you signed the Third Convention. I'm sorry, pinky promises don't work anymore.
+- Women will hold fancy rocks and geodes again.
+- The Appoint Governor-General diplomatic action is now only visible for Sweden and has a proper icon.
+- Sports radios will no longer fire if there are no radios produced in your country.
+- Fixed the event option of the Hall of the Islands.
+- Fixed the decision to annex Easter Island for Chile.
 
 Changes:
-- The surveyor trait now gives a small bonus for Geologist Projects as well.
+- All historical characters except for writers (coming soon too) now have a higher spawn chance if they are younger. This should make sure that you have a higher chance to get younger characters first.
