@@ -1,4 +1,4 @@
-Changelog for 2.6.e "Mohorovičić"
+Changelog for 2.6.3 "Mohorovičić"
 
 Characters:
 - Milutin Milanković (random Serbian Astronomer)
