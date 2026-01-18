@@ -13,6 +13,7 @@ Characters:
 - Alphonse Milne-Edwards (random French Paleontologist)
 - Wilhelm Dames (random German Paleontologist)
 - Wilhelm Dunker (random German Paleontologist and Geologist)
+- Eberhard Fraas (random German Paleontologist and Geologist)
 - Otto Jaekel (random German Paleontologist and Geologist)
 - Emanuel Kayser (random German Paleontologist and Geologist)
 - Ernst Koken (random German Paleontologist)
