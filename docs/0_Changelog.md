@@ -24,6 +24,7 @@ Characters:
 - Arthur Smith Woodward (random British Paleontologist and Anthropologist)
 - Henry Woodward (random British Paleontologist)
 - Franz Nopcsa von Felső-Szilvás (random Hungarian Paleontologist and Geologist)
+- Joseph de Bosquet (random Dutch Paleontologist)
 - Roy Chapman Andrews (random American Paleontologist, Naturalist and Anthropologist)
 - Joseph Leidy (random American Paleontologist)
 - Henry Fairfield Osborn (random American Paleontologist)
