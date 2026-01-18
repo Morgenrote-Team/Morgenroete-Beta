@@ -38,6 +38,8 @@ Fixes:
 - You can no longer use Chemical Weapons if you signed the Third Convention. I'm sorry, pinky promises don't work anymore.
 - Women will hold fancy rocks and geodes again.
 - The Appoint Governor-General diplomatic action is now only visible for Sweden and has a proper icon.
+- Sports radios will no longer fire if there are no radios produced in your country.
+- Fixed the event option of the Hall of the Islands.
 
 Changes:
 - Historical Paleontologists now have a higher spawn chance if they are younger. This should make sure that you have a higher chance to get younger ones first.
