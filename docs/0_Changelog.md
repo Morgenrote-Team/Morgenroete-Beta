@@ -45,4 +45,4 @@ Fixes:
 - Fixed the decision to annex Easter Island for Chile.
 
 Changes:
-- Historical Paleontologists now have a higher spawn chance if they are younger. This should make sure that you have a higher chance to get younger ones first.
+- All historical characters except for painters and writers (coming soon too) now have a higher spawn chance if they are younger. This should make sure that you have a higher chance to get younger characters first.
