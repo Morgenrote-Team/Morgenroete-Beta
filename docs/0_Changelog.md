@@ -3,6 +3,7 @@ Changelog for 2.6.3a "Mohorovičić"
 Characters:
 - Édouard Dupont (random Belgian Paleontologist, Geologist and Anthropologist)
 - Paul Fourmarier (random Belgian Paleontologist and Geologist)
+- Victor van Straelen (random Belgian Paleontologist)
 
 Fixes:
 - The events telling you about the possibility to describe/treat foreign diseases should only fire once and have a cooldown of a month.
