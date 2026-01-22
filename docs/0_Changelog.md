@@ -4,6 +4,7 @@ Characters:
 - Édouard Dupont (random Belgian Paleontologist, Geologist and Anthropologist)
 - Paul Fourmarier (random Belgian Paleontologist and Geologist)
 - Victor van Straelen (random Belgian Paleontologist)
+- François-Léopold Cornet (random Belgian Paleontologist and Geologist)
 
 Fixes:
 - The events telling you about the possibility to describe/treat foreign diseases should only fire once and have a cooldown of a month.
