@@ -5,6 +5,7 @@ Characters:
 - Paul Fourmarier (random Belgian Paleontologist and Geologist)
 - Victor van Straelen (random Belgian Paleontologist)
 - François-Léopold Cornet (random Belgian Paleontologist and Geologist)
+- Philipus Carel Schmerling (random Dutch Paleontologist and Anthropologist)
 
 Fixes:
 - The events telling you about the possibility to describe/treat foreign diseases should only fire once and have a cooldown of a month.
