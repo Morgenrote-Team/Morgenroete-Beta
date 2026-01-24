@@ -28,3 +28,4 @@ Performance:
 
 Internal:
 - Renamed various traits to match the correct project.
+- Custom Element names are now applied with flags instead of custom locs. This should slightly improve performance of the Periodic table window and make adding new elements way easier.
