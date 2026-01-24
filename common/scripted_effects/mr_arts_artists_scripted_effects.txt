@@ -215,7 +215,7 @@ artists_remove_travelling_composer_from_void_effect = {
 			name = current_number
 			value = 0
 		}
-		
+
 		#This part gets the travelling composers ordered by experience.
 		# The Composers that are not historical and are over the limit will be deleted.
 		ordered_character_in_void = {
@@ -256,7 +256,7 @@ artists_remove_independent_painter_from_void_effect = {
 			name = current_number
 			value = 0
 		}
-		
+
 		#This part gets the independent artists ordered by experience.
 		# The Composers that are not historical and are over the limit will be deleted.
 		ordered_character_in_void = {
@@ -357,11 +357,11 @@ set_composer_travelling_composer_effect = {
 
 		custom_tooltip = {
 			text = elgar_set_composer_travelling_composer_tt
-	
+
 			var:elgar_composer_var = {
 				elgar_set_composer_travelling_composer = yes
 			}
-		
+
 			remove_variable = elgar_composer_var
 		}
 	}
@@ -450,12 +450,12 @@ set_new_composer_travelling_composer_effect = {
 		scope:elgar_new_composer_scope = {
 			elgar_set_composer_travelling_composer = yes
 		}
-	
+
 		remove_variable = elgar_new_composer_var
 	}
 }
 
-# Used to set up the Experience of a character 
+# Used to set up the Experience of a character
 composer_experience_set_up_effect = {
 	if = {
 		limit = {
@@ -516,15 +516,92 @@ composer_experience_set_up_effect = {
 	}
 	set_variable = {
 		name = elgar_composer_num_compositions_var
-		value = 0
+		value = {
+			value = age
+			subtract = 20
+			multiply = {
+				value = { 1 3 }
+				if = {
+					limit = { has_trait = elgar_virtuoso }
+					add = 1
+				}
+				if = {
+					limit = { has_trait = elgar_conductor }
+					add = 1
+				}
+				if = {
+					limit = { has_trait = innovative }
+					add = 1
+				}
+				if = {
+					limit = { has_trait = meticulous }
+					add = 1
+				}
+				if = {
+					limit = { has_trait = ambitious }
+					add = 1
+				}
+				if = {
+					limit = { has_trait = persistent }
+					add = 1
+				}
+				if = {
+					limit = { has_trait = hedonist }
+					subtract = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							has_trait = alcoholic
+							has_trait = opium_addiction
+							has_trait = cocaine_addiction
+							has_trait = senile
+							has_trait = psychological_affliction
+							has_trait = kidney_stones
+						}
+					}
+					subtract = 1
+				}
+			}
+			min = 0
+			round = yes
+		}
 	}
 	set_variable = {
 		name = elgar_composer_num_seasons_var
-		value = 0
+		value = {
+			value = age
+			subtract = 20
+			divide = 10
+			if = {
+				limit = { has_trait = elgar_conductor }
+				multiply = { 1.5 2.5 }
+			}
+			min = 0
+			round = yes
+		}
 	}
 	set_variable = {
 		name = elgar_composer_num_tours_var
-		value = 0
+		value = {
+			value = age
+			subtract = 20
+			divide = 10
+			if = {
+				limit = { has_trait = elgar_conductor }
+				multiply = { 1.1 1.4 }
+			}
+			if = {
+				limit = { has_trait = elgar_travelling_composer }
+				multiply = { 1.1 1.4 }
+			}
+			if = {
+				limit = { has_trait = elgar_virtuoso }
+				multiply = { 1.1 1.4 }
+			}
+			min = 0
+			round = yes
+		}
 	}
 	set_variable = {
 		name = elgar_composer_num_masterworks_var
@@ -762,7 +839,7 @@ set_writer_local_writer_effect = {
 
 		custom_tooltip = {
 			text = manzoni_set_writer_local_writer_tt
-	
+
 			var:manzoni_writer_var = {
 				remove_variable = mr_is_writer_var
 				set_variable = {
@@ -770,7 +847,7 @@ set_writer_local_writer_effect = {
 					value = root
 				}
 			}
-		
+
 			remove_variable = manzoni_writer_var
 			artists_set_up_local_writer_list_effect = yes
 		}
@@ -819,7 +896,7 @@ set_mr_character_to_agitator_character_scope_effect = {
 			}
 			#Removes writer character variable
 			remove_variable = mr_is_writer_var
-			
+
 			#Removes the writer variable
 			root = {
 				remove_variable = manzoni_writer_var
@@ -850,7 +927,7 @@ set_mr_character_to_agitator_character_scope_effect = {
 			}
 			#Removes the local writer character variable
 			remove_variable = mr_is_painter_var
-			
+
 			#Removes the painter variable
 			root = {
 				remove_variable = klimt_painter_var
@@ -992,7 +1069,7 @@ manzoni_set_new_writer_local_writer_effect = {
 				value = root
 			}
 		}
-	
+
 		remove_variable = manzoni_new_writer_var
 		artists_set_up_local_writer_list_effect = yes
 	}
@@ -1051,12 +1128,12 @@ manzoni_set_new_writer_local_writer_other_country_effect = {
 				artists_set_up_local_writer_list_effect = yes
 			}
 		}
-	
+
 		remove_variable = manzoni_new_writer_var
 	}
 }
 
-# Used to set up the Experience of a character 
+# Used to set up the Experience of a character
 writer_experience_set_up_effect = {
 	if = {
 		limit = {
@@ -1274,7 +1351,7 @@ set_painter_independent_painter_effect = {
 
 		custom_tooltip = {
 			text = set_painter_independent_painter_effect_tt
-	
+
 			var:klimt_painter_var = {
 				remove_variable = mr_is_painter_var
 				set_variable = mr_is_independent_painter
@@ -1283,7 +1360,7 @@ set_painter_independent_painter_effect = {
 					target = this
 				}
 			}
-		
+
 			remove_variable = klimt_painter_var
 		}
 	}
@@ -1312,7 +1389,7 @@ gaudi_set_painter_independent_painter = {
 klimt_set_new_painter_as_painter_effect = {
 	custom_tooltip = {
 		text = klimt_replace_painter_with_new_painter_tt
-	
+
 		if = {
 			limit = {
 				has_variable = klimt_painter_var
@@ -1339,7 +1416,7 @@ klimt_set_new_painter_as_painter_effect = {
 klimt_set_new_painter_as_independent_painter_effect = {
 	custom_tooltip = {
 		text = klimt_set_new_painter_as_independent_painter_effect_tt
-	
+
 		add_to_global_variable_list = {
 			name = mr_independent_painter_global_list
 			target = scope:klimt_new_painter_scope
@@ -1362,7 +1439,7 @@ klimt_remove_new_painter_effect = {
 	remove_variable = klimt_new_painter_var
 }
 
-# Used to set up the Experience of a character 
+# Used to set up the Experience of a character
 painter_experience_set_up_effect = {
 	if = {
 		limit = {
@@ -1556,7 +1633,7 @@ set_architect_independent_architect_effect = {
 
 		custom_tooltip = {
 			text = set_architect_independent_architect_effect_tt
-	
+
 			var:gaudi_architect_var = {
 				remove_variable = mr_is_architect_var
 				set_variable = mr_is_independent_architect_var
@@ -1565,7 +1642,7 @@ set_architect_independent_architect_effect = {
 					target = this
 				}
 			}
-		
+
 			remove_variable = gaudi_architect_var
 		}
 	}
@@ -1594,7 +1671,7 @@ gaudi_set_architect_independent_architect = {
 gaudi_set_new_architect_as_architect_effect = {
 	custom_tooltip = {
 		text = gaudi_replace_architect_with_new_architect_tt
-	
+
 		if = {
 			limit = {
 				has_variable = gaudi_architect_var
@@ -1648,7 +1725,7 @@ gaudi_remove_new_architect_effect = {
 	remove_variable = gaudi_new_architect_var
 }
 
-# Used to set up the Experience of a character 
+# Used to set up the Experience of a character
 architect_experience_set_up_effect = {
 	if = {
 		limit = {
@@ -1794,9 +1871,9 @@ architect_experience_gain_effect = { #adds XP to the Architect
 #Give the three countries with most artist reputation a prize
 artists_biennale_winner_effect = {
 	#Removes the GLOBAL ranking variables
-	remove_global_variable = artists_biennale_place_1_global_var 
-	remove_global_variable = artists_biennale_place_2_global_var 
-	remove_global_variable = artists_biennale_place_3_global_var 
+	remove_global_variable = artists_biennale_place_1_global_var
+	remove_global_variable = artists_biennale_place_2_global_var
+	remove_global_variable = artists_biennale_place_3_global_var
 
 	ordered_country = {
 		limit = {
@@ -1819,12 +1896,12 @@ artists_biennale_winner_effect = {
 		# the second country gets saved to the second variable and so on.
 		if = {
 			limit = {
-				NOT = { 
-					has_global_variable = artists_biennale_place_1_global_var  
+				NOT = {
+					has_global_variable = artists_biennale_place_1_global_var
 				}
 			}
 			set_global_variable = {
-				name = artists_biennale_place_1_global_var  
+				name = artists_biennale_place_1_global_var
 				value = this
 			}
 			save_scope_as = artists_biennale_first_winner_scope
@@ -1834,7 +1911,7 @@ artists_biennale_winner_effect = {
 				NOT = { has_global_variable = artists_biennale_place_2_global_var   }
 			}
 			set_global_variable = {
-				name = artists_biennale_place_2_global_var 
+				name = artists_biennale_place_2_global_var
 				value = this
 			}
 			save_scope_as = artists_biennale_second_winner_scope
@@ -1844,7 +1921,7 @@ artists_biennale_winner_effect = {
 				NOT = { has_global_variable = artists_biennale_place_3_global_var   }
 			}
 			set_global_variable = {
-				name = artists_biennale_place_3_global_var 
+				name = artists_biennale_place_3_global_var
 				value = this
 			}
 			save_scope_as = artists_biennale_third_winner_scope
