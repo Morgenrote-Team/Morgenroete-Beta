@@ -196,14 +196,14 @@ verrier_can_discover_mimas_trigger = {
 
 #Triton
 verrier_can_discover_triton_trigger = {
-	has_global_variable = verrier_neptune_discovered_var
+	has_global_variable = verrier_neptune_year_global_var
 	NOT = { has_global_variable = verrier_triton_discovered_global_var }
 	verrier_early_satellites_general_trigger = yes
 }
 
 #Hyperion
 verrier_can_discover_hyperion_trigger = {
-	has_global_variable = verrier_neptune_discovered_var
+	has_global_variable = verrier_neptune_year_global_var
 	NOT = { has_global_variable = verrier_hyperion_discovered_global_var }
 	verrier_early_satellites_general_trigger = yes
 }
@@ -301,7 +301,7 @@ verrier_can_discover_miranda_trigger = {
 #Nereid
 verrier_can_discover_nereid_trigger = {
 	has_global_variable = verrier_pluto_year_global_var
-	has_global_variable = verrier_neptune_discovered_var
+	has_global_variable = verrier_neptune_year_global_var
 	NOT = { has_global_variable = verrier_nereid_discovered_global_var }
 	verrier_post_game_satellites_general_trigger = yes
 }
@@ -310,16 +310,18 @@ verrier_can_discover_nereid_trigger = {
 
 #Mars
 verrier_can_discover_mars_satellite_trigger = {
-	NOT = { has_journal_entry = je_verrier_mars_satellites }
 	OR = {
 		verrier_can_discover_deimos_trigger = yes
 		verrier_can_discover_phobos_trigger = yes
 	}
 }
+verrier_can_discover_mars_satellite_no_je_trigger = {
+	NOT = { has_journal_entry = je_verrier_mars_satellites }
+	verrier_can_discover_mars_satellite_trigger = yes
+}
 
 #Jupiter
 verrier_can_discover_jupiter_satellite_trigger = {
-	NOT = { has_journal_entry = je_verrier_jupiter_satellites }
 	OR = {
 		verrier_can_discover_amalthea_trigger = yes
 		verrier_can_discover_himalia_trigger = yes
@@ -330,10 +332,13 @@ verrier_can_discover_jupiter_satellite_trigger = {
 		verrier_can_discover_carme_trigger = yes
 	}
 }
+verrier_can_discover_jupiter_satellite_no_je_trigger = {
+	NOT = { has_journal_entry = je_verrier_jupiter_satellites }
+	verrier_can_discover_jupiter_satellite_trigger = yes
+}
 
 #Saturn
 verrier_can_discover_saturn_satellite_trigger = {
-	NOT = { has_journal_entry = je_verrier_saturn_satellites }
 	OR = {
 		verrier_can_discover_enceladus_trigger = yes
 		verrier_can_discover_mimas_trigger = yes
@@ -341,10 +346,13 @@ verrier_can_discover_saturn_satellite_trigger = {
 		verrier_can_discover_phoebe_trigger = yes
 	}
 }
+verrier_can_discover_saturn_satellite_no_je_trigger = {
+	NOT = { has_journal_entry = je_verrier_saturn_satellites }
+	verrier_can_discover_saturn_satellite_trigger = yes
+}
 
 #Uranus
 verrier_can_discover_uranus_satellite_trigger = {
-	NOT = { has_journal_entry = je_verrier_uranus_satellites }
 	OR = {
 		verrier_can_discover_titania_trigger = yes
 		verrier_can_discover_oberon_trigger = yes
@@ -353,14 +361,24 @@ verrier_can_discover_uranus_satellite_trigger = {
 		verrier_can_discover_miranda_trigger = yes
 	}
 }
+verrier_can_discover_uranus_satellite_no_je_trigger = {
+	NOT = { has_journal_entry = je_verrier_uranus_satellites }
+	verrier_can_discover_uranus_satellite_trigger = yes
+}
 
 #Neptune
 verrier_can_discover_neptune_satellite_trigger = {
-	NOT = { has_journal_entry = je_verrier_neptune_satellites }
 	OR = {
-		verrier_can_discover_triton_trigger = yes
+		AND = {
+			verrier_can_discover_triton_trigger = yes
+			NOT = { has_global_variable = verrier_triton_about_to_be_discovered_global_var }
+		}
 		verrier_can_discover_nereid_trigger = yes
 	}
+}
+verrier_can_discover_neptune_satellite_no_je_trigger = {
+	NOT = { has_journal_entry = je_verrier_neptune_satellites }
+	verrier_can_discover_neptune_satellite_trigger = yes
 }
 
 ### General Trigger for Satellites ###
@@ -408,9 +426,9 @@ verrier_venus_transit_1874_region = {
 
 verrier_venus_transit_1882_region = {
 	OR = {
-		region = sr:region_brazil	
+		region = sr:region_brazil
 		region = sr:region_la_plata
-		region = sr:region_andes	
+		region = sr:region_andes
 		region = sr:region_gran_colombia
 		region = sr:region_mexico
 		region = sr:region_central_america
