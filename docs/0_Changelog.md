@@ -21,6 +21,10 @@ Other
 
 Fixes
 - Fixed the Sports Radio event which triggered without radio.
+- Fixed the Spaniards building two Sagrada Familias at once.
 
 Performance:
 - Improved the performance of the Mountaineering Licence Diplomatic Action.
+
+Internal:
+- Renamed various traits to match the correct project.
