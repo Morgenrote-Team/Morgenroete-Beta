@@ -1,4 +1,4 @@
-Changelog for 2.6.3b "Mohorovičić"
+Changelog for 2.6.3c "Mohorovičić"
 
 Fixes:
-- The Incas no longer exported all their artifacts to Egypt and now keep them in South America until the British steal them.
+- Schmerling should now longer spawn until he is 155 years old.
