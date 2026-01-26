@@ -12,7 +12,7 @@ Biology
 - With the necessary technological equipment—modern aviation, nuclear physics, and cell culture—a biologist can research sterile insect technology. In a second step, they can free territories from the negative Cochliomyia modifier. Historically, this only happened in the 1950s, but it's possible for gameplay reasons.
 - European (mostly central European) and North American (mostly east coast) receive a Cydia modifier at the start of the game, which has a negative effect on the output of fruits.
 - After inventing Malaria Prevention, a biologist and a chemist can develop a pesticide to get rid of the modifier.
-- You can now send Botanical Expeditions to find Medicinal Plants 
+- You can now send Botanical Expeditions to find Medicinal Plants.
 
 Sports
 - Like Japan and Cuba, China gets a special baseball event.
