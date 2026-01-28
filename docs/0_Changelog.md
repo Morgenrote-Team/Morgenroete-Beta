@@ -1,6 +1,6 @@
 Changelog fot 2.5.1 "Pasteur"
 
-Biology
+Biology:
 - New Technology: Cell Culture.
 - Cell Culture gives +1 Health Institution Investment (instead of Malaria Prevention).
 - Biologists can do Microorganism Research. Doing so rewards players with new microorganisms and clues for the germ theory.
@@ -14,13 +14,14 @@ Biology
 - After inventing Malaria Prevention, a biologist and a chemist can develop a pesticide to get rid of the modifier.
 - You can now send Botanical Expeditions to find Medicinal Plants.
 
-Sports
+Sports:
 - Like Japan and Cuba, China gets a special baseball event.
 
-Other
+Other:
 - Added "Good Soils" to Lombardy and Emilia (this is one of the most fertile areas in Europe!)
+- Some Element names now get used depending on the culture of the chemist as well.
 
-Fixes
+Fixes:
 - Fixed the Sports Radio event which triggered without radio.
 - Fixed the Spaniards building two Sagrada Familias at once.
 
