@@ -24,6 +24,7 @@ Other:
 Fixes:
 - Fixed the Sports Radio event which triggered without radio.
 - Fixed the Spaniards building two Sagrada Familias at once.
+- Buying a masterwork painting will now cost 100'000£ for everyone.
 
 Performance:
 - Improved the performance of the Mountaineering Licence Diplomatic Action.
