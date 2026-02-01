@@ -18,7 +18,125 @@ vikelas_add_sports_club_to_list_effect = {
 	}
 }
 
-###Baseball Clubs###
+### New Sports Club Effect ###
+# SPORT = name of the sport e.g. football
+vikelas_create_new_sports_club_effect = {
+	if = {
+		limit = {
+			any_scope_state = {
+				is_incorporated = yes
+				is_production_method_active = {
+					building_type = building_vikelas_sports
+					production_method = pm_vikelas_no_$SPORT$_club
+				}
+			}
+		}
+
+		set_variable = vikelas_$SPORT$_country_var
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				is_production_method_active = {
+					building_type = building_vikelas_sports
+					production_method = pm_vikelas_no_$SPORT$_club
+				}
+			}
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_$SPORT$_club
+			}
+			save_scope_as = vikelas_club_state_scope
+			random_in_list = {
+				variable = vikelas_$SPORT$_clubs_variable_list
+				scope:vikelas_club_state_scope = {
+					set_variable = {
+						name = vikelas_chosen_$SPORT$_club_var
+						value = prev
+					}
+				}
+			}
+		}
+		post_notification = vikelas_new_$SPORT$_club
+	}
+}
+
+### Champion Effect ###
+# SPORT = name of the sport e.g. football
+vikelas_set_new_league_champion_effect = {
+	if = {
+		limit = {
+			any_scope_state = {
+				has_modifier = vikelas_national_league_champion_modifier
+			}
+		}
+		every_scope_state = {
+			limit = {
+				has_modifier = vikelas_national_league_champion_modifier
+			}
+			remove_modifier = vikelas_national_league_champion_modifier
+		}
+	}
+	if = {
+		limit = {
+			any_scope_state = {
+				is_production_method_active = {
+					building_type = building_vikelas_sports
+					production_method = pm_vikelas_$SPORT$_club
+				}
+				count >= 2
+			}
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_vikelas_sports
+					has_active_production_method = pm_vikelas_$SPORT$_club
+				}
+			}
+			save_scope_as = vikelas_rival_state_1_scope
+			random_in_list = {
+				variable = vikelas_$SPORT$_clubs_variable_list
+				scope:vikelas_rival_state_1_scope = {
+					set_variable = {
+						name = vikelas_chosen_$SPORT$_club_var
+						value = prev
+					}
+				}
+			}
+			add_modifier = {
+				name = vikelas_national_league_champion_modifier
+				days = 365
+			}
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_vikelas_sports
+					has_active_production_method = pm_vikelas_$SPORT$_club
+				}
+				NOT = { this = scope:vikelas_rival_state_1_scope }
+			}
+			save_scope_as = vikelas_rival_state_2_scope
+			random_in_list = {
+				variable = vikelas_$SPORT$_clubs_variable_list
+				scope:vikelas_rival_state_2_scope = {
+					set_variable = {
+						name = vikelas_chosen_$SPORT$_club_var
+						value = prev
+					}
+				}
+			}
+		}
+
+		set_variable = {
+			name = vikelas_national_league_champion_var
+			value = scope:vikelas_rival_state_1_scope
+		}
+		post_notification = vikelas_national_$SPORT$_league_champion
+	}
+}
+
+### Baseball Clubs ###
 vikelas_assign_baseball_clubs_to_state_effect = {
 	### USA ###
 	if = { # Alabama
@@ -358,7 +476,7 @@ vikelas_assign_baseball_clubs_to_state_effect = {
 	}
 }
 
-###Basketball Clubs###
+### Basketball Clubs ###
 vikelas_assign_basketball_clubs_to_state_effect = {
 	### Brazil ###
 	if = { # Sao Paulo
@@ -435,7 +553,7 @@ vikelas_assign_basketball_clubs_to_state_effect = {
 	}
 }
 
-###Cricket Clubs###
+### Cricket Clubs ###
 vikelas_assign_cricket_clubs_to_state_effect = {
 	### England ###
 	if = { # Home Counties
@@ -454,25 +572,7 @@ vikelas_assign_cricket_clubs_to_state_effect = {
 	}
 }
 
-###Football###
-
-vikelas_football_club_test_effect = {
-	random_scope_state = {
-		save_scope_as = vikelas_football_state
-		random_in_list = {
-			variable = vikelas_football_clubs_variable_list
-			scope:vikelas_football_state = {
-				set_variable = {
-					name = vikelas_football_club_var
-					value = prev
-				}
-			}
-		}
-	}
-	custom_tooltip = vikelas_football_club_test_effect_tt
-}
-
-###Football Clubs###
+### Football Clubs ###
 vikelas_assign_football_clubs_to_state_effect = {
 	### Belgium ###
 	if = { # Flanders
