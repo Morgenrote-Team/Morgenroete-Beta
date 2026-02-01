@@ -36,3 +36,6 @@ Internal:
 - Renamed various traits to match the correct project.
 - Custom Element names are now applied with flags instead of custom locs. This should slightly improve performance of the Periodic table window and make adding new elements way easier.
 - Reworked the way Sports Club names are chosern so that they no longer cause issues.
+
+Characters:
+- Hans Christian Gram (random Danish Biologist)
