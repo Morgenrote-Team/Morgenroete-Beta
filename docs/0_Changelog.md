@@ -21,6 +21,9 @@ Other:
 - Added "Good Soils" to Lombardy and Emilia (this is one of the most fertile areas in Europe!)
 - Some Element names now get used depending on the culture of the chemist as well.
 
+Graphics:
+- Added a new Loading Screen by Angel depicting Vincent van Gogh (CC4.0 BY-NC angel): https://x.com/angelsrntreal/status/2017904729511371235
+
 Fixes:
 - Fixed the Sports Radio event which triggered without radio.
 - Fixed the Spaniards building two Sagrada Familias at once.
