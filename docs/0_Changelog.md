@@ -39,6 +39,7 @@ Internal:
 
 Characters:
 - Hans Christian Gram (random Danish Biologist)
+- Charles Louis Alphonse Laveran (random French Biologist)
 - Ivan Pavlov (random Russian Biologist)
 - Max Theiler (random South African Biologist)
 - Arnold Theiler (random Swiss Biologist)
