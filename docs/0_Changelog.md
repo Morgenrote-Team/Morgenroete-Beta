@@ -17,6 +17,9 @@ Biology:
 Sports:
 - Like Japan and Cuba, China gets a special baseball event.
 
+Balancing:
+- Slightly lowered Engineer Experience gain from some projects.
+
 Other:
 - Added "Good Soils" to Lombardy and Emilia (this is one of the most fertile areas in Europe!)
 - Some Element names now get used depending on the culture of the chemist as well.
