@@ -39,3 +39,4 @@ Internal:
 
 Characters:
 - Hans Christian Gram (random Danish Biologist)
+- Max Theiler (random South African Biologist)
