@@ -1,4 +1,4 @@
-Changelog fot 2.5.1 "Pasteur"
+Changelog fot 2.7.0 "Pasteur"
 
 Biology:
 - New Technology: Cell Culture.
@@ -31,6 +31,7 @@ Fixes:
 - Fixed the Sports Radio event which triggered without radio.
 - Fixed the Spaniards building two Sagrada Familias at once.
 - Buying a masterwork painting will now cost 100'000£ for everyone.
+- International Mountain Expeditions should no longer fire multiple times.
 
 Performance:
 - Improved the performance of the Mountaineering Licence Diplomatic Action.
@@ -46,3 +47,10 @@ Characters:
 - Ivan Pavlov (random Russian Biologist)
 - Max Theiler (random South African Biologist)
 - Arnold Theiler (random Swiss Biologist)
+
+Changelog for 2.7.0c Biology Beta
+
+Changes:
+- Added some historical characters as Biologists.
+- Added a tooltip for the Biologist rating.
+- Added texts for concepts.
