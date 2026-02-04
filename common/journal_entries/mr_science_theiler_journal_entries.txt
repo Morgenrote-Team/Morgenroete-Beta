@@ -3839,7 +3839,9 @@ je_theiler_medicinal_plant_strophantine = {
 je_theiler_improve_agriculture_project = {
 	icon = "gfx/interface/icons/event_icons/event_botany.dds"
 
-	scripted_button = theiler_stop_biologist_project_button
+	scripted_progress_bar = theiler_biologist_improve_agriculture_project_progress_bar
+
+	scripted_button = theiler_stop_biological_project_button
 
 	group = je_group_dubois_nature
 
@@ -3854,7 +3856,17 @@ je_theiler_improve_agriculture_project = {
 			}
 
 			if = {
-				limit = {  } #BIOLOGY TODO
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(theiler_biologist_improve_agriculture_project_progress_bar)" >= 24
+					}
+				}
+				scope:journal_entry = {
+					add_progress = {
+						name = theiler_biologist_improve_agriculture_project_progress_bar
+						value = -24
+					}
+				}
 				if = {
 					limit = {
 						scope:target = {
@@ -3898,13 +3910,15 @@ je_theiler_improve_agriculture_project = {
 						name = theiler_improve_agriculture_buildings_chosen_variable_list
 						target = scope:target
 					}
-					ordered_in_list = {
-						variable = theiler_improve_agriculture_buildings_chosen_variable_list
-						position = 0
+					if = {
+						limit = { has_variable_list = theiler_improve_agriculture_buildings_chosen_variable_list }
+						ordered_in_list = {
+							variable = theiler_improve_agriculture_buildings_chosen_variable_list
+							position = 0
 
-						save_scope_as = target
+							save_scope_as = target
+						}
 					}
-
 					change_variable = {
 						name = dubois_naturalist_improvement_progress_var
 						subtract = ito_improvement_progress_cost
@@ -3918,7 +3932,7 @@ je_theiler_improve_agriculture_project = {
 		set_variable = theiler_can_stop_active_improvement_project_var #This is used to check if the country can stop the project
 		scope:journal_entry = {
 			add_modifier = {
-				name = theiler_bimprove_agriculture_cost_modifier
+				name = theiler_improve_agriculture_cost_modifier
 				multiplier = root.mr_local_project_cost_small_value
 			}
 		}
@@ -3931,20 +3945,25 @@ je_theiler_improve_agriculture_project = {
 	}
 
 	complete = {
-
+		custom_tooltip = {
+			text = je_theiler_improve_agriculture_project_complete_tt
+			NOT = {
+				has_variable_list = theiler_improve_agriculture_buildings_chosen_variable_list
+			}
+		}
 	}
 
 	on_complete = {
 		remove_variable = theiler_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		remove_variable = theiler_stop_biological_project_var
 		show_as_tooltip = {
 			scope:journal_entry = {
-				remove_modifier = theiler_bimprove_agriculture_cost_modifier
+				remove_modifier = theiler_improve_agriculture_cost_modifier
 			}
 		}
 		clear_variable_list = theiler_improve_agriculture_buildings_chosen_variable_list
 
 		#Those should be removed in every Naturalist je
-		remove_variable = dubois_naturalist_improvement_progress_var
 		remove_variable = dubois_monthly_naturalist_improvement_progress_var
 		remove_variable = naturalist_experience_add_var
 
@@ -3959,26 +3978,28 @@ je_theiler_improve_agriculture_project = {
 
 	invalid = {
 		custom_tooltip = {
-			text = dubois_stop_naturalist_improving_project_tt
-			has_variable = dubois_stop_naturalist_improving_project_var
+			text = theiler_stopped_biologist_project_tt
+			OR = {
+				has_variable = theiler_stop_biological_project_var
+				theiler_has_biologist_no_tooltip_trigger = no
+			}
 		}
 	}
 
 	on_invalid = {
 		remove_variable = dubois_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		remove_variable = theiler_stop_biological_project_var
 		show_as_tooltip = {
 			scope:journal_entry = {
-				remove_modifier = theiler_bimprove_agriculture_cost_modifier
+				remove_modifier = theiler_improve_agriculture_cost_modifier
 			}
 		}
 		clear_variable_list = theiler_improve_agriculture_buildings_chosen_variable_list
 
 		#Those should be removed in every naturalist je
-		remove_variable = dubois_naturalist_improvement_progress_var
 		remove_variable = dubois_monthly_naturalist_improvement_progress_var
 		remove_variable = naturalist_experience_add_var
 
-		remove_variable = dubois_stop_naturalist_improving_project_var
 		var:dubois_naturalist_var ?= {
 			set_character_busy_and_immortal = no
 		}
