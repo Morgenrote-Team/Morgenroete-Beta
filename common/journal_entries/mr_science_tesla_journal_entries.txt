@@ -48,12 +48,6 @@ je_gaudi_civil_research_project = {
 		tesla_has_civil_engineer_no_tooltip_trigger = no
 	}
 
-	on_invalid = {
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-	}
-
 	weight = 30
 
 	should_be_pinned_by_default = no
@@ -91,6 +85,7 @@ je_gaudi_road_project = {
 					}
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
+						position = 0 #We only want the first one here
 						limit = {
 							is_incorporated = yes
 							NOT = { has_modifier = gaudi_modern_roads_modifier }
@@ -104,6 +99,7 @@ je_gaudi_road_project = {
 				else = {
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
+						position = 0 #We only want the first one here
 						limit = { NOT = { has_modifier = gaudi_modern_roads_modifier } }
 						order_by = tesla_infrastructure_balance
 						add_modifier = {
@@ -129,6 +125,12 @@ je_gaudi_road_project = {
 	}
 
 	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = tesla_medium_engineering_project_cost_modifier
+				multiplier = mr_local_project_cost_medium_value
+			}
+		}
 		set_variable = gaudi_can_stop_active_engineering_project_var #This is used to check if the country has a project already
 		#Sets the Civil Engineering Progress at the beginning
 		set_variable = {
@@ -160,7 +162,7 @@ je_gaudi_road_project = {
 		tesla_remove_je_cost_modifiers_effect = yes
 		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_roads_var
-		
+
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
@@ -172,7 +174,7 @@ je_gaudi_road_project = {
 			id = gaudi.1101
 			popup = yes
 		}
-	
+
 		#Starts new project for AI
 		ai_start_engineering_project_for_ai_effect = yes
 	}
@@ -207,7 +209,7 @@ je_gaudi_road_project = {
 		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_roads_var
 		remove_variable = gaudi_stop_engineering_project_var
-		
+
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
@@ -252,7 +254,7 @@ je_tesla_irrigation_project = {
 					var:tesla_civil_engineering_progress_var > tesla_irrigation_progress_cost
 				}
 				#Adds Experience to the Engineer
-				civil_engineer_experience_gain_effect = { AMOUNT = 5 }
+				civil_engineer_experience_gain_effect = { AMOUNT = 3 }
 				#Effect if the priority list exists
 				if = {
 					limit = {
@@ -269,7 +271,7 @@ je_tesla_irrigation_project = {
 							remove_list_variable = {
 								name = prioritized_states_for_irrigation_improvement_variable_list
 								target = prev
-							} 
+							}
 						}
 					}
 					#Chooses the first entry in the list
@@ -289,7 +291,7 @@ je_tesla_irrigation_project = {
 							remove_list_variable = {
 								name = prioritized_states_for_irrigation_improvement_variable_list
 								target = prev
-							} 
+							}
 						}
 					}
 				}
@@ -302,6 +304,7 @@ je_tesla_irrigation_project = {
 					}
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
+						position = 0 #We only want the first one here
 						limit = {
 							is_incorporated = yes
 							tesla_state_region_has_no_irrigation_system = yes
@@ -315,6 +318,7 @@ je_tesla_irrigation_project = {
 				else = {
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
+						position = 0 #We only want the first one here
 						limit = {
 							tesla_state_region_has_no_irrigation_system = yes
 						}
@@ -371,11 +375,11 @@ je_tesla_irrigation_project = {
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+			remove_modifier = tesla_medium_engineering_project_cost_modifier
 		}
 		remove_variable = tesla_num_states_var
 		remove_variable = tesla_num_states_irrigation_var
-		
+
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
@@ -391,7 +395,7 @@ je_tesla_irrigation_project = {
 			id = gaudi.1111
 			popup = yes
 		}
-	
+
 		#Starts new project for AI
 		ai_start_engineering_project_for_ai_effect = yes
 	}
@@ -423,12 +427,12 @@ je_tesla_irrigation_project = {
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+			remove_modifier = tesla_medium_engineering_project_cost_modifier
 		}
 		remove_variable = tesla_num_states_var
 		remove_variable = tesla_num_states_irrigation_var
 		remove_variable = gaudi_stop_engineering_project_var
-		
+
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
@@ -484,6 +488,7 @@ je_gaudi_bridge_project = {
 					}
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
+						position = 0 #We only want the first one here
 						limit = {
 							is_incorporated = yes
 							NOT = { has_modifier = gaudi_new_bridge_modifier }
@@ -497,6 +502,7 @@ je_gaudi_bridge_project = {
 				else = {
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
+						position = 0 #We only want the first one here
 						limit = { NOT = { has_modifier = gaudi_new_bridge_modifier } }
 						order_by = tesla_infrastructure_balance
 						add_modifier = {
@@ -522,6 +528,12 @@ je_gaudi_bridge_project = {
 	}
 
 	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = tesla_medium_engineering_project_cost_modifier
+				multiplier = mr_local_project_cost_medium_value
+			}
+		}
 		set_variable = gaudi_can_stop_active_engineering_project_var #This is used to check if the country has a project already
 		#Sets the Civil Engineering Progress at the beginning
 		set_variable = {
@@ -553,7 +565,7 @@ je_gaudi_bridge_project = {
 		tesla_remove_je_cost_modifiers_effect = yes
 		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_bridge_var
-		
+
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
@@ -600,7 +612,7 @@ je_gaudi_bridge_project = {
 		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_bridge_var
 		remove_variable = gaudi_stop_engineering_project_var
-		
+
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
@@ -652,6 +664,7 @@ je_gaudi_tunnel_project = {
 					}
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
+						position = 0 #We only want the first one here
 						limit = {
 							is_incorporated = yes
 							NOT = { has_modifier = gaudi_new_tunnel_modifier }
@@ -665,6 +678,7 @@ je_gaudi_tunnel_project = {
 				else = {
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
+						position = 0 #We only want the first one here
 						limit = { NOT = { has_modifier = gaudi_new_tunnel_modifier } }
 						order_by = tesla_infrastructure_balance
 						add_modifier = {
@@ -690,6 +704,12 @@ je_gaudi_tunnel_project = {
 	}
 
 	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = tesla_medium_engineering_project_cost_modifier
+				multiplier = mr_local_project_cost_medium_value
+			}
+		}
 		set_variable = gaudi_can_stop_active_engineering_project_var #This is used to check if the country has a project already
 		#Sets the Civil Engineering Progress at the beginning
 		set_variable = {
@@ -721,7 +741,7 @@ je_gaudi_tunnel_project = {
 		tesla_remove_je_cost_modifiers_effect = yes
 		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_tunnel_var
-		
+
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
@@ -768,7 +788,7 @@ je_gaudi_tunnel_project = {
 		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_tunnel_var
 		remove_variable = gaudi_stop_engineering_project_var
-		
+
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
@@ -813,7 +833,7 @@ je_gaudi_railway_project = {
 					var:tesla_civil_engineering_progress_var > tesla_railway_progress_cost
 				}
 				#Adds Experience to the Engineer
-				civil_engineer_experience_gain_effect = { AMOUNT = 3 }
+				civil_engineer_experience_gain_effect = { AMOUNT = 2 }
 				#Effect if the priority list exists
 				if = {
 					limit = {
@@ -832,7 +852,7 @@ je_gaudi_railway_project = {
 							remove_list_variable = {
 								name = prioritized_states_for_railway_improvement_variable_list
 								target = prev
-							} 
+							}
 						}
 					}
 					#Chooses the first entry in the list
@@ -851,7 +871,7 @@ je_gaudi_railway_project = {
 						}
 						random_scope_building = {
 							limit = { tesla_railway_valid_for_improvement_trigger = yes }
-							
+
 							add_modifier = {
 								name = tesla_modernized_railway_lines_building_modifier
 							}
@@ -861,7 +881,7 @@ je_gaudi_railway_project = {
 							remove_list_variable = {
 								name = prioritized_states_for_railway_improvement_variable_list
 								target = prev
-							} 
+							}
 						}
 					}
 				}
@@ -876,6 +896,7 @@ je_gaudi_railway_project = {
 					}
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
+						position = 0 #We only want the first one here
 						limit = {
 							is_incorporated = yes
 							any_scope_building = {
@@ -890,7 +911,7 @@ je_gaudi_railway_project = {
 						}
 						random_scope_building = {
 							limit = { tesla_railway_valid_for_improvement_trigger = yes }
-							
+
 							add_modifier = {
 								name = tesla_modernized_railway_lines_building_modifier
 							}
@@ -900,6 +921,7 @@ je_gaudi_railway_project = {
 				else = {
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
+						position = 0 #We only want the first one here
 						limit = {
 							any_scope_building = {
 								tesla_railway_valid_for_improvement_trigger = yes
@@ -913,7 +935,7 @@ je_gaudi_railway_project = {
 						}
 						random_scope_building = {
 							limit = { tesla_railway_valid_for_improvement_trigger = yes }
-							
+
 							add_modifier = {
 								name = tesla_modernized_railway_lines_building_modifier
 							}
@@ -967,11 +989,11 @@ je_gaudi_railway_project = {
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+			remove_modifier = tesla_medium_engineering_project_cost_modifier
 		}
 		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_modernized_railway_var
-		
+
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
@@ -1014,11 +1036,11 @@ je_gaudi_railway_project = {
 
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		remove_modifier = gaudi_engineer_project_medium_cost_modifier
+		remove_modifier = tesla_medium_engineering_project_cost_modifier
 		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_modernized_railway_var
 		remove_variable = gaudi_stop_engineering_project_var
-		
+
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
@@ -1105,6 +1127,12 @@ je_gaudi_construction_sector_project = {
 	}
 
 	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = tesla_small_engineering_project_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
+			}
+		}
 		set_variable = gaudi_can_stop_active_engineering_project_var #This is used to check if the country has a project already
 		#Sets the Civil Engineering Progress at the beginning
 		set_variable = {
@@ -1138,9 +1166,9 @@ je_gaudi_construction_sector_project = {
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_low_cost_modifier
+			remove_modifier = tesla_small_engineering_project_cost_modifier
 		}
-		
+
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
@@ -1185,7 +1213,7 @@ je_gaudi_construction_sector_project = {
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_low_cost_modifier
+			remove_modifier = tesla_small_engineering_project_cost_modifier
 		}
 		remove_variable = gaudi_stop_engineering_project_var
 
@@ -1233,7 +1261,7 @@ je_gaudi_topographic_map_project = {
 					var:tesla_civil_engineering_progress_var > tesla_topographic_map_progress_cost
 				}
 				#Adds Experience to the Engineer
-				civil_engineer_experience_gain_effect = { AMOUNT = 5 }
+				civil_engineer_experience_gain_effect = { AMOUNT = 3 }
 				#Effect if the priority list exists
 				if = {
 					limit = {
@@ -1250,7 +1278,7 @@ je_gaudi_topographic_map_project = {
 							remove_list_variable = {
 								name = prioritized_states_for_topographic_improvement_variable_list
 								target = prev
-							} 
+							}
 						}
 					}
 					#Chooses the first entry in the list
@@ -1270,7 +1298,7 @@ je_gaudi_topographic_map_project = {
 							remove_list_variable = {
 								name = prioritized_states_for_topographic_improvement_variable_list
 								target = prev
-							} 
+							}
 						}
 					}
 				}
@@ -1283,6 +1311,7 @@ je_gaudi_topographic_map_project = {
 					}
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
+						position = 0 #We only want the first one here
 						limit = {
 							is_incorporated = yes
 							NOT = { has_modifier = gaudi_topographic_state_map_modifier }
@@ -1296,6 +1325,7 @@ je_gaudi_topographic_map_project = {
 				else = {
 					#The state with the least available infrastructure will be chosen
 					ordered_scope_state = {
+						position = 0 #We only want the first one here
 						limit = { NOT = { has_modifier = gaudi_topographic_state_map_modifier } }
 						order_by = tesla_infrastructure_balance
 						add_modifier = {
@@ -1351,7 +1381,7 @@ je_gaudi_topographic_map_project = {
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_low_cost_modifier
+			remove_modifier = tesla_small_engineering_project_cost_modifier
 		}
 		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_states_with_topographic_map_var
@@ -1403,12 +1433,12 @@ je_gaudi_topographic_map_project = {
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_low_cost_modifier
+			remove_modifier = tesla_small_engineering_project_cost_modifier
 		}
 		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_states_with_topographic_map_var
 		remove_variable = gaudi_stop_engineering_project_var
-		
+
 		#Those should be removed in every civil engineering je
 		remove_variable = tesla_civil_engineering_progress_var
 		remove_variable = gaudi_monthly_civil_engineering_progress_var
@@ -1476,12 +1506,6 @@ je_gaudi_mechanical_research_project = {
 		tesla_has_mechanical_engineer_no_tooltip_trigger = no
 	}
 
-	on_invalid = {
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-	}
-
 	weight = 30
 
 	should_be_pinned_by_default = no
@@ -1520,6 +1544,7 @@ je_gaudi_new_locomotives_project = {
 					}
 					#The railways with the most building levels will be chosen
 					ordered_scope_building = {
+						position = 0 #We only want the first one here
 						limit = {
 							NOT = { has_modifier = gaudi_locomotive_tier_1_modifier }
 							is_building_type = building_railway
@@ -1558,6 +1583,7 @@ je_gaudi_new_locomotives_project = {
 					}
 					#The railways with the most building levels will be chosen
 					ordered_scope_building = {
+						position = 0 #We only want the first one here
 						limit = {
 							NOT = { has_modifier = gaudi_locomotive_tier_2_modifier }
 							is_building_type = building_railway
@@ -1596,6 +1622,7 @@ je_gaudi_new_locomotives_project = {
 					}
 					#The railways with the most building levels will be chosen
 					ordered_scope_building = {
+						position = 0 #We only want the first one here
 						limit = {
 							NOT = { has_modifier = gaudi_locomotive_tier_3_modifier }
 							is_building_type = building_railway
@@ -1634,6 +1661,7 @@ je_gaudi_new_locomotives_project = {
 					}
 					#The railways with the most building levels will be chosen
 					ordered_scope_building = {
+						position = 0 #We only want the first one here
 						limit = {
 							NOT = { has_modifier = gaudi_locomotive_tier_4_modifier }
 							is_building_type = building_railway
@@ -1665,6 +1693,7 @@ je_gaudi_new_locomotives_project = {
 				else = {
 					#The railways with the most building levels will be chosen
 					ordered_scope_building = {
+						position = 0 #We only want the first one here
 						limit = {
 							NOT = { has_modifier = gaudi_locomotive_tier_5_modifier }
 							is_building_type = building_railway
@@ -1807,7 +1836,7 @@ je_gaudi_new_locomotives_project = {
 		remove_variable = gaudi_num_railway_buildings_with_fourth_modifier_var
 		remove_variable = gaudi_num_railway_buildings_with_modifiers_var
 		remove_variable = gaudi_stop_engineering_project_var
-		
+
 		#Those should be removed in every mechanical engineering je
 		remove_variable = tesla_mechanical_engineering_progress_var
 		remove_variable = gaudi_monthly_mechanical_engineering_progress_var
@@ -1928,9 +1957,11 @@ je_gaudi_modernizing_industries_project = {
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+			scope:journal_entry = {
+				remove_modifier = tesla_medium_engineering_project_cost_modifier
+			}
 		}
-		
+
 		#Those should be removed in every mechanical engineering je
 		remove_variable = tesla_mechanical_engineering_progress_var
 		remove_variable = gaudi_monthly_mechanical_engineering_progress_var
@@ -1974,9 +2005,11 @@ je_gaudi_modernizing_industries_project = {
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+			scope:journal_entry = {
+				remove_modifier = tesla_medium_engineering_project_cost_modifier
+			}
 		}
-		
+
 		#Those should be removed in every mechanical engineering je
 		remove_variable = tesla_mechanical_engineering_progress_var
 		remove_variable = gaudi_monthly_mechanical_engineering_progress_var
@@ -2182,12 +2215,6 @@ je_gaudi_military_research_project = {
 		tesla_has_military_engineer_no_tooltip_trigger = no
 	}
 
-	on_invalid = {
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-	}
-
 	weight = 30
 
 	should_be_pinned_by_default = no
@@ -2258,15 +2285,15 @@ je_gaudi_advanced_weapons_project = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		tesla_remove_je_cost_modifiers_effect = yes
-		
+
 		#Those should be removed in every military engineering je
 		remove_variable = tesla_military_engineering_progress_var
 		remove_variable = gaudi_monthly_military_engineering_progress_var
@@ -2311,7 +2338,7 @@ je_gaudi_advanced_weapons_project = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		tesla_remove_je_cost_modifiers_effect = yes
 		remove_variable = gaudi_stop_engineering_project_var
-		
+
 		#Those should be removed in every military engineering je
 		remove_variable = tesla_military_engineering_progress_var
 		remove_variable = gaudi_monthly_military_engineering_progress_var
@@ -2363,15 +2390,15 @@ je_gaudi_advanced_tanks_project = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		tesla_remove_je_cost_modifiers_effect = yes
-		
+
 		#Those should be removed in every military engineering je
 		remove_variable = tesla_military_engineering_progress_var
 		remove_variable = gaudi_monthly_military_engineering_progress_var
@@ -2416,7 +2443,7 @@ je_gaudi_advanced_tanks_project = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		tesla_remove_je_cost_modifiers_effect = yes
 		remove_variable = gaudi_stop_engineering_project_var
-		
+
 		#Those should be removed in every military engineering je
 		remove_variable = tesla_military_engineering_progress_var
 		remove_variable = gaudi_monthly_military_engineering_progress_var
@@ -2468,15 +2495,15 @@ je_gaudi_advanced_defence_project = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		tesla_remove_je_cost_modifiers_effect = yes
-		
+
 		#Those should be removed in every military engineering je
 		remove_variable = tesla_military_engineering_progress_var
 		remove_variable = gaudi_monthly_military_engineering_progress_var
@@ -2521,7 +2548,7 @@ je_gaudi_advanced_defence_project = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		tesla_remove_je_cost_modifiers_effect = yes
 		remove_variable = gaudi_stop_engineering_project_var
-		
+
 		#Those should be removed in every military engineering je
 		remove_variable = tesla_military_engineering_progress_var
 		remove_variable = gaudi_monthly_military_engineering_progress_var
@@ -2553,7 +2580,7 @@ je_gaudi_electrical_research_project = {
 	scripted_progress_bar = tesla_electrical_engineering_research_project_progress_bar
 
 	on_monthly_pulse = {
-		effect = {			
+		effect = {
 			#Calculates and executes potential effects
 			if = {
 				limit = { tesla_has_active_engineer_no_tooltip_trigger = yes }
@@ -2583,12 +2610,6 @@ je_gaudi_electrical_research_project = {
 
 	invalid = {
 		tesla_has_electrical_engineer_no_tooltip_trigger = no
-	}
-
-	on_invalid = {
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
 	}
 
 	weight = 30
@@ -2630,8 +2651,8 @@ je_gaudi_magnetic_observation = {
 			}
 			count >= 10
 		}
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
@@ -2734,14 +2755,15 @@ je_gaudi_telegraphy_network = {
 					var:tesla_electrical_engineering_progress_var >= 12
 				}
 				#Electrical Engineer gets experience
-				electrical_engineer_experience_gain_effect = { AMOUNT = 10 }
+				electrical_engineer_experience_gain_effect = { AMOUNT = 3 }
 				#The state with the next available telegraph office will be chosen
 				random_scope_state = {
 					limit = {
 						has_building = building_railway
-						NOT = {
-							any_scope_building = {
-								is_building_type = building_railway
+						any_scope_building = {
+							is_building_type = building_railway
+							level > 0
+							NOT = {
 								has_active_production_method = pm_gaudi_telegraph_office
 							}
 						}
@@ -2787,11 +2809,12 @@ je_gaudi_telegraphy_network = {
 	}
 
 	complete = {
-		any_scope_state = {
-			any_scope_building = {
+		any_scope_building = {
+			filter = {
 				is_building_type = building_railway
-				has_active_production_method = pm_gaudi_telegraph_office
+				level > 0
 			}
+			has_active_production_method = pm_gaudi_telegraph_office
 			percent >= 1
 		}
 	}
@@ -2873,14 +2896,15 @@ je_gaudi_radio_network = {
 					var:tesla_electrical_engineering_progress_var >= 12
 				}
 				#Electrical Engineer gets experience
-				electrical_engineer_experience_gain_effect = { AMOUNT = 10 }
+				electrical_engineer_experience_gain_effect = { AMOUNT = 3 }
 				#The state with the next available telegraph office will be chosen
 				random_scope_state = {
 					limit = {
 						has_building = building_railway
-						NOT = {
-							any_scope_building = {
-								is_building_type = building_railway
+						any_scope_building = {
+							is_building_type = building_railway
+							level > 0
+							NOT = {
 								has_active_production_method = pm_elgar_radio_stations
 							}
 						}
@@ -2916,11 +2940,12 @@ je_gaudi_radio_network = {
 	}
 
 	complete = {
-		any_scope_state = {
-			any_scope_building = {
+		any_scope_building = {
+			filter = {
 				is_building_type = building_railway
-				has_active_production_method = pm_elgar_radio_stations
+				level > 0
 			}
+			has_active_production_method = pm_elgar_radio_stations
 			percent >= 1
 		}
 	}
@@ -3111,12 +3136,6 @@ je_gaudi_aviation_research_project = {
 		tesla_has_aeronautical_engineer_no_tooltip_trigger = no
 	}
 
-	on_invalid = {
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-	}
-
 	weight = 30
 
 	should_be_pinned_by_default = no
@@ -3223,9 +3242,9 @@ je_gaudi_civil_airports_project = {
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+			remove_modifier = tesla_medium_engineering_project_cost_modifier
 		}
-		
+
 		#Those should be removed in every aeronautical engineering je
 		remove_variable = tesla_aeronautical_engineering_progress_var
 		remove_variable = gaudi_monthly_aeronautical_engineering_progress_var
@@ -3269,9 +3288,9 @@ je_gaudi_civil_airports_project = {
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+			remove_modifier = tesla_medium_engineering_project_cost_modifier
 		}
-		
+
 		#Those should be removed in every aeronautical engineering je
 		remove_variable = tesla_aeronautical_engineering_progress_var
 		remove_variable = gaudi_monthly_aeronautical_engineering_progress_var
@@ -3323,15 +3342,15 @@ je_gaudi_advanced_airplanes_project = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		tesla_remove_je_cost_modifiers_effect = yes
-		
+
 		#Those should be removed in every aeronautical engineering je
 		remove_variable = tesla_aeronautical_engineering_progress_var
 		remove_variable = gaudi_monthly_aeronautical_engineering_progress_var
@@ -3376,7 +3395,7 @@ je_gaudi_advanced_airplanes_project = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		tesla_remove_je_cost_modifiers_effect = yes
 		remove_variable = gaudi_stop_engineering_project_var
-		
+
 		#Those should be removed in every aeronautical engineering je
 		remove_variable = tesla_aeronautical_engineering_progress_var
 		remove_variable = gaudi_monthly_aeronautical_engineering_progress_var
@@ -3411,7 +3430,7 @@ je_tesla_transatlantic_cable = {
 	group = je_group_tesla_engineers
 
 	immediate = {
-		
+
 	}
 
 	on_monthly_pulse = {
@@ -3545,7 +3564,7 @@ je_tesla_suez_india_cable = {
 	group = je_group_tesla_engineers
 
 	immediate = {
-		
+
 	}
 
 	on_monthly_pulse = {
@@ -3678,7 +3697,7 @@ je_tesla_transpacific_cable = {
 	group = je_group_tesla_engineers
 
 	immediate = {
-		
+
 	}
 
 	on_monthly_pulse = {

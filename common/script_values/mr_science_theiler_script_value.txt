@@ -1,0 +1,382 @@
+﻿#########################
+# THEILER SCRPIT VALUES #
+#########################
+
+############################################################################
+
+### Biologist Rating ###
+theiler_biologist_character_rating_value = {
+	### Experience: 1 point per 50 Experience ###
+	value = var:theiler_biologist_experience_var
+	divide = 50
+	### Positive Traits ###
+	#Experience Trait
+	if = {
+		limit = {
+			has_trait = theiler_biologist_famous
+		}
+		add = 3
+	}
+	else_if = {
+		limit = {
+			has_trait = theiler_biologist_experienced
+		}
+		add = 2
+	}
+	else = {
+		add = 1
+	}
+	#General
+	if = {
+		limit = {
+			has_trait = theiler_microbiologist
+		}
+		add = 3
+	}
+	if = {
+		limit = {
+			OR = {
+				has_trait = panum_physician
+				has_trait = panum_physician_experienced
+				has_trait = panum_physician_famous
+			}
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_trait = panum_epidemiologist
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_trait = ito_botanist
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_trait = meticulous
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = innovative
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = persistent
+		}
+		add = 1
+	}
+	### Negative Traits ###
+	if = {
+		limit = {
+			has_trait = alcoholic
+		}
+		subtract = 2
+	}
+	if = {
+		limit = {
+			has_trait = opium_addiction
+		}
+		subtract = 2
+	}
+	if = {
+		limit = {
+			has_trait = cocaine_addiction
+		}
+		subtract = 2
+	}
+	if = {
+		limit = {
+			has_trait = senile
+		}
+		subtract = 5
+	}
+	### Age Factor, the older the worse for the rating ###
+	if = {
+		limit = { age > 30 }
+		subtract = 1
+	}
+	if = {
+		limit = { age > 40 }
+		subtract = 2
+	}
+	if = {
+		limit = { age > 50 }
+		subtract = 3
+	}
+	if = {
+		limit = { age > 60 }
+		subtract = 4
+	}
+	if = {
+		limit = { age > 70 }
+		subtract = 5
+	}
+}
+
+#Value used to determine how many microorganisms the Microrganism Research will find per month
+theiler_microorganisms_research_monthly_microorganisms_value = {
+	#Base Microorganisms
+	value = { 1 5 }
+
+	#Early Compound Microscope
+	if = {
+		limit = {
+			var:theiler_microscope_var ?= flag:theiler_early_compound_microscope_flag
+		}
+		add = 5
+	}
+
+	#Achromatic Microscope
+	if = {
+		limit = {
+			var:theiler_microscope_var ?= flag:theiler_achromatic_microscope_flag
+		}
+		add = 10
+	}
+
+	#Electron Microscope
+	if = {
+		limit = {
+			var:theiler_microscope_var ?= flag:theiler_electron_microscope_flag
+		}
+		add = 20
+	}
+
+	#Experience of Biologist
+	if = {
+		limit = {
+			theiler_has_biologist_no_tooltip_trigger = yes
+		}
+		add = {
+			value = var:theiler_biologist_var.var:theiler_biologist_experience_var
+			divide = 30
+		}
+	}
+
+	#Microbiologist Trait
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				has_trait = theiler_microbiologist
+			}
+		}
+		multiply = 2
+	}
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				has_trait = persistent
+			}
+		}
+		multiply = 1.2
+	}
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				has_trait = meticulous
+			}
+		}
+		multiply = 1.2
+	}
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				has_trait = innovative
+			}
+		}
+		multiply = 1.1
+	}
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				has_trait = senile
+			}
+		}
+		multiply = 0.5
+	}
+
+	round = yes
+}
+
+############################################################################
+
+### Project Bonuses Script Vanlues ###
+
+theiler_project_progress_from_biologist_experience_no_tt_value = {
+	add = {
+		value = var:theiler_biologist_var.var:theiler_biologist_experience_var
+		divide = 300
+	}
+}
+theiler_project_progress_from_biologist_experience_value = {
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				has_variable = theiler_biologist_experience_var
+			}
+		}
+		add = {
+			desc = "theiler_disease_project_progress_biologist_experience_tt"
+			value = var:theiler_biologist_var.var:theiler_biologist_experience_var
+			divide = 300
+		}
+	}
+}
+
+theiler_project_progress_from_microbiologist_trait_experience_value = {
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				has_trait = theiler_microbiologist
+			}
+		}
+		add = {
+			desc = "theiler_disease_project_progress_biologist_microbiologist_trait_tt"
+			value = 1
+		}
+	}
+}
+
+theiler_project_progress_from_physician_trait_experience_value = {
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				has_trait = panum_physician
+			}
+		}
+		add = {
+			desc = "theiler_disease_project_progress_biologist_physician_trait_tt"
+			value = 0.5
+		}
+	}
+}
+
+theiler_project_progress_from_chemist_trait_experience_value = {
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				has_trait = mendelejew_chemist
+			}
+		}
+		add = {
+			desc = "theiler_disease_project_progress_biologist_chemist_trait_tt"
+			value = 0.5
+		}
+	}
+}
+
+theiler_project_progress_from_meticulous_trait_experience_value = {
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				has_trait = meticulous
+			}
+		}
+		add = {
+			desc = "theiler_disease_project_progress_biologist_meticulous_trait_tt"
+			value = 0.25
+		}
+	}
+}
+
+theiler_project_progress_from_innovative_trait_experience_value = {
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				has_trait = innovative
+			}
+		}
+		add = {
+			desc = "theiler_disease_project_progress_biologist_innovative_trait_tt"
+			value = 0.25
+		}
+	}
+}
+
+theiler_project_progress_from_persistent_trait_experience_value = {
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				has_trait = persistent
+			}
+		}
+		add = {
+			desc = "theiler_disease_project_progress_biologist_persistent_trait_tt"
+			value = 0.1
+		}
+	}
+}
+
+theiler_project_progress_from_ambitious_trait_experience_value = {
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				has_trait = ambitious
+			}
+		}
+		add = {
+			desc = "theiler_disease_project_progress_biologist_ambitious_trait_tt"
+			value = 0.1
+		}
+	}
+}
+
+theiler_project_progress_from_negative_trait_experience_value = {
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				OR = {
+					has_trait = alcoholic
+					has_trait = expensive_tastes
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = syphilis
+					has_trait = psychological_affliction
+					has_trait = panum_cholera
+					has_trait = panum_tuberculosis
+					has_trait = panum_yellow_fever
+				}
+			}
+		}
+		add = {
+			desc = "theiler_disease_project_progress_biologist_negative_body_trait_tt"
+			value = -0.35
+		}
+	}
+}
+
+theiler_project_progress_from_senile_trait_experience_value = {
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				has_trait = senile
+			}
+		}
+		add = {
+			desc = "theiler_disease_project_progress_biologist_senile_trait_tt"
+			value = -0.5
+		}
+	}
+}
+
+theiler_project_progress_from_botanist_trait_experience_value = {
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				has_trait = ito_botanist
+			}
+		}
+		add = {
+			desc = "theiler_medicinal_plant_project_progress_biologist_botanist_trait_tt"
+			value = 1
+		}
+	}
+}

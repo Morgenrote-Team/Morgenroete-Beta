@@ -94,7 +94,7 @@ mr_architect_modern_splendour_button_sgui = {
 }
 mr_architect_modern_splendour_active_sgui = {
 	scope = country
-	
+
 	is_shown = {
 		OR = {
 			has_journal_entry = je_gaudi_splendour_bauhaus
@@ -137,7 +137,7 @@ mr_architect_public_construction_button_sgui = {
 }
 mr_architect_public_construction_button_active_sgui = {
 	scope = country
-	
+
 	is_shown = {
 		has_journal_entry = je_gaudi_public_construction
 		gaudi_has_active_architect_no_tooltip_trigger = yes
@@ -201,7 +201,7 @@ mr_architect_study_trip_button_sgui = {
 }
 mr_architect_study_trip_button_active_sgui = {
 	scope = country
-	
+
 	is_shown = {
 		has_journal_entry = je_gaudi_study_trip
 	}
@@ -244,7 +244,7 @@ mr_architect_treatise_button_sgui = {
 			}
 		}
 		trigger_if = {
-			limit = { 
+			limit = {
 				has_variable = gaudi_architecture_treatise_var
 			}
 			custom_tooltip = {
@@ -287,7 +287,7 @@ mr_architect_treatise_button_sgui = {
 }
 mr_architect_treatise_button_active_sgui = {
 	scope = country
-	
+
 	is_shown = {
 		has_journal_entry = je_gaudi_architecture_treatise
 	}
@@ -328,9 +328,10 @@ mr_architect_urban_planning_button_sgui = {
 				is_ai = yes
 			}
 			ordered_scope_building = {
+				position = 0 #We only want the first one here
 				limit = {
-					level > 0
 					is_building_type = building_urban_center
+					level > 0
 					NAND = {
 						has_modifier = gaudi_urban_building_throughput_add_modifier
 						has_modifier = gaudi_urban_building_production_mult_modifier
@@ -347,7 +348,7 @@ mr_architect_urban_planning_button_sgui = {
 			je:je_gaudi_urban_planning_project = {
 				add_modifier = {
 					name = gaudi_urban_planning_cost_modifier
-					multiplier = money_amount_multiplier_small
+					multiplier = root.mr_local_project_cost_very_small_value
 				}
 			}
 			if = {
@@ -372,7 +373,6 @@ mr_architect_urban_planning_button_sgui = {
 					}
 				}
 				order_by = earnings
-				max = 1000
 				check_range_bounds = no
 
 				root = {
@@ -386,7 +386,7 @@ mr_architect_urban_planning_button_sgui = {
 			show_as_tooltip = {
 				add_modifier = {
 					name = gaudi_urban_planning_cost_modifier
-					multiplier = money_amount_multiplier_small
+					multiplier = mr_local_project_cost_very_small_value
 				}
 			}
 		}
@@ -426,18 +426,12 @@ mr_rchitect_urban_planning_window_chose_button_sgui = {
 		je:je_gaudi_urban_planning_project = {
 			add_modifier = {
 				name = gaudi_urban_planning_cost_modifier
-				multiplier = money_amount_multiplier_small
+				multiplier = root.mr_local_project_cost_very_small_value
 			}
 		}
 		remove_variable = gaudi_urban_planning_project_building_choser_var
 		var:gaudi_architect_var = {
 			set_character_busy_and_immortal = yes
-		}
-		show_as_tooltip = {
-			add_modifier = {
-				name = gaudi_urban_planning_cost_modifier
-				multiplier = money_amount_multiplier_small
-			}
 		}
 	}
 }
@@ -499,7 +493,7 @@ mr_architect_custom_monument_blueprint_button_sgui = {
 			popup = yes
 		}
 		if = {
-			limit = { 
+			limit = {
 				has_variable = gaudi_architect_var
 			}
 			var:gaudi_architect_var = {
@@ -550,9 +544,9 @@ mr_architect_capital_expansion_button_sgui = {
 		#Level 1 Trigger: Traditional Architect
 		mr_gui_has_urban_planning_tech_trigger = yes
 		mr_gui_has_classicism_tech_trigger = yes
-		#Level 2 Trigger: Historicist Architect 
+		#Level 2 Trigger: Historicist Architect
 		trigger_if = {
-			limit = { 
+			limit = {
 				capital = {
 					has_modifier = gaudi_capital_expansion_level_1_modifier
 				}
@@ -574,7 +568,7 @@ mr_architect_capital_expansion_button_sgui = {
 		}
 		#Level 3 Trigger: Historicist Architect
 		trigger_if = {
-			limit = { 
+			limit = {
 				capital = {
 					has_modifier = gaudi_capital_expansion_level_2_modifier
 				}
@@ -596,7 +590,7 @@ mr_architect_capital_expansion_button_sgui = {
 		}
 		#Level 4 Trigger: Modern Architect
 		trigger_if = {
-			limit = { 
+			limit = {
 				capital = {
 					has_modifier = gaudi_capital_expansion_level_3_modifier
 				}
@@ -624,12 +618,12 @@ mr_architect_capital_expansion_button_sgui = {
 		show_as_tooltip = {
 			add_modifier = {
 				name = gaudi_capital_expansion_cost_modifier
-				multiplier = money_amount_multiplier_small
+				multiplier = mr_local_project_cost_very_small_value
 			}
 		}
 		add_journal_entry = { type = je_gaudi_capital_expansion_project }
 		if = {
-			limit = { 
+			limit = {
 				has_variable = gaudi_architect_var
 			}
 			var:gaudi_architect_var = {
@@ -658,6 +652,13 @@ mr_architect_blueprints_monument_button_sgui = {
 		}
 	}
     is_valid = {
+		custom_tooltip = {
+			text = MR_NOT_ALREADY_CHOOSING_BLUEPRINT_TRIGGER_TT
+			NOR = {
+				has_variable = gaudi_blueprint_selection_var
+				has_journal_entry = je_gaudi_blueprint_research
+			}
+		}
 		custom_tooltip = {
 			text = MR_ARCHITECT_ACTIVE_TRIGGER_TT
 			gaudi_has_active_architect = yes
@@ -715,6 +716,13 @@ mr_architect_blueprints_square_button_sgui = {
 	}
     is_valid = {
 		custom_tooltip = {
+			text = MR_NOT_ALREADY_CHOOSING_BLUEPRINT_TRIGGER_TT
+			NOR = {
+				has_variable = gaudi_blueprint_selection_var
+				has_journal_entry = je_gaudi_blueprint_research
+			}
+		}
+		custom_tooltip = {
 			text = MR_ARCHITECT_ACTIVE_TRIGGER_TT
 			gaudi_has_active_architect = yes
 		}
@@ -770,6 +778,13 @@ mr_architect_blueprints_service_button_sgui = {
 		}
 	}
     is_valid = {
+		custom_tooltip = {
+			text = MR_NOT_ALREADY_CHOOSING_BLUEPRINT_TRIGGER_TT
+			NOR = {
+				has_variable = gaudi_blueprint_selection_var
+				has_journal_entry = je_gaudi_blueprint_research
+			}
+		}
 		custom_tooltip = {
 			text = MR_ARCHITECT_ACTIVE_TRIGGER_TT
 			gaudi_has_active_architect = yes
@@ -830,6 +845,13 @@ mr_architect_blueprints_health_button_sgui = {
 	}
     is_valid = {
 		custom_tooltip = {
+			text = MR_NOT_ALREADY_CHOOSING_BLUEPRINT_TRIGGER_TT
+			NOR = {
+				has_variable = gaudi_blueprint_selection_var
+				has_journal_entry = je_gaudi_blueprint_research
+			}
+		}
+		custom_tooltip = {
 			text = MR_ARCHITECT_ACTIVE_TRIGGER_TT
 			gaudi_has_active_architect = yes
 		}
@@ -888,6 +910,13 @@ mr_architect_blueprints_academy_button_sgui = {
 		}
 	}
     is_valid = {
+		custom_tooltip = {
+			text = MR_NOT_ALREADY_CHOOSING_BLUEPRINT_TRIGGER_TT
+			NOR = {
+				has_variable = gaudi_blueprint_selection_var
+				has_journal_entry = je_gaudi_blueprint_research
+			}
+		}
 		custom_tooltip = {
 			text = MR_ARCHITECT_ACTIVE_TRIGGER_TT
 			gaudi_has_active_architect = yes
@@ -965,7 +994,7 @@ mr_invite_architect_button_sgui = {
 					AND = {
 						has_variable = gaudi_architect_unavailable_for_this_var
 						var:gaudi_architect_unavailable_for_this_var = root
-					}				
+					}
 				}
 			}
 		}

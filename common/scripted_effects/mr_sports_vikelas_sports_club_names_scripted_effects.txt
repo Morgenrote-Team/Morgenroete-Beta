@@ -1,0 +1,2623 @@
+﻿##############################################
+# VIKELAS SPORTS CLUB NAMES SCRIPTED EFFECTS #
+##############################################
+
+#by Lord R & Marco Dandolo
+
+#############################
+
+###General Effects###
+
+#Effect to add a sports club to the list of Sports Club
+# SPORT = name of the sport e.g. football
+# FLAG = loc string with the name of the club
+vikelas_add_sports_club_to_list_effect = {
+	add_to_variable_list = {
+		name = vikelas_$SPORT$_clubs_variable_list
+		target = flag:$FLAG$
+	}
+}
+
+### New Sports Club Effect ###
+# SPORT = name of the sport e.g. football
+vikelas_create_new_sports_club_effect = {
+	if = {
+		limit = {
+			any_scope_state = {
+				is_incorporated = yes
+				is_production_method_active = {
+					building_type = building_vikelas_sports
+					production_method = pm_vikelas_no_$SPORT$_club
+				}
+			}
+		}
+
+		set_variable = vikelas_$SPORT$_country_var
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				is_production_method_active = {
+					building_type = building_vikelas_sports
+					production_method = pm_vikelas_no_$SPORT$_club
+				}
+			}
+			activate_production_method = {
+				building_type = building_vikelas_sports
+				production_method = pm_vikelas_$SPORT$_club
+			}
+			save_scope_as = vikelas_club_state_scope
+			random_in_list = {
+				variable = vikelas_$SPORT$_clubs_variable_list
+				scope:vikelas_club_state_scope = {
+					set_variable = {
+						name = vikelas_chosen_$SPORT$_club_var
+						value = prev
+					}
+				}
+			}
+		}
+		post_notification = vikelas_new_$SPORT$_club
+	}
+}
+
+### Champion Effect ###
+# SPORT = name of the sport e.g. football
+vikelas_set_new_league_champion_effect = {
+	if = {
+		limit = {
+			any_scope_state = {
+				has_modifier = vikelas_national_league_champion_modifier
+			}
+		}
+		every_scope_state = {
+			limit = {
+				has_modifier = vikelas_national_league_champion_modifier
+			}
+			remove_modifier = vikelas_national_league_champion_modifier
+		}
+	}
+	if = {
+		limit = {
+			any_scope_state = {
+				is_production_method_active = {
+					building_type = building_vikelas_sports
+					production_method = pm_vikelas_$SPORT$_club
+				}
+				count >= 2
+			}
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_vikelas_sports
+					has_active_production_method = pm_vikelas_$SPORT$_club
+				}
+			}
+			save_scope_as = vikelas_rival_state_1_scope
+			random_in_list = {
+				variable = vikelas_$SPORT$_clubs_variable_list
+				scope:vikelas_rival_state_1_scope = {
+					set_variable = {
+						name = vikelas_chosen_$SPORT$_club_var
+						value = prev
+					}
+				}
+			}
+			add_modifier = {
+				name = vikelas_national_league_champion_modifier
+				days = 365
+			}
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_vikelas_sports
+					has_active_production_method = pm_vikelas_$SPORT$_club
+				}
+				NOT = { this = scope:vikelas_rival_state_1_scope }
+			}
+			save_scope_as = vikelas_rival_state_2_scope
+			random_in_list = {
+				variable = vikelas_$SPORT$_clubs_variable_list
+				scope:vikelas_rival_state_2_scope = {
+					set_variable = {
+						name = vikelas_chosen_$SPORT$_club_var
+						value = prev
+					}
+				}
+			}
+		}
+
+		set_variable = {
+			name = vikelas_national_league_champion_var
+			value = scope:vikelas_rival_state_1_scope
+		}
+		post_notification = vikelas_national_$SPORT$_league_champion
+	}
+}
+
+### Chosen Sports Club name Effect ###
+# SPORT = name of the sport e.g. football
+# SCOPE = scope of a state
+vikelas_set_chosen_sports_club_effect = {
+	scope:$SCOPE$ = {
+		random_in_list = {
+			variable = vikelas_$SPORT$_clubs_variable_list
+			scope:$SCOPE$ = {
+				set_variable = {
+					name = vikelas_chosen_$SPORT$_club_var
+					value = prev
+				}
+			}
+		}
+	}
+}
+### Sports Club Names set on States ###
+vikelas_set_sports_club_name_if_missing_effect = {
+	if = {
+		limit = {
+			NOT = { has_variable = vikelas_applied_sports_clubs }
+		}
+
+		set_variable = vikelas_applied_sports_clubs
+		vikelas_assign_baseball_clubs_to_state_effect = yes
+		vikelas_assign_basketball_clubs_to_state_effect = yes
+		vikelas_assign_cricket_clubs_to_state_effect = yes
+		vikelas_assign_football_clubs_to_state_effect = yes
+	}
+}
+
+### Baseball Clubs ###
+vikelas_assign_baseball_clubs_to_state_effect = {
+	clear_variable_list = vikelas_baseball_clubs_variable_list
+	### USA ###
+	if = { # Alabama
+		limit = {
+			state_region = s:STATE_ALABAMA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_AL_alabama_crimson_tide_loc }
+	}
+	else_if = { # Alaska
+		limit = {
+			state_region = s:STATE_ALASKA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_AK_roaring_gimlets_loc }
+	}
+	else_if = { # Arizona
+		limit = {
+			state_region = s:STATE_ARIZONA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_AZ_old_pueblos_loc }
+	}
+	else_if = { # Arkansas
+		limit = {
+			state_region = s:STATE_ARKANSAS
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_AR_little_rock_travelers_loc }
+	}
+	else_if = { # California
+		limit = {
+			state_region = s:STATE_CALIFORNIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_CA_san_francisco_giants_loc }
+	}
+	else_if = { # Colorado
+		limit = {
+			state_region = s:STATE_COLORADO
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_CO_denver_bears_loc }
+	}
+	else_if = { # Connecticut
+		limit = {
+			state_region = s:STATE_CONNECTICUT
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_CT_middletown_mansfields_loc }
+	}
+	else_if = { # Delaware
+		limit = {
+			state_region = s:STATE_DELAWARE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_DE_wilmington_quicksteps_loc }
+	}
+	else_if = { # D.C.
+		limit = {
+			state_region = s:STATE_DISTRICT_OF_COLUMBIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_DC_washington_nationals_loc }
+	}
+	else_if = { # Florida
+		limit = {
+			state_region = s:STATE_FLORIDA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_FL_tampa_smokers_loc }
+	}
+	else_if = { # Georgia
+		limit = {
+			state_region = s:STATE_HAWAIIAN_ISLANDS
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_HI_hawaii_rainbow_warriors_loc }
+	}
+	else_if = { # Hawaii
+		limit = {
+			state_region = s:STATE_ALASKA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_AK_roaring_gimlets_loc }
+	}
+	else_if = { # Idaho
+		limit = {
+			state_region = s:STATE_IDAHO
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_ID_boise_fruit_pickers_loc }
+	}
+	else_if = { # Illinois
+		limit = {
+			state_region = s:STATE_ILLINOIS
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_IL_chicago_white_sox_loc }
+	}
+	else_if = { # Indiana
+		limit = {
+			state_region = s:STATE_INDIANA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_IN_fort_wayne_kekiongas_loc }
+	}
+	else_if = { # Iowa
+		limit = {
+			state_region = s:STATE_KANSAS
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_KS_topeka_westerns_loc }
+	}
+	else_if = { # Kentucky
+		limit = {
+			state_region = s:STATE_KENTUCKY
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_KY_louisville_greys_loc }
+	}
+	else_if = { # Louisiana
+		limit = {
+			state_region = s:STATE_LOUISIANA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_LA_new_orleans_pelicans_loc }
+	}
+	else_if = { # Maryland
+		limit = {
+			state_region = s:STATE_MARYLAND
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_MD_baltimore_orioles_loc }
+	}
+	else_if = { # Massachusetts
+		limit = {
+			state_region = s:STATE_MASSACHUSETTS
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_MA_boston_red_sox_loc }
+	}
+	else_if = { # Michigan
+		limit = {
+			state_region = s:STATE_MICHIGAN
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_MI_detroit_tigers_loc }
+	}
+	else_if = { # Minnesota
+		limit = {
+			state_region = s:STATE_MINNESOTA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_MN_minnesota_twins_loc }
+	}
+	else_if = { # Mississippi
+		limit = {
+			state_region = s:STATE_MISSISSIPPI
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_MS_clarksdale_cubs_loc }
+	}
+	else_if = { # Missouri
+		limit = {
+			state_region = s:STATE_MISSOURI
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_MO_st_louis_cardinals_loc }
+	}
+	else_if = { # Montana
+		limit = {
+			state_region = s:STATE_MONTANA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_MT_butte_miners_loc }
+	}
+	else_if = { # Nebraska
+		limit = {
+			state_region = s:STATE_NEBRASKA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_NE_omaha_rourkes_loc }
+	}
+	else_if = { # Nevada
+		limit = {
+			state_region = s:STATE_NEVADA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_NV_carson_silver_stars_loc }
+	}
+	else_if = { # New Hampshire
+		limit = {
+			state_region = s:STATE_NEW_HAMPSHIRE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_NH_nashua_dodgers_loc }
+	}
+	else_if = { # New Jersey
+		limit = {
+			state_region = s:STATE_NEW_JERSEY
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_NJ_elizabeth_resolutes_loc }
+	}
+	else_if = { # New Mexico
+		limit = {
+			state_region = s:STATE_NEW_MEXICO
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_NM_albuquerque_dukes_loc }
+	}
+	else_if = { # New York
+		limit = {
+			state_region = s:STATE_NEW_YORK
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_NY_yankees_loc }
+	}
+	else_if = { # North Carolina
+		limit = {
+			state_region = s:STATE_NORTH_CAROLINA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_NC_raleigh_senators_loc }
+	}
+	else_if = { # North Dakota
+		limit = {
+			state_region = s:STATE_NORTH_DAKOTA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_ND_fargo_divorcees_loc }
+	}
+	else_if = { # Ohio
+		limit = {
+			state_region = s:STATE_OHIO
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_OH_cincinnati_reds_loc }
+	}
+	else_if = { # Oklahoma
+		limit = {
+			state_region = s:STATE_OKLAHOMA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_OK_halliburton_cementers_loc }
+	}
+	else_if = { # Oregon
+		limit = {
+			state_region = s:STATE_OREGON
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_OR_portland_pioneers_loc }
+	}
+	else_if = { # Pennsylvania
+		limit = {
+			state_region = s:STATE_PENNSYLVANIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_PA_pittsburgh_pirates_loc }
+	}
+	else_if = { # Rhode Island
+		limit = {
+			state_region = s:STATE_RHODE_ISLAND
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_RI_providence_greys_loc }
+	}
+	else_if = { # South Carolina
+		limit = {
+			state_region = s:STATE_SOUTH_CAROLINA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_SC_sumter_game_cocks_loc }
+	}
+	else_if = { # South Dakota
+		limit = {
+			state_region = s:STATE_SOUTH_DAKOTA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_SD_aberdeen_pheasants_loc }
+	}
+	else_if = { # Tennessee
+		limit = {
+			state_region = s:STATE_TENNESSEE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_TN_nashville_vols_loc }
+	}
+	else_if = { # Texas
+		limit = {
+			state_region = s:STATE_TEXAS
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_TX_fort_worth_panthers_loc }
+	}
+	else_if = { # Utah
+		limit = {
+			state_region = s:STATE_UTAH
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_UT_salt_lake_city_bees_loc }
+	}
+	else_if = { # Vermont
+		limit = {
+			state_region = s:STATE_VERMONT
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_VT_montpelier_capital_citys_loc }
+	}
+	else_if = { # Virginia
+		limit = {
+			state_region = s:STATE_VIRGINIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_VA_richmond_virginians_loc }
+	}
+	else_if = { # West Virginia
+		limit = {
+			state_region = s:STATE_WEST_VIRGINIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_WV_wheeling_stogies_loc }
+	}
+	else_if = { # Washington
+		limit = {
+			state_region = s:STATE_WASHINGTON
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_WA_seattle_rainiers_loc }
+	}
+	else_if = { # Wisconsin
+		limit = {
+			state_region = s:STATE_WISCONSIN
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_WI_milwaukee_brewers_loc }
+	}
+	else_if = { # Wyoming
+		limit = {
+			state_region = s:STATE_WYOMING
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_WY_buffalo_untamed_loc }
+	}
+	### Japan ###
+	else_if = { # Kanto
+		limit = {
+			state_region = s:STATE_KANTO
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_JP_kanto_dai_tokyo_loc }
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_JP_kanto_korakuen_eagles_loc }
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_JP_kanto_tokyo_kyojin_loc }
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_JP_kanto_tokyo_senators_loc }
+	}
+	else_if = { # Chubu
+		limit = {
+			state_region = s:STATE_CHUBU
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_JP_chubu_nagoya_golden_dolphins_loc }
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_JP_chubu_nagoya_baseball_club_loc }
+	}
+	else_if = { # Kansai
+		limit = {
+			state_region = s:STATE_KANSAI
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_JP_kansai_hankyu_baseball_club_loc }
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_JP_kansai_nankai_baseball_club_loc }
+		vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_JP_kansai_osaka_tigers_loc }
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_variable_list = vikelas_baseball_clubs_variable_list
+			}
+		}
+		random_list = {
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_braves_loc } }
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_cardinals_loc } }
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_cubs_loc } }
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_dodgers_loc } }
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_giants_loc } }
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_pirates_loc } }
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = baseball FLAG = vikelas_reds_loc } }
+		}
+	}
+}
+
+### Basketball Clubs ###
+vikelas_assign_basketball_clubs_to_state_effect = {
+	clear_variable_list = vikelas_basketball_clubs_variable_list
+	### Brazil ###
+	if = { # Sao Paulo
+		limit = {
+			state_region = s:STATE_SAO_PAULO
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_palmeiras_loc }
+	}
+	### Canada ###
+	else_if = { # Alberta
+		limit = {
+			state_region = s:STATE_ALBERTA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_edmonton_loc }
+	}
+	### Greece ###
+	else_if = { # Attica
+		limit = {
+			state_region = s:STATE_ATTICA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_panathinaikos_loc }
+	}
+	### Italy ###
+	else_if = { # Emilia
+		limit = {
+			state_region = s:STATE_EMILIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_virtus_loc }
+	}
+	### Russia ###
+	else_if = { # Moscow
+		limit = {
+			state_region = s:STATE_MOSCOW
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_pbc_moscow_loc }
+	}
+	### USA ###
+	else_if = { # New York
+		limit = {
+			state_region = s:STATE_NEW_YORK
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_celtics_loc }
+	}
+	else_if = { # Ohio
+		limit = {
+			state_region = s:STATE_OHIO
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_akron_loc }
+	}
+	else_if = { # Wisconsin
+		limit = {
+			state_region = s:STATE_WISCONSIN
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_sheboygan_loc }
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_variable_list = vikelas_basketball_clubs_variable_list
+			}
+		}
+		random_list = {
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_ballers_loc } }
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_bc_loc } }
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_bulls_loc } }
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_dunkers_loc } }
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_eagles_loc } }
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_hawks_loc } }
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_hoopsters_loc } }
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_lions_loc } }
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_titans_loc } }
+			1 = { vikelas_add_sports_club_to_list_effect = { SPORT = basketball FLAG = vikelas_wolves_loc } }
+		}
+	}
+}
+
+### Cricket Clubs ###
+vikelas_assign_cricket_clubs_to_state_effect = {
+	clear_variable_list = vikelas_cricket_clubs_variable_list
+	### England ###
+	if = { # Home Counties
+		limit = {
+			state_region = s:STATE_HOME_COUNTIES
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = cricket FLAG = vikelas_marylebone_loc }
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_variable_list = vikelas_cricket_clubs_variable_list
+			}
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = cricket FLAG = vikelas_generic_cricket_club_fallback_loc }
+	}
+}
+
+### Football Clubs ###
+vikelas_assign_football_clubs_to_state_effect = {
+	clear_variable_list = vikelas_football_clubs_variable_list
+	### Belgium ###
+	if = { # Flanders
+		limit = {
+			state_region = s:STATE_FLANDERS
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_brugge }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_beerschot }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_st_gilloise }
+	}
+	else_if = { # Wallonia
+		limit = {
+			state_region = s:STATE_WALLONIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_liege }
+	}
+	### England ###
+	else_if = { # East Anglia
+		limit = {
+			state_region = s:STATE_EAST_ANGLIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_ipswich_town_fc }
+	}
+	else_if = { # Home Counties
+		limit = {
+			state_region = s:STATE_HOME_COUNTIES
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_chelsea }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_crystal_palace }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_hotspur }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_royal_arsenal }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_southampton }
+	}
+	else_if = { # Lancashire
+		limit = {
+			state_region = s:STATE_LANCASHIRE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_everton }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_liverpool }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_manchester_city }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_manchester_united }
+	}
+	else_if = { # Midlands
+		limit = {
+			state_region = s:STATE_MIDLANDS
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_aston_villa }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_leicester }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_nottingham_forest }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_stoke_city }
+	}
+	else_if = { # Yorkshire
+		limit = {
+			state_region = s:STATE_YORKSHIRE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_newcastle }
+	}
+	else_if = { # West Country
+		limit = {
+			state_region = s:STATE_WEST_COUNTRY
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_coventry }
+	}
+	### France ###
+	else_if = { # Aquitaine
+		limit = {
+			state_region = s:STATE_AQUITAINE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_bordeaux }
+	}
+	else_if = { # Auvergne Limousin
+		limit = {
+			state_region = s:STATE_AUVERGNE_LIMOUSIN
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_stade_clermontois }
+	}
+	else_if = { # Brittany
+		limit = {
+			state_region = s:STATE_BRITTANY
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_guingamp }
+	}
+	else_if = { # Burgundy
+		limit = {
+			state_region = s:STATE_BURGUNDY
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_auxerre }
+	}
+	else_if = { # Champagne
+		limit = {
+			state_region = s:STATE_CHAMPAGNE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_reims }
+	}
+	else_if = { # Corsica
+		limit = {
+			state_region = s:STATE_CORSICA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_bastia }
+	}
+	else_if = { # Elsace-Lorraine
+		limit = {
+			state_region = s:STATE_ALSACE_LORRAINE
+			owner = {
+				OR = {
+					country_has_primary_culture = cu:french
+					country_has_primary_culture = cu:francoprovencal
+				}
+			}
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_strasbourg }
+	}
+	else_if = { # Franche-Comte
+		limit = {
+			state_region = s:STATE_FRANCHE_COMTE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_sochaux }
+	}
+	else_if = { # French Low Countries
+		limit = {
+			state_region = s:STATE_FRENCH_LOW_COUNTRIES
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_lille }
+	}
+	else_if = { # Guyenne
+		limit = {
+			state_region = s:STATE_GUYENNE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_rodez }
+	}
+	else_if = { # Ile de France
+		limit = {
+			state_region = s:STATE_ILE_DE_FRANCE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_club_francais }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_standard_athletic_club }
+	}
+	else_if = { # Languedoc
+		limit = {
+			state_region = s:STATE_LANGUEDOC
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_sete }
+	}
+	else_if = { # Lorraine
+		limit = {
+			state_region = s:STATE_LORRAINE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_nancy }
+	}
+	else_if = { # Maine Anjou
+		limit = {
+			state_region = s:STATE_MAINE_ANJOU
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_angers }
+	}
+	else_if = { # Normandy
+		limit = {
+			state_region = s:STATE_NORMANDY
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_le_havre }
+	}
+	else_if = { # Orléans
+		limit = {
+			state_region = s:STATE_ORLEANS
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_chateauroux }
+	}
+	else_if = { # Picardy
+		limit = {
+			state_region = s:STATE_PICARDY
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_amiens }
+	}
+	else_if = { # Poitou-Saintonge
+		limit = {
+			state_region = s:STATE_POITOU
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_sporting_club_poitevin }
+	}
+	else_if = { # Provence
+		limit = {
+			state_region = s:STATE_PROVENCE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_stade_helvetique }
+	}
+	else_if = { # Rhone
+		limit = {
+			state_region = s:STATE_RHONE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_lyon }
+	}
+	else_if = { # Savoy
+		limit = {
+			state_region = s:STATE_SAVOY
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_annecy }
+	}
+	### Germany ###
+	else_if = { # Alscae-Lorraine
+		limit = {
+			state_region = s:STATE_ALSACE_LORRAINE
+			owner = {
+				OR = {
+					country_has_primary_culture = cu:north_german
+					country_has_primary_culture = cu:south_german
+				}
+			}
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_neudorf }
+	}
+	else_if = { # Anhalt
+		limit = {
+			state_region = s:STATE_ANHALT
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_halle }
+	}
+	else_if = { # Baden
+		limit = {
+			state_region = s:STATE_BADEN
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_karlsruher }
+	}
+	else_if = { # Bavaria
+		limit = {
+			state_region = s:STATE_BAVARIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_bayern }
+	}
+	else_if = { # Brandenburg
+		limit = {
+			state_region = s:STATE_BRANDENBURG
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_hertha }
+	}
+	else_if = { # Brunswick
+		limit = {
+			state_region = s:STATE_BRUNSWICK
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_braunschweig }
+	}
+	else_if = { # East Prussia
+		limit = {
+			state_region = s:STATE_EAST_PRUSSIA
+			owner = {
+				OR = {
+					country_has_primary_culture = cu:north_german
+					country_has_primary_culture = cu:south_german
+				}
+			}
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_konigsberg }
+	}
+	else_if = { # Elbe
+		limit = {
+			state_region = s:STATE_ELBE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_werder }
+	}
+	else_if = { # Franconia
+		limit = {
+			state_region = s:STATE_FRANCONIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_nurnberg }
+	}
+	else_if = { # Hannover
+		limit = {
+			state_region = s:STATE_HANNOVER
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_hannover }
+	}
+	else_if = { # Hesse
+		limit = {
+			state_region = s:STATE_HESSE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_frankfurt }
+	}
+	else_if = { # Lower Silesia
+		limit = {
+			state_region = s:STATE_LOWER_SILESIA
+			owner = {
+				OR = {
+					country_has_primary_culture = cu:north_german
+					country_has_primary_culture = cu:south_german
+				}
+			}
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_breslau }
+	}
+	else_if = { # Mecklenburg
+		limit = {
+			state_region = s:STATE_MECKLENBURG
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_rostock }
+	}
+	else_if = { # North Rhine
+		limit = {
+			state_region = s:STATE_NORTH_RHINE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_koln }
+	}
+	else_if = { # Pomerania
+		limit = {
+			state_region = s:STATE_POMERANIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_greifswald }
+	}
+	else_if = { # Posen
+		limit = {
+			state_region = s:STATE_POSEN
+			owner = {
+				OR = {
+					country_has_primary_culture = cu:north_german
+					country_has_primary_culture = cu:south_german
+				}
+			}
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_posen }
+	}
+	else_if = { # Rhineland
+		limit = {
+			state_region = s:STATE_RHINELAND
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_kaiserslautern }
+	}
+	else_if = { # Ruhr
+		limit = {
+			state_region = s:STATE_RUHR
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_schalke }
+	}
+	else_if = { # Saxony
+		limit = {
+			state_region = s:STATE_SAXONY
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_leipzig }
+	}
+	else_if = { # Schleswig-Holstein
+		limit = {
+			state_region = s:STATE_SCHLESWIG_HOLSTEIN
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_kiel }
+	}
+	else_if = { # Upper Silesia
+		limit = {
+			state_region = s:STATE_UPPER_SILESIA
+			owner = {
+				OR = {
+					country_has_primary_culture = cu:north_german
+					country_has_primary_culture = cu:south_german
+				}
+			}
+		}
+		if = {
+			limit = { year >= 1905 }
+			vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_fc_preussen_05_kattowitz }
+		}
+		else = {
+			vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_fc_preussen_kattowitz }
+		}
+	}
+	else_if = { # West Prussia
+		limit = {
+			state_region = s:STATE_WEST_PRUSSIA
+			owner = {
+				OR = {
+					country_has_primary_culture = cu:north_german
+					country_has_primary_culture = cu:south_german
+				}
+			}
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_danzig }
+	}
+	else_if = { # Westphalia
+		limit = {
+			state_region = s:STATE_WESTPHALIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_bvb }
+	}
+	else_if = { # Württemberg
+		limit = {
+			state_region = s:STATE_WURTTEMBERG
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_konigsberg }
+	}
+	### Ireland ###
+	else_if = { # Connaught
+		limit = {
+			state_region = s:STATE_CONNAUGHT
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_sligo_town }
+	}
+	else_if = { # Leinster
+		limit = {
+			state_region = s:STATE_LEINSTER
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_bohemian }
+	}
+	else_if = { # Munster
+		limit = {
+			state_region = s:STATE_MUNSTER
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_fords }
+	}
+	else_if = { # Ulster
+		limit = {
+			state_region = s:STATE_ULSTER
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_cliftonville }
+	}
+	### Italy ###
+	else_if = { # Abruzzo
+		limit = {
+			state_region = s:STATE_ABRUZZO
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_pescara }
+	}
+	else_if = { # Apulia
+		limit = {
+			state_region = s:STATE_APULIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_bari }
+	}
+	else_if = { # Campania
+		limit = {
+			state_region = s:STATE_CAMPANIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_napoli }
+	}
+	else_if = { # Emilia
+		limit = {
+			state_region = s:STATE_EMILIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_piacenza }
+	}
+	else_if = { # Istria
+		limit = {
+			state_region = s:STATE_ISTRIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_trieste }
+	}
+	else_if = { # Lazio
+		limit = {
+			state_region = s:STATE_LAZIO
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_lazio }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_roma }
+	}
+	else_if = { # Lombardy
+		limit = {
+			state_region = s:STATE_LOMBARDY
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_milan }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_milano }
+	}
+	else_if = { # Piedmont
+		limit = {
+			state_region = s:STATE_PIEDMONT
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_juventus_turin }
+	}
+	else_if = { # Romagna
+		limit = {
+			state_region = s:STATE_ROMAGNA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_bologna }
+	}
+	else_if = { # Sardinia
+		limit = {
+			state_region = s:STATE_SARDINIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_cagliari }
+	}
+	else_if = { # Sicily
+		limit = {
+			state_region = s:STATE_SICILY
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_palermo }
+	}
+	else_if = { # South Tyrol
+		limit = {
+			state_region = s:STATE_SOUTH_TYROL
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_bolzano }
+	}
+	else_if = { # Tuscany
+		limit = {
+			state_region = s:STATE_TUSCANY
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_firenze }
+	}
+	else_if = { # Umbria
+		limit = {
+			state_region = s:STATE_UMBRIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_ancona }
+	}
+	else_if = { # Venetia
+		limit = {
+			state_region = s:STATE_VENETIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_verona }
+	}
+	### Netherlands ###
+	else_if = { # Friesland
+		limit = {
+			state_region = s:STATE_FRIESLAND
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_go_ahead }
+	}
+	else_if = { # Gelre
+		limit = {
+			state_region = s:STATE_GELRE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_eindhoven }
+	}
+	else_if = { # Holland
+		limit = {
+			state_region = s:STATE_HOLLAND
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_ajax_amsterdam }
+	}
+	### Portugal ###
+	else_if = { # Alentejo
+		limit = {
+			state_region = s:STATE_ALENTEJO
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_farense }
+	}
+	else_if = { # Beira
+		limit = {
+			state_region = s:STATE_BEIRA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_academica_de_coimbra }
+	}
+	else_if = { # Entre Douro e Minho
+		limit = {
+			state_region = s:STATE_ENTRE_DOURO_E_MINHO
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_porto }
+	}
+	else_if = { # Estremadura
+		limit = {
+			state_region = s:STATE_ESTREMADURA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_benfica }
+	}
+	### Scotland ###
+	else_if = { # Highlands
+		limit = {
+			state_region = s:STATE_HIGHLANDS
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_ross_county }
+	}
+	else_if = { # Lowlands
+		limit = {
+			state_region = s:STATE_LOWLANDS
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_celtic }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_rangers }
+	}
+	### Spain ###
+	else_if = { # Aragon
+		limit = {
+			state_region = s:STATE_ARAGON
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_iberia_sc }
+	}
+	else_if = { # Asturias
+		limit = {
+			state_region = s:STATE_ASTURIAS
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_gijon }
+	}
+	else_if = { # Alta Andalusia
+		limit = {
+			state_region = s:STATE_UPPER_ANDALUSIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_malaga_foot_ball_club }
+	}
+	else_if = { # Baja Andalusia
+		limit = {
+			state_region = s:STATE_LOWER_ANDALUSIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_sevilla }
+	}
+	else_if = { # Balearic Islands
+		limit = {
+			state_region = s:STATE_BALEARIC_ISLANDS
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_mallorca }
+	}
+	else_if = { # Basque Country
+		limit = {
+			state_region = s:STATE_BASQUE_COUNTRY
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_bilbao }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_real_sociedad }
+	}
+	else_if = { # Catalonia
+		limit = {
+			state_region = s:STATE_CATALONIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_barcelona }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_gimnastic_de_tarragona }
+	}
+	else_if = { # Canary Islands
+		limit = {
+			state_region = s:STATE_CANARY_ISLANDS
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_marino_futbol_club }
+	}
+	else_if = { # Castilla la Nueva
+		limit = {
+			state_region = s:STATE_NEW_CASTILE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_atletico }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_real_madrid }
+	}
+	else_if = { # Castilla la Vieja
+		limit = {
+			state_region = s:STATE_OLD_CASTILE
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_vigo }
+	}
+	else_if = { # Extremadura
+		limit = {
+			state_region = s:STATE_EXTREMADURA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_extremadura }
+	}
+	else_if = { # Galicia
+		limit = {
+			state_region = s:STATE_GALICIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_santander_racing_club }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_valladolid }
+	}
+	else_if = { # Leon
+		limit = {
+			state_region = s:STATE_LEON
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_cultural_y_deportiva_leonesa }
+	}
+	else_if = { # Murcia
+		limit = {
+			state_region = s:STATE_MURCIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_levante_foot_ball_club }
+	}
+	else_if = { # Valencia
+		limit = {
+			state_region = s:STATE_VALENCIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_valencia }
+	}
+	### Sweden ###
+	else_if = { # Gotaland
+		limit = {
+			state_region = s:STATE_GOTALAND
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_goteborg }
+	}
+	else_if = { # Gotland
+		limit = {
+			state_region = s:STATE_GOTLAND
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_gute }
+	}
+	else_if = { # Norrland
+		limit = {
+			state_region = s:STATE_NORRLAND
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_sundsvall }
+	}
+	else_if = { # Scania
+		limit = {
+			state_region = s:STATE_SCANIA
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_malmo }
+	}
+	else_if = { # Svealand
+		limit = {
+			state_region = s:STATE_SVEALAND
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_aik }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_norrkoping }
+	}
+	### Switzerland ###
+	else_if = { # East Switzerland
+		limit = {
+			state_region = s:STATE_EAST_SWITZERLAND
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_aarau }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_basel }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_grasshopper }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_luzern }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_old_boys }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_schaffhausen }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_st_gallen }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_winterthur }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_zurich }
+	}
+	else_if = { # West Switzerland
+		limit = {
+			state_region = s:STATE_WEST_SWITZERLAND
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_etoile_sporting }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_servette }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_sion }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_thun }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_young_boys }
+	}
+	### Wales ###
+	else_if = { # Wales
+		limit = {
+			state_region = s:STATE_WALES
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_cardiff }
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_swansea }
+	}
+	else = {
+		random_list = {
+			1 = { # A.C.
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:north_italian
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:south_italian
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:finnish
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:north_italian
+								is_homeland = cu:south_italian
+								is_homeland = cu:finnish
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_ac_loc }
+			}
+			1 = { # AFC
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:british
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:scottish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:irish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:welsh
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:british
+								is_homeland = cu:scottish
+								is_homeland = cu:irish
+								is_homeland = cu:welsh
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_afc_loc }
+			}
+			1 = { # Aris
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:greek
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:greek
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_aris_loc }
+			}
+			1 = { # AS
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:french
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:occitan
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:francoprovencal
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:breton
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:corsican
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:north_italian
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:south_italian
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:french
+								is_homeland = cu:occitan
+								is_homeland = cu:francoprovencal
+								is_homeland = cu:breton
+								is_homeland = cu:corsican
+								is_homeland = cu:north_italian
+								is_homeland = cu:south_italian
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_as_loc }
+			}
+			1 = { # Atletico
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:spanish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:catalan
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:galician
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:basque
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:spanish
+								is_homeland = cu:catalan
+								is_homeland = cu:galician
+								is_homeland = cu:basque
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_atletico_loc }
+			}
+			1 = { # Città
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:north_italian
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:south_italian
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:north_italian
+								is_homeland = cu:south_italian
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_citta_loc }
+			}
+			1 = { # Dynamo
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:czech
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:ukrainian
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:czech
+								is_homeland = cu:ukrainian
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_dynamo_loc }
+			}
+			1 = { # Ciudad de
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:spanish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:catalan
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:galician
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:basque
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:spanish
+								is_homeland = cu:catalan
+								is_homeland = cu:galician
+								is_homeland = cu:basque
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_ciudad_loc }
+			}
+			1 = { # Eintracht
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:north_german
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:south_german
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:north_german
+								is_homeland = cu:south_german
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_eintracht_loc }
+			}
+			1 = { # Étoile
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:francoprovencal
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:francoprovencal
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_etoile_loc }
+			}
+			1 = { # ... F.C.
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:british
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:scottish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:irish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:welsh
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:portuguese
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:british
+								is_homeland = cu:scottish
+								is_homeland = cu:irish
+								is_homeland = cu:welsh
+								is_homeland = cu:portuguese
+							}
+
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_fc_loc }
+			}
+			1 = { # F.C. ...
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:north_german
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:south_german
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:alemannic
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:portuguese
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:danish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:dutch
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:finnish
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:north_german
+								is_homeland = cu:south_german
+								is_homeland = cu:alemannic
+								is_homeland = cu:portuguese
+								is_homeland = cu:danish
+								is_homeland = cu:dutch
+								is_homeland = cu:finnish
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_fc_x_loc }
+			}
+			1 = { # F.C. ...-Sport
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:francoprovencal
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:francoprovencal
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_fc_sport_loc }
+			}
+			1 = { # F.F.
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:danish
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:danish
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_ff_loc }
+			}
+			1 = { # F.K. ...
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:norwegian
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:norwegian
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_fk_x_loc }
+			}
+			1 = { # ... F.K.
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:norwegian
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:czech
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:ukrainian
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:norwegian
+								is_homeland = cu:czech
+								is_homeland = cu:ukrainian
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_x_fk_loc }
+			}
+			1 = { # Hércules de
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:spanish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:catalan
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:galician
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:basque
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:spanish
+								is_homeland = cu:catalan
+								is_homeland = cu:galician
+								is_homeland = cu:basque
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_hercules_ESP_loc }
+			}
+			1 = { # Hermes
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:greek
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:greek
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_hermes_loc }
+			}
+			1 = { # Inter
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:north_italian
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:south_italian
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:north_italian
+								is_homeland = cu:south_italian
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_inter_loc }
+			}
+			1 = { # I.F. ...
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:swedish
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:swedish
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_if_x_loc }
+			}
+			1 = { # ... I.F.
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:swedish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:danish
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:swedish
+								is_homeland = cu:danish
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_x_if_loc }
+			}
+			1 = { # I.F.K.
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:swedish
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:swedish
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_ifk_loc }
+			}
+			1 = { # Jagiellonia
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:polish
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_jagellionia_loc }
+			}
+			1 = { # Juventus
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:north_italian
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:south_italian
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:north_italian
+								is_homeland = cu:south_italian
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_juventus_loc }
+			}
+			1 = { # K.K.S
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:polish
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_kks_loc }
+			}
+			1 = { # K.S.
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:russian
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:russian
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_ks_loc }
+			}
+			1 = { # K.V.
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:flemish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:wallonian
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:flemish
+								is_homeland = cu:wallonian
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_kv_loc }
+			}
+			1 = { # Libertas
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:north_italian
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:south_italian
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:north_italian
+								is_homeland = cu:south_italian
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_libertas_loc }
+			}
+			1 = { # Lokomotive
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:north_german
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:south_german
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:alemannic
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:north_german
+								is_homeland = cu:south_german
+								is_homeland = cu:alemannic
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_lokomotive_loc }
+			}
+			1 = { # Metalist
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:ukrainian
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:ukrainian
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_metalist_loc }
+			}
+			1 = { # Olympiakos
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:greek
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:greek
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_olympiakos_loc }
+			}
+			1 = { # Olympique
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:french
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:occitan
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:francoprovencal
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:breton
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:corsican
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:french
+								is_homeland = cu:occitan
+								is_homeland = cu:francoprovencal
+								is_homeland = cu:breton
+								is_homeland = cu:corsican
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_olympique_loc }
+			}
+			1 = { # Piast
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:polish
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_piast_loc }
+			}
+			1 = { # R.F.C.
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:flemish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:wallonian
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:flemish
+								is_homeland = cu:wallonian
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_rfc_loc }
+			}
+			1 = { # Real
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:spanish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:catalan
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:galician
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:basque
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:spanish
+								is_homeland = cu:catalan
+								is_homeland = cu:galician
+								is_homeland = cu:basque
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_real_loc }
+			}
+			1 = { # Rovers
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:british
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:scottish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:irish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:welsh
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:british
+								is_homeland = cu:scottish
+								is_homeland = cu:irish
+								is_homeland = cu:welsh
+							}
+
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_rovers_loc }
+			}
+			1 = { # S.C. ...
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:dutch
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:dutch
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_sc_x_loc }
+			}
+			1 = { # Shaktar
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:ukrainian
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:ukrainian
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_shakhtar_loc }
+			}
+			1 = { # S.K. ...
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:norwegian
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:norwegian
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_sk_x_loc }
+			}
+			1 = { # Š.K. ...
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:slovak
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:slovak
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_sk_slo_x_loc }
+			}
+			1 = { # Slavia
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:czech
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:czech
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_slavia_loc }
+			}
+			1 = { # Sparta
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:czech
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:slovak
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:czech
+								is_homeland = cu:slovak
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_sparta_loc }
+			}
+			1 = { # Spartak
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:russian
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:russian
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_spartak_loc }
+			}
+			1 = { # Sporting
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:portuguese
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:portuguese
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_sporting_loc }
+			}
+			1 = { # Sporting Club de ...
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:french
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:occitan
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:francoprovencal
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:breton
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:corsican
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:spanish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:catalan
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:galician
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:basque
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:french
+								is_homeland = cu:occitan
+								is_homeland = cu:francoprovencal
+								is_homeland = cu:breton
+								is_homeland = cu:corsican
+								is_homeland = cu:spanish
+								is_homeland = cu:catalan
+								is_homeland = cu:galician
+								is_homeland = cu:basque
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_sporting_club_de_loc }
+			}
+			1 = { # Sports Club
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:russian
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:russian
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_sports_club_loc }
+			}
+			1 = { # SS
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:north_italian
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:south_italian
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:north_italian
+								is_homeland = cu:south_italian
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_ss_loc }
+			}
+			1 = { # Stade
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:french
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:occitan
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:francoprovencal
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:breton
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:corsican
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:french
+								is_homeland = cu:occitan
+								is_homeland = cu:francoprovencal
+								is_homeland = cu:breton
+								is_homeland = cu:corsican
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_stade_loc }
+			}
+			1 = { # SV
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:north_german
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:south_german
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:north_german
+								is_homeland = cu:south_german
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_sv_loc }
+			}
+			1 = { # T.P.
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:finnish
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:finnish
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_tp_loc }
+			}
+			1 = { # TSV
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:north_german
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:south_german
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:north_german
+								is_homeland = cu:south_german
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_tsv_loc }
+			}
+			1 = { # Ukraina
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:ukrainian
+							value >= 0.6
+						}
+						state_region = {
+							is_homeland = cu:ukrainian
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_ukraina_loc }
+			}
+			1 = { # Union
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:north_german
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:south_german
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:wallonian
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:flemish
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:north_german
+								is_homeland = cu:south_german
+								is_homeland = cu:wallonian
+								is_homeland = cu:flemish
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_union_loc }
+			}
+			1 = { # Unión Deportiva
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:spanish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:catalan
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:galician
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:basque
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:spanish
+								is_homeland = cu:catalan
+								is_homeland = cu:galician
+								is_homeland = cu:basque
+							}
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_union_deportiva_loc }
+			}
+			1 = { # Wanderers
+				trigger = {
+					OR = {
+						culture_percent_state = {
+							target = cu:british
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:scottish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:irish
+							value >= 0.6
+						}
+						culture_percent_state = {
+							target = cu:welsh
+							value >= 0.6
+						}
+						state_region = {
+							OR = {
+								is_homeland = cu:british
+								is_homeland = cu:scottish
+								is_homeland = cu:irish
+								is_homeland = cu:welsh
+							}
+
+						}
+					}
+				}
+
+				vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_wanderers_loc }
+			}
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_variable_list = vikelas_football_clubs_variable_list
+			}
+		}
+		vikelas_add_sports_club_to_list_effect = { SPORT = football FLAG = vikelas_generic_football_club_fallback_loc }
+	}
+}
