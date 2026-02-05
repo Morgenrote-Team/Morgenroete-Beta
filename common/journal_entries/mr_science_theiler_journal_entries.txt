@@ -3847,18 +3847,21 @@ je_theiler_improve_agriculture_project = {
 
 	on_monthly_pulse = {
 		effect = {
+			#Executed if Progress is high enough
 			if = {
 				limit = {
 					scope:journal_entry = {
 						"scripted_bar_progress(theiler_biologist_improve_agriculture_project_progress_bar)" >= 24
 					}
 				}
+				#Removes Progress
 				scope:journal_entry = {
 					add_progress = {
 						name = theiler_biologist_improve_agriculture_project_progress_bar
 						value = -24
 					}
 				}
+				#Adds first Modifier
 				if = {
 					limit = {
 						scope:target = {
@@ -3875,6 +3878,7 @@ je_theiler_improve_agriculture_project = {
 						subtract = ito_improvement_progress_cost
 					}
 				}
+				#Adds second Modifier
 				else_if = {
 					limit = {
 						scope:target = {
@@ -3891,6 +3895,7 @@ je_theiler_improve_agriculture_project = {
 						subtract = ito_improvement_progress_cost
 					}
 				}
+				#Adds third Modifier, Experience and chooses new building if possible
 				else = {
 					scope:target = {
 						add_modifier = {
@@ -3898,10 +3903,12 @@ je_theiler_improve_agriculture_project = {
 						}
 					}
 
+					#Removes old building from List
 					remove_list_variable = {
 						name = theiler_improve_agriculture_buildings_chosen_variable_list
 						target = scope:target
 					}
+					#Adds new building if possible
 					if = {
 						limit = { has_variable_list = theiler_improve_agriculture_buildings_chosen_variable_list }
 						ordered_in_list = {
@@ -3911,10 +3918,7 @@ je_theiler_improve_agriculture_project = {
 							save_scope_as = target
 						}
 					}
-					change_variable = {
-						name = dubois_naturalist_improvement_progress_var
-						subtract = ito_improvement_progress_cost
-					}
+					mr_academics_small_experience_gain_effect = { ROLE = theiler_biologist }
 				}
 			}
 		}
@@ -3955,10 +3959,6 @@ je_theiler_improve_agriculture_project = {
 
 		var:dubois_naturalist_var ?= {
 			set_character_busy_and_immortal = no
-		}
-		trigger_event = {
-			id = dubois.52
-			popup = yes
 		}
 	}
 
