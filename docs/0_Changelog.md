@@ -17,6 +17,9 @@ Biology:
 Sports:
 - Like Japan and Cuba, China gets a special baseball event.
 
+Astronomy:
+- When searching for planet X, your astronomer may discover the first centaur.
+
 Technology
 - Technology bonuses at events have been reduced by around a third. 
 - The system now performs the following simple calculation, which depends on the tech tier of the technology being researched:
