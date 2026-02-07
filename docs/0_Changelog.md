@@ -29,6 +29,9 @@ Technology
 
 Other
 - Added "Good Soils" to Lombardy and Emilia (this is one of the most fertile areas in Europe!)
+- Added "Congo Rainforest" to Gabon and South Cameroon
+- Added "Madagascar Rainforest" to North Madagascar (this has half the malus and bonus from Congo Rainforest)
+
 Balancing:
 - Slightly lowered Engineer Experience gain from some projects.
 
