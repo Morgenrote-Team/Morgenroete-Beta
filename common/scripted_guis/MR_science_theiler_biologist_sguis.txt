@@ -67,12 +67,7 @@ mr_biologist_find_pathogen_button_sgui = {
 		}
     }
     effect = {
-		set_variable = theiler_biologist_action_active_var
-		set_variable = theiler_biologist_find_pathogen_active_var
-		trigger_event = {
-			id = theiler.51
-			popup = yes
-		}
+		mr_biologist_find_pathogen_effect = yes
     }
 }
 #Checks if this is button is active
@@ -106,13 +101,7 @@ mr_biologist_create_vaccine_button_sgui = {
 		theiler_has_x_microorganisms_tooltip_trigger = { AMOUNT = 10000 }
     }
     effect = {
-		set_variable = theiler_biologist_action_active_var
-		set_variable = theiler_biologist_create_vaccine_active_var
-		theiler_add_x_microorganisms_effect = { AMOUNT = -10000 }
-		trigger_event = {
-			id = theiler.52
-			popup = yes
-		}
+		mr_biologist_create_vaccine_effect = yes
     }
 }
 #Checks if this is button is active
@@ -152,16 +141,7 @@ mr_biologist_cochliomyia_eredication_button_sgui = {
 		}
     }
     effect = {
-		add_journal_entry = { type = je_theiler_cochliomyia_eredication }
-		if = {
-			limit = {
-				has_variable = theiler_biologist_var
-			}
-			var:theiler_biologist_var = {
-				set_character_busy_and_immortal = yes
-			}
-		}
-		set_variable = theiler_biologist_cochliomyia_eredication_active_var
+		mr_biologist_cochliomyia_eredication_button_effect = yes
     }
 }
 #Checks if this is button is active
@@ -196,16 +176,7 @@ mr_biologist_sti_button_sgui = {
 		}
     }
     effect = {
-		add_journal_entry = { type = je_theiler_sti }
-		if = {
-			limit = {
-				has_variable = theiler_biologist_var
-			}
-			var:theiler_biologist_var = {
-				set_character_busy_and_immortal = yes
-			}
-		}
-		set_variable = theiler_biologist_sti_active_var
+		mr_biologist_sti_button_button_effect = yes
     }
 }
 #Checks if this is button is active
@@ -244,16 +215,7 @@ mr_biologist_cydia_pesticide_button_sgui = {
 		}
     }
     effect = {
-		add_journal_entry = { type = je_theiler_cydia_pesticide }
-		if = {
-			limit = {
-				has_variable = theiler_biologist_var
-			}
-			var:theiler_biologist_var = {
-				set_character_busy_and_immortal = yes
-			}
-		}
-		set_variable = theiler_biologist_cydia_pesticide_active_var
+		mr_biologist_cydia_pesticide_button_effect = yes
     }
 }
 
@@ -271,73 +233,8 @@ mr_biologist_improve_agriculture_button_sgui = {
 		theiler_country_has_building_valid_for_agriculture_project_trigger = yes
 	}
 	effect = {
-		if = {
-			limit = {
-				is_ai = yes
-			}
-			clear_variable_list = theiler_improve_agriculture_buildings_chosen_variable_list
-			ordered_scope_building = {
-				position = 0 #We only want the first one here
-				limit = {
-					theiler_building_valid_for_agriculture_project_no_tooltip_trigger = yes
-				}
-				order_by = earnings
-				root = {
-					add_to_variable_list = {
-						name = theiler_improve_agriculture_buildings_chosen_variable_list
-						target = prev
-					}
-				}
-			}
-			add_journal_entry = {
-				type = je_theiler_improve_agriculture_project
-			}
-			var:theiler_biologist_var ?= {
-				set_character_busy_and_immortal = yes
-			}
-		}
-		else = {
-			clear_variable_list = theiler_improve_agriculture_buildings_variable_list
-			ordered_scope_building = {
-				limit = {
-					theiler_building_valid_for_agriculture_project_no_tooltip_trigger = yes
-				}
-				order_by = earnings
-				check_range_bounds = no
-
-				root = {
-					add_to_variable_list = {
-						name = theiler_improve_agriculture_buildings_variable_list
-						target = prev
-					}
-				}
-			}
-			set_variable = theiler_improve_agriculture_project_building_chooser_var
-			show_as_tooltip = {
-				add_modifier = {
-					name = theiler_improve_agriculture_cost_modifier
-					multiplier = mr_local_project_cost_small_value
-				}
-			}
-		}
+		mr_biologist_improve_agriculture_button_effect = yes
 	}
-
-	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
-	ai_chance = {
-		base = 0 # The chance that the AI will activate this SGUI (script value between 1 and 100)
-		modifier = { #BIOLOGY TODO: Add this
-			trigger = {
-				market = {
-					OR = {
-						mg:wood ?= { market_goods_has_goods_shortage = yes }
-						mg:hardwood ?= { market_goods_has_goods_shortage = yes }
-					}
-				}
-			}
-			add = 500
-		}
-	}
-	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
 mr_biologist_improve_agriculture_active_sgui = {
 	scope = country

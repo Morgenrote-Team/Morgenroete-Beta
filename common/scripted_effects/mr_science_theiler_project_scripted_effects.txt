@@ -1,0 +1,126 @@
+﻿####################################
+# THEILER PROJECT SCRIPTED EFFECTS #
+####################################
+
+#by Lord R
+
+############################################################################
+
+###### Biologist Project effects ######
+
+### Find Pathogen ###
+#Button Effect
+mr_biologist_find_pathogen_effect = {
+	set_variable = theiler_biologist_action_active_var
+	set_variable = theiler_biologist_find_pathogen_active_var
+	trigger_event = {
+		id = theiler.51
+		popup = yes
+	}
+}
+
+### Create Vaccine ###
+#Button Effect
+mr_biologist_create_vaccine_effect = {
+	set_variable = theiler_biologist_action_active_var
+	set_variable = theiler_biologist_create_vaccine_active_var
+	theiler_add_x_microorganisms_effect = { AMOUNT = -10000 }
+	trigger_event = {
+		id = theiler.52
+		popup = yes
+	}
+}
+
+### Create Cochliomyia Eradication ###
+#Button Effect
+mr_biologist_cochliomyia_eredication_button_effect = {
+	add_journal_entry = { type = je_theiler_cochliomyia_eredication }
+	if = {
+		limit = {
+			has_variable = theiler_biologist_var
+		}
+		var:theiler_biologist_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	}
+	set_variable = theiler_biologist_cochliomyia_eredication_active_var
+}
+
+### Sterile Insect Technique ###
+#Button Effect
+mr_biologist_sti_button_button_effect = {
+	add_journal_entry = { type = je_theiler_sti }
+	if = {
+		limit = {
+			has_variable = theiler_biologist_var
+		}
+		var:theiler_biologist_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	}
+	set_variable = theiler_biologist_sti_active_var
+}
+
+### Cydia Pesticide ###
+#Button Effect
+mr_biologist_cydia_pesticide_button_effect = {
+	add_journal_entry = { type = je_theiler_cydia_pesticide }
+	var:theiler_biologist_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	set_variable = theiler_biologist_cydia_pesticide_active_var
+}
+
+### Improve Agriculture Project ###
+#Button Effect
+mr_biologist_improve_agriculture_button_effect = {
+	if = {
+		limit = {
+			is_ai = yes
+		}
+		clear_variable_list = theiler_improve_agriculture_buildings_chosen_variable_list
+		ordered_scope_building = {
+			position = 0 #We only want the first one here
+			limit = {
+				theiler_building_valid_for_agriculture_project_no_tooltip_trigger = yes
+			}
+			order_by = earnings
+			root = {
+				add_to_variable_list = {
+					name = theiler_improve_agriculture_buildings_chosen_variable_list
+					target = prev
+				}
+			}
+		}
+		add_journal_entry = {
+			type = je_theiler_improve_agriculture_project
+		}
+		var:theiler_biologist_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	}
+	else = {
+		clear_variable_list = theiler_improve_agriculture_buildings_variable_list
+		ordered_scope_building = {
+			limit = {
+				theiler_building_valid_for_agriculture_project_no_tooltip_trigger = yes
+			}
+			order_by = earnings
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = theiler_improve_agriculture_buildings_variable_list
+					target = prev
+				}
+			}
+		}
+		set_variable = theiler_improve_agriculture_project_building_chooser_var
+		show_as_tooltip = {
+			add_modifier = {
+				name = theiler_improve_agriculture_cost_modifier
+				multiplier = mr_local_project_cost_small_value
+			}
+		}
+	}
+}
