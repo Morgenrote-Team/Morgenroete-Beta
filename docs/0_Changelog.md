@@ -21,7 +21,7 @@ Astronomy:
 - When searching for planet X, your astronomer may discover the first centaur.
 
 Technology
-- Technology bonuses at events have been reduced by around a third. 
+- Technology bonuses at events have been reduced by around a third.
 - The system now performs the following simple calculation, which depends on the tech tier of the technology being researched:
 -- Tech Tiers 1&2: 1000 points (small), 2000 points (medium), 3000 points (large)
 -- Tech Tiers 3&4: 2000 points (small), 4000 points (medium), 6000 points (large)
@@ -34,6 +34,7 @@ Other
 
 Balancing:
 - Slightly lowered Engineer Experience gain from some projects.
+- Added (additional) Paper Mills in every state with a publishing Industry.
 
 Other:
 - Added "Good Soils" to Lombardy and Emilia (this is one of the most fertile areas in Europe!)
