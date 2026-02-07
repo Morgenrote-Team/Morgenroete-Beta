@@ -31,14 +31,13 @@ Other
 - Added "Good Soils" to Lombardy and Emilia (this is one of the most fertile areas in Europe!)
 - Added "Congo Rainforest" to Gabon and South Cameroon
 - Added "Madagascar Rainforest" to North Madagascar (this has half the malus and bonus from Congo Rainforest)
+- Added "Good Soils" to Lombardy and Emilia (this is one of the most fertile areas in Europe!)
+- Some Element names now get used depending on the culture of the chemist as well.
+- The Breeding Animals Button was moved to the Biologist. Having a Biologist boosts the project as well, the influence of the Naturalist on Breeding
 
 Balancing:
 - Slightly lowered Engineer Experience gain from some projects.
 - Added (additional) Paper Mills in every state with a publishing Industry.
-
-Other:
-- Added "Good Soils" to Lombardy and Emilia (this is one of the most fertile areas in Europe!)
-- Some Element names now get used depending on the culture of the chemist as well.
 
 Graphics:
 - Added a new Loading Screen by Angel depicting Vincent van Gogh (CC4.0 BY-NC angel): https://x.com/angelsrntreal/status/2017904729511371235
