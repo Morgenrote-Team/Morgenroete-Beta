@@ -13,6 +13,7 @@ Biology:
 - European (mostly central European) and North American (mostly east coast) receive a Cydia modifier at the start of the game, which has a negative effect on the output of fruits.
 - After inventing Malaria Prevention, a biologist and a chemist can develop a pesticide to get rid of the modifier.
 - You can now send Botanical Expeditions to find Medicinal Plants.
+- Your Biologist can start an improvement project for your agriculture buildings.
 
 Sports:
 - Like Japan and Cuba, China gets a special baseball event.
@@ -41,6 +42,8 @@ Balancing:
 
 Graphics:
 - Added a new Loading Screen by Angel depicting Vincent van Gogh (CC4.0 BY-NC angel): https://x.com/angelsrntreal/status/2017904729511371235
+- Added a new Loading Screen by Angel depicting a Dinner Scene aboard the Hindenburg (CC4.0 BY-NC angel): https://x.com/angelsrntreal/status/2020175169126543421
+- Replaced various AI icons with ones made by Valerie P (https://www.fiverr.com/valerie_pl).
 
 Fixes:
 - Fixed the Sports Radio event which triggered without radio.
