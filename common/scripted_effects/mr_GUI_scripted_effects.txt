@@ -186,7 +186,7 @@ curtiss_create_schneider_trophy_current_ranking_global_effect = {
 			has_journal_entry = je_curtiss_schneider_trophy_race
 		}
 		order_by = var:schneider_trophy_point_var
-		max = 10 #Limits the list to the ten top countires
+		max = 10
 		check_range_bounds = no #prevents errors
 
 		#This part checks one after another whether the the first, second, etc. ranked countries are saved already.
@@ -1279,6 +1279,106 @@ dubois_create_dinosaur_bone_ranking_list_effect = {
 	}
 }
 
+### Pathogen Ranking List ###
+#Creates a list of the countries ranked by their pathogen.
+#As this effect is called in an effect, it creates a global variable list.
+theiler_create_pathogen_ranking_list_effect = {
+	#Removes the global variable list
+	clear_global_variable_list = mr_pathogen_ranking_global_list
+
+	set_local_variable = {
+		name = mr_current_rank_local_var
+		value = 0
+	}
+
+	ordered_country = {
+		limit = {
+			has_variable = theiler_num_disease_pathogens_var
+			is_revolutionary = no #Hopefully keeps revolutions from appearing in the ranking
+			NOR = {
+				c:PRC ?= this
+				is_country_type = decentralized
+			}
+		}
+		order_by = var:theiler_num_disease_pathogens_var
+		max = 1000
+		check_range_bounds = no #prevents errors
+
+		#Keeps Track of the rank so it can be saved as a variable
+		change_local_variable = {
+			name = mr_current_rank_local_var
+			add = 1
+		}
+		if = {
+			limit = {
+				this = {
+					is_player = yes
+				}
+			}
+			set_variable = {
+				name = theiler_pathogen_player_rank_var
+				value = local_var:mr_current_rank_local_var
+			}
+		}
+
+		#This part adds all the countries to the list
+		add_to_global_variable_list = {
+			name = mr_pathogen_ranking_global_list
+			target = this
+		}
+	}
+}
+
+### Vaccine Ranking List ###
+#Creates a list of the countries ranked by their vaccine.
+#As this effect is called in an effect, it creates a global variable list.
+theiler_create_vaccine_ranking_list_effect = {
+	#Removes the global variable list
+	clear_global_variable_list = mr_vaccine_ranking_global_list
+
+	set_local_variable = {
+		name = mr_current_rank_local_var
+		value = 0
+	}
+
+	ordered_country = {
+		limit = {
+			has_variable = theiler_num_disease_vaccines_var
+			is_revolutionary = no #Hopefully keeps revolutions from appearing in the ranking
+			NOR = {
+				c:PRC ?= this
+				is_country_type = decentralized
+			}
+		}
+		order_by = var:theiler_num_disease_vaccines_var
+		max = 1000
+		check_range_bounds = no #prevents errors
+
+		#Keeps Track of the rank so it can be saved as a variable
+		change_local_variable = {
+			name = mr_current_rank_local_var
+			add = 1
+		}
+		if = {
+			limit = {
+				this = {
+					is_player = yes
+				}
+			}
+			set_variable = {
+				name = theiler_vaccine_player_rank_var
+				value = local_var:mr_current_rank_local_var
+			}
+		}
+
+		#This part adds all the countries to the list
+		add_to_global_variable_list = {
+			name = mr_vaccine_ranking_global_list
+			target = this
+		}
+	}
+}
+
 ### Microorganism Ranking List ###
 #Creates a list of the countries ranked by their microorganisms.
 #As this effect is called in an effect, it creates a global variable list.
@@ -1300,7 +1400,7 @@ theiler_create_microorganisms_ranking_list_effect = {
 			}
 		}
 		order_by = var:theiler_microorganisms_var
-		max = 1000 #Limits the list to the ten top countires
+		max = 1000
 		check_range_bounds = no #prevents errors
 
 		#Keeps Track of the rank so it can be saved as a variable
