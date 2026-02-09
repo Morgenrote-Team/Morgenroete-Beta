@@ -3825,90 +3825,15 @@ je_theiler_improve_agriculture_project = {
 
 	on_monthly_pulse = {
 		effect = {
-			scope:journal_entry = {
-				#Executed if Progress is high enough
-				if = {
-					limit = {
-						"scripted_bar_progress(theiler_biologist_improve_agriculture_project_progress_bar)" >= 24
-					}
-					#Removes Progress
-					set_bar_progress = {
-						name = theiler_biologist_improve_agriculture_project_progress_bar
-						value = 0
-					}
-					#Adds first Modifier
-					if = {
-						limit = {
-							var:mr_target_building_var ?= {
-								NOT = { has_modifier = theiler_building_throughput_add_modifier }
-							}
-						}
-						var:mr_target_building_var ?= {
-							add_modifier = {
-								name = theiler_building_throughput_add_modifier
-							}
-						}
-					}
-					#Adds second Modifier
-					else_if = {
-						limit = {
-							var:mr_target_building_var ?= {
-								NOT = { has_modifier = theiler_building_production_mult_modifier }
-							}
-						}
-						var:mr_target_building_var ?= {
-							add_modifier = {
-								name = theiler_building_production_mult_modifier
-							}
-						}
-					}
-					#Adds third Modifier, Experience and chooses new building if possible
-					else = {
-						var:mr_target_building_var ?= {
-							add_modifier = {
-								name = theiler_building_goods_input_mult_modifier
-							}
-						}
-
-						root = {
-							#Removes old building from List
-							ordered_in_list = {
-								variable = theiler_improve_agriculture_buildings_chosen_variable_list
-								position = 0
-
-								root = {
-									remove_list_variable = {
-										name = theiler_improve_agriculture_buildings_chosen_variable_list
-										target = prev
-									}
-								}
-							}
-							#Adds new building if possible
-							if = {
-								limit = { has_variable_list = theiler_improve_agriculture_buildings_chosen_variable_list }
-								ordered_in_list = {
-									variable = theiler_improve_agriculture_buildings_chosen_variable_list
-									position = 0
-
-									scope:journal_entry = {
-										set_variable = {
-											name = mr_target_building_var
-											value = prev
-										}
-									}
-								}
-							}
-							mr_academics_small_experience_gain_effect = { ROLE = biologist }
-						}
-
-						change_variable = {
-							name = mr_num_improved_buildings_var
-							add = 1
-						}
-					}
-				}
+			mr_journal_entry_building_3_modifier_project_monthly_effect = {
+				PROGRESS_BAR_NAME = theiler_biologist_improve_agriculture_project_progress_bar
+				PROGRESS_COST = 24
+				MODIFIER_1 = theiler_building_throughput_add_modifier
+				MODIFIER_2 = theiler_building_production_mult_modifier
+				MODIFIER_3 = theiler_building_goods_input_mult_modifier
+				BUILDING_LIST_NAME = theiler_improve_agriculture_buildings_chosen_variable_list
+				ROLE = biologist
 			}
-			mr_journal_entry_save_remaining_list_entries_as_variable_effect = { LIST_NAME = theiler_improve_agriculture_buildings_chosen_variable_list }
 		}
 	}
 
