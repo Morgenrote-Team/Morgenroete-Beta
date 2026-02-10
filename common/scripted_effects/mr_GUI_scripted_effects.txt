@@ -1428,6 +1428,56 @@ theiler_create_microorganisms_ranking_list_effect = {
 	}
 }
 
+### Pharmaceuticals Ranking List ###
+#Creates a list of the countries ranked by their pharmaceuticals.
+#As this effect is called in an effect, it creates a global variable list.
+theiler_create_pharmaceuticals_ranking_list_effect = {
+	#Removes the global variable list
+	clear_global_variable_list = mr_pharmaceuticals_ranking_global_list
+
+	set_local_variable = {
+		name = mr_current_rank_local_var
+		value = 0
+	}
+
+	ordered_country = {
+		limit = {
+			has_variable = theiler_num_pharmaceuticals_var
+			is_revolutionary = no #Hopefully keeps revolutions from appearing in the ranking
+			NOR = {
+				c:PRC ?= this
+				is_country_type = decentralized
+			}
+		}
+		order_by = var:theiler_num_pharmaceuticals_var
+		max = 1000
+		check_range_bounds = no #prevents errors
+
+		#Keeps Track of the rank so it can be saved as a variable
+		change_local_variable = {
+			name = mr_current_rank_local_var
+			add = 1
+		}
+		if = {
+			limit = {
+				this = {
+					is_player = yes
+				}
+			}
+			set_variable = {
+				name = theiler_pharmaceuticals_player_rank_var
+				value = local_var:mr_current_rank_local_var
+			}
+		}
+
+		#This part adds all the countries to the list
+		add_to_global_variable_list = {
+			name = mr_pharmaceuticals_ranking_global_list
+			target = this
+		}
+	}
+}
+
 ### Biologists Ranking List ###
 #Creates a list of the countries ranked by the experience of their Biologists.
 #As this effect is called in an effect, it creates a global variable list.
