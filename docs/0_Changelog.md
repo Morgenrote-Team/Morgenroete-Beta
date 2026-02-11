@@ -50,6 +50,7 @@ Graphics:
 - Added a new Loading Screen by Angel depicting Vincent van Gogh (CC4.0 BY-NC angel): https://x.com/angelsrntreal/status/2017904729511371235
 - Added a new Loading Screen by Angel depicting a Dinner Scene aboard the Hindenburg (CC4.0 BY-NC angel): https://x.com/angelsrntreal/status/2020175169126543421
 - Replaced various AI icons with ones made by Valerie P (https://www.fiverr.com/valerie_pl).
+- Replaced icons for Swiss Chocolate and Murano Glass with ones made by Valerie P (https://www.fiverr.com/valerie_pl) (thanks to Cipherparadox for sharing them with us).
 
 Fixes:
 - Fixed the Sports Radio event which triggered without radio.
