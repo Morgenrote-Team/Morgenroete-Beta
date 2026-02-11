@@ -35,6 +35,12 @@ Other
 - Added "Good Soils" to Lombardy and Emilia (this is one of the most fertile areas in Europe!)
 - Some Element names now get used depending on the culture of the chemist as well.
 - The Breeding Animals Button was moved to the Biologist. Having a Biologist boosts the project as well, the influence of the Naturalist on Breeding
+- Olympic Games now have Roman Numerls up to the 100th game (thanks to PPsyrius).
+- More Race Tracks now spawn in historically apropiate places (thanks to PPsyrius).
+- Added 250+ historical Newspaper Names for some events (thanks to PPsyrius).
+- Added more historical Opera names (thanks to PPsyrius).
+- Added 100+ historical anthems (thanks to PPsyrius).
+- Added 10 historical instruments companies (thanks to PPsyrius).
 
 Balancing:
 - Slightly lowered Engineer Experience gain from some projects.
@@ -50,6 +56,8 @@ Fixes:
 - Fixed the Spaniards building two Sagrada Familias at once.
 - Buying a masterwork painting will now cost 100'000£ for everyone.
 - International Mountain Expeditions should no longer fire multiple times.
+- Fixed various bugs with national anthems, e.g. Persia using Peru's anthem (thanks to PPsyrius).
+- The AI will now build instrument workshops instead of airports to get Steinway as a company (thanks to PPsyrius).
 
 Performance:
 - Improved the performance of the Mountaineering Licence Diplomatic Action.
