@@ -14,6 +14,7 @@ Biology:
 - After inventing Malaria Prevention, a biologist and a chemist can develop a pesticide to get rid of the modifier.
 - You can now send Botanical Expeditions to find Medicinal Plants.
 - Your Biologist can start an improvement project for your agriculture buildings.
+- First nation that discovers Microbiology gets a free biologist and some microorganisms. If the germ theory has not yet been established, it is possible to establish it directly.
 
 Sports:
 - Like Japan and Cuba, China gets a special baseball event.
@@ -34,7 +35,9 @@ Other
 - Added "Madagascar Rainforest" to North Madagascar (this has half the malus and bonus from Congo Rainforest)
 - Added "Good Soils" to Lombardy and Emilia (this is one of the most fertile areas in Europe!)
 - Some Element names now get used depending on the culture of the chemist as well.
-- The Breeding Animals Button was moved to the Biologist. Having a Biologist boosts the project as well, the influence of the Naturalist on Breeding
+- The Breeding Animals Button was moved to the Biologist. Having a Biologist boosts the project as well, the influence of the Naturalist on Breeding.
+- The Rediscovery of Mendel gives also experience to your Biologist, if you have one.
+- If you have researched Microbiology, you get the double amount of clues for the Germ Theroy when your Physician does Medical Research.
 - Olympic Games now have Roman Numerls up to the 100th game (thanks to PPsyrius).
 - More Race Tracks now spawn in historically apropiate places (thanks to PPsyrius).
 - Added 250+ historical Newspaper Names for some events (thanks to PPsyrius).
