@@ -321,132 +321,84 @@ je_ito_botanical_expedition = {
 }
 
 ###Improve Forestry###
-je_dubois_improve_forestry_project = {
+je_ito_improve_forestry_project = {
 	icon = "gfx/interface/icons/event_icons/event_botany.dds"
 
+	scripted_progress_bar = ito_naturalist_improve_forestry_project_progress_bar
+
 	scripted_button = dubois_stop_naturalist_project_button
+	scripted_button = je_ito_improve_forestry_project_change_list_button
 
 	group = je_group_dubois_nature
 
-	on_monthly_pulse = {
-		effect = {
-			#Calculates the Progress added (see dubois_scripted_effects for calculation)
-			dubois_naturalist_improvement_progress = yes
-			#Adds the monthly progress to the variable
-			change_variable = {
-				name = dubois_naturalist_improvement_progress_var
-				add = var:dubois_monthly_naturalist_improvement_progress_var
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = dubois_naturalist_forestry_cost_modifier
+				multiplier = mr_local_project_cost_very_small_value
 			}
-			if = {
-				limit = { var:dubois_naturalist_improvement_progress_var > ito_improvement_progress_cost }
-				if = {
-					limit = {
-						scope:target = {
-							NOT = { has_modifier = dubois_building_throughput_add_modifier }
-						}
-					}
-					scope:target = {
-						add_modifier = {
-							name = dubois_building_throughput_add_modifier
-						}
-					}
-					change_variable = {
-						name = dubois_naturalist_improvement_progress_var
-						subtract = ito_improvement_progress_cost
-					}
-				}
-				else_if = {
-					limit = {
-						scope:target = {
-							NOT = { has_modifier = dubois_building_production_mult_modifier }
-						}
-					}
-					scope:target = {
-						add_modifier = {
-							name = dubois_building_production_mult_modifier
-						}
-					}
-					change_variable = {
-						name = dubois_naturalist_improvement_progress_var
-						subtract = ito_improvement_progress_cost
-					}
-				}
-				else = {
-					scope:target = {
-						add_modifier = {
-							name = dubois_building_goods_input_mult_modifier
-						}
-					}
-					change_variable = {
-						name = dubois_naturalist_improvement_progress_var
-						subtract = ito_improvement_progress_cost
-					}
+			set_variable = {
+				name = mr_num_improved_buildings_var
+				value = 0
+			}
+		}
+		ordered_in_list = {
+			variable = ito_improve_forestry_buildings_chosen_variable_list
+			position = 0
+
+			scope:journal_entry = {
+				set_variable = {
+					name = mr_target_building_var
+					value = prev
 				}
 			}
 		}
 	}
 
-	immediate = {
-		set_variable = dubois_can_stop_active_improvement_project_var #This is used to check if the country has a project already
-		#Sets the Naturalist Improvement Progress at the beginning
-		set_variable = {
-			name = dubois_naturalist_improvement_progress_var
-			value = 0
+	on_monthly_pulse = {
+		effect = {
+			mr_journal_entry_building_3_modifier_project_monthly_effect = {
+				PROGRESS_BAR_NAME = ito_naturalist_improve_forestry_project_progress_bar
+				PROGRESS_COST = ito_improvement_progress_cost
+				MODIFIER_1 = dubois_building_throughput_add_modifier
+				MODIFIER_2 = dubois_building_production_mult_modifier
+				MODIFIER_3 = dubois_building_goods_input_mult_modifier
+				BUILDING_LIST_NAME = ito_improve_forestry_buildings_chosen_variable_list
+				ROLE = naturalist
+			}
 		}
-		dubois_naturalist_improvement_progress = yes #Determines how much Naturalist Improvement Progress will be added next month
 	}
 
 	complete = {
 		custom_tooltip = {
-			text = dubois_building_has_throughput_modifier_tt
-			scope:target ?= {
-				has_modifier = dubois_building_throughput_add_modifier
-			}
-		}
-		custom_tooltip = {
-			text = dubois_building_has_production_modifier_tt
-			scope:target ?= {
-				has_modifier = dubois_building_production_mult_modifier
-			}
-		}
-		custom_tooltip = {
-			text = dubois_building_has_input_modifier_tt
-			scope:target ?= {
-				has_modifier = dubois_building_goods_input_mult_modifier
+			text = je_ito_improve_forestry_project_complete_tt
+			NOT = {
+				has_variable_list = ito_improve_forestry_buildings_chosen_variable_list
 			}
 		}
 	}
 
 	on_complete = {
-		remove_variable = dubois_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		remove_variable = dubois_can_stop_active_improvement_project_var
 		show_as_tooltip = {
-			je:je_dubois_improve_forestry_project = {
+			scope:journal_entry = {
 				remove_modifier = dubois_naturalist_forestry_cost_modifier
 			}
 		}
+		clear_variable_list = theiler_improve_agriculture_buildings_chosen_variable_list
 
-		#Those should be removed in every Naturalist je
-		remove_variable = dubois_naturalist_improvement_progress_var
-		remove_variable = dubois_monthly_naturalist_improvement_progress_var
-		remove_variable = naturalist_experience_add_var
-
-		var:dubois_naturalist_var ?= {
-			set_character_busy_and_immortal = no
+		ito_set_naturalist_unbusy_effect = yes
+		if = {
+			limit = { theiler_is_biology_automated_trigger = no }
+			trigger_event = {
+				id = dubois.52
+				popup = yes
+			}
 		}
-		trigger_event = {
-			id = dubois.52
-			popup = yes
+		set_variable = {
+			name = mr_num_improved_buildings_var
+			value = scope:journal_entry.var:mr_num_improved_buildings_var
 		}
-	}
-
-	current_value = {
-		#Keeps track of the Naturalist Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:dubois_naturalist_improvement_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in dubois_script_values
-		value = ito_improvement_progress_cost
 	}
 
 	invalid = {
@@ -459,7 +411,7 @@ je_dubois_improve_forestry_project = {
 	on_invalid = {
 		remove_variable = dubois_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			je:je_dubois_improve_forestry_project = {
+			je:je_ito_improve_forestry_project = {
 				remove_modifier = dubois_naturalist_forestry_cost_modifier
 			}
 		}
@@ -475,11 +427,9 @@ je_dubois_improve_forestry_project = {
 		}
 	}
 
-	progressbar = yes
-
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 ###Improve Rubber###
@@ -582,7 +532,7 @@ je_dubois_improve_rubber_project = {
 	on_complete = {
 		remove_variable = dubois_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			je:je_dubois_improve_forestry_project = {
+			je:je_ito_improve_forestry_project = {
 				remove_modifier = dubois_naturalist_forestry_cost_modifier
 			}
 		}
@@ -621,7 +571,7 @@ je_dubois_improve_rubber_project = {
 	on_invalid = {
 		remove_variable = dubois_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			je:je_dubois_improve_forestry_project = {
+			je:je_ito_improve_forestry_project = {
 				remove_modifier = dubois_naturalist_forestry_cost_modifier
 			}
 		}
