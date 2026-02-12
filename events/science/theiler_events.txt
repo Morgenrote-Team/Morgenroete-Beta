@@ -21,6 +21,93 @@ namespace = theiler
 
 #################################################################################
 
+#Theiler 10: The Birth of Microbiology
+theiler.10 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.10.t
+
+	desc = theiler.10.d
+
+	flavor = theiler.10.f
+
+	placement = ROOT
+
+	event_image = { #Original https://commons.wikimedia.org/wiki/File:Beitrge_zur_Biologie_der_Pflanzen_(1870-2006)_(19740093274).jpg
+		texture = "gfx/event_pictures/verrier_pictures/biology_theiler.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	trigger = {
+		has_technology_researched = theiler_microbiology_tech
+		NOT = {
+			has_global_variable = theiler_microbiology_global_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = theiler_microbiology_global_var
+		if = {
+			limit ={
+				NOT = {
+					has_variable = theiler_biologist_var
+				}
+			}
+			create_new_character_base_effect = { CHARACTER = biologist PROJECT = theiler }
+			theiler_set_new_biologist_as_biologist_effect = yes
+			var:theiler_biologist_var = {
+				save_scope_as = theiler_biologist_scope
+			}
+		}
+		if = {
+			limit = {
+				var:theiler_biologist_var = {
+					NOT = { has_trait = theiler_microbiologist }
+				}
+			}
+			var:theiler_biologist_var = {
+				add_trait = theiler_microbiologist
+			}
+		}
+		var:theiler_biologist_var = {
+			set_variable = {
+				name = theiler_microbiology_achievement_var
+				value = flag:theiler_microbiology_achievement_oc
+			}
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = { #A breakthrough in the search for microorganisms.
+		name = theiler.10.g
+		default_option = yes
+		biologist_experience_gain_effect = {
+			AMOUNT = 30
+		}
+		theiler_add_x_microorganisms_effect = {
+			AMOUNT = 500
+		}
+	}
+
+	option = { #A breakthrough for germ theory.
+		name = theiler.10.h
+		trigger = {
+			panum_has_miasma_theory_trigger = yes
+		}
+		biologist_experience_gain_effect = {
+			AMOUNT = 30
+		}
+		panum_add_x_germ_theory_clues_effect = {
+			AMOUNT = 10
+		}
+	}
+}
+
 ### Microscope ###
 
 #Theiler 11: Achromatic Microscope
@@ -69,7 +156,7 @@ theiler.11 = {
 	}
 }
 
-#Theiler 12: Achromatic Microscope
+#Theiler 12: Electron Microscope
 theiler.12 = {
 	dlc = dlc_morgenrote
 
