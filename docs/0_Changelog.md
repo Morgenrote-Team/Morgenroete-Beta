@@ -1,4 +1,4 @@
-Changelog fot 2.7.0a "Pasteur"
+Changelog fot 2.7.0b "Pasteur"
 
 Fixes:
-- Fixed the cost modifier for the improve forestry and improve rubber plantation projects.
+- The Rubber project no longer gives additional experience at the end of the project.
