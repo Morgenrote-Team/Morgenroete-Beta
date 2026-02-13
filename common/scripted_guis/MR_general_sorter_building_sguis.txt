@@ -2,86 +2,6 @@
 
 #by Lord R
 
-#Rubber Plantation
-mr_sort_rubber_plantation_by_size_button_sgui = {
-	scope = country
-	effect = {
-		clear_variable_list = dubois_improve_rubber_plantation_buildings_variable_list
-		ordered_scope_building = {
-			limit = {
-				level > 0
-				is_building_type = building_rubber_plantation
-				NAND = {
-					has_modifier = dubois_building_throughput_add_modifier
-					has_modifier = dubois_building_production_mult_modifier
-					has_modifier = dubois_building_goods_input_mult_modifier
-				}
-			}
-			order_by = level
-			check_range_bounds = no
-
-			root = {
-				add_to_variable_list = {
-					name = dubois_improve_rubber_plantation_buildings_variable_list
-					target = prev
-				}
-			}
-		}
-	}
-}
-mr_sort_rubber_plantation_by_productivity_button_sgui = {
-	scope = country
-	effect = {
-		clear_variable_list = dubois_improve_rubber_plantation_buildings_variable_list
-		ordered_scope_building = {
-			limit = {
-				level > 0
-				is_building_type = building_rubber_plantation
-				NAND = {
-					has_modifier = dubois_building_throughput_add_modifier
-					has_modifier = dubois_building_production_mult_modifier
-					has_modifier = dubois_building_goods_input_mult_modifier
-				}
-			}
-			order_by = earnings
-			check_range_bounds = no
-
-			root = {
-				add_to_variable_list = {
-					name = dubois_improve_rubber_plantation_buildings_variable_list
-					target = prev
-				}
-			}
-		}
-	}
-}
-mr_sort_rubber_plantation_by_employment_percentage_button_sgui = {
-	scope = country
-	effect = {
-		clear_variable_list = dubois_improve_rubber_plantation_buildings_variable_list
-		ordered_scope_building = {
-			limit = {
-				level > 0
-				is_building_type = building_rubber_plantation
-				NAND = {
-					has_modifier = dubois_building_throughput_add_modifier
-					has_modifier = dubois_building_production_mult_modifier
-					has_modifier = dubois_building_goods_input_mult_modifier
-				}
-			}
-			order_by = occupancy
-			check_range_bounds = no
-
-			root = {
-				add_to_variable_list = {
-					name = dubois_improve_rubber_plantation_buildings_variable_list
-					target = prev
-				}
-			}
-		}
-	}
-}
-
 #Agriculture Buildings
 mr_biologist_improve_agriculture_transfer_from_general_list_to_prioritized_list_button_sgui = {
 	scope = country
@@ -313,6 +233,123 @@ mr_naturalist_improve_forestry_window_change_chosen_buildings_button_sgui = {
 	effect = {
 		remove_variable = dubois_improve_forestry_project_building_choser_var
 		clear_variable_list  = ito_improve_forestry_buildings_variable_list
+	}
+}
+
+#Rubber Buildings
+mr_naturalist_improve_rubber_transfer_from_general_list_to_prioritized_list_button_sgui = {
+	scope = country
+	saved_scopes = {
+        chosen_building
+    }
+	effect = {
+		remove_list_variable = {
+			name = ito_improve_rubber_buildings_variable_list
+			target = scope:chosen_building
+		}
+		add_to_variable_list = {
+			name = ito_improve_rubber_buildings_chosen_variable_list
+			target = scope:chosen_building
+		}
+	}
+}
+
+mr_naturalist_improve_rubber_transfer_from_prioritized_list_to_general_list_button_sgui = {
+	scope = country
+	saved_scopes = {
+        chosen_building
+    }
+	effect = {
+		remove_list_variable = {
+			name = ito_improve_rubber_buildings_chosen_variable_list
+			target = scope:chosen_building
+		}
+		add_to_variable_list = {
+			name = ito_improve_rubber_buildings_variable_list
+			target = scope:chosen_building
+		}
+	}
+}
+
+mr_naturalist_improve_rubber_sort_buildings_by_size_button_sgui = {
+	scope = country
+	effect = {
+		sort_variable_list = {
+			name = ito_improve_rubber_buildings_variable_list
+			order = level
+		}
+	}
+}
+mr_naturalist_improve_rubber_sort_buildings_by_productivity_button_sgui = {
+	scope = country
+	effect = {
+		sort_variable_list = {
+			name = ito_improve_rubber_buildings_variable_list
+			order = earnings
+		}
+	}
+}
+mr_naturalist_improve_rubber_sort_buildings_by_employment_percentage_button_sgui = {
+	scope = country
+	effect = {
+		sort_variable_list = {
+			name = ito_improve_rubber_buildings_variable_list
+			order = occupancy
+		}
+	}
+}
+
+mr_naturalist_improve_rubber_window_close_button_sgui = {
+	scope = country
+	effect = {
+		remove_variable = dubois_improve_rubber_project_building_choser_var
+		clear_variable_list  = ito_improve_rubber_buildings_variable_list
+		clear_variable_list  = ito_improve_rubber_buildings_chosen_variable_list
+	}
+}
+
+mr_naturalist_improve_rubber_window_start_button_sgui = {
+	scope = country
+	is_shown = {
+		NOT = { has_journal_entry = je_ito_improve_rubber_project }
+	}
+	is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_ANY_CHOSEN_BUILDINGS_TRIGGER_TT
+			has_variable_list = ito_improve_rubber_buildings_chosen_variable_list
+		}
+	}
+	effect = {
+		remove_variable = dubois_improve_rubber_project_building_choser_var
+
+		add_journal_entry = { type = je_ito_improve_rubber_project }
+		show_as_tooltip = {
+			add_modifier = {
+				name = dubois_naturalist_rubber_cost_modifier
+				multiplier = mr_local_project_cost_very_small_value
+			}
+		}
+		var:dubois_naturalist_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+		clear_variable_list  = ito_improve_rubber_buildings_variable_list
+	}
+}
+
+mr_naturalist_improve_rubber_window_change_chosen_buildings_button_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_ito_improve_rubber_project
+	}
+	is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_ANY_CHOSEN_BUILDINGS_TRIGGER_TT
+			has_variable_list = ito_improve_rubber_buildings_chosen_variable_list
+		}
+	}
+	effect = {
+		remove_variable = dubois_improve_rubber_project_building_choser_var
+		clear_variable_list  = ito_improve_rubber_buildings_variable_list
 	}
 }
 

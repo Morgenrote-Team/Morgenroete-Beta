@@ -320,94 +320,17 @@ mr_naturalist_improve_rubber_button_sgui = {
 		custom_tooltip = {
 			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
 			NOT = {
-				has_variable = dubois_improve_rubber_plantation_project_building_choser_var
+				has_variable = dubois_improve_forestry_project_building_choser_var
 			}
 		}
 		custom_tooltip = {
 			text = MR_SAFARI_EXPEDITION_NATURALIST_TRIGGER_TT
 			dubois_has_active_naturalist = yes
 		}
-		custom_tooltip = {
-			text = MR_NATURALIST_IMPROVE_RUBBER_TRIGGER_TT
-			any_scope_building = {
-				is_building_type = building_rubber_plantation
-				level > 0
-				NAND = {
-					has_modifier = dubois_building_throughput_add_modifier
-					has_modifier = dubois_building_production_mult_modifier
-					has_modifier = dubois_building_goods_input_mult_modifier
-				}
-			}
-		}
+		ito_country_has_building_valid_for_rubber_project_trigger = yes
 	}
 	effect = {
-		if = {
-			limit = {
-				is_ai = yes
-			}
-			ordered_scope_building = {
-				position = 0 #We only want the first one here
-				limit = {
-					level > 0
-					is_building_type = building_rubber_plantation
-					NAND = {
-						has_modifier = dubois_building_throughput_add_modifier
-						has_modifier = dubois_building_production_mult_modifier
-						has_modifier = dubois_building_goods_input_mult_modifier
-					}
-				}
-				order_by = earnings
-				save_scope_as = chosen_building
-			}
-			add_journal_entry = {
-				type = je_dubois_improve_rubber_project
-				target = scope:chosen_building
-			}
-			je:je_dubois_improve_rubber_project = {
-				add_modifier = {
-					name = dubois_naturalist_rubber_cost_modifier
-					multiplier = mr_local_project_cost_very_small_value
-				}
-			}
-			if = {
-				limit = {
-					has_variable = dubois_naturalist_var
-				}
-				var:dubois_naturalist_var = {
-					set_character_busy_and_immortal = yes
-				}
-			}
-		}
-		else = {
-			clear_variable_list = dubois_improve_rubber_plantation_buildings_variable_list
-			ordered_scope_building = {
-				limit = {
-					level > 0
-					is_building_type = building_rubber_plantation
-					NAND = {
-						has_modifier = dubois_building_throughput_add_modifier
-						has_modifier = dubois_building_production_mult_modifier
-						has_modifier = dubois_building_goods_input_mult_modifier
-					}
-				}
-				order_by = level
-				check_range_bounds = no
-
-				root = {
-					add_to_variable_list = {
-						name = dubois_improve_rubber_plantation_buildings_variable_list
-						target = prev
-					}
-				}
-			}
-			set_variable = dubois_improve_rubber_plantation_project_building_choser_var
-			show_as_tooltip = {
-				add_modifier = {
-					name = dubois_naturalist_rubber_cost_modifier
-					multiplier = mr_local_project_cost_very_small_value
-				}
-			}
-		}
+		mr_naturalist_improve_rubber_button_effect = yes
 	}
 
 	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
@@ -427,56 +350,23 @@ mr_naturalist_improve_rubber_button_sgui = {
 mr_improve_rubber_active_sgui = {
 	scope = country
 	is_shown = {
-		has_journal_entry = je_dubois_improve_rubber_project
+		has_journal_entry = je_ito_improve_rubber_project
 	}
 }
 
 mr_improve_rubber_plantation_window_active_sgui = {
 	scope = country
 	is_shown = {
-		has_variable = dubois_improve_rubber_plantation_project_building_choser_var
+		has_variable = dubois_improve_rubber_project_building_choser_var
 		#Active Naturalist
-		has_variable = dubois_naturalist_var
-		var:dubois_naturalist_var = {
-			is_busy = no
-		}
-	}
-}
-mr_improve_rubber_plantation_window_chose_button_sgui = {
-	scope = country
-	saved_scopes = {
-        chosen_building
-    }
-	effect = {
-		add_journal_entry = {
-			type = je_dubois_improve_rubber_project
-			target = scope:chosen_building
-		}
-		je:je_dubois_improve_rubber_project = {
-			add_modifier = {
-				name = dubois_naturalist_rubber_cost_modifier
-				multiplier = mr_local_project_cost_very_small_value
+		OR = {
+			var:dubois_naturalist_var ?= {
+				is_busy = no
 			}
-		}
-		remove_variable = dubois_improve_rubber_plantation_project_building_choser_var
-		var:dubois_naturalist_var = {
-			set_character_busy_and_immortal = yes
-		}
-		show_as_tooltip = {
-			add_modifier = {
-				name = dubois_naturalist_rubber_cost_modifier
-				multiplier = mr_local_project_cost_very_small_value
-			}
+			has_journal_entry = je_ito_improve_rubber_project
 		}
 	}
 }
-mr_improve_rubber_plantation_window_close_button_sgui = {
-	scope = country
-	effect = {
-		remove_variable = dubois_improve_rubber_plantation_project_building_choser_var
-	}
-}
-
 #MR_HIPPOCAMPUS_CONGRESS_BUTTON
 mr_hippocampus_congress_button_sgui = {
     scope = country
@@ -963,19 +853,19 @@ mr_stop_naturalist_project_button_sgui = {
 	is_valid = {
 		custom_tooltip = {
 			text = MR_STOP_NATURALIST_PROJECT_POSSIBLE_TT
-			NOT = { has_variable = dubois_stop_naturalist_improving_project_var }
+			NOT = { has_variable = dubois_stop_naturalist_improvement_project_var }
 		}
 		custom_tooltip = {
 			text = MR_STOP_NATURALIST_PROJECT_HAS_ACTIVE_PROJECT_TT
 			OR = {
 				has_journal_entry = je_ito_improve_forestry_project
-				has_journal_entry = je_dubois_improve_rubber_project
+				has_journal_entry = je_ito_improve_rubber_project
 			}
 		}
 	}
 	effect = {
 		set_variable = {
-			name = dubois_stop_naturalist_improving_project_var
+			name = dubois_stop_naturalist_improvement_project_var
 			days = 7
 		}
 	}
