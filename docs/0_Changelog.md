@@ -63,6 +63,7 @@ Fixes:
 - International Mountain Expeditions should no longer fire multiple times.
 - Fixed various bugs with national anthems, e.g. Persia using Peru's anthem (thanks to PPsyrius).
 - The AI will now build instrument workshops instead of airports to get Steinway as a company (thanks to PPsyrius).
+- Various other smaller fixes.
 
 Performance:
 - Improved the performance of the Mountaineering Licence Diplomatic Action.
