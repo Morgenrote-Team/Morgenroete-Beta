@@ -112,6 +112,60 @@ tesla_civil_research_project_effect = {
 	post_notification = tesla_civil_engineering_technology_boost_from_engineer_notification
 }
 
+### Improve Construction Project ###
+#Button Effect
+mr_engineer_improve_construction_button_effect = {
+	if = {
+		limit = {
+			tesla_is_engineering_automated_trigger = yes
+		}
+		clear_variable_list = tesla_improve_construction_buildings_chosen_variable_list
+		ordered_scope_building = {
+			position = 0 #We only want the first one here
+			limit = {
+				tesla_construction_sector_valid_for_improvement_trigger = yes
+			}
+			order_by = level
+			root = {
+				add_to_variable_list = {
+					name = tesla_improve_construction_buildings_chosen_variable_list
+					target = prev
+				}
+			}
+		}
+		add_journal_entry = {
+			type = je_gaudi_construction_sector_project
+		}
+		var:tesla_engineer_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	}
+	else = {
+		clear_variable_list = tesla_improve_construction_sector_building_buildings_variable_list
+		ordered_scope_building = {
+			limit = {
+				tesla_construction_sector_valid_for_improvement_trigger = yes
+			}
+			order_by = level
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = tesla_improve_construction_sector_building_buildings_variable_list
+					target = prev
+				}
+			}
+		}
+		set_variable = gaudi_improve_construction_sector_building_choser_var
+		show_as_tooltip = {
+			add_modifier = {
+				name = tesla_small_engineering_project_cost_modifier
+				multiplier = mr_local_project_cost_small_value
+			}
+		}
+	}
+}
+
 ###### Mechanical Engineering Projects effects ######
 
 #Mechanical Engineering Research Effect
