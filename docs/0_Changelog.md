@@ -44,6 +44,7 @@ Other
 - Added more historical Opera names (thanks to PPsyrius).
 - Added 100+ historical anthems (thanks to PPsyrius).
 - Added 10 historical instruments companies (thanks to PPsyrius).
+- The Improve Forestry and Improve Rubber Plantation JEs can now queue multiple buildings which allows you to take a more hands off aproach to the projects (and ideally reduces the number of events).
 
 Balancing:
 - Slightly lowered Engineer Experience gain from some projects.
