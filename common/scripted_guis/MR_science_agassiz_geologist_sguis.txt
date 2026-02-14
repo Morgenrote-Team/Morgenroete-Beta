@@ -232,17 +232,11 @@ mr_geologist_ore_vein_button_sgui = {
 	saved_scopes = {
         chosen_building
     }
-	is_shown = {
-		NOR = {
-			has_journal_entry = je_agassiz_find_coal_project
-			has_journal_entry = je_agassiz_find_iron_project
-			has_journal_entry = je_agassiz_find_lead_project
-			has_journal_entry = je_agassiz_find_sulfur_project
-			has_journal_entry = je_agassiz_find_gold_project
-			has_journal_entry = je_agassiz_find_uranium_project
-		}
-	}
 	is_valid = {
+		custom_tooltip = {
+			text = MR_PROJECT_ALREADY_ACTIVE_TRIGGER_TT
+			NOT = { has_journal_entry = je_agassiz_improve_mines_project }
+		}
 		custom_tooltip = {
 			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
 			NOT = {
@@ -260,133 +254,7 @@ mr_geologist_ore_vein_button_sgui = {
 		}
 	}
 	effect = {
-		if = {
-			limit = {
-				is_ai = yes
-			}
-			ordered_scope_building = {
-				position = 0 #We only want the first one here
-				limit = {
-					level > 0
-					OR = {
-						is_building_type = building_coal_mine
-						is_building_type = building_iron_mine
-						is_building_type = building_lead_mine
-						is_building_type = building_sulfur_mine
-						is_building_type = building_gold_mine
-						is_building_type = building_uranium_mine
-					}
-					NOT = {
-						has_modifier = agassiz_building_production_mult_modifier
-					}
-				}
-				order_by = earnings
-				save_scope_as = chosen_building
-			}
-			if = {
-				limit = {
-					scope:chosen_building = {
-						is_building_type = building_coal_mine
-					}
-				}
-				add_journal_entry = {
-					type = je_agassiz_find_coal_project
-					target = scope:chosen_building
-				}
-			}
-			else_if = {
-				limit = {
-					scope:chosen_building = {
-						is_building_type = building_iron_mine
-					}
-				}
-				add_journal_entry = {
-					type = je_agassiz_find_iron_project
-					target = scope:chosen_building
-				}
-			}
-			else_if = {
-				limit = {
-					scope:chosen_building = {
-						is_building_type = building_lead_mine
-					}
-				}
-				add_journal_entry = {
-					type = je_agassiz_find_lead_project
-					target = scope:chosen_building
-				}
-			}
-			else_if = {
-				limit = {
-					scope:chosen_building = {
-						is_building_type = building_sulfur_mine
-					}
-				}
-				add_journal_entry = {
-					type = je_agassiz_find_sulfur_project
-					target = scope:chosen_building
-				}
-			}
-			else_if = {
-				limit = {
-					scope:chosen_building = {
-						is_building_type = building_gold_mine
-					}
-				}
-				add_journal_entry = {
-					type = je_agassiz_find_gold_project
-					target = scope:chosen_building
-				}
-			}
-			else_if = {
-				limit = {
-					scope:chosen_building = {
-						is_building_type = building_uranium_mine
-					}
-				}
-				add_journal_entry = {
-					type = je_agassiz_find_uranium_project
-					target = scope:chosen_building
-				}
-			}
-			if = {
-				limit = {
-					has_variable = agassiz_geologist_var
-				}
-				var:agassiz_geologist_var ?= {
-					set_character_busy_and_immortal = yes
-				}
-			}
-		}
-		else = {
-			clear_variable_list = agassiz_improve_mine_buildings_variable_list
-			ordered_scope_building = {
-				limit = {
-					level > 0
-					OR = {
-						is_building_type = building_coal_mine
-						is_building_type = building_iron_mine
-						is_building_type = building_lead_mine
-						is_building_type = building_sulfur_mine
-						is_building_type = building_gold_mine
-						is_building_type = building_uranium_mine
-					}
-					NOT = {
-						has_modifier = agassiz_building_production_mult_modifier
-					}
-				}
-				order_by = earnings
-				check_range_bounds = no
-
-				root = {
-					add_to_variable_list = {
-						name = agassiz_improve_mine_buildings_variable_list
-						target = prev
-					}
-				}
-			}
-			set_variable = agassiz_improve_mine_project_building_choser_var
-		}
+		mr_geologist_improve_mines_button_effect = yes
 	}
 
 	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
