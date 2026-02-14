@@ -1082,63 +1082,126 @@ mr_engineer_improve_construction_window_change_chosen_buildings_button_sgui = {
 }
 
 #Mechanical Improvement Project
+mr_engineer_improve_industries_transfer_from_general_list_to_prioritized_list_button_sgui = {
+	scope = country
+	saved_scopes = {
+        chosen_building
+    }
+	effect = {
+		remove_list_variable = {
+			name = gaudi_improve_mechanical_improvement_building_buildings_variable_list
+			target = scope:chosen_building
+		}
+		add_to_variable_list = {
+			name = tesla_improve_industries_buildings_chosen_variable_list
+			target = scope:chosen_building
+		}
+	}
+}
+
+mr_engineer_improve_industries_transfer_from_prioritized_list_to_general_list_button_sgui = {
+	scope = country
+	saved_scopes = {
+        chosen_building
+    }
+	effect = {
+		remove_list_variable = {
+			name = tesla_improve_industries_buildings_chosen_variable_list
+			target = scope:chosen_building
+		}
+		add_to_variable_list = {
+			name = gaudi_improve_mechanical_improvement_building_buildings_variable_list
+			target = scope:chosen_building
+		}
+	}
+}
+
 mr_sort_mechanical_improvement_building_by_size_button_sgui = {
 	scope = country
 	effect = {
-		clear_variable_list = gaudi_improve_mechanical_improvement_building_buildings_variable_list
-		ordered_scope_building = {
-			limit = {
-				tesla_building_valid_for_mechanical_improvement_trigger = yes
-			}
-			order_by = level
-			check_range_bounds = no
-
-			root = {
-				add_to_variable_list = {
-					name = gaudi_improve_mechanical_improvement_building_buildings_variable_list
-					target = prev
-				}
-			}
+		sort_variable_list = {
+			name = gaudi_improve_mechanical_improvement_building_buildings_variable_list
+			order = level
 		}
 	}
 }
 mr_sort_mechanical_improvement_building_by_productivity_button_sgui = {
 	scope = country
 	effect = {
-		clear_variable_list = gaudi_improve_mechanical_improvement_building_buildings_variable_list
-		ordered_scope_building = {
-			limit = {
-				tesla_building_valid_for_mechanical_improvement_trigger = yes
-			}
-			order_by = earnings
-			check_range_bounds = no
-
-			root = {
-				add_to_variable_list = {
-					name = gaudi_improve_mechanical_improvement_building_buildings_variable_list
-					target = prev
-				}
-			}
+		sort_variable_list = {
+			name = gaudi_improve_mechanical_improvement_building_buildings_variable_list
+			order = earnings
 		}
 	}
 }
 mr_sort_mechanical_improvement_building_by_employment_percentage_button_sgui = {
 	scope = country
 	effect = {
-		clear_variable_list = gaudi_improve_mechanical_improvement_building_buildings_variable_list
-		ordered_scope_building = {
-			limit = {
-				tesla_building_valid_for_mechanical_improvement_trigger = yes
-			}
-			order_by = occupancy
-			check_range_bounds = no
+		sort_variable_list = {
+			name = gaudi_improve_mechanical_improvement_building_buildings_variable_list
+			order = occupancy
+		}
+	}
+}
 
-			root = {
-				add_to_variable_list = {
-					name = gaudi_improve_mechanical_improvement_building_buildings_variable_list
-					target = prev
-				}
+mr_engineer_improve_industries_window_close_button_sgui = {
+	scope = country
+	effect = {
+		remove_variable = gaudi_improve_mechanical_improvement_building_building_choser_var
+		clear_variable_list  = gaudi_improve_mechanical_improvement_building_buildings_variable_list
+		if = {
+			limit = {
+				NOT = { has_journal_entry = je_gaudi_modernizing_industries_project }
 			}
+			clear_variable_list  = tesla_improve_industries_buildings_chosen_variable_list
+		}
+	}
+}
+
+mr_engineer_improve_industries_window_start_button_sgui = {
+	scope = country
+	is_shown = {
+		NOT = { has_journal_entry = je_gaudi_modernizing_industries_project }
+	}
+	is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_ANY_CHOSEN_BUILDINGS_TRIGGER_TT
+			has_variable_list = tesla_improve_industries_buildings_chosen_variable_list
+		}
+	}
+	effect = {
+		remove_variable = gaudi_improve_mechanical_improvement_building_building_choser_var
+
+		add_journal_entry = { type = je_gaudi_modernizing_industries_project }
+		show_as_tooltip = {
+			add_modifier = {
+				name = tesla_small_engineering_project_cost_modifier
+				multiplier = mr_local_project_cost_small_value
+			}
+		}
+		var:tesla_engineer_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+		clear_variable_list  = gaudi_improve_mechanical_improvement_building_buildings_variable_list
+	}
+}
+
+mr_engineer_improve_industries_window_change_chosen_buildings_button_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_gaudi_modernizing_industries_project
+	}
+	is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_ANY_CHOSEN_BUILDINGS_TRIGGER_TT
+			has_variable_list = tesla_improve_industries_buildings_chosen_variable_list
+		}
+	}
+	effect = {
+		remove_variable = gaudi_improve_mechanical_improvement_building_building_choser_var
+		clear_variable_list  = gaudi_improve_mechanical_improvement_building_buildings_variable_list
+		je:je_gaudi_modernizing_industries_project = {
+			mr_journal_entry_save_remaining_list_entries_as_variable_effect = { LIST_NAME = tesla_improve_industries_buildings_chosen_variable_list }
 		}
 	}
 }
