@@ -6,6 +6,7 @@ Fixes:
 - Fixed the close buttons of the new multi-building-chooser UI.
 - There are no longer a total of 6 levels of healthcare institution levels.
 - Naturalist Projects no longer make the Biologist busy.
+- Fixed the Improve Agriculture icon when the project is active.
 
 Changes:
 - The Construction Sector Project now uses the new system to queue multiple buildings.
