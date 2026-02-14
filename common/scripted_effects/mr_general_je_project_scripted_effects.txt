@@ -85,6 +85,75 @@ mr_journal_entry_project_monthly_effect = {
 	}
 }
 
+#### General effect to use in JEs that handles the monthly progress (1 Modifier) ###
+#Takes these Parameters:
+# PROGRESS_BAR_NAME = Name of the Progress Bar used in the JE
+# PROGRESS_COST = name of script_value or number that controls the cost of the next step
+# MODIFIER_1 = name of the first modifier to be added
+# BUILDING_LIST_NAME = name of the variable list in which the buildingsa are saved
+# ROLE = Role name for experience gain effect
+mr_journal_entry_building_1_modifier_project_monthly_effect = {
+	scope:journal_entry = {
+		#Executed if Progress is high enough
+		if = {
+			limit = {
+				scripted_bar_progress = {
+					name = $PROGRESS_BAR_NAME$
+					value >= $PROGRESS_COST$
+				}
+			}
+			#Removes Progress
+			set_bar_progress = {
+				name = $PROGRESS_BAR_NAME$
+				value = 0
+			}
+			#Adds third Modifier, Experience and chooses new building if possible
+			var:mr_target_building_var ?= {
+				add_modifier = {
+					name = $MODIFIER_1$
+				}
+			}
+
+			root = {
+				#Removes old building from List
+				ordered_in_list = {
+					variable = $BUILDING_LIST_NAME$
+					position = 0
+
+					root = {
+						remove_list_variable = {
+							name = $BUILDING_LIST_NAME$
+							target = prev
+						}
+					}
+				}
+				#Adds new building if possible
+				if = {
+					limit = { has_variable_list = $BUILDING_LIST_NAME$ }
+					ordered_in_list = {
+						variable = $BUILDING_LIST_NAME$
+						position = 0
+
+						scope:journal_entry = {
+							set_variable = {
+								name = mr_target_building_var
+								value = prev
+							}
+						}
+					}
+				}
+				mr_academics_small_experience_gain_effect = { ROLE = $ROLE$ }
+			}
+
+			change_variable = {
+				name = mr_num_improved_buildings_var
+				add = 1
+			}
+		}
+	}
+	mr_journal_entry_save_remaining_list_entries_as_variable_effect = { LIST_NAME = $BUILDING_LIST_NAME$ }
+}
+
 #### General effect to use in JEs that handles the monthly progress ###
 #Takes these Parameters:
 # PROGRESS_BAR_NAME = Name of the Progress Bar used in the JE
