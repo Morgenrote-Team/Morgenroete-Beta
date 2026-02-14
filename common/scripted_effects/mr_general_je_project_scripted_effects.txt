@@ -85,6 +85,81 @@ mr_journal_entry_project_monthly_effect = {
 	}
 }
 
+#Effect to remove an entry from a list
+# Necessary as removing an entry from a list otherwise just replaces the element with the one at the end of the list.
+# LIST = the list from which you want to copy an entry
+# SCOPE = The element you want to remove
+mr_remove_element_from_list = {
+	ordered_in_list = {
+		variable = $LIST$
+
+		if = {
+			limit = {
+				NOT = { $SCOPE$ ?= this }
+			}
+
+			prev = {
+				add_to_variable_list = {
+					name = saved_variable_list
+					target = prev
+				}
+			}
+		}
+	}
+	clear_variable_list = $LIST$
+	ordered_in_list = {
+		variable = saved_variable_list
+
+		prev = {
+			add_to_variable_list = {
+				name = $LIST$
+				target = prev
+			}
+		}
+	}
+	clear_variable_list = saved_variable_list
+}
+
+#Effect to transfer a list entry from one list to another without changing the order of the source list
+# Necessary as removing an entry from a list otherwise just replaces the element with the one at the end of the list.
+# SOURCE_LIST = the list from which you want to copy an entry
+# TARGET_LIST = the list to which you want to transfer the element
+# SCOPE = The element you want to transfer
+mr_transfer_element_from_list_to_list = {
+	ordered_in_list = {
+		variable = $SOURCE_LIST$
+
+		if = {
+			limit = {
+				NOT = { $SCOPE$ ?= this }
+			}
+
+			root = {
+				add_to_variable_list = {
+					name = saved_variable_list
+					target = prev
+				}
+			}
+		}
+	}
+	clear_variable_list = $SOURCE_LIST$
+	ordered_in_list = {
+		variable = saved_variable_list
+
+		root = {
+			add_to_variable_list = {
+				name = $SOURCE_LIST$
+				target = prev
+			}
+		}
+	}
+	clear_variable_list = saved_variable_list
+	add_to_variable_list = {
+		name = $TARGET_LIST$
+		target = $SCOPE$
+	}
+}
+
 #### General effect to use in JEs that handles the monthly progress (1 Modifier) ###
 #Takes these Parameters:
 # PROGRESS_BAR_NAME = Name of the Progress Bar used in the JE
@@ -116,16 +191,9 @@ mr_journal_entry_building_1_modifier_project_monthly_effect = {
 
 			root = {
 				#Removes old building from List
-				ordered_in_list = {
-					variable = $BUILDING_LIST_NAME$
-					position = 0
-
-					root = {
-						remove_list_variable = {
-							name = $BUILDING_LIST_NAME$
-							target = prev
-						}
-					}
+				mr_remove_element_from_list = {
+					LIST = $BUILDING_LIST_NAME$
+					SCOPE = scope:journal_entry.var:mr_target_building_var
 				}
 				#Adds new building if possible
 				if = {
@@ -214,16 +282,9 @@ mr_journal_entry_building_3_modifier_project_monthly_effect = {
 
 				root = {
 					#Removes old building from List
-					ordered_in_list = {
-						variable = $BUILDING_LIST_NAME$
-						position = 0
-
-						root = {
-							remove_list_variable = {
-								name = $BUILDING_LIST_NAME$
-								target = prev
-							}
-						}
+					mr_remove_element_from_list = {
+						LIST = $BUILDING_LIST_NAME$
+						SCOPE = scope:journal_entry.var:mr_target_building_var
 					}
 					#Adds new building if possible
 					if = {
