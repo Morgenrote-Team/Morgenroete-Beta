@@ -2,6 +2,125 @@
 
 #by Lord R
 
+#Mining Buildings
+mr_geologist_improve_mine_transfer_from_general_list_to_prioritized_list_button_sgui = {
+	scope = country
+	saved_scopes = {
+        chosen_building
+    }
+	effect = {
+		mr_transfer_element_from_list_to_list = {
+			SOURCE_LIST = agassiz_improve_mine_buildings_variable_list
+			TARGET_LIST = agassiz_improve_mine_buildings_chosen_variable_list
+			SCOPE = scope:chosen_building
+		}
+	}
+}
+
+mr_geologist_improve_mine_transfer_from_prioritized_list_to_general_list_button_sgui = {
+	scope = country
+	saved_scopes = {
+        chosen_building
+    }
+	effect = {
+		mr_transfer_element_from_list_to_list = {
+			SOURCE_LIST = agassiz_improve_mine_buildings_chosen_variable_list
+			TARGET_LIST = agassiz_improve_mine_buildings_variable_list
+			SCOPE = scope:chosen_building
+		}
+	}
+}
+
+mr_geologist_improve_mine_sort_buildings_by_size_button_sgui = {
+	scope = country
+	effect = {
+		sort_variable_list = {
+			name = agassiz_improve_mine_buildings_variable_list
+			order = level
+		}
+	}
+}
+mr_geologist_improve_mine_sort_buildings_by_productivity_button_sgui = {
+	scope = country
+	effect = {
+		sort_variable_list = {
+			name = agassiz_improve_mine_buildings_variable_list
+			order = earnings
+		}
+	}
+}
+mr_geologist_improve_mine_sort_buildings_by_employment_percentage_button_sgui = {
+	scope = country
+	effect = {
+		sort_variable_list = {
+			name = agassiz_improve_mine_buildings_variable_list
+			order = occupancy
+		}
+	}
+}
+
+mr_geologist_improve_mine_window_close_button_sgui = {
+	scope = country
+	effect = {
+		remove_variable = agassiz_improve_mine_project_building_choser_var
+		clear_variable_list  = agassiz_improve_mine_buildings_variable_list
+		if = {
+			limit = {
+				NOT = { has_journal_entry = je_agassiz_improve_mines_project }
+			}
+			clear_variable_list  = agassiz_improve_mine_buildings_chosen_variable_list
+		}
+	}
+}
+
+mr_geologist_improve_mine_window_start_button_sgui = {
+	scope = country
+	is_shown = {
+		NOT = { has_journal_entry = je_agassiz_improve_mines_project }
+	}
+	is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_ANY_CHOSEN_BUILDINGS_TRIGGER_TT
+			has_variable_list = agassiz_improve_mine_buildings_chosen_variable_list
+		}
+	}
+	effect = {
+		remove_variable = agassiz_improve_mine_project_building_choser_var
+
+		add_journal_entry = { type = je_agassiz_improve_mines_project }
+		show_as_tooltip = {
+			add_modifier = {
+				name = agassiz_ore_search_cost_modifier
+				multiplier = mr_local_project_cost_small_value
+			}
+		}
+		var:agassiz_geologist_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+		clear_variable_list  = agassiz_improve_mine_buildings_variable_list
+	}
+}
+
+mr_geologist_improve_mine_window_change_chosen_buildings_button_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_agassiz_improve_mines_project
+	}
+	is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_ANY_CHOSEN_BUILDINGS_TRIGGER_TT
+			has_variable_list = agassiz_improve_mine_buildings_chosen_variable_list
+		}
+	}
+	effect = {
+		remove_variable = agassiz_improve_mine_project_building_choser_var
+		clear_variable_list  = agassiz_improve_mine_buildings_variable_list
+		je:je_agassiz_improve_mines_project = {
+			mr_journal_entry_save_remaining_list_entries_as_variable_effect = { LIST_NAME = agassiz_improve_mine_buildings_chosen_variable_list }
+		}
+	}
+}
+
 #Agriculture Buildings
 mr_biologist_improve_agriculture_transfer_from_general_list_to_prioritized_list_button_sgui = {
 	scope = country
@@ -9,13 +128,10 @@ mr_biologist_improve_agriculture_transfer_from_general_list_to_prioritized_list_
         chosen_building
     }
 	effect = {
-		remove_list_variable = {
-			name = theiler_improve_agriculture_buildings_variable_list
-			target = scope:chosen_building
-		}
-		add_to_variable_list = {
-			name = theiler_improve_agriculture_buildings_chosen_variable_list
-			target = scope:chosen_building
+		mr_transfer_element_from_list_to_list = {
+			SOURCE_LIST = theiler_improve_agriculture_buildings_variable_list
+			TARGET_LIST = theiler_improve_agriculture_buildings_chosen_variable_list
+			SCOPE = scope:chosen_building
 		}
 	}
 }
@@ -26,13 +142,10 @@ mr_biologist_improve_agriculture_transfer_from_prioritized_list_to_general_list_
         chosen_building
     }
 	effect = {
-		remove_list_variable = {
-			name = theiler_improve_agriculture_buildings_chosen_variable_list
-			target = scope:chosen_building
-		}
-		add_to_variable_list = {
-			name = theiler_improve_agriculture_buildings_variable_list
-			target = scope:chosen_building
+		mr_transfer_element_from_list_to_list = {
+			SOURCE_LIST = theiler_improve_agriculture_buildings_chosen_variable_list
+			TARGET_LIST = theiler_improve_agriculture_buildings_variable_list
+			SCOPE = scope:chosen_building
 		}
 	}
 }
@@ -134,13 +247,10 @@ mr_naturalist_improve_forestry_transfer_from_general_list_to_prioritized_list_bu
         chosen_building
     }
 	effect = {
-		remove_list_variable = {
-			name = ito_improve_forestry_buildings_variable_list
-			target = scope:chosen_building
-		}
-		add_to_variable_list = {
-			name = ito_improve_forestry_buildings_chosen_variable_list
-			target = scope:chosen_building
+		mr_transfer_element_from_list_to_list = {
+			SOURCE_LIST = ito_improve_forestry_buildings_variable_list
+			TARGET_LIST = ito_improve_forestry_buildings_chosen_variable_list
+			SCOPE = scope:chosen_building
 		}
 	}
 }
@@ -151,13 +261,10 @@ mr_naturalist_improve_forestry_transfer_from_prioritized_list_to_general_list_bu
         chosen_building
     }
 	effect = {
-		remove_list_variable = {
-			name = ito_improve_forestry_buildings_chosen_variable_list
-			target = scope:chosen_building
-		}
-		add_to_variable_list = {
-			name = ito_improve_forestry_buildings_variable_list
-			target = scope:chosen_building
+		mr_transfer_element_from_list_to_list = {
+			SOURCE_LIST = ito_improve_forestry_buildings_chosen_variable_list
+			TARGET_LIST = ito_improve_forestry_buildings_variable_list
+			SCOPE = scope:chosen_building
 		}
 	}
 }
@@ -259,13 +366,10 @@ mr_naturalist_improve_rubber_transfer_from_general_list_to_prioritized_list_butt
         chosen_building
     }
 	effect = {
-		remove_list_variable = {
-			name = ito_improve_rubber_buildings_variable_list
-			target = scope:chosen_building
-		}
-		add_to_variable_list = {
-			name = ito_improve_rubber_buildings_chosen_variable_list
-			target = scope:chosen_building
+		mr_transfer_element_from_list_to_list = {
+			SOURCE_LIST = ito_improve_rubber_buildings_variable_list
+			TARGET_LIST = ito_improve_rubber_buildings_chosen_variable_list
+			SCOPE = scope:chosen_building
 		}
 	}
 }
@@ -276,13 +380,10 @@ mr_naturalist_improve_rubber_transfer_from_prioritized_list_to_general_list_butt
         chosen_building
     }
 	effect = {
-		remove_list_variable = {
-			name = ito_improve_rubber_buildings_chosen_variable_list
-			target = scope:chosen_building
-		}
-		add_to_variable_list = {
-			name = ito_improve_rubber_buildings_variable_list
-			target = scope:chosen_building
+		mr_transfer_element_from_list_to_list = {
+			SOURCE_LIST = ito_improve_rubber_buildings_chosen_variable_list
+			TARGET_LIST = ito_improve_rubber_buildings_variable_list
+			SCOPE = scope:chosen_building
 		}
 	}
 }

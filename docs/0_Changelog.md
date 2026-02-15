@@ -1,8 +1,11 @@
-Changelog fot 2.7.0d "Pasteur"
+Changelog fot 2.7.0e "Pasteur"
 
 Fixes:
-- The Civil Engineer will now become available again after stopping the Construction Sector Project.
+- The new projects now use the correct order when improving buildings.
+- When changing the order of the buildings you will no longer suddenly get the lowest entry of the list at the top.
+- The Mechanical Improvement Project no longer gives a random 24 point bonus all the time.
+- The Biologist will no longer start the game busy if you have an engineer with a project.
 
 Changes:
-- The Construction Sector Project now uses the new system to queue multiple buildings.
-- The UIs that let you queue Buildings now indicate that Project in the title.
+- There is now only one Journal Entry for all mine improvements. It should cover mines from mods as well and now supports the new building queue.
+- Added a cheat variable (mr_cheat_progress_var) that you can use to get way more progress for some projects. Just set it to your country and projects will be faster ;)
