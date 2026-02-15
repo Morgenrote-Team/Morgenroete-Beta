@@ -446,7 +446,7 @@ je_mendelejew_element_isolation = {
 
 ###Improve Fertilizer Factories###
 je_mendelejew_improve_fertilizer_project = {
-	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+	icon = "gfx/interface/icons/goods_icons/fertilizer.dds"
 
 	scripted_progress_bar = mendelejew_chemist_improve_chemical_plant_project_progress_bar
 
@@ -556,14 +556,6 @@ je_mendelejew_improve_fertilizer_project = {
 		clear_variable_list = mendelejew_improve_chemical_plants_buildings_chosen_variable_list
 
 		mendelejew_set_chemist_unbusy_effect = yes
-
-
-		remove_variable = mendelejew_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = mendelejew_chemist_fertilizer_cost_modifier
-			}
-		}
 	}
 
 	weight = 30
@@ -573,160 +565,121 @@ je_mendelejew_improve_fertilizer_project = {
 
 ###Improve Explosives Factories###
 je_mendelejew_improve_explosives_project = {
-	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+	icon = "gfx/interface/icons/goods_icons/explosives.dds"
+
+	scripted_progress_bar = mendelejew_chemist_improve_explosives_factory_project_progress_bar
 
 	scripted_button = mendelejew_stop_chemistry_project_button
+	scripted_button = je_mendelejew_improve_explosives_project_change_list_button
 
 	group = je_group_mendelejew_chemistry
 
-	on_monthly_pulse = {
-		effect = {
-			#Calculates the Progress added (see mendelejew_scripted_effects for calculation)
-			mendelejew_chemist_improvement_progress = yes
-			#Adds the monthly progress to the variable
-			change_variable = {
-				name = mendelejew_chemist_improvement_progress_var
-				add = var:mendelejew_monthly_chemist_improvement_progress_var
+	immediate = {
+		set_variable = mendelejew_can_stop_active_improvement_project_var #This is used to check if the country has a project already
+		scope:journal_entry = {
+			add_modifier = {
+				name = mendelejew_chemist_explosives_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
 			}
-			if = {
-				limit = { var:mendelejew_chemist_improvement_progress_var > mendelejew_improvement_progress_cost }
-				if = {
-					limit = {
-						scope:target = {
-							NOT = { has_modifier = mendelejew_building_throughput_add_modifier }
-						}
-					}
-					scope:target = {
-						add_modifier = {
-							name = mendelejew_building_throughput_add_modifier
-						}
-					}
-					change_variable = {
-						name = mendelejew_chemist_improvement_progress_var
-						subtract = mendelejew_improvement_progress_cost
-					}
-				}
-				else_if = {
-					limit = {
-						scope:target = {
-							NOT = { has_modifier = mendelejew_building_production_mult_modifier }
-						}
-					}
-					scope:target = {
-						add_modifier = {
-							name = mendelejew_building_production_mult_modifier
-						}
-					}
-					change_variable = {
-						name = mendelejew_chemist_improvement_progress_var
-						subtract = mendelejew_improvement_progress_cost
-					}
-				}
-				else = {
-					scope:target = {
-						add_modifier = {
-							name = mendelejew_building_goods_input_mult_modifier
-						}
-					}
-					change_variable = {
-						name = mendelejew_chemist_improvement_progress_var
-						subtract = mendelejew_improvement_progress_cost
-					}
+			set_variable = {
+				name = mr_num_improved_buildings_var
+				value = 0
+			}
+		}
+		ordered_in_list = {
+			variable = mendelejew_improve_explosives_factory_buildings_chosen_variable_list
+			position = 0
+
+			scope:journal_entry = {
+				set_variable = {
+					name = mr_target_building_var
+					value = prev
 				}
 			}
+		}
+		scope:journal_entry = {
+			mr_journal_entry_save_remaining_list_entries_as_variable_effect = { LIST_NAME = mendelejew_improve_explosives_factory_buildings_chosen_variable_list }
 		}
 	}
 
-	immediate = {
-		set_variable = mendelejew_can_stop_active_improvement_project_var #This is used to check if the country has a project already
-		#Sets the Chemist Improvement Progress at the beginning
-		set_variable = {
-			name = mendelejew_chemist_improvement_progress_var
-			value = 0
+	on_monthly_pulse = {
+		effect = {
+			mr_journal_entry_building_3_modifier_project_monthly_effect = {
+				PROGRESS_BAR_NAME = mendelejew_chemist_improve_explosives_factory_project_progress_bar
+				PROGRESS_COST = 24
+				MODIFIER_1 = mendelejew_building_throughput_add_modifier
+				MODIFIER_2 = mendelejew_building_production_mult_modifier
+				MODIFIER_3 = mendelejew_building_goods_input_mult_modifier
+				BUILDING_LIST_NAME = mendelejew_improve_explosives_factory_buildings_chosen_variable_list
+				ROLE = chemist
+			}
 		}
-		mendelejew_chemist_improvement_progress = yes #Determines how much Chemist Improvement Progress will be added next month
 	}
 
 	complete = {
 		custom_tooltip = {
-			text = mendelejew_building_has_throughput_modifier_tt
-			scope:target = {
-				has_modifier = mendelejew_building_throughput_add_modifier
-			}
-		}
-		custom_tooltip = {
-			text = mendelejew_building_has_production_modifier_tt
-			scope:target = {
-				has_modifier = mendelejew_building_production_mult_modifier
-			}
-		}
-		custom_tooltip = {
-			text = mendelejew_building_has_input_modifier_tt
-			scope:target = {
-				has_modifier = mendelejew_building_goods_input_mult_modifier
+			text = je_improve_building_project_complete_tt
+			NOT = {
+				has_variable_list = mendelejew_improve_explosives_factory_buildings_chosen_variable_list
 			}
 		}
 	}
 
 	on_complete = {
-		remove_variable = mendelejew_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		remove_variable = mendelejew_can_stop_active_improvement_project_var
 		show_as_tooltip = {
-			remove_modifier = mendelejew_chemist_explosives_cost_modifier
+			scope:journal_entry = {
+				remove_modifier = mendelejew_chemist_explosives_cost_modifier
+			}
 		}
+		clear_variable_list = mendelejew_improve_explosives_factory_buildings_chosen_variable_list
 
-		#Those should be removed in every mechanical chemisting je
-		remove_variable = mendelejew_chemist_improvement_progress_var
-		remove_variable = mendelejew_monthly_chemist_improvement_progress_var
-
+		mendelejew_set_chemist_unbusy_effect = yes
 		var:mendelejew_chemist_var ?= {
-			set_character_busy_and_immortal = no
+			set_variable = {
+				name = mendelejew_chemist_achievement_explosives_improvement_finished_var
+				value = flag:mendelejew_chemist_achievement_explosives_improvement_finished_loc
+			}
 		}
-		ai_chemistry_automation_effect = yes
-		trigger_event = {
-			id = mendelejew.502
-			popup = yes
+		if = {
+			limit = { mendelejew_is_chemistry_automated_trigger = no }
+			trigger_event = {
+				id = mendelejew.502
+				popup = yes
+			}
 		}
-	}
-
-	current_value = {
-		#Keeps track of the chemisting Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:mendelejew_chemist_improvement_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in mendelejew_script_values
-		value = mendelejew_improvement_progress_cost
+		set_variable = {
+			name = mr_num_improved_explosives_factory_buildings_var
+			value = scope:journal_entry.var:mr_num_improved_buildings_var
+		}
 	}
 
 	invalid = {
 		custom_tooltip = {
 			text = mendelejew_stop_chemist_improving_project_tt
-			has_variable = mendelejew_stop_chemist_improving_project_var
+			OR = {
+				has_variable = mendelejew_stop_chemist_improving_project_var
+				mendelejew_has_chemist_no_tooltip_trigger = no
+			}
 		}
 	}
 
 	on_invalid = {
-		remove_variable = mendelejew_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
-		show_as_tooltip = {
-			remove_modifier = mendelejew_chemist_explosives_cost_modifier
-		}
-
-		#Those should be removed in every mechanical chemisting je
-		remove_variable = mendelejew_chemist_improvement_progress_var
-		remove_variable = mendelejew_monthly_chemist_improvement_progress_var
-
+		remove_variable = mendelejew_can_stop_active_improvement_project_var
 		remove_variable = mendelejew_stop_chemist_improving_project_var
-		var:mendelejew_chemist_var ?= {
-			set_character_busy_and_immortal = no
+		show_as_tooltip = {
+			scope:journal_entry = {
+				remove_modifier = mendelejew_chemist_explosives_cost_modifier
+			}
 		}
-		ai_chemistry_automation_effect = yes
-	}
+		clear_variable_list = mendelejew_improve_chemical_plants_buildings_chosen_variable_list
 
-	progressbar = yes
+		mendelejew_set_chemist_unbusy_effect = yes
+	}
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 ###Improve Synthetics Factories###
