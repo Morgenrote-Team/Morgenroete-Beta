@@ -8,3 +8,4 @@ Fixes:
 
 Changes:
 - There is now only one Journal Entry for all mine improvements. It should cover mines from mods as well and now supports the new building queue.
+- Added a cheat variable (mr_cheat_progress_var) that you can use to get way more progress for some projects. Just set it to your country and projects will be faster ;)
