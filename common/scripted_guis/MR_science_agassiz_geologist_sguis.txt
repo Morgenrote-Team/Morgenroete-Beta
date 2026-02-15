@@ -268,25 +268,11 @@ mr_geologist_ore_vein_button_sgui = {
 mr_geologist_ore_vein_stop_button_sgui = {
 	scope = country
 	is_shown = {
-		OR = {
-			has_journal_entry = je_agassiz_find_coal_project
-			has_journal_entry = je_agassiz_find_iron_project
-			has_journal_entry = je_agassiz_find_lead_project
-			has_journal_entry = je_agassiz_find_sulfur_project
-			has_journal_entry = je_agassiz_find_gold_project
-			has_journal_entry = je_agassiz_find_uranium_project
-		}
+		has_journal_entry = je_agassiz_improve_mines_project
 	}
 	is_valid = {
 		NOT = { has_variable = agassiz_stop_geologist_improving_project_var }
-		OR = {
-			has_journal_entry = je_agassiz_find_coal_project
-			has_journal_entry = je_agassiz_find_iron_project
-			has_journal_entry = je_agassiz_find_lead_project
-			has_journal_entry = je_agassiz_find_sulfur_project
-			has_journal_entry = je_agassiz_find_gold_project
-			has_journal_entry = je_agassiz_find_uranium_project
-		}
+		has_journal_entry = je_agassiz_improve_mines_project
 	}
 	effect = {
 		custom_tooltip = {
@@ -309,126 +295,6 @@ mr_improve_mine_window_active_sgui = {
 		}
 	}
 }
-mr_improve_mine_window_chose_button_sgui = {
-	scope = country
-	saved_scopes = {
-        chosen_building
-    }
-	effect = {
-		if = {
-			limit = {
-				scope:chosen_building = {
-					is_building_type = building_coal_mine
-				}
-			}
-			add_journal_entry = {
-				type = je_agassiz_find_coal_project
-				target = scope:chosen_building
-			}
-			show_as_tooltip = {
-				add_modifier = {
-					name = agassiz_ore_search_cost_modifier
-					multiplier = mr_local_project_cost_small_value
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				scope:chosen_building = {
-					is_building_type = building_iron_mine
-				}
-			}
-			add_journal_entry = {
-				type = je_agassiz_find_iron_project
-				target = scope:chosen_building
-			}
-			show_as_tooltip = {
-				add_modifier = {
-					name = agassiz_ore_search_cost_modifier
-					multiplier = mr_local_project_cost_small_value
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				scope:chosen_building = {
-					is_building_type = building_lead_mine
-				}
-			}
-			add_journal_entry = {
-				type = je_agassiz_find_lead_project
-				target = scope:chosen_building
-			}
-			show_as_tooltip = {
-				add_modifier = {
-					name = agassiz_ore_search_cost_modifier
-					multiplier = mr_local_project_cost_very_small_value
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				scope:chosen_building = {
-					is_building_type = building_sulfur_mine
-				}
-			}
-			add_journal_entry = {
-				type = je_agassiz_find_sulfur_project
-				target = scope:chosen_building
-			}
-			show_as_tooltip = {
-				add_modifier = {
-					name = agassiz_ore_search_cost_modifier
-					multiplier = mr_local_project_cost_very_small_value
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				scope:chosen_building = {
-					is_building_type = building_gold_mine
-				}
-			}
-			add_journal_entry = {
-				type = je_agassiz_find_gold_project
-				target = scope:chosen_building
-			}
-			show_as_tooltip = {
-				add_modifier = {
-					name = agassiz_ore_search_cost_modifier
-					multiplier = mr_local_project_cost_medium_value
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				scope:chosen_building = {
-					is_building_type = building_uranium_mine
-				}
-			}
-			add_journal_entry = {
-				type = je_agassiz_find_uranium_project
-				target = scope:chosen_building
-			}
-			show_as_tooltip = {
-				add_modifier = {
-					name = agassiz_ore_search_cost_modifier
-					multiplier = mr_local_project_cost_medium_value
-				}
-			}
-		}
-		remove_variable = agassiz_improve_mine_project_building_choser_var
-		var:agassiz_geologist_var = {
-			set_character_busy_and_immortal = yes
-		}
-	}
-}
-mr_improve_mine_window_close_button_sgui = {
-	scope = country
-	effect = {
-		remove_variable = agassiz_improve_mine_project_building_choser_var
-	}
-}
 
 #MR_GEOLOGIST_OIL_BUTTON_TT
 mr_geologist_oil_button_sgui = {
@@ -437,6 +303,10 @@ mr_geologist_oil_button_sgui = {
         chosen_building
     }
 	is_valid = {
+		custom_tooltip = {
+			text = MR_PROJECT_ALREADY_ACTIVE_TRIGGER_TT
+			NOT = { has_journal_entry = je_agassiz_find_oil_project }
+		}
 		custom_tooltip = {
 			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
 			NOT = {
@@ -454,69 +324,7 @@ mr_geologist_oil_button_sgui = {
 		}
 	}
 	effect = {
-		if = {
-			limit = {
-				is_ai = yes
-			}
-			ordered_scope_building = {
-				position = 0 #We only want the first one here
-				limit = {
-					level > 0
-					is_building_type = building_oil_rig
-					NOT = {
-						has_modifier = agassiz_building_production_2_mult_modifier
-					}
-				}
-				order_by = earnings
-				save_scope_as = chosen_building
-			}
-			add_journal_entry = {
-				type = je_agassiz_find_oil_project
-				target = scope:chosen_building
-			}
-			je:je_agassiz_find_oil_project = {
-				add_modifier = {
-					name = agassiz_ore_search_cost_modifier
-					multiplier = mr_local_project_cost_medium_value
-				}
-			}
-			if = {
-				limit = {
-					has_variable = agassiz_geologist_var
-				}
-				var:agassiz_geologist_var = {
-					set_character_busy_and_immortal = yes
-				}
-			}
-		}
-		else = {
-			clear_variable_list = agassiz_improve_oil_rig_buildings_variable_list
-			ordered_scope_building = {
-				limit = {
-					level > 0
-					is_building_type = building_oil_rig
-					NOT = {
-						has_modifier = agassiz_building_production_2_mult_modifier
-					}
-				}
-				order_by = earnings
-				check_range_bounds = no
-
-				root = {
-					add_to_variable_list = {
-						name = agassiz_improve_oil_rig_buildings_variable_list
-						target = prev
-					}
-				}
-			}
-			set_variable = agassiz_improve_oil_rig_project_building_choser_var
-			show_as_tooltip = {
-				add_modifier = {
-					name = agassiz_ore_search_cost_modifier
-					multiplier = mr_local_project_cost_medium_value
-				}
-			}
-		}
+		mr_geologist_improve_oil_rig_button_effect = yes
 	}
 
 	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
@@ -547,45 +355,13 @@ mr_improve_oil_rig_window_active_sgui = {
 	scope = country
 	is_shown = {
 		has_variable = agassiz_improve_oil_rig_project_building_choser_var
-		#Active Naturalist
-		has_variable = agassiz_geologist_var
-		var:agassiz_geologist_var = {
-			is_busy = no
-		}
-	}
-}
-mr_improve_oil_rig_window_chose_button_sgui = {
-	scope = country
-	saved_scopes = {
-        chosen_building
-    }
-	effect = {
-		add_journal_entry = {
-			type = je_agassiz_find_oil_project
-			target = scope:chosen_building
-		}
-		je:je_agassiz_find_oil_project = {
-			add_modifier = {
-				name = agassiz_ore_search_cost_modifier
-				multiplier = mr_local_project_cost_medium_value
+		OR = {
+			has_journal_entry = je_agassiz_find_oil_project
+			#Active Naturalist
+			var:agassiz_geologist_var ?= {
+				is_busy = no
 			}
 		}
-		show_as_tooltip = {
-			add_modifier = {
-				name = agassiz_ore_search_cost_modifier
-				multiplier = mr_local_project_cost_medium_value
-			}
-		}
-		remove_variable = agassiz_improve_oil_rig_project_building_choser_var
-		var:agassiz_geologist_var = {
-			set_character_busy_and_immortal = yes
-		}
-	}
-}
-mr_improve_oil_rig_window_close_button_sgui = {
-	scope = country
-	effect = {
-		remove_variable = agassiz_improve_oil_rig_project_building_choser_var
 	}
 }
 

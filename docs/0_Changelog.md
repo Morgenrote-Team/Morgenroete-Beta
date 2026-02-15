@@ -6,6 +6,7 @@ Fixes:
 
 Changes:
 - Reworked the Chemists improvement project to use the new building queue system.
+- Reworked the Find Oil project to use the new building queue system.
 
 Localization:
 - Added better flavor texts for pharmaceuticals events (thanks to PeacefuICitizen).
