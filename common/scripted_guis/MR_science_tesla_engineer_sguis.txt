@@ -1254,9 +1254,13 @@ mr_aeronautical_engineer_airport_button = {
 	scope = country
 	is_valid = {
 		custom_tooltip = {
+			text = MR_PROJECT_ALREADY_ACTIVE_TRIGGER_TT
+			NOT = { has_journal_entry = je_gaudi_civil_airports_project }
+		}
+		custom_tooltip = {
 			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
 			NOT = {
-				has_variable = gaudi_improve_airport_building_choser_var
+				has_variable = tesla_improve_airport_building_choser_var
 			}
 		}
 		tesla_has_aeronautical_engineer_trigger = yes
@@ -1269,28 +1273,7 @@ mr_aeronautical_engineer_airport_button = {
 		}
 	}
 	effect = {
-		clear_variable_list = gaudi_improve_airport_building_buildings_variable_list
-		ordered_scope_building = {
-			limit = {
-				tesla_airport_valid_for_improvement_trigger = yes
-			}
-			order_by = earnings
-			check_range_bounds = no
-
-			root = {
-				add_to_variable_list = {
-					name = gaudi_improve_airport_building_buildings_variable_list
-					target = prev
-				}
-			}
-		}
-		set_variable = gaudi_improve_airport_building_choser_var
-		show_as_tooltip = {
-			add_modifier = {
-				name = tesla_medium_engineering_project_cost_modifier
-				multiplier = mr_local_project_cost_medium_value
-			}
-		}
+		mr_engineer_improve_airport_button_effect = yes
 	}
 }
 #Active
@@ -1304,46 +1287,14 @@ mr_aeronautical_engineer_airport_active = {
 mr_improve_airport_window_active_sgui = {
 	scope = country
 	is_shown = {
-		has_variable = gaudi_improve_airport_building_choser_var
-		#Active Engineer
-		has_variable = tesla_engineer_var
-		var:tesla_engineer_var = {
-			is_busy = no
-		}
-	}
-}
-mr_improve_airport_building_window_chose_button_sgui = {
-	scope = country
-	saved_scopes = {
-        chosen_building
-    }
-	effect = {
-		add_journal_entry = {
-			type = je_gaudi_civil_airports_project
-			target = scope:chosen_building
-		}
-		je:je_gaudi_civil_airports_project = {
-			add_modifier = {
-				name = tesla_medium_engineering_project_cost_modifier
-				multiplier = mr_local_project_cost_medium_value
+		has_variable = tesla_improve_airport_building_choser_var
+		OR = {
+			has_journal_entry = je_gaudi_civil_airports_project
+			#Active Engineer
+			var:tesla_engineer_var ?= {
+				is_busy = no
 			}
 		}
-		remove_variable = gaudi_improve_airport_building_choser_var
-		var:tesla_engineer_var = {
-			set_character_busy_and_immortal = yes
-		}
-		show_as_tooltip = {
-			add_modifier = {
-				name = tesla_medium_engineering_project_cost_modifier
-				multiplier = mr_local_project_cost_medium_value
-			}
-		}
-	}
-}
-mr_improve_airport_building_window_close_button_sgui = {
-	scope = country
-	effect = {
-		remove_variable = gaudi_improve_airport_building_choser_var
 	}
 }
 
