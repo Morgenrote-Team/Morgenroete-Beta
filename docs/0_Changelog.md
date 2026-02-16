@@ -14,6 +14,7 @@ Changes:
 - Reworked the Chemists improvement project to use the new building queue system.
 - Reworked the Find Oil project to use the new building queue system.
 - Reworked the Improve Airport project to use the new building queue system.
+- Reworked the Urban Planning project to use the new building queue system.
 - Physician alerts for foreign disease options no longer trigger when physician is busy.
 - Mountaineer training journal no longer automatically pins to the sidebar, can be cancelled, and does not block alerts for other more important activities.
 - Added more Opera names (thanks to PPsyrius)
