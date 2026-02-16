@@ -1311,31 +1311,121 @@ mr_chemist_improve_synthetics_factory_window_change_chosen_buildings_button_sgui
 	}
 }
 
-#Urban Center
-mr_sort_urban_center_by_size_button_sgui = {
+#Urban Centers
+mr_architect_urban_planning_transfer_from_general_list_to_prioritized_list_button_sgui = {
+	scope = country
+	saved_scopes = {
+        chosen_building
+    }
+	effect = {
+		mr_transfer_element_from_list_to_list = {
+			SOURCE_LIST = gaudi_architect_urban_planning_buildings_variable_list
+			TARGET_LIST = gaudi_architect_urban_planning_buildings_chosen_variable_list
+			SCOPE = scope:chosen_building
+		}
+	}
+}
+
+mr_architect_urban_planning_transfer_from_prioritized_list_to_general_list_button_sgui = {
+	scope = country
+	saved_scopes = {
+        chosen_building
+    }
+	effect = {
+		mr_transfer_element_from_list_to_list = {
+			SOURCE_LIST = gaudi_architect_urban_planning_buildings_chosen_variable_list
+			TARGET_LIST = gaudi_architect_urban_planning_buildings_variable_list
+			SCOPE = scope:chosen_building
+		}
+	}
+}
+
+mr_architect_urban_planning_sort_buildings_by_size_button_sgui = {
 	scope = country
 	effect = {
 		sort_variable_list = {
-			name = gaudi_urban_planning_buildings_variable_list
+			name = gaudi_architect_urban_planning_buildings_variable_list
 			order = level
 		}
 	}
 }
-mr_sort_urban_center_by_productivity_button_sgui = {
+mr_architect_urban_planning_sort_buildings_by_productivity_button_sgui = {
 	scope = country
 	effect = {
 		sort_variable_list = {
-			name = gaudi_urban_planning_buildings_variable_list
+			name = gaudi_architect_urban_planning_buildings_variable_list
 			order = earnings
 		}
 	}
 }
-mr_sort_urban_center_by_employment_percentage_button_sgui = {
+mr_architect_urban_planning_sort_buildings_by_employment_percentage_button_sgui = {
 	scope = country
 	effect = {
 		sort_variable_list = {
-			name = gaudi_urban_planning_buildings_variable_list
+			name = gaudi_architect_urban_planning_buildings_variable_list
 			order = occupancy
+		}
+	}
+}
+
+mr_architect_urban_planning_window_close_button_sgui = {
+	scope = country
+	effect = {
+		remove_variable = gaudi_architect_urban_planning_building_choser_var
+		clear_variable_list  = gaudi_architect_urban_planning_buildings_variable_list
+		if = {
+			limit = {
+				NOT = { has_journal_entry = je_gaudi_urban_planning_project }
+			}
+			clear_variable_list  = gaudi_architect_urban_planning_buildings_chosen_variable_list
+		}
+	}
+}
+
+mr_architect_urban_planning_window_start_button_sgui = {
+	scope = country
+	is_shown = {
+		NOT = { has_journal_entry = je_gaudi_urban_planning_project }
+	}
+	is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_ANY_CHOSEN_BUILDINGS_TRIGGER_TT
+			has_variable_list = gaudi_architect_urban_planning_buildings_chosen_variable_list
+		}
+	}
+	effect = {
+		remove_variable = gaudi_architect_urban_planning_building_choser_var
+
+		add_journal_entry = { type = je_gaudi_urban_planning_project }
+		show_as_tooltip = {
+			add_modifier = {
+				name = gaudi_urban_planning_cost_modifier
+				multiplier = mr_local_project_cost_small_value
+			}
+		}
+		var:gaudi_architect_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+		clear_variable_list  = gaudi_architect_urban_planning_buildings_variable_list
+	}
+}
+
+mr_architect_urban_planning_window_change_chosen_buildings_button_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_gaudi_urban_planning_project
+	}
+	is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_ANY_CHOSEN_BUILDINGS_TRIGGER_TT
+			has_variable_list = gaudi_architect_urban_planning_buildings_chosen_variable_list
+		}
+	}
+	effect = {
+		remove_variable = gaudi_architect_urban_planning_building_choser_var
+		clear_variable_list  = gaudi_architect_urban_planning_buildings_variable_list
+		je:je_gaudi_urban_planning_project = {
+			mr_journal_entry_save_remaining_list_entries_as_variable_effect = { LIST_NAME = gaudi_architect_urban_planning_buildings_chosen_variable_list }
 		}
 	}
 }

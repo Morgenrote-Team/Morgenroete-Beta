@@ -302,7 +302,7 @@ mr_architect_urban_planning_button_sgui = {
 		custom_tooltip = {
 			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
 			NOT = {
-				has_variable = gaudi_urban_planning_project_building_choser_var
+				has_variable = gaudi_architect_urban_planning_building_choser_var
 			}
 		}
 		custom_tooltip = {
@@ -323,73 +323,7 @@ mr_architect_urban_planning_button_sgui = {
 		}
 	}
 	effect = {
-		if = {
-			limit = {
-				is_ai = yes
-			}
-			ordered_scope_building = {
-				position = 0 #We only want the first one here
-				limit = {
-					is_building_type = building_urban_center
-					level > 0
-					NAND = {
-						has_modifier = gaudi_urban_building_throughput_add_modifier
-						has_modifier = gaudi_urban_building_production_mult_modifier
-						has_modifier = gaudi_urban_building_goods_input_mult_modifier
-					}
-				}
-				order_by = earnings
-				save_scope_as = chosen_building
-			}
-			add_journal_entry = {
-				type = je_gaudi_urban_planning_project
-				target = scope:chosen_building
-			}
-			je:je_gaudi_urban_planning_project = {
-				add_modifier = {
-					name = gaudi_urban_planning_cost_modifier
-					multiplier = root.mr_local_project_cost_very_small_value
-				}
-			}
-			if = {
-				limit = {
-					has_variable = gaudi_architect_var
-				}
-				var:gaudi_architect_var = {
-					set_character_busy_and_immortal = yes
-				}
-			}
-		}
-		else = {
-			clear_variable_list = gaudi_urban_planning_buildings_variable_list
-			ordered_scope_building = {
-				limit = {
-					level > 0
-					is_building_type = building_urban_center
-					NAND = {
-						has_modifier = gaudi_urban_building_throughput_add_modifier
-						has_modifier = gaudi_urban_building_production_mult_modifier
-						has_modifier = gaudi_urban_building_goods_input_mult_modifier
-					}
-				}
-				order_by = earnings
-				check_range_bounds = no
-
-				root = {
-					add_to_variable_list = {
-						name = gaudi_urban_planning_buildings_variable_list
-						target = prev
-					}
-				}
-			}
-			set_variable = gaudi_urban_planning_project_building_choser_var
-			show_as_tooltip = {
-				add_modifier = {
-					name = gaudi_urban_planning_cost_modifier
-					multiplier = mr_local_project_cost_very_small_value
-				}
-			}
-		}
+		mr_architect_urban_planning_button_effect = yes
 	}
 
 	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
@@ -405,43 +339,17 @@ mr_architect_urban_planning_button_active_sgui = {
 	}
 }
 
-mr_rchitect_urban_planning_window_active_sgui = {
+mr_architect_urban_planning_window_active_sgui = {
 	scope = country
 	is_shown = {
-		has_variable = gaudi_urban_planning_project_building_choser_var
-		#Active Architect
-		gaudi_has_active_architect = yes
-	}
-}
-mr_rchitect_urban_planning_window_chose_button_sgui = {
-	scope = country
-	saved_scopes = {
-		chosen_building
-	}
-	effect = {
-		add_journal_entry = {
-			type = je_gaudi_urban_planning_project
-			target = scope:chosen_building
-		}
-		je:je_gaudi_urban_planning_project = {
-			add_modifier = {
-				name = gaudi_urban_planning_cost_modifier
-				multiplier = root.mr_local_project_cost_very_small_value
-			}
-		}
-		remove_variable = gaudi_urban_planning_project_building_choser_var
-		var:gaudi_architect_var = {
-			set_character_busy_and_immortal = yes
+		has_variable = gaudi_architect_urban_planning_building_choser_var
+		OR = {
+			has_journal_entry = je_gaudi_urban_planning_project
+			#Active Architect
+			gaudi_has_active_architect = yes
 		}
 	}
 }
-mr_rchitect_urban_planning_window_close_button_sgui = {
-	scope = country
-	effect = {
-		remove_variable = gaudi_urban_planning_project_building_choser_var
-	}
-}
-
 
 #########################################################################################
 
