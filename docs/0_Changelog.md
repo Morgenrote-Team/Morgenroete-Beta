@@ -7,6 +7,9 @@ Fixes:
 - The number of remaining buildings is now properly updated when you change the list.
 - The Worldcup alert should now work properly.
 
+Biology:
+- Added Alerts for the Biologist.
+
 Changes:
 - Reworked the Chemists improvement project to use the new building queue system.
 - Reworked the Find Oil project to use the new building queue system.
