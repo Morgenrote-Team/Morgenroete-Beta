@@ -59,3 +59,57 @@ mr_geologist_improve_mines_button_effect = {
 		}
 	}
 }
+
+### Improve Oil Rigs Project ###
+#Button Effect
+mr_geologist_improve_oil_rig_button_effect = {
+	if = {
+		limit = {
+			agassiz_is_geology_automated_trigger = yes
+		}
+		clear_variable_list = agassiz_improve_oil_rig_buildings_chosen_variable_list
+		ordered_scope_building = {
+			position = 0 #We only want the first one here
+			limit = {
+				agassiz_oil_rig_valid_for_improvement_trigger = yes
+			}
+			order_by = earnings
+			root = {
+				add_to_variable_list = {
+					name = agassiz_improve_oil_rig_buildings_chosen_variable_list
+					target = prev
+				}
+			}
+		}
+		add_journal_entry = {
+			type = je_agassiz_find_oil_project
+		}
+		var:agassiz_geologist_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	}
+	else = {
+		clear_variable_list = agassiz_improve_oil_rig_buildings_variable_list
+		ordered_scope_building = {
+			limit = {
+				agassiz_oil_rig_valid_for_improvement_trigger = yes
+			}
+			order_by = earnings
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = agassiz_improve_oil_rig_buildings_variable_list
+					target = prev
+				}
+			}
+		}
+		set_variable = agassiz_improve_oil_rig_project_building_choser_var
+		show_as_tooltip = {
+			add_modifier = {
+				name = agassiz_ore_search_cost_modifier
+				multiplier = mr_local_project_cost_medium_value
+			}
+		}
+	}
+}

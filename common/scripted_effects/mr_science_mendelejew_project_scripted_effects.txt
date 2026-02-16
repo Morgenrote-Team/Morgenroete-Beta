@@ -101,3 +101,246 @@ mendelejew_chemical_research_project_effect = {
 	chemist_experience_gain_effect = { AMOUNT = 5 }
 	post_notification = mendelejew_chemistry_technology_boost_from_chemist_notification
 }
+
+### Improve Chemical Plant Project ###
+#Button Effect
+mr_chemist_improve_chemical_plant_button_effect = {
+	if = {
+		limit = {
+			mendelejew_is_chemistry_automated_trigger = yes
+		}
+		clear_variable_list = mendelejew_improve_chemical_plants_buildings_chosen_variable_list
+		ordered_scope_building = {
+			position = 0 #We only want the first one here
+			limit = {
+				mendelejew_building_valid_for_chemical_plant_project_no_tooltip_trigger = yes
+			}
+			order_by = earnings
+			root = {
+				add_to_variable_list = {
+					name = mendelejew_improve_chemical_plants_buildings_chosen_variable_list
+					target = prev
+				}
+			}
+		}
+		add_journal_entry = {
+			type = je_mendelejew_improve_fertilizer_project
+		}
+		var:mendelejew_chemist_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	}
+	else = {
+		clear_variable_list = mendelejew_improve_chemical_plants_buildings_variable_list
+		ordered_scope_building = {
+			limit = {
+				mendelejew_building_valid_for_chemical_plant_project_no_tooltip_trigger = yes
+			}
+			order_by = earnings
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = mendelejew_improve_chemical_plants_buildings_variable_list
+					target = prev
+				}
+			}
+		}
+		set_variable = mendelejew_improve_chemical_plants_building_choser_var
+		show_as_tooltip = {
+			add_modifier = {
+				name = mendelejew_chemist_fertilizer_cost_modifier
+				multiplier = mr_local_project_cost_small_value
+			}
+		}
+	}
+}
+
+### Improve Explosives Factory Project ###
+#Button Effect
+mr_chemist_improve_explosives_factory_button_effect = {
+	if = {
+		limit = {
+			mendelejew_is_chemistry_automated_trigger = yes
+		}
+		clear_variable_list = mendelejew_improve_explosives_factory_buildings_variable_list
+		ordered_scope_building = {
+			position = 0 #We only want the first one here
+			limit = {
+				mendelejew_building_valid_for_explosives_factory_project_no_tooltip_trigger = yes
+			}
+			order_by = earnings
+			root = {
+				add_to_variable_list = {
+					name = mendelejew_improve_explosives_factory_buildings_variable_list
+					target = prev
+				}
+			}
+		}
+		add_journal_entry = {
+			type = je_mendelejew_improve_explosives_project
+		}
+		var:mendelejew_chemist_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	}
+	else = {
+		clear_variable_list = mendelejew_improve_explosives_factory_buildings_variable_list
+		ordered_scope_building = {
+			limit = {
+				mendelejew_building_valid_for_explosives_factory_project_no_tooltip_trigger = yes
+			}
+			order_by = earnings
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = mendelejew_improve_explosives_factory_buildings_variable_list
+					target = prev
+				}
+			}
+		}
+		set_variable = mendelejew_improve_explosives_factory_building_choser_var
+		show_as_tooltip = {
+			add_modifier = {
+				name = mendelejew_chemist_explosives_cost_modifier
+				multiplier = mr_local_project_cost_small_value
+			}
+		}
+	}
+}
+
+### Improve Synthetics Factory Project ###
+#Button Effect
+mr_chemist_improve_synthetics_factory_button_effect = {
+	if = {
+		limit = {
+			mendelejew_is_chemistry_automated_trigger = yes
+		}
+		clear_variable_list = mendelejew_improve_synthetics_factory_buildings_variable_list
+		#Chooses a building depending on market supply and price of goods
+		random_list = {
+			1 = { #Synthetics Factory
+				ordered_scope_building = {
+					position = 0 #We only want the first one here
+					limit = {
+						mendelejew_building_valid_for_synthetics_factory_synthetics_project_no_tooltip_trigger = yes
+					}
+					order_by = earnings
+					root = {
+						add_to_variable_list = {
+							name = mendelejew_improve_synthetics_factory_buildings_variable_list
+							target = prev
+						}
+					}
+				}
+
+				modifier = {
+					if = {
+						limit = {
+							OR = {
+								mg:silk ?= { market_goods_has_goods_shortage = yes }
+								mg:dye ?= { market_goods_has_goods_shortage = yes }
+								mg:silk = {
+									market_goods_pricier > 0.25
+								}
+								mg:dye = {
+									market_goods_pricier > 0.25
+								}
+							}
+						}
+						add = 99
+					}
+				}
+			}
+			1 = { #Hydrogenation Plants
+				ordered_scope_building = {
+					position = 0 #We only want the first one here
+					limit = {
+						mendelejew_building_valid_for_synthetics_factory_hydrogenation_project_no_tooltip_trigger = yes
+					}
+					order_by = earnings
+					root = {
+						add_to_variable_list = {
+							name = mendelejew_improve_synthetics_factory_buildings_variable_list
+							target = prev
+						}
+					}
+				}
+
+				modifier = {
+					if = {
+						limit = {
+							OR = {
+								mg:oil ?= { market_goods_has_goods_shortage = yes }
+								mg:oil = {
+									market_goods_pricier > 0.25
+								}
+							}
+						}
+						add = 99
+					}
+				}
+			}
+			1 = { #Synthetic Rubber Factory
+				ordered_scope_building = {
+					position = 0 #We only want the first one here
+					limit = {
+						mendelejew_building_valid_for_synthetics_factory_synthetic_rubber_project_no_tooltip_trigger = yes
+					}
+					order_by = earnings
+					root = {
+						add_to_variable_list = {
+							name = mendelejew_improve_synthetics_factory_buildings_variable_list
+							target = prev
+						}
+					}
+				}
+
+				modifier = {
+					if = {
+						limit = {
+							OR = {
+								mg:rubber ?= { market_goods_has_goods_shortage = yes }
+								mg:rubber = {
+									market_goods_pricier > 0.25
+								}
+							}
+						}
+						add = 99
+					}
+				}
+			}
+		}
+		add_journal_entry = {
+			type = je_mendelejew_improve_synthetics_project
+		}
+		var:mendelejew_chemist_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	}
+	else = {
+		clear_variable_list = mendelejew_improve_synthetics_factory_buildings_variable_list
+		ordered_scope_building = {
+			limit = {
+				mendelejew_building_valid_for_synthetics_factory_project_no_tooltip_trigger = yes
+			}
+			order_by = earnings
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = mendelejew_improve_synthetics_factory_buildings_variable_list
+					target = prev
+				}
+			}
+		}
+		set_variable = mendelejew_improve_synthetics_factory_building_choser_var
+		show_as_tooltip = {
+			add_modifier = {
+				name = mendelejew_chemist_synthetics_cost_modifier
+				multiplier = mr_local_project_cost_small_value
+			}
+		}
+	}
+}

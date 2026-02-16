@@ -334,6 +334,10 @@ mr_chemist_fertilizer_button_sgui = {
     }
 	is_valid = {
 		custom_tooltip = {
+			text = MR_PROJECT_ALREADY_ACTIVE_TRIGGER_TT
+			NOT = { has_journal_entry = je_mendelejew_improve_fertilizer_project }
+		}
+		custom_tooltip = {
 			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
 			NOT = {
 				has_variable = mendelejew_improve_chemical_plants_building_choser_var
@@ -346,45 +350,12 @@ mr_chemist_fertilizer_button_sgui = {
 		custom_tooltip = {
 			text = MR_CHEMIST_IMPROVE_FERTILIZER_TRIGGER_TT
 			any_scope_building = {
-				is_building_type = building_chemical_plant
-				level > 0
-				NAND = {
-					has_modifier = mendelejew_building_throughput_add_modifier
-					has_modifier = mendelejew_building_production_mult_modifier
-					has_modifier = mendelejew_building_goods_input_mult_modifier
-				}
+				mendelejew_building_valid_for_chemical_plant_project_no_tooltip_trigger = yes
 			}
 		}
 	}
 	effect = {
-		clear_variable_list = mendelejew_improve_chemical_plants_buildings_variable_list
-		ordered_scope_building = {
-			limit = {
-				level > 0
-				is_building_type = building_chemical_plant
-				NAND = {
-					has_modifier = mendelejew_building_throughput_add_modifier
-					has_modifier = mendelejew_building_production_mult_modifier
-					has_modifier = mendelejew_building_goods_input_mult_modifier
-				}
-			}
-			order_by = earnings
-			check_range_bounds = no
-
-			root = {
-				add_to_variable_list = {
-					name = mendelejew_improve_chemical_plants_buildings_variable_list
-					target = prev
-				}
-			}
-		}
-		set_variable = mendelejew_improve_chemical_plants_building_choser_var
-		show_as_tooltip = {
-			add_modifier = {
-				name = mendelejew_chemist_fertilizer_cost_modifier
-				multiplier = mr_local_project_cost_small_value
-			}
-		}
+		mr_chemist_improve_chemical_plant_button_effect = yes
 	}
 
 	#See ai_chemistry_automation_effect for AI
@@ -401,45 +372,13 @@ mr_improve_chemical_plants_window_active_sgui = {
 	scope = country
 	is_shown = {
 		has_variable = mendelejew_improve_chemical_plants_building_choser_var
-		#Active Chemist
-		has_variable = mendelejew_chemist_var
-		var:mendelejew_chemist_var = {
-			is_busy = no
-		}
-	}
-}
-mr_improve_chemical_plants_window_chose_button_sgui = {
-	scope = country
-	saved_scopes = {
-        chosen_building
-    }
-	effect = {
-		add_journal_entry = {
-			type = je_mendelejew_improve_fertilizer_project
-			target = scope:chosen_building
-		}
-		je:je_mendelejew_improve_fertilizer_project = {
-			add_modifier = {
-				name = mendelejew_chemist_fertilizer_cost_modifier
-				multiplier = root.mr_local_project_cost_small_value
+		OR = {
+			has_journal_entry = je_mendelejew_improve_fertilizer_project
+			#Active Chemist
+			var:mendelejew_chemist_var ?= {
+				is_busy = no
 			}
 		}
-		remove_variable = mendelejew_improve_chemical_plants_building_choser_var
-		var:mendelejew_chemist_var = {
-			set_character_busy_and_immortal = yes
-		}
-		show_as_tooltip = {
-			add_modifier = {
-				name = mendelejew_chemist_fertilizer_cost_modifier
-				multiplier = mr_local_project_cost_small_value
-			}
-		}
-	}
-}
-mr_improve_chemical_plants_window_close_button_sgui = {
-	scope = country
-	effect = {
-		remove_variable = mendelejew_improve_chemical_plants_building_choser_var
 	}
 }
 
@@ -450,6 +389,10 @@ mr_chemist_explosives_button_sgui = {
         chosen_building
     }
 	is_valid = {
+		custom_tooltip = {
+			text = MR_PROJECT_ALREADY_ACTIVE_TRIGGER_TT
+			NOT = { has_journal_entry = je_mendelejew_improve_explosives_project }
+		}
 		custom_tooltip = {
 			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
 			NOT = {
@@ -463,45 +406,12 @@ mr_chemist_explosives_button_sgui = {
 		custom_tooltip = {
 			text = MR_CHEMIST_IMPROVE_EXPLOSIVES_TRIGGER_TT
 			any_scope_building = {
-				is_building_type = building_explosives_factory
-				level > 0
-				NAND = {
-					has_modifier = mendelejew_building_throughput_add_modifier
-					has_modifier = mendelejew_building_production_mult_modifier
-					has_modifier = mendelejew_building_goods_input_mult_modifier
-				}
+				mendelejew_building_valid_for_explosives_factory_project_no_tooltip_trigger = yes
 			}
 		}
 	}
 	effect = {
-		clear_variable_list = mendelejew_improve_explosives_factory_buildings_variable_list
-		ordered_scope_building = {
-			limit = {
-				level > 0
-				is_building_type = building_explosives_factory
-				NAND = {
-					has_modifier = mendelejew_building_throughput_add_modifier
-					has_modifier = mendelejew_building_production_mult_modifier
-					has_modifier = mendelejew_building_goods_input_mult_modifier
-				}
-			}
-			order_by = earnings
-			check_range_bounds = no
-
-			root = {
-				add_to_variable_list = {
-					name = mendelejew_improve_explosives_factory_buildings_variable_list
-					target = prev
-				}
-			}
-		}
-		set_variable = mendelejew_improve_explosives_factory_building_choser_var
-		show_as_tooltip = {
-			add_modifier = {
-				name = mendelejew_chemist_explosives_cost_modifier
-				multiplier = mr_local_project_cost_small_value
-			}
-		}
+		mr_chemist_improve_explosives_factory_button_effect = yes
 	}
 
 	#See ai_chemistry_automation_effect for AI
@@ -518,45 +428,14 @@ mr_improve_explosives_factory_window_active_sgui = {
 	scope = country
 	is_shown = {
 		has_variable = mendelejew_improve_explosives_factory_building_choser_var
-		#Active Chemist
-		has_variable = mendelejew_chemist_var
-		var:mendelejew_chemist_var = {
-			is_busy = no
-		}
-	}
-}
-mr_improve_explosives_factory_window_chose_button_sgui = {
-	scope = country
-	saved_scopes = {
-        chosen_building
-    }
-	effect = {
-		add_journal_entry = {
-			type = je_mendelejew_improve_explosives_project
-			target = scope:chosen_building
-		}
-		je:je_mendelejew_improve_explosives_project = {
-			add_modifier = {
-				name = mendelejew_chemist_explosives_cost_modifier
-				multiplier = root.mr_local_project_cost_small_value
+		OR = {
+			has_journal_entry = je_mendelejew_improve_explosives_project
+			#Active Chemist
+			var:mendelejew_chemist_var = {
+				is_busy = no
 			}
 		}
-		remove_variable = mendelejew_improve_explosives_factory_building_choser_var
-		var:mendelejew_chemist_var = {
-			set_character_busy_and_immortal = yes
-		}
-		show_as_tooltip = {
-			add_modifier = {
-				name = mendelejew_chemist_explosives_cost_modifier
-				multiplier = mr_local_project_cost_small_value
-			}
-		}
-	}
-}
-mr_improve_explosives_factory_window_close_button_sgui = {
-	scope = country
-	effect = {
-		remove_variable = mendelejew_improve_explosives_factory_building_choser_var
+
 	}
 }
 
@@ -565,9 +444,13 @@ mr_chemist_synthetics_button_sgui = {
 	scope = country
 	is_valid = {
 		custom_tooltip = {
+			text = MR_PROJECT_ALREADY_ACTIVE_TRIGGER_TT
+			NOT = { has_journal_entry = je_mendelejew_improve_synthetics_project }
+		}
+		custom_tooltip = {
 			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
 			NOT = {
-				has_variable = mendelejew_improve_synthetics_plants_building_choser_var
+				has_variable = mendelejew_improve_synthetics_factory_building_choser_var
 			}
 		}
 		custom_tooltip = {
@@ -591,37 +474,7 @@ mr_chemist_synthetics_button_sgui = {
 		}
 	}
 	effect = {
-		clear_variable_list = mendelejew_improve_synthetics_plants_buildings_variable_list
-		ordered_scope_building = {
-			limit = {
-				level > 0
-				OR = {
-					is_building_type = building_synthetics_plant
-					is_building_type = building_mendelejew_hydrogenation_plants
-				}
-				NAND = {
-					has_modifier = mendelejew_building_throughput_add_modifier
-					has_modifier = mendelejew_building_production_mult_modifier
-					has_modifier = mendelejew_building_goods_input_mult_modifier
-				}
-			}
-			order_by = earnings
-			check_range_bounds = no
-
-			root = {
-				add_to_variable_list = {
-					name = mendelejew_improve_synthetics_plants_buildings_variable_list
-					target = prev
-				}
-			}
-		}
-		set_variable = mendelejew_improve_synthetics_plants_building_choser_var
-		show_as_tooltip = {
-			add_modifier = {
-				name = mendelejew_chemist_synthetics_cost_modifier
-				multiplier = mr_local_project_cost_small_value
-			}
-		}
+		mr_chemist_improve_synthetics_factory_button_effect = yes
 	}
 
 	#See ai_chemistry_automation_effect for AI
@@ -637,46 +490,14 @@ mr_chemist_synthetics_active_sgui = {
 mr_improve_synthetics_plants_window_active_sgui = {
 	scope = country
 	is_shown = {
-		has_variable = mendelejew_improve_synthetics_plants_building_choser_var
-		#Active Chemist
-		has_variable = mendelejew_chemist_var
-		var:mendelejew_chemist_var = {
-			is_busy = no
-		}
-	}
-}
-mr_improve_synthetics_plants_window_chose_button_sgui = {
-	scope = country
-	saved_scopes = {
-        chosen_building
-    }
-	effect = {
-		add_journal_entry = {
-			type = je_mendelejew_improve_synthetics_project
-			target = scope:chosen_building
-		}
-		je:je_mendelejew_improve_synthetics_project = {
-			add_modifier = {
-				name = mendelejew_chemist_synthetics_cost_modifier
-				multiplier = root.mr_local_project_cost_small_value
+		has_variable = mendelejew_improve_synthetics_factory_building_choser_var
+		OR = {
+			has_journal_entry = je_mendelejew_improve_synthetics_project
+			#Active Chemist
+			var:mendelejew_chemist_var = {
+				is_busy = no
 			}
 		}
-		remove_variable = mendelejew_improve_synthetics_plants_building_choser_var
-		var:mendelejew_chemist_var = {
-			set_character_busy_and_immortal = yes
-		}
-		show_as_tooltip = {
-			add_modifier = {
-				name = mendelejew_chemist_synthetics_cost_modifier
-				multiplier = mr_local_project_cost_small_value
-			}
-		}
-	}
-}
-mr_improve_synthetics_plants_window_close_button_sgui = {
-	scope = country
-	effect = {
-		remove_variable = mendelejew_improve_synthetics_plants_building_choser_var
 	}
 }
 

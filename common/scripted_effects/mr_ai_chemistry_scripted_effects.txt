@@ -131,13 +131,7 @@ ai_chemistry_automation_effect = {
 						has_variable = mendelejew_improve_chemical_plants_building_choser_var
 					}
 					any_scope_building = {
-						is_building_type = building_chemical_plant
-						level > 0
-						NAND = {
-							has_modifier = mendelejew_building_throughput_add_modifier
-							has_modifier = mendelejew_building_production_mult_modifier
-							has_modifier = mendelejew_building_goods_input_mult_modifier
-						}
+						mendelejew_building_valid_for_chemical_plant_project_no_tooltip_trigger = yes
 					}
 				}
 
@@ -176,38 +170,7 @@ ai_chemistry_automation_effect = {
 				}
 
 				#Effect
-				ordered_scope_building = {
-					position = 0 #We only want the first one here
-					limit = {
-						level > 0
-						is_building_type = building_chemical_plant
-						NAND = {
-							has_modifier = mendelejew_building_throughput_add_modifier
-							has_modifier = mendelejew_building_production_mult_modifier
-							has_modifier = mendelejew_building_goods_input_mult_modifier
-						}
-					}
-					order_by = earnings
-					save_scope_as = chosen_building
-				}
-				add_journal_entry = {
-					type = je_mendelejew_improve_fertilizer_project
-					target = scope:chosen_building
-				}
-				je:je_mendelejew_improve_fertilizer_project = {
-					add_modifier = {
-						name = mendelejew_chemist_fertilizer_cost_modifier
-						multiplier = root.mr_local_project_cost_small_value
-					}
-				}
-				if = {
-					limit = {
-						has_variable = mendelejew_chemist_var
-					}
-					var:mendelejew_chemist_var = {
-						set_character_busy_and_immortal = yes
-					}
-				}
+				mr_chemist_improve_chemical_plant_button_effect = yes
 			}
 			### Improve Explosives Factories ###
 			10 = {
@@ -217,13 +180,7 @@ ai_chemistry_automation_effect = {
 						has_variable = mendelejew_improve_explosives_factory_building_choser_var
 					}
 					any_scope_building = {
-						is_building_type = building_explosives_factory
-						level > 0
-						NAND = {
-							has_modifier = mendelejew_building_throughput_add_modifier
-							has_modifier = mendelejew_building_production_mult_modifier
-							has_modifier = mendelejew_building_goods_input_mult_modifier
-						}
+						mendelejew_building_valid_for_explosives_factory_project_no_tooltip_trigger = yes
 					}
 				}
 
@@ -252,48 +209,76 @@ ai_chemistry_automation_effect = {
 					#Ai Focus on Economy --> kind of important
 					if = {
 						limit = {
-							OR = {
-								has_strategy = ai_strategy_agricultural_expansion
-								has_strategy = ai_strategy_industrial_expansion
-							}
+							has_strategy = ai_strategy_industrial_expansion
 						}
 						add = 90
 					}
 				}
 
 				#Effect
-				ordered_scope_building = {
-					position = 0 #We only want the first one here
-					limit = {
-						level > 0
-						is_building_type = building_explosives_factory
-						NAND = {
-							has_modifier = mendelejew_building_throughput_add_modifier
-							has_modifier = mendelejew_building_production_mult_modifier
-							has_modifier = mendelejew_building_goods_input_mult_modifier
+				mr_chemist_improve_explosives_factory_button_effect = yes
+			}
+			### Improve Synthetics Factories ###
+			10 = {
+				#Triggers
+				trigger = {
+					NOT = {
+						has_variable = mendelejew_improve_synthetics_factory_building_choser_var
+					}
+					any_scope_building = {
+						mendelejew_building_valid_for_synthetics_factory_project_no_tooltip_trigger = yes
+					}
+				}
+
+				#Modifiers / Weighting
+				modifier = {
+					#Shortage --> Very important
+					if = {
+						limit = {
+							market = {
+								OR = {
+									mg:silk ?= { market_goods_has_goods_shortage = yes }
+									mg:dye ?= { market_goods_has_goods_shortage = yes }
+									mg:oil ?= { market_goods_has_goods_shortage = yes }
+									mg:rubber ?= { market_goods_has_goods_shortage = yes }
+								}
+							}
 						}
+						add = 1000
 					}
-					order_by = earnings
-					save_scope_as = chosen_building
-				}
-				add_journal_entry = {
-					type = je_mendelejew_improve_explosives_project
-					target = scope:chosen_building
-				}
-				je:je_mendelejew_improve_explosives_project = {
-					add_modifier = {
-						name = mendelejew_chemist_explosives_cost_modifier
-						multiplier = root.mr_local_project_cost_small_value
+					#High Prices --> important
+					if = {
+						limit = {
+							market = {
+								OR = {
+									mg:silk = {
+										market_goods_pricier > 0.25
+									}
+									mg:dye = {
+										market_goods_pricier > 0.25
+									}
+									mg:oil = {
+										market_goods_pricier > 0.25
+									}
+									mg:rubber = {
+										market_goods_pricier > 0.25
+									}
+								}
+							}
+						}
+						add = 190
+					}
+					#Ai Focus on Economy --> kind of important
+					if = {
+						limit = {
+							has_strategy = ai_strategy_industrial_expansion
+						}
+						add = 90
 					}
 				}
-				if = {
-					limit = {
-						has_variable = mendelejew_chemist_var
-					}
-					var:mendelejew_chemist_var = {
-						set_character_busy_and_immortal = yes
-					}
-				}
+
+				#Effect
+				mr_chemist_improve_synthetics_factory_button_effect = yes
 			}
 			### Invent Synthetic Oil ###
 			100 = {
