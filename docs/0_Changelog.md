@@ -8,3 +8,4 @@ Fixes:
 - Fixed the invalid effect of the Airport improvement project.
 - The Improve Airports Project now uses the Aeronautical Engineer Progress instead of the Electrical Engineer Progress.
 - The Biologist Rating now gets properly displayed in the GUI.
+- The Electron Microscope now properly gets progress.
