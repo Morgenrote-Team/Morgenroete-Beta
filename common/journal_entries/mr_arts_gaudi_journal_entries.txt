@@ -144,7 +144,7 @@ je_gaudi_study_trip = {
 	on_complete = {
 		custom_tooltip = {
 			text = je_gaudi_study_trip_result
-			
+
 			random_list = {
 				1 = {
 					trigger = {
@@ -331,136 +331,123 @@ je_gaudi_urban_planning_project = {
 
 	group = je_group_gaudi_architecture
 
-	scripted_button = gaudi_stop_architectural_project_button
-
 	scripted_progress_bar = gaudi_urban_planning_project_progress_bar
 
-	on_monthly_pulse = {
-		effect = {
-			if = {
-				#If the Progress reaches the cost, the Modifier will be unlocked in a state
-				limit = {
-					je:je_gaudi_urban_planning_project = {
-						"scripted_bar_progress(gaudi_urban_planning_project_progress_bar)" >= 24
-					}
-				}
-				#Architect gets experience
-				architect_experience_gain_effect = { AMOUNT = 20 }
-				#The state with the next available urban center will be chosen
-				if = {
-					limit = {
-						scope:target = {
-							NOT = { has_modifier = gaudi_urban_building_throughput_add_modifier }
-						}
-					}
-					scope:target = {
-						add_modifier = {
-							name = gaudi_urban_building_throughput_add_modifier
-						}
-					}
-				}
-				else_if = {
-					limit = {
-						scope:target = {
-							NOT = { has_modifier = gaudi_urban_building_production_mult_modifier }
-						}
-					}
-					scope:target = {
-						add_modifier = {
-							name = gaudi_urban_building_production_mult_modifier
-						}
-					}
-				}
-				else = {
-					scope:target = {
-						add_modifier = {
-							name = gaudi_urban_building_goods_input_mult_modifier
-						}
-					}
-				}
-				#The cost will be subtracted from the current progress
-				je:je_gaudi_urban_planning_project = {
-					add_progress = { 
-						name = gaudi_urban_planning_project_progress_bar
-						value = -24
-					}
+	scripted_button = gaudi_stop_architectural_project_button
+	scripted_button = je_gaudi_urban_planning_project_change_list_button
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = gaudi_urban_planning_cost_modifier
+				multiplier = root.mr_local_project_cost_very_small_value
+			}
+			set_variable = {
+				name = mr_num_improved_buildings_var
+				value = 0
+			}
+		}
+		ordered_in_list = {
+			variable = gaudi_architect_urban_planning_buildings_chosen_variable_list
+			position = 0
+
+			scope:journal_entry = {
+				set_variable = {
+					name = mr_target_building_var
+					value = prev
 				}
 			}
 		}
+		scope:journal_entry = {
+			mr_journal_entry_save_remaining_list_entries_as_variable_effect = { LIST_NAME = gaudi_architect_urban_planning_buildings_chosen_variable_list }
+		}
 	}
 
-	immediate = {
-		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
+	on_monthly_pulse = {
+		effect = {
+			mr_journal_entry_building_3_modifier_project_monthly_effect = {
+				PROGRESS_BAR_NAME = gaudi_urban_planning_project_progress_bar
+				PROGRESS_COST = 24
+				MODIFIER_1 = gaudi_urban_building_throughput_add_modifier
+				MODIFIER_2 = gaudi_urban_building_production_mult_modifier
+				MODIFIER_3 = gaudi_urban_building_goods_input_mult_modifier
+				BUILDING_LIST_NAME = gaudi_architect_urban_planning_buildings_chosen_variable_list
+				ROLE_TYPE = artists
+				ROLE = architect
+				ADDITIONAL_EFFECTS = "gaudi_add_x_architectural_splendour_effect = { AMOUNT = 5 }"
+			}
+		}
 	}
 
 	complete = {
 		custom_tooltip = {
-			text = gaudi_building_has_throughput_modifier_tt
-			scope:target = {
-				has_modifier = gaudi_urban_building_throughput_add_modifier
-			}
-		}
-		custom_tooltip = {
-			text = gaudi_building_has_production_modifier_tt
-			scope:target = {
-				has_modifier = gaudi_urban_building_production_mult_modifier
-			}
-		}
-		custom_tooltip = {
-			text = gaudi_building_has_input_modifier_tt
-			scope:target = {
-				has_modifier = gaudi_urban_building_goods_input_mult_modifier
+			text = je_improve_building_project_complete_tt
+			NOT = {
+				has_variable_list = gaudi_architect_urban_planning_buildings_chosen_variable_list
 			}
 		}
 	}
 
 	on_complete = {
-		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
-
-		var:gaudi_architect_var ?= {
-			set_character_busy_and_immortal = no
+		remove_variable = theiler_stop_biological_project_var
+		show_as_tooltip = {
+			scope:journal_entry = {
+				remove_modifier = gaudi_urban_planning_cost_modifier
+			}
 		}
-		trigger_event = {
-			id = gaudi.9
-			popup = yes
+		clear_variable_list = gaudi_architect_urban_planning_buildings_chosen_variable_list
+
+		gaudi_set_architect_unbusy_effect = yes
+		if = {
+			limit = { gaudi_is_architecture_automated_trigger = no }
+			trigger_event = {
+				id = gaudi.9
+				popup = yes
+			}
+		}
+		else = {
+			var:gaudi_architect_var ?= {
+				set_variable = {
+					name = gaudi_architect_achievement_urban_planning_var
+					value = flag:gaudi_architect_achievement_urban_planning_loc
+				}
+			}
+		}
+		set_variable = {
+			name = mr_num_improved_urban_center_buildings_var
+			value = scope:journal_entry.var:mr_num_improved_buildings_var
 		}
 	}
 
 	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_architectural_project_tt
-			has_variable = gaudi_stop_architectural_project_var
+		OR = {
+			custom_tooltip = {
+				text = gaudi_stop_architectural_project_tt
+				has_variable = gaudi_stop_architectural_project_var
+			}
+			custom_tooltip = {
+				text = je_architect_dies_tt
+				gaudi_has_architect_no_tooltip_trigger = no
+			}
 		}
 	}
 
 	on_invalid = {
 		remove_variable = gaudi_stop_architectural_project_var
-		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
-		var:gaudi_architect_var ?= {
-			set_character_busy_and_immortal = no
-		}
-	}
-
-	fail = {
-		custom_tooltip = {
-			text = je_architect_dies_tt
-			NOT = {
-				has_variable = gaudi_architect_var
+		remove_variable = gaudi_can_stop_active_architectural_project_var
+		show_as_tooltip = {
+			scope:journal_entry = {
+				remove_modifier = gaudi_urban_planning_cost_modifier
 			}
 		}
-	}
+		clear_variable_list = gaudi_architect_urban_planning_buildings_chosen_variable_list
 
-	on_fail = {
-		remove_variable = gaudi_stop_architectural_project_var
-		remove_variable = gaudi_can_stop_active_architectural_project_var #Needs to be removed, when the JE is removed
-		var:gaudi_architect_var ?= {
-			set_character_busy_and_immortal = no
-		}
+		gaudi_set_architect_unbusy_effect = yes
 	}
 
 	weight = 25
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 #################################################################
@@ -489,7 +476,7 @@ je_gaudi_capital_expansion_project = {
 				gaudi_capital_expansion_modifier_effect = yes
 				#The cost will be subtracted from the current progress
 				je:je_gaudi_capital_expansion_project = {
-					add_progress = { 
+					add_progress = {
 						name = gaudi_capital_expansion_project_progress_bar
 						value = -30
 					}
@@ -528,7 +515,7 @@ je_gaudi_capital_expansion_project = {
 		scope:journal_entry = {
 			add_modifier = {
 				name = gaudi_capital_expansion_cost_modifier
-				multiplier = money_amount_multiplier_small
+				multiplier = root.mr_local_project_cost_very_small_value
 			}
 		}
 	}
@@ -615,7 +602,7 @@ je_gaudi_blueprint_research = {
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.16
 			popup = yes
 		}
@@ -670,6 +657,12 @@ je_gaudi_custom_monument_blueprint_research = {
 	scripted_progress_bar = gaudi_custom_monument_blueprint_progress_bar
 
 	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = gaudi_custom_monument_blueprint_research_modifier
+				multiplier = root.mr_local_project_cost_large_value
+			}
+		}
 		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
 	}
 
@@ -683,7 +676,7 @@ je_gaudi_custom_monument_blueprint_research = {
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.82
 			popup = yes
 		}
@@ -827,10 +820,10 @@ je_gaudi_splendour_bauhaus = {
 	immediate = {
 		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
 		if = {
-			limit = { 
-				NOT = { 
+			limit = {
+				NOT = {
 					has_variable = gaudi_architectural_splendour_var
-				} 
+				}
 			}
 			set_variable = {
 				name = gaudi_architectural_splendour_var
@@ -858,7 +851,7 @@ je_gaudi_splendour_bauhaus = {
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.52
 			popup = yes
 		}
@@ -1000,10 +993,10 @@ je_gaudi_splendour_neoclassical = {
 	immediate = {
 		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
 		if = {
-			limit = { 
-				NOT = { 
+			limit = {
+				NOT = {
 					has_variable = gaudi_architectural_splendour_var
-				} 
+				}
 			}
 			set_variable = {
 				name = gaudi_architectural_splendour_var
@@ -1031,7 +1024,7 @@ je_gaudi_splendour_neoclassical = {
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.51
 			popup = yes
 		}
@@ -1181,10 +1174,10 @@ je_gaudi_splendour_art_deco = {
 	immediate = {
 		set_variable = gaudi_can_stop_active_architectural_project_var #This is used to check if the country has a project already
 		if = {
-			limit = { 
-				NOT = { 
+			limit = {
+				NOT = {
 					has_variable = gaudi_architectural_splendour_var
-				} 
+				}
 			}
 			set_variable = {
 				name = gaudi_architectural_splendour_var
@@ -1212,7 +1205,7 @@ je_gaudi_splendour_art_deco = {
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.50
 			popup = yes
 		}
@@ -1339,7 +1332,7 @@ je_gaudi_art_nouveau_quarter = {
 				name = gaudi_art_nouveau_quarter_modifier
 			}
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.35
 			popup = yes
 		}
@@ -1379,13 +1372,13 @@ je_gaudi_dombau_phase_1 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.102
 			popup = yes
 		}
@@ -1408,7 +1401,7 @@ je_gaudi_dombau_phase_1 = {
 			}
 			remove_modifier = gaudi_dombau_phase_1_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.109
 			popup = yes
 		}
@@ -1437,7 +1430,7 @@ je_gaudi_dombau_phase_2 = {
 	on_monthly_pulse = {
 		random_events = {
 			350 = gaudi.110 #Gaudí 110: Normal building progress
-			
+
 			2 = gaudi.111 #Gaudí 111: Inferior material
 			4 = gaudi.113 #Gaudí 113: Faster construction progress
 			1 = gaudi.114 #Gaudí 114: Incident
@@ -1456,13 +1449,13 @@ je_gaudi_dombau_phase_2 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.104
 			popup = yes
 		}
@@ -1485,7 +1478,7 @@ je_gaudi_dombau_phase_2 = {
 			}
 			remove_modifier = gaudi_dombau_phase_2_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.109
 			popup = yes
 		}
@@ -1514,7 +1507,7 @@ je_gaudi_dombau_phase_3 = {
 	on_monthly_pulse = {
 		random_events = {
 			350 = gaudi.110 #Gaudí 110: Normal building progress
-			
+
 			2 = gaudi.111 #Gaudí 111: Inferior material
 			4 = gaudi.113 #Gaudí 113: Faster construction progress
 			1 = gaudi.114 #Gaudí 114: Incident
@@ -1533,13 +1526,13 @@ je_gaudi_dombau_phase_3 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.106
 			popup = yes
 		}
@@ -1562,7 +1555,7 @@ je_gaudi_dombau_phase_3 = {
 			}
 			remove_modifier = gaudi_dombau_phase_3_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.109
 			popup = yes
 		}
@@ -1591,7 +1584,7 @@ je_gaudi_dombau_phase_4 = {
 	on_monthly_pulse = {
 		random_events = {
 			350 = gaudi.110 #Gaudí 110: Normal building progress
-			
+
 			2 = gaudi.111 #Gaudí 111: Inferior material
 			4 = gaudi.113 #Gaudí 113: Faster construction progress
 			1 = gaudi.114 #Gaudí 114: Incident
@@ -1610,13 +1603,13 @@ je_gaudi_dombau_phase_4 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.108
 			popup = yes
 		}
@@ -1639,7 +1632,7 @@ je_gaudi_dombau_phase_4 = {
 			}
 			remove_modifier = gaudi_dombau_phase_4_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.109
 			popup = yes
 		}
@@ -1677,13 +1670,13 @@ je_gaudi_gotthard_survey = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.212
 			popup = yes
 		}
@@ -1716,7 +1709,7 @@ je_gaudi_gotthard_survey = {
 			name = gaudi_gotthard_progress
 			value = 0
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.219
 			popup = yes
 		}
@@ -1765,13 +1758,13 @@ je_gaudi_gotthard_construction = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.214
 			popup = yes
 		}
@@ -1814,7 +1807,7 @@ je_gaudi_gotthard_construction = {
 			name = gaudi_gotthard_discontent
 			value = 0
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.219
 			popup = yes
 		}
@@ -1841,13 +1834,13 @@ je_gaudi_gotthard_discontent = {
 	group = je_group_gaudi_architecture
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.247
 			popup = yes
 		}
@@ -1909,8 +1902,8 @@ je_gaudi_cristo = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
@@ -1918,7 +1911,7 @@ je_gaudi_cristo = {
 		gaudi_add_x_architectural_splendour_effect = {
 			AMOUNT = 1
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.302
 			popup = yes
 		}
@@ -1941,7 +1934,7 @@ je_gaudi_cristo = {
 			}
 			remove_modifier = gaudi_cristo_construction_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.309
 			popup = yes
 		}
@@ -1986,13 +1979,13 @@ je_gaudi_mole_phase_1 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.402
 			popup = yes
 		}
@@ -2015,7 +2008,7 @@ je_gaudi_mole_phase_1 = {
 			}
 			remove_modifier = gaudi_mole_phase_1_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.409
 			popup = yes
 		}
@@ -2060,13 +2053,13 @@ je_gaudi_mole_phase_2 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.404
 			popup = yes
 		}
@@ -2089,7 +2082,7 @@ je_gaudi_mole_phase_2 = {
 			}
 			remove_modifier = gaudi_mole_phase_2_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.409
 			popup = yes
 		}
@@ -2141,13 +2134,13 @@ je_gaudi_sagrada_phase_1 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.602
 			popup = yes
 		}
@@ -2170,7 +2163,7 @@ je_gaudi_sagrada_phase_1 = {
 			}
 			remove_modifier = gaudi_sagrada_phase_1_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.629
 			popup = yes
 		}
@@ -2220,13 +2213,13 @@ je_gaudi_sagrada_phase_2 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.604
 			popup = yes
 		}
@@ -2249,7 +2242,7 @@ je_gaudi_sagrada_phase_2 = {
 			}
 			remove_modifier = gaudi_sagrada_phase_2_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.629
 			popup = yes
 		}
@@ -2299,13 +2292,13 @@ je_gaudi_sagrada_phase_3 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.606
 			popup = yes
 		}
@@ -2328,7 +2321,7 @@ je_gaudi_sagrada_phase_3 = {
 			}
 			remove_modifier = gaudi_sagrada_phase_3_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.629
 			popup = yes
 		}
@@ -2378,13 +2371,13 @@ je_gaudi_sagrada_phase_4 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.608
 			popup = yes
 		}
@@ -2407,7 +2400,7 @@ je_gaudi_sagrada_phase_4 = {
 			}
 			remove_modifier = gaudi_sagrada_phase_4_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.629
 			popup = yes
 		}
@@ -2457,13 +2450,13 @@ je_gaudi_sagrada_phase_5 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.610
 			popup = yes
 		}
@@ -2486,7 +2479,7 @@ je_gaudi_sagrada_phase_5 = {
 			}
 			remove_modifier = gaudi_sagrada_phase_5_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.629
 			popup = yes
 		}
@@ -2536,13 +2529,13 @@ je_gaudi_sagrada_phase_6 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.612
 			popup = yes
 		}
@@ -2565,7 +2558,7 @@ je_gaudi_sagrada_phase_6 = {
 			}
 			remove_modifier = gaudi_sagrada_phase_6_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.629
 			popup = yes
 		}
@@ -2615,13 +2608,13 @@ je_gaudi_sagrada_phase_7 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.614
 			popup = yes
 		}
@@ -2644,7 +2637,7 @@ je_gaudi_sagrada_phase_7 = {
 			}
 			remove_modifier = gaudi_sagrada_phase_7_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.629
 			popup = yes
 		}
@@ -2694,13 +2687,13 @@ je_gaudi_sagrada_phase_8 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.616
 			popup = yes
 		}
@@ -2723,7 +2716,7 @@ je_gaudi_sagrada_phase_8 = {
 			}
 			remove_modifier = gaudi_sagrada_phase_8_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.629
 			popup = yes
 		}
@@ -2773,13 +2766,13 @@ je_gaudi_sagrada_phase_9 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.618
 			popup = yes
 		}
@@ -2802,7 +2795,7 @@ je_gaudi_sagrada_phase_9 = {
 			}
 			remove_modifier = gaudi_sagrada_phase_9_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.629
 			popup = yes
 		}
@@ -2852,13 +2845,13 @@ je_gaudi_sagrada_phase_10 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.620
 			popup = yes
 		}
@@ -2881,7 +2874,7 @@ je_gaudi_sagrada_phase_10 = {
 			}
 			remove_modifier = gaudi_sagrada_phase_10_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.629
 			popup = yes
 		}
@@ -2927,13 +2920,13 @@ je_gaudi_neuschwanstein_phase_1 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.702
 			popup = yes
 		}
@@ -2956,7 +2949,7 @@ je_gaudi_neuschwanstein_phase_1 = {
 			}
 			remove_modifier = gaudi_neuschwanstein_phase_1_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.709
 			popup = yes
 		}
@@ -3000,13 +2993,13 @@ je_gaudi_neuschwanstein_phase_2 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.704
 			popup = yes
 		}
@@ -3029,7 +3022,7 @@ je_gaudi_neuschwanstein_phase_2 = {
 			}
 			remove_modifier = gaudi_neuschwanstein_phase_2_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.709
 			popup = yes
 		}
@@ -3074,13 +3067,13 @@ je_gaudi_palacio_phase_1 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.802
 			popup = yes
 		}
@@ -3103,7 +3096,7 @@ je_gaudi_palacio_phase_1 = {
 			}
 			remove_modifier = gaudi_palacio_phase_1_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.809
 			popup = yes
 		}
@@ -3146,13 +3139,13 @@ je_gaudi_palacio_phase_2 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.804
 			popup = yes
 		}
@@ -3175,7 +3168,7 @@ je_gaudi_palacio_phase_2 = {
 			}
 			remove_modifier = gaudi_palacio_phase_2_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.809
 			popup = yes
 		}
@@ -3215,13 +3208,13 @@ je_gaudi_gyeong_phase_1 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.902
 			popup = yes
 		}
@@ -3244,7 +3237,7 @@ je_gaudi_gyeong_phase_1 = {
 			}
 			remove_modifier = gaudi_gyeong_phase_1_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.909
 			popup = yes
 		}
@@ -3285,13 +3278,13 @@ je_gaudi_eiffel_phase_1 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.2102
 			popup = yes
 		}
@@ -3314,7 +3307,7 @@ je_gaudi_eiffel_phase_1 = {
 			}
 			remove_modifier = gaudi_eiffel_phase_1_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.2109
 			popup = yes
 		}
@@ -3357,13 +3350,13 @@ je_gaudi_liberty_phase_1 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.2202
 			popup = yes
 		}
@@ -3386,7 +3379,7 @@ je_gaudi_liberty_phase_1 = {
 			}
 			remove_modifier = gaudi_liberty_phase_1_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.2209
 			popup = yes
 		}
@@ -3429,13 +3422,13 @@ je_gaudi_ben_phase_1 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.2302
 			popup = yes
 		}
@@ -3458,7 +3451,7 @@ je_gaudi_ben_phase_1 = {
 			}
 			remove_modifier = gaudi_ben_phase_1_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.2209
 			popup = yes
 		}
@@ -3499,13 +3492,13 @@ je_gaudi_ben_phase_2 = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.2304
 			popup = yes
 		}
@@ -3528,7 +3521,7 @@ je_gaudi_ben_phase_2 = {
 			}
 			remove_modifier = gaudi_ben_phase_2_modifier
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.2309
 			popup = yes
 		}
@@ -3563,13 +3556,13 @@ je_gaudi_rebuild_campanile = {
 	}
 
 	complete = {
-		scope:journal_entry = { 
-			is_goal_complete = yes 
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = gaudi.71
 			popup = yes
 		}
@@ -3673,7 +3666,7 @@ je_gaudi_summer_burn = {
         has_war_with = c:CHI
     }
     immediate = {
-        
+
     }
     complete = {
 		custom_tooltip = {
@@ -3685,7 +3678,7 @@ je_gaudi_summer_burn = {
         }
     }
     on_complete = {
-        trigger_event = { 
+        trigger_event = {
 			id = gaudi.60
 			popup = yes
 		} # The Burning of the Summer Palace
@@ -3726,7 +3719,7 @@ je_gaudi_ben_burn = {
         }
     }
     on_complete = {
-        trigger_event = { 
+        trigger_event = {
 			id = gaudi.62
 			popup = yes
 		} # The Burning of Big Ben

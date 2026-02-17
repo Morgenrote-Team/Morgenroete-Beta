@@ -125,6 +125,12 @@ je_gaudi_road_project = {
 	}
 
 	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = tesla_medium_engineering_project_cost_modifier
+				multiplier = mr_local_project_cost_medium_value
+			}
+		}
 		set_variable = gaudi_can_stop_active_engineering_project_var #This is used to check if the country has a project already
 		#Sets the Civil Engineering Progress at the beginning
 		set_variable = {
@@ -220,7 +226,7 @@ je_gaudi_road_project = {
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 je_tesla_irrigation_project = {
@@ -248,7 +254,7 @@ je_tesla_irrigation_project = {
 					var:tesla_civil_engineering_progress_var > tesla_irrigation_progress_cost
 				}
 				#Adds Experience to the Engineer
-				civil_engineer_experience_gain_effect = { AMOUNT = 5 }
+				civil_engineer_experience_gain_effect = { AMOUNT = 3 }
 				#Effect if the priority list exists
 				if = {
 					limit = {
@@ -369,7 +375,7 @@ je_tesla_irrigation_project = {
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+			remove_modifier = tesla_medium_engineering_project_cost_modifier
 		}
 		remove_variable = tesla_num_states_var
 		remove_variable = tesla_num_states_irrigation_var
@@ -421,7 +427,7 @@ je_tesla_irrigation_project = {
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+			remove_modifier = tesla_medium_engineering_project_cost_modifier
 		}
 		remove_variable = tesla_num_states_var
 		remove_variable = tesla_num_states_irrigation_var
@@ -447,7 +453,7 @@ je_tesla_irrigation_project = {
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 je_gaudi_bridge_project = {
@@ -522,6 +528,12 @@ je_gaudi_bridge_project = {
 	}
 
 	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = tesla_medium_engineering_project_cost_modifier
+				multiplier = mr_local_project_cost_medium_value
+			}
+		}
 		set_variable = gaudi_can_stop_active_engineering_project_var #This is used to check if the country has a project already
 		#Sets the Civil Engineering Progress at the beginning
 		set_variable = {
@@ -617,7 +629,7 @@ je_gaudi_bridge_project = {
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 je_gaudi_tunnel_project = {
@@ -692,6 +704,12 @@ je_gaudi_tunnel_project = {
 	}
 
 	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = tesla_medium_engineering_project_cost_modifier
+				multiplier = mr_local_project_cost_medium_value
+			}
+		}
 		set_variable = gaudi_can_stop_active_engineering_project_var #This is used to check if the country has a project already
 		#Sets the Civil Engineering Progress at the beginning
 		set_variable = {
@@ -787,7 +805,7 @@ je_gaudi_tunnel_project = {
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 je_gaudi_railway_project = {
@@ -815,7 +833,7 @@ je_gaudi_railway_project = {
 					var:tesla_civil_engineering_progress_var > tesla_railway_progress_cost
 				}
 				#Adds Experience to the Engineer
-				civil_engineer_experience_gain_effect = { AMOUNT = 3 }
+				civil_engineer_experience_gain_effect = { AMOUNT = 2 }
 				#Effect if the priority list exists
 				if = {
 					limit = {
@@ -971,7 +989,7 @@ je_gaudi_railway_project = {
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+			remove_modifier = tesla_medium_engineering_project_cost_modifier
 		}
 		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_modernized_railway_var
@@ -1018,7 +1036,7 @@ je_gaudi_railway_project = {
 
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		remove_modifier = gaudi_engineer_project_medium_cost_modifier
+		remove_modifier = tesla_medium_engineering_project_cost_modifier
 		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_num_states_modernized_railway_var
 		remove_variable = gaudi_stop_engineering_project_var
@@ -1039,137 +1057,103 @@ je_gaudi_railway_project = {
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 je_gaudi_construction_sector_project = {
-	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+	icon = "gfx/interface/icons/invention_icons/steel_frame_buildings.dds"
+
+	scripted_progress_bar = tesla_engineer_improve_construction_project_progress_bar
 
 	scripted_button = gaudi_stop_engineering_project_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
+	scripted_button = je_gaudi_construction_sector_project_change_list_button
 
 	group = je_group_tesla_engineers
 
-	on_monthly_pulse = {
-		effect = {
-			#Calculates the Progress added (see gaudi_scripted_effects for calculation)
-			tesla_civil_engineering_progress = yes
-			#Adds the monthly progress to the variable
-			change_variable = {
-				name = tesla_civil_engineering_progress_var
-				add = var:gaudi_monthly_civil_engineering_progress_var
+	immediate = {
+		set_variable = gaudi_can_stop_active_engineering_project_var #This is used to check if the country has a project already
+		scope:journal_entry = {
+			add_modifier = {
+				name = tesla_small_engineering_project_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
 			}
-			if = {
-				#If the Progress reaches the cost, the modifier will be added to a building
-				limit = {
-					var:tesla_civil_engineering_progress_var > tesla_construction_sectors_progress_cost
-				}
-				if = { #First modifier
-					limit = {
-						scope:target = {
-							NOT = { has_modifier = gaudi_new_construction_methods_modifier }
-						}
-					}
-					#The construction sector with the most construction sectors will be chosen
-					scope:target = {
-						add_modifier = {
-							name = gaudi_new_construction_methods_modifier
-						}
-					}
-				}
-				else_if = {
-					limit = {
-						scope:target = {
-							NOT = { has_modifier = gaudi_faster_construction_methods_modifier }
-						}
-					}
-					#The construction sector with the most construction sectors will be chosen
-					scope:target = {
-						add_modifier = {
-							name = gaudi_faster_construction_methods_modifier
-						}
-					}
-				}
-				else = {
-					#The construction sector with the most construction sectors will be chosen
-					scope:target = {
-						add_modifier = {
-							name = gaudi_efficient_construction_methods_modifier
-						}
-					}
-				}
-				#The cost will be subtracted from the current progress
-				change_variable = {
-					name = tesla_civil_engineering_progress_var
-					subtract = tesla_construction_sectors_progress_cost
+			set_variable = {
+				name = mr_num_improved_buildings_var
+				value = 0
+			}
+		}
+		ordered_in_list = {
+			variable = tesla_improve_construction_buildings_chosen_variable_list
+			position = 0
+
+			scope:journal_entry = {
+				set_variable = {
+					name = mr_target_building_var
+					value = prev
 				}
 			}
+		}
+		scope:journal_entry = {
+			mr_journal_entry_save_remaining_list_entries_as_variable_effect = { LIST_NAME = tesla_improve_construction_buildings_chosen_variable_list }
 		}
 	}
 
-	immediate = {
-		set_variable = gaudi_can_stop_active_engineering_project_var #This is used to check if the country has a project already
-		#Sets the Civil Engineering Progress at the beginning
-		set_variable = {
-			name = tesla_civil_engineering_progress_var
-			value = 0
+	on_monthly_pulse = {
+		effect = {
+			mr_journal_entry_building_3_modifier_project_monthly_effect = {
+				PROGRESS_BAR_NAME = tesla_engineer_improve_construction_project_progress_bar
+				PROGRESS_COST = 12
+				MODIFIER_1 = gaudi_new_construction_methods_modifier
+				MODIFIER_2 = gaudi_faster_construction_methods_modifier
+				MODIFIER_3 = gaudi_efficient_construction_methods_modifier
+				BUILDING_LIST_NAME = tesla_improve_construction_buildings_chosen_variable_list
+				ROLE_TYPE = academics
+				ROLE = civil_engineer
+				ADDITIONAL_EFFECTS = ""
+			}
 		}
-		tesla_civil_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
 
 	complete = {
 		custom_tooltip = {
-			text = dubois_building_has_new_construction_methods_modifier_tt
-			scope:target ?= {
-				has_modifier = gaudi_new_construction_methods_modifier
-			}
-		}
-		custom_tooltip = {
-			text = dubois_building_has_faster_construction_methods_modifier_tt
-			scope:target ?= {
-				has_modifier = gaudi_faster_construction_methods_modifier
-			}
-		}
-		custom_tooltip = {
-			text = dubois_building_has_efficient_construction_methods_modifier_tt
-			scope:target ?= {
-				has_modifier = gaudi_efficient_construction_methods_modifier
+			text = je_improve_building_project_complete_tt
+			NOT = {
+				has_variable_list = tesla_improve_construction_buildings_chosen_variable_list
 			}
 		}
 	}
 
 	on_complete = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+		remove_variable = gaudi_can_stop_active_engineering_project_var
+		remove_variable = gaudi_stop_engineering_project_var
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_low_cost_modifier
+			scope:journal_entry = {
+				remove_modifier = tesla_small_engineering_project_cost_modifier
+			}
 		}
+		clear_variable_list = tesla_improve_construction_buildings_chosen_variable_list
 
-		#Those should be removed in every civil engineering je
-		remove_variable = tesla_civil_engineering_progress_var
-		remove_variable = gaudi_monthly_civil_engineering_progress_var
-
+		tesla_set_engineer_unbusy_effect = yes
 		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
+			set_variable = {
+				name = tesla_engineer_achievements_finished_construction_project_var
+				value = flag:tesla_engineer_achievements_finished_construction_project_loc
+			}
 		}
-		#Saves the Building to be displayed in the event.
-		trigger_event = {
-			id = gaudi.1151
-			popup = yes
+		if = {
+			limit = { tesla_is_engineering_automated_trigger = no }
+			trigger_event = {
+				id = gaudi.1151
+				popup = yes
+			}
 		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
-
-	current_value = {
-		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:tesla_civil_engineering_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in gaudi_script_values
-		value = tesla_construction_sectors_progress_cost
+		set_variable = {
+			name = mr_num_improved_construction_buildings_var
+			value = scope:journal_entry.var:mr_num_improved_buildings_var
+		}
+		tesla_remove_je_cost_modifiers_effect = yes
 	}
 
 	invalid = {
@@ -1187,29 +1171,21 @@ je_gaudi_construction_sector_project = {
 	}
 
 	on_invalid = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_low_cost_modifier
-		}
+		remove_variable = gaudi_can_stop_active_engineering_project_var
 		remove_variable = gaudi_stop_engineering_project_var
-
-		#Those should be removed in every civil engineering je
-		remove_variable = tesla_civil_engineering_progress_var
-		remove_variable = gaudi_monthly_civil_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
+		show_as_tooltip = {
+			scope:journal_entry = {
+				remove_modifier = tesla_small_engineering_project_cost_modifier
+			}
 		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
+		clear_variable_list = ito_improve_rubber_buildings_chosen_variable_list
+		tesla_set_engineer_unbusy_effect = yes
+		tesla_remove_je_cost_modifiers_effect = yes
 	}
-
-	progressbar = yes
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 je_gaudi_topographic_map_project = {
@@ -1237,7 +1213,7 @@ je_gaudi_topographic_map_project = {
 					var:tesla_civil_engineering_progress_var > tesla_topographic_map_progress_cost
 				}
 				#Adds Experience to the Engineer
-				civil_engineer_experience_gain_effect = { AMOUNT = 5 }
+				civil_engineer_experience_gain_effect = { AMOUNT = 3 }
 				#Effect if the priority list exists
 				if = {
 					limit = {
@@ -1357,7 +1333,7 @@ je_gaudi_topographic_map_project = {
 	on_complete = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_low_cost_modifier
+			remove_modifier = tesla_small_engineering_project_cost_modifier
 		}
 		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_states_with_topographic_map_var
@@ -1409,7 +1385,7 @@ je_gaudi_topographic_map_project = {
 	on_invalid = {
 		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_low_cost_modifier
+			remove_modifier = tesla_small_engineering_project_cost_modifier
 		}
 		remove_variable = tesla_num_states_var
 		remove_variable = gaudi_states_with_topographic_map_var
@@ -1435,7 +1411,7 @@ je_gaudi_topographic_map_project = {
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 ###################
@@ -1829,139 +1805,103 @@ je_gaudi_new_locomotives_project = {
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 je_gaudi_modernizing_industries_project = {
 	icon = "gfx/interface/icons/event_icons/machinists.dds"
 
+	scripted_progress_bar = tesla_engineer_improve_industries_project_progress_bar
+
 	scripted_button = gaudi_stop_engineering_project_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
+	scripted_button = je_gaudi_modernizing_industries_project_change_list_button
 
 	group = je_group_tesla_engineers
 
-	on_monthly_pulse = {
-		effect = {
-			#Calculates the Progress added (see gaudi_scripted_effects for calculation)
-			tesla_mechanical_engineering_progress = yes
-			#Adds the monthly progress to the variable
-			change_variable = {
-				name = tesla_mechanical_engineering_progress_var
-				add = var:gaudi_monthly_mechanical_engineering_progress_var
+	immediate = {
+		set_variable = gaudi_can_stop_active_engineering_project_var #This is used to check if the country has a project already
+		scope:journal_entry = {
+			add_modifier = {
+				name = tesla_medium_engineering_project_cost_modifier
+				multiplier = root.mr_local_project_cost_medium_value
 			}
-			if = {
-				limit = { var:tesla_mechanical_engineering_progress_var > tesla_industries_progress_cost }
-				if = {
-					limit = {
-						scope:target = {
-							NOT = { has_modifier = gaudi_building_throughput_add_modifier }
-						}
-					}
-					scope:target = {
-						add_modifier = {
-							name = gaudi_building_throughput_add_modifier
-						}
-					}
-					change_variable = {
-						name = tesla_mechanical_engineering_progress_var
-						subtract = tesla_industries_progress_cost
-					}
-				}
-				else_if = {
-					limit = {
-						scope:target = {
-							NOT = { has_modifier = gaudi_building_production_mult_modifier }
-						}
-					}
-					scope:target = {
-						add_modifier = {
-							name = gaudi_building_production_mult_modifier
-						}
-					}
-					change_variable = {
-						name = tesla_mechanical_engineering_progress_var
-						subtract = tesla_industries_progress_cost
-					}
-				}
-				else = {
-					scope:target = {
-						add_modifier = {
-							name = gaudi_building_goods_input_mult_modifier
-						}
-					}
-					change_variable = {
-						name = tesla_mechanical_engineering_progress_var
-						subtract = tesla_industries_progress_cost
-					}
+			set_variable = {
+				name = mr_num_improved_buildings_var
+				value = 0
+			}
+		}
+		ordered_in_list = {
+			variable = tesla_improve_industries_buildings_chosen_variable_list
+			position = 0
+
+			scope:journal_entry = {
+				set_variable = {
+					name = mr_target_building_var
+					value = prev
 				}
 			}
+		}
+		scope:journal_entry = {
+			mr_journal_entry_save_remaining_list_entries_as_variable_effect = { LIST_NAME = tesla_improve_industries_buildings_chosen_variable_list }
 		}
 	}
 
-	immediate = {
-		set_variable = gaudi_can_stop_active_engineering_project_var #This is used to check if the country has a project already
-		#Sets the Mechanical Engineering Progress at the beginning
-		set_variable = {
-			name = tesla_mechanical_engineering_progress_var
-			value = 0
+	on_monthly_pulse = {
+		effect = {
+			mr_journal_entry_building_3_modifier_project_monthly_effect = {
+				PROGRESS_BAR_NAME = tesla_engineer_improve_industries_project_progress_bar
+				PROGRESS_COST = 24
+				MODIFIER_1 = gaudi_building_throughput_add_modifier
+				MODIFIER_2 = gaudi_building_production_mult_modifier
+				MODIFIER_3 = gaudi_building_goods_input_mult_modifier
+				BUILDING_LIST_NAME = tesla_improve_industries_buildings_chosen_variable_list
+				ROLE_TYPE = academics
+				ROLE = mechanical_engineer
+				ADDITIONAL_EFFECTS = ""
+			}
 		}
-		tesla_mechanical_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
 
 	complete = {
 		custom_tooltip = {
-			text = gaudi_industrial_building_has_throughput_modifier_tt
-			scope:target = {
-				has_modifier = gaudi_building_throughput_add_modifier
-			}
-		}
-		custom_tooltip = {
-			text = gaudi_industrial_building_has_production_modifier_tt
-			scope:target = {
-				has_modifier = gaudi_building_production_mult_modifier
-			}
-		}
-		custom_tooltip = {
-			text = gaudi_industrial_building_has_input_modifier_tt
-			scope:target = {
-				has_modifier = gaudi_building_goods_input_mult_modifier
+			text = je_improve_building_project_complete_tt
+			NOT = {
+				has_variable_list = tesla_improve_industries_buildings_chosen_variable_list
 			}
 		}
 	}
 
 	on_complete = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+		remove_variable = gaudi_can_stop_active_engineering_project_var
+		remove_variable = gaudi_stop_engineering_project_var
 		show_as_tooltip = {
 			scope:journal_entry = {
-				remove_modifier = gaudi_engineer_project_medium_cost_modifier
+				remove_modifier = tesla_medium_engineering_project_cost_modifier
 			}
 		}
+		clear_variable_list = tesla_improve_industries_buildings_chosen_variable_list
 
-		#Those should be removed in every mechanical engineering je
-		remove_variable = tesla_mechanical_engineering_progress_var
-		remove_variable = gaudi_monthly_mechanical_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
+		tesla_set_engineer_unbusy_effect = yes
+		var:tesla_engineer_var = {
+			set_variable = {
+				name = tesla_engineer_achievements_finished_production_methods_project_var
+				value = flag:tesla_engineer_achievements_finished_production_methods_project_loc
+			}
 		}
-		trigger_event = {
-			id = gaudi.1211
-			popup = yes
+		if = {
+			limit = { tesla_is_engineering_automated_trigger = no }
+			trigger_event = {
+				id = gaudi.1211
+				popup = yes
+			}
 		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
-
-	current_value = {
-		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:tesla_mechanical_engineering_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in gaudi_script_values
-		value = tesla_industries_progress_cost
+		set_variable = {
+			name = mr_num_improved_industries_buildings_var
+			value = scope:journal_entry.var:mr_num_improved_buildings_var
+		}
+		tesla_remove_je_cost_modifiers_effect = yes
 	}
 
 	invalid = {
@@ -1979,31 +1919,21 @@ je_gaudi_modernizing_industries_project = {
 	}
 
 	on_invalid = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+		remove_variable = gaudi_can_stop_active_engineering_project_var
+		remove_variable = gaudi_stop_engineering_project_var
 		show_as_tooltip = {
 			scope:journal_entry = {
-				remove_modifier = gaudi_engineer_project_medium_cost_modifier
+				remove_modifier = tesla_medium_engineering_project_cost_modifier
 			}
 		}
-
-		#Those should be removed in every mechanical engineering je
-		remove_variable = tesla_mechanical_engineering_progress_var
-		remove_variable = gaudi_monthly_mechanical_engineering_progress_var
-
-		remove_variable = gaudi_stop_engineering_project_var
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
+		clear_variable_list = tesla_improve_industries_buildings_chosen_variable_list
+		tesla_set_engineer_unbusy_effect = yes
+		tesla_remove_je_cost_modifiers_effect = yes
 	}
-
-	progressbar = yes
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 je_gaudi_mechanical_computer_project = {
@@ -2125,7 +2055,7 @@ je_gaudi_mechanical_computer_project = {
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 ###################
@@ -2331,7 +2261,7 @@ je_gaudi_advanced_weapons_project = {
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 je_gaudi_advanced_tanks_project = {
@@ -2436,7 +2366,7 @@ je_gaudi_advanced_tanks_project = {
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 je_gaudi_advanced_defence_project = {
@@ -2541,7 +2471,7 @@ je_gaudi_advanced_defence_project = {
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 ###################
@@ -2731,14 +2661,15 @@ je_gaudi_telegraphy_network = {
 					var:tesla_electrical_engineering_progress_var >= 12
 				}
 				#Electrical Engineer gets experience
-				electrical_engineer_experience_gain_effect = { AMOUNT = 10 }
+				electrical_engineer_experience_gain_effect = { AMOUNT = 3 }
 				#The state with the next available telegraph office will be chosen
 				random_scope_state = {
 					limit = {
 						has_building = building_railway
-						NOT = {
-							any_scope_building = {
-								is_building_type = building_railway
+						any_scope_building = {
+							is_building_type = building_railway
+							level > 0
+							NOT = {
 								has_active_production_method = pm_gaudi_telegraph_office
 							}
 						}
@@ -2784,11 +2715,12 @@ je_gaudi_telegraphy_network = {
 	}
 
 	complete = {
-		any_scope_state = {
-			any_scope_building = {
+		any_scope_building = {
+			filter = {
 				is_building_type = building_railway
-				has_active_production_method = pm_gaudi_telegraph_office
+				level > 0
 			}
+			has_active_production_method = pm_gaudi_telegraph_office
 			percent >= 1
 		}
 	}
@@ -2843,7 +2775,7 @@ je_gaudi_telegraphy_network = {
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 je_gaudi_radio_network = {
@@ -2870,14 +2802,15 @@ je_gaudi_radio_network = {
 					var:tesla_electrical_engineering_progress_var >= 12
 				}
 				#Electrical Engineer gets experience
-				electrical_engineer_experience_gain_effect = { AMOUNT = 10 }
+				electrical_engineer_experience_gain_effect = { AMOUNT = 3 }
 				#The state with the next available telegraph office will be chosen
 				random_scope_state = {
 					limit = {
 						has_building = building_railway
-						NOT = {
-							any_scope_building = {
-								is_building_type = building_railway
+						any_scope_building = {
+							is_building_type = building_railway
+							level > 0
+							NOT = {
 								has_active_production_method = pm_elgar_radio_stations
 							}
 						}
@@ -2913,11 +2846,12 @@ je_gaudi_radio_network = {
 	}
 
 	complete = {
-		any_scope_state = {
-			any_scope_building = {
+		any_scope_building = {
+			filter = {
 				is_building_type = building_railway
-				has_active_production_method = pm_elgar_radio_stations
+				level > 0
 			}
+			has_active_production_method = pm_elgar_radio_stations
 			percent >= 1
 		}
 	}
@@ -2971,7 +2905,7 @@ je_gaudi_radio_network = {
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 je_gaudi_transatlantic_radio = {
@@ -3064,6 +2998,134 @@ je_gaudi_transatlantic_radio = {
 	should_be_pinned_by_default = yes
 }
 
+je_tesla_improve_power_plants_project = {
+	icon = "gfx/interface/icons/goods_icons/electricity.dds"
+
+	scripted_progress_bar = tesla_engineer_improve_power_plants_project_progress_bar
+
+	scripted_button = gaudi_stop_engineering_project_button
+	scripted_button = gaudi_additional_support_for_civil_engineer_button
+	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
+	scripted_button = je_tesla_improve_power_plants_project_change_list_button
+
+	group = je_group_tesla_engineers
+
+	immediate = {
+		set_variable = gaudi_can_stop_active_engineering_project_var #This is used to check if the country has a project already
+		scope:journal_entry = {
+			add_modifier = {
+				name = tesla_medium_engineering_project_cost_modifier
+				multiplier = root.mr_local_project_cost_medium_value
+			}
+			set_variable = {
+				name = mr_num_improved_buildings_var
+				value = 0
+			}
+		}
+		ordered_in_list = {
+			variable = tesla_improve_power_plant_buildings_chosen_variable_list
+			position = 0
+
+			scope:journal_entry = {
+				set_variable = {
+					name = mr_target_building_var
+					value = prev
+				}
+			}
+		}
+		scope:journal_entry = {
+			mr_journal_entry_save_remaining_list_entries_as_variable_effect = { LIST_NAME = tesla_improve_power_plant_buildings_chosen_variable_list }
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			mr_journal_entry_building_3_modifier_project_monthly_effect = {
+				PROGRESS_BAR_NAME = tesla_engineer_improve_power_plants_project_progress_bar
+				PROGRESS_COST = 24
+				MODIFIER_1 = tesla_power_plant_1_modifier
+				MODIFIER_2 = tesla_power_plant_2_modifier
+				MODIFIER_3 = tesla_power_plant_3_modifier
+				BUILDING_LIST_NAME = tesla_improve_power_plant_buildings_chosen_variable_list
+				ROLE_TYPE = academics
+				ROLE = electrical_engineer
+				ADDITIONAL_EFFECTS = ""
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_improve_building_project_complete_tt
+			NOT = {
+				has_variable_list = tesla_improve_power_plant_buildings_chosen_variable_list
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = gaudi_can_stop_active_engineering_project_var
+		remove_variable = gaudi_stop_engineering_project_var
+		show_as_tooltip = {
+			scope:journal_entry = {
+				remove_modifier = tesla_medium_engineering_project_cost_modifier
+			}
+		}
+		clear_variable_list = tesla_improve_power_plant_buildings_chosen_variable_list
+
+		tesla_set_engineer_unbusy_effect = yes
+#		var:tesla_engineer_var ?= {
+#			set_variable = {
+#				name = tesla_engineer_achievements_finished_airport_project_var
+#				value = flag:tesla_engineer_achievements_finished_airport_project_loc
+#			}
+#		}
+		if = {
+			limit = { tesla_is_engineering_automated_trigger = no }
+			trigger_event = {
+				id = gaudi.1441
+				popup = yes
+			}
+		}
+		set_variable = {
+			name = mr_num_improved_power_plants_buildings_var
+			value = scope:journal_entry.var:mr_num_improved_buildings_var
+		}
+		tesla_remove_je_cost_modifiers_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = gaudi_stop_engineering_project_tt
+			OR = {
+				trigger_if = {
+					limit = { is_ai = yes }
+					tesla_has_engineer = yes
+					tesla_has_no_electrical_engineer_trigger = yes
+				}
+				has_variable = gaudi_stop_engineering_project_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_can_stop_active_engineering_project_var
+		remove_variable = gaudi_stop_engineering_project_var
+		show_as_tooltip = {
+			scope:journal_entry = {
+				remove_modifier = tesla_small_engineering_project_cost_modifier
+			}
+		}
+		clear_variable_list = tesla_improve_power_plant_buildings_chosen_variable_list
+		tesla_set_engineer_unbusy_effect = yes
+		tesla_remove_je_cost_modifiers_effect = yes
+	}
+
+	weight = 30
+
+	should_be_pinned_by_default = no
+}
+
 ###################
 
 ######AERONAUTICAL ENGINEER PROJECTS######
@@ -3116,131 +3178,97 @@ je_gaudi_aviation_research_project = {
 je_gaudi_civil_airports_project = {
 	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
 
+	scripted_progress_bar = tesla_engineer_improve_airport_project_progress_bar
+
 	scripted_button = gaudi_stop_engineering_project_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
+	scripted_button = je_gaudi_civil_airports_project_change_list_button
 
 	group = je_group_tesla_engineers
 
-	on_monthly_pulse = {
-		effect = {
-			#Calculates the Progress added (see gaudi_scripted_effects for calculation)
-			tesla_aeronautical_engineering_progress = yes
-			#Adds the monthly progress to the variable
-			change_variable = {
-				name = tesla_aeronautical_engineering_progress_var
-				add = var:gaudi_monthly_aeronautical_engineering_progress_var
+	immediate = {
+		set_variable = gaudi_can_stop_active_engineering_project_var #This is used to check if the country has a project already
+		scope:journal_entry = {
+			add_modifier = {
+				name = tesla_medium_engineering_project_cost_modifier
+				multiplier = root.mr_local_project_cost_medium_value
 			}
-			if = {
-				limit = { var:tesla_aeronautical_engineering_progress_var > tesla_civil_airport_cost }
-				if = {
-					limit = {
-						scope:target = {
-							NOT = { has_modifier = gaudi_runway_expansion_mult_modifier }
-						}
-					}
-					scope:target = {
-						add_modifier = {
-							name = gaudi_runway_expansion_mult_modifier
-						}
-					}
-					change_variable = {
-						name = tesla_aeronautical_engineering_progress_var
-						subtract = tesla_civil_airport_cost
-					}
-				}
-				else_if = {
-					limit = {
-						scope:target = {
-							NOT = { has_modifier = gaudi_state_of_the_art_planes_mult_modifier }
-						}
-					}
-					scope:target = {
-						add_modifier = {
-							name = gaudi_state_of_the_art_planes_mult_modifier
-						}
-					}
-					change_variable = {
-						name = tesla_aeronautical_engineering_progress_var
-						subtract = tesla_civil_airport_cost
-					}
-				}
-				else = {
-					scope:target = {
-						add_modifier = {
-							name = gaudi_efficient_motors_modifier
-						}
-					}
-					change_variable = {
-						name = tesla_aeronautical_engineering_progress_var
-						subtract = tesla_civil_airport_cost
-					}
+			set_variable = {
+				name = mr_num_improved_buildings_var
+				value = 0
+			}
+		}
+		ordered_in_list = {
+			variable = tesla_improve_airport_buildings_chosen_variable_list
+			position = 0
+
+			scope:journal_entry = {
+				set_variable = {
+					name = mr_target_building_var
+					value = prev
 				}
 			}
+		}
+		scope:journal_entry = {
+			mr_journal_entry_save_remaining_list_entries_as_variable_effect = { LIST_NAME = tesla_improve_airport_buildings_chosen_variable_list }
 		}
 	}
 
-	immediate = {
-		set_variable = gaudi_can_stop_active_engineering_project_var #This is used to check if the country has a project already
-		#Sets the Aeronautical Engineering Progress at the beginning
-		set_variable = {
-			name = tesla_aeronautical_engineering_progress_var
-			value = 0
+	on_monthly_pulse = {
+		effect = {
+			mr_journal_entry_building_3_modifier_project_monthly_effect = {
+				PROGRESS_BAR_NAME = tesla_engineer_improve_airport_project_progress_bar
+				PROGRESS_COST = 18
+				MODIFIER_1 = gaudi_runway_expansion_mult_modifier
+				MODIFIER_2 = gaudi_state_of_the_art_planes_mult_modifier
+				MODIFIER_3 = gaudi_efficient_motors_modifier
+				BUILDING_LIST_NAME = tesla_improve_airport_buildings_chosen_variable_list
+				ROLE_TYPE = academics
+				ROLE = aeronautical_engineer
+				ADDITIONAL_EFFECTS = ""
+			}
 		}
-		tesla_aeronautical_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
 
 	complete = {
 		custom_tooltip = {
-			text = dubois_building_has_runway_expansion_modifier_tt
-			scope:target ?= {
-				has_modifier = gaudi_runway_expansion_mult_modifier
-			}
-		}
-		custom_tooltip = {
-			text = dubois_building_has_state_of_the_art_planes_modifier_tt
-			scope:target ?= {
-				has_modifier = gaudi_state_of_the_art_planes_mult_modifier
-			}
-		}
-		custom_tooltip = {
-			text = dubois_building_has_efficient_motors_modifier_tt
-			scope:target ?= {
-				has_modifier = gaudi_efficient_motors_modifier
+			text = je_improve_building_project_complete_tt
+			NOT = {
+				has_variable_list = tesla_improve_airport_buildings_chosen_variable_list
 			}
 		}
 	}
 
 	on_complete = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+		remove_variable = gaudi_can_stop_active_engineering_project_var
+		remove_variable = gaudi_stop_engineering_project_var
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+			scope:journal_entry = {
+				remove_modifier = tesla_medium_engineering_project_cost_modifier
+			}
 		}
+		clear_variable_list = tesla_improve_airport_buildings_chosen_variable_list
 
-		#Those should be removed in every aeronautical engineering je
-		remove_variable = tesla_aeronautical_engineering_progress_var
-		remove_variable = gaudi_monthly_aeronautical_engineering_progress_var
-
+		tesla_set_engineer_unbusy_effect = yes
 		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
+			set_variable = {
+				name = tesla_engineer_achievements_finished_airport_project_var
+				value = flag:tesla_engineer_achievements_finished_airport_project_loc
+			}
 		}
-		trigger_event = {
-			id = gaudi.1501
-			popup = yes
+		if = {
+			limit = { tesla_is_engineering_automated_trigger = no }
+			trigger_event = {
+				id = gaudi.1501
+				popup = yes
+			}
 		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
-
-	current_value = {
-		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:tesla_aeronautical_engineering_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in gaudi_script_values
-		value = tesla_civil_airport_cost
+		set_variable = {
+			name = mr_num_improved_airport_buildings_var
+			value = scope:journal_entry.var:mr_num_improved_buildings_var
+		}
+		tesla_remove_je_cost_modifiers_effect = yes
 	}
 
 	invalid = {
@@ -3258,28 +3286,21 @@ je_gaudi_civil_airports_project = {
 	}
 
 	on_invalid = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+		remove_variable = gaudi_can_stop_active_engineering_project_var
+		remove_variable = gaudi_stop_engineering_project_var
 		show_as_tooltip = {
-			remove_modifier = gaudi_engineer_project_medium_cost_modifier
+			scope:journal_entry = {
+				remove_modifier = tesla_small_engineering_project_cost_modifier
+			}
 		}
-
-		#Those should be removed in every aeronautical engineering je
-		remove_variable = tesla_aeronautical_engineering_progress_var
-		remove_variable = gaudi_monthly_aeronautical_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
+		clear_variable_list = tesla_improve_airport_buildings_chosen_variable_list
+		tesla_set_engineer_unbusy_effect = yes
+		tesla_remove_je_cost_modifiers_effect = yes
 	}
-
-	progressbar = yes
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 je_gaudi_advanced_airplanes_project = {
@@ -3384,7 +3405,7 @@ je_gaudi_advanced_airplanes_project = {
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
 }
 
 ##########################################################################

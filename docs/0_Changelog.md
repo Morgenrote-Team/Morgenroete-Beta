@@ -1,4 +1,9 @@
-Changelog for 2.6.3b "Mohorovičić"
+Changelog fot 2.7.0g "Pasteur"
+
+Changes:
+- Added a Power Plant Improvement Project for the Electrical Engineer.
 
 Fixes:
-- The Incas no longer exported all their artifacts to Egypt and now keep them in South America until the British steal them.
+- Fixed the invalid effect of the Airport improvement project.
+- The Improve Airports Project now uses the Aeronautical Engineer Progress instead of the Electrical Engineer Progress.
+- The Biologist Rating now gets properly displayed in the GUI.

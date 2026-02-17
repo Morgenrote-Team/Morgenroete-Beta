@@ -1,0 +1,3294 @@
+﻿###################
+# THEILER EVENTS  #
+###################
+
+#by Lord R & Marco Dandolo
+
+###################
+
+namespace = theiler
+
+###################
+
+#Theiler 11: Achromatic Microscope
+#Theiler 12: Electron Microscope
+
+#Theiler 51: Pathogen Research
+#Theiler 52: Vaccine Research
+
+#Theiler 101: Cholera Pathogen
+#Theiler 102: Cholera Vaccine
+
+#################################################################################
+
+#Theiler 10: The Birth of Microbiology
+theiler.10 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.10.t
+
+	desc = theiler.10.d
+
+	flavor = theiler.10.f
+
+	placement = ROOT
+
+	event_image = { #Original https://commons.wikimedia.org/wiki/File:Beitrge_zur_Biologie_der_Pflanzen_(1870-2006)_(19740093274).jpg
+		texture = "gfx/event_pictures/theiler_pictures/theiler_cohn.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	trigger = {
+		has_technology_researched = theiler_microbiology_tech
+		NOT = {
+			has_global_variable = theiler_microbiology_global_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = theiler_microbiology_global_var
+		if = {
+			limit ={
+				NOT = {
+					has_variable = theiler_biologist_var
+				}
+			}
+			create_new_character_base_effect = { CHARACTER = biologist PROJECT = theiler }
+			theiler_set_new_biologist_as_biologist_effect = yes
+			var:theiler_biologist_var = {
+				save_scope_as = theiler_biologist_scope
+			}
+		}
+		if = {
+			limit = {
+				var:theiler_biologist_var = {
+					NOT = { has_trait = theiler_microbiologist }
+				}
+			}
+			var:theiler_biologist_var = {
+				add_trait = theiler_microbiologist
+			}
+		}
+		var:theiler_biologist_var = {
+			set_variable = {
+				name = theiler_microbiology_achievement_var
+				value = flag:theiler_microbiology_achievement_loc
+			}
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = { #A breakthrough in the search for microorganisms.
+		name = theiler.10.g
+		default_option = yes
+		biologist_experience_gain_effect = {
+			AMOUNT = 30
+		}
+		theiler_add_x_microorganisms_effect = {
+			AMOUNT = 500
+		}
+	}
+
+	option = { #A breakthrough for germ theory.
+		name = theiler.10.h
+		trigger = {
+			panum_has_miasma_theory_trigger = yes
+		}
+		biologist_experience_gain_effect = {
+			AMOUNT = 30
+		}
+		panum_add_x_germ_theory_clues_effect = {
+			AMOUNT = 10
+		}
+	}
+}
+
+### Microscope ###
+
+#Theiler 11: Achromatic Microscope
+theiler.11 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.11.t
+
+	desc = theiler.11.d
+
+	flavor = theiler.11.f
+
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:gaudi_engineer_scope
+	right_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		tesla_has_engineer = yes
+		theiler_has_biologist_trigger = yes
+	}
+
+	immediate = {
+		var:tesla_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = { #It is certainly useful for the doctor.
+		name = theiler.11.g
+		default_option = yes
+		add_modifier = {
+			name = theiler_achromatic_microscope_modifier
+		}
+	}
+}
+
+#Theiler 12: Electron Microscope
+theiler.12 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.12.t
+
+	desc = theiler.12.d
+
+	flavor = theiler.12.f
+
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:gaudi_engineer_scope
+	right_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		tesla_has_engineer = yes
+		theiler_has_biologist_trigger = yes
+	}
+
+	immediate = {
+		var:tesla_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = { #It is certainly useful for the doctor.
+		name = theiler.12.g
+		default_option = yes
+		remove_modifier = theiler_achromatic_microscope_modifier
+		add_modifier = {
+			name = theiler_electron_microscope_modifier
+		}
+	}
+}
+
+#################################################################################
+
+### Parasites ###
+
+#Theiler 21: Sterile Insect Technique
+theiler.21 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:theiler_state_scope
+
+	title = theiler.21.t
+
+	desc = theiler.21.d
+
+	flavor = theiler.21.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		theiler_has_biologist_trigger = yes
+	}
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+		random_scope_state = {
+			limit = {
+				has_modifier = theiler_cochliomyia_experiment_lab_modifier
+			}
+			save_scope_as = theiler_state_scope
+		}
+	}
+
+	option = { #Nuke them!
+		name = theiler.21.g
+		default_option = yes
+		scope:theiler_state_scope = {
+			remove_modifier = theiler_cochliomyia_experiment_lab_modifier
+			remove_state_trait = theiler_state_trait_cochliomyia
+		}
+	}
+}
+
+#Theiler 22: Cochliomyia Eradication
+theiler.22 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:theiler_state_scope
+
+	title = theiler.22.t
+
+	desc = theiler.22.d
+
+	flavor = theiler.21.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		theiler_has_biologist_trigger = yes
+	}
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+		random_scope_state = {
+			limit = {
+				has_modifier = theiler_cochliomyia_experiment_lab_modifier
+			}
+			save_scope_as = theiler_state_scope
+		}
+	}
+
+	option = { #Scrw the worms!
+		name = theiler.22.g
+		default_option = yes
+		scope:theiler_state_scope = {
+			remove_modifier = theiler_cochliomyia_experiment_lab_modifier
+			remove_state_trait = theiler_state_trait_cochliomyia
+		}
+	}
+}
+
+#Theiler 31: Lead Arsenate
+theiler.31 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:theiler_state_scope
+
+	title = theiler.31.t
+
+	desc = theiler.31.d
+
+	flavor = theiler.31.f
+
+	duration = 3
+
+	left_icon = scope:mendelejew_chemist_scope
+	right_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:mendelejew_chemist_var = {
+			save_scope_as = mendelejew_chemist_scope
+		}
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = { #Poison them!
+		name = theiler.31.g
+		default_option = yes
+		custom_tooltip = theiler.31.tt
+	}
+}
+
+#Theiler 32: Cydia spreads
+theiler.32 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:theiler_state_scope
+
+	title = theiler.32.t
+
+	desc = theiler.32.d
+
+	flavor = theiler.32.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/theiler_pictures/theiler_cydia.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = theiler_cydia_lead_arsenate_var
+		}
+		any_scope_state = {
+			NOT = {
+				has_state_trait = theiler_state_trait_cydia
+			}
+			any_scope_building = {
+				OR = {
+					is_building_type = building_wheat_farm
+					is_building_type = building_maize_farm
+					is_building_type = building_rye_farm
+				}
+				OR = {
+					has_active_production_method = pm_apple_orchards
+					has_active_production_method = pm_citrus_orchards #normally the parasite would not attack these, but wheat farms should be affected, too.
+				}
+				level >= 3
+			}
+			any_neighbouring_state = {
+				has_state_trait = theiler_state_trait_cydia
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					OR = {
+						is_building_type = building_wheat_farm
+						is_building_type = building_maize_farm
+						is_building_type = building_rye_farm
+					}
+					OR = {
+						has_active_production_method = pm_apple_orchards
+						has_active_production_method = pm_citrus_orchards #normally the parasite would not attack these, but wheat farms should be affected, too.
+					}
+					level >= 3
+				}
+				any_neighbouring_state = {
+					has_state_trait = theiler_state_trait_cydia
+				}
+			}
+			save_scope_as = theiler_state_scope
+		}
+	}
+
+	option = { #My apples!
+		name = theiler.32.g
+		default_option = yes
+		scope:theiler_state_scope = {
+			state_region = {
+				add_state_trait = theiler_state_trait_cydia
+			}
+		}
+	}
+}
+
+#Theiler 33: Cydia spreads to South America
+theiler.33 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:theiler_state_scope
+
+	title = theiler.33.t
+
+	desc = theiler.33.d
+
+	flavor = theiler.32.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/theiler_pictures/theiler_cydia.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		game_date >= 1880.1.1
+		NOT = {
+			has_global_variable = theiler_cydia_spread_south_america_global_var
+		}
+		any_scope_state = {
+			NOT = {
+				has_state_trait = theiler_state_trait_cydia
+			}
+			is_in_geographic_region = geographic_region_south_america
+			any_scope_building = {
+				OR = {
+					is_building_type = building_wheat_farm
+					is_building_type = building_maize_farm
+					is_building_type = building_rye_farm
+				}
+				OR = {
+					has_active_production_method = pm_apple_orchards
+					has_active_production_method = pm_citrus_orchards #normally the parasite would not attack these, but wheat farms should be affected, too.
+				}
+				level >= 5
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = theiler_cydia_spread_south_america_global_var
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = geographic_region_south_america
+				any_scope_building = {
+					OR = {
+						is_building_type = building_wheat_farm
+						is_building_type = building_maize_farm
+						is_building_type = building_rye_farm
+					}
+					OR = {
+						has_active_production_method = pm_apple_orchards
+						has_active_production_method = pm_citrus_orchards #normally the parasite would not attack these, but wheat farms should be affected, too.
+					}
+					level >= 5
+				}
+			}
+			save_scope_as = theiler_state_scope
+		}
+	}
+
+	option = { #My apples!
+		name = theiler.33.g
+		default_option = yes
+		scope:theiler_state_scope = {
+			state_region = {
+				add_state_trait = theiler_state_trait_cydia
+			}
+		}
+	}
+}
+
+#Theiler 34: Cydia spreads to South Africa
+theiler.34 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:theiler_state_scope
+
+	title = theiler.34.t
+
+	desc = theiler.34.d
+
+	flavor = theiler.32.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/theiler_pictures/theiler_cydia.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		game_date >= 1890.1.1
+		NOT = {
+			has_global_variable = theiler_cydia_spread_south_africa_global_var
+		}
+		any_scope_state = {
+			NOT = {
+				has_state_trait = theiler_state_trait_cydia
+			}
+			region = sr:region_southern_africa
+			any_scope_building = {
+				OR = {
+					is_building_type = building_wheat_farm
+					is_building_type = building_maize_farm
+					is_building_type = building_rye_farm
+				}
+				OR = {
+					has_active_production_method = pm_apple_orchards
+					has_active_production_method = pm_citrus_orchards #normally the parasite would not attack these, but wheat farms should be affected, too.
+				}
+				level >= 5
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = theiler_cydia_spread_south_africa_global_var
+		random_scope_state = {
+			limit = {
+				region = sr:region_southern_africa
+				any_scope_building = {
+					OR = {
+						is_building_type = building_wheat_farm
+						is_building_type = building_maize_farm
+						is_building_type = building_rye_farm
+					}
+					OR = {
+						has_active_production_method = pm_apple_orchards
+						has_active_production_method = pm_citrus_orchards #normally the parasite would not attack these, but wheat farms should be affected, too.
+					}
+					level >= 5
+				}
+			}
+			save_scope_as = theiler_state_scope
+		}
+	}
+
+	option = { #My apples!
+		name = theiler.33.g
+		default_option = yes
+		scope:theiler_state_scope = {
+			state_region = {
+				add_state_trait = theiler_state_trait_cydia
+			}
+		}
+	}
+}
+
+#Theiler 35: Cydia spreads to Oceania
+theiler.35 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:theiler_state_scope
+
+	title = theiler.35.t
+
+	desc = theiler.35.d
+
+	flavor = theiler.32.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/theiler_pictures/theiler_cydia.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		game_date >= 1860.1.1
+		NOT = {
+			has_global_variable = theiler_cydia_spread_australia_global_var
+		}
+		any_scope_state = {
+			NOT = {
+				has_state_trait = theiler_state_trait_cydia
+			}
+			region = sr:region_oceania
+			any_scope_building = {
+				OR = {
+					is_building_type = building_wheat_farm
+					is_building_type = building_maize_farm
+					is_building_type = building_rye_farm
+				}
+				OR = {
+					has_active_production_method = pm_apple_orchards
+					has_active_production_method = pm_citrus_orchards #normally the parasite would not attack these, but wheat farms should be affected, too.
+				}
+				level >= 5
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = theiler_cydia_spread_australia_global_var
+		random_scope_state = {
+			limit = {
+				region = sr:region_oceania
+				any_scope_building = {
+					OR = {
+						is_building_type = building_wheat_farm
+						is_building_type = building_maize_farm
+						is_building_type = building_rye_farm
+					}
+					OR = {
+						has_active_production_method = pm_apple_orchards
+						has_active_production_method = pm_citrus_orchards #normally the parasite would not attack these, but wheat farms should be affected, too.
+					}
+					level >= 5
+				}
+			}
+			save_scope_as = theiler_state_scope
+		}
+	}
+
+	option = { #My apples!
+		name = theiler.33.g
+		default_option = yes
+		scope:theiler_state_scope = {
+			state_region = {
+				add_state_trait = theiler_state_trait_cydia
+			}
+		}
+	}
+}
+
+#################################################################################
+
+### Herbs ###
+
+#Theiler 41: Physician wants medicinal plant
+theiler.41 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.41.t
+
+	desc = theiler.41.d
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_strychnine_flag
+			}
+			desc = theiler.41.strychnine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_emetine_flag
+			}
+			desc = theiler.41.emetine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_atropine_flag
+			}
+			desc = theiler.41.atropine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_aloin_flag
+			}
+			desc = theiler.41.aloin
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_digitoxin_flag
+			}
+			desc = theiler.41.digitoxin
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_quinine_flag
+			}
+			desc = theiler.41.quinine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_thymol_flag
+			}
+			desc = theiler.41.thymol
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_pilocarpine_flag
+			}
+			desc = theiler.41.pilocarpine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_ephedrine_flag
+			}
+			desc = theiler.41.ephedrine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_strophantine_flag
+			}
+			desc = theiler.41.strophantine
+		}
+	}
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2
+	}
+
+	trigger = {
+		theiler_physician_can_demand_medicinal_plant_trigger = yes
+	}
+
+	immediate = {
+		theiler_set_physician_demands_medicinal_plant_effect = yes
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {	#Strychnine
+		name = theiler.41.g
+		default_option = yes
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_strychnine_flag
+		}
+
+		add_journal_entry = {
+			type = je_theiler_medicinal_plant_strychnine
+		}
+	}
+
+	option = {	#Emetine
+		name = theiler.41.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_emetine_flag
+		}
+
+		add_journal_entry = {
+			type = je_theiler_medicinal_plant_emetine
+		}
+	}
+
+	option = {	#Atropine
+		name = theiler.41.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_atropine_flag
+		}
+
+		add_journal_entry = {
+			type = je_theiler_medicinal_plant_atropine
+		}
+	}
+
+	option = {	#Aloin
+		name = theiler.41.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_aloin_flag
+		}
+
+		add_journal_entry = {
+			type = je_theiler_medicinal_plant_aloin
+		}
+	}
+
+	option = {	#Digitoxin
+		name = theiler.41.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_digitoxin_flag
+		}
+
+		add_journal_entry = {
+			type = je_theiler_medicinal_plant_digitoxin
+		}
+	}
+
+	option = {	#Quinine
+		name = theiler.41.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_quinine_flag
+		}
+
+		add_journal_entry = {
+			type = je_theiler_medicinal_plant_quinine
+		}
+	}
+
+	option = {	#Thymol
+		name = theiler.41.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_thymol_flag
+		}
+
+		add_journal_entry = {
+			type = je_theiler_medicinal_plant_thymol
+		}
+	}
+
+	option = {	#Pilocarpine
+		name = theiler.41.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_pilocarpine_flag
+		}
+
+		add_journal_entry = {
+			type = je_theiler_medicinal_plant_pilocarpine
+		}
+	}
+
+	option = {	#Ephedrine
+		name = theiler.41.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_ephedrine_flag
+		}
+
+		add_journal_entry = {
+			type = je_theiler_medicinal_plant_ephedrine
+		}
+	}
+
+	option = {	#Strophantine
+		name = theiler.41.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_strophantine_flag
+		}
+
+		add_journal_entry = {
+			type = je_theiler_medicinal_plant_strophantine
+		}
+	}
+
+	after = {
+	}
+}
+
+#Theiler 42: Biologist invents pharmaceutical
+theiler.42 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_strychnine_flag
+			}
+			desc = theiler.42.t.strychnine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_emetine_flag
+			}
+			desc = theiler.42.t.emetine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_atropine_flag
+			}
+			desc = theiler.42.t.atropine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_aloin_flag
+			}
+			desc = theiler.42.t.aloin
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_digitoxin_flag
+			}
+			desc = theiler.42.t.digitoxin
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_quinine_flag
+			}
+			desc = theiler.42.t.quinine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_thymol_flag
+			}
+			desc = theiler.42.t.thymol
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_pilocarpine_flag
+			}
+			desc = theiler.42.t.pilocarpine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_ephedrine_flag
+			}
+			desc = theiler.42.t.ephedrine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_strophantine_flag
+			}
+			desc = theiler.42.t.strophantine
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_strychnine_flag
+			}
+			desc = theiler.42.d.strychnine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_emetine_flag
+			}
+			desc = theiler.42.d.emetine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_atropine_flag
+			}
+			desc = theiler.42.d.atropine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_aloin_flag
+			}
+			desc = theiler.42.d.aloin
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_digitoxin_flag
+			}
+			desc = theiler.42.d.digitoxin
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_quinine_flag
+			}
+			desc = theiler.42.d.quinine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_thymol_flag
+			}
+			desc = theiler.42.d.thymol
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_pilocarpine_flag
+			}
+			desc = theiler.42.d.pilocarpine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_ephedrine_flag
+			}
+			desc = theiler.42.d.ephedrine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_strophantine_flag
+			}
+			desc = theiler.42.d.strophantine
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_strychnine_flag
+			}
+			desc = theiler.42.f.strychnine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_emetine_flag
+			}
+			desc = theiler.42.f.emetine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_atropine_flag
+			}
+			desc = theiler.42.f.atropine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_aloin_flag
+			}
+			desc = theiler.42.f.aloin
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_digitoxin_flag
+			}
+			desc = theiler.42.f.digitoxin
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_quinine_flag
+			}
+			desc = theiler.42.f.quinine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_thymol_flag
+			}
+			desc = theiler.42.f.thymol
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_pilocarpine_flag
+			}
+			desc = theiler.42.f.pilocarpine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_ephedrine_flag
+			}
+			desc = theiler.42.f.ephedrine
+		}
+		triggered_desc = {
+			trigger = {
+				var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_strophantine_flag
+			}
+			desc = theiler.42.f.strophantine
+		}
+	}
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Strychnine
+		name = theiler.42.g
+		default_option = yes
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_strychnine_flag
+		}
+
+		theiler_add_pharmaceutical_strychnine_effect = yes
+	}
+
+	option = {	#Emetine
+		name = theiler.42.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_emetine_flag
+		}
+
+		theiler_add_pharmaceutical_emetine_effect = yes
+	}
+
+	option = {	#Atropine
+		name = theiler.42.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_atropine_flag
+		}
+
+		theiler_add_pharmaceutical_atropine_effect = yes
+	}
+
+	option = {	#Aloin
+		name = theiler.42.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_aloin_flag
+		}
+
+		theiler_add_pharmaceutical_aloin_effect = yes
+	}
+
+	option = {	#Digitoxin
+		name = theiler.42.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_digitoxin_flag
+		}
+
+		theiler_add_pharmaceutical_digitoxin_effect = yes
+	}
+
+	option = {	#Quinine
+		name = theiler.42.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_quinine_flag
+		}
+
+		theiler_add_pharmaceutical_quinine_effect = yes
+	}
+
+	option = {	#Thymol
+		name = theiler.42.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_thymol_flag
+		}
+
+		theiler_add_pharmaceutical_thymol_effect = yes
+	}
+
+	option = {	#Pilocarpine
+		name = theiler.42.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_pilocarpine_flag
+		}
+
+		theiler_add_pharmaceutical_pilocarpine_effect = yes
+	}
+
+	option = {	#Ephedrine
+		name = theiler.42.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_ephedrine_flag
+		}
+
+		theiler_add_pharmaceutical_ephedrine_effect = yes
+	}
+
+	option = {	#Strophantine
+		name = theiler.42.g
+
+		trigger = {
+			var:theiler_physician_demand_var ?= flag:theiler_pharmaceutical_strophantine_flag
+		}
+
+		theiler_add_pharmaceutical_strophantine_effect = yes
+	}
+
+	after = {
+		remove_variable = theiler_physician_demand_var
+	}
+}
+
+#################################################################################
+
+######BIOLOGIST ACTIONS######
+
+#Theiler 51: Pathogen Research
+theiler.51 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.51.t
+
+	desc = theiler.51.d
+
+	flavor = theiler.51.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Cholera
+		name = theiler.51.g
+		default_option = yes
+
+		show_as_unavailable = {
+			theiler_has_cholera_pathogen_trigger = no
+		}
+
+		trigger = {
+			theiler_has_cholera_pathogen_trigger = no
+			panum_has_cholera_description_trigger = yes
+			theiler_has_achromatic_microscope_trigger = yes
+			theiler_cholera_microorganisms_requirement_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_cholera_pathogen
+		}
+	}
+
+	option = {	#Tuberculosis
+		name = theiler.51.h
+
+		show_as_unavailable = {
+			theiler_has_tuberculosis_pathogen_trigger = no
+		}
+
+		trigger = {
+			theiler_has_tuberculosis_pathogen_trigger = no
+			panum_has_tuberculosis_description_trigger = yes
+			theiler_has_achromatic_microscope_trigger = yes
+			theiler_tuberculosis_microorganisms_requirement_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_tuberculosis_pathogen
+		}
+	}
+
+	option = {	#Smallpox
+		name = theiler.51.i
+
+		show_as_unavailable = {
+			theiler_has_smallpox_pathogen_trigger = no
+		}
+
+		trigger = {
+			theiler_has_smallpox_pathogen_trigger = no
+			panum_has_smallpox_description_trigger = yes
+			theiler_has_electron_microscope_trigger = yes
+			theiler_smallpox_microorganisms_requirement_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_smallpox_pathogen
+		}
+	}
+
+	option = {	#Typhus
+		name = theiler.51.j
+
+		show_as_unavailable = {
+			theiler_has_typhus_pathogen_trigger = no
+		}
+
+		trigger = {
+			theiler_has_typhus_pathogen_trigger = no
+			panum_has_typhus_description_trigger = yes
+			theiler_has_achromatic_microscope_trigger = yes
+			theiler_typhus_microorganisms_requirement_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_typhus_pathogen
+		}
+	}
+
+	option = {	#Yellow Fever
+		name = theiler.51.k
+
+		show_as_unavailable = {
+			theiler_has_yellow_fever_pathogen_trigger = no
+		}
+
+		trigger = {
+			theiler_has_yellow_fever_pathogen_trigger = no
+			panum_has_yellow_fever_description_trigger = yes
+			theiler_has_electron_microscope_trigger = yes
+			theiler_yellow_fever_microorganisms_requirement_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_yellow_fever_pathogen
+		}
+	}
+
+	option = {	#Measles
+		name = theiler.51.l
+
+		show_as_unavailable = {
+			theiler_has_measles_pathogen_trigger = no
+		}
+
+		trigger = {
+			theiler_has_measles_pathogen_trigger = no
+			panum_has_measles_description_trigger = yes
+			theiler_has_electron_microscope_trigger = yes
+			theiler_measles_microorganisms_requirement_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_measles_pathogen
+		}
+	}
+
+	option = {	#Scarlet Fever
+		name = theiler.51.m
+
+		show_as_unavailable = {
+			theiler_has_scarlet_pathogen_trigger = no
+		}
+
+		trigger = {
+			theiler_has_scarlet_pathogen_trigger = no
+			panum_has_scarlet_description_trigger = yes
+			theiler_has_achromatic_microscope_trigger = yes
+			theiler_scarlet_microorganisms_requirement_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_scarlet_pathogen
+		}
+	}
+
+	option = {	#Plague
+		name = theiler.51.n
+
+		show_as_unavailable = {
+			theiler_has_plague_pathogen_trigger = no
+		}
+
+		trigger = {
+			theiler_has_plague_pathogen_trigger = no
+			panum_has_plague_description_trigger = yes
+			theiler_has_achromatic_microscope_trigger = yes
+			theiler_plague_microorganisms_requirement_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_plague_pathogen
+		}
+	}
+
+	option = {	#Diphtheria
+		name = theiler.51.o
+
+		show_as_unavailable = {
+			theiler_has_diphteria_pathogen_trigger = no
+		}
+
+		trigger = {
+			theiler_has_diphteria_pathogen_trigger = no
+			panum_has_diphteria_description_trigger = yes
+			theiler_has_achromatic_microscope_trigger = yes
+			theiler_diphteria_microorganisms_requirement_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_diphteria_pathogen
+		}
+	}
+
+	option = {	#Polio
+		name = theiler.51.p
+
+		show_as_unavailable = {
+			theiler_has_polio_pathogen_trigger = no
+		}
+
+		trigger = {
+			theiler_has_polio_pathogen_trigger = no
+			panum_has_polio_description_trigger = yes
+			theiler_has_electron_microscope_trigger = yes
+			theiler_polio_microorganisms_requirement_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_polio_pathogen
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			remove_variable = theiler_biologist_action_active_var
+		}
+	}
+}
+
+#Theiler 52: Vaccine Research
+theiler.52 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.52.t
+
+	desc = theiler.52.d
+
+	flavor = theiler.52.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Cholera
+		name = theiler.52.g
+		default_option = yes
+
+		show_as_unavailable = {
+			theiler_has_cholera_vaccine_trigger = no
+		}
+
+		trigger = {
+			theiler_has_cholera_vaccine_trigger = no
+			theiler_has_cholera_pathogen_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_cholera_vaccine
+		}
+	}
+
+	option = {	#Tuberculosis
+		name = theiler.52.h
+
+		show_as_unavailable = {
+			theiler_has_tuberculosis_vaccine_trigger = no
+		}
+
+		trigger = {
+			theiler_has_tuberculosis_vaccine_trigger = no
+			theiler_has_cholera_pathogen_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_tuberculosis_vaccine
+		}
+	}
+
+	#option = {	#Smallpox #This should be done without Biologist
+	#	name = theiler.52.i
+	#
+	#	show_as_unavailable = {
+	#		theiler_has_smallpox_vaccine_trigger = no
+	#	}
+	#
+	#	trigger = {
+	#		theiler_has_smallpox_vaccine_trigger = no
+	#		theiler_has_smallpox_pathogen_trigger = yes
+	#	}
+	#
+	#	var:theiler_biologist_var = {
+	#		set_character_busy_and_immortal = yes
+	#	}
+	#	add_journal_entry = {
+	#		type = je_theiler_smallpox_vaccine
+	#	}
+	#}
+
+	option = {	#Typhus
+		name = theiler.52.j
+
+		show_as_unavailable = {
+			theiler_has_typhus_vaccine_trigger = no
+		}
+
+		trigger = {
+			theiler_has_typhus_vaccine_trigger = no
+			theiler_has_typhus_pathogen_trigger = yes
+			theiler_typhus_research_tech_requirement_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_typhus_vaccine
+		}
+	}
+
+	option = {	#Yellow Fever
+		name = theiler.52.k
+
+		show_as_unavailable = {
+			theiler_has_yellow_fever_vaccine_trigger = no
+		}
+
+		trigger = {
+			theiler_has_yellow_fever_vaccine_trigger = no
+			theiler_has_yellow_fever_pathogen_trigger = yes
+			theiler_yellow_fever_research_tech_requirement_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_yellow_fever_vaccine
+		}
+	}
+
+	option = {	#Measles
+		name = theiler.52.l
+
+		show_as_unavailable = {
+			theiler_has_measles_vaccine_trigger = no
+		}
+
+		trigger = {
+			theiler_has_measles_vaccine_trigger = no
+			theiler_has_measles_pathogen_trigger = yes
+			theiler_measles_research_tech_requirement_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_measles_vaccine
+		}
+	}
+
+	#option = {	#Scarlet Fever #There is no effective scarlet vaccine today!
+	#	name = theiler.52.m
+	#
+	#	show_as_unavailable = {
+	#		theiler_has_scarlet_pathogen_trigger = no
+	#	}
+	#
+	#	trigger = {
+	#		theiler_has_scarlet_pathogen_trigger = no
+	#		panum_has_scarlet_description_trigger = yes
+	#		theiler_has_achromatic_microscope_trigger = yes
+	#		theiler_scarlet_microorganisms_requirement_trigger = yes
+	#	}
+	#
+	#	var:theiler_biologist_var = {
+	#		set_character_busy_and_immortal = yes
+	#	}
+	#	add_journal_entry = {
+	#		type = je_theiler_scarlet_vaccine
+	#	}
+	#}
+
+	option = {	#Plague
+		name = theiler.52.n
+
+		show_as_unavailable = {
+			theiler_has_plague_vaccine_trigger = no
+		}
+
+		trigger = {
+			theiler_has_plague_vaccine_trigger = no
+			theiler_has_plague_pathogen_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_plague_vaccine
+		}
+	}
+
+	option = {	#Diphtheria
+		name = theiler.52.o
+
+		show_as_unavailable = {
+			theiler_has_diphteria_vaccine_trigger = no
+		}
+
+		trigger = {
+			theiler_has_diphteria_vaccine_trigger = no
+			theiler_has_diphteria_pathogen_trigger = yes
+			theiler_diphteria_research_tech_requirement_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_diphteria_vaccine
+		}
+	}
+
+	option = {	#Polio
+		name = theiler.52.p
+
+		show_as_unavailable = {
+			theiler_has_polio_vaccine_trigger = no
+		}
+
+		trigger = {
+			theiler_has_polio_vaccine_trigger = no
+			theiler_has_polio_pathogen_trigger = yes
+			theiler_polio_research_tech_requirement_trigger = yes
+		}
+
+		var:theiler_biologist_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = je_theiler_polio_vaccine
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			remove_variable = theiler_biologist_action_active_var
+		}
+	}
+}
+
+#################################################################################
+
+######PATHOGENS & VACCINES######
+
+### Cholera ###
+
+#Theiler 101: Cholera Pathogen
+theiler.101 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.101.t
+
+	desc = theiler.101.d
+
+	flavor = theiler.101.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Cholera is losing its horror.
+		name = theiler.101.g
+		theiler_add_cholera_pathogen_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Theiler 102: Cholera Vaccine
+theiler.102 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.102.t
+
+	desc = theiler.102.d
+
+	flavor = theiler.102.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Cholera is losing its horror.
+		name = theiler.102.g
+		theiler_add_cholera_vaccine_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+### Tuberculosis ###
+
+#Theiler 201: Tuberculosis Pathogen
+theiler.201 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.201.t
+
+	desc = theiler.201.d
+
+	flavor = theiler.201.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Tuberculosis is losing its horror.
+		name = theiler.201.g
+		theiler_add_tuberculosis_pathogen_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Theiler 202: Tuberculosis Vaccine
+theiler.202 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.202.t
+
+	desc = theiler.202.d
+
+	flavor = theiler.202.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Tuberculosis is losing its horror.
+		name = theiler.202.g
+		theiler_add_tuberculosis_vaccine_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+### Smallpox ###
+
+#Theiler 301: Smallpox Pathogen
+theiler.301 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.301.t
+
+	desc = theiler.301.d
+
+	flavor = theiler.301.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Smallpox is losing its horror.
+		name = theiler.301.g
+		theiler_add_smallpox_pathogen_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+### Typhus ###
+
+#Theiler 401: Typhus Pathogen
+theiler.401 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.401.t
+
+	desc = theiler.401.d
+
+	flavor = theiler.401.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Typhus is losing its horror.
+		name = theiler.401.g
+		theiler_add_typhus_pathogen_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Theiler 402: Typhus Vaccine
+theiler.402 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.402.t
+
+	desc = theiler.402.d
+
+	flavor = theiler.402.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Typhus is losing its horror.
+		name = theiler.402.g
+		theiler_add_typhus_vaccine_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+### Yellow Fever ###
+
+#Theiler 501: Yellow Fever Pathogen
+theiler.501 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.501.t
+
+	desc = theiler.501.d
+
+	flavor = theiler.501.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Yellow Fever is losing its horror.
+		name = theiler.501.g
+		theiler_add_yellow_fever_pathogen_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Theiler 502: Yellow Fever Vaccine
+theiler.502 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.502.t
+
+	desc = theiler.502.d
+
+	flavor = theiler.502.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Yellow Fever is losing its horror.
+		name = theiler.502.g
+		theiler_add_yellow_fever_vaccine_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+### Measles ###
+
+#Theiler 601: Measles Pathogen
+theiler.601 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.601.t
+
+	desc = theiler.601.d
+
+	flavor = theiler.601.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Measles is losing its horror.
+		name = theiler.601.g
+		theiler_add_measles_pathogen_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Theiler 602: Measles Vaccine
+theiler.602 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.602.t
+
+	desc = theiler.602.d
+
+	flavor = theiler.602.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Measles is losing its horror.
+		name = theiler.602.g
+		theiler_add_measles_vaccine_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+### Scarlet Fever ###
+
+#Theiler 701: Scarlet Fever Pathogen
+theiler.701 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.701.t
+
+	desc = theiler.701.d
+
+	flavor = theiler.701.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Scarlet Fever is losing its horror.
+		name = theiler.701.g
+		theiler_add_scarlet_pathogen_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+### Plague ###
+
+#Theiler 801: Plague Pathogen
+theiler.801 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.801.t
+
+	desc = theiler.801.d
+
+	flavor = theiler.801.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Plague is losing its horror.
+		name = theiler.801.g
+		theiler_add_plague_pathogen_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Theiler 802: Plague Vaccine
+theiler.802 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.802.t
+
+	desc = theiler.802.d
+
+	flavor = theiler.802.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Plague is losing its horror.
+		name = theiler.802.g
+		theiler_add_plague_vaccine_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+### Diphtheria ###
+
+#Theiler 901: Diphtheria Pathogen
+theiler.901 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.901.t
+
+	desc = theiler.901.d
+
+	flavor = theiler.901.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Diphtheria is losing its horror.
+		name = theiler.901.g
+		theiler_add_diphteria_pathogen_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Theiler 902: Diphtheria Vaccine
+theiler.902 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.902.t
+
+	desc = theiler.902.d
+
+	flavor = theiler.902.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Diphtheria is losing its horror.
+		name = theiler.902.g
+		theiler_add_diphteria_vaccine_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+### Polio ###
+
+#Theiler 1001: Polio Pathogen
+theiler.1001 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.1001.t
+
+	desc = theiler.1001.d
+
+	flavor = theiler.1001.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Polio is losing its horror.
+		name = theiler.1001.g
+		theiler_add_polio_pathogen_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Theiler 1002: Polio Vaccine
+theiler.1002 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.1002.t
+
+	desc = theiler.1002.d
+
+	flavor = theiler.1002.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {	#Polio is losing its horror.
+		name = theiler.1002.g
+		theiler_add_polio_vaccine_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	after = {
+	}
+}
+
+####################################################################################
+
+#Theiler 2101-2110 Pathogen Events
+
+#Theiler 2101: Microbiological Institute +2
+theiler.2101 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.2101.t
+
+	desc = theiler.2101.d
+
+	flavor = theiler.2101.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_scientist.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 20
+	}
+
+	trigger = {
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_university
+				has_active_production_method = pm_dubois_university_natural_history
+				level >= 5
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_university
+					has_active_production_method = pm_dubois_university_natural_history
+					level >= 5
+				}
+			}
+			save_scope_as = theiler_university_scope
+		}
+	}
+
+	option = {	#The institute should be dedicated to general research.
+		name = theiler.2101.g
+		default_option = yes
+		add_modifier = {
+			name = theiler_microbiological_institute_modifier
+			years = 5
+		}
+	}
+
+	option = {	#The institute should be dedicated to pathogen research.
+		name = theiler.2101.h
+		theiler_add_je_pathogen_gain_2_clues_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Theiler 2102: Improved laboratory method +1
+theiler.2102 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.2102.t
+
+	desc = theiler.2102.d
+
+	flavor = theiler.2102.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_scientist.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 20
+	}
+
+	trigger = {
+		any_scope_state = {
+			is_capital = yes
+			OR = {
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					has_active_production_method = pm_mendelejew_spectroscopy
+				}
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					has_active_production_method = pm_mendelejew_cyclotron
+				}
+			}
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {	#Good
+		name = theiler.2102.g
+		theiler_add_je_pathogen_gain_1_clue_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Theiler 2103: International Cooperation +1
+theiler.2103 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.2103.t
+
+	desc = theiler.2103.d
+
+	flavor = theiler.2103.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 20
+	}
+
+	trigger = {
+		any_country = {
+			any_scope_treaty = {
+				binds = root
+				any_scope_article = {
+					has_type = alliance
+				}
+				has_variable = theiler_biologist_var
+			}
+			NOT = {
+				this = ROOT
+			}
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				any_scope_treaty = {
+					binds = root
+					any_scope_article = {
+						has_type = alliance
+					}
+				}
+				has_variable = theiler_biologist_var
+				NOT = {
+					this = ROOT
+				}
+			}
+			save_scope_as = theiler_country_scope
+			var:theiler_biologist_var = {
+				save_scope_as = theiler_biologist_scope
+			}
+		}
+	}
+
+	option = {	#This will accelerate pathogen research.
+		name = theiler.2103.g
+		default_option = yes
+		theiler_add_je_pathogen_gain_1_clue_effect = yes
+	}
+
+	option = {	#This knowledge gives us further insights.
+		name = theiler.2103.h
+		panum_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Theiler 2104: Laboratory accident -2
+theiler.2104 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.2104.t
+
+	desc = theiler.2104.d
+
+	flavor = theiler.2104.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 35
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#A disaster!
+		name = theiler.2104.g
+		default_option = yes
+		theiler_add_je_pathogen_lose_2_clues_effect = yes
+	}
+
+	option = {	#We must reorganize the laboratory at all costs!
+		name = theiler.2103.h
+		add_modifier = {
+			name = theiler_microbiological_promotion_modifier
+			years = 5
+		}
+	}
+
+	after = {
+	}
+}
+
+#Theiler 2105: Contamined Samples -1
+theiler.2105 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.2105.t
+
+	desc = theiler.2105.d
+
+	flavor = theiler.2105.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/panum_pictures/panum_germ_theory.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 35
+	}
+
+	trigger = {
+		NOT = {
+			has_technology_researched = theiler_cell_culture_tech
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {	#Which scientist was responsible for this?
+		name = theiler.2105.g
+		default_option = yes
+		theiler_add_je_pathogen_lose_1_clue_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Theiler 2106: Researchers' dispute
+theiler.2106 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.2106.t
+
+	desc = theiler.2106.d
+
+	flavor = theiler.2106.f
+
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:panum_physician_scope
+	right_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		panum_has_physician = yes
+		theiler_has_biologist_trigger = yes
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = { #Physician is right
+		name = theiler.2106.g
+		default_option = yes
+		physician_experience_gain_effect = { AMOUNT = 10 }
+		random_list = {
+			3 = { theiler_add_je_pathogen_lose_1_clue_effect = yes }
+			2 = {}
+		}
+	}
+
+	option = { #Biologist is right
+		name = theiler.2106.h
+		default_option = yes
+		physician_experience_gain_effect = { AMOUNT = -15 }
+		random_list = {
+			1 = { theiler_add_je_pathogen_gain_1_clue_effect = yes }
+			4 = {}
+		}
+	}
+
+	option = { #They should research, not argue!
+		name = theiler.2106.i
+		default_option = yes
+		physician_experience_gain_effect = { AMOUNT = -5 }
+		biologist_experience_gain_effect = { AMOUNT = -5 }
+	}
+}
+
+#Theiler 2107: Research assistants +1
+theiler.2107 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.2107.t
+
+	desc = theiler.2107.d
+
+	flavor = theiler.2107.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/panum_pictures/panum_convention.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 15
+	}
+
+	trigger = {
+		var:dubois_academy_progress >= 30
+	}
+
+	immediate = {
+	}
+
+	option = {	#We are hiring additional assistants.
+		name = theiler.2107.g
+		default_option = yes
+		theiler_add_je_pathogen_gain_1_clue_effect = yes
+		dubois_add_x_academy_progress = { AMOUNT = -30 }
+	}
+
+	option = {	#The young academics are needed elsewhere.
+		name = theiler.2107.h
+	}
+
+	after = {
+	}
+}
+
+###############################################################
+
+#Theiler 2111-2120 Vaccine Events
+
+#Theiler 2111: Military use +1
+theiler.2111 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.2111.t
+
+	desc = theiler.2111.d
+
+	flavor = theiler.2111.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/panum_pictures/panum_vaccination.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 20
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#The military has priority for vaccination.
+		name = theiler.2111.g
+		default_option = yes
+		add_modifier = {
+			name = theiler_military_vaccine_modifier
+			years = 5
+		}
+	}
+
+	option = {	#Use the knowledge from this field study to improve the vaccine.
+		name = theiler.2111.h
+		theiler_add_je_vaccine_gain_1_clue_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Theiler 2112: Lucky find +1
+theiler.2112 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.2112.t
+
+	desc = theiler.2112.d
+
+	flavor = theiler.2112.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_scientist.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 20
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Rewards the assistant.
+		name = theiler.2112.g
+		default_option = yes
+		theiler_add_je_vaccine_gain_1_clue_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Theiler 2113: Successful test +3
+theiler.2113 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.2113.t
+
+	desc = theiler.2113.d
+
+	flavor = theiler.2113.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/panum_pictures/panum_vaccination.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 20
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#A major step forward for vaccine development!
+		name = theiler.2113.g
+		default_option = yes
+		theiler_add_je_vaccine_gain_3_clues_effect = yes
+	}
+
+	option = {	#These are new clues for medical research.
+		name = theiler.2113.h
+		panum_medium_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Theiler 2114: Unintended side effects -2
+theiler.2114 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.2114.t
+
+	desc = theiler.2114.d
+
+	flavor = theiler.2114.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/panum_pictures/panum_vaccination.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 30
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+			}
+			save_scope_as = theiler_state_scope
+		}
+	}
+
+	option = {	#Who could have foreseen this?
+		name = theiler.2114.g
+		default_option = yes
+		theiler_add_je_vaccine_lose_2_clues_effect = yes
+		scope:theiler_state_scope = {
+			add_modifier = {
+				name = theiler_failed_vaccine_experiment_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {	#Still carry out the experiments in the area.
+		name = theiler.2114.h
+		scope:theiler_state_scope = {
+			add_modifier = {
+				name = theiler_failed_vaccine_experiment_modifier
+				years = 5
+			}
+			add_modifier = {
+				name = theiler_vaccine_guinea_pigs_modifier
+				years = 5
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Theiler 2115: Allegation of Plagiarism -1
+theiler.2115 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.2115.t
+
+	desc = theiler.2115.d
+
+	flavor = theiler.2115.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 30
+	}
+
+	trigger = {
+		any_country = {
+			any_scope_treaty = {
+				binds = root
+				any_scope_article = {
+					has_type = rivalry
+				}
+				has_variable = theiler_biologist_var
+			}
+			NOT = {
+				this = ROOT
+			}
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				any_scope_treaty = {
+					binds = root
+					any_scope_article = {
+						has_type = rivalry
+					}
+				}
+				has_variable = theiler_biologist_var
+				NOT = {
+					this = ROOT
+				}
+			}
+			save_scope_as = theiler_country_scope
+			var:theiler_biologist_var = {
+				save_scope_as = theiler_biologist_scope
+			}
+		}
+	}
+
+	option = {	#Apologize.
+		name = theiler.2115.g
+		default_option = yes
+		theiler_add_je_vaccine_lose_1_clue_effect = yes
+	}
+
+	option = {	#This is mere coincidence.
+		name = theiler.2115.h
+		change_infamy = 3
+		scope:theiler_country_scope = {
+			change_relations = {
+				country = ROOT
+				value = -15
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Theiler 2116: Cost explosion
+theiler.2116 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.2116.t
+
+	desc = theiler.2116.d
+
+	flavor = theiler.2116.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/panum_pictures/panum_vaccination.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 20
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Subsidizes the new vaccine.
+		name = theiler.2116.g
+		default_option = yes
+		add_modifier = {
+			name = theiler_vaccine_subsidy_modifier
+			multiplier = mr_local_project_cost_tiny_value
+			years = 10
+		}
+	}
+
+	option = {	#Recruit more academics as temporary workers.
+		name = theiler.2116.h
+		dubois_add_x_academy_progress = { AMOUNT = -60 }
+	}
+
+	option = {	#Deal with it.
+		name = theiler.2116.i
+		random_list = {
+			3 = { theiler_add_je_vaccine_lose_1_clue_effect = yes }
+			1 = {}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Theiler 2117: Research assistants +2
+theiler.2117 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.2107.t
+
+	desc = theiler.2107.d
+
+	flavor = theiler.2107.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/panum_pictures/panum_convention.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 15
+	}
+
+	trigger = {
+		var:dubois_academy_progress >= 60
+	}
+
+	immediate = {
+	}
+
+	option = {	#We are hiring additional assistants.
+		name = theiler.2107.g
+		default_option = yes
+		theiler_add_je_vaccine_gain_2_clues_effect = yes
+		dubois_add_x_academy_progress = { AMOUNT = -60 }
+	}
+
+	option = {	#The young academics are needed elsewhere.
+		name = theiler.2107.h
+	}
+
+	after = {
+	}
+}
+
+##############################################################
+
+###### OTHER BIOLOGIST PROJECTS ######
+
+#theiler 2201: Agriculture Improved
+
+theiler.2201 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = theiler.2201.t
+	desc = theiler.2201.d
+	flavor = theiler.2201.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:theiler_biologist_var ?= {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {
+		name = theiler.2201.g #Our Economy is growing!
+		default_option = yes
+	}
+
+	after = {
+		remove_variable = mr_num_improved_agriculture_buildings_var
+	}
+}

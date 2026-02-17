@@ -1,0 +1,79 @@
+﻿############################
+# THEILER SCRIPTED BUTTONS #
+############################
+
+#by Marco Dandolo
+
+######################
+
+######STOP CURRENT BIOLOGICAL PROJECT######
+
+theiler_stop_biological_project_button = {
+	name = "theiler_stop_biological_project_button"
+	desc = "theiler_stop_biological_project_button_desc"
+
+	visible = {  always = yes }
+
+	possible = {
+		NOT = { has_variable = theiler_stop_biological_project_var }
+	}
+
+	effect = {
+		set_variable = {
+			name = theiler_stop_biological_project_var
+			days = 7
+		}
+	}
+
+	ai_chance = {
+		value = 0 #It's just not worth for you, Mr AI
+	}
+}
+
+###### AGRICULTURE IMPROVEMENT PROJECT ######
+
+je_theiler_improve_agriculture_project_change_list_button = {
+	name = "je_theiler_improve_agriculture_project_change_list_button"
+	desc = "je_theiler_improve_agriculture_project_change_list_button_desc"
+
+	possible = {
+		custom_tooltip = {
+			text = MR_ALREADY_ADDING_NEW_BUILDINGS_TO_LIST_TRIGGER_TT
+			NOT = {
+				has_variable = theiler_improve_agriculture_project_building_chooser_var
+			}
+		}
+	}
+
+	effect = {
+		clear_variable_list = theiler_improve_agriculture_buildings_variable_list
+		ordered_scope_building = {
+			limit = {
+				theiler_building_valid_for_agriculture_project_no_tooltip_trigger = yes
+				NOT = {
+					root = {
+						is_target_in_variable_list = {
+							name = theiler_improve_agriculture_buildings_chosen_variable_list
+							target = prev
+						}
+					}
+				}
+			}
+			order_by = earnings
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = theiler_improve_agriculture_buildings_variable_list
+					target = prev
+				}
+			}
+		}
+		#Activates the window
+		set_variable = theiler_improve_agriculture_project_building_chooser_var
+	}
+
+	ai_chance = {
+		value = 0 #It's just not worth for you, Mr AI
+	}
+}

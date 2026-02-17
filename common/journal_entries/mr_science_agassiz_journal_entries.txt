@@ -204,6 +204,302 @@ je_agassiz_overlord_uranium_team = {
 
 ######################################################################################
 
+######IMPROVE MINES######
+
+je_agassiz_improve_mines_project = {
+	icon = "gfx/interface/icons/invention_icons/agassiz_geology_tech.dds"
+
+	scripted_progress_bar = agassiz_geologist_improve_mines_project_progress_bar
+
+	scripted_button = agassiz_stop_geologist_project_button
+	scripted_button = je_agassiz_improve_mines_project_change_list_button
+
+	group = je_group_agassiz_geology
+
+	immediate = {
+		set_variable = agassiz_can_stop_active_improvement_project_var #This is used to check if the country has a project already
+		scope:journal_entry = {
+			add_modifier = {
+				name = agassiz_ore_search_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
+			}
+			set_variable = {
+				name = mr_num_improved_buildings_var
+				value = 0
+			}
+		}
+		ordered_in_list = {
+			variable = agassiz_improve_mine_buildings_chosen_variable_list
+			position = 0
+
+			scope:journal_entry = {
+				set_variable = {
+					name = mr_target_building_var
+					value = prev
+				}
+			}
+		}
+		scope:journal_entry = {
+			mr_journal_entry_save_remaining_list_entries_as_variable_effect = { LIST_NAME = agassiz_improve_mine_buildings_chosen_variable_list }
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			mr_journal_entry_building_1_modifier_project_monthly_effect = {
+				PROGRESS_BAR_NAME = agassiz_geologist_improve_mines_project_progress_bar
+				PROGRESS_COST = 24
+				MODIFIER_1 = agassiz_building_production_mult_modifier
+				BUILDING_LIST_NAME = agassiz_improve_mine_buildings_chosen_variable_list
+				ROLE = geologist
+				ADDITIONAL_EFFECTS = "agassiz_add_x_generic_minerals_effect = { AMOUNT = 2500 }"
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_improve_building_project_complete_tt
+			NOT = {
+				has_variable_list = agassiz_improve_mine_buildings_chosen_variable_list
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = agassiz_can_stop_active_improvement_project_var
+		remove_variable = agassiz_stop_geologist_improving_project_var
+		show_as_tooltip = {
+			scope:journal_entry = {
+				remove_modifier = agassiz_ore_search_cost_modifier
+			}
+		}
+		clear_variable_list = agassiz_improve_mine_buildings_chosen_variable_list
+		agassiz_set_geologist_unbusy_effect = yes
+		if = {
+			limit = { agassiz_is_geology_automated_trigger = no }
+			trigger_event = {
+				id = agassiz.105
+				popup = yes
+			}
+		}
+		else = {
+			agassiz_add_x_generic_minerals_effect = { AMOUNT = 2500 }
+			if = {
+				limit = {
+					NOT = {
+						var:agassiz_geologist_var ?= {
+							has_trait = agassiz_prospector
+						}
+					}
+				}
+
+				random_list = {
+					1 = {
+						var:agassiz_geologist_var ?= {
+							add_trait = agassiz_prospector
+						}
+					}
+					1 = {}
+				}
+			}
+		}
+		set_variable = {
+			name = mr_num_improved_mines_buildings_var
+			value = scope:journal_entry.var:mr_num_improved_buildings_var
+		}
+	}
+
+	invalid = {
+		OR = {
+			custom_tooltip = {
+				text = je_geologist_dies_tt
+				NOT = {
+					has_variable = agassiz_geologist_var
+				}
+			}
+			custom_tooltip = {
+				text = agassiz_stop_geologist_improving_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						agassiz_has_geologist_trigger = yes
+						agassiz_has_geologist_no_tooltip_trigger = yes
+					}
+					has_variable = agassiz_stop_geologist_improving_project_var
+				}
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = agassiz_can_stop_active_improvement_project_var
+		remove_variable = agassiz_stop_geologist_improving_project_var
+		show_as_tooltip = {
+			scope:journal_entry = {
+				remove_modifier = agassiz_ore_search_cost_modifier
+			}
+		}
+		clear_variable_list = agassiz_improve_mine_buildings_chosen_variable_list
+		agassiz_set_geologist_unbusy_effect = yes
+	}
+
+	weight = 30
+
+	should_be_pinned_by_default = no
+}
+
+#Find Oil
+je_agassiz_find_oil_project = {
+	icon = "gfx/interface/icons/goods_icons/oil.dds"
+
+	scripted_progress_bar = agassiz_geologist_improve_oil_rig_project_progress_bar
+
+	scripted_button = agassiz_stop_geologist_project_button
+	scripted_button = je_agassiz_find_oil_project_change_list_button
+
+	group = je_group_agassiz_geology
+
+	immediate = {
+		set_variable = agassiz_can_stop_active_improvement_project_var #This is used to check if the country has a project already
+		scope:journal_entry = {
+			add_modifier = {
+				name = agassiz_ore_search_cost_modifier
+				multiplier = root.mr_local_project_cost_medium_value
+			}
+			set_variable = {
+				name = mr_num_improved_buildings_var
+				value = 0
+			}
+		}
+		ordered_in_list = {
+			variable = agassiz_improve_oil_rig_buildings_chosen_variable_list
+			position = 0
+
+			scope:journal_entry = {
+				set_variable = {
+					name = mr_target_building_var
+					value = prev
+				}
+			}
+		}
+		scope:journal_entry = {
+			mr_journal_entry_save_remaining_list_entries_as_variable_effect = { LIST_NAME = agassiz_improve_oil_rig_buildings_chosen_variable_list }
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			mr_journal_entry_building_1_modifier_project_monthly_effect = {
+				PROGRESS_BAR_NAME = agassiz_geologist_improve_oil_rig_project_progress_bar
+				PROGRESS_COST = 24
+				MODIFIER_1 = agassiz_building_production_2_mult_modifier
+				BUILDING_LIST_NAME = agassiz_improve_oil_rig_buildings_chosen_variable_list
+				ROLE = geologist
+				ADDITIONAL_EFFECTS = ""
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_improve_building_project_complete_tt
+			NOT = {
+				has_variable_list = agassiz_improve_oil_rig_buildings_chosen_variable_list
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = agassiz_can_stop_active_improvement_project_var
+		remove_variable = agassiz_stop_geologist_improving_project_var
+		show_as_tooltip = {
+			scope:journal_entry = {
+				remove_modifier = agassiz_ore_search_cost_modifier
+			}
+		}
+		clear_variable_list = agassiz_improve_oil_rig_buildings_chosen_variable_list
+		agassiz_set_geologist_unbusy_effect = yes
+		if = {
+			limit = { agassiz_is_geology_automated_trigger = no }
+			trigger_event = {
+				id = agassiz.102
+				popup = yes
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					NOT = {
+						var:agassiz_geologist_var = {
+							has_trait = agassiz_prospector
+						}
+					}
+				}
+
+				random_list = {
+					1 = {
+						var:agassiz_geologist_var = {
+							add_trait = agassiz_prospector
+						}
+					}
+					1 = {}
+				}
+			}
+		}
+		set_variable = {
+			name = mr_num_improved_oil_rigs_buildings_var
+			value = scope:journal_entry.var:mr_num_improved_buildings_var
+		}
+	}
+
+	invalid = {
+		OR = {
+			custom_tooltip = {
+				text = je_geologist_dies_tt
+				NOT = {
+					has_variable = agassiz_geologist_var
+				}
+			}
+			custom_tooltip = {
+				text = agassiz_stop_geologist_improving_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						agassiz_has_geologist_trigger = yes
+						agassiz_has_geologist_no_tooltip_trigger = yes
+					}
+					has_variable = agassiz_stop_geologist_improving_project_var
+				}
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = agassiz_can_stop_active_improvement_project_var
+		remove_variable = agassiz_stop_geologist_improving_project_var
+		show_as_tooltip = {
+			scope:journal_entry = {
+				remove_modifier = agassiz_ore_search_cost_modifier
+			}
+		}
+		clear_variable_list = agassiz_improve_oil_rig_buildings_chosen_variable_list
+		agassiz_set_geologist_unbusy_effect = yes
+
+
+		remove_variable = agassiz_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		show_as_tooltip = {
+			scope:journal_entry = {
+				remove_modifier = agassiz_ore_search_cost_modifier
+			}
+		}
+	}
+
+	weight = 30
+
+	should_be_pinned_by_default = no
+}
+
 ######FIND ORE######
 
 #Find Coal
@@ -239,6 +535,12 @@ je_agassiz_find_coal_project = {
 	}
 
 	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = agassiz_ore_search_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
+			}
+		}
 		set_variable = agassiz_can_stop_active_improvement_project_var #This is used to check if the country has a project already
 		#Sets the Geologist Improvement Progress at the beginning
 		set_variable = {
@@ -366,6 +668,12 @@ je_agassiz_find_iron_project = {
 	}
 
 	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = agassiz_ore_search_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
+			}
+		}
 		set_variable = agassiz_can_stop_active_improvement_project_var #This is used to check if the country has a project already
 		#Sets the Geologist Improvement Progress at the beginning
 		set_variable = {
@@ -493,6 +801,12 @@ je_agassiz_find_lead_project = {
 	}
 
 	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = agassiz_ore_search_cost_modifier
+				multiplier = root.mr_local_project_cost_very_small_value
+			}
+		}
 		set_variable = agassiz_can_stop_active_improvement_project_var #This is used to check if the country has a project already
 		#Sets the Geologist Improvement Progress at the beginning
 		set_variable = {
@@ -620,6 +934,12 @@ je_agassiz_find_sulfur_project = {
 	}
 
 	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = agassiz_ore_search_cost_modifier
+				multiplier = root.mr_local_project_cost_very_small_value
+			}
+		}
 		set_variable = agassiz_can_stop_active_improvement_project_var #This is used to check if the country has a project already
 		#Sets the Geologist Improvement Progress at the beginning
 		set_variable = {
@@ -747,6 +1067,12 @@ je_agassiz_find_gold_project = {
 	}
 
 	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = agassiz_ore_search_cost_modifier
+				multiplier = root.mr_local_project_cost_medium_value
+			}
+		}
 		set_variable = agassiz_can_stop_active_improvement_project_var #This is used to check if the country has a project already
 		#Sets the Geologist Improvement Progress at the beginning
 		set_variable = {
@@ -874,6 +1200,12 @@ je_agassiz_find_uranium_project = {
 	}
 
 	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = agassiz_ore_search_cost_modifier
+				multiplier = root.mr_local_project_cost_medium_value
+			}
+		}
 		set_variable = agassiz_can_stop_active_improvement_project_var #This is used to check if the country has a project already
 		#Sets the Geologist Improvement Progress at the beginning
 		set_variable = {
@@ -968,137 +1300,6 @@ je_agassiz_find_uranium_project = {
 	should_be_pinned_by_default = yes
 }
 
-#Find Oil
-je_agassiz_find_oil_project = {
-	icon = "gfx/interface/icons/goods_icons/oil.dds"
-
-	scripted_button = agassiz_stop_geologist_project_button
-
-	group = je_group_agassiz_geology
-
-	on_monthly_pulse = {
-		effect = {
-			#Calculates the Progress added (see agassiz_scripted_effects for calculation)
-			agassiz_geologist_improvement_progress = yes
-			#Adds the monthly progress to the variable
-			change_variable = {
-				name = agassiz_geologist_improvement_progress_var
-				add = var:agassiz_monthly_geologist_improvement_progress_var
-			}
-			if = {
-				limit = { var:agassiz_geologist_improvement_progress_var > agassiz_improvement_progress_cost }
-				scope:target = {
-					add_modifier = {
-						name = agassiz_building_production_2_mult_modifier
-					}
-				}
-				change_variable = {
-					name = agassiz_geologist_improvement_progress_var
-					subtract = agassiz_improvement_progress_cost
-				}
-			}
-		}
-	}
-
-	immediate = {
-		set_variable = agassiz_can_stop_active_improvement_project_var #This is used to check if the country has a project already
-		#Sets the Geologist Improvement Progress at the beginning
-		set_variable = {
-			name = agassiz_geologist_improvement_progress_var
-			value = 0
-		}
-		agassiz_geologist_improvement_progress = yes #Determines how much Geologist Improvement Progress will be added next month
-	}
-
-	complete = {
-		custom_tooltip = {
-			text = agassiz_building_has_production_modifier_2_tt
-			scope:target = {
-				has_modifier = agassiz_building_production_2_mult_modifier
-			}
-		}
-	}
-
-	on_complete = {
-		remove_variable = agassiz_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = agassiz_ore_search_cost_modifier
-			}
-		}
-
-		#Those should be removed in every geology je
-		remove_variable = agassiz_geologist_improvement_progress_var
-		remove_variable = agassiz_monthly_geologist_improvement_progress_var
-		remove_variable = geologist_experience_add_var
-
-		var:agassiz_geologist_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		trigger_event = {
-			id = agassiz.102
-			popup = yes
-		}
-	}
-
-	current_value = {
-		#Keeps track of the Geology Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:agassiz_geologist_improvement_progress_var
-	}
-
-	goal_add_value = {
-		#Normal value for Coal and Iron: 24
-		value = 30
-	}
-
-	invalid = {
-		OR = {
-			custom_tooltip = {
-				text = je_geologist_dies_tt
-				NOT = {
-					has_variable = agassiz_geologist_var
-				}
-			}
-			custom_tooltip = {
-				text = agassiz_stop_geologist_improving_project_tt
-				OR = {
-					trigger_if = {
-						limit = { is_ai = yes }
-						agassiz_has_geologist_trigger = yes
-						agassiz_has_geologist_no_tooltip_trigger = yes
-					}
-					has_variable = agassiz_stop_geologist_improving_project_var
-				}
-			}
-		}
-	}
-
-	on_invalid = {
-		remove_variable = agassiz_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = agassiz_ore_search_cost_modifier
-			}
-		}
-
-		#Those should be removed in every geology je
-		remove_variable = agassiz_geologist_improvement_progress_var
-		remove_variable = agassiz_monthly_geologist_improvement_progress_var
-		remove_variable = geologist_experience_add_var
-
-		remove_variable = agassiz_stop_geologist_improving_project_var
-		var:agassiz_geologist_var ?= {
-			set_character_busy_and_immortal = no
-		}
-	}
-
-	progressbar = yes
-
-	weight = 30
-
-	should_be_pinned_by_default = yes
-}
-
 #Search Uranium
 je_agassiz_search_uranium_project = {
 	icon = "gfx/interface/icons/goods_icons/curie_uranium.dds"
@@ -1110,6 +1311,12 @@ je_agassiz_search_uranium_project = {
 	scripted_progress_bar = agassiz_search_uranium_progress_bar
 
 	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = agassiz_uranium_search_cost_modifier
+				multiplier = mr_project_cost_medium_value
+			}
+		}
 		set_variable = agassiz_can_stop_active_improvement_project_var #This is used to check if the country has a project already
 	}
 
@@ -1201,6 +1408,12 @@ je_agassiz_mid_atlantic_ridge = {
 	}
 
 	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = agassiz_mid_atlantic_ridge_cost_modifier
+				multiplier = mr_project_cost_medium_value
+			}
+		}
 		set_variable = {
 			name = agassiz_mid_atlantic_expedition_progress_var
 			value = 0
@@ -1241,7 +1454,9 @@ je_agassiz_mid_atlantic_ridge = {
 	}
 
 	on_invalid = {
-		remove_modifier = agassiz_mid_atlantic_ridge_cost_modifier
+		scope:journal_entry = {
+			remove_modifier = agassiz_mid_atlantic_ridge_cost_modifier
+		}
 	}
 
 	progressbar = yes

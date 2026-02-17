@@ -202,6 +202,10 @@ mr_botanical_expedition_button_sgui = {
     scope = country
     is_valid = {
 		custom_tooltip = {
+			text = mr_botanical_expedition_no_recent_expedition_tt
+			NOT = { has_modifier = ito_recent_botanical_expedition_modifier }
+		}
+		custom_tooltip = {
 			text = mr_botanical_expedition_no_current_expedtion_tt
 
 			NOR = {
@@ -209,8 +213,6 @@ mr_botanical_expedition_button_sgui = {
 				has_variable = ito_botanical_expedition_target_choice_var
 			}
 		}
-		mr_gui_has_theory_of_evolution_tech_trigger = yes
-		mr_gui_has_malaria_prevention_tech_trigger = yes
 		custom_tooltip = {
 			text = MR_SAFARI_EXPEDITION_NATURALIST_TRIGGER_TT
 			dubois_has_active_naturalist = yes
@@ -222,13 +224,13 @@ mr_botanical_expedition_button_sgui = {
 		custom_tooltip = {
 			text = MR_SAFARI_EXPEDITION_ACCESS_RAINFOREST_TRIGGER_TT
 			OR = {
-				dubois_has_rainforest_no_tooltip = yes
+				ito_country_is_potential_botanical_expedition_target_no_tooltip_trigger = yes
 				any_country = {
 					has_diplomatic_pact = {
 						who = ROOT
 						type = botanical_license
 					}
-					dubois_has_rainforest_no_tooltip = yes
+					ito_country_is_potential_botanical_expedition_target_no_tooltip_trigger = yes
 				}
 			}
 		}
@@ -253,10 +255,12 @@ mr_botanical_expedition_active_sgui = {
 #MR_NATURALIST_IMPROVE_FORESTRY_BUTTON
 mr_naturalist_improve_forestry_button_sgui = {
 	scope = country
-	saved_scopes = {
-        chosen_building
-    }
+
 	is_valid = {
+		custom_tooltip = {
+			text = MR_PROJECT_ALREADY_ACTIVE_TRIGGER_TT
+			NOT = { has_journal_entry = je_ito_improve_forestry_project }
+		}
 		custom_tooltip = {
 			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
 			NOT = {
@@ -267,87 +271,10 @@ mr_naturalist_improve_forestry_button_sgui = {
 			text = MR_SAFARI_EXPEDITION_NATURALIST_TRIGGER_TT
 			dubois_has_active_naturalist = yes
 		}
-		custom_tooltip = {
-			text = MR_NATURALIST_IMPROVE_FORESTRY_TRIGGER_TT
-			any_scope_building = {
-				is_building_type = building_logging_camp
-				level > 0
-				NAND = {
-					has_modifier = dubois_building_throughput_add_modifier
-					has_modifier = dubois_building_production_mult_modifier
-					has_modifier = dubois_building_goods_input_mult_modifier
-				}
-			}
-		}
+		ito_country_has_building_valid_for_forestry_project_trigger = yes
 	}
 	effect = {
-		if = {
-			limit = {
-				is_ai = yes
-			}
-			ordered_scope_building = {
-				position = 0 #We only want the first one here
-				limit = {
-					level > 0
-					is_building_type = building_logging_camp
-					NAND = {
-						has_modifier = dubois_building_throughput_add_modifier
-						has_modifier = dubois_building_production_mult_modifier
-						has_modifier = dubois_building_goods_input_mult_modifier
-					}
-				}
-				order_by = earnings
-				save_scope_as = chosen_building
-			}
-			add_journal_entry = {
-				type = je_dubois_improve_forestry_project
-				target = scope:chosen_building
-			}
-			je:je_dubois_improve_forestry_project = {
-				add_modifier = {
-					name = dubois_naturalist_forestry_cost_modifier
-					multiplier = money_amount_multiplier_small
-				}
-			}
-			if = {
-				limit = {
-					has_variable = dubois_naturalist_var
-				}
-				var:dubois_naturalist_var = {
-					set_character_busy_and_immortal = yes
-				}
-			}
-		}
-		else = {
-			clear_variable_list = dubois_improve_forestry_buildings_variable_list
-			ordered_scope_building = {
-				limit = {
-					level > 0
-					is_building_type = building_logging_camp
-					NAND = {
-						has_modifier = dubois_building_throughput_add_modifier
-						has_modifier = dubois_building_production_mult_modifier
-						has_modifier = dubois_building_goods_input_mult_modifier
-					}
-				}
-				order_by = earnings
-				check_range_bounds = no
-
-				root = {
-					add_to_variable_list = {
-						name = dubois_improve_forestry_buildings_variable_list
-						target = prev
-					}
-				}
-			}
-			set_variable = dubois_improve_forestry_project_building_choser_var
-			show_as_tooltip = {
-				add_modifier = {
-					name = dubois_naturalist_forestry_cost_modifier
-					multiplier = money_amount_multiplier_small
-				}
-			}
-		}
+		mr_naturalist_improve_forestry_button_effect = yes
 	}
 
 	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
@@ -370,53 +297,20 @@ mr_naturalist_improve_forestry_button_sgui = {
 mr_improve_forestry_active_sgui = {
 	scope = country
 	is_shown = {
-		has_journal_entry = je_dubois_improve_forestry_project
+		has_journal_entry = je_ito_improve_forestry_project
 	}
 }
 
-mr_improve_forestry_window_active_sgui = {
+mr_naturalist_improve_forestry_window_active_sgui = {
 	scope = country
 	is_shown = {
 		has_variable = dubois_improve_forestry_project_building_choser_var
-		#Active Naturalist
-		has_variable = dubois_naturalist_var
-		var:dubois_naturalist_var = {
-			is_busy = no
-		}
-	}
-}
-mr_improve_forestry_window_chose_button_sgui = {
-	scope = country
-	saved_scopes = {
-        chosen_building
-    }
-	effect = {
-		add_journal_entry = {
-			type = je_dubois_improve_forestry_project
-			target = scope:chosen_building
-		}
-		je:je_dubois_improve_forestry_project = {
-			add_modifier = {
-				name = dubois_naturalist_forestry_cost_modifier
-				multiplier = money_amount_multiplier_small
+		OR = {
+			var:dubois_naturalist_var ?= {
+				is_busy = no
 			}
+			has_journal_entry = je_ito_improve_forestry_project
 		}
-		remove_variable = dubois_improve_forestry_project_building_choser_var
-		var:dubois_naturalist_var = {
-			set_character_busy_and_immortal = yes
-		}
-		show_as_tooltip = {
-			add_modifier = {
-				name = dubois_naturalist_forestry_cost_modifier
-				multiplier = money_amount_multiplier_small
-			}
-		}
-	}
-}
-mr_improve_forestry_window_close_button_sgui = {
-	scope = country
-	effect = {
-		remove_variable = dubois_improve_forestry_project_building_choser_var
 	}
 }
 
@@ -428,96 +322,23 @@ mr_naturalist_improve_rubber_button_sgui = {
     }
 	is_valid = {
 		custom_tooltip = {
+			text = MR_PROJECT_ALREADY_ACTIVE_TRIGGER_TT
+			NOT = { has_journal_entry = je_ito_improve_rubber_project }
+		}
+		custom_tooltip = {
 			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
 			NOT = {
-				has_variable = dubois_improve_rubber_plantation_project_building_choser_var
+				has_variable = dubois_improve_forestry_project_building_choser_var
 			}
 		}
 		custom_tooltip = {
 			text = MR_SAFARI_EXPEDITION_NATURALIST_TRIGGER_TT
 			dubois_has_active_naturalist = yes
 		}
-		custom_tooltip = {
-			text = MR_NATURALIST_IMPROVE_RUBBER_TRIGGER_TT
-			any_scope_building = {
-				is_building_type = building_rubber_plantation
-				level > 0
-				NAND = {
-					has_modifier = dubois_building_throughput_add_modifier
-					has_modifier = dubois_building_production_mult_modifier
-					has_modifier = dubois_building_goods_input_mult_modifier
-				}
-			}
-		}
+		ito_country_has_building_valid_for_rubber_project_trigger = yes
 	}
 	effect = {
-		if = {
-			limit = {
-				is_ai = yes
-			}
-			ordered_scope_building = {
-				position = 0 #We only want the first one here
-				limit = {
-					level > 0
-					is_building_type = building_rubber_plantation
-					NAND = {
-						has_modifier = dubois_building_throughput_add_modifier
-						has_modifier = dubois_building_production_mult_modifier
-						has_modifier = dubois_building_goods_input_mult_modifier
-					}
-				}
-				order_by = earnings
-				save_scope_as = chosen_building
-			}
-			add_journal_entry = {
-				type = je_dubois_improve_rubber_project
-				target = scope:chosen_building
-			}
-			je:je_dubois_improve_rubber_project = {
-				add_modifier = {
-					name = dubois_naturalist_rubber_cost_modifier
-					multiplier = money_amount_multiplier_small
-				}
-			}
-			if = {
-				limit = {
-					has_variable = dubois_naturalist_var
-				}
-				var:dubois_naturalist_var = {
-					set_character_busy_and_immortal = yes
-				}
-			}
-		}
-		else = {
-			clear_variable_list = dubois_improve_rubber_plantation_buildings_variable_list
-			ordered_scope_building = {
-				limit = {
-					level > 0
-					is_building_type = building_rubber_plantation
-					NAND = {
-						has_modifier = dubois_building_throughput_add_modifier
-						has_modifier = dubois_building_production_mult_modifier
-						has_modifier = dubois_building_goods_input_mult_modifier
-					}
-				}
-				order_by = level
-				check_range_bounds = no
-
-				root = {
-					add_to_variable_list = {
-						name = dubois_improve_rubber_plantation_buildings_variable_list
-						target = prev
-					}
-				}
-			}
-			set_variable = dubois_improve_rubber_plantation_project_building_choser_var
-			show_as_tooltip = {
-				add_modifier = {
-					name = dubois_naturalist_rubber_cost_modifier
-					multiplier = money_amount_multiplier_small
-				}
-			}
-		}
+		mr_naturalist_improve_rubber_button_effect = yes
 	}
 
 	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
@@ -537,56 +358,23 @@ mr_naturalist_improve_rubber_button_sgui = {
 mr_improve_rubber_active_sgui = {
 	scope = country
 	is_shown = {
-		has_journal_entry = je_dubois_improve_rubber_project
+		has_journal_entry = je_ito_improve_rubber_project
 	}
 }
 
 mr_improve_rubber_plantation_window_active_sgui = {
 	scope = country
 	is_shown = {
-		has_variable = dubois_improve_rubber_plantation_project_building_choser_var
+		has_variable = dubois_improve_rubber_project_building_choser_var
 		#Active Naturalist
-		has_variable = dubois_naturalist_var
-		var:dubois_naturalist_var = {
-			is_busy = no
-		}
-	}
-}
-mr_improve_rubber_plantation_window_chose_button_sgui = {
-	scope = country
-	saved_scopes = {
-        chosen_building
-    }
-	effect = {
-		add_journal_entry = {
-			type = je_dubois_improve_rubber_project
-			target = scope:chosen_building
-		}
-		je:je_dubois_improve_rubber_project = {
-			add_modifier = {
-				name = dubois_naturalist_rubber_cost_modifier
-				multiplier = money_amount_multiplier_small
+		OR = {
+			var:dubois_naturalist_var ?= {
+				is_busy = no
 			}
-		}
-		remove_variable = dubois_improve_rubber_plantation_project_building_choser_var
-		var:dubois_naturalist_var = {
-			set_character_busy_and_immortal = yes
-		}
-		show_as_tooltip = {
-			add_modifier = {
-				name = dubois_naturalist_rubber_cost_modifier
-				multiplier = money_amount_multiplier_small
-			}
+			has_journal_entry = je_ito_improve_rubber_project
 		}
 	}
 }
-mr_improve_rubber_plantation_window_close_button_sgui = {
-	scope = country
-	effect = {
-		remove_variable = dubois_improve_rubber_plantation_project_building_choser_var
-	}
-}
-
 #MR_HIPPOCAMPUS_CONGRESS_BUTTON
 mr_hippocampus_congress_button_sgui = {
     scope = country
@@ -1073,19 +861,19 @@ mr_stop_naturalist_project_button_sgui = {
 	is_valid = {
 		custom_tooltip = {
 			text = MR_STOP_NATURALIST_PROJECT_POSSIBLE_TT
-			NOT = { has_variable = dubois_stop_naturalist_improving_project_var }
+			NOT = { has_variable = dubois_stop_naturalist_improvement_project_var }
 		}
 		custom_tooltip = {
 			text = MR_STOP_NATURALIST_PROJECT_HAS_ACTIVE_PROJECT_TT
 			OR = {
-				has_journal_entry = je_dubois_improve_forestry_project
-				has_journal_entry = je_dubois_improve_rubber_project
+				has_journal_entry = je_ito_improve_forestry_project
+				has_journal_entry = je_ito_improve_rubber_project
 			}
 		}
 	}
 	effect = {
 		set_variable = {
-			name = dubois_stop_naturalist_improving_project_var
+			name = dubois_stop_naturalist_improvement_project_var
 			days = 7
 		}
 	}

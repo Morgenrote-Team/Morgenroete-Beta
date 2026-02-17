@@ -1,0 +1,276 @@
+﻿###########################
+# DUBOIS SCRIPTED BUTTONS #
+###########################
+
+#by Marco Dandolo
+
+######################
+
+######ACADEMY BUTTONS######
+
+######STOP CURRENT NATURALIST PROJECT######
+
+dubois_stop_naturalist_project_button = {
+	name = "dubois_stop_naturalist_project_button"
+	desc = "dubois_stop_naturalist_project_button_desc"
+
+	visible = {  always = yes }
+
+	possible = {
+		NOT = { has_variable = dubois_stop_naturalist_improvement_project_var }
+	}
+
+	effect = {
+		set_variable = {
+			name = dubois_stop_naturalist_improvement_project_var
+			days = 7
+		}
+	}
+
+	ai_chance = {
+		value = 0 #It's just not worth for you, Mr AI
+	}
+}
+
+######STOP CURRENT PALEONTOLOGIST PROJECT######
+
+dubois_stop_paleontologist_project_button = {
+	name = "dubois_stop_paleontologist_project_button"
+	desc = "dubois_stop_paleontologist_project_button_desc"
+
+	visible = {  always = yes }
+
+	possible = {
+		NOT = { has_variable = dubois_stop_paleontologist_project_var }
+	}
+
+	effect = {
+		set_variable = {
+			name = dubois_stop_paleontologist_project_var
+			days = 7
+		}
+	}
+
+	ai_chance = {
+		value = 0 #It's just not worth for you, Mr AI
+	}
+}
+
+######PALEONTOLOGICAL EXCAVATION BUTTONS######
+
+dubois_send_paleontologist_to_excavation_button = {
+	name = "dubois_send_paleontologist_to_excavation_button"
+	desc = "dubois_send_paleontologist_to_excavation_button_desc"
+
+	visible = {
+		scope:journal_entry = {
+			NOT = {
+				has_modifier = dubois_paleontologist_on_excavation_modifier
+			}
+		}
+	}
+
+	possible = {
+		#Needs a free Paleontologist
+		dubois_has_active_paleontologist = yes
+		#Checks if the Paleontologist was not recently on an excavation
+		custom_tooltip = {
+			text = MR_PALEONTOLOGIST_NO_RECENT_EXCAVATION_TRIGGER
+
+			NOT = {
+				var:dubois_paleontologist_var ?= {
+					has_modifier = dubois_paleontologist_had_recent_excavation
+				}
+			}
+		}
+	}
+
+	effect = {
+		#Marks the JE as having a paleontologist present
+		scope:journal_entry = {
+			add_modifier = {
+				name = dubois_paleontologist_on_excavation_modifier
+			}
+		}
+		var:dubois_paleontologist_var ?= {
+			#Sets the character busy
+			set_character_busy_and_immortal = yes
+			#This is used to keep track of the Paleontologist's current task (e.g. for clothing)
+			set_variable = dubois_paleontologist_on_excavation_var
+		}
+	}
+
+	ai_chance = {
+		value = 0 #It's just not worth for you, Mr AI
+	}
+}
+
+dubois_recall_paleontologist_from_excavation_button = {
+	name = "dubois_recall_paleontologist_from_excavation_button"
+	desc = "dubois_recall_paleontologist_from_excavation_button_desc"
+
+	visible = {
+		scope:journal_entry = {
+			has_modifier = dubois_paleontologist_on_excavation_modifier
+		}
+	}
+
+	possible = {
+		always = yes
+	}
+
+	effect = {
+		#Removes the modifier from the JE
+		scope:journal_entry = {
+			remove_modifier = dubois_paleontologist_on_excavation_modifier
+		}
+		var:dubois_paleontologist_var ?= {
+			#Sets the character as not busy
+			set_character_busy_and_immortal = no
+			#Removes variable to keep track of the current task
+			remove_variable = dubois_paleontologist_on_excavation_var
+			#Adds the Cooldown modifier to the Paleontologist
+			add_modifier = {
+				name = dubois_paleontologist_had_recent_excavation
+				months = 12
+			}
+		}
+	}
+
+	ai_chance = {
+		value = 0 #It's just not worth for you, Mr AI
+	}
+}
+
+dubois_recall_african_excavation_button = {
+	name = "dubois_recall_excavation_button"
+	desc = "dubois_recall_excavation_button_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		NOT = { has_variable = dubois_recall_african_excavation_var }
+	}
+
+	effect = {
+		dubois_recall_paleontological_excavation_in_effect = { LOCATION = african }
+	}
+
+	ai_chance = {
+		value = 0 #It's just not worth for you, Mr AI
+	}
+}
+
+dubois_recall_asian_excavation_button = {
+	name = "dubois_recall_excavation_button"
+	desc = "dubois_recall_excavation_button_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		NOT = { has_variable = dubois_recall_asian_excavation_var }
+	}
+
+	effect = {
+		dubois_recall_paleontological_excavation_in_effect = { LOCATION = asian }
+	}
+
+	ai_chance = {
+		value = 0 #It's just not worth for you, Mr AI
+	}
+}
+
+dubois_recall_australian_excavation_button = {
+	name = "dubois_recall_excavation_button"
+	desc = "dubois_recall_excavation_button_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		NOT = { has_variable = dubois_recall_australian_excavation_var }
+	}
+
+	effect = {
+		dubois_recall_paleontological_excavation_in_effect = { LOCATION = australian }
+	}
+
+	ai_chance = {
+		value = 0 #It's just not worth for you, Mr AI
+	}
+}
+
+dubois_recall_european_excavation_button = {
+	name = "dubois_recall_excavation_button"
+	desc = "dubois_recall_excavation_button_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		NOT = { has_variable = dubois_recall_european_excavation_var }
+	}
+
+	effect = {
+		dubois_recall_paleontological_excavation_in_effect = { LOCATION = european }
+	}
+
+	ai_chance = {
+		value = 0 #It's just not worth for you, Mr AI
+	}
+}
+
+dubois_recall_north_american_excavation_button = {
+	name = "dubois_recall_excavation_button"
+	desc = "dubois_recall_excavation_button_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		NOT = { has_variable = dubois_recall_north_american_excavation_var }
+	}
+
+	effect = {
+		dubois_recall_paleontological_excavation_in_effect = { LOCATION = north_american }
+	}
+
+	ai_chance = {
+		value = 0 #It's just not worth for you, Mr AI
+	}
+}
+
+dubois_recall_south_american_excavation_button = {
+	name = "dubois_recall_excavation_button"
+	desc = "dubois_recall_excavation_button_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		NOT = { has_variable = dubois_recall_south_american_excavation_var }
+	}
+
+	effect = {
+		dubois_recall_paleontological_excavation_in_effect = { LOCATION = south_american }
+	}
+
+	ai_chance = {
+		value = 0 #It's just not worth for you, Mr AI
+	}
+}
+
+dubois_recall_local_excavation_button = {
+	name = "dubois_recall_excavation_button"
+	desc = "dubois_recall_excavation_button_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		NOT = { has_variable = dubois_recall_local_excavation_var }
+	}
+
+	effect = {
+		dubois_recall_paleontological_excavation_in_effect = { LOCATION = local }
+	}
+
+	ai_chance = {
+		value = 0 #It's just not worth for you, Mr AI
+	}
+}

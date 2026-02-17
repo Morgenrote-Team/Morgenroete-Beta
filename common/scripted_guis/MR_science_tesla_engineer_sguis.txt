@@ -377,8 +377,8 @@ mr_civil_engineer_railway_button = {
 		set_variable = mr_railway_state_prioritizing_window_active_var
 		show_as_tooltip = {
 			add_modifier = {
-				name = gaudi_engineer_project_medium_cost_modifier
-				multiplier = money_amount_multiplier_small
+				name = tesla_medium_engineering_project_cost_modifier
+				multiplier = mr_local_project_cost_medium_value
 			}
 		}
 	}
@@ -432,8 +432,8 @@ mr_civil_engineer_irrigation_button = {
 		set_variable = mr_irrigation_state_prioritizing_window_active_var
 		show_as_tooltip = {
 			add_modifier = {
-				name = gaudi_engineer_project_medium_cost_modifier
-				multiplier = money_amount_multiplier_small
+				name = tesla_medium_engineering_project_cost_modifier
+				multiplier = mr_local_project_cost_medium_value
 			}
 		}
 	}
@@ -451,6 +451,10 @@ mr_civil_engineer_construction_button = {
 	scope = country
 	is_valid = {
 		custom_tooltip = {
+			text = MR_PROJECT_ALREADY_ACTIVE_TRIGGER_TT
+			NOT = { has_journal_entry = je_gaudi_construction_sector_project }
+		}
+		custom_tooltip = {
 			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
 			NOT = {
 				has_variable = gaudi_improve_construction_sector_building_choser_var
@@ -466,28 +470,7 @@ mr_civil_engineer_construction_button = {
 		}
 	}
 	effect = {
-		clear_variable_list = gaudi_improve_construction_sector_building_buildings_variable_list
-		ordered_scope_building = {
-			limit = {
-				tesla_construction_sector_valid_for_improvement_trigger = yes
-			}
-			order_by = level
-			check_range_bounds = no
-
-			root = {
-				add_to_variable_list = {
-					name = gaudi_improve_construction_sector_building_buildings_variable_list
-					target = prev
-				}
-			}
-		}
-		set_variable = gaudi_improve_construction_sector_building_choser_var
-		show_as_tooltip = {
-			add_modifier = {
-				name = gaudi_engineer_project_low_cost_modifier
-				multiplier = money_amount_multiplier_small
-			}
-		}
+		mr_engineer_improve_construction_button_effect = yes
 	}
 }
 #Active
@@ -502,45 +485,13 @@ mr_improve_construction_sector_window_active_sgui = {
 	scope = country
 	is_shown = {
 		has_variable = gaudi_improve_construction_sector_building_choser_var
-		#Active Engineer
-		has_variable = tesla_engineer_var
-		var:tesla_engineer_var = {
-			is_busy = no
-		}
-	}
-}
-mr_improve_construction_sector_building_window_chose_button_sgui = {
-	scope = country
-	saved_scopes = {
-        chosen_building
-    }
-	effect = {
-		add_journal_entry = {
-			type = je_gaudi_construction_sector_project
-			target = scope:chosen_building
-		}
-		je:je_gaudi_construction_sector_project = {
-			add_modifier = {
-				name = gaudi_engineer_project_low_cost_modifier
-				multiplier = money_amount_multiplier_small
+		OR = {
+			has_journal_entry = je_gaudi_construction_sector_project
+			#Active Engineer
+			var:tesla_engineer_var ?= {
+				is_busy = no
 			}
 		}
-		remove_variable = gaudi_improve_construction_sector_building_choser_var
-		var:tesla_engineer_var = {
-			set_character_busy_and_immortal = yes
-		}
-		show_as_tooltip = {
-			add_modifier = {
-				name = gaudi_engineer_project_low_cost_modifier
-				multiplier = money_amount_multiplier_small
-			}
-		}
-	}
-}
-mr_improve_construction_sector_building_window_close_button_sgui = {
-	scope = country
-	effect = {
-		remove_variable = gaudi_improve_construction_sector_building_choser_var
 	}
 }
 
@@ -589,8 +540,8 @@ mr_civil_engineer_topographic_map_button = {
 		set_variable = mr_topographic_state_prioritizing_window_active_var
 		show_as_tooltip = {
 			add_modifier = {
-				name = gaudi_engineer_project_low_cost_modifier
-				multiplier = money_amount_multiplier_small
+				name = tesla_small_engineering_project_cost_modifier
+				multiplier = mr_local_project_cost_small_value
 			}
 		}
 	}
@@ -651,8 +602,8 @@ mr_mechanical_engineer_locomotives_button = {
 	effect = {
 		add_journal_entry = { type = je_gaudi_new_locomotives_project }
 		add_modifier = {
-			name = gaudi_engineer_project_medium_cost_modifier
-			multiplier = money_amount_multiplier_small
+			name = tesla_medium_engineering_project_cost_modifier
+			multiplier = mr_local_project_cost_medium_value
 		}
 		if = {
 			limit = {
@@ -677,6 +628,10 @@ mr_mechanical_engineer_industries_button = {
 	scope = country
 	is_valid = {
 		custom_tooltip = {
+			text = MR_PROJECT_ALREADY_ACTIVE_TRIGGER_TT
+			NOT = { has_journal_entry = je_gaudi_modernizing_industries_project }
+		}
+		custom_tooltip = {
 			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
 			NOT = {
 				has_variable = gaudi_improve_mechanical_improvement_building_building_choser_var
@@ -692,28 +647,7 @@ mr_mechanical_engineer_industries_button = {
 		}
 	}
 	effect = {
-		clear_variable_list = gaudi_improve_mechanical_improvement_building_buildings_variable_list
-		ordered_scope_building = {
-			limit = {
-				tesla_building_valid_for_mechanical_improvement_trigger = yes
-			}
-			order_by = earnings
-			check_range_bounds = no
-
-			root = {
-				add_to_variable_list = {
-					name = gaudi_improve_mechanical_improvement_building_buildings_variable_list
-					target = prev
-				}
-			}
-		}
-		set_variable = gaudi_improve_mechanical_improvement_building_building_choser_var
-		show_as_tooltip = {
-			add_modifier = {
-				name = gaudi_engineer_project_medium_cost_modifier
-				multiplier = money_amount_multiplier_small
-			}
-		}
+		mr_engineer_improve_industries_button_effect = yes
 	}
 }
 #Active
@@ -728,45 +662,13 @@ mr_improve_mechanical_improvement_building_window_active_sgui = {
 	scope = country
 	is_shown = {
 		has_variable = gaudi_improve_mechanical_improvement_building_building_choser_var
-		#Active Engineer
-		has_variable = tesla_engineer_var
-		var:tesla_engineer_var = {
-			is_busy = no
-		}
-	}
-}
-mr_improve_mechanical_improvement_building_window_chose_button_sgui = {
-	scope = country
-	saved_scopes = {
-        chosen_building
-    }
-	effect = {
-		add_journal_entry = {
-			type = je_gaudi_modernizing_industries_project
-			target = scope:chosen_building
-		}
-		je:je_gaudi_modernizing_industries_project = {
-			add_modifier = {
-				name = gaudi_engineer_project_medium_cost_modifier
-				multiplier = money_amount_multiplier_small
+		OR = {
+			has_journal_entry = je_gaudi_modernizing_industries_project
+			#Active Engineer
+			var:tesla_engineer_var ?= {
+				is_busy = no
 			}
 		}
-		remove_variable = gaudi_improve_mechanical_improvement_building_building_choser_var
-		var:tesla_engineer_var = {
-			set_character_busy_and_immortal = yes
-		}
-		show_as_tooltip = {
-			add_modifier = {
-				name = gaudi_engineer_project_medium_cost_modifier
-				multiplier = money_amount_multiplier_small
-			}
-		}
-	}
-}
-mr_improve_mechanical_improvement_building_window_close_button_sgui = {
-	scope = country
-	effect = {
-		remove_variable = gaudi_improve_mechanical_improvement_building_building_choser_var
 	}
 }
 
@@ -879,8 +781,8 @@ mr_military_engineer_advanced_defence_button = {
 	effect = {
 		add_journal_entry = { type = je_gaudi_advanced_defence_project }
 		add_modifier = {
-			name = gaudi_engineer_project_low_cost_modifier
-			multiplier = money_amount_multiplier_small
+			name = tesla_small_engineering_project_cost_modifier
+			multiplier = mr_local_project_cost_small_value
 		}
 		#Makes the Engineer busy
 		if = {
@@ -928,8 +830,8 @@ mr_military_engineer_advanced_weapons_button = {
 	effect = {
 		add_journal_entry = { type = je_gaudi_advanced_weapons_project }
 		add_modifier = {
-			name = gaudi_engineer_project_medium_cost_modifier
-			multiplier = money_amount_multiplier_small
+			name = tesla_medium_engineering_project_cost_modifier
+			multiplier = mr_local_project_cost_medium_value
 		}
 		#Makes the Engineer busy
 		if = {
@@ -978,8 +880,8 @@ mr_military_engineer_advanced_tanks_button = {
 	effect = {
 		add_journal_entry = { type = je_gaudi_advanced_tanks_project }
 		add_modifier = {
-			name = gaudi_engineer_project_medium_cost_modifier
-			multiplier = money_amount_multiplier_small
+			name = tesla_medium_engineering_project_cost_modifier
+			multiplier = mr_local_project_cost_medium_value
 		}
 		#Makes the Engineer busy
 		if = {
@@ -1080,6 +982,7 @@ mr_electrical_engineer_telegraph_button = {
 		any_scope_building = {
 			filter = {
 				is_building_type = building_railway
+				level > 0
 			}
 			has_active_production_method = pm_gaudi_telegraph_office
 			percent < 1
@@ -1133,6 +1036,7 @@ mr_electrical_engineer_radio_button = {
 		any_scope_building = {
 			filter = {
 				is_building_type = building_railway
+				level > 0
 			}
 			has_active_production_method = pm_elgar_radio_stations
 			percent < 1
@@ -1321,6 +1225,55 @@ mr_electrical_engineer_magnetic_ressource_3_button = {
 	ai_frequency = 12 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
 
+#MR_ELECTRICAL_ENGINEER_POWER_PLANT_BUTTON
+mr_electrical_engineer_power_plant_button = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_PROJECT_ALREADY_ACTIVE_TRIGGER_TT
+			NOT = { has_journal_entry = je_tesla_improve_power_plants_project }
+		}
+		custom_tooltip = {
+			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
+			NOT = {
+				has_variable = tesla_improve_power_plant_building_choser_var
+			}
+		}
+		tesla_has_electrical_engineer_trigger = yes
+		tesla_has_active_engineer_trigger = yes
+		custom_tooltip = {
+			text = MR_ELECTRICAL_ENGINEER_POWER_PLANT_TRIGGER_TT
+			any_scope_building = {
+				tesla_power_plant_valid_for_improvement_trigger = yes
+			}
+		}
+	}
+	effect = {
+		mr_engineer_improve_power_plant_button_effect = yes
+	}
+}
+#Active
+mr_electrical_engineer_power_plant_active = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_tesla_improve_power_plants_project
+	}
+}
+
+mr_improve_power_plant_window_active_sgui = {
+	scope = country
+	is_shown = {
+		has_variable = tesla_improve_power_plant_building_choser_var
+		OR = {
+			has_journal_entry = je_tesla_improve_power_plants_project
+			#Active Engineer
+			var:tesla_engineer_var ?= {
+				is_busy = no
+			}
+		}
+	}
+}
+
 ### Aeronautical Engineer Buttons ###
 
 #MR_AERONAUTICAL_ENGINEER_RESEARCH_BUTTON
@@ -1350,9 +1303,13 @@ mr_aeronautical_engineer_airport_button = {
 	scope = country
 	is_valid = {
 		custom_tooltip = {
+			text = MR_PROJECT_ALREADY_ACTIVE_TRIGGER_TT
+			NOT = { has_journal_entry = je_gaudi_civil_airports_project }
+		}
+		custom_tooltip = {
 			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
 			NOT = {
-				has_variable = gaudi_improve_airport_building_choser_var
+				has_variable = tesla_improve_airport_building_choser_var
 			}
 		}
 		tesla_has_aeronautical_engineer_trigger = yes
@@ -1365,28 +1322,7 @@ mr_aeronautical_engineer_airport_button = {
 		}
 	}
 	effect = {
-		clear_variable_list = gaudi_improve_airport_building_buildings_variable_list
-		ordered_scope_building = {
-			limit = {
-				tesla_airport_valid_for_improvement_trigger = yes
-			}
-			order_by = earnings
-			check_range_bounds = no
-
-			root = {
-				add_to_variable_list = {
-					name = gaudi_improve_airport_building_buildings_variable_list
-					target = prev
-				}
-			}
-		}
-		set_variable = gaudi_improve_airport_building_choser_var
-		show_as_tooltip = {
-			add_modifier = {
-				name = gaudi_engineer_project_medium_cost_modifier
-				multiplier = money_amount_multiplier_small
-			}
-		}
+		mr_engineer_improve_airport_button_effect = yes
 	}
 }
 #Active
@@ -1400,46 +1336,14 @@ mr_aeronautical_engineer_airport_active = {
 mr_improve_airport_window_active_sgui = {
 	scope = country
 	is_shown = {
-		has_variable = gaudi_improve_airport_building_choser_var
-		#Active Engineer
-		has_variable = tesla_engineer_var
-		var:tesla_engineer_var = {
-			is_busy = no
-		}
-	}
-}
-mr_improve_airport_building_window_chose_button_sgui = {
-	scope = country
-	saved_scopes = {
-        chosen_building
-    }
-	effect = {
-		add_journal_entry = {
-			type = je_gaudi_civil_airports_project
-			target = scope:chosen_building
-		}
-		je:je_gaudi_civil_airports_project = {
-			add_modifier = {
-				name = gaudi_engineer_project_medium_cost_modifier
-				multiplier = money_amount_multiplier_small
+		has_variable = tesla_improve_airport_building_choser_var
+		OR = {
+			has_journal_entry = je_gaudi_civil_airports_project
+			#Active Engineer
+			var:tesla_engineer_var ?= {
+				is_busy = no
 			}
 		}
-		remove_variable = gaudi_improve_airport_building_choser_var
-		var:tesla_engineer_var = {
-			set_character_busy_and_immortal = yes
-		}
-		show_as_tooltip = {
-			add_modifier = {
-				name = gaudi_engineer_project_medium_cost_modifier
-				multiplier = money_amount_multiplier_small
-			}
-		}
-	}
-}
-mr_improve_airport_building_window_close_button_sgui = {
-	scope = country
-	effect = {
-		remove_variable = gaudi_improve_airport_building_choser_var
 	}
 }
 
@@ -1470,8 +1374,8 @@ mr_aeronautical_engineer_advanced_aicrafts_button = {
 	effect = {
 		add_journal_entry = { type = je_gaudi_advanced_airplanes_project }
 		add_modifier = {
-			name = gaudi_engineer_project_medium_cost_modifier
-			multiplier = money_amount_multiplier_small
+			name = tesla_medium_engineering_project_cost_modifier
+			multiplier = mr_local_project_cost_medium_value
 		}
 		#Makes the Engineer busy
 		if = {
@@ -1536,7 +1440,7 @@ mr_aeronautical_engineer_speed_airplane_button = {
         }
 		add_modifier = {
 			name = curtiss_testplane_cost_modifier
-			multiplier = money_amount_multiplier_very_small
+			multiplier = mr_local_project_cost_very_small_value
 		}
 		#Makes the Engineer busy
 		if = {

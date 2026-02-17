@@ -63,21 +63,21 @@ tesla_default_project_set_up_effect = {
 tesla_small_engineering_project_cost_effect = {
 	add_modifier = {
 		name = tesla_small_engineering_project_cost_modifier
-		multiplier = mr_project_cost_small_value
+		multiplier = mr_local_project_cost_small_value
 	}
 }
 
 tesla_medium_engineering_project_cost_effect = {
 	add_modifier = {
 		name = tesla_medium_engineering_project_cost_modifier
-		multiplier = mr_project_cost_medium_value
+		multiplier = mr_local_project_cost_medium_value
 	}
 }
 
 tesla_large_engineering_project_cost_effect = {
 	add_modifier = {
 		name = tesla_large_engineering_project_cost_modifier
-		multiplier = mr_project_cost_large_value
+		multiplier = mr_local_project_cost_large_value
 	}
 }
 
@@ -112,6 +112,60 @@ tesla_civil_research_project_effect = {
 	post_notification = tesla_civil_engineering_technology_boost_from_engineer_notification
 }
 
+### Improve Construction Project ###
+#Button Effect
+mr_engineer_improve_construction_button_effect = {
+	if = {
+		limit = {
+			tesla_is_engineering_automated_trigger = yes
+		}
+		clear_variable_list = tesla_improve_construction_buildings_chosen_variable_list
+		ordered_scope_building = {
+			position = 0 #We only want the first one here
+			limit = {
+				tesla_construction_sector_valid_for_improvement_trigger = yes
+			}
+			order_by = level
+			root = {
+				add_to_variable_list = {
+					name = tesla_improve_construction_buildings_chosen_variable_list
+					target = prev
+				}
+			}
+		}
+		add_journal_entry = {
+			type = je_gaudi_construction_sector_project
+		}
+		var:tesla_engineer_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	}
+	else = {
+		clear_variable_list = tesla_improve_construction_sector_building_buildings_variable_list
+		ordered_scope_building = {
+			limit = {
+				tesla_construction_sector_valid_for_improvement_trigger = yes
+			}
+			order_by = level
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = tesla_improve_construction_sector_building_buildings_variable_list
+					target = prev
+				}
+			}
+		}
+		set_variable = gaudi_improve_construction_sector_building_choser_var
+		show_as_tooltip = {
+			add_modifier = {
+				name = tesla_small_engineering_project_cost_modifier
+				multiplier = mr_local_project_cost_small_value
+			}
+		}
+	}
+}
+
 ###### Mechanical Engineering Projects effects ######
 
 #Mechanical Engineering Research Effect
@@ -119,6 +173,60 @@ tesla_mechanical_research_project_effect = {
 	tesla_mechanical_engineering_small_add_technology = yes
 	mechanical_engineer_experience_gain_effect = { AMOUNT = 5 }
 	post_notification = tesla_mechanical_engineering_technology_boost_from_engineer_notification
+}
+
+### Improve Industries Project ###
+#Button Effect
+mr_engineer_improve_industries_button_effect = {
+	if = {
+		limit = {
+			tesla_is_engineering_automated_trigger = yes
+		}
+		clear_variable_list = tesla_improve_industries_buildings_chosen_variable_list
+		ordered_scope_building = {
+			position = 0 #We only want the first one here
+			limit = {
+				tesla_building_valid_for_mechanical_improvement_trigger = yes
+			}
+			order_by = earnings
+			root = {
+				add_to_variable_list = {
+					name = tesla_improve_industries_buildings_chosen_variable_list
+					target = prev
+				}
+			}
+		}
+		add_journal_entry = {
+			type = je_gaudi_modernizing_industries_project
+		}
+		var:tesla_engineer_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	}
+	else = {
+		clear_variable_list = gaudi_improve_mechanical_improvement_building_buildings_variable_list
+		ordered_scope_building = {
+			limit = {
+				tesla_building_valid_for_mechanical_improvement_trigger = yes
+			}
+			order_by = earnings
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = gaudi_improve_mechanical_improvement_building_buildings_variable_list
+					target = prev
+				}
+			}
+		}
+		set_variable = gaudi_improve_mechanical_improvement_building_building_choser_var
+		show_as_tooltip = {
+			add_modifier = {
+				name = tesla_medium_engineering_project_cost_modifier
+				multiplier = mr_local_project_cost_medium_value
+			}
+		}
+	}
 }
 
 ###### Military Engineering Projects effects ######
@@ -152,6 +260,60 @@ tesla_electrical_research_project_effect = {
 	post_notification = tesla_electrical_engineering_technology_boost_from_engineer_notification
 }
 
+### Improve Airports Project ###
+#Button Effect
+mr_engineer_improve_power_plant_button_effect = {
+	if = {
+		limit = {
+			tesla_is_engineering_automated_trigger = yes
+		}
+		clear_variable_list = tesla_improve_power_plant_buildings_chosen_variable_list
+		ordered_scope_building = {
+			position = 0 #We only want the first one here
+			limit = {
+				tesla_power_plant_valid_for_improvement_trigger = yes
+			}
+			order_by = earnings
+			root = {
+				add_to_variable_list = {
+					name = tesla_improve_power_plant_buildings_chosen_variable_list
+					target = prev
+				}
+			}
+		}
+		add_journal_entry = {
+			type = je_tesla_improve_power_plants_project
+		}
+		var:tesla_engineer_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	}
+	else = {
+		clear_variable_list = tesla_improve_power_plant_building_buildings_variable_list
+		ordered_scope_building = {
+			limit = {
+				tesla_power_plant_valid_for_improvement_trigger = yes
+			}
+			order_by = earnings
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = tesla_improve_power_plant_building_buildings_variable_list
+					target = prev
+				}
+			}
+		}
+		set_variable = tesla_improve_power_plant_building_choser_var
+		show_as_tooltip = {
+			add_modifier = {
+				name = tesla_medium_engineering_project_cost_modifier
+				multiplier = mr_local_project_cost_medium_value
+			}
+		}
+	}
+}
+
 ###### Aeronautical Engineering Projects effects ######
 
 #Aeronautical Engineering Research Effect
@@ -159,5 +321,59 @@ tesla_aeronautical_research_project_effect = {
 	tesla_aeronautical_engineering_small_add_technology = yes
 	aeronautical_engineer_experience_gain_effect = { AMOUNT = 5 }
 	post_notification = tesla_aeronautical_engineering_technology_boost_from_engineer_notification
+}
+
+### Improve Airports Project ###
+#Button Effect
+mr_engineer_improve_airport_button_effect = {
+	if = {
+		limit = {
+			tesla_is_engineering_automated_trigger = yes
+		}
+		clear_variable_list = tesla_improve_airport_buildings_chosen_variable_list
+		ordered_scope_building = {
+			position = 0 #We only want the first one here
+			limit = {
+				tesla_airport_valid_for_improvement_trigger = yes
+			}
+			order_by = earnings
+			root = {
+				add_to_variable_list = {
+					name = tesla_improve_airport_buildings_chosen_variable_list
+					target = prev
+				}
+			}
+		}
+		add_journal_entry = {
+			type = je_gaudi_civil_airports_project
+		}
+		var:tesla_engineer_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	}
+	else = {
+		clear_variable_list = tesla_improve_airport_building_buildings_variable_list
+		ordered_scope_building = {
+			limit = {
+				tesla_airport_valid_for_improvement_trigger = yes
+			}
+			order_by = earnings
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = tesla_improve_airport_building_buildings_variable_list
+					target = prev
+				}
+			}
+		}
+		set_variable = tesla_improve_airport_building_choser_var
+		show_as_tooltip = {
+			add_modifier = {
+				name = tesla_medium_engineering_project_cost_modifier
+				multiplier = mr_local_project_cost_medium_value
+			}
+		}
+	}
 }
 

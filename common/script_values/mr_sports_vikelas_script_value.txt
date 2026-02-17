@@ -1,0 +1,2751 @@
+﻿#########################
+# VIKELAS SCRPIT VALUES #
+#########################
+
+############################################################################
+
+#This value is used to create a ranking of the top three winner nations of the Olypics.
+vikelas_olympic_success_value = {
+	#This part basically creates a rough logarithm of the total population
+	if = {
+		limit = {
+			total_population <= 1000000
+		}
+		value = 6
+	}
+	if = {
+		limit = {
+			total_population > 1000000
+			total_population <= 10000000
+		}
+		value = 7
+	}
+	if = {
+		limit = {
+			total_population > 10000000
+			total_population <= 100000000
+		}
+		value = 8
+	}
+	if = {
+		limit = {
+			total_population > 100000000
+			total_population <= 1000000000
+		}
+		value = 9
+	}
+	#The logarithm of the population gets multiplied with the average SOL (higher SOL allows for more free time activities)
+	multiply = average_sol
+	#Laws that allow some degree of child labor have a negative effect on the score.
+	if = {
+		limit = {
+			has_law = law_type:law_child_labor_allowed
+		}
+		multiply = 0.5
+	}
+	if = {
+		limit = {
+			has_law = law_type:law_restricted_child_labor
+		}
+		multiply = 0.75
+	}
+	#Adds the total level of sports stadiums of the country
+	add = vikelas_sports_stadiums_score
+	#If an athlete missed their event, the score gets reduced.
+	if = {
+		limit = {
+			has_modifier = vikelas_athlete_missed_event_modifier
+		}
+		add = -10
+	}
+	#If a random athlete becomes a champion, the score gets raised
+	if = {
+		limit = {
+			has_variable = vikelas_random_character_champion_var
+		}
+		add = 10
+	}
+	#Flat bonus for the host
+	if = {
+		limit = {
+			any_scope_state = {
+				has_modifier = vikelas_olympics_hosting_modifier
+			}
+		}
+		add = 15
+	}
+	#In case that the country has an athlete it gets a flat 20 bonus
+	if = {
+		limit = {
+			any_scope_character = {
+				has_trait = vikelas_athlete
+			}
+		}
+		add = 20
+	}
+	#In case that the country has school sports it gets a flat 25 bonus
+	if = {
+		limit = {
+			has_variable = vikelas_school_sport_var
+		}
+		add = 25
+	}
+	#Army laws have a positive influence on the score. National Militia helps the most as it usually means military service for a lot of people.
+	if = {
+		limit = {
+			has_law = law_type:law_professional_army
+		}
+		multiply = 1.2
+	}
+	if = {
+		limit = {
+			has_law = law_type:law_national_militia
+		}
+		multiply = 1.3
+	}
+	if = {
+		limit = {
+			has_law = law_type:law_mass_conscription
+		}
+		multiply = 1.1
+	}
+	#This is used to randomize the result
+	multiply = { 0.9 1.1 }
+}
+
+#This value counts the total level of sports stadiums of a country
+vikelas_sports_stadiums_score = {
+	value = 0
+	every_scope_building = {
+		limit = {
+			is_building_type = building_vikelas_sports
+			has_active_production_method = pm_vikelas_sports_stadium
+		}
+		add = level
+	}
+}
+
+#This value is used to create a ranking of the top three winner nations of the Grand Prix Races
+vikelas_grand_prix_success_value = {
+	#Adds the total level of automobile factories of the country as base value
+	value = vikelas_automobile_industry_score
+	#Bonus for racer experience (Champion gets 100)
+	if = {
+		limit = {
+			var:vikelas_racer_var = {
+				var:vikelas_racer_experience >= 25
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var = {
+				var:vikelas_racer_experience >= 50
+			}
+		}
+		add = 15
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var = {
+				var:vikelas_racer_experience >= 100
+			}
+		}
+		add = 20
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var = {
+				var:vikelas_racer_experience >= 150
+			}
+		}
+		add = 25
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var = {
+				var:vikelas_racer_experience >= 150
+			}
+		}
+		add = 30
+	}
+	#Our Mechanic is the magician and multiplies the sum of industrial power and racer ability
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 100
+			}
+		}
+		multiply = 1.1
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 100
+			}
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 125
+			}
+		}
+		multiply = 1.2
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 125
+			}
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 150
+			}
+		}
+		multiply = 1.3
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 150
+			}
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 175
+			}
+		}
+		multiply = 1.4
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 175
+			}
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 200
+			}
+		}
+		multiply = 1.5
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 200
+			}
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 225
+			}
+		}
+		multiply = 1.6
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 225
+			}
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 250
+			}
+		}
+		multiply = 1.7
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 250
+			}
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 275
+			}
+		}
+		multiply = 1.8
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 275
+			}
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 300
+			}
+		}
+		multiply = 1.9
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 300
+			}
+		}
+		multiply = 2
+	}
+	#Flat bonus for Compression Ignition
+	if = {
+		limit = {
+			has_technology_researched = compression_ignition
+		}
+		add = 15
+	}
+	#Flat bonus for the host
+	if = {
+		limit = {
+			any_scope_state = {
+				has_modifier = vikelas_grand_prix_hosting_modifier
+			}
+		}
+		add = 20
+	}
+	#Reserved for Event effects
+	#if = {
+	#	limit = {
+	#		has_variable = vikelas_cheating_cyclist_var
+	#	}
+	#	add = 10
+	#}
+	#This is used to randomize the result
+	multiply = { 0.9 1.1 }
+}
+
+#This value is used to create a ranking of the top three winner nations of the Endurance Races
+vikelas_endurance_race_success_value = {
+	#Adds the total level of automobile factories of the country as base value
+	value = vikelas_automobile_industry_score
+	#Multiply this with 5
+	multiply = 5
+	#This Race will be decided by the mechanics experience
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 100
+			}
+		}
+		add = 25
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 100
+			}
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 125
+			}
+		}
+		add = 50
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 125
+			}
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 150
+			}
+		}
+		add = 75
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 150
+			}
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 175
+			}
+		}
+		add = 100
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 175
+			}
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 200
+			}
+		}
+		add = 125
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 200
+			}
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 225
+			}
+		}
+		add = 150
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 225
+			}
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 250
+			}
+		}
+		add = 175
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 250
+			}
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 275
+			}
+		}
+		add = 200
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 275
+			}
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var < 300
+			}
+		}
+		add = 225
+	}
+	if = {
+		limit = {
+			var:tesla_engineer_var = {
+				var:tesla_mechanical_engineer_experience_var >= 300
+			}
+		}
+		add = 250
+	}
+	#Flat bonus for Compression Ignition
+	if = {
+		limit = {
+			has_technology_researched = compression_ignition
+		}
+		add = 25
+	}
+	#Reserved for Event effects
+	#if = {
+	#	limit = {
+	#		has_variable = vikelas_cheating_cyclist_var
+	#	}
+	#	add = 10
+	#}
+	#This is used to randomize the result
+	multiply = { 0.9 1.1 }
+}
+
+#This value counts the total level of automobile factories of the country
+vikelas_automobile_industry_score = {
+	value = 0
+	every_scope_building = {
+		limit = {
+			is_building_type = building_automotive_industry
+		}
+		add = level
+	}
+}
+
+##############################################################################################################
+
+### Total Autorace Values ###
+
+vikelas_autorace_reliability_value = {
+	value = vikelas_autorace_racer_reliability_value
+	add = vikelas_autorace_mechanic_reliability_value
+}
+
+vikelas_autorace_safety_value = {
+	value = vikelas_autorace_racer_safety_value
+	add = vikelas_autorace_mechanic_safety_value
+}
+
+vikelas_autorace_speed_value = {
+	value = vikelas_autorace_racer_speed_value
+	add = vikelas_autorace_mechanic_speed_value
+}
+
+### Racer Values ###
+
+#Reliability Value from Character Traits
+vikelas_autorace_racer_reliability_value = {
+	value = 25 #base value
+	#Special Traits
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = vikelas_speedster_racer
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = vikelas_prudent_racer
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = vikelas_enduring_racer
+			}
+		}
+		add = 10
+	}
+	#Personality Traits: Positive
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = persistent
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = tesla_mechanical_engineer
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = cautious
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = meticulous
+			}
+		}
+		add = 5
+	}
+	#Personality Traits: Negative
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				panum_character_has_negative_health_trait_trigger = yes
+			}
+		}
+		add = -15
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = reckless
+			}
+		}
+		add = -10
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = ruthless
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = wrathful
+			}
+		}
+		add = -5
+	}
+	#Experience
+	if = {
+		limit = {
+			has_variable = vikelas_racer_var
+		}
+		add = {
+			value = var:vikelas_racer_var.var:vikelas_racer_experience
+			divide = 5
+		}
+	}
+}
+
+#Safety Value from Character Traits
+vikelas_autorace_racer_safety_value = {
+	value = 25 #base value
+	#Special Traits
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = vikelas_speedster_racer
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = vikelas_prudent_racer
+			}
+		}
+		add = 10
+	}
+	#Personality Traits: Positive
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = cautious
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = tesla_mechanical_engineer
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = reserved
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = pious
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = curtiss_pilot
+			}
+		}
+		add = 5
+	}
+	#Personality Traits: Negative
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				panum_character_has_negative_health_trait_trigger = yes
+			}
+		}
+		add = -15
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = reckless
+			}
+		}
+		add = -10
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = ruthless
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = wrathful
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = brave
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = ambitious
+			}
+		}
+		add = -5
+	}
+	#Experience
+	if = {
+		limit = {
+			has_variable = vikelas_racer_var
+		}
+		add = {
+			value = var:vikelas_racer_var.var:vikelas_racer_experience
+			divide = 5
+		}
+	}
+}
+
+#Speed Value from Character Traits
+vikelas_autorace_racer_speed_value = {
+	value = 25 #base value
+	#Special Traits
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = vikelas_speedster_racer
+			}
+		}
+		add = 15
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = vikelas_prudent_racer
+			}
+		}
+		add = -10
+	}
+	#Personality Traits: Positive
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = reckless
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = tesla_mechanical_engineer
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = ruthless
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = wrathful
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = brave
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = ambitious
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = curtiss_pilot
+			}
+		}
+		add = 5
+	}
+	#Personality Traits: Negative
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				panum_character_has_negative_health_trait_trigger = yes
+			}
+		}
+		add = -15
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = cautious
+			}
+		}
+		add = -10
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = hedonist
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = pious
+			}
+		}
+		add = -5
+	}
+	#Modifiers: Positive
+	if = {
+		limit = {
+			has_modifier = vikelas_autorace_city_speed_increase_modifier
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			has_modifier = vikelas_autorace_grand_prix_speed_increase_modifier
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			has_modifier = vikelas_autorace_grand_prix_speed_large_increase_modifier
+		}
+		add = 15
+	}
+	#Modifiers: Negative
+	if = {
+		limit = {
+			has_modifier = vikelas_autorace_city_speed_decrease_modifier
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			has_modifier = vikelas_autorace_grand_prix_speed_decrease_modifier
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			has_modifier = vikelas_autorace_grand_prix_speed_large_decrease_modifier
+		}
+		add = 15
+	}
+	#Experience
+	if = {
+		limit = {
+			has_variable = vikelas_racer_var
+		}
+		add = {
+			value = var:vikelas_racer_var.var:vikelas_racer_experience
+			divide = 5
+		}
+	}
+}
+
+### Mechanic Values ###
+
+#Reliability Value from Mechanic Additions
+vikelas_autorace_mechanic_reliability_value = {
+	value = 0
+	#Engine
+	if = {
+		limit = {
+			var:vikelas_engine_level_var = 4
+		}
+		add = 35
+	}
+	if = {
+		limit = {
+			var:vikelas_engine_level_var = 3
+		}
+		add = 25
+	}
+	if = {
+		limit = {
+			var:vikelas_engine_level_var = 2
+		}
+		add = 10
+	}
+	#Safety installations
+	if = {
+		limit = {
+			var:vikelas_safety_level_var = 4
+		}
+		add = 5
+	}
+	#Modifier
+	if = {
+		limit = {
+			has_modifier = vikelas_v_engine_modifier
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			has_modifier = vikelas_improved_fuel_modifier
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			has_modifier = vikelas_aerodynamic_forces_modifier
+		}
+		add = 5
+	}
+}
+
+#Safety Value from Mechanic Additions
+vikelas_autorace_mechanic_safety_value = {
+	value = 0
+	#Safety installations
+	if = {
+		limit = {
+			var:vikelas_safety_level_var = 4
+		}
+		add = 30
+	}
+	if = {
+		limit = {
+			var:vikelas_safety_level_var = 3
+		}
+		add = 25
+	}
+	if = {
+		limit = {
+			var:vikelas_safety_level_var = 2
+		}
+		add = 10
+	}
+	#Body
+	if = {
+		limit = {
+			var:vikelas_body_level_var >= 3
+		}
+		add = 10
+	}
+	#Modifier
+	if = {
+		limit = {
+			has_modifier = vikelas_v_engine_modifier
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			has_modifier = vikelas_improved_fuel_modifier
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			has_modifier = vikelas_aerodynamic_forces_modifier
+		}
+		add = 5
+	}
+}
+
+#Speed Value from Mechanic Additions
+vikelas_autorace_mechanic_speed_value = {
+	value = 0
+	#Engine
+	if = {
+		limit = {
+			var:vikelas_engine_level_var = 4
+		}
+		add = 15
+	}
+	if = {
+		limit = {
+			var:vikelas_engine_level_var = 3
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_engine_level_var = 2
+		}
+		add = 5
+	}
+	#Safety Installations
+	if = {
+		limit = {
+			var:vikelas_safety_level_var = 4
+		}
+		add = 5
+	}
+	#Body
+	if = {
+		limit = {
+			var:vikelas_body_level_var = 4
+		}
+		add = 20
+	}
+	if = {
+		limit = {
+			var:vikelas_body_level_var = 3
+		}
+		add = 15
+	}
+	if = {
+		limit = {
+			var:vikelas_body_level_var = 2
+		}
+		add = 10
+	}
+	#Modifier
+	if = {
+		limit = {
+			has_modifier = vikelas_v_engine_modifier
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			has_modifier = vikelas_improved_fuel_modifier
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			has_modifier = vikelas_aerodynamic_forces_modifier
+		}
+		add = 5
+	}
+}
+
+### Monthly Mechanical Innovation
+
+vikelas_monthly_mechanical_innovation_value = {
+	value = 0 #base value
+	#Mechanic
+	if = {
+		limit = {
+			has_variable = vikelas_mechanic_var
+		}
+		add = 1
+	}
+	#Engineer is Mechanic
+	if = {
+		limit = {
+			has_variable = tesla_engineer_var
+			var:tesla_engineer_var ?= {
+				has_trait = tesla_mechanical_engineer
+			}
+		}
+		add = 0.2
+	}
+	#Leading Producer of Automobiles
+	if = {
+		limit = {
+			leading_producer_of = g:automobiles
+		}
+		add = 0.2
+	}
+	#Modern Paddock
+	if = {
+		limit = {
+			any_scope_state = {
+				is_production_method_active = {
+					building_type = building_vikelas_circuit
+					production_method = pm_vikelas_modern_paddock
+				}
+			}
+		}
+		add = 0.2
+	}
+	#Basic Paddock
+	if = {
+		limit = {
+			any_scope_state = {
+				is_production_method_active = {
+					building_type = building_vikelas_circuit
+					production_method = pm_vikelas_basic_paddock
+				}
+			}
+		}
+		add = 0.1
+	}
+	#Engine Industry
+	if = {
+		limit = {
+			country_has_building_type_levels = {
+				target = bt:building_motor_industry
+				value  >= 10
+			}
+		}
+		add = 0.1
+	}
+	if = {
+		limit = {
+			country_has_building_type_levels = {
+				target = bt:building_motor_industry
+				value  >= 20
+			}
+		}
+		add = 0.2
+	}
+	if = {
+		limit = {
+			country_has_building_type_levels = {
+				target = bt:building_motor_industry
+				value  >= 30
+			}
+		}
+		add = 0.3
+	}
+	if = {
+		limit = {
+			country_has_building_type_levels = {
+				target = bt:building_motor_industry
+				value  >= 40
+			}
+		}
+		add = 0.4
+	}
+}
+
+### Mechanical Progress ###
+
+#Engine Progress
+vikelas_monthly_engine_mechanic_progress_value = {
+	value = 0
+	#Mechanic
+	if = {
+		limit = {
+			has_variable = vikelas_mechanic_var
+		}
+		add = 1
+	}
+	#Mechanic Experience
+	if = {
+		limit = {
+			var:vikelas_mechanic_var ?= {
+				has_variable = vikelas_mechanic_experience
+			}
+		}
+		add = {
+			value = var:vikelas_mechanic_var.var:vikelas_mechanic_experience
+			divide = 150
+		}
+	}
+	#Engine Specialization
+	if = {
+		limit = {
+			has_journal_entry = je_vikelas_mechanic_engine
+			var:vikelas_mechanic_var ?= {
+				has_trait = vikelas_engine_mechanic
+			}
+		}
+		add = 1
+	}
+	#Racer is Mechanic
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = tesla_mechanical_engineer
+			}
+		}
+		add = 0.3
+	}
+	#Race Track
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_circuit
+			}
+		}
+		add = 0.2
+	}
+	#Negative Body Trait
+	if = {
+		limit = {
+			var:vikelas_mechanic_var ?= {
+				OR = {
+					has_trait = alcoholic
+					has_trait = expensive_tastes
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = syphilis
+					has_trait = psychological_affliction
+					has_trait = senile
+					has_trait = panum_cholera
+					has_trait = panum_tuberculosis
+					has_trait = panum_yellow_fever
+				}
+			}
+		}
+		add = -0.5
+	}
+}
+
+#Safety Progress
+vikelas_monthly_safety_mechanic_progress_value = {
+	value = 0
+	#Mechanic
+	if = {
+		limit = {
+			has_variable = vikelas_mechanic_var
+		}
+		add = 1
+	}
+	#Mechanic Experience
+	if = {
+		limit = {
+			var:vikelas_mechanic_var ?= {
+				has_variable = vikelas_mechanic_experience
+			}
+		}
+		add = {
+			value = var:vikelas_mechanic_var.var:vikelas_mechanic_experience
+			divide = 150
+		}
+	}
+	#Safety Specialization
+	if = {
+		limit = {
+			has_journal_entry = je_vikelas_mechanic_safety
+			var:vikelas_mechanic_var ?= {
+				has_trait = vikelas_safety_mechanic
+			}
+		}
+		add = 1
+	}
+	#Racer is Mechanic
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = tesla_mechanical_engineer
+			}
+		}
+		add = 0.3
+	}
+	#Race Track
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_circuit
+			}
+		}
+		add = 0.2
+	}
+	#Negative Body Trait
+	if = {
+		limit = {
+			var:vikelas_mechanic_var ?= {
+				OR = {
+					has_trait = alcoholic
+					has_trait = expensive_tastes
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = syphilis
+					has_trait = psychological_affliction
+					has_trait = senile
+					has_trait = panum_cholera
+					has_trait = panum_tuberculosis
+					has_trait = panum_yellow_fever
+				}
+			}
+		}
+		add = -0.5
+	}
+}
+
+#Body Progress
+vikelas_monthly_body_mechanic_progress_value = {
+	value = 0
+	#Mechanic
+	if = {
+		limit = {
+			has_variable = vikelas_mechanic_var
+		}
+		add = 1
+	}
+	#Mechanic Experience
+	if = {
+		limit = {
+			var:vikelas_mechanic_var ?= {
+				has_variable = vikelas_mechanic_experience
+			}
+		}
+		add = {
+			value = var:vikelas_mechanic_var.var:vikelas_mechanic_experience
+			divide = 150
+		}
+	}
+	#Body Specialization
+	if = {
+		limit = {
+			has_journal_entry = je_vikelas_mechanic_body
+			var:vikelas_mechanic_var ?= {
+				has_trait = vikelas_body_mechanic
+			}
+		}
+		add = 1
+	}
+	#Racer is Mechanic
+	if = {
+		limit = {
+			var:vikelas_racer_var ?= {
+				has_trait = tesla_mechanical_engineer
+			}
+		}
+		add = 0.3
+	}
+	#Race Track
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_circuit
+			}
+		}
+		add = 0.2
+	}
+	#Negative Body Trait
+	if = {
+		limit = {
+			var:vikelas_mechanic_var ?= {
+				OR = {
+					has_trait = alcoholic
+					has_trait = expensive_tastes
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = syphilis
+					has_trait = psychological_affliction
+					has_trait = senile
+					has_trait = panum_cholera
+					has_trait = panum_tuberculosis
+					has_trait = panum_yellow_fever
+				}
+			}
+		}
+		add = -0.5
+	}
+}
+
+###################################################################
+
+#Cricket Team value
+vikelas_national_cricket_team_value = {
+	value = 0 #base value
+	#Standard of Living: Fitness
+	add = {
+		value = average_sol
+		multiply = 2
+	}
+	#Petty Bourgeoise: Associations, civic life
+	add = {
+        value = ig:ig_petty_bourgeoisie.ig_clout
+		multiply = 2
+		if = {
+			limit = {
+				has_law = law_type:law_protected_speech
+			}
+			multiply = 1.5
+		}
+    }
+	#Literacy: Cricket Tactics
+	add = {
+        value = literacy_rate
+		multiply = 0.3
+    }
+	#Sports Stadiums: Better Grounds, better Training
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_stadium
+			}
+		}
+		add = 4
+	}
+	else_if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_facility
+			}
+		}
+		add = 2
+	}
+	#Tradition: Countries with National Sport are better
+	if = {
+		limit = {
+			vikelas_has_national_sport_cricket_trigger = yes
+		}
+		add = 5
+	}
+	#Association: Countries with Association are better
+	if = {
+		limit = {
+			vikelas_has_cricket_association_trigger = yes
+		}
+		add = 4
+	}
+	#Motherland: They invented the sport after all
+	if = {
+		limit = {
+			has_modifier = vikelas_cricket_motherland_modifier
+		}
+		add = 3
+	}
+}
+
+#Cricket Team Game value
+vikelas_national_cricket_team_game_value = {
+	value = vikelas_national_cricket_team_value
+	#Profession
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = vikelas_cricket_player
+			}
+		}
+		add = 10
+	}
+	#Experience
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_variable = vikelas_coach_experience
+			}
+		}
+		add = {
+			value = var:vikelas_coach_var.var:vikelas_coach_experience
+			divide = 10
+		}
+	}
+
+	#Positive Traits
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = ambitious
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = charismatic
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = brave
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = innovative
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = meticulous
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = honorable
+			}
+		}
+		add = 5
+	}
+
+	#Negative Traits
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = ruthless
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = reckless
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = wrathful
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = cruel
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = hedonist
+			}
+		}
+		add = -5
+	}
+
+	#Negative Condition
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				OR = {
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = syphilis
+					has_trait = psychological_affliction
+					has_trait = senile
+					has_trait = panum_cholera
+					has_trait = panum_tuberculosis
+					has_trait = panum_yellow_fever
+				}
+			}
+		}
+		add = -5
+	}
+	#Luck: Weather, Team Condition
+	add = { 1 10 }
+}
+
+#Baseball Team value
+vikelas_national_baseball_team_value = {
+	value = 0 #base value
+	#Standard of Living: Fitness
+	add = {
+		value = average_sol
+		multiply = 2
+	}
+	#Petty Bourgeoise: Associations, civic life
+	add = {
+        value = ig:ig_petty_bourgeoisie.ig_clout
+		multiply = 2
+		if = {
+			limit = {
+				has_law = law_type:law_protected_speech
+			}
+			multiply = 1.5
+		}
+    }
+	#Literacy: Baseball Tactics
+	add = {
+        value = literacy_rate
+		multiply = 0.3
+    }
+	#Sports Stadiums: Better Grounds, better Training
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_stadium
+			}
+		}
+		add = 4
+	}
+	else_if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_facility
+			}
+		}
+		add = 2
+	}
+	#Tradition: Countries with National Sport are better
+	if = {
+		limit = {
+			vikelas_has_national_sport_baseball_trigger = yes
+		}
+		add = 5
+	}
+	#Association: Countries with Association are better
+	if = {
+		limit = {
+			vikelas_has_baseball_association_trigger = yes
+		}
+		add = 4
+	}
+	#Motherland: They invented the sport after all
+	if = {
+		limit = {
+			has_modifier = vikelas_baseball_motherland_modifier
+		}
+		add = 3
+	}
+}
+
+#Baseball Team Game value
+vikelas_national_baseball_team_game_value = {
+	value = vikelas_national_baseball_team_value
+	#Profession
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = vikelas_baseball_player
+			}
+		}
+		add = 10
+	}
+	#Experience
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_variable = vikelas_coach_experience
+			}
+		}
+		add = {
+			value = var:vikelas_coach_var.var:vikelas_coach_experience
+			divide = 10
+		}
+	}
+
+	#Positive Traits
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = ambitious
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = charismatic
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = brave
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = innovative
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = meticulous
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = honorable
+			}
+		}
+		add = 5
+	}
+
+	#Negative Traits
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = ruthless
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = reckless
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = wrathful
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = cruel
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = hedonist
+			}
+		}
+		add = -5
+	}
+
+	#Negative Condition
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				OR = {
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = syphilis
+					has_trait = psychological_affliction
+					has_trait = senile
+					has_trait = panum_cholera
+					has_trait = panum_tuberculosis
+					has_trait = panum_yellow_fever
+				}
+			}
+		}
+		add = -5
+	}
+	#Luck: Weather, Team Condition
+	add = { 1 10 }
+}
+
+#Football Team value
+vikelas_national_football_team_value = {
+	value = 0 #base value
+	#Standard of Living: Fitness
+	add = {
+		value = average_sol
+		multiply = 2
+	}
+	#Petty Bourgeoise: Associations, civic life
+	add = {
+        value = ig:ig_petty_bourgeoisie.ig_clout
+		multiply = 2
+		if = {
+			limit = {
+				has_law = law_type:law_protected_speech
+			}
+			multiply = 1.5
+		}
+    }
+	#Literacy: Football Tactics
+	add = {
+        value = literacy_rate
+		multiply = 0.3
+    }
+	#Sports Stadiums: Better Grounds, better Training
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_stadium
+			}
+		}
+		add = 4
+	}
+	else_if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_facility
+			}
+		}
+		add = 2
+	}
+	#Tradition: Countries with National Sport are better
+	if = {
+		limit = {
+			vikelas_has_national_sport_football_trigger = yes
+		}
+		add = 5
+	}
+	#Association: Countries with Association are better
+	if = {
+		limit = {
+			vikelas_has_football_association_trigger = yes
+		}
+		add = 4
+	}
+	#Motherland: They invented the sport after all
+	if = {
+		limit = {
+			has_modifier = vikelas_football_motherland_modifier
+		}
+		add = 3
+	}
+}
+
+#Football Team Game value
+vikelas_national_football_team_game_value = {
+	value = vikelas_national_football_team_value
+	#Profession
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = vikelas_football_player
+			}
+		}
+		add = 10
+	}
+	#Experience
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_variable = vikelas_coach_experience
+			}
+		}
+		add = {
+			value = var:vikelas_coach_var.var:vikelas_coach_experience
+			divide = 10
+		}
+	}
+
+	#Positive Traits
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = ambitious
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = charismatic
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = brave
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = innovative
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = meticulous
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = honorable
+			}
+		}
+		add = 5
+	}
+
+	#Negative Traits
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = ruthless
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = reckless
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = wrathful
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = cruel
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = hedonist
+			}
+		}
+		add = -5
+	}
+
+	#Negative Condition
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				OR = {
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = syphilis
+					has_trait = psychological_affliction
+					has_trait = senile
+					has_trait = panum_cholera
+					has_trait = panum_tuberculosis
+					has_trait = panum_yellow_fever
+				}
+			}
+		}
+		add = -5
+	}
+	#Luck: Weather, Team Condition
+	add = { 1 10 }
+}
+
+#Basketball Team value
+vikelas_national_basketball_team_value = {
+	value = 0 #base value
+	#Standard of Living: Fitness
+	add = {
+		value = average_sol
+		multiply = 2
+	}
+	#Petty Bourgeoise: Associations, civic life
+	add = {
+        value = ig:ig_petty_bourgeoisie.ig_clout
+		multiply = 2
+		if = {
+			limit = {
+				has_law = law_type:law_protected_speech
+			}
+			multiply = 1.5
+		}
+    }
+	#Literacy: Basketball Tactics
+	add = {
+        value = literacy_rate
+		multiply = 0.3
+    }
+	#Sports Stadiums: Better Grounds, better Training
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_stadium
+			}
+		}
+		add = 4
+	}
+	else_if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_vikelas_sports
+				has_active_production_method = pm_vikelas_sports_facility
+			}
+		}
+		add = 2
+	}
+	#Tradition: Countries with National Sport are better
+	if = {
+		limit = {
+			vikelas_has_national_sport_basketball_trigger = yes
+		}
+		add = 5
+	}
+	#Association: Countries with Association are better
+	if = {
+		limit = {
+			vikelas_has_basketball_association_trigger = yes
+		}
+		add = 4
+	}
+	#Motherland: They invented the sport after all
+	if = {
+		limit = {
+			has_modifier = vikelas_basketball_motherland_modifier
+		}
+		add = 3
+	}
+}
+
+#Basketball Team Game value
+vikelas_national_basketball_team_game_value = {
+	value = vikelas_national_basketball_team_value
+	#Profession
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = vikelas_basketball_player
+			}
+		}
+		add = 10
+	}
+	#Experience
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_variable = vikelas_coach_experience
+			}
+		}
+		add = {
+			value = var:vikelas_coach_var.var:vikelas_coach_experience
+			divide = 10
+		}
+	}
+
+	#Positive Traits
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = ambitious
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = charismatic
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = brave
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = innovative
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = meticulous
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = honorable
+			}
+		}
+		add = 5
+	}
+
+	#Negative Traits
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = ruthless
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = reckless
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = wrathful
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = cruel
+			}
+		}
+		add = -5
+	}
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				has_trait = hedonist
+			}
+		}
+		add = -5
+	}
+
+	#Negative Condition
+	if = {
+		limit = {
+			var:vikelas_coach_var ?= {
+				OR = {
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = syphilis
+					has_trait = psychological_affliction
+					has_trait = senile
+					has_trait = panum_cholera
+					has_trait = panum_tuberculosis
+					has_trait = panum_yellow_fever
+				}
+			}
+		}
+		add = -5
+	}
+	#Luck: Weather, Team Condition
+	add = { 1 10 }
+}
+
+#Calculation of board member quality
+vikelas_fifa_board_member_quality_value = {
+	#Base: The number of summits conquered
+	value = vikelas_national_football_team_game_value
+
+	#Experienced Coach
+	if = {
+		limit = {
+			has_variable = vikelas_coach_var
+		}
+		add = {
+			value = var:vikelas_coach_var.var:vikelas_coach_experience
+			divide = 30
+		}
+	}
+
+	#School Sports
+	if = {
+		limit = {
+			has_variable = vikelas_school_sport_var
+		}
+		add = 10
+	}
+
+	#Great Powers are very important
+	if = {
+		limit = {
+			country_rank = rank_value:great_power
+		}
+		add = 40
+	}
+
+	#Major Powers are important
+	if = {
+		limit = {
+			country_rank = rank_value:major_power
+		}
+		add = 20
+	}
+}
+
+###########################################################
+
+### Olympic Gold Medals Success Value ###
+
+vikelas_olympic_archery_success_value = {
+	value = vikelas_olympic_success_value
+
+	#Flat bonus for national discipline
+	if = {
+		limit = {
+			var:vikelas_national_olympic_discipline_var ?= flag:vikelas_archery_flag
+		}
+		add = 25
+	}
+
+	#If a politician is a good archer, the score gets raised.
+	if = {
+		limit = {
+			has_variable = vikelas_archery_politician_var
+		}
+		add = 10
+	}
+}
+
+vikelas_olympic_athletics_success_value = {
+	value = vikelas_olympic_success_value
+
+	#Flat bonus for national discipline
+	if = {
+		limit = {
+			var:vikelas_national_olympic_discipline_var ?= flag:vikelas_athletics_flag
+		}
+		add = 25
+	}
+
+	#If the team loses the tug of war, the score gets reduced.
+	if = {
+		limit = {
+			has_variable = vikelas_lost_tug_of_war_var
+		}
+		add = -10
+	}
+	#If the the marathon runner takes a hitch, the score gets reduced.
+	if = {
+		limit = {
+			has_variable = vikelas_hitchhiker_var
+		}
+		add = -5
+	}
+	#If the the marathon runner gets chased by dogs, the score gets reduced.
+	if = {
+		limit = {
+			has_variable = vikelas_chased_by_dogs_var
+		}
+		add = -5
+	}
+	#Gymnastics and Athletics will be better with sports facilities
+	every_scope_building = {
+		limit = {
+			is_building_type = building_vikelas_sports
+		}
+		add = level
+	}
+}
+
+vikelas_olympic_boxing_success_value = {
+	value = vikelas_olympic_success_value
+
+	#Flat bonus for national discipline
+	if = {
+		limit = {
+			var:vikelas_national_olympic_discipline_var ?= flag:vikelas_boxing_flag
+		}
+		add = 25
+	}
+
+	#If a politician is a good boxer, the score gets raised.
+	if = {
+		limit = {
+			has_variable = vikelas_boxing_politician_var
+		}
+		add = 10
+	}
+}
+
+vikelas_olympic_cycling_success_value = {
+	value = vikelas_olympic_success_value
+
+	#Flat bonus for national discipline
+	if = {
+		limit = {
+			var:vikelas_national_olympic_discipline_var ?= flag:vikelas_cycling_flag
+		}
+		add = 25
+	}
+
+	#If a cyclist won by using free beer, the score gets raised.
+	if = {
+		limit = {
+			has_variable = vikelas_cheating_cyclist_var
+		}
+		add = 10
+	}
+
+	#If a cyclist had an accident, the score gets reduced.
+	if = {
+		limit = {
+			has_variable = vikelas_cyclist_with_accident_var
+		}
+		add = -10
+	}
+	#If a cyclist had an accident, the score gets reduced.
+	if = {
+		limit = {
+			has_variable = vikelas_drunken_cyclist_var
+		}
+		add = -10
+	}
+	#Fraction of Bicycle MO
+	if = {
+		limit = {
+			army_mobilization_option_fraction = {
+				target = mobilization_option:mobilization_option_bicycle_recon
+				value >= 0.1
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			army_mobilization_option_fraction = {
+				target = mobilization_option:mobilization_option_bicycle_recon
+				value >= 0.2
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			army_mobilization_option_fraction = {
+				target = mobilization_option:mobilization_option_bicycle_recon
+				value >= 0.3
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			army_mobilization_option_fraction = {
+				target = mobilization_option:mobilization_option_bicycle_recon
+				value >= 0.4
+			}
+		}
+		add = 40
+	}
+	if = {
+		limit = {
+			army_mobilization_option_fraction = {
+				target = mobilization_option:mobilization_option_bicycle_recon
+				value >= 0.5
+			}
+		}
+		add = 50
+	}
+}
+
+vikelas_olympic_equestrian_success_value = {
+	value = vikelas_olympic_success_value
+
+	#Flat bonus for national discipline
+	if = {
+		limit = {
+			var:vikelas_national_olympic_discipline_var ?= flag:vikelas_equestrian_flag
+		}
+		add = 25
+	}
+
+	#If a general is a good rider, the score gets raised.
+	if = {
+		limit = {
+			has_variable = vikelas_riding_general_var
+		}
+		add = 10
+	}
+	#Fraction of Lancer units
+	if = {
+		limit = {
+			country_army_unit_type_fraction = {
+            	target = unit_type:combat_unit_type_lancers
+            	value >= 0.1
+        	}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			country_army_unit_type_fraction = {
+            	target = unit_type:combat_unit_type_lancers
+            	value >= 0.15
+        	}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			country_army_unit_type_fraction = {
+            	target = unit_type:combat_unit_type_lancers
+            	value >= 0.2
+        	}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			country_army_unit_type_fraction = {
+            	target = unit_type:combat_unit_type_lancers
+            	value >= 0.25
+        	}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			country_army_unit_type_fraction = {
+            	target = unit_type:combat_unit_type_lancers
+            	value >= 0.3
+        	}
+		}
+		add = 10
+	}
+}
+
+vikelas_olympic_fencing_success_value = {
+	value = vikelas_olympic_success_value
+
+	#Flat bonus for national discipline
+	if = {
+		limit = {
+			var:vikelas_national_olympic_discipline_var ?= flag:vikelas_fencing_flag
+		}
+		add = 25
+	}
+
+	#If a general is a good fencer, the score gets raised.
+	if = {
+		limit = {
+			has_variable = vikelas_fencing_general_var
+		}
+		add = 10
+	}
+
+	#Does the country have defensive generals?
+	if = {
+		limit = {
+			any_scope_character = {
+				has_role = general
+				is_busy = no
+				is_ruler = no
+				has_trait = basic_defensive_strategist
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			any_scope_character = {
+				has_role = general
+				is_busy = no
+				is_ruler = no
+				has_trait = experienced_defensive_strategist
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			any_scope_character = {
+				has_role = general
+				is_busy = no
+				is_ruler = no
+				has_trait = expert_defensive_strategist
+			}
+		}
+		add = 15
+	}
+	if = {
+		limit = {
+			any_scope_character = {
+				has_role = general
+				is_busy = no
+				is_ruler = no
+				has_trait = trench_rat
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			any_scope_character = {
+				has_role = general
+				is_busy = no
+				is_ruler = no
+				has_trait = stalwart_defender
+			}
+		}
+		add = 10
+	}
+}
+
+vikelas_olympic_gymnastics_success_value = {
+	value = vikelas_olympic_success_value
+
+	#Flat bonus for national discipline
+	if = {
+		limit = {
+			var:vikelas_national_olympic_discipline_var ?= flag:vikelas_gymnastics_flag
+		}
+		add = 25
+	}
+
+	#If the communist athlete gets support, the score gets raised
+	if = {
+		limit = {
+			has_variable = vikelas_communist_character_champion_var
+		}
+		add = 10
+	}
+
+	#Gymnastics and Athletics will be better with sports facilities
+	every_scope_building = {
+		limit = {
+			is_building_type = building_vikelas_sports
+		}
+		add = level
+	}
+}
+
+vikelas_olympic_hockey_success_value = {
+	value = vikelas_olympic_success_value
+
+	#Flat bonus for national discipline
+	if = {
+		limit = {
+			var:vikelas_national_olympic_discipline_var ?= flag:vikelas_hockey_flag
+		}
+		add = 25
+	}
+}
+
+vikelas_olympic_polo_success_value = {
+	value = vikelas_olympic_success_value
+
+	#Flat bonus for national discipline
+	if = {
+		limit = {
+			var:vikelas_national_olympic_discipline_var ?= flag:vikelas_polo_flag
+		}
+		add = 25
+	}
+}
+
+vikelas_olympic_rowing_success_value = {
+	value = vikelas_olympic_success_value
+
+	#Flat bonus for national discipline
+	if = {
+		limit = {
+			var:vikelas_national_olympic_discipline_var ?= flag:vikelas_rowing_flag
+		}
+		add = 25
+	}
+	#If a admiral is a good rwoer, the score gets raised.
+	if = {
+		limit = {
+			has_variable = vikelas_rowing_admiral_var
+		}
+		add = 10
+	}
+}
+
+vikelas_olympic_sailing_success_value = {
+	value = vikelas_olympic_success_value
+
+	#Flat bonus for national discipline
+	if = {
+		limit = {
+			var:vikelas_national_olympic_discipline_var ?= flag:vikelas_sailing_flag
+		}
+		add = 25
+	}
+	#If a admiral is a good sailer, the score gets raised.
+	if = {
+		limit = {
+			has_variable = vikelas_sailing_admiral_var
+		}
+		add = 10
+	}
+	#Navy Size
+	add = {
+		value = navy_size
+	}
+}
+
+vikelas_olympic_shooting_success_value = {
+	value = vikelas_olympic_success_value
+
+	#Flat bonus for national discipline
+	if = {
+		limit = {
+			var:vikelas_national_olympic_discipline_var ?= flag:vikelas_shooting_flag
+		}
+		add = 25
+	}
+
+	#If the the shooter hits the wrong target, the score gets reduced.
+	if = {
+		limit = {
+			has_variable = vikelas_wrong_target_var
+		}
+		add = -10
+	}
+
+	#If a general is a good shooter, the score gets raised.
+	if = {
+		limit = {
+			has_variable = vikelas_shooting_general_var
+		}
+		add = 10
+	}
+	#Does the country have artillery generals?
+	if = {
+		limit = {
+			any_scope_character = {
+				has_role = general
+				is_busy = no
+				is_ruler = no
+				has_trait = basic_artillery_commander
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			any_scope_character = {
+				has_role = general
+				is_busy = no
+				is_ruler = no
+				has_trait = experienced_artillery_commander
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			any_scope_character = {
+				has_role = general
+				is_busy = no
+				is_ruler = no
+				has_trait = expert_artillery_commander
+			}
+		}
+		add = 15
+	}
+}
+
+vikelas_olympic_swimming_success_value = {
+	value = vikelas_olympic_success_value
+
+	#Flat bonus for national discipline
+	if = {
+		limit = {
+			var:vikelas_national_olympic_discipline_var ?= flag:vikelas_swimming_flag
+		}
+		add = 25
+	}
+	#If a admiral is a good swimmer, the score gets raised.
+	if = {
+		limit = {
+			has_variable = vikelas_swimming_admiral_var
+		}
+		add = 10
+	}
+
+	#Swimming will be better with many ports
+	every_scope_building = {
+		limit = {
+			is_building_type = building_port
+		}
+		add = level
+	}
+}
+
+vikelas_olympic_tennis_success_value = {
+	value = vikelas_olympic_success_value
+
+	#Flat bonus for national discipline
+	if = {
+		limit = {
+			var:vikelas_national_olympic_discipline_var ?= flag:vikelas_tennis_flag
+		}
+		add = 25
+	}
+
+	#If the reactionary athlete gets support, the score gets raised
+	if = {
+		limit = {
+			has_variable = vikelas_reactionary_character_champion_var
+		}
+		add = 10
+	}
+}
+
+vikelas_olympic_weightlifting_success_value = {
+	value = vikelas_olympic_success_value
+
+	#Flat bonus for national discipline
+	if = {
+		limit = {
+			var:vikelas_national_olympic_discipline_var ?= flag:vikelas_weightlifting_flag
+		}
+		add = 25
+	}
+}
+
+vikelas_olympic_wrestling_success_value = {
+	value = vikelas_olympic_success_value
+
+	#Flat bonus for national discipline
+	if = {
+		limit = {
+			var:vikelas_national_olympic_discipline_var ?= flag:vikelas_wrestling_flag
+		}
+		add = 25
+	}
+
+	#If a Schwingerkönig wins the wrestling, the score gets raised
+	if = {
+		limit = {
+			has_variable = vikelas_schwingerkonig_won_var
+		}
+		add = 10
+	}
+
+	#If a politician is a good wrestler, the score gets raised.
+	if = {
+		limit = {
+			has_variable = vikelas_wrestling_politician_var
+		}
+		add = 10
+	}
+}

@@ -8,14 +8,13 @@
 ############################
 
 #Achromatic Microscope
-je_theiler_microscope_achromatic = { 
+je_theiler_microscope_achromatic = {
 	icon = "gfx/interface/icons/event_icons/event_biology.dds"
 
 	group = je_group_theiler_biology
 
 	is_shown_when_inactive = {
 		var:theiler_microscope_var ?= flag:theiler_early_compound_microscope_flag
-		theiler_has_biologist_no_tooltip_trigger = yes #prevents JE before we update
 	}
 
 	possible = {
@@ -46,6 +45,10 @@ je_theiler_microscope_achromatic = {
 	}
 
 	complete = {
+		any_scope_building = {
+			is_building_type = building_glassworks
+			level >= 3
+		}
 		tesla_has_engineer = yes
 		theiler_has_biologist_trigger = yes
 		scope:journal_entry = {
@@ -59,9 +62,9 @@ je_theiler_microscope_achromatic = {
 			name = theiler_microscope_var
 			value = flag:theiler_achromatic_microscope_flag
 		}
-		#trigger_event = {
-		#	id = theiler.801
-		#}
+		trigger_event = {
+			id = theiler.11
+		}
 	}
 
 	invalid = {
@@ -81,7 +84,7 @@ je_theiler_microscope_achromatic = {
 }
 
 #Electron Microscope
-je_theiler_microscope_electron = { 
+je_theiler_microscope_electron = {
 	icon = "gfx/interface/icons/event_icons/event_biology.dds"
 
 	group = je_group_theiler_biology
@@ -118,6 +121,10 @@ je_theiler_microscope_electron = {
 	}
 
 	complete = {
+		any_scope_building = {
+			is_building_type = building_glassworks
+			level >= 5
+		}
 		tesla_has_engineer = yes #Later replaced by Physicist!
 		theiler_has_biologist_trigger = yes
 		scope:journal_entry = {
@@ -131,9 +138,9 @@ je_theiler_microscope_electron = {
 			name = theiler_microscope_var
 			value = flag:theiler_electron_microscope_flag
 		}
-		#trigger_event = {
-		#	id = theiler.802
-		#}
+		trigger_event = {
+			id = theiler.12
+		}
 	}
 
 	invalid = {
@@ -152,7 +159,7 @@ je_theiler_microscope_electron = {
 	weight = 10
 }
 
-##############################################
+#################################################################################################
 
 ######Microorganism Research######
 
@@ -198,4 +205,3697 @@ je_theiler_microorganism_research = {
 	}
 
 	weight = 50
+}
+
+#################################################################################################
+
+### Cochliomyia ###
+
+#Cochliomyia Eredication
+je_theiler_cochliomyia_eredication = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	immediate = {
+		set_variable = {
+			name = theiler_cochliomyia_eredication_progress_var
+			value = 0
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					theiler_has_biologist_no_tooltip_trigger = yes
+					var:theiler_cochliomyia_eredication_progress_var < 12
+				}
+				change_variable = {
+					name = theiler_cochliomyia_eredication_progress_var
+					add = 1
+				}
+			}
+		}
+	}
+
+	complete = {
+		theiler_has_biologist = yes
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		set_variable = theiler_cochliomyia_eredication_program_var
+		trigger_event = {
+			id = theiler.21
+		}
+		theiler_set_biologist_unbusy_effect = yes
+		remove_variable = theiler_cochliomyia_eredication_progress_var
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+	}
+
+	goal_add_value = {
+		add = 12
+	}
+
+	current_value = {
+		value = var:theiler_cochliomyia_eredication_progress_var
+	}
+
+	progressbar = yes
+
+	weight = 10
+}
+
+#Cochliomyia Eredication (per state)
+je_theiler_sti = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_cochliomyia_eredication_cost_modifier
+				multiplier = root.mr_local_project_cost_very_small_value
+			}
+		}
+		set_variable = {
+			name = theiler_cochliomyia_eredication_progress_var
+			value = 0
+		}
+		random_scope_state = {
+			limit = {
+				has_state_trait = theiler_state_trait_cochliomyia
+			}
+			add_modifier = {
+				name = theiler_cochliomyia_experiment_lab_modifier
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					theiler_has_biologist_no_tooltip_trigger = yes
+					var:theiler_cochliomyia_eredication_progress_var < 36
+				}
+				change_variable = {
+					name = theiler_cochliomyia_eredication_progress_var
+					add = 1
+				}
+			}
+		}
+	}
+
+	complete = {
+		theiler_has_biologist = yes
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.22
+		}
+		theiler_set_biologist_unbusy_effect = yes
+		remove_variable = theiler_cochliomyia_eredication_progress_var
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		value = var:theiler_cochliomyia_eredication_progress_var
+	}
+
+	progressbar = yes
+
+	weight = 10
+}
+
+### Cydia ###
+
+#Cydia Pesticide
+je_theiler_cydia_pesticide = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	immediate = {
+		set_variable = {
+			name = theiler_cydia_pesticide_progress_var
+			value = 0
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					theiler_has_biologist_no_tooltip_trigger = yes
+					mendelejew_has_chemist_no_tooltip_trigger = yes
+					var:theiler_cydia_pesticide_progress_var < 12
+				}
+				change_variable = {
+					name = theiler_cydia_pesticide_progress_var
+					add = 1
+				}
+			}
+		}
+	}
+
+	complete = {
+		theiler_has_biologist = yes
+		mendelejew_has_chemist = yes
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		set_variable = theiler_cydia_lead_arsenate_var
+		trigger_event = {
+			id = theiler.31
+		}
+		theiler_set_biologist_unbusy_effect = yes
+		remove_variable = theiler_cydia_pesticide_progress_var
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+	}
+
+	goal_add_value = {
+		add = 12
+	}
+
+	current_value = {
+		value = var:theiler_cydia_pesticide_progress_var
+	}
+
+	progressbar = yes
+
+	weight = 10
+}
+
+#Cydia Lead Arsenate (per state)
+je_theiler_lead_arsenate = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	is_shown_when_inactive = {
+		has_variable = theiler_cydia_lead_arsenate_var
+	}
+
+	possible = {
+		any_scope_state = {
+			has_state_trait = theiler_state_trait_cydia
+		}
+		market.mg:lead = {
+			market_goods_has_goods_shortage = no
+		}
+	}
+
+	can_deactivate = yes
+
+	immediate = {
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			random_scope_state = {
+				limit = {
+					has_state_trait = theiler_state_trait_cydia
+				}
+				state_region = {
+					remove_state_trait = theiler_state_trait_cydia
+				}
+			}
+		}
+	}
+
+	complete = {
+	}
+
+	on_complete = {
+	}
+
+	invalid = {
+	}
+
+	on_invalid = {
+	}
+
+	current_value = {
+	}
+
+	progressbar = yes
+
+	weight = 10
+}
+
+#################################################################################################
+
+### Pathogen JEs ###
+
+#Cholera
+je_theiler_cholera_pathogen = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_easy_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_pathogen_research_cost_modifier
+				multiplier = root.mr_local_project_cost_very_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_cholera_pathogen_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_cholera_pathogen_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_cholera_pathogen = {
+						"scripted_bar_progress(theiler_easy_disease_project_progress_bar)" >= 15
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_cholera_pathogen = {
+					add_progress = {
+						name = theiler_easy_disease_project_progress_bar
+						value = -15
+					}
+				}
+				change_variable = {
+					name = theiler_cholera_pathogen_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2101 #Theiler 2101: Microbiological Institute +2
+			2 = theiler.2102 #Theiler 2102: Improved laboratory method +1
+			2 = theiler.2103 #Theiler 2103: International Cooperation +1
+			1 = theiler.2104 #Theiler 2104: Laboratory accident -2
+			1 = theiler.2105 #Theiler 2105: Contamined Samples -1
+			1 = theiler.2106 #Theiler 2106: Researchers' dispute
+			5 = theiler.2107 #Theiler 2107: Research assistants +1
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_cholera_pathogen_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.101 #Cholera Pathogen
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_cholera_pathogen_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 6
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Tuberculosis
+je_theiler_tuberculosis_pathogen = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_easy_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_pathogen_research_cost_modifier
+				multiplier = root.mr_local_project_cost_very_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_tuberculosis_pathogen_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_tuberculosis_pathogen_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_tuberculosis_pathogen = {
+						"scripted_bar_progress(theiler_easy_disease_project_progress_bar)" >= 15
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_tuberculosis_pathogen = {
+					add_progress = {
+						name = theiler_easy_disease_project_progress_bar
+						value = -15
+					}
+				}
+				change_variable = {
+					name = theiler_tuberculosis_pathogen_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2101 #Theiler 2101: Microbiological Institute +2
+			2 = theiler.2102 #Theiler 2102: Improved laboratory method +1
+			2 = theiler.2103 #Theiler 2103: International Cooperation +1
+			1 = theiler.2104 #Theiler 2104: Laboratory accident -2
+			1 = theiler.2105 #Theiler 2105: Contamined Samples -1
+			1 = theiler.2106 #Theiler 2106: Researchers' dispute
+			5 = theiler.2107 #Theiler 2107: Research assistants +1
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_tuberculosis_pathogen_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.201 #Tuberculosis Pathogen
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_tuberculosis_pathogen_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 6
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Smallpox
+je_theiler_smallpox_pathogen = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_medium_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_pathogen_research_cost_modifier
+				multiplier = root.mr_local_project_cost_very_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_smallpox_pathogen_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_smallpox_pathogen_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_smallpox_pathogen = {
+						"scripted_bar_progress(theiler_medium_disease_project_progress_bar)" >= 30
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_smallpox_pathogen = {
+					add_progress = {
+						name = theiler_medium_disease_project_progress_bar
+						value = -30
+					}
+				}
+				change_variable = {
+					name = theiler_smallpox_pathogen_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2101 #Theiler 2101: Microbiological Institute +2
+			2 = theiler.2102 #Theiler 2102: Improved laboratory method +1
+			2 = theiler.2103 #Theiler 2103: International Cooperation +1
+			1 = theiler.2104 #Theiler 2104: Laboratory accident -2
+			1 = theiler.2105 #Theiler 2105: Contamined Samples -1
+			1 = theiler.2106 #Theiler 2106: Researchers' dispute
+			5 = theiler.2107 #Theiler 2107: Research assistants +1
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_smallpox_pathogen_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.301 #Smallpox Pathogen
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_smallpox_pathogen_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 6
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Typhus
+je_theiler_typhus_pathogen = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_medium_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_pathogen_research_cost_modifier
+				multiplier = root.mr_local_project_cost_very_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_typhus_pathogen_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_typhus_pathogen_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_typhus_pathogen = {
+						"scripted_bar_progress(theiler_medium_disease_project_progress_bar)" >= 30
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_typhus_pathogen = {
+					add_progress = {
+						name = theiler_medium_disease_project_progress_bar
+						value = -30
+					}
+				}
+				change_variable = {
+					name = theiler_typhus_pathogen_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2101 #Theiler 2101: Microbiological Institute +2
+			2 = theiler.2102 #Theiler 2102: Improved laboratory method +1
+			2 = theiler.2103 #Theiler 2103: International Cooperation +1
+			1 = theiler.2104 #Theiler 2104: Laboratory accident -2
+			1 = theiler.2105 #Theiler 2105: Contamined Samples -1
+			1 = theiler.2106 #Theiler 2106: Researchers' dispute
+			5 = theiler.2107 #Theiler 2107: Research assistants +1
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_typhus_pathogen_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.401 #Typhus Pathogen
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_typhus_pathogen_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 6
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Yellow Fever
+je_theiler_yellow_fever_pathogen = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_easy_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_pathogen_research_cost_modifier
+				multiplier = root.mr_local_project_cost_very_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_yellow_fever_pathogen_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_yellow_fever_pathogen_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_yellow_fever_pathogen = {
+						"scripted_bar_progress(theiler_easy_disease_project_progress_bar)" >= 15
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_yellow_fever_pathogen = {
+					add_progress = {
+						name = theiler_easy_disease_project_progress_bar
+						value = -15
+					}
+				}
+				change_variable = {
+					name = theiler_yellow_fever_pathogen_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2101 #Theiler 2101: Microbiological Institute +2
+			2 = theiler.2102 #Theiler 2102: Improved laboratory method +1
+			2 = theiler.2103 #Theiler 2103: International Cooperation +1
+			1 = theiler.2104 #Theiler 2104: Laboratory accident -2
+			1 = theiler.2105 #Theiler 2105: Contamined Samples -1
+			1 = theiler.2106 #Theiler 2106: Researchers' dispute
+			5 = theiler.2107 #Theiler 2107: Research assistants +1
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_yellow_fever_pathogen_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.501 #Yellow Fever Pathogen
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_yellow_fever_pathogen_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 6
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Measles
+je_theiler_measles_pathogen = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_difficult_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_pathogen_research_cost_modifier
+				multiplier = root.mr_local_project_cost_very_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_measles_pathogen_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_measles_pathogen_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_measles_pathogen = {
+						"scripted_bar_progress(theiler_difficult_disease_project_progress_bar)" >= 60
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_measles_pathogen = {
+					add_progress = {
+						name = theiler_difficult_disease_project_progress_bar
+						value = -60
+					}
+				}
+				change_variable = {
+					name = theiler_measles_pathogen_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2101 #Theiler 2101: Microbiological Institute +2
+			2 = theiler.2102 #Theiler 2102: Improved laboratory method +1
+			2 = theiler.2103 #Theiler 2103: International Cooperation +1
+			1 = theiler.2104 #Theiler 2104: Laboratory accident -2
+			1 = theiler.2105 #Theiler 2105: Contamined Samples -1
+			1 = theiler.2106 #Theiler 2106: Researchers' dispute
+			5 = theiler.2107 #Theiler 2107: Research assistants +1
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_measles_pathogen_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.601 #Measles Pathogen
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_measles_pathogen_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 6
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Scarlet Fever
+je_theiler_scarlet_pathogen = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_easy_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_pathogen_research_cost_modifier
+				multiplier = root.mr_local_project_cost_very_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_scarlet_pathogen_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_scarlet_pathogen_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_scarlet_pathogen = {
+						"scripted_bar_progress(theiler_easy_disease_project_progress_bar)" >= 15
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_scarlet_pathogen = {
+					add_progress = {
+						name = theiler_easy_disease_project_progress_bar
+						value = -15
+					}
+				}
+				change_variable = {
+					name = theiler_scarlet_pathogen_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2101 #Theiler 2101: Microbiological Institute +2
+			2 = theiler.2102 #Theiler 2102: Improved laboratory method +1
+			2 = theiler.2103 #Theiler 2103: International Cooperation +1
+			1 = theiler.2104 #Theiler 2104: Laboratory accident -2
+			1 = theiler.2105 #Theiler 2105: Contamined Samples -1
+			1 = theiler.2106 #Theiler 2106: Researchers' dispute
+			5 = theiler.2107 #Theiler 2107: Research assistants +1
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_scarlet_pathogen_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.701 #Scarlet Fever Pathogen
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_scarlet_pathogen_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 6
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Plague
+je_theiler_plague_pathogen = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_medium_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_pathogen_research_cost_modifier
+				multiplier = root.mr_local_project_cost_very_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_plague_pathogen_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_plague_pathogen_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_plague_pathogen = {
+						"scripted_bar_progress(theiler_medium_disease_project_progress_bar)" >= 30
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_plague_pathogen = {
+					add_progress = {
+						name = theiler_medium_disease_project_progress_bar
+						value = -30
+					}
+				}
+				change_variable = {
+					name = theiler_plague_pathogen_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2101 #Theiler 2101: Microbiological Institute +2
+			2 = theiler.2102 #Theiler 2102: Improved laboratory method +1
+			2 = theiler.2103 #Theiler 2103: International Cooperation +1
+			1 = theiler.2104 #Theiler 2104: Laboratory accident -2
+			1 = theiler.2105 #Theiler 2105: Contamined Samples -1
+			1 = theiler.2106 #Theiler 2106: Researchers' dispute
+			5 = theiler.2107 #Theiler 2107: Research assistants +1
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_plague_pathogen_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.801 #Plague Pathogen
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_plague_pathogen_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 6
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Diphtheria
+je_theiler_diphteria_pathogen = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_easy_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_pathogen_research_cost_modifier
+				multiplier = root.mr_local_project_cost_very_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_diphteria_pathogen_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_diphteria_pathogen_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_diphteria_pathogen = {
+						"scripted_bar_progress(theiler_easy_disease_project_progress_bar)" >= 15
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_diphteria_pathogen = {
+					add_progress = {
+						name = theiler_easy_disease_project_progress_bar
+						value = -15
+					}
+				}
+				change_variable = {
+					name = theiler_diphteria_pathogen_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2101 #Theiler 2101: Microbiological Institute +2
+			2 = theiler.2102 #Theiler 2102: Improved laboratory method +1
+			2 = theiler.2103 #Theiler 2103: International Cooperation +1
+			1 = theiler.2104 #Theiler 2104: Laboratory accident -2
+			1 = theiler.2105 #Theiler 2105: Contamined Samples -1
+			1 = theiler.2106 #Theiler 2106: Researchers' dispute
+			5 = theiler.2107 #Theiler 2107: Research assistants +1
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_diphteria_pathogen_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.901 #Diphteria Pathogen
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_diphteria_pathogen_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 6
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Polio
+je_theiler_polio_pathogen = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_difficult_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_pathogen_research_cost_modifier
+				multiplier = root.mr_local_project_cost_very_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_polio_pathogen_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_polio_pathogen_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_polio_pathogen = {
+						"scripted_bar_progress(theiler_difficult_disease_project_progress_bar)" >= 60
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_polio_pathogen = {
+					add_progress = {
+						name = theiler_difficult_disease_project_progress_bar
+						value = -60
+					}
+				}
+				change_variable = {
+					name = theiler_polio_pathogen_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2101 #Theiler 2101: Microbiological Institute +2
+			2 = theiler.2102 #Theiler 2102: Improved laboratory method +1
+			2 = theiler.2103 #Theiler 2103: International Cooperation +1
+			1 = theiler.2104 #Theiler 2104: Laboratory accident -2
+			1 = theiler.2105 #Theiler 2105: Contamined Samples -1
+			1 = theiler.2106 #Theiler 2106: Researchers' dispute
+			5 = theiler.2107 #Theiler 2107: Research assistants +1
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_polio_pathogen_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.1001 #polio Pathogen
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_polio_pathogen_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 6
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#################################################################################################
+
+### Vaccine JEs ###
+
+#Cholera
+je_theiler_cholera_vaccine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_easy_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_vaccine_research_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_cholera_vaccine_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_cholera_vaccine_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_cholera_vaccine = {
+						"scripted_bar_progress(theiler_easy_disease_project_progress_bar)" >= 15
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_cholera_vaccine = {
+					add_progress = {
+						name = theiler_easy_disease_project_progress_bar
+						value = -15
+					}
+				}
+				change_variable = {
+					name = theiler_cholera_vaccine_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2111 #Theiler 2111: Military use +1
+			2 = theiler.2112 #Theiler 2112: Lucky find +1
+			2 = theiler.2113 #Theiler 2113: Successful test +3
+			1 = theiler.2114 #Theiler 2114: Unintended side effects -2
+			1 = theiler.2115 #Theiler 2115: Allegation of Plagiarism -1
+			1 = theiler.2116 #Theiler 2116: Cost explosion
+			5 = theiler.2117 #Theiler 2117: Research assistants +2
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_cholera_vaccine_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.102 #Cholera Vaccine
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_cholera_vaccine_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Tuberculosis
+je_theiler_tuberculosis_vaccine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_medium_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_vaccine_research_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_tuberculosis_vaccine_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_tuberculosis_vaccine_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_tuberculosis_vaccine = {
+						"scripted_bar_progress(theiler_medium_disease_project_progress_bar)" >= 30
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_tuberculosis_vaccine = {
+					add_progress = {
+						name = theiler_medium_disease_project_progress_bar
+						value = -30
+					}
+				}
+				change_variable = {
+					name = theiler_tuberculosis_vaccine_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2111 #Theiler 2111: Military use +1
+			2 = theiler.2112 #Theiler 2112: Lucky find +1
+			2 = theiler.2113 #Theiler 2113: Successful test +3
+			1 = theiler.2114 #Theiler 2114: Unintended side effects -2
+			1 = theiler.2115 #Theiler 2115: Allegation of Plagiarism -1
+			1 = theiler.2116 #Theiler 2116: Cost explosion
+			5 = theiler.2117 #Theiler 2117: Research assistants +2
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_tuberculosis_vaccine_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.202 #Tuberculosis Vaccine
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_tuberculosis_vaccine_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Smallpox
+je_theiler_smallpox_vaccine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_easy_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_vaccine_research_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_smallpox_vaccine_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_smallpox_vaccine_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_smallpox_vaccine = {
+						"scripted_bar_progress(theiler_medium_disease_project_progress_bar)" >= 15
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_smallpox_vaccine = {
+					add_progress = {
+						name = theiler_easy_disease_project_progress_bar
+						value = -15
+					}
+				}
+				change_variable = {
+					name = theiler_smallpox_vaccine_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2111 #Theiler 2111: Military use +1
+			2 = theiler.2112 #Theiler 2112: Lucky find +1
+			2 = theiler.2113 #Theiler 2113: Successful test +3
+			1 = theiler.2114 #Theiler 2114: Unintended side effects -2
+			1 = theiler.2115 #Theiler 2115: Allegation of Plagiarism -1
+			1 = theiler.2116 #Theiler 2116: Cost explosion
+			5 = theiler.2117 #Theiler 2117: Research assistants +2
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_smallpox_vaccine_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		#trigger_event = {
+		#	id = theiler.302 #Smallpox Vaccine
+		#	popup = yes
+		#}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_smallpox_vaccine_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Typhus
+je_theiler_typhus_vaccine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_difficult_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_vaccine_research_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_typhus_vaccine_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_typhus_vaccine_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_typhus_vaccine = {
+						"scripted_bar_progress(theiler_difficult_disease_project_progress_bar)" >= 60
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_typhus_vaccine = {
+					add_progress = {
+						name = theiler_difficult_disease_project_progress_bar
+						value = -60
+					}
+				}
+				change_variable = {
+					name = theiler_typhus_vaccine_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2111 #Theiler 2111: Military use +1
+			2 = theiler.2112 #Theiler 2112: Lucky find +1
+			2 = theiler.2113 #Theiler 2113: Successful test +3
+			1 = theiler.2114 #Theiler 2114: Unintended side effects -2
+			1 = theiler.2115 #Theiler 2115: Allegation of Plagiarism -1
+			1 = theiler.2116 #Theiler 2116: Cost explosion
+			5 = theiler.2117 #Theiler 2117: Research assistants +2
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_typhus_vaccine_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.402 #Typhus Vaccine
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_typhus_vaccine_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Yellow Fever
+je_theiler_yellow_fever_vaccine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_medium_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_vaccine_research_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_yellow_fever_vaccine_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_yellow_fever_vaccine_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_yellow_fever_vaccine = {
+						"scripted_bar_progress(theiler_medium_disease_project_progress_bar)" >= 30
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_yellow_fever_vaccine = {
+					add_progress = {
+						name = theiler_medium_disease_project_progress_bar
+						value = -30
+					}
+				}
+				change_variable = {
+					name = theiler_yellow_fever_vaccine_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2111 #Theiler 2111: Military use +1
+			2 = theiler.2112 #Theiler 2112: Lucky find +1
+			2 = theiler.2113 #Theiler 2113: Successful test +3
+			1 = theiler.2114 #Theiler 2114: Unintended side effects -2
+			1 = theiler.2115 #Theiler 2115: Allegation of Plagiarism -1
+			1 = theiler.2116 #Theiler 2116: Cost explosion
+			5 = theiler.2117 #Theiler 2117: Research assistants +2
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_yellow_fever_vaccine_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.502 #Yellow Fever Vaccine
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_yellow_fever_vaccine_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Measles
+je_theiler_measles_vaccine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_difficult_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_vaccine_research_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_measles_vaccine_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_measles_vaccine_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_measles_vaccine = {
+						"scripted_bar_progress(theiler_difficult_disease_project_progress_bar)" >= 60
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_measles_vaccine = {
+					add_progress = {
+						name = theiler_difficult_disease_project_progress_bar
+						value = -60
+					}
+				}
+				change_variable = {
+					name = theiler_measles_vaccine_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2111 #Theiler 2111: Military use +1
+			2 = theiler.2112 #Theiler 2112: Lucky find +1
+			2 = theiler.2113 #Theiler 2113: Successful test +3
+			1 = theiler.2114 #Theiler 2114: Unintended side effects -2
+			1 = theiler.2115 #Theiler 2115: Allegation of Plagiarism -1
+			1 = theiler.2116 #Theiler 2116: Cost explosion
+			5 = theiler.2117 #Theiler 2117: Research assistants +2
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_measles_vaccine_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.602 #Measles Vaccine
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_measles_vaccine_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Scarlet
+je_theiler_scarlet_vaccine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_difficult_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_vaccine_research_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_scarlet_vaccine_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_scarlet_vaccine_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_scarlet_vaccine = {
+						"scripted_bar_progress(theiler_difficult_disease_project_progress_bar)" >= 60
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_scarlet_vaccine = {
+					add_progress = {
+						name = theiler_difficult_disease_project_progress_bar
+						value = -60
+					}
+				}
+				change_variable = {
+					name = theiler_scarlet_vaccine_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2111 #Theiler 2111: Military use +1
+			2 = theiler.2112 #Theiler 2112: Lucky find +1
+			2 = theiler.2113 #Theiler 2113: Successful test +3
+			1 = theiler.2114 #Theiler 2114: Unintended side effects -2
+			1 = theiler.2115 #Theiler 2115: Allegation of Plagiarism -1
+			1 = theiler.2116 #Theiler 2116: Cost explosion
+			5 = theiler.2117 #Theiler 2117: Research assistants +2
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_scarlet_vaccine_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		#trigger_event = {
+		#	id = theiler.702 #Scarlet Vaccine
+		#	popup = yes
+		#}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_scarlet_vaccine_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Plague
+je_theiler_plague_vaccine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_easy_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_vaccine_research_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_plague_vaccine_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_plague_vaccine_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_plague_vaccine = {
+						"scripted_bar_progress(theiler_easy_disease_project_progress_bar)" >= 15
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_plague_vaccine = {
+					add_progress = {
+						name = theiler_easy_disease_project_progress_bar
+						value = -15
+					}
+				}
+				change_variable = {
+					name = theiler_plague_vaccine_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2111 #Theiler 2111: Military use +1
+			2 = theiler.2112 #Theiler 2112: Lucky find +1
+			2 = theiler.2113 #Theiler 2113: Successful test +3
+			1 = theiler.2114 #Theiler 2114: Unintended side effects -2
+			1 = theiler.2115 #Theiler 2115: Allegation of Plagiarism -1
+			1 = theiler.2116 #Theiler 2116: Cost explosion
+			5 = theiler.2117 #Theiler 2117: Research assistants +2
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_plague_vaccine_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.802 #Plague Vaccine
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_plague_vaccine_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Diphtheria
+je_theiler_diphteria_vaccine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_medium_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_vaccine_research_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_diphteria_vaccine_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_diphteria_vaccine_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_diphteria_vaccine = {
+						"scripted_bar_progress(theiler_medium_disease_project_progress_bar)" >= 30
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_diphteria_vaccine = {
+					add_progress = {
+						name = theiler_medium_disease_project_progress_bar
+						value = -30
+					}
+				}
+				change_variable = {
+					name = theiler_diphteria_vaccine_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2111 #Theiler 2111: Military use +1
+			2 = theiler.2112 #Theiler 2112: Lucky find +1
+			2 = theiler.2113 #Theiler 2113: Successful test +3
+			1 = theiler.2114 #Theiler 2114: Unintended side effects -2
+			1 = theiler.2115 #Theiler 2115: Allegation of Plagiarism -1
+			1 = theiler.2116 #Theiler 2116: Cost explosion
+			5 = theiler.2117 #Theiler 2117: Research assistants +2
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_diphteria_vaccine_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.902 #Diphtheria Vaccine
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_diphteria_vaccine_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Polio
+je_theiler_polio_vaccine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = theiler_difficult_disease_project_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_vaccine_research_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
+			}
+		}
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_polio_vaccine_clues_var
+				}
+			}
+			set_variable = {
+				name = theiler_polio_vaccine_clues_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, a clue will be added
+				limit = {
+					je:je_theiler_polio_vaccine = {
+						"scripted_bar_progress(theiler_difficult_disease_project_progress_bar)" >= 60
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_theiler_polio_vaccine = {
+					add_progress = {
+						name = theiler_difficult_disease_project_progress_bar
+						value = -60
+					}
+				}
+				change_variable = {
+					name = theiler_polio_vaccine_clues_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			300 = 0
+
+			2 = theiler.2111 #Theiler 2111: Military use +1
+			2 = theiler.2112 #Theiler 2112: Lucky find +1
+			2 = theiler.2113 #Theiler 2113: Successful test +3
+			1 = theiler.2114 #Theiler 2114: Unintended side effects -2
+			1 = theiler.2115 #Theiler 2115: Allegation of Plagiarism -1
+			1 = theiler.2116 #Theiler 2116: Cost explosion
+			5 = theiler.2117 #Theiler 2117: Research assistants +2
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_theiler_polio_vaccine_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = theiler.1002 #Polio Vaccine
+			popup = yes
+		}
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_biologist_dies_tt
+			theiler_has_biologist = no
+		}
+	}
+
+	on_invalid = {
+		theiler_remove_active_variables_effect = yes
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_polio_vaccine_clues_var
+		}
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#################################################################################################
+
+### Medical Plants JEs ###
+
+#Strychnos Nux-vomica/Strychnine
+je_theiler_medicinal_plant_strychnine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = mendelejew_chemist_medicinal_plant_project_progress_bar
+	scripted_progress_bar = theiler_biologist_medicinal_plant_project_progress_bar
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_medicinal_plant_strychnos_nuxvomica_var
+				}
+			}
+			set_variable = {
+				name = theiler_medicinal_plant_strychnos_nuxvomica_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the plants are collected, the Chemical Isolation begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_collection_done_var
+					}
+					scope:journal_entry = {
+						is_goal_complete = yes
+					}
+				}
+				set_variable = theiler_medicinal_plant_collection_done_var
+			}
+			if = {
+				#If the Isolation is completed, the Pharmaceutical Production begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_isolation_done_var
+					}
+					je:je_theiler_medicinal_plant_strychnine = {
+						"scripted_bar_progress(mendelejew_chemist_medicinal_plant_project_progress_bar)" >= 15
+					}
+				}
+				set_variable = theiler_medicinal_plant_isolation_done_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = theiler_biologist_medicinal_plant_project_progress_bar_at_full_tt
+			je:je_theiler_medicinal_plant_strychnine = {
+				"scripted_bar_progress(theiler_biologist_medicinal_plant_project_progress_bar)" >= 15
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = theiler_medicinal_plant_demand_active_var
+		remove_variable = theiler_medicinal_plant_collection_done_var
+		remove_variable = theiler_medicinal_plant_isolation_done_var
+		trigger_event = {
+			id = theiler.42 #Biologist invents pharmaceutical
+			popup = yes
+		}
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_medicinal_plant_strychnos_nuxvomica_var
+		}
+	}
+
+	goal_add_value = {
+		value = 5
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Carapichae Ipecacuanha/Emetine
+je_theiler_medicinal_plant_emetine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = mendelejew_chemist_medicinal_plant_project_progress_bar
+	scripted_progress_bar = theiler_biologist_medicinal_plant_project_progress_bar
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_medicinal_plant_carapichae_ipecacuanha_var
+				}
+			}
+			set_variable = {
+				name = theiler_medicinal_plant_carapichae_ipecacuanha_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the plants are collected, the Chemical Isolation begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_collection_done_var
+					}
+					scope:journal_entry = {
+						is_goal_complete = yes
+					}
+				}
+				set_variable = theiler_medicinal_plant_collection_done_var
+			}
+			if = {
+				#If the Isolation is completed, the Pharmaceutical Production begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_isolation_done_var
+					}
+					je:je_theiler_medicinal_plant_emetine = {
+						"scripted_bar_progress(mendelejew_chemist_medicinal_plant_project_progress_bar)" >= 15
+					}
+				}
+				set_variable = theiler_medicinal_plant_isolation_done_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = theiler_biologist_medicinal_plant_project_progress_bar_at_full_tt
+			je:je_theiler_medicinal_plant_emetine = {
+				"scripted_bar_progress(theiler_biologist_medicinal_plant_project_progress_bar)" >= 15
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = theiler_medicinal_plant_demand_active_var
+		remove_variable = theiler_medicinal_plant_collection_done_var
+		remove_variable = theiler_medicinal_plant_isolation_done_var
+		trigger_event = {
+			id = theiler.42 #Biologist invents pharmaceutical
+			popup = yes
+		}
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_medicinal_plant_carapichae_ipecacuanha_var
+		}
+	}
+
+	goal_add_value = {
+		value = 5
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Atropa Belladonna/Atropine
+je_theiler_medicinal_plant_atropine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = mendelejew_chemist_medicinal_plant_project_progress_bar
+	scripted_progress_bar = theiler_biologist_medicinal_plant_project_progress_bar
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_medicinal_plant_atropa_belladonna_var
+				}
+			}
+			set_variable = {
+				name = theiler_medicinal_plant_atropa_belladonna_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the plants are collected, the Chemical Isolation begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_collection_done_var
+					}
+					scope:journal_entry = {
+						is_goal_complete = yes
+					}
+				}
+				set_variable = theiler_medicinal_plant_collection_done_var
+			}
+			if = {
+				#If the Isolation is completed, the Pharmaceutical Production begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_isolation_done_var
+					}
+					je:je_theiler_medicinal_plant_atropine = {
+						"scripted_bar_progress(mendelejew_chemist_medicinal_plant_project_progress_bar)" >= 15
+					}
+				}
+				set_variable = theiler_medicinal_plant_isolation_done_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = theiler_biologist_medicinal_plant_project_progress_bar_at_full_tt
+			je:je_theiler_medicinal_plant_atropine = {
+				"scripted_bar_progress(theiler_biologist_medicinal_plant_project_progress_bar)" >= 15
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = theiler_medicinal_plant_demand_active_var
+		remove_variable = theiler_medicinal_plant_collection_done_var
+		remove_variable = theiler_medicinal_plant_isolation_done_var
+		trigger_event = {
+			id = theiler.42 #Biologist invents pharmaceutical
+			popup = yes
+		}
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_medicinal_plant_atropa_belladonna_var
+		}
+	}
+
+	goal_add_value = {
+		value = 5
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Aloe Vera/Aloin
+je_theiler_medicinal_plant_aloin = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = mendelejew_chemist_medicinal_plant_project_progress_bar
+	scripted_progress_bar = theiler_biologist_medicinal_plant_project_progress_bar
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_medicinal_plant_aloe_vera_var
+				}
+			}
+			set_variable = {
+				name = theiler_medicinal_plant_aloe_vera_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the plants are collected, the Chemical Isolation begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_collection_done_var
+					}
+					scope:journal_entry = {
+						is_goal_complete = yes
+					}
+				}
+				set_variable = theiler_medicinal_plant_collection_done_var
+			}
+			if = {
+				#If the Isolation is completed, the Pharmaceutical Production begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_isolation_done_var
+					}
+					je:je_theiler_medicinal_plant_aloin = {
+						"scripted_bar_progress(mendelejew_chemist_medicinal_plant_project_progress_bar)" >= 15
+					}
+				}
+				set_variable = theiler_medicinal_plant_isolation_done_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = theiler_biologist_medicinal_plant_project_progress_bar_at_full_tt
+			je:je_theiler_medicinal_plant_aloin = {
+				"scripted_bar_progress(theiler_biologist_medicinal_plant_project_progress_bar)" >= 15
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = theiler_medicinal_plant_demand_active_var
+		remove_variable = theiler_medicinal_plant_collection_done_var
+		remove_variable = theiler_medicinal_plant_isolation_done_var
+		trigger_event = {
+			id = theiler.42 #Biologist invents pharmaceutical
+			popup = yes
+		}
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_medicinal_plant_aloe_vera_var
+		}
+	}
+
+	goal_add_value = {
+		value = 5
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Digitalis Purpurea/Digitoxin
+je_theiler_medicinal_plant_digitoxin = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = mendelejew_chemist_medicinal_plant_project_progress_bar
+	scripted_progress_bar = theiler_biologist_medicinal_plant_project_progress_bar
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_medicinal_plant_digitalis_purpurea_var
+				}
+			}
+			set_variable = {
+				name = theiler_medicinal_plant_digitalis_purpurea_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the plants are collected, the Chemical Isolation begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_collection_done_var
+					}
+					scope:journal_entry = {
+						is_goal_complete = yes
+					}
+				}
+				set_variable = theiler_medicinal_plant_collection_done_var
+			}
+			if = {
+				#If the Isolation is completed, the Pharmaceutical Production begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_isolation_done_var
+					}
+					je:je_theiler_medicinal_plant_digitoxin = {
+						"scripted_bar_progress(mendelejew_chemist_medicinal_plant_project_progress_bar)" >= 15
+					}
+				}
+				set_variable = theiler_medicinal_plant_isolation_done_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = theiler_biologist_medicinal_plant_project_progress_bar_at_full_tt
+			je:je_theiler_medicinal_plant_digitoxin = {
+				"scripted_bar_progress(theiler_biologist_medicinal_plant_project_progress_bar)" >= 15
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = theiler_medicinal_plant_demand_active_var
+		remove_variable = theiler_medicinal_plant_collection_done_var
+		remove_variable = theiler_medicinal_plant_isolation_done_var
+		trigger_event = {
+			id = theiler.42 #Biologist invents pharmaceutical
+			popup = yes
+		}
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_medicinal_plant_digitalis_purpurea_var
+		}
+	}
+
+	goal_add_value = {
+		value = 5
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Cinchona Pubescens/Quinine
+je_theiler_medicinal_plant_quinine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = mendelejew_chemist_medicinal_plant_project_progress_bar
+	scripted_progress_bar = theiler_biologist_medicinal_plant_project_progress_bar
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_medicinal_plant_cinchona_pubescens_var
+				}
+			}
+			set_variable = {
+				name = theiler_medicinal_plant_cinchona_pubescens_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the plants are collected, the Chemical Isolation begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_collection_done_var
+					}
+					scope:journal_entry = {
+						is_goal_complete = yes
+					}
+				}
+				set_variable = theiler_medicinal_plant_collection_done_var
+			}
+			if = {
+				#If the Isolation is completed, the Pharmaceutical Production begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_isolation_done_var
+					}
+					je:je_theiler_medicinal_plant_quinine = {
+						"scripted_bar_progress(mendelejew_chemist_medicinal_plant_project_progress_bar)" >= 15
+					}
+				}
+				set_variable = theiler_medicinal_plant_isolation_done_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = theiler_biologist_medicinal_plant_project_progress_bar_at_full_tt
+			je:je_theiler_medicinal_plant_quinine = {
+				"scripted_bar_progress(theiler_biologist_medicinal_plant_project_progress_bar)" >= 15
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = theiler_medicinal_plant_demand_active_var
+		remove_variable = theiler_medicinal_plant_collection_done_var
+		remove_variable = theiler_medicinal_plant_isolation_done_var
+		trigger_event = {
+			id = theiler.42 #Biologist invents pharmaceutical
+			popup = yes
+		}
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_medicinal_plant_cinchona_pubescens_var
+		}
+	}
+
+	goal_add_value = {
+		value = 5
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Thymus Vulgaris/Thymol
+je_theiler_medicinal_plant_thymol = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = mendelejew_chemist_medicinal_plant_project_progress_bar
+	scripted_progress_bar = theiler_biologist_medicinal_plant_project_progress_bar
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_medicinal_plant_thymus_vulgaris_var
+				}
+			}
+			set_variable = {
+				name = theiler_medicinal_plant_thymus_vulgaris_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the plants are collected, the Chemical Isolation begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_collection_done_var
+					}
+					scope:journal_entry = {
+						is_goal_complete = yes
+					}
+				}
+				set_variable = theiler_medicinal_plant_collection_done_var
+			}
+			if = {
+				#If the Isolation is completed, the Pharmaceutical Production begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_isolation_done_var
+					}
+					je:je_theiler_medicinal_plant_thymol = {
+						"scripted_bar_progress(mendelejew_chemist_medicinal_plant_project_progress_bar)" >= 15
+					}
+				}
+				set_variable = theiler_medicinal_plant_isolation_done_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = theiler_biologist_medicinal_plant_project_progress_bar_at_full_tt
+			je:je_theiler_medicinal_plant_thymol = {
+				"scripted_bar_progress(theiler_biologist_medicinal_plant_project_progress_bar)" >= 15
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = theiler_medicinal_plant_demand_active_var
+		remove_variable = theiler_medicinal_plant_collection_done_var
+		remove_variable = theiler_medicinal_plant_isolation_done_var
+		trigger_event = {
+			id = theiler.42 #Biologist invents pharmaceutical
+			popup = yes
+		}
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_medicinal_plant_thymus_vulgaris_var
+		}
+	}
+
+	goal_add_value = {
+		value = 5
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Pilocarpusp Pennatifolius/Pilocarpine
+je_theiler_medicinal_plant_pilocarpine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = mendelejew_chemist_medicinal_plant_project_progress_bar
+	scripted_progress_bar = theiler_biologist_medicinal_plant_project_progress_bar
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_medicinal_plant_pilocarpus_pennatifolius_var
+				}
+			}
+			set_variable = {
+				name = theiler_medicinal_plant_pilocarpus_pennatifolius_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the plants are collected, the Chemical Isolation begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_collection_done_var
+					}
+					scope:journal_entry = {
+						is_goal_complete = yes
+					}
+				}
+				set_variable = theiler_medicinal_plant_collection_done_var
+			}
+			if = {
+				#If the Isolation is completed, the Pharmaceutical Production begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_isolation_done_var
+					}
+					je:je_theiler_medicinal_plant_pilocarpine = {
+						"scripted_bar_progress(mendelejew_chemist_medicinal_plant_project_progress_bar)" >= 15
+					}
+				}
+				set_variable = theiler_medicinal_plant_isolation_done_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = theiler_biologist_medicinal_plant_project_progress_bar_at_full_tt
+			je:je_theiler_medicinal_plant_pilocarpine = {
+				"scripted_bar_progress(theiler_biologist_medicinal_plant_project_progress_bar)" >= 15
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = theiler_medicinal_plant_demand_active_var
+		remove_variable = theiler_medicinal_plant_collection_done_var
+		remove_variable = theiler_medicinal_plant_isolation_done_var
+		trigger_event = {
+			id = theiler.42 #Biologist invents pharmaceutical
+			popup = yes
+		}
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_medicinal_plant_pilocarpus_pennatifolius_var
+		}
+	}
+
+	goal_add_value = {
+		value = 5
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Ephedra Sinica/Ephedrine
+je_theiler_medicinal_plant_ephedrine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = mendelejew_chemist_medicinal_plant_project_progress_bar
+	scripted_progress_bar = theiler_biologist_medicinal_plant_project_progress_bar
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_medicinal_plant_ephedra_sinica_var
+				}
+			}
+			set_variable = {
+				name = theiler_medicinal_plant_ephedra_sinica_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the plants are collected, the Chemical Isolation begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_collection_done_var
+					}
+					scope:journal_entry = {
+						is_goal_complete = yes
+					}
+				}
+				set_variable = theiler_medicinal_plant_collection_done_var
+			}
+			if = {
+				#If the Isolation is completed, the Pharmaceutical Production begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_isolation_done_var
+					}
+					je:je_theiler_medicinal_plant_ephedrine = {
+						"scripted_bar_progress(mendelejew_chemist_medicinal_plant_project_progress_bar)" >= 15
+					}
+				}
+				set_variable = theiler_medicinal_plant_isolation_done_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = theiler_biologist_medicinal_plant_project_progress_bar_at_full_tt
+			je:je_theiler_medicinal_plant_ephedrine = {
+				"scripted_bar_progress(theiler_biologist_medicinal_plant_project_progress_bar)" >= 15
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = theiler_medicinal_plant_demand_active_var
+		remove_variable = theiler_medicinal_plant_collection_done_var
+		remove_variable = theiler_medicinal_plant_isolation_done_var
+		trigger_event = {
+			id = theiler.42 #Biologist invents pharmaceutical
+			popup = yes
+		}
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_medicinal_plant_ephedra_sinica_var
+		}
+	}
+
+	goal_add_value = {
+		value = 5
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+#Strophanthus Gratus/Strophantine
+je_theiler_medicinal_plant_strophantine = {
+	icon = "gfx/interface/icons/event_icons/event_biology.dds"
+
+	group = je_group_theiler_biology
+
+	scripted_progress_bar = mendelejew_chemist_medicinal_plant_project_progress_bar
+	scripted_progress_bar = theiler_biologist_medicinal_plant_project_progress_bar
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = theiler_medicinal_plant_strophanthus_gratus_var
+				}
+			}
+			set_variable = {
+				name = theiler_medicinal_plant_strophanthus_gratus_var
+				value = 0
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the plants are collected, the Chemical Isolation begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_collection_done_var
+					}
+					scope:journal_entry = {
+						is_goal_complete = yes
+					}
+				}
+				set_variable = theiler_medicinal_plant_collection_done_var
+			}
+			if = {
+				#If the Isolation is completed, the Pharmaceutical Production begins
+				limit = {
+					NOT = {
+						has_variable = theiler_medicinal_plant_isolation_done_var
+					}
+					je:je_theiler_medicinal_plant_strophantine = {
+						"scripted_bar_progress(mendelejew_chemist_medicinal_plant_project_progress_bar)" >= 15
+					}
+				}
+				set_variable = theiler_medicinal_plant_isolation_done_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = theiler_biologist_medicinal_plant_project_progress_bar_at_full_tt
+			je:je_theiler_medicinal_plant_strophantine = {
+				"scripted_bar_progress(theiler_biologist_medicinal_plant_project_progress_bar)" >= 15
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = theiler_medicinal_plant_demand_active_var
+		remove_variable = theiler_medicinal_plant_collection_done_var
+		remove_variable = theiler_medicinal_plant_isolation_done_var
+		trigger_event = {
+			id = theiler.42 #Biologist invents pharmaceutical
+			popup = yes
+		}
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:theiler_medicinal_plant_strophanthus_gratus_var
+		}
+	}
+
+	goal_add_value = {
+		value = 5
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+### Improvement Projects ###
+
+###Improve Agriculture###
+je_theiler_improve_agriculture_project = {
+	icon = "gfx/interface/icons/invention_icons/enclosure.dds"
+
+	scripted_progress_bar = theiler_biologist_improve_agriculture_project_progress_bar
+
+	scripted_button = theiler_stop_biological_project_button
+	scripted_button = je_theiler_improve_agriculture_project_change_list_button
+
+	group = je_group_theiler_biology
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = theiler_improve_agriculture_cost_modifier
+				multiplier = root.mr_local_project_cost_small_value
+			}
+			set_variable = {
+				name = mr_num_improved_buildings_var
+				value = 0
+			}
+		}
+		ordered_in_list = {
+			variable = theiler_improve_agriculture_buildings_chosen_variable_list
+			position = 0
+
+			scope:journal_entry = {
+				set_variable = {
+					name = mr_target_building_var
+					value = prev
+				}
+			}
+		}
+		scope:journal_entry = {
+			mr_journal_entry_save_remaining_list_entries_as_variable_effect = { LIST_NAME = theiler_improve_agriculture_buildings_chosen_variable_list }
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			mr_journal_entry_building_3_modifier_project_monthly_effect = {
+				PROGRESS_BAR_NAME = theiler_biologist_improve_agriculture_project_progress_bar
+				PROGRESS_COST = 24
+				MODIFIER_1 = theiler_building_throughput_add_modifier
+				MODIFIER_2 = theiler_building_production_mult_modifier
+				MODIFIER_3 = theiler_building_goods_input_mult_modifier
+				BUILDING_LIST_NAME = theiler_improve_agriculture_buildings_chosen_variable_list
+				ROLE_TYPE = academics
+				ROLE = biologist
+				ADDITIONAL_EFFECTS = ""
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_improve_building_project_complete_tt
+			NOT = {
+				has_variable_list = theiler_improve_agriculture_buildings_chosen_variable_list
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = theiler_stop_biological_project_var
+		show_as_tooltip = {
+			scope:journal_entry = {
+				remove_modifier = theiler_improve_agriculture_cost_modifier
+			}
+		}
+		clear_variable_list = theiler_improve_agriculture_buildings_chosen_variable_list
+
+		theiler_set_biologist_unbusy_effect = yes
+		if = {
+			limit = { theiler_is_biology_automated_trigger = no }
+			trigger_event = {
+				id = theiler.2201
+				popup = yes
+			}
+		}
+		set_variable = {
+			name = mr_num_improved_agriculture_buildings_var
+			value = scope:journal_entry.var:mr_num_improved_buildings_var
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = theiler_stopped_biologist_project_tt
+			OR = {
+				has_variable = theiler_stop_biological_project_var
+				theiler_has_biologist_no_tooltip_trigger = no
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = theiler_stop_biological_project_var
+		show_as_tooltip = {
+			scope:journal_entry = {
+				remove_modifier = theiler_improve_agriculture_cost_modifier
+			}
+		}
+		clear_variable_list = theiler_improve_agriculture_buildings_chosen_variable_list
+
+		theiler_set_biologist_unbusy_effect = yes
+	}
+
+	weight = 30
+
+	should_be_pinned_by_default = no
 }
