@@ -6,6 +6,8 @@ Graphics:
 Fixes:
 - The number of remaining buildings is now properly updated when you change the list.
 - The Worldcup alert should now work properly.
+- Each finished building will now give you 2500 generic minerals again for the Mining Project.
+- Each finished building will now give you 500 specimens again for the Forestry Project.
 
 Biology:
 - Added Alerts for the Biologist.
