@@ -1,5 +1,9 @@
 Changelog fot 2.7.0h "Pasteur"
 
+Music:
+- Masterpiece names are now saved and accessible in the Composer's achievement.
+- Added Historical Masterpieces for Albéniz.
+
 QoL: Added an Alert for possible Archaeological Teams.
 
 Fixes:
