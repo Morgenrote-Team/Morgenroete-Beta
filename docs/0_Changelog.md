@@ -1,11 +1,2 @@
-Changelog fot 2.7.0h "Pasteur"
+Changelog fot 2.7.0i "Pasteur"
 
-Music:
-- Masterpiece names are now saved and accessible in the Composer's achievement.
-- Added Historical Masterpieces for Albéniz.
-
-QoL: Added an Alert for possible Archaeological Teams.
-
-Fixes:
-- Updated the Icon for the Improve Power Plant Button.
-- The Art Deco Skyscraper now tells you about a city instead of some weird misprint about a CITY_HUB.
