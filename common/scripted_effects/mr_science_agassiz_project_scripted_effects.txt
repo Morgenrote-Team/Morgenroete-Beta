@@ -6,6 +6,66 @@
 
 ############################################################################
 
+### Volcano Expedition ###
+mr_geologist_volcano_expedition_effect = {
+	#Effect for AI and Player
+	set_variable = agassiz_volcano_expedition_active_var
+	if = {
+		limit = {
+			has_variable = agassiz_geologist_var
+		}
+		var:agassiz_geologist_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	#Effect depending on AI/Automation or Player
+	if = {
+		limit = {
+			agassiz_is_geology_automated_trigger = yes
+		}
+		random_scope_state = {
+			limit = {
+				agassiz_state_has_unexplored_volcano = yes
+			}
+			set_variable = agassiz_targeted_volcano_var
+		}
+		if = {
+			limit = {
+				is_player = yes
+			}
+			add_journal_entry = {
+				type = je_agassiz_volcano_expedition
+			}
+		}
+		else = {
+			add_journal_entry = {
+				type = je_agassiz_volcano_expedition_ai
+			}
+		}
+	}
+	else = {
+		trigger_event = {
+			id = agassiz.601
+			popup = yes
+		}
+	}
+}
+
+### Underwater Mountains Expedition ###
+mr_geologist_underwater_mountains_effect = {
+	add_journal_entry = { type = je_agassiz_mid_atlantic_ridge }
+	show_as_tooltip = {
+		add_modifier = {
+			name = agassiz_mid_atlantic_ridge_cost_modifier
+			multiplier = mr_project_cost_medium_value
+		}
+	}
+	var:agassiz_geologist_var ?= {
+		set_character_busy_and_immortal = yes
+	}
+}
+
 ### Improve Mines Project ###
 #Button Effect
 mr_geologist_improve_mines_button_effect = {
@@ -57,6 +117,22 @@ mr_geologist_improve_mines_button_effect = {
 				multiplier = mr_local_project_cost_small_value
 			}
 		}
+	}
+}
+
+### Uranium Project ###
+mr_geologist_uranium_project_button_effect = {
+	add_journal_entry = {
+		type = je_agassiz_search_uranium_project
+	}
+	show_as_tooltip = {
+		add_modifier = {
+			name = agassiz_uranium_search_cost_modifier
+			multiplier = mr_project_cost_medium_value
+		}
+	}
+	var:agassiz_geologist_var ?= {
+		set_character_busy_and_immortal = yes
 	}
 }
 
