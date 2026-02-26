@@ -189,3 +189,94 @@ mr_geologist_improve_oil_rig_button_effect = {
 		}
 	}
 }
+
+mr_geologist_paleontologist_symposium_button_effect = {
+	if = {
+		limit = {
+			agassiz_is_geology_automated_trigger = yes
+		}
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+		dubois_add_x_academy_progress = { AMOUNT = 60 }
+		dubois_medium_add_technology = yes
+	}
+	else = {
+		set_variable = dubois_geologist_paleontologist_smyposium_var
+		trigger_event = {
+			id = agassiz.202
+			popup = yes
+		}
+	}
+}
+
+mr_geologist_tectonics_congress_button_effect = {
+	if = {
+		limit = {
+			agassiz_is_geology_automated_trigger = yes
+		}
+		set_global_variable = agassiz_tectonic_congress_hosted_var
+		var:agassiz_geologist_var ?= {
+			set_variable = {
+				name = agassiz_geologist_achievement_invented_plate_tectonics_var
+				value = flag:agassiz_geologist_achievement_invented_plate_tectonics_loc
+			}
+		}
+		add_modifier = {
+			name = agassiz_congress_host_modifier
+			years = 5
+		}
+		set_global_variable = {
+			name = agassiz_plate_tectonics_yes
+			value = 0
+		}
+		set_global_variable = {
+			name = agassiz_plate_tectonics_no
+			value = 0
+		}
+		var:agassiz_geologist_var ?= {
+			set_variable = {
+				name = agassiz_geologist_achievement_attended_geologist_congress_var
+				value = flag:agassiz_geologist_achievement_attended_geologist_congress_loc
+			}
+			save_scope_as = agassiz_geologist_scope
+		}
+		every_country = {
+			limit = {
+				NOT = {
+					this = ROOT
+				}
+				has_variable = agassiz_geologist_var
+			}
+			trigger_event = {
+				id = agassiz.502
+				days = { 7 14 }
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = agassiz.504
+				days = { 14 28 }
+			}
+			trigger_event = {
+				id = agassiz.509
+				days = 180
+			}
+		}
+	}
+	else = {
+		set_global_variable = agassiz_tectonic_congress_hosted_var
+		var:agassiz_geologist_var ?= {
+			set_variable = {
+				name = agassiz_geologist_achievement_invented_plate_tectonics_var
+				value = flag:agassiz_geologist_achievement_invented_plate_tectonics_loc
+			}
+		}
+		trigger_event = {
+			id = agassiz.501
+			popup = yes
+		}
+		add_modifier = {
+			name = agassiz_congress_host_modifier
+			years = 5
+		}
+	}
+}
