@@ -10,201 +10,203 @@
 
 # This effect will choose projects depending on various circumstances
 ai_geology_automation_effect = {
-	if = {
-		limit = {
-			agassiz_is_geology_automated_trigger = yes
-			agassiz_has_active_geologist_no_tooltip_trigger = yes
-		}
-
-		#This should always be done if possible (as the Geologist does not get busy from it)
-		### Age of the Earth ###
+	hidden_effect = {
 		if = {
 			limit = {
-				NOT = { has_global_variable = agassiz_age_of_earth_debate_global_var }
-				has_technology_researched = agassiz_geology_tech
-				var:agassiz_geologist_var ?= {
-					NOT = {
-						has_variable = agassiz_geologist_calculated_age_earth_var
-					}
-				}
-				agassiz_has_experienced_geologist_no_tooltip_trigger = yes
-				agassiz_can_calculate_new_age_of_earth_trigger = yes
-				NOT = {
-					has_modifier = agassiz_geologist_demotivated_modifier
-				}
+				agassiz_is_geology_automated_trigger = yes
+				agassiz_has_active_geologist_no_tooltip_trigger = yes
 			}
 
-			set_global_variable = agassiz_age_of_earth_debate_global_var
-			set_variable = {
-				name = agassiz_age_earth_active_var
-				days = 200
-			}
-			set_global_variable = {
-				name = agassiz_age_of_earth_yes_global_var
-				value = 1
-			}
-			set_global_variable = {
-				name = agassiz_age_of_earth_no_global_var
-				value = 0
-			}
-			dubois_small_add_technology = yes
-			every_country = {
+			#This should always be done if possible (as the Geologist does not get busy from it)
+			### Age of the Earth ###
+			if = {
 				limit = {
-					has_variable = agassiz_geologist_var
+					NOT = { has_global_variable = agassiz_age_of_earth_debate_global_var }
+					has_technology_researched = agassiz_geology_tech
+					var:agassiz_geologist_var ?= {
+						NOT = {
+							has_variable = agassiz_geologist_calculated_age_earth_var
+						}
+					}
+					agassiz_has_experienced_geologist_no_tooltip_trigger = yes
+					agassiz_can_calculate_new_age_of_earth_trigger = yes
 					NOT = {
-						this = ROOT
+						has_modifier = agassiz_geologist_demotivated_modifier
+					}
+				}
+
+				set_global_variable = agassiz_age_of_earth_debate_global_var
+				set_variable = {
+					name = agassiz_age_earth_active_var
+					days = 200
+				}
+				set_global_variable = {
+					name = agassiz_age_of_earth_yes_global_var
+					value = 1
+				}
+				set_global_variable = {
+					name = agassiz_age_of_earth_no_global_var
+					value = 0
+				}
+				dubois_small_add_technology = yes
+				every_country = {
+					limit = {
+						has_variable = agassiz_geologist_var
+						NOT = {
+							this = ROOT
+						}
+					}
+					trigger_event = {
+						id = agassiz.402
+						days = { 14 28 }
 					}
 				}
 				trigger_event = {
-					id = agassiz.402
-					days = { 14 28 }
+					id = agassiz.403
+					days = { 90 120 }
 				}
 			}
-			trigger_event = {
-				id = agassiz.403
-				days = { 90 120 }
-			}
-		}
-		### Geologist Paleontologist Symposium ###
-		if = {
-			limit = {
-				NOT = { has_variable = dubois_geologist_paleontologist_smyposium_var }
-				has_technology_researched = agassiz_geology_tech
-				has_technology_researched = lepsius_modern_archaeology_tech
-				agassiz_has_active_geologist_no_tooltip_trigger = yes
-				agassiz_has_famous_geologist_no_tooltip_trigger = yes
-				var:dubois_paleontologist_var ?= {
-					has_trait = dubois_paleontologist_famous
-				}
-			}
-			mr_geologist_paleontologist_symposium_button_effect = yes
-		}
-		### Plate Tectonics Congress ###
-		if = {
-			limit = {
-				NOR = {
-					has_global_variable = agassiz_tectonic_congress_hosted_var
-					any_country = {
-						has_modifier = agassiz_congress_host_modifier
-					}
-				}
-				agassiz_has_famous_geologist_no_tooltip_trigger = yes
-				has_technology_researched = agassiz_seismology_tech
-				has_technology_researched = lepsius_modern_archaeology_tech
-				has_technology_researched = agassiz_sounding_tech
-				has_variable = agassiz_geological_knowledge_var
-				var:agassiz_geological_knowledge_var > 15
-			}
-			mr_geologist_tectonics_congress_button_effect = yes
-		}
-
-		#Uses an if else construct to prioritize Projects
-		# This allows for the most important Projects to get prioritized
-		### Highest Mountain ###
-		if = {
-			limit = {
-				NOT = { global_var:douglas_highest_mountain_global_var = flag:douglas_mount_everest_highest_mountain_flag }
-				any_scope_interest_marker = {
-					region = sr:region_himalayas
-				}
-				custom_tooltip = {
-					text = MR_GEOLOGIST_NO_HIMALAYA_SURVEY_TRIGGER_TT
-					NOT = {
-						any_country = {
-							has_variable = agassiz_highest_mountain_active_var
-						}
-					}
-				}
-				trigger_if = {
-					limit = {
-						OR = {
-							global_var:douglas_highest_mountain_global_var = flag:douglas_dhalaugiri_highest_mountain_flag
-							global_var:douglas_highest_mountain_global_var = flag:douglas_chimborazo_highest_mountain_flag
-						}
-					}
+			### Geologist Paleontologist Symposium ###
+			if = {
+				limit = {
+					NOT = { has_variable = dubois_geologist_paleontologist_smyposium_var }
 					has_technology_researched = agassiz_geology_tech
-				}
-				trigger_if = {
-					limit = {
-						global_var:douglas_highest_mountain_global_var = flag:douglas_kangchenjunga_highest_mountain_flag
+					has_technology_researched = lepsius_modern_archaeology_tech
+					agassiz_has_active_geologist_no_tooltip_trigger = yes
+					agassiz_has_famous_geologist_no_tooltip_trigger = yes
+					var:dubois_paleontologist_var ?= {
+						has_trait = dubois_paleontologist_famous
 					}
+				}
+				mr_geologist_paleontologist_symposium_button_effect = yes
+			}
+			### Plate Tectonics Congress ###
+			if = {
+				limit = {
+					NOR = {
+						has_global_variable = agassiz_tectonic_congress_hosted_var
+						any_country = {
+							has_modifier = agassiz_congress_host_modifier
+						}
+					}
+					agassiz_has_famous_geologist_no_tooltip_trigger = yes
 					has_technology_researched = agassiz_seismology_tech
+					has_technology_researched = lepsius_modern_archaeology_tech
+					has_technology_researched = agassiz_sounding_tech
+					has_variable = agassiz_geological_knowledge_var
+					var:agassiz_geological_knowledge_var > 15
 				}
+				mr_geologist_tectonics_congress_button_effect = yes
 			}
 
-			add_journal_entry = {
-				type = je_agassiz_highest_mountain
-			}
-			var:agassiz_geologist_var ?= {
-				set_character_busy_and_immortal = yes
-			}
-		}
-		### Underwater Mountains ###
-		else_if = {
-			limit = {
-				has_global_variable = dubois_mid_atlantic_ridge_global_var
-				NOT = { has_variable = dubois_mid_atlantic_ridge_examined_var }
-				mr_gui_has_theory_of_evolution_tech_trigger = yes
-				has_technology_researched = agassiz_sounding_tech
-				agassiz_has_experienced_geologist_no_tooltip_trigger = yes
-			}
-
-			mr_geologist_underwater_mountains_effect = yes
-		}
-		### Volcano Expedition ###
-		else_if = {
-			limit = {
-				any_scope_state = {
-					agassiz_state_has_unexplored_volcano = yes
-				}
-				NOT = {
-					has_modifier = agassiz_recent_volcano_expedition_modifier
-				}
-			}
-
-			mr_geologist_volcano_expedition_effect = yes
-		}
-
-		else = {
-			random_list = {
-				### Improve Mines ###
-				1 = {
-					trigger = {
-						NOT = { has_journal_entry = je_agassiz_improve_mines_project }
-						OR = {
-							net_fixed_income >= mr_small_local_project_cost_weekly_value
-							gold_reserves >= mr_small_local_project_cost_yearly_value
+			#Uses an if else construct to prioritize Projects
+			# This allows for the most important Projects to get prioritized
+			### Highest Mountain ###
+			if = {
+				limit = {
+					NOT = { global_var:douglas_highest_mountain_global_var = flag:douglas_mount_everest_highest_mountain_flag }
+					any_scope_interest_marker = {
+						region = sr:region_himalayas
+					}
+					custom_tooltip = {
+						text = MR_GEOLOGIST_NO_HIMALAYA_SURVEY_TRIGGER_TT
+						NOT = {
+							any_country = {
+								has_variable = agassiz_highest_mountain_active_var
+							}
+						}
+					}
+					trigger_if = {
+						limit = {
+							OR = {
+								global_var:douglas_highest_mountain_global_var = flag:douglas_dhalaugiri_highest_mountain_flag
+								global_var:douglas_highest_mountain_global_var = flag:douglas_chimborazo_highest_mountain_flag
+							}
 						}
 						has_technology_researched = agassiz_geology_tech
-						agassiz_can_find_new_vein_trigger = yes
 					}
-					mr_geologist_improve_mines_button_effect = yes
-				}
-				### Improve Oil ###
-				2 = {
-					trigger = {
-						NOT = { has_journal_entry = je_agassiz_find_oil_project }
-						OR = {
-							net_fixed_income >= mr_small_local_project_cost_weekly_value
-							gold_reserves >= mr_small_local_project_cost_yearly_value
+					trigger_if = {
+						limit = {
+							global_var:douglas_highest_mountain_global_var = flag:douglas_kangchenjunga_highest_mountain_flag
 						}
-						has_technology_researched = agassiz_geology_tech
-						agassiz_can_find_oil_trigger = yes
+						has_technology_researched = agassiz_seismology_tech
 					}
-					mr_geologist_improve_oil_rig_button_effect = yes
 				}
-				### Uranium Project ###
-				5 = {
-					trigger = {
-						NOT = { has_journal_entry = je_agassiz_search_uranium_project }
-						OR = {
-							net_fixed_income >= mr_medium_local_project_cost_weekly_value
-							gold_reserves >= mr_medium_local_project_cost_yearly_value
-						}
-						has_technology_researched = verrier_radioactivity_tech
-						agassiz_can_find_uranium_trigger = yes
+
+				add_journal_entry = {
+					type = je_agassiz_highest_mountain
+				}
+				var:agassiz_geologist_var ?= {
+					set_character_busy_and_immortal = yes
+				}
+			}
+			### Underwater Mountains ###
+			else_if = {
+				limit = {
+					has_global_variable = dubois_mid_atlantic_ridge_global_var
+					NOT = { has_variable = dubois_mid_atlantic_ridge_examined_var }
+					mr_gui_has_theory_of_evolution_tech_trigger = yes
+					has_technology_researched = agassiz_sounding_tech
+					agassiz_has_experienced_geologist_no_tooltip_trigger = yes
+				}
+
+				mr_geologist_underwater_mountains_effect = yes
+			}
+			### Volcano Expedition ###
+			else_if = {
+				limit = {
+					any_scope_state = {
+						agassiz_state_has_unexplored_volcano = yes
 					}
-					mr_geologist_uranium_project_button_effect = yes
+					NOT = {
+						has_modifier = agassiz_recent_volcano_expedition_modifier
+					}
+				}
+
+				mr_geologist_volcano_expedition_effect = yes
+			}
+
+			else = {
+				random_list = {
+					### Improve Mines ###
+					1 = {
+						trigger = {
+							NOT = { has_journal_entry = je_agassiz_improve_mines_project }
+							OR = {
+								net_fixed_income >= mr_small_local_project_cost_weekly_value
+								gold_reserves >= mr_small_local_project_cost_yearly_value
+							}
+							has_technology_researched = agassiz_geology_tech
+							agassiz_can_find_new_vein_trigger = yes
+						}
+						mr_geologist_improve_mines_button_effect = yes
+					}
+					### Improve Oil ###
+					2 = {
+						trigger = {
+							NOT = { has_journal_entry = je_agassiz_find_oil_project }
+							OR = {
+								net_fixed_income >= mr_small_local_project_cost_weekly_value
+								gold_reserves >= mr_small_local_project_cost_yearly_value
+							}
+							has_technology_researched = agassiz_geology_tech
+							agassiz_can_find_oil_trigger = yes
+						}
+						mr_geologist_improve_oil_rig_button_effect = yes
+					}
+					### Uranium Project ###
+					5 = {
+						trigger = {
+							NOT = { has_journal_entry = je_agassiz_search_uranium_project }
+							OR = {
+								net_fixed_income >= mr_medium_local_project_cost_weekly_value
+								gold_reserves >= mr_medium_local_project_cost_yearly_value
+							}
+							has_technology_researched = verrier_radioactivity_tech
+							agassiz_can_find_uranium_trigger = yes
+						}
+						mr_geologist_uranium_project_button_effect = yes
+					}
 				}
 			}
 		}
