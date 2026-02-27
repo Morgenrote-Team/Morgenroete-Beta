@@ -1,6 +1,7 @@
 Changelog fot 2.7.0i "Pasteur"
 
 Characters:
+- Martinus Beijerinck (random Dutch Biologist)
 - Phiraphong Phanudet (Random Thai Racer)
 - Long Sinsuk (Random Thai Pilot)
 - Sunee Suwanprateep (Random Thai Pilot)
