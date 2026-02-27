@@ -12,6 +12,7 @@ Fixes:
 - Fixed the Botanical Expedition trigger localization to no longer tell you about rain forests.
 - Fixed some Composer Masterpiece events not working properly.
 - The AI should no longer somehow start a project that is already started.
+- Fixed an MFE event error.
 
 Graphics:
 - Added a new Loading Screen: Bob Craze - Flapper Cut at the Barbershop (CC4.0 BY-NC angel): https://x.com/angelsrntreal/status/2025083680084185452
