@@ -1,5 +1,11 @@
 Changelog fot 2.7.0i "Pasteur"
 
+Characters:
+- Phiraphong Phanudet (Random Thai Racer)
+- Long Sinsuk (Random Thai Pilot)
+- Sunee Suwanprateep (Random Thai Pilot)
+- Thip Ketudat (Random Thai Pilot)
+
 Changes:
 - Moved more Engineering cost modifiers to the Journal Entries which reduces the chances of them accidentally staying around.
 - The Carte Dufour Journal Entry is now shown for Switzerland in the lobby.
