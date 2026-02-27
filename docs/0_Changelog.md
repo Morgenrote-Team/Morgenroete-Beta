@@ -13,4 +13,5 @@ Fixes:
 
 Graphics:
 - Added a new Loading Screen: Bob Craze - Flapper Cut at the Barbershop (CC4.0 BY-NC angel): https://x.com/angelsrntreal/status/2025083680084185452
+- Replaced/added 16 more icons created by Valerie P.
 
