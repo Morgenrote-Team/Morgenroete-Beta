@@ -5,3 +5,4 @@ Changes:
 
 Fixes:
 - Various default progress buttons were changed to behave like other buttons when active (dense GUI).
+- The AI should now properly run the Synthetics project.
