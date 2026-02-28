@@ -1,6 +1,7 @@
 Changelog fot 2.7.0j "Pasteur"
 
 Characters:
+- Albrecht Burckhardt (random Swiss Biologist and Physician)
 - Robert Burri (random Swiss Biologist)
 - Albert Kölliker (random Swiss Biologist)
 - Eugène Penard (random Swiss Biologist)
