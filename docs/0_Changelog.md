@@ -13,3 +13,4 @@ Changes:
 Fixes:
 - Various default progress buttons were changed to behave like other buttons when active (dense GUI).
 - The AI should now properly run the Synthetics project.
+- Fixed some triggers displaying TRIGGER_SAVE_TEMPORARY_SCOPE_VALUE_AS (this required to overwrite save_temporary_scope_value_as)
