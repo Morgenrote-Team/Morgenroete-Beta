@@ -17,4 +17,3 @@ Fixes:
 - The AI should now properly run the Synthetics project.
 - Fixed some triggers displaying TRIGGER_SAVE_TEMPORARY_SCOPE_VALUE_AS (this required to overwrite save_temporary_scope_value_as).
 - Finding Pathogens now correctly removes microorganisms from you.
-- The Forestry Project now adds Specimens again.
