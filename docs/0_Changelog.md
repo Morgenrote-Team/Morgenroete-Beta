@@ -1,4 +1,4 @@
-Changelog fot 2.7.0j "Pasteur"
+Changelog fot 2.7.0k "Pasteur"
 
 Characters:
 - Chalerm Buatang (Random Thai Composer)
