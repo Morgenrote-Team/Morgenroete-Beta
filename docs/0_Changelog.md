@@ -4,5 +4,5 @@ Fixes:
 - You no longer get more than 1000 mechanical points.
 
 Performance:
-- Improved performance of the mechanical points.
+- Improved performance of the mechanical points (they are now added half yearly instead of monthly).
 - Improved performance of the full of lies journal entry by removing the any_scope_pop trigger.
