@@ -1,5 +1,8 @@
 Changelog fot 2.7.0l "Pasteur"
 
+Characters:
+- Jules Bordet (random Belgian Biologist and Physician)
+
 Changes:
 - Trying to find a Pathogen will no longer require you to spend the Microorganisms (as this made it too hard to find them).
 - Ronald Ross and Élie Metchnikoff can now spawn as a Biologist.
