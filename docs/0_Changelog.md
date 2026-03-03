@@ -2,6 +2,7 @@ Changelog fot 2.7.0l "Pasteur"
 
 Characters:
 - Jules Bordet (random Belgian Biologist and Physician)
+- Barthélemy Charles Joseph Dumortier (random Belgian Biologist)
 - Octave Gengou (random Belgian Biologist and Physician)
 
 Changes:
