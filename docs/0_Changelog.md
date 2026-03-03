@@ -4,6 +4,7 @@ Characters:
 - Jules Bordet (random Belgian Biologist and Physician)
 - Barthélemy Charles Joseph Dumortier (random Belgian Biologist)
 - Octave Gengou (random Belgian Biologist and Physician)
+- Évariste Warlomont (random Belgian Biologist and Physician)
 
 Changes:
 - Trying to find a Pathogen will no longer require you to spend the Microorganisms (as this made it too hard to find them).
