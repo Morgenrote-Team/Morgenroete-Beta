@@ -4,6 +4,7 @@ Characters:
 - Jules Bordet (random Belgian Biologist and Physician)
 - Barthélemy Charles Joseph Dumortier (random Belgian Biologist)
 - Octave Gengou (random Belgian Biologist and Physician)
+- André Gratia (random Belgian Biologist and Phsysician)
 - Évariste Warlomont (random Belgian Biologist and Physician)
 
 Changes:
