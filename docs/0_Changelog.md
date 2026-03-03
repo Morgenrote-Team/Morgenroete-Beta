@@ -5,6 +5,7 @@ Characters:
 - Barthélemy Charles Joseph Dumortier (random Belgian Biologist)
 - Octave Gengou (random Belgian Biologist and Physician)
 - André Gratia (random Belgian Biologist and Phsysician)
+- Émile van Ermengem (random Belgian Biologist)
 - Évariste Warlomont (random Belgian Biologist and Physician)
 
 Changes:
