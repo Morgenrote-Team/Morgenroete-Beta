@@ -8,6 +8,7 @@ Characters:
 - Émile van Ermengem (random Belgian Biologist)
 - Évariste Warlomont (random Belgian Biologist and Physician)
 - Louis Willems (random Belgian Biologist)
+- Louis Berckmans (random Belgian Physician and Biologist)
 
 Changes:
 - Trying to find a Pathogen will no longer require you to spend the Microorganisms (as this made it too hard to find them).
