@@ -7,6 +7,10 @@ Characters:
 - André Gratia (random Belgian Biologist and Phsysician)
 - Émile van Ermengem (random Belgian Biologist)
 - Évariste Warlomont (random Belgian Biologist and Physician)
+- Louis Willems (random Belgian Biologist)
+- Louis Berckmans (random Belgian Physician and Biologist)
+- Léon Fredericq (random Belgian Physician and Biologist)
+- Ferdinand Augustijn Snellaert (random Belgian Physician)
 - Chote Suvatti (random Thai naturalist)
 - Kong Thawornwet (random Thai physician)
 - Uai Ketsing (random Thai biologist & physician)
@@ -24,3 +28,4 @@ Performance:
 - Improved performance of the mechanical points (they are now added half yearly instead of monthly).
 - Improved performance of the full of lies journal entry by removing the any_scope_pop trigger.
 - Improved performance of ballooning events by only firing them half yearly.
+- Various small performance improvements.
