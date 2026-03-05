@@ -9,6 +9,7 @@ Characters:
 - Évariste Warlomont (random Belgian Biologist and Physician)
 - Louis Willems (random Belgian Biologist)
 - Louis Berckmans (random Belgian Physician and Biologist)
+- Léon Fredericq (random Belgian Physician and Biologist)
 - Ferdinand Augustijn Snellaert (random Belgian Physician)
 
 Changes:
