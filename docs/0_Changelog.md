@@ -4,6 +4,7 @@ Art:
 - Replaced an AI loading screen with one by Angel depicting the construction of a Viaduct of the Schöllenenbahn (CC4.0 BY-NC angel): https://x.com/angelsrntreal/status/2029535306220011934
 
 Characters:
+- Chote Suvatti (random Thai Naturalist) (Thanks PPSyrius)
 - Jules Bordet (random Belgian Biologist and Physician)
 - Barthélemy Charles Joseph Dumortier (random Belgian Biologist)
 - Octave Gengou (random Belgian Biologist and Physician)
@@ -11,6 +12,7 @@ Characters:
 - Émile van Ermengem (random Belgian Biologist)
 - Évariste Warlomont (random Belgian Biologist and Physician)
 - Louis Willems (random Belgian Biologist)
+- Uai Ketsing (random Thai Biologist and Physician) (Thanks PPSyrius)
 - Johan Arrhenius (random Swedish Biologist)
 - Arvid Bergman (random Swedish Biologist)
 - Johan Lindeqvist (random Swedish Biolgoist)
@@ -18,6 +20,7 @@ Characters:
 - Louis Berckmans (random Belgian Physician and Biologist)
 - Léon Fredericq (random Belgian Physician and Biologist)
 - Ferdinand Augustijn Snellaert (random Belgian Physician)
+- Kong Thawornwet (random Thai Physician) (Thanks PPSyrius)
 - Christopher Hewetson (Random British Composer) (Thanks PPSyrius)
 - Pyotr Shchurovsky (Random Russian Composer) (Thanks PPSyrius)
 - Chalerm Buatang (Random Thai Composer) (Thanks PPSyrius)
