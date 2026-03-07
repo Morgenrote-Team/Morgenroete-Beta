@@ -43,6 +43,7 @@ Changes:
 - Trying to find a Pathogen will no longer require you to spend the Microorganisms (as this made it too hard to find them).
 - Ronald Ross and Élie Metchnikoff can now spawn as a Biologist.
 - non historical Biologists now start with a specialization (Botanist, Zoologist, Microbiologist, Epidemiologist)
+- Raised the amount of Microorganisms you get from the Journal Entry.
 
 Fixes:
 - You no longer get more than 1000 mechanical points.
