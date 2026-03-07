@@ -11,6 +11,7 @@ Characters:
 - Émile van Ermengem (random Belgian Biologist)
 - Évariste Warlomont (random Belgian Biologist and Physician)
 - Louis Willems (random Belgian Biologist)
+- Johan Arrhenius (random Swedish Biologist)
 - Louis Berckmans (random Belgian Physician and Biologist)
 - Léon Fredericq (random Belgian Physician and Biologist)
 - Ferdinand Augustijn Snellaert (random Belgian Physician)
