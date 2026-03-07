@@ -12,6 +12,7 @@ Characters:
 - Évariste Warlomont (random Belgian Biologist and Physician)
 - Louis Willems (random Belgian Biologist)
 - Johan Arrhenius (random Swedish Biologist)
+- Johan Lindeqvist (random Swedish Biolgoist)
 - Louis Berckmans (random Belgian Physician and Biologist)
 - Léon Fredericq (random Belgian Physician and Biologist)
 - Ferdinand Augustijn Snellaert (random Belgian Physician)
@@ -41,6 +42,7 @@ Fixes:
 - You no longer get more than 1000 mechanical points.
 - The balloonist should no longer be able to get more than 300 experience.
 - The AI will now be more likely to try to get a Biologist.
+- The Biologist Rating tooltip now correctly says Zoologist if the Biologist has the Zoologist trait.
 
 Performance:
 - Improved performance of the mechanical points (they are now added half yearly instead of monthly).
