@@ -51,6 +51,14 @@ Characters:
 - György Jendrassik (random Hungarian Engineer)
 - Jira Wichitsongkhram (random Thai Engineer)
 - Wichian Suttantanon (random Thai Engineer)
+- Léon Delagrange (random French Engineer, Pilot, and Artist)
+- Alessandro Anzani (random North Italian Engineer & Racer)
+- Charles Renard (random French Engineer)
+- Henri Giffard (random French Engineer)
+- Eugène Bourdon (random French Engineer)
+- Lucien Vidie (random French Engineer)
+- Gustave Zédé (random French Engineer)
+- Arthur Constantin Krebs (random French Engineer)
 
 Changes:
 - Trying to find a Pathogen will no longer require you to spend the Microorganisms (as this made it too hard to find them).
