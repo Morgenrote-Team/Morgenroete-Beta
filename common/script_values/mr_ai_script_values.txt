@@ -353,6 +353,46 @@ ai_promote_naturalist_probability_value = {
 	min = 0
 }
 
+ai_promote_biologist_probability_value = {
+	value = 100
+	#Nations with Agricultural Buildings that could be improved have a higher chance to spawn
+	if = {
+		limit = {
+			any_scope_building = {
+				theiler_building_valid_for_agriculture_project_no_tooltip_trigger = yes
+			}
+		}
+		add = 50
+	}
+	#Nations with Agricultural focus have a higher chance to spawn
+	if = {
+		limit = {
+			has_strategy = ai_strategy_agricultural_expansion
+		}
+		add = 50
+	}
+	#Nations with access to habitats have a higher chance for a Naturalist
+	if = {
+		limit = {
+			dubois_has_habitat = no
+		}
+		add = 25
+	}
+	#If the AI has a Naturalist already, it will not try to get another one except if the existing one is old.
+	if = {
+		limit = {
+			theiler_has_biologist_no_tooltip_trigger = yes
+			var:theiler_biologist_var ?= {
+				age < 60
+			}
+		}
+		add = -1000
+	}
+
+	#random_list breaks if it has a negative number as a chance.
+	min = 0
+}
+
 ai_promote_physician_probability_value = {
 	#Higher base chanc
 	value = 150

@@ -40,6 +40,7 @@ Changes:
 Fixes:
 - You no longer get more than 1000 mechanical points.
 - The balloonist should no longer be able to get more than 300 experience.
+- The AI will now be more likely to try to get a Biologist.
 
 Performance:
 - Improved performance of the mechanical points (they are now added half yearly instead of monthly).
