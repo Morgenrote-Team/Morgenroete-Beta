@@ -1,4 +1,4 @@
-Changelog fot 2.7.0l "Pasteur"
+Changelog fot 2.7.1 "Willems"
 
 Art:
 - Replaced an AI loading screen with one by Angel depicting the construction of a Viaduct of the Schöllenenbahn (CC4.0 BY-NC angel): https://x.com/angelsrntreal/status/2029535306220011934
