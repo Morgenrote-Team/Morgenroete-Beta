@@ -53,6 +53,7 @@ Fixes:
 - The balloonist should no longer be able to get more than 300 experience.
 - The AI will now be more likely to try to get a Biologist.
 - The Biologist Rating tooltip now correctly says Zoologist if the Biologist has the Zoologist trait.
+- Engineers no longer pretend to be Electrical Engineers if they are not when automated.
 
 Performance:
 - Improved performance of the mechanical points (they are now added half yearly instead of monthly).
