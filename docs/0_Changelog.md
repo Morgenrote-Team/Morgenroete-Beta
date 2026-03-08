@@ -45,6 +45,8 @@ Changes:
 - Ronald Ross and Élie Metchnikoff can now spawn as a Biologist.
 - non historical Biologists now start with a specialization (Botanist, Zoologist, Microbiologist, Epidemiologist)
 - Raised the amount of Microorganisms you get from the Journal Entry.
+- The Biologist can now gain the Zoologist trait from improving ranches and the botanist trait from improving other agricultural buildings (Guaranteed after 5 improved Buildings).
+- The Biologist can now gain the Microbiologist trait after spending enough time conducting Microorganism Research (Guaranteed after 5 years total).
 
 Fixes:
 - You no longer get more than 1000 mechanical points.
