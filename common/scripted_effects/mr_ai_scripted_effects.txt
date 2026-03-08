@@ -871,113 +871,115 @@ ai_animal_breeding_effect = {
 
 #Handles the Naturalist for the AI
 ai_naturalist_effect = {
-	if = { #Checks for Naturalist
-		limit = { dubois_has_active_naturalist_no_tooltip = yes }
+	hidden_effect = {
+		if = { #Checks for Naturalist
+			limit = { dubois_has_active_naturalist_no_tooltip = yes }
 
-		#Zoological Expedition
-		if = {
-			limit = {
-				has_technology_researched = dubois_theory_of_evolution_tech
-				NOT = {
-					has_modifier = dubois_search_local_animal_modifier
-				}
-				dubois_has_local_animal = yes
-			}
-
-			#Effect
-			add_modifier = {
-				name = dubois_search_local_animal_modifier
-			}
-			hidden_effect = {
-				dubois_set_catch_animals = yes
-				var:dubois_naturalist_var = {
-					add_modifier = {
-						name = dubois_animal_hunter_modifier
+			#Zoological Expedition
+			if = {
+				limit = {
+					has_technology_researched = dubois_theory_of_evolution_tech
+					NOT = {
+						has_modifier = dubois_search_local_animal_modifier
 					}
-					set_character_busy_and_immortal = yes
-					set_variable = dubois_naturalist_on_zoological_expedition_var
+					dubois_has_local_animal = yes
+				}
+
+				#Effect
+				add_modifier = {
+					name = dubois_search_local_animal_modifier
+				}
+				hidden_effect = {
+					dubois_set_catch_animals = yes
+					var:dubois_naturalist_var = {
+						add_modifier = {
+							name = dubois_animal_hunter_modifier
+						}
+						set_character_busy_and_immortal = yes
+						set_variable = dubois_naturalist_on_zoological_expedition_var
+					}
+					trigger_event = {
+						id = dubois.21
+						days = 365
+					}
+				}
+			}
+			#Safari Expedition
+			if = {
+				limit = {
+					has_technology_researched = dubois_theory_of_evolution_tech
+					has_technology_researched = civilizing_mission
+					NOR = {
+						has_modifier = dubois_on_safari_modifier
+						has_modifier = dubois_had_safari_modifier
+					}
+					any_scope_state = {
+						is_capital = yes
+						OR = {
+							is_production_method_active = {
+								building_type = building_dubois_zoo
+								production_method = pm_zoo_level_2
+							}
+							is_production_method_active = {
+								building_type = building_dubois_zoo
+								production_method = pm_zoo_level_3
+							}
+							is_production_method_active = {
+								building_type = building_dubois_zoo
+								production_method = pm_zoo_level_4
+							}
+						}
+					}
+					dubois_safari_possible = yes
+				}
+
+				#Effect
+				add_modifier = {
+					name = dubois_on_safari_modifier
 				}
 				trigger_event = {
-					id = dubois.21
-					days = 365
+					id = dubois.31
+					popup = yes
+				}
+				hidden_effect = {
+					var:dubois_naturalist_var = {
+						add_modifier = {
+							name = dubois_animal_hunter_modifier
+						}
+						set_character_busy_and_immortal = yes
+						set_variable = dubois_naturalist_on_safari_var
+					}
 				}
 			}
-		}
-		#Safari Expedition
-		if = {
-			limit = {
-				has_technology_researched = dubois_theory_of_evolution_tech
-				has_technology_researched = civilizing_mission
-				NOR = {
-					has_modifier = dubois_on_safari_modifier
-					has_modifier = dubois_had_safari_modifier
-				}
-				any_scope_state = {
-					is_capital = yes
+			#Botanical Expedition
+			if = {
+				limit = {
+					NOR = {
+						has_modifier = ito_recent_botanical_expedition_modifier
+						has_variable = ito_botanical_expedition_target_choice_var
+						has_journal_entry = je_ito_botanical_expedition
+					}
+					net_fixed_income > mr_project_cost_very_small_value
+					gold_reserves > 0
+					dubois_botanical_expedition_banned_no_tooltip_trigger = no
 					OR = {
-						is_production_method_active = {
-							building_type = building_dubois_zoo
-							production_method = pm_zoo_level_2
-						}
-						is_production_method_active = {
-							building_type = building_dubois_zoo
-							production_method = pm_zoo_level_3
-						}
-						is_production_method_active = {
-							building_type = building_dubois_zoo
-							production_method = pm_zoo_level_4
-						}
-					}
-				}
-				dubois_safari_possible = yes
-			}
-
-			#Effect
-			add_modifier = {
-				name = dubois_on_safari_modifier
-			}
-			trigger_event = {
-				id = dubois.31
-				popup = yes
-			}
-			hidden_effect = {
-				var:dubois_naturalist_var = {
-					add_modifier = {
-						name = dubois_animal_hunter_modifier
-					}
-					set_character_busy_and_immortal = yes
-					set_variable = dubois_naturalist_on_safari_var
-				}
-			}
-		}
-		#Botanical Expedition
-		if = {
-			limit = {
-				NOR = {
-					has_modifier = ito_recent_botanical_expedition_modifier
-					has_variable = ito_botanical_expedition_target_choice_var
-					has_journal_entry = je_ito_botanical_expedition
-				}
-				net_fixed_income > mr_project_cost_very_small_value
-				gold_reserves > 0
-				dubois_botanical_expedition_banned_no_tooltip_trigger = no
-				OR = {
-					ito_country_is_potential_botanical_expedition_target_no_tooltip_trigger = yes
-					any_country = {
-						has_diplomatic_pact = {
-							who = ROOT
-							type = botanical_license
-						}
 						ito_country_is_potential_botanical_expedition_target_no_tooltip_trigger = yes
+						any_country = {
+							has_diplomatic_pact = {
+								who = ROOT
+								type = botanical_license
+							}
+							ito_country_is_potential_botanical_expedition_target_no_tooltip_trigger = yes
+						}
 					}
 				}
-			}
 
-			#Effect
-			set_variable = ito_botanical_expedition_target_choice_var
-			trigger_event = {
-				id = dubois.301
-				popup = yes
+				#Effect
+				set_variable = ito_botanical_expedition_target_choice_var
+				trigger_event = {
+					id = dubois.301
+					popup = yes
+				}
 			}
 		}
 	}
@@ -993,669 +995,671 @@ ai_naturalist_effect = {
 # - Systemizing fossils
 
 ai_paleontologist_automation_effect = {
-	if = {
-		limit = {
-			dubois_is_paleontology_automated_trigger = yes
-			dubois_has_active_paleontologist_no_tooltip_trigger = yes
-		}
-
-		#Build Skeletons
+	hidden_effect = {
 		if = {
 			limit = {
-				dubois_paleontology_automation_build_skeleton_possible_trigger = yes
+				dubois_is_paleontology_automated_trigger = yes
+				dubois_has_active_paleontologist_no_tooltip_trigger = yes
 			}
 
-			random_list = {
-				#African Dinosaurs
-				1 = {
-					trigger = {
-						dubois_paleontology_mounting_african_skeletons_possible_trigger = yes
-					}
-
-					#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
-					dubois_construct_dinosaur_effect = { LOCATION = african }
+			#Build Skeletons
+			if = {
+				limit = {
+					dubois_paleontology_automation_build_skeleton_possible_trigger = yes
 				}
-				#Asian Dinosaurs
-				1 = {
-					trigger = {
-						dubois_paleontology_mounting_asian_skeletons_possible_trigger = yes
-					}
 
-					#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
-					dubois_construct_dinosaur_effect = { LOCATION = asian }
-				}
-				#Australian Dinosaurs
-				1 = {
-					trigger = {
-						dubois_paleontology_mounting_australian_skeletons_possible_trigger = yes
-					}
-
-					#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
-					dubois_construct_dinosaur_effect = { LOCATION = australian }
-				}
-				#European Dinosaurs
-				1 = {
-					trigger = {
-						dubois_paleontology_mounting_european_skeletons_possible_trigger = yes
-					}
-
-					#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
-					dubois_construct_dinosaur_effect = { LOCATION = european }
-				}
-				#North American Dinosaurs
-				1 = {
-					trigger = {
-						dubois_paleontology_mounting_north_american_skeletons_possible_trigger = yes
-					}
-
-					#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
-					dubois_construct_dinosaur_effect = { LOCATION = north_american }
-				}
-				#South American Dinosaurs
-				1 = {
-					trigger = {
-						dubois_paleontology_mounting_south_american_skeletons_possible_trigger = yes
-					}
-
-					#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
-					dubois_construct_dinosaur_effect = { LOCATION = south_american }
-				}
-				#General Dinosaurs
-				1 = {
-					trigger = {
-						dubois_paleontology_mounting_general_skeletons_possible_trigger = yes
-					}
-
-					#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
-					dubois_construct_dinosaur_effect = { LOCATION = general }
-				}
-			}
-		}
-		#Paleontological Expedition
-		else_if = {
-			limit = {
-				dubois_paleontology_automation_expedition_possible_trigger = yes
-			}
-
-			#Chooses the adequate place for excavations
-			random_list = {
-				#North American Expedition
-				1 = {
-					trigger = { dubois_dinosaur_research_in_north_america = yes }
-
-					var:dubois_paleontologist_var = {
-						set_character_busy_and_immortal = yes
-						set_variable = dubois_paleontologist_in_north_america_var
-					}
-					dubois_start_paleontological_expedition_effect = yes
-					dubois_set_paleontologist_to_north_america = yes
-
-					modifier = {
-						#Chances should be higher if maximum bones are not yet reached
-						if = {
-							limit = {
-								dubois_has_maximum_north_american_dinosaur_bone = no
-							}
-							add = 50
+				random_list = {
+					#African Dinosaurs
+					1 = {
+						trigger = {
+							dubois_paleontology_mounting_african_skeletons_possible_trigger = yes
 						}
-						#Focus on North America if there are already North American Bones
-						if = {
-							limit = {
-								dubois_has_maximum_north_american_dinosaur_bone = no
-								has_variable = dubois_north_american_dinosaur_bone
-								var:dubois_north_american_dinosaur_bone > 0
-							}
-							add = 400
+
+						#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
+						dubois_construct_dinosaur_effect = { LOCATION = african }
+					}
+					#Asian Dinosaurs
+					1 = {
+						trigger = {
+							dubois_paleontology_mounting_asian_skeletons_possible_trigger = yes
 						}
-						#Focus on North America if country is in North or Central America
-						if = {
-							limit = {
-								dubois_has_maximum_north_american_dinosaur_bone = no
-								OR = {
-									is_in_geographic_region = geographic_region_north_america
-									is_in_geographic_region = geographic_region_central_america
+
+						#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
+						dubois_construct_dinosaur_effect = { LOCATION = asian }
+					}
+					#Australian Dinosaurs
+					1 = {
+						trigger = {
+							dubois_paleontology_mounting_australian_skeletons_possible_trigger = yes
+						}
+
+						#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
+						dubois_construct_dinosaur_effect = { LOCATION = australian }
+					}
+					#European Dinosaurs
+					1 = {
+						trigger = {
+							dubois_paleontology_mounting_european_skeletons_possible_trigger = yes
+						}
+
+						#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
+						dubois_construct_dinosaur_effect = { LOCATION = european }
+					}
+					#North American Dinosaurs
+					1 = {
+						trigger = {
+							dubois_paleontology_mounting_north_american_skeletons_possible_trigger = yes
+						}
+
+						#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
+						dubois_construct_dinosaur_effect = { LOCATION = north_american }
+					}
+					#South American Dinosaurs
+					1 = {
+						trigger = {
+							dubois_paleontology_mounting_south_american_skeletons_possible_trigger = yes
+						}
+
+						#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
+						dubois_construct_dinosaur_effect = { LOCATION = south_american }
+					}
+					#General Dinosaurs
+					1 = {
+						trigger = {
+							dubois_paleontology_mounting_general_skeletons_possible_trigger = yes
+						}
+
+						#Executes all of the necessary changes (bussy Paleontologist, adds JE, adds kind of skeleton)
+						dubois_construct_dinosaur_effect = { LOCATION = general }
+					}
+				}
+			}
+			#Paleontological Expedition
+			else_if = {
+				limit = {
+					dubois_paleontology_automation_expedition_possible_trigger = yes
+				}
+
+				#Chooses the adequate place for excavations
+				random_list = {
+					#North American Expedition
+					1 = {
+						trigger = { dubois_dinosaur_research_in_north_america = yes }
+
+						var:dubois_paleontologist_var = {
+							set_character_busy_and_immortal = yes
+							set_variable = dubois_paleontologist_in_north_america_var
+						}
+						dubois_start_paleontological_expedition_effect = yes
+						dubois_set_paleontologist_to_north_america = yes
+
+						modifier = {
+							#Chances should be higher if maximum bones are not yet reached
+							if = {
+								limit = {
+									dubois_has_maximum_north_american_dinosaur_bone = no
 								}
+								add = 50
 							}
-							add = 400
-						}
-					}
-				}
-				#South American Expedition
-				1 = {
-					trigger = { dubois_dinosaur_research_in_south_america = yes }
-
-					var:dubois_paleontologist_var = {
-						set_character_busy_and_immortal = yes
-						set_variable = dubois_paleontologist_in_south_america_var
-					}
-					dubois_start_paleontological_expedition_effect = yes
-					dubois_set_paleontologist_to_south_america = yes
-
-					modifier = {
-						#Chances should be higher if maximum bones are not yet reached
-						if = {
-							limit = {
-								dubois_has_maximum_south_american_dinosaur_bone = no
-							}
-							add = 50
-						}
-						#Focus on South America if there are already South American Bones
-						if = {
-							limit = {
-								dubois_has_maximum_south_american_dinosaur_bone = no
-								has_variable = dubois_south_american_dinosaur_bone
-								var:dubois_south_american_dinosaur_bone > 0
-							}
-							add = 400
-						}
-						#Focus on South America if country is in South or Central America
-						if = {
-							limit = {
-								dubois_has_maximum_south_american_dinosaur_bone = no
-								OR = {
-									is_in_geographic_region = geographic_region_south_america
-									is_in_geographic_region = geographic_region_central_america
+							#Focus on North America if there are already North American Bones
+							if = {
+								limit = {
+									dubois_has_maximum_north_american_dinosaur_bone = no
+									has_variable = dubois_north_american_dinosaur_bone
+									var:dubois_north_american_dinosaur_bone > 0
 								}
+								add = 400
 							}
-							add = 400
-						}
-					}
-				}
-				#European Expedition
-				1 = {
-					trigger = { dubois_dinosaur_research_in_europe = yes }
-
-					var:dubois_paleontologist_var = {
-						set_character_busy_and_immortal = yes
-						set_variable = dubois_paleontologist_in_europe_var
-					}
-					dubois_start_paleontological_expedition_effect = yes
-					dubois_set_paleontologist_to_europe = yes
-
-					modifier = {
-						#Chances should be higher if maximum bones are not yet reached
-						if = {
-							limit = {
-								dubois_has_maximum_european_dinosaur_bone = no
-							}
-							add = 50
-						}
-						#Focus on Europe if there are already European Bones
-						if = {
-							limit = {
-								dubois_has_maximum_european_dinosaur_bone = no
-								has_variable = dubois_european_dinosaur_bone
-								var:dubois_european_dinosaur_bone > 0
-							}
-							add = 400
-						}
-						#Focus on Europe if country is in Europe
-						if = {
-							limit = {
-								dubois_has_maximum_european_dinosaur_bone = no
-								is_in_geographic_region = geographic_region_europe
-							}
-							add = 400
-						}
-					}
-				}
-				#African Expedition
-				1 = {
-					trigger = { dubois_dinosaur_research_in_africa = yes }
-
-					var:dubois_paleontologist_var = {
-						set_character_busy_and_immortal = yes
-						set_variable = dubois_paleontologist_in_africa_var
-					}
-					dubois_start_paleontological_expedition_effect = yes
-					dubois_set_paleontologist_to_africa = yes
-
-					modifier = {
-						#Chances should be higher if maximum bones are not yet reached
-						if = {
-							limit = {
-								dubois_has_maximum_african_dinosaur_bone = no
-							}
-							add = 50
-						}
-						#Focus on Africa if there are already African Bones
-						if = {
-							limit = {
-								dubois_has_maximum_african_dinosaur_bone = no
-								has_variable = dubois_african_dinosaur_bone
-								var:dubois_african_dinosaur_bone > 0
-							}
-							add = 400
-						}
-						#Focus on Africa if country is in Africa
-						if = {
-							limit = {
-								dubois_has_maximum_african_dinosaur_bone = no
-								is_in_geographic_region = geographic_region_africa
-							}
-							add = 400
-						}
-					}
-				}
-				#Asian Expedition
-				1 = {
-					trigger = { dubois_dinosaur_research_in_asia = yes }
-
-					var:dubois_paleontologist_var = {
-						set_character_busy_and_immortal = yes
-						set_variable = dubois_paleontologist_in_asia_var
-					}
-					dubois_start_paleontological_expedition_effect = yes
-					dubois_set_paleontologist_to_asia = yes
-
-					modifier = {
-						#Chances should be higher if maximum bones are not yet reached
-						if = {
-							limit = {
-								dubois_has_maximum_asian_dinosaur_bone = no
-							}
-							add = 50
-						}
-						#Focus on Asia if there are already Asian Bones
-						if = {
-							limit = {
-								dubois_has_maximum_asian_dinosaur_bone = no
-								has_variable = dubois_asian_dinosaur_bone
-								var:dubois_asian_dinosaur_bone > 0
-							}
-							add = 400
-						}
-						#Focus on Asia if country is in Asia
-						if = {
-							limit = {
-								dubois_has_maximum_asian_dinosaur_bone = no
-								OR = {
-									is_in_geographic_region = geographic_region_china
-									is_in_geographic_region = geographic_region_middle_east
-									is_in_geographic_region = geographic_region_central_asia
-									is_in_geographic_region = geographic_region_india
-									is_in_geographic_region = geographic_region_east_asia
-									is_in_geographic_region = geographic_region_south_east_asia
+							#Focus on North America if country is in North or Central America
+							if = {
+								limit = {
+									dubois_has_maximum_north_american_dinosaur_bone = no
+									OR = {
+										is_in_geographic_region = geographic_region_north_america
+										is_in_geographic_region = geographic_region_central_america
+									}
 								}
+								add = 400
 							}
-							add = 400
 						}
 					}
-				}
-				#Australian Expedition
-				1 = {
-					trigger = { dubois_dinosaur_research_in_australia = yes }
+					#South American Expedition
+					1 = {
+						trigger = { dubois_dinosaur_research_in_south_america = yes }
 
-					var:dubois_paleontologist_var = {
-						set_character_busy_and_immortal = yes
-						set_variable = dubois_paleontologist_in_australia_var
-					}
-					dubois_start_paleontological_expedition_effect = yes
-					dubois_set_paleontologist_to_australia = yes
+						var:dubois_paleontologist_var = {
+							set_character_busy_and_immortal = yes
+							set_variable = dubois_paleontologist_in_south_america_var
+						}
+						dubois_start_paleontological_expedition_effect = yes
+						dubois_set_paleontologist_to_south_america = yes
 
-					modifier = {
-						#Chances should be higher if maximum bones are not yet reached
-						if = {
-							limit = {
-								dubois_has_maximum_australian_dinosaur_bone = no
-							}
-							add = 50
-						}
-						#Focus on Australia if there are already Australian Bones
-						if = {
-							limit = {
-								dubois_has_maximum_australian_dinosaur_bone = no
-								has_variable = dubois_australian_dinosaur_bone
-								var:dubois_australian_dinosaur_bone > 0
-							}
-							add = 400
-						}
-						#Focus on Australia if country is in Australia
-						if = {
-							limit = {
-								dubois_has_maximum_australian_dinosaur_bone = no
-								exists = capital
-								capital = {
-									region = sr:region_oceania
+						modifier = {
+							#Chances should be higher if maximum bones are not yet reached
+							if = {
+								limit = {
+									dubois_has_maximum_south_american_dinosaur_bone = no
 								}
+								add = 50
 							}
-							add = 400
-						}
-					}
-				}
-				#Local Expedition
-				1 = {
-					trigger = { dubois_small_paleontological_research_possible = yes }
-
-					var:dubois_paleontologist_var = {
-						set_character_busy_and_immortal = yes
-						set_variable = dubois_paleontologist_in_local_var
-					}
-					dubois_start_paleontological_expedition_effect = yes
-					dubois_set_paleontologist_to_local = yes
-
-					modifier = {
-						#Chances should be higher if maximum bones are not yet reached
-						if = {
-							limit = {
-								dubois_has_maximum_general_dinosaur_bone = no
+							#Focus on South America if there are already South American Bones
+							if = {
+								limit = {
+									dubois_has_maximum_south_american_dinosaur_bone = no
+									has_variable = dubois_south_american_dinosaur_bone
+									var:dubois_south_american_dinosaur_bone > 0
+								}
+								add = 400
 							}
-							add = 5
-						}
-						#Focus on Australia if there are already Australian Bones
-						if = {
-							limit = {
-								dubois_has_maximum_general_dinosaur_bone = no
-								has_variable = dubois_general_dinosaur_bone
-								var:dubois_general_dinosaur_bone > 0
+							#Focus on South America if country is in South or Central America
+							if = {
+								limit = {
+									dubois_has_maximum_south_american_dinosaur_bone = no
+									OR = {
+										is_in_geographic_region = geographic_region_south_america
+										is_in_geographic_region = geographic_region_central_america
+									}
+								}
+								add = 400
 							}
-							add = 20
+						}
+					}
+					#European Expedition
+					1 = {
+						trigger = { dubois_dinosaur_research_in_europe = yes }
+
+						var:dubois_paleontologist_var = {
+							set_character_busy_and_immortal = yes
+							set_variable = dubois_paleontologist_in_europe_var
+						}
+						dubois_start_paleontological_expedition_effect = yes
+						dubois_set_paleontologist_to_europe = yes
+
+						modifier = {
+							#Chances should be higher if maximum bones are not yet reached
+							if = {
+								limit = {
+									dubois_has_maximum_european_dinosaur_bone = no
+								}
+								add = 50
+							}
+							#Focus on Europe if there are already European Bones
+							if = {
+								limit = {
+									dubois_has_maximum_european_dinosaur_bone = no
+									has_variable = dubois_european_dinosaur_bone
+									var:dubois_european_dinosaur_bone > 0
+								}
+								add = 400
+							}
+							#Focus on Europe if country is in Europe
+							if = {
+								limit = {
+									dubois_has_maximum_european_dinosaur_bone = no
+									is_in_geographic_region = geographic_region_europe
+								}
+								add = 400
+							}
+						}
+					}
+					#African Expedition
+					1 = {
+						trigger = { dubois_dinosaur_research_in_africa = yes }
+
+						var:dubois_paleontologist_var = {
+							set_character_busy_and_immortal = yes
+							set_variable = dubois_paleontologist_in_africa_var
+						}
+						dubois_start_paleontological_expedition_effect = yes
+						dubois_set_paleontologist_to_africa = yes
+
+						modifier = {
+							#Chances should be higher if maximum bones are not yet reached
+							if = {
+								limit = {
+									dubois_has_maximum_african_dinosaur_bone = no
+								}
+								add = 50
+							}
+							#Focus on Africa if there are already African Bones
+							if = {
+								limit = {
+									dubois_has_maximum_african_dinosaur_bone = no
+									has_variable = dubois_african_dinosaur_bone
+									var:dubois_african_dinosaur_bone > 0
+								}
+								add = 400
+							}
+							#Focus on Africa if country is in Africa
+							if = {
+								limit = {
+									dubois_has_maximum_african_dinosaur_bone = no
+									is_in_geographic_region = geographic_region_africa
+								}
+								add = 400
+							}
+						}
+					}
+					#Asian Expedition
+					1 = {
+						trigger = { dubois_dinosaur_research_in_asia = yes }
+
+						var:dubois_paleontologist_var = {
+							set_character_busy_and_immortal = yes
+							set_variable = dubois_paleontologist_in_asia_var
+						}
+						dubois_start_paleontological_expedition_effect = yes
+						dubois_set_paleontologist_to_asia = yes
+
+						modifier = {
+							#Chances should be higher if maximum bones are not yet reached
+							if = {
+								limit = {
+									dubois_has_maximum_asian_dinosaur_bone = no
+								}
+								add = 50
+							}
+							#Focus on Asia if there are already Asian Bones
+							if = {
+								limit = {
+									dubois_has_maximum_asian_dinosaur_bone = no
+									has_variable = dubois_asian_dinosaur_bone
+									var:dubois_asian_dinosaur_bone > 0
+								}
+								add = 400
+							}
+							#Focus on Asia if country is in Asia
+							if = {
+								limit = {
+									dubois_has_maximum_asian_dinosaur_bone = no
+									OR = {
+										is_in_geographic_region = geographic_region_china
+										is_in_geographic_region = geographic_region_middle_east
+										is_in_geographic_region = geographic_region_central_asia
+										is_in_geographic_region = geographic_region_india
+										is_in_geographic_region = geographic_region_east_asia
+										is_in_geographic_region = geographic_region_south_east_asia
+									}
+								}
+								add = 400
+							}
+						}
+					}
+					#Australian Expedition
+					1 = {
+						trigger = { dubois_dinosaur_research_in_australia = yes }
+
+						var:dubois_paleontologist_var = {
+							set_character_busy_and_immortal = yes
+							set_variable = dubois_paleontologist_in_australia_var
+						}
+						dubois_start_paleontological_expedition_effect = yes
+						dubois_set_paleontologist_to_australia = yes
+
+						modifier = {
+							#Chances should be higher if maximum bones are not yet reached
+							if = {
+								limit = {
+									dubois_has_maximum_australian_dinosaur_bone = no
+								}
+								add = 50
+							}
+							#Focus on Australia if there are already Australian Bones
+							if = {
+								limit = {
+									dubois_has_maximum_australian_dinosaur_bone = no
+									has_variable = dubois_australian_dinosaur_bone
+									var:dubois_australian_dinosaur_bone > 0
+								}
+								add = 400
+							}
+							#Focus on Australia if country is in Australia
+							if = {
+								limit = {
+									dubois_has_maximum_australian_dinosaur_bone = no
+									exists = capital
+									capital = {
+										region = sr:region_oceania
+									}
+								}
+								add = 400
+							}
+						}
+					}
+					#Local Expedition
+					1 = {
+						trigger = { dubois_small_paleontological_research_possible = yes }
+
+						var:dubois_paleontologist_var = {
+							set_character_busy_and_immortal = yes
+							set_variable = dubois_paleontologist_in_local_var
+						}
+						dubois_start_paleontological_expedition_effect = yes
+						dubois_set_paleontologist_to_local = yes
+
+						modifier = {
+							#Chances should be higher if maximum bones are not yet reached
+							if = {
+								limit = {
+									dubois_has_maximum_general_dinosaur_bone = no
+								}
+								add = 5
+							}
+							#Focus on Australia if there are already Australian Bones
+							if = {
+								limit = {
+									dubois_has_maximum_general_dinosaur_bone = no
+									has_variable = dubois_general_dinosaur_bone
+									var:dubois_general_dinosaur_bone > 0
+								}
+								add = 20
+							}
 						}
 					}
 				}
 			}
-		}
 
-		#Remounting Dinosaur Skeletons
-		else_if = {
-			limit = {
-				dubois_paleontology_automation_remount_skeleton_possible_trigger = yes
+			#Remounting Dinosaur Skeletons
+			else_if = {
+				limit = {
+					dubois_paleontology_automation_remount_skeleton_possible_trigger = yes
+				}
+
+				#List chooses a random Dinosaur
+				random_list = {
+					#Ankylosaurus
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_ankylosaurus_var
+								has_variable = dubois_poor_ankylosaurus_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = ankylosaurus }
+					}
+
+					#Diplodocus
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_diplodocus_var
+								has_variable = dubois_poor_diplodocus_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = diplodocus }
+					}
+
+					#Triceratops
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_triceratops_var
+								has_variable = dubois_poor_triceratops_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = triceratops }
+					}
+
+					#Tyrannosaurus
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_tyrannosaurus_var
+								has_variable = dubois_poor_tyrannosaurus_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = tyrannosaurus }
+					}
+
+					#Stegosaurus
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_stegosaurus_var
+								has_variable = dubois_poor_stegosaurus_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = stegosaurus }
+					}
+
+					#Antarctosaurus
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_antarctosaurus_var
+								has_variable = dubois_poor_antarctosaurus_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = antarctosaurus }
+					}
+
+					#Argyrosaurus
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_argyrosaurus_var
+								has_variable = dubois_poor_argyrosaurus_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = argyrosaurus }
+					}
+
+					#Iguanodon
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_iguanodon_var
+								has_variable = dubois_poor_iguanodon_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = iguanodon }
+					}
+
+					#Plateosaurus
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_plateosaurus_var
+								has_variable = dubois_poor_plateosaurus_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = plateosaurus }
+					}
+
+					#Giraffatitan
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_giraffatitan_var
+								has_variable = dubois_poor_giraffatitan_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = giraffatitan }
+					}
+
+					#Spinosaurus
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_spinosaurus_var
+								has_variable = dubois_poor_spinosaurus_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = spinosaurus }
+					}
+
+					#Psittacosaurus
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_psittacosaurus_var
+								has_variable = dubois_poor_psittacosaurus_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = psittacosaurus }
+					}
+
+					#Velociraptor
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_velociraptor_var
+								has_variable = dubois_poor_velociraptor_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = velociraptor }
+					}
+
+					#Muttaburrasaurus
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_muttaburrasaurus_var
+								has_variable = dubois_poor_muttaburrasaurus_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = muttaburrasaurus }
+					}
+
+					#Rhoetosaurus
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_rhoetosaurus_var
+								has_variable = dubois_poor_rhoetosaurus_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = rhoetosaurus }
+					}
+
+					#Mosasaurus
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_mosasaurus_var
+								has_variable = dubois_poor_mosasaurus_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = mosasaurus }
+					}
+
+					#Plesiosaurus
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_plesiosaurus_var
+								has_variable = dubois_poor_plesiosaurus_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = plesiosaurus }
+					}
+
+					#Basilosaurus
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_basilosaurus_var
+								has_variable = dubois_poor_basilosaurus_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = basilosaurus }
+					}
+
+					#Megalodon
+					1 = {
+						trigger = {
+							OR = {
+								has_variable = dubois_imperfect_megalodon_var
+								has_variable = dubois_poor_megalodon_var
+							}
+						}
+
+						dubois_remount_dinosaur_effect = { DINOSAUR = megalodon }
+					}
+				}
+
+				#Sets the Paleontologist busy
+				var:dubois_paleontologist_var ?= {
+					set_character_busy_and_immortal = yes
+				}
 			}
 
-			#List chooses a random Dinosaur
-			random_list = {
-				#Ankylosaurus
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_ankylosaurus_var
-							has_variable = dubois_poor_ankylosaurus_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = ankylosaurus }
+			#Cretaceous scenery
+			else_if = {
+				limit = {
+					dubois_paleontology_automation_cretaceous_scenery_possible_trigger = yes
 				}
 
-				#Diplodocus
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_diplodocus_var
-							has_variable = dubois_poor_diplodocus_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = diplodocus }
+				#Removes costs
+				add_treasury = -50000
+				#Sets variable for GUI
+				set_variable = dubois_cretaceous_scenery_ongoing_var
+				#Adds JE
+				add_journal_entry = {
+					type = je_prehistoric_scenery
 				}
-
-				#Triceratops
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_triceratops_var
-							has_variable = dubois_poor_triceratops_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = triceratops }
-				}
-
-				#Tyrannosaurus
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_tyrannosaurus_var
-							has_variable = dubois_poor_tyrannosaurus_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = tyrannosaurus }
-				}
-
-				#Stegosaurus
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_stegosaurus_var
-							has_variable = dubois_poor_stegosaurus_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = stegosaurus }
-				}
-
-				#Antarctosaurus
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_antarctosaurus_var
-							has_variable = dubois_poor_antarctosaurus_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = antarctosaurus }
-				}
-
-				#Argyrosaurus
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_argyrosaurus_var
-							has_variable = dubois_poor_argyrosaurus_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = argyrosaurus }
-				}
-
-				#Iguanodon
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_iguanodon_var
-							has_variable = dubois_poor_iguanodon_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = iguanodon }
-				}
-
-				#Plateosaurus
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_plateosaurus_var
-							has_variable = dubois_poor_plateosaurus_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = plateosaurus }
-				}
-
-				#Giraffatitan
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_giraffatitan_var
-							has_variable = dubois_poor_giraffatitan_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = giraffatitan }
-				}
-
-				#Spinosaurus
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_spinosaurus_var
-							has_variable = dubois_poor_spinosaurus_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = spinosaurus }
-				}
-
-				#Psittacosaurus
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_psittacosaurus_var
-							has_variable = dubois_poor_psittacosaurus_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = psittacosaurus }
-				}
-
-				#Velociraptor
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_velociraptor_var
-							has_variable = dubois_poor_velociraptor_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = velociraptor }
-				}
-
-				#Muttaburrasaurus
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_muttaburrasaurus_var
-							has_variable = dubois_poor_muttaburrasaurus_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = muttaburrasaurus }
-				}
-
-				#Rhoetosaurus
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_rhoetosaurus_var
-							has_variable = dubois_poor_rhoetosaurus_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = rhoetosaurus }
-				}
-
-				#Mosasaurus
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_mosasaurus_var
-							has_variable = dubois_poor_mosasaurus_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = mosasaurus }
-				}
-
-				#Plesiosaurus
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_plesiosaurus_var
-							has_variable = dubois_poor_plesiosaurus_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = plesiosaurus }
-				}
-
-				#Basilosaurus
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_basilosaurus_var
-							has_variable = dubois_poor_basilosaurus_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = basilosaurus }
-				}
-
-				#Megalodon
-				1 = {
-					trigger = {
-						OR = {
-							has_variable = dubois_imperfect_megalodon_var
-							has_variable = dubois_poor_megalodon_var
-						}
-					}
-
-					dubois_remount_dinosaur_effect = { DINOSAUR = megalodon }
+				#Sets Paleontologist busy
+				var:dubois_paleontologist_var ?= {
+					set_character_busy_and_immortal = yes
 				}
 			}
 
-			#Sets the Paleontologist busy
-			var:dubois_paleontologist_var ?= {
-				set_character_busy_and_immortal = yes
-			}
-		}
+			#Jurassic scenery
+			else_if = {
+				limit = {
+					dubois_paleontology_automation_jurassic_scenery_possible_trigger = yes
+				}
 
-		#Cretaceous scenery
-		else_if = {
-			limit = {
-				dubois_paleontology_automation_cretaceous_scenery_possible_trigger = yes
-			}
-
-			#Removes costs
-			add_treasury = -50000
-			#Sets variable for GUI
-			set_variable = dubois_cretaceous_scenery_ongoing_var
-			#Adds JE
-			add_journal_entry = {
-				type = je_prehistoric_scenery
-			}
-			#Sets Paleontologist busy
-			var:dubois_paleontologist_var ?= {
-				set_character_busy_and_immortal = yes
-			}
-		}
-
-		#Jurassic scenery
-		else_if = {
-			limit = {
-				dubois_paleontology_automation_jurassic_scenery_possible_trigger = yes
+				#Removes costs
+				add_treasury = -50000
+				#Sets variable for GUI
+				set_variable = dubois_jurassic_scenery_ongoing_var
+				#Adds JE
+				add_journal_entry = {
+					type = je_prehistoric_scenery
+				}
+				#Sets Paleontologist busy
+				var:dubois_paleontologist_var ?= {
+					set_character_busy_and_immortal = yes
+				}
 			}
 
-			#Removes costs
-			add_treasury = -50000
-			#Sets variable for GUI
-			set_variable = dubois_jurassic_scenery_ongoing_var
-			#Adds JE
-			add_journal_entry = {
-				type = je_prehistoric_scenery
-			}
-			#Sets Paleontologist busy
-			var:dubois_paleontologist_var ?= {
-				set_character_busy_and_immortal = yes
-			}
-		}
+			#Triasic scenery
+			else_if = {
+				limit = {
+					dubois_paleontology_automation_triassic_scenery_possible_trigger = yes
+				}
 
-		#Triasic scenery
-		else_if = {
-			limit = {
-				dubois_paleontology_automation_triassic_scenery_possible_trigger = yes
-			}
-
-			#Removes costs
-			add_treasury = -50000
-			#Sets variable for GUI
-			set_variable = dubois_triassic_scenery_ongoing_var
-			#Adds JE
-			add_journal_entry = {
-				type = je_prehistoric_scenery
-			}
-			#Sets Paleontologist busy
-			var:dubois_paleontologist_var ?= {
-				set_character_busy_and_immortal = yes
+				#Removes costs
+				add_treasury = -50000
+				#Sets variable for GUI
+				set_variable = dubois_triassic_scenery_ongoing_var
+				#Adds JE
+				add_journal_entry = {
+					type = je_prehistoric_scenery
+				}
+				#Sets Paleontologist busy
+				var:dubois_paleontologist_var ?= {
+					set_character_busy_and_immortal = yes
+				}
 			}
 		}
 	}
@@ -1663,42 +1667,44 @@ ai_paleontologist_automation_effect = {
 
 #Handles the Anthropologist for the AI
 ai_anthropologist_effect = {
-	#Tests if there is an active anthropologist
-	if = {
-		limit = { lepsius_has_active_anthropologist_no_tooltip_trigger = yes }
-		#Unknown Bone Identification
+	hidden_effect = {
+		#Tests if there is an active anthropologist
 		if = {
-			limit = {
-				lepsius_has_unknown_bone_no_tooltip_trigger = yes
-			}
-			#Effect
-			hidden_effect = {
-				lepsius_set_fossil_identification_progress = yes
-			}
-			lepsius_set_anthropologist_busy_effect = yes
-			add_journal_entry = {
-				type = je_lepsius_fossil_identification
-			}
-		}
-		#Examine Cave
-		if = {
-			limit = {
-				NOT = {
-					has_modifier = lepsius_cave_examination_modifier
+			limit = { lepsius_has_active_anthropologist_no_tooltip_trigger = yes }
+			#Unknown Bone Identification
+			if = {
+				limit = {
+					lepsius_has_unknown_bone_no_tooltip_trigger = yes
 				}
-				any_scope_state = {
-					lepsius_has_discovered_cave_no_tooltip_trigger = yes
+				#Effect
+				hidden_effect = {
+					lepsius_set_fossil_identification_progress = yes
+				}
+				lepsius_set_anthropologist_busy_effect = yes
+				add_journal_entry = {
+					type = je_lepsius_fossil_identification
 				}
 			}
-			#Effect
-			add_treasury = -50000
-			lepsius_set_anthropologist_busy_effect = yes
-			add_modifier = {
-				name = lepsius_cave_examination_modifier
-			}
-			trigger_event = {
-				id = lepsius.1401
-				popup = yes
+			#Examine Cave
+			if = {
+				limit = {
+					NOT = {
+						has_modifier = lepsius_cave_examination_modifier
+					}
+					any_scope_state = {
+						lepsius_has_discovered_cave_no_tooltip_trigger = yes
+					}
+				}
+				#Effect
+				add_treasury = -50000
+				lepsius_set_anthropologist_busy_effect = yes
+				add_modifier = {
+					name = lepsius_cave_examination_modifier
+				}
+				trigger_event = {
+					id = lepsius.1401
+					popup = yes
+				}
 			}
 		}
 	}
@@ -2529,233 +2535,235 @@ ai_painter_automation_effect = {
 
 #Handles the Painter Trip for the AI
 ai_painter_trip_effect = {
-	if = {
-		limit = {
-			klimt_painter_trip_possible_no_tooltip_trigger = yes
-		}
-
-		#Determines a valid target
-		random_list = {
-			#Classicism
-			1 = {
-				trigger = {
-					NOT = { has_journal_entry = je_klimt_painter_trip }
-					has_global_variable = elgar_classicism_discovered
-					NOT = {
-						var:klimt_painter_var ?= {
-							has_trait = klimt_classic_school
-						}
-					}
-				}
-
-				#Effect
-				var:klimt_painter_var ?= {
-					set_character_busy_and_immortal = yes
-					set_variable = klimt_painter_on_classic_school_trip
-				}
-				set_variable = {
-					name = klimt_painter_progress
-					value = -2
-				}
-				set_klimt_center_of_art_scope = yes
-				add_journal_entry = {
-					type = je_klimt_painter_trip
-				}
-				random_country = {
-					limit = {
-						any_scope_state = {
-							has_state_trait = artists_state_trait_center_classicism
-						}
-					}
-					klimt_add_x_painting_tradition_unscaled_effect = {
-						AMOUNT = 2
-					}
-					post_notification = klimt_classic_school_visit_notification
-				}
+	hidden_effect = {
+		if = {
+			limit = {
+				klimt_painter_trip_possible_no_tooltip_trigger = yes
 			}
-			#Romanticism
-			1 = {
-				trigger = {
-					NOT = { has_journal_entry = je_klimt_painter_trip }
-					has_global_variable = elgar_romanticism_discovered
-					NOT = {
-						var:klimt_painter_var ?= {
-							has_trait = klimt_romantic_school
-						}
-					}
-				}
 
-				#Effect
-				var:klimt_painter_var ?= {
-					set_character_busy_and_immortal = yes
-					set_variable = klimt_painter_on_romantic_school_trip
-				}
-				set_variable = {
-					name = klimt_painter_progress
-					value = -2
-				}
-				set_klimt_center_of_art_scope = yes
-				add_journal_entry = {
-					type = je_klimt_painter_trip
-				}
-				random_country = {
-					limit = {
-						any_scope_state = {
-							has_state_trait = artists_state_trait_center_romanticism
+			#Determines a valid target
+			random_list = {
+				#Classicism
+				1 = {
+					trigger = {
+						NOT = { has_journal_entry = je_klimt_painter_trip }
+						has_global_variable = elgar_classicism_discovered
+						NOT = {
+							var:klimt_painter_var ?= {
+								has_trait = klimt_classic_school
+							}
 						}
 					}
-					klimt_add_x_painting_tradition_unscaled_effect = {
-						AMOUNT = 2
-					}
-					post_notification = klimt_classic_school_visit_notification
-				}
-			}
-			#Realism
-			1 = {
-				trigger = {
-					NOT = { has_journal_entry = je_klimt_painter_trip }
-					has_global_variable = artists_center_of_art_realism_founded_var
-					NOT = {
-						var:klimt_painter_var ?= {
-							has_trait = klimt_realistic_school
-						}
-					}
-				}
 
-				#Effect
-				var:klimt_painter_var ?= {
-					set_character_busy_and_immortal = yes
-					set_variable = klimt_painter_on_realistic_school_trip
+					#Effect
+					var:klimt_painter_var ?= {
+						set_character_busy_and_immortal = yes
+						set_variable = klimt_painter_on_classic_school_trip
+					}
+					set_variable = {
+						name = klimt_painter_progress
+						value = -2
+					}
+					set_klimt_center_of_art_scope = yes
+					add_journal_entry = {
+						type = je_klimt_painter_trip
+					}
+					random_country = {
+						limit = {
+							any_scope_state = {
+								has_state_trait = artists_state_trait_center_classicism
+							}
+						}
+						klimt_add_x_painting_tradition_unscaled_effect = {
+							AMOUNT = 2
+						}
+						post_notification = klimt_classic_school_visit_notification
+					}
 				}
-				set_variable = {
-					name = klimt_painter_progress
-					value = -2
-				}
-				set_klimt_center_of_art_scope = yes
-				add_journal_entry = {
-					type = je_klimt_painter_trip
-				}
-				random_country = {
-					limit = {
-						any_scope_state = {
-							has_state_trait = artists_state_trait_center_realism
+				#Romanticism
+				1 = {
+					trigger = {
+						NOT = { has_journal_entry = je_klimt_painter_trip }
+						has_global_variable = elgar_romanticism_discovered
+						NOT = {
+							var:klimt_painter_var ?= {
+								has_trait = klimt_romantic_school
+							}
 						}
 					}
-					klimt_add_x_painting_tradition_unscaled_effect = {
-						AMOUNT = 2
-					}
-					post_notification = klimt_realistic_school_visit_notification
-				}
-			}
-			#Impressionism
-			2 = {
-				trigger = {
-					NOT = { has_journal_entry = je_klimt_painter_trip }
-					has_global_variable = elgar_impressionism_discovered
-					NOT = {
-						var:klimt_painter_var ?= {
-							has_trait = klimt_impressionistic_school
-						}
-					}
-				}
 
-				#Effect
-				var:klimt_painter_var ?= {
-					set_character_busy_and_immortal = yes
-					set_variable = klimt_painter_on_impressionistic_school_trip
+					#Effect
+					var:klimt_painter_var ?= {
+						set_character_busy_and_immortal = yes
+						set_variable = klimt_painter_on_romantic_school_trip
+					}
+					set_variable = {
+						name = klimt_painter_progress
+						value = -2
+					}
+					set_klimt_center_of_art_scope = yes
+					add_journal_entry = {
+						type = je_klimt_painter_trip
+					}
+					random_country = {
+						limit = {
+							any_scope_state = {
+								has_state_trait = artists_state_trait_center_romanticism
+							}
+						}
+						klimt_add_x_painting_tradition_unscaled_effect = {
+							AMOUNT = 2
+						}
+						post_notification = klimt_classic_school_visit_notification
+					}
 				}
-				set_variable = {
-					name = klimt_painter_progress
-					value = -2
-				}
-				set_klimt_center_of_art_scope = yes
-				add_journal_entry = {
-					type = je_klimt_painter_trip
-				}
-				random_country = {
-					limit = {
-						any_scope_state = {
-							has_state_trait = artists_state_trait_center_impressionism
+				#Realism
+				1 = {
+					trigger = {
+						NOT = { has_journal_entry = je_klimt_painter_trip }
+						has_global_variable = artists_center_of_art_realism_founded_var
+						NOT = {
+							var:klimt_painter_var ?= {
+								has_trait = klimt_realistic_school
+							}
 						}
 					}
-					klimt_add_x_painting_tradition_unscaled_effect = {
-						AMOUNT = 2
-					}
-					post_notification = klimt_impressionistic_school_visit_notification
-				}
-			}
-			#Expressionism
-			2 = {
-				trigger = {
-					NOT = { has_journal_entry = je_klimt_painter_trip }
-					has_global_variable = elgar_expressionism_discovered
-					NOT = {
-						var:klimt_painter_var ?= {
-							has_trait = klimt_expressionistic_school
-						}
-					}
-				}
 
-				#Effect
-				var:klimt_painter_var ?= {
-					set_character_busy_and_immortal = yes
-					set_variable = klimt_painter_on_expressionistic_school_trip
+					#Effect
+					var:klimt_painter_var ?= {
+						set_character_busy_and_immortal = yes
+						set_variable = klimt_painter_on_realistic_school_trip
+					}
+					set_variable = {
+						name = klimt_painter_progress
+						value = -2
+					}
+					set_klimt_center_of_art_scope = yes
+					add_journal_entry = {
+						type = je_klimt_painter_trip
+					}
+					random_country = {
+						limit = {
+							any_scope_state = {
+								has_state_trait = artists_state_trait_center_realism
+							}
+						}
+						klimt_add_x_painting_tradition_unscaled_effect = {
+							AMOUNT = 2
+						}
+						post_notification = klimt_realistic_school_visit_notification
+					}
 				}
-				set_variable = {
-					name = klimt_painter_progress
-					value = -2
-				}
-				set_klimt_center_of_art_scope = yes
-				add_journal_entry = {
-					type = je_klimt_painter_trip
-				}
-				random_country = {
-					limit = {
-						any_scope_state = {
-							has_state_trait = artists_state_trait_center_expressionism
+				#Impressionism
+				2 = {
+					trigger = {
+						NOT = { has_journal_entry = je_klimt_painter_trip }
+						has_global_variable = elgar_impressionism_discovered
+						NOT = {
+							var:klimt_painter_var ?= {
+								has_trait = klimt_impressionistic_school
+							}
 						}
 					}
-					klimt_add_x_painting_tradition_unscaled_effect = {
-						AMOUNT = 2
-					}
-					post_notification = klimt_expressionistic_school_visit_notification
-				}
-			}
-			#Art Nouveau
-			5 = {
-				trigger = {
-					NOT = { has_journal_entry = je_klimt_painter_trip }
-					has_global_variable = elgar_art_nouveau_discovered
-					NOT = {
-						var:klimt_painter_var ?= {
-							has_trait = klimt_art_nouveau_school
-						}
-					}
-				}
 
-				#Effect
-				var:klimt_painter_var ?= {
-					set_character_busy_and_immortal = yes
-					set_variable = klimt_painter_on_art_nouveau_school_trip
+					#Effect
+					var:klimt_painter_var ?= {
+						set_character_busy_and_immortal = yes
+						set_variable = klimt_painter_on_impressionistic_school_trip
+					}
+					set_variable = {
+						name = klimt_painter_progress
+						value = -2
+					}
+					set_klimt_center_of_art_scope = yes
+					add_journal_entry = {
+						type = je_klimt_painter_trip
+					}
+					random_country = {
+						limit = {
+							any_scope_state = {
+								has_state_trait = artists_state_trait_center_impressionism
+							}
+						}
+						klimt_add_x_painting_tradition_unscaled_effect = {
+							AMOUNT = 2
+						}
+						post_notification = klimt_impressionistic_school_visit_notification
+					}
 				}
-				set_variable = {
-					name = klimt_painter_progress
-					value = -2
-				}
-				set_klimt_center_of_art_scope = yes
-				add_journal_entry = {
-					type = je_klimt_painter_trip
-				}
-				random_country = {
-					limit = {
-						any_scope_state = {
-							has_state_trait = artists_state_trait_center_art_nouveau
+				#Expressionism
+				2 = {
+					trigger = {
+						NOT = { has_journal_entry = je_klimt_painter_trip }
+						has_global_variable = elgar_expressionism_discovered
+						NOT = {
+							var:klimt_painter_var ?= {
+								has_trait = klimt_expressionistic_school
+							}
 						}
 					}
-					klimt_add_x_painting_tradition_unscaled_effect = {
-						AMOUNT = 2
+
+					#Effect
+					var:klimt_painter_var ?= {
+						set_character_busy_and_immortal = yes
+						set_variable = klimt_painter_on_expressionistic_school_trip
 					}
-					post_notification = klimt_art_nouveau_school_visit_notification
+					set_variable = {
+						name = klimt_painter_progress
+						value = -2
+					}
+					set_klimt_center_of_art_scope = yes
+					add_journal_entry = {
+						type = je_klimt_painter_trip
+					}
+					random_country = {
+						limit = {
+							any_scope_state = {
+								has_state_trait = artists_state_trait_center_expressionism
+							}
+						}
+						klimt_add_x_painting_tradition_unscaled_effect = {
+							AMOUNT = 2
+						}
+						post_notification = klimt_expressionistic_school_visit_notification
+					}
+				}
+				#Art Nouveau
+				5 = {
+					trigger = {
+						NOT = { has_journal_entry = je_klimt_painter_trip }
+						has_global_variable = elgar_art_nouveau_discovered
+						NOT = {
+							var:klimt_painter_var ?= {
+								has_trait = klimt_art_nouveau_school
+							}
+						}
+					}
+
+					#Effect
+					var:klimt_painter_var ?= {
+						set_character_busy_and_immortal = yes
+						set_variable = klimt_painter_on_art_nouveau_school_trip
+					}
+					set_variable = {
+						name = klimt_painter_progress
+						value = -2
+					}
+					set_klimt_center_of_art_scope = yes
+					add_journal_entry = {
+						type = je_klimt_painter_trip
+					}
+					random_country = {
+						limit = {
+							any_scope_state = {
+								has_state_trait = artists_state_trait_center_art_nouveau
+							}
+						}
+						klimt_add_x_painting_tradition_unscaled_effect = {
+							AMOUNT = 2
+						}
+						post_notification = klimt_art_nouveau_school_visit_notification
+					}
 				}
 			}
 		}

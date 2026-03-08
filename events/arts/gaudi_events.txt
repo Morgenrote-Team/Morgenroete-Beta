@@ -88,7 +88,7 @@ namespace = gaudi
 #Alfred Escher
 
 #Gaudí 200: Alfred Escher [1849]
-#Gaudí 201: Disempowerment of Adolf Escher [1877]
+#Gaudí 201: Disempowerment of Alfred Escher [1877]
 #Gaudí 202: Death of Alfred Escher [1882]
 
 #Planning and Constuction of the Gotthard Railway
@@ -373,6 +373,8 @@ namespace = gaudi
 #Gaudí 1426: A disturbing Radio Play
 #Gaudí 1430: Transatlantic Transmission
 
+#Gaudí 1441: The modern Power Plants of [Country]
+
 ### Aeronautical Engineering ###
 #Gaudí 1501: The modern Airports of [Country]
 #Gaudí 1511: New Military Aircrafts developed
@@ -571,21 +573,17 @@ gaudi.9 = {
 	}
 
 	immediate = {
+		var:gaudi_architect_var ?= {
+			save_scope_as = gaudi_architect_scope
+		}
 	}
 
 	option = { #Yes
 		name = gaudi.9.g
-		architect_experience_gain_effect = { AMOUNT = 25 }
-		gaudi_add_x_architectural_splendour_effect = { AMOUNT = 5 }
-		if = {
-			limit = {
-				has_variable = gaudi_architect_var
-			}
-			var:gaudi_architect_var = {
-				set_variable = {
-					name = gaudi_architect_achievement_urban_planning_var
-					value = flag:gaudi_architect_achievement_urban_planning_loc
-				}
+		var:gaudi_architect_var ?= {
+			set_variable = {
+				name = gaudi_architect_achievement_urban_planning_var
+				value = flag:gaudi_architect_achievement_urban_planning_loc
 			}
 		}
 	}
@@ -3741,17 +3739,15 @@ gaudi.100 = { #This will trigger in 1823 in a 1815/1816 mod
 	duration = 3
 
 	trigger = {
-		NOT = {
+		NOR = {
 			has_global_variable = gaudi_dombau_verein
-		}
-		game_date >= 1823.1.1
-		NOT = {
 			game_date >= 1842.1.1
 		}
+		game_date >= 1823.1.1
+		has_technology_researched = romanticism
 		any_scope_state = {
 			state_region = s:STATE_NORTH_RHINE
 		}
-		has_technology_researched = romanticism
 	}
 
 	immediate = {
@@ -5328,8 +5324,7 @@ gaudi.200 = {
 	duration = 3
 
 	trigger = {
-		exists = c:SWI
-		ROOT = c:SWI #only for Switzerland
+		c:SWI ?= this #only for Switzerland
 		NOT = {
 			has_variable = gaudi_alfred_escher_var
 		}
@@ -5380,7 +5375,7 @@ gaudi.200 = {
 	}
 }
 
-#Gaudí 201: Disempowerment of Adolf Escher [1877]
+#Gaudí 201: Disempowerment of Alfred Escher [1877]
 
 gaudi.201 = {
 	dlc = dlc_morgenrote
@@ -5403,6 +5398,7 @@ gaudi.201 = {
 	duration = 3
 
 	trigger = {
+		c:SWI ?= this
 		has_modifier = gaudi_influence_of_escher_modifier
 		game_date >= 1877.1.1
 	}
@@ -5439,13 +5435,13 @@ gaudi.202 = {
 	duration = 3
 
 	trigger = {
-		any_scope_character = {
-			has_variable = gaudi_is_alfred_escher_var
-		}
+		game_date >= 1882.1.1
 		NOT = {
 			has_variable = gaudi_alfred_escher_dead_var
 		}
-		game_date >= 1882.1.1
+		any_scope_character = {
+			has_variable = gaudi_is_alfred_escher_var
+		}
 	}
 
 	immediate = {
@@ -18310,6 +18306,41 @@ gaudi.1430 = {
 	}
 }
 
+#Gaudí 1441: The modern Power Plants of [Country]
+
+gaudi.1441 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = gaudi.1441.t
+	desc = gaudi.1441.d
+	flavor = gaudi.1441.f
+
+	event_image = {
+		# https://commons.wikimedia.org/wiki/File:Gerador_de_Energia_El%C3%A9trica_Movido_a_%C3%93leo_Cru._Porto_Velho_-_734,_Acervo_do_Museu_Paulista_da_USP.jpg
+		texture = "gfx/event_pictures/tesla_pictures/tesla_electrical_generator.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/goods_icons/electricity.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:tesla_engineer_var ?= {
+			save_scope_as = tesla_engineer_scope
+		}
+	}
+
+	option = {
+		name = gaudi.1441.g #Unlimited Power!
+		default_option = yes
+	}
+}
+
 ##############################################################################################################
 
 ### Aeronautical Engineering ###
@@ -18337,23 +18368,14 @@ gaudi.1501 = {
 	}
 
 	immediate = {
-		if = {
-			limit = { has_variable = tesla_engineer_var }
-			var:tesla_engineer_var = {
-				set_variable = {
-					name = tesla_engineer_achievements_finished_airport_project_var
-					value = flag:tesla_engineer_achievements_finished_airport_project_loc
-				}
-			}
+		var:tesla_engineer_var ?= {
+			save_scope_as = tesla_engineer_scope
 		}
 	}
 
 	option = {
 		name = gaudi.1501.g #I can't wait for planes that can fly me anywhere!
 		default_option = yes
-
-		tesla_aeronautical_engineering_medium_add_technology = yes
-		aeronautical_engineer_experience_gain_effect = { AMOUNT = 5 }
 	}
 }
 

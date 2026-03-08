@@ -341,6 +341,19 @@ namespace = elgar
 #Elgar 1222: Petrouchka
 #Elgar 1223: Sacre du printemps
 
+#Albéniz
+#Elgar 1231: Suite española
+#Elgar 1232: Iberia
+#Elgar 1233: Catalonia
+
+#Auber
+#Elgar 1241: Le lac des fées
+
+#Bartók
+#Elgar 1251: The Miraculous Mandarin
+#Elgar 1252: Concerto for Orchestra
+#Elgar 1253: Music for Strings, Percussion and Celesta
+
 #################################################################################
 
 #Elgar 1: Yearly music tradition
@@ -5053,32 +5066,18 @@ elgar.431 = {
 
 	immediate = {
 		set_elgar_conductor_scope_effect = yes
-		#Sets up a variable that sets the instrument of the Concerto
-		set_variable = {
-			name = elgar_concerto_instrument_randomizer_var
-			value = { 1 15 }
-		}
-		round_variable = {
-			name = elgar_concerto_instrument_randomizer_var
-			nearest = 1
-		}
-		#Sets up a variable that sets the chord of the Concerto
-		set_variable = {
-			name = elgar_music_chord_randomizer_var
-			value = { 1 7 }
-		}
-		round_variable = {
-			name = elgar_music_chord_randomizer_var
-			nearest = 1
-		}
-		#Sets up a variable that sets Major/Minor
-		set_variable = {
-			name = elgar_music_major_minor_randomizer_var
-			value = { 1 2 }
-		}
-		round_variable = {
-			name = elgar_music_major_minor_randomizer_var
-			nearest = 1
+		var:elgar_composer_var ?= {
+			if = {
+				limit = { var:elgar_composer_num_masterworks_var = 1 }
+				elgar_set_new_masterpiece_concerto_effect = { NUMBER = 1 }
+			}
+			else_if = {
+				limit = { var:elgar_composer_num_masterworks_var = 2 }
+				elgar_set_new_masterpiece_concerto_effect = { NUMBER = 2 }
+			}
+			else = {
+				elgar_set_new_masterpiece_concerto_effect = { NUMBER = 3 }
+			}
 		}
 	}
 
@@ -5090,11 +5089,6 @@ elgar.431 = {
 	}
 
 	after = {
-		hidden_effect = {
-			remove_variable = elgar_concerto_instrument_randomizer_var
-			remove_variable = elgar_music_chord_randomizer_var
-			remove_variable = elgar_music_major_minor_randomizer_var
-		}
 	}
 }
 
@@ -5125,32 +5119,18 @@ elgar.432 = {
 
 	immediate = {
 		set_elgar_conductor_scope_effect = yes
-		#Sets up a variable that sets the number of the Symphony
-		set_variable = {
-			name = elgar_symphony_number_randomizer_var
-			value = { 1 12 }
-		}
-		round_variable = {
-			name = elgar_symphony_number_randomizer_var
-			nearest = 1
-		}
-		#Sets up a variable that sets the chord of the Symphony
-		set_variable = {
-			name = elgar_music_chord_randomizer_var
-			value = { 1 7 }
-		}
-		round_variable = {
-			name = elgar_music_chord_randomizer_var
-			nearest = 1
-		}
-		#Sets up a variable that sets Major/Minor
-		set_variable = {
-			name = elgar_music_major_minor_randomizer_var
-			value = { 1 2 }
-		}
-		round_variable = {
-			name = elgar_music_major_minor_randomizer_var
-			nearest = 1
+		var:elgar_composer_var ?= {
+			if = {
+				limit = { var:elgar_composer_num_masterworks_var = 1 }
+				elgar_set_new_masterpiece_symphony_effect = { NUMBER = 1 }
+			}
+			else_if = {
+				limit = { var:elgar_composer_num_masterworks_var = 2 }
+				elgar_set_new_masterpiece_symphony_effect = { NUMBER = 2 }
+			}
+			else = {
+				elgar_set_new_masterpiece_symphony_effect = { NUMBER = 3 }
+			}
 		}
 	}
 
@@ -5162,11 +5142,6 @@ elgar.432 = {
 	}
 
 	after = {
-		hidden_effect = {
-			remove_variable = elgar_symphony_number_randomizer_var
-			remove_variable = elgar_music_chord_randomizer_var
-			remove_variable = elgar_music_major_minor_randomizer_var
-		}
 	}
 }
 
@@ -5197,14 +5172,18 @@ elgar.433 = {
 
 	immediate = {
 		set_elgar_conductor_scope_effect = yes
-		#Sets up a variable that sets the name of the opera
-		set_variable = {
-			name = elgar_opera_name_randomizer_var
-			value = { 1 20 }
-		}
-		round_variable = {
-			name = elgar_opera_name_randomizer_var
-			nearest = 1
+		var:elgar_composer_var ?= {
+			if = {
+				limit = { var:elgar_composer_num_masterworks_var = 1 }
+				elgar_set_new_masterpiece_opera_effect = { NUMBER = 1 }
+			}
+			else_if = {
+				limit = { var:elgar_composer_num_masterworks_var = 2 }
+				elgar_set_new_masterpiece_opera_effect = { NUMBER = 2 }
+			}
+			else = {
+				elgar_set_new_masterpiece_opera_effect = { NUMBER = 3 }
+			}
 		}
 	}
 
@@ -5216,9 +5195,6 @@ elgar.433 = {
 	}
 
 	after = {
-		hidden_effect = {
-			remove_variable = elgar_opera_name_randomizer_var
-		}
 	}
 }
 
@@ -11123,13 +11099,15 @@ elgar.1011 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_pasquale_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_pasquale_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_don_pasquale_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11163,13 +11141,15 @@ elgar.1012 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_sebastien_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_sebastien_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_dom_sebastian_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11205,13 +11185,15 @@ elgar.1021 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_troyens_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_troyens_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_les_troyens_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11245,13 +11227,15 @@ elgar.1022 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_damnation_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_damnation_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_la_damnation_de_faust_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11285,13 +11269,15 @@ elgar.1023 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_traite_instrumental_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_traite_instrumental_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_traite_instrumental_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11327,13 +11313,15 @@ elgar.1031 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_les_preludes_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_les_preludes_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_les_preludes_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11368,13 +11356,15 @@ elgar.1032 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_hungarian_rhapsody_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_hungarian_rhapsody_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_hungarian_rhapsodies_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11408,13 +11398,15 @@ elgar.1033 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_dante_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_dante_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_dante_symphony_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11450,13 +11442,15 @@ elgar.1041 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_meistersinger_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_meistersinger_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_die_meistersinger_von_nurnberg_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11490,13 +11484,15 @@ elgar.1042 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_walkuere_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_walkuere_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_die_walkuere_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11530,13 +11526,15 @@ elgar.1043 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_parsifal_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_parsifal_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_parsifal_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11572,13 +11570,15 @@ elgar.1051 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_peer_gynt_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_peer_gynt_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_peer_gynt_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11612,13 +11612,15 @@ elgar.1052 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_lyric_pieces_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_lyric_pieces_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_lyric_pieces_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11652,13 +11654,15 @@ elgar.1053 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_norwegian_dances_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_norwegian_dances_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_norwegian_dances_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11694,13 +11698,15 @@ elgar.1061 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_deutsches_requiem_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_deutsches_requiem_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_deutsches_requiem_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11734,13 +11740,15 @@ elgar.1062= {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_hungarian_dances_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_hungarian_dances_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_hungarian_dances_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11774,13 +11782,15 @@ elgar.1063 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_brahms_symphony_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_brahms_symphony_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_brahms_symphony_no_4_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11816,13 +11826,15 @@ elgar.1071 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_mahler_symphony_5_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_mahler_symphony_5_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_mahler_symphony_no_5_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11856,13 +11868,15 @@ elgar.1072 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_lied_erde_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_lied_erde_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_lied_von_der_erde_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11896,13 +11910,15 @@ elgar.1073 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_kindertotenlieder_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_kindertotenlieder_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_kindertotenlieder_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11938,13 +11954,15 @@ elgar.1081 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_rachmaninov_concerto_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_rachmaninov_concerto_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_rachmaninov_piano_concerto_no_3_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -11978,13 +11996,15 @@ elgar.1082 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_rhapsody_paganini_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_rhapsody_paganini_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_krhapsody_on_a_theme_of_paganini_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -12018,13 +12038,15 @@ elgar.1083 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_rachmaninov_symphony_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_rachmaninov_symphony_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_rachmaninov_symphony_no_3_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -12060,13 +12082,15 @@ elgar.1091 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_romeo_juliet_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_romeo_juliet_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_romeo_and_juliet_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -12100,13 +12124,15 @@ elgar.1092 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_kije_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_kije_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_lieutnant_kije_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -12140,13 +12166,15 @@ elgar.1093 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_peter_wolf_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_peter_wolf_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_peter_and_the_wolf_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -12182,13 +12210,15 @@ elgar.1101 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_die_fledermaus_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_die_fledermaus_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_die_fledermaus_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -12222,13 +12252,15 @@ elgar.1102 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_donauwalzer_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_donauwalzer_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_donauwalzer_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -12262,13 +12294,15 @@ elgar.1103 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_eine_nacht_in_venedig_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_eine_nacht_in_venedig_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_eine_nacht_in_venedig_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -12304,13 +12338,15 @@ elgar.1111 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_rigoletto_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_rigoletto_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_rigoletto_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -12344,13 +12380,15 @@ elgar.1112 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_la_traviata_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_la_traviata_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_la_traviata_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -12384,13 +12422,15 @@ elgar.1113 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_messa_da_requiem_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_messa_da_requiem_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_messa_de_requiem_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -12426,13 +12466,15 @@ elgar.1121 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_prelude_faune_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_prelude_faune_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_prelude_a_l_apres_midid_d_un_faune_loc
+			}
+		}
 	}
 
 	option = { #Indulge, dream, enjoy the never-ending moment...
@@ -12466,13 +12508,15 @@ elgar.1122 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_la_mer_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_la_mer_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_la_mer_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -12506,13 +12550,15 @@ elgar.1123 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_pelleas_et_melisande_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_pelleas_et_melisande_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_pelleas_et_melisande_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -12548,13 +12594,15 @@ elgar.1131 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_swan_lake_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_swan_lake_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_swan_lake_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -12588,13 +12636,15 @@ elgar.1132 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_tchaikovsky_symphony_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_tchaikovsky_symphony_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_tchaikovsky_symphony_no_6_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -12628,13 +12678,15 @@ elgar.1133 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_tchaikovsky_violin_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_tchaikovsky_violin_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_tchaikovsky_violin_concerto_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo
@@ -12670,13 +12722,15 @@ elgar.1141 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_pomp_circumstance_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_pomp_circumstance_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_pomp_and_circumstances_loc
+			}
+		}
 	}
 
 	option = { #Land of Hope and Glory!
@@ -12710,13 +12764,15 @@ elgar.1142 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_crown_of_india_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_crown_of_india_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_crown_of_india_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -12750,13 +12806,15 @@ elgar.1143= {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_enigma_variations_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_enigma_variations_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_enigma_variations_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -12792,13 +12850,15 @@ elgar.1151 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_dvorak_symphony_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_dvorak_symphony_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_dvorak_symphony_no_9_new_world_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -12832,13 +12892,15 @@ elgar.1152 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_slavonic_dances_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_slavonic_dances_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_slavonic_dances_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -12872,13 +12934,15 @@ elgar.1153 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_rusalka_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_rusalka_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_rusalka_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -12914,13 +12978,15 @@ elgar.1161 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_fantasie_in_c_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_fantasie_in_c_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_fantasie_in_c_dur_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -12954,13 +13020,15 @@ elgar.1162 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_schumann_piano_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_schumann_piano_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_piano_concerto_in_a_minor_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -12994,13 +13062,15 @@ elgar.1163 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_kinderszenen_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_kinderszenen_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_kinderszenen_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -13036,13 +13106,15 @@ elgar.1171 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_mendelssohn_violin_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_mendelssohn_violin_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_mendelssohn_violin_concerto_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -13078,13 +13150,15 @@ elgar.1181 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_chopin_etudes_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_chopin_etudes_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_etudes_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -13120,13 +13194,15 @@ elgar.1191 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_life_for_zar_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_life_for_zar_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_a_life_for_the_zar_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -13160,13 +13236,15 @@ elgar.1192 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_rusland_and_ljudmila_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_rusland_and_ljudmila_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_ruslan_and_ljudmila_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -13201,13 +13279,15 @@ elgar.1193 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_kamarinskaya_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_kamarinskaya_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_kamarinskaya_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -13243,13 +13323,15 @@ elgar.1201 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_daphnis_et_chloe_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_daphnis_et_chloe_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_daphnis_et_chloe_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -13283,13 +13365,15 @@ elgar.1202 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_rhapsodie_espagnole_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_rhapsodie_espagnole_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_rhapsodie_espagnole_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -13323,13 +13407,15 @@ elgar.1203 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_bolero_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_bolero_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_bolero_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -13365,13 +13451,15 @@ elgar.1211 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_twelve_tone_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_twelve_tone_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_twelve_tone_technique_loc
+			}
+		}
 	}
 
 	option = { #I'm not so sure if that was a good idea.
@@ -13405,13 +13493,15 @@ elgar.1212 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_string_quartett_2_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_string_quartett_2_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_schonberg_string_quartett_no_2_loc
+			}
+		}
 	}
 
 	option = { #Great! But may the 'music' stop for now?
@@ -13445,13 +13535,15 @@ elgar.1213 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_chamber_symphony_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_chamber_symphony_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_schonberg_chamber_symphony_no_1_loc
+			}
+		}
 	}
 
 	option = { #Will this never end?
@@ -13487,13 +13579,15 @@ elgar.1221 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_firebird_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_firebird_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_the_firebird_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -13527,13 +13621,15 @@ elgar.1222 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_petrouchka_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_petrouchka_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_petrouchka_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!
@@ -13567,13 +13663,1048 @@ elgar.1223 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_global_variable = elgar_sacre_var
-		}
 	}
 
 	immediate = {
-		set_global_variable = elgar_sacre_var
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_sacre_du_printemps_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Albéniz
+#Elgar 1231: Suite Española
+elgar.1231 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_suite_espanola_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1231.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_suite_espanola_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1232: Iberia
+elgar.1232 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_iberia_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1231.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_iberia_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1233: Catalonia
+elgar.1233 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_iberia_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1233.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_catalonia_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1241: Le lac des fées
+elgar.1241 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_lac_fees_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1241.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_lac_fees_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1251: Miraculous Mandarin
+elgar.1251 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_miraculous_mandarin_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1251.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_miraculous_mandarin_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1252: Concerto for Orchestra
+elgar.1252 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_bartok_concerto_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1252.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_bartok_concerto_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1253: Music for Strings, Percussion and Celesta
+elgar.1253 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_strings_percussion_celesta_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1253.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_elgar_conductor_scope_effect = yes
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_strings_percussion_celesta_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1261: Lao Siang Thian Variations
+elgar.1261 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_lao_siang_thian_thao_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1261.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_lao_siang_thian_thao_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1262: Saen Kham Nueng Variations
+elgar.1262 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_saen_kham_nueng_thao_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1262.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_saen_kham_nueng_thao_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1263: Kratae Tai Mai Overture
+elgar.1263 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_homrong_kratae_tai_mai_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1263.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_homrong_kratae_tai_mai_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1271: Sri Ayutthaya
+elgar.1271 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_sri_ayutthaya_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1271.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_sri_ayutthaya_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1272: Kridapiniharn Dances
+elgar.1272 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_rabam_kridapiniharn_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1272.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_rabam_kridapiniharn_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1273: Phama Prathet
+elgar.1273 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_homrong_kratae_tai_mai_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1273.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_phama_prathet_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1281: Phaya Sok Variations
+elgar.1281 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_phaya_sok_thao_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1281.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_phaya_sok_thao_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1282: Phra Athit Ching Duang
+elgar.1282 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_phra_athit_ching_duang_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1282.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_phra_athit_ching_duang_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1283: Thep Ranjuan
+elgar.1283 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_thep_ranjuan_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1283.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_thep_ranjuan_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1291: Kulap Ruang
+elgar.1291 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_kulap_ruang_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1291.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_kulap_ruang_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1292: Kluai Mai
+elgar.1292 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_kluai_mai_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1292.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_kluai_mai_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1293: Khwan Khong Riam
+elgar.1293 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_khwan_khong_riam_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1293.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_khwan_khong_riam_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1301: Phumi Thong Overture
+elgar.1301 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_homrong_phumi_thong_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1301.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_homrong_phumi_thong_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1302: Champa Thong Variations
+elgar.1302 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_champa_thong_thao_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1302.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_champa_thong_thao_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1303: Sot Si Variations
+elgar.1303 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_sot_si_thao_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1303.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_sot_si_thao_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1311: Lao Damnoen Sai
+elgar.1311 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_lao_damnoen_sai_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1311.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_lao_damnoen_sai_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1312: Anong Suchada
+elgar.1312 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_anong_suchada_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1312.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_anong_suchada_loc
+			}
+		}
+	}
+
+	option = { #Bravissimo!
+		name = elgar.1011.g
+		elgar_add_x_music_tradition_effect = { AMOUNT = 150 }
+		composer_experience_gain_effect = { AMOUNT = 50 }
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Elgar 1313: Narai Plaeng Rup
+elgar.1313 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = elgar_historical_masterpiece_narai_plaeng_rup_loc
+
+    desc = elgar.1011.d
+
+	flavor = elgar.1313.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_instruments.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		scope:elgar_conductor = {
+			elgar_character_create_masterpiece_number_choice_effect = {
+				FLAG = elgar_historical_masterpiece_narai_plaeng_rup_loc
+			}
+		}
 	}
 
 	option = { #Bravissimo!

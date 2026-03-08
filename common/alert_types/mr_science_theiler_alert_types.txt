@@ -1,0 +1,124 @@
+﻿# script_context = <script context>	# see later for list of valid script contexts
+# texture = <path>					# the path is relative to the "game" folder
+# valid = <trigger>					# an invalid alert will not be shown
+# open_panel = <panel_name>[|<tab>]	# if specified, this panel will open when the alert is clicked. Cannot specify both open_panel and open_popup
+									# an optional tab name can be specified after a | character
+# open_popup = <popup_name>			# if specified, this popup will open when the alert is clicked. Cannot specify both open_panel and open_popup
+# type = alert | important_action | angry_important_action	# if unspecified or "alert", this will be a standard alert. Otherwise, it will be shown inside the important actions alert (angry_important_action alerts are sorted first)
+# alert_group = <alert_group_name>	# if specified, multiple alerts in the same group will be grouped in the important actions alert (if they are "important_action"). "important_actions with unspecified alert_group will never be grouped together
+#
+# ------------------------------------------------------------------------------
+# Valid script contexts
+# ------------------------------------------------------------------------------
+# player_country
+# player_diplomatic_play
+# player_diplomatic_pact
+# player_diplomatic_action
+# player_diplomatic_relations
+# player_interest_group
+# player_invaded_state
+# player_national_market
+# player_involved_market
+# player_state
+# player_building
+# player_market_goods
+# player_commander
+# player_trade_route
+
+theiler_biologist_unused_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/invention_icons/theiler_microbiology_tech.dds"
+
+	valid = {
+		theiler_has_active_biologist_no_tooltip_trigger = yes
+		OR = {
+			#Agricultural Improvement
+			AND = {
+				any_scope_building = {
+					theiler_building_valid_for_agriculture_project_no_tooltip_trigger = yes
+				}
+				NOR = {
+					has_journal_entry = je_theiler_improve_agriculture_project
+					has_variable = theiler_improve_agriculture_project_building_chooser_var
+				}
+			}
+			#Cochliomyia Erradication
+			AND = {
+				has_technology_researched = theiler_cell_culture_tech
+				has_technology_researched = verrier_nuclear_physics_tech
+				has_technology_researched = curtiss_modern_aviation_tech
+				any_scope_state = {
+					has_state_trait = theiler_state_trait_cochliomyia
+				}
+			}
+			#Sterile Insect Technique
+			AND = {
+				has_variable = theiler_cochliomyia_eredication_program_var
+				any_scope_state = {
+					has_state_trait = theiler_state_trait_cochliomyia
+				}
+			}
+			#Cydia Pesticide
+			AND = {
+				NOT = {
+					has_variable = theiler_cydia_lead_arsenate_var
+				}
+				any_scope_state = {
+					has_state_trait = theiler_state_trait_cydia
+				}
+				has_technology_researched = malaria_prevention
+			}
+			#Create Vaccine
+			AND = {
+				NOT = { has_variable = theiler_biologist_action_active_var }
+				has_technology_researched = theiler_microbiology_tech
+				theiler_can_create_vaccine_trigger = yes
+				theiler_has_x_microorganisms_no_tooltip_trigger = { AMOUNT = 10000 }
+			}
+		}
+	}
+
+#	open_panel = tech_tree
+	type = alert	# High importance
+	alert_group = morgenroete
+}
+
+theiler_biologist_can_find_pathogen_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/invention_icons/theiler_microbiology_tech.dds"
+
+	valid = {
+		theiler_has_active_biologist_no_tooltip_trigger = yes
+		#Find Pathogen
+		NOT = { has_variable = theiler_biologist_action_active_var }
+		has_technology_researched = theiler_microbiology_tech
+		has_technology_researched = aniline
+		panum_has_miasma_theory_trigger = no
+		OR = {
+			theiler_has_achromatic_microscope_trigger = yes
+			theiler_has_electron_microscope_trigger = yes
+		}
+		theiler_can_find_pathogen_trigger = yes
+	}
+
+#	open_panel = tech_tree
+	type = alert	# High importance
+	alert_group = morgenroete
+}
+
+theiler_biologist_can_create_vaccine_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/invention_icons/theiler_microbiology_tech.dds"
+
+	valid = {
+		theiler_has_active_biologist_no_tooltip_trigger = yes
+		NOT = { has_variable = theiler_biologist_action_active_var }
+		has_technology_researched = theiler_microbiology_tech
+		theiler_can_create_vaccine_trigger = yes
+		theiler_has_x_microorganisms_no_tooltip_trigger = { AMOUNT = 10000 }
+	}
+
+#	open_panel = tech_tree
+	type = alert	# High importance
+	alert_group = morgenroete
+}

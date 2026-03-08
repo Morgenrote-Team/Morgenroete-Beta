@@ -1,14 +1,58 @@
-Changelog fot 2.7.0f "Pasteur"
+Changelog fot 2.7.1 "Willems"
 
-Fixes:
-- The number of remaining buildings is now properly updated when you change the list.
-- The Worldcup alert should now work properly.
+Art:
+- Replaced an AI loading screen with one by Angel depicting the construction of a Viaduct of the Schöllenenbahn (CC4.0 BY-NC angel): https://x.com/angelsrntreal/status/2029535306220011934
+
+Characters:
+- Chote Suvatti (random Thai Naturalist) (Thanks PPSyrius)
+- Jules Bordet (random Belgian Biologist and Physician)
+- Barthélemy Charles Joseph Dumortier (random Belgian Biologist)
+- Octave Gengou (random Belgian Biologist and Physician)
+- André Gratia (random Belgian Biologist and Phsysician)
+- Émile van Ermengem (random Belgian Biologist)
+- Évariste Warlomont (random Belgian Biologist and Physician)
+- Louis Willems (random Belgian Biologist)
+- Uai Ketsing (random Thai Biologist and Physician) (Thanks PPSyrius)
+- Johan Arrhenius (random Swedish Biologist)
+- Arvid Bergman (random Swedish Biologist)
+- Arvid Lindau (random Swedish Biologist and Physician)
+- Johan Lindeqvist (random Swedish Biolgoist)
+- Edvard Selander (random Swedish Biologist and Physician)
+- Louis Berckmans (random Belgian Physician and Biologist)
+- Léon Fredericq (random Belgian Physician and Biologist)
+- Ferdinand Augustijn Snellaert (random Belgian Physician)
+- Kong Thawornwet (random Thai Physician) (Thanks PPSyrius)
+- Christopher Hewetson (Random British Composer) (Thanks PPSyrius)
+- Pyotr Shchurovsky (Random Russian Composer) (Thanks PPSyrius)
+- Chalerm Buatang (Random Thai Composer) (Thanks PPSyrius)
+- Chuangchan Chankana (Random Thai Composer & Writer) (Thanks PPSyrius)
+- Chit Chittasewi (Random Thai Composer) (Thanks PPSyrius)
+- Un Duriyachiwin (Random Thai Composer) (Thanks PPSyrius)
+- Mi Duriyangkul (Random Thai Composer) (Thanks PPSyrius)
+- Thewaprasit Parttayakason (Random Thai Composer) (Thanks PPSyrius)
+- Tua Parttayakason (Random Thai Composer) (Thanks PPSyrius)
+- Plaek Prasansap (Random Thai Composer) (Thanks PPSyrius)
+- Sorn Silpabanleng (Random Thai Composer) (Thanks PPSyrius)
+- Eua Sunthornsanan (Random Thai Composer) (Thanks PPSyrius)
+- Cham Sunthornwathin (Random Thai Composer) (Thanks PPSyrius)
+- Choi Sunthornwathin (Random Thai Composer) (Thanks PPSyrius)
+- Montri Tramote (Random Thai Composer) (Thanks PPSyrius)
+- Piti Wathayakon (Random Thai Composer) (Thanks PPSyrius)
 
 Changes:
-- Reworked the Chemists improvement project to use the new building queue system.
-- Reworked the Find Oil project to use the new building queue system.
-- Physician alerts for foreign disease options no longer trigger when physician is busy.
-- Mountaineer training journal no longer automatically pins to the sidebar, can be cancelled, and does not block alerts for other more important activities.
+- Trying to find a Pathogen will no longer require you to spend the Microorganisms (as this made it too hard to find them).
+- Ronald Ross and Élie Metchnikoff can now spawn as a Biologist.
+- non historical Biologists now start with a specialization (Botanist, Zoologist, Microbiologist, Epidemiologist)
+- Raised the amount of Microorganisms you get from the Journal Entry.
 
-Localization:
-- Added better flavor texts for pharmaceuticals events (thanks to PeacefuICitizen).
+Fixes:
+- You no longer get more than 1000 mechanical points.
+- The balloonist should no longer be able to get more than 300 experience.
+- The AI will now be more likely to try to get a Biologist.
+- The Biologist Rating tooltip now correctly says Zoologist if the Biologist has the Zoologist trait.
+
+Performance:
+- Improved performance of the mechanical points (they are now added half yearly instead of monthly).
+- Improved performance of the full of lies journal entry by removing the any_scope_pop trigger.
+- Improved performance of ballooning events by only firing them half yearly.
+- Various small performance improvements.

@@ -2258,7 +2258,7 @@ vikelas_add_circuit_effect = {
 		}
 		random_scope_state = {
 			limit = {
-				state_region = s:STATE_FLORIDA 
+				state_region = s:STATE_FLORIDA
 			}
 			create_building = {
 				building = building_vikelas_circuit
@@ -2679,10 +2679,16 @@ vikelas_add_circuit_effect = {
 ######MECHANIC######
 
 #Monthly Mechanical Innovation
-vikelas_monthly_mechanical_innovation_effect = {
+vikelas_half_yearly_mechanical_innovation_effect = {
 	if = { #Effect only gets executed if there is a mechanist
 		limit = {
 			has_variable = vikelas_mechanic_var
+			trigger_if = {
+				limit = {
+					has_variable = vikelas_mechanical_innovation_var
+				}
+				var:vikelas_mechanical_innovation_var < 1000
+			}
 		}
 		#Set up
 		if = {
@@ -2709,12 +2715,14 @@ vikelas_monthly_mechanical_innovation_effect = {
 		}
 
 		#Add monthly variable to the total variable
-		if = {
-			limit = { var:vikelas_estimated_monthly_mechanical_innovation_var > 0 }
-			change_variable = {
-				name = vikelas_mechanical_innovation_var
-				add = var:vikelas_estimated_monthly_mechanical_innovation_var
-			}
+		change_variable = {
+			name = vikelas_mechanical_innovation_var
+			add = var:vikelas_estimated_monthly_mechanical_innovation_var
+		}
+		clamp_variable = {
+			name = vikelas_mechanical_innovation_var
+			min = 0
+			max = 1000
 		}
 	}
 }
@@ -2723,7 +2731,7 @@ vikelas_monthly_mechanical_innovation_effect = {
 vikelas_monthly_engine_mechanic_progress_effect = {
 	if = { #Effect only gets executed if there is a mechanist
 		limit = {
-			has_journal_entry = je_vikelas_mechanic_engine
+			has_variable = vikelas_mechanic_var
 		}
 		#Set up
 		if = {
@@ -2764,7 +2772,7 @@ vikelas_monthly_engine_mechanic_progress_effect = {
 vikelas_monthly_safety_mechanic_progress_effect = {
 	if = { #Effect only gets executed if there is a mechanist
 		limit = {
-			has_journal_entry = je_vikelas_mechanic_safety
+			has_variable = vikelas_mechanic_var
 		}
 		#Set up
 		if = {
@@ -2805,7 +2813,7 @@ vikelas_monthly_safety_mechanic_progress_effect = {
 vikelas_monthly_body_mechanic_progress_effect = {
 	if = { #Effect only gets executed if there is a mechanist
 		limit = {
-			has_journal_entry = je_vikelas_mechanic_body
+			has_variable = vikelas_mechanic_var
 		}
 		#Set up
 		if = {
