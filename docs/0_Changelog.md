@@ -15,6 +15,7 @@ Characters:
 - Uai Ketsing (random Thai Biologist and Physician) (Thanks PPSyrius)
 - Johan Arrhenius (random Swedish Biologist)
 - Arvid Bergman (random Swedish Biologist)
+- John Forssman (random Swedish Biologist and Physician)
 - Arvid Lindau (random Swedish Biologist and Physician)
 - Johan Lindeqvist (random Swedish Biolgoist)
 - Edvard Selander (random Swedish Biologist and Physician)
