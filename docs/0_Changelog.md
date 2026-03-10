@@ -1,4 +1,4 @@
-Changelog for 2.7.1a "Willems"
+Changelog fot 2.7.1c "Willems"
 
 Characters:
 - Burachat Chaiyakorn (random Thai Engineer & Geologist) (Thanks PPSyrius)
