@@ -1,7 +1,4 @@
-Changelog fot 2.7.1d "Willems"
+Changelog fot 2.7.1e "Willems"
 
 Graphics:
-- Replaced an AI loading screen with one by Angel depicting a Naturalist on an Expedition in the Amazon Rainforest (CC4.0 BY-NC angel): https://x.com/angelsrntreal/status/2032127632956146003
-
-Fixes:
-- The Tuberculosis Vaccine now requires the Tuberculosis Pathogen instead of the Cholera Pathogen.
+- Replaced an AI loading screen with one by Angel depicting Drinker Cope and Marsh arguing about where a Dinosaur's head goes (CC4.0 BY-NC angel): https://x.com/angelsrntreal/status/2034604060805111843
