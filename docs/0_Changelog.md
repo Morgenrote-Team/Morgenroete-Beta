@@ -1,10 +1,4 @@
-Changelog fot 2.7.1f "Willems"
+Changelog fot 2.7.1g "Willems"
 
-QoL:
-- The Botanical Expedition now specifies better, why some options might not be available.
-
-Fixes:
-- The Physician should no longer propose to get Strophantine if you do not have Malaria Prevention yet.
-
-Compatibility:
-- Improved Compatibility with Western Clothes Redux (Thaks to 1230james).
+Other:
+- The Olympic games are now using a more simple system to get the Roman Numerals. This allows you to basically play until eternity and still having the correct numbers.
