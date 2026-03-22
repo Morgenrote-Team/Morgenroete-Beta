@@ -5,3 +5,6 @@ QoL:
 
 Fixes:
 - The Physician should no longer propose to get Strophantine if you do not have Malaria Prevention yet.
+
+Compatibility:
+- Improved Compatibility with Western Clothes Redux (Thaks to 1230james).
