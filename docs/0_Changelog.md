@@ -31,6 +31,9 @@ Characters:
 - Gustave Zédé (random French Engineer) (Thanks PPSyrius)
 - Arthur Constantin Krebs (random French Engineer) (Thanks PPSyrius)
 
+Quality of Life:
+- Added a Concept for Academic Confusion so you can easily figure out why your university has a negative modifier.
+
 Fixes:
 - The Tooltip for the Mount Everest Expedition now makes more sense.
 - Fixed the Tooltip for the Animal Documentation.
