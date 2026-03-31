@@ -60,7 +60,6 @@ je_agassiz_geological_research = {
 			}
 
 			#Geological Discoveries
-			1000 = curie.10 #Curie 10: Uranium deposits discovered
 			1000 = dubois.72 #Dubois 72: Normal Formation discovered
 			1000 = dubois.73 #Dubois 73: Great Formation discovered
 			1000 = lepsius.1301 #Lepsius 1301: Cave found
@@ -139,55 +138,6 @@ je_agassiz_overlord_geological_team = {
 
 	current_value = {
 		value = var:agassiz_overlord_geological_team_progress_var
-	}
-
-	goal_add_value = {
-		value = 12
-	}
-
-	progressbar = yes
-
-	weight = 30
-}
-
-#Uranium Team
-je_agassiz_overlord_uranium_team = {
-	icon = "gfx/interface/icons/invention_icons/agassiz_geology_tech.dds"
-
-	group = je_group_agassiz_geology
-
-	on_monthly_pulse = {
-		effect = {
-			#Adds the yearly progress to the variable
-			change_variable = {
-				name = agassiz_overlord_uranium_team_progress_var
-				add = 1
-			}
-		}
-	}
-
-	immediate = {
-		set_variable = {
-			name = agassiz_overlord_uranium_team_progress_var
-			value = 0
-		}
-	}
-
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
-
-	on_complete = {
-		trigger_event = {
-			id = agassiz.104
-			popup = yes
-		}
-	}
-
-	current_value = {
-		value = var:agassiz_overlord_uranium_team_progress_var
 	}
 
 	goal_add_value = {
@@ -1279,91 +1229,6 @@ je_agassiz_find_uranium_project = {
 	}
 
 	progressbar = yes
-
-	weight = 30
-
-	should_be_pinned_by_default = yes
-}
-
-#Search Uranium
-je_agassiz_search_uranium_project = {
-	icon = "gfx/interface/icons/goods_icons/curie_uranium.dds"
-
-	scripted_button = agassiz_stop_geologist_project_button
-
-	group = je_group_agassiz_geology
-
-	scripted_progress_bar = agassiz_search_uranium_progress_bar
-
-	immediate = {
-		scope:journal_entry = {
-			add_modifier = {
-				name = agassiz_uranium_search_cost_modifier
-				multiplier = mr_project_cost_medium_value
-			}
-		}
-		set_variable = agassiz_can_stop_active_improvement_project_var #This is used to check if the country has a project already
-	}
-
-	complete = {
-		custom_tooltip = {
-			text = agassiz_search_uranium_progress_bar_at_full_tt
-			je:je_agassiz_search_uranium_project = {
-				"scripted_bar_progress(agassiz_search_uranium_progress_bar)" >= 60
-			}
-		}
-	}
-
-	on_complete = {
-		remove_variable = agassiz_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = agassiz_uranium_search_cost_modifier
-			}
-		}
-
-		agassiz_set_geologist_unbusy_effect = yes
-		trigger_event = {
-			id = curie.11
-			popup = yes
-		}
-	}
-
-	invalid = {
-		OR = {
-			custom_tooltip = {
-				text = je_geologist_dies_tt
-				NOT = {
-					has_variable = agassiz_geologist_var
-				}
-			}
-			custom_tooltip = {
-				text = agassiz_stop_geologist_improving_project_tt
-				OR = {
-					trigger_if = {
-						limit = { is_ai = yes }
-						agassiz_has_geologist_trigger = yes
-						agassiz_has_geologist_no_tooltip_trigger = yes
-					}
-					has_variable = agassiz_stop_geologist_improving_project_var
-				}
-			}
-		}
-	}
-
-	on_invalid = {
-		remove_variable = agassiz_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = agassiz_uranium_search_cost_modifier
-			}
-		}
-
-		#Those should be removed in every geology je
-
-		remove_variable = agassiz_stop_geologist_improving_project_var
-		agassiz_set_geologist_unbusy_effect = yes
-	}
 
 	weight = 30
 
