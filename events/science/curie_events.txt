@@ -10,9 +10,133 @@ namespace = curie
 
 ###################
 
+#Curie 10: Uranium deposits discovered
+#Curie 11: Foreign Uranium deposits discovered
 #Curie 12: Joachimsthal
 
 #################################################################################
+
+#Curie 10: Uranium deposits discovered
+curie.10 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.10.t
+
+	desc = curie.10.d
+
+	flavor = curie.10.f
+	
+	duration = 3
+
+	event_image = {
+		video = "europenorthamerica_gold_prospectors"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		agassiz_has_active_geologist_no_tooltip_trigger = yes
+		has_technology_researched = verrier_radioactivity_tech
+		any_scope_state = {
+			curie_is_uranium_state = yes
+			NOT = {
+				has_state_trait = curie_state_trait_uranium
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				curie_is_uranium_state = yes
+				NOT = {
+					has_state_trait = curie_state_trait_uranium
+				}
+			}
+			save_scope_as = curie_uranium_state_scope
+			state_region = {
+				add_state_trait = curie_state_trait_uranium
+			}
+		}
+	}
+
+	option = {	#Bright prospects!
+		name = curie.10.g
+		default_option = yes
+		geologist_experience_gain_effect = { AMOUNT = 15 }
+		scope:curie_uranium_state_scope = {
+			curie_add_x_uranium_deposits_effect = {
+				AMOUNT = 5
+			}
+		}
+	}
+}
+
+#Curie 11: Foreign Uranium deposits discovered
+curie.11 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.11.t
+
+	desc = curie.11.d
+
+	flavor = curie.11.f
+	
+	duration = 3
+
+	event_image = {
+		video = "europenorthamerica_gold_prospectors"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		any_state = {
+			curie_is_uranium_state = yes
+			NOT = {
+				has_state_trait = curie_state_trait_uranium
+			}
+		}
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				curie_is_uranium_state = yes
+				NOT = {
+					has_state_trait = curie_state_trait_uranium
+				}
+			}
+			save_scope_as = curie_uranium_state_scope
+			state_region = {
+				add_state_trait = curie_state_trait_uranium
+			}
+		}
+	}
+
+	option = {	#Build a uranium mine right there!
+		name = curie.11.g
+		default_option = yes
+		geologist_experience_gain_effect = { AMOUNT = 15 }
+		scope:curie_uranium_state_scope = {
+			curie_add_x_uranium_deposits_effect = {
+				AMOUNT = 5
+			}
+			create_building = {
+				building = building_uranium_mine
+				level = 1
+			}
+		}
+	}
+}
 
 #Curie 12: Joachimsthal
 curie.12 = {
@@ -37,22 +161,28 @@ curie.12 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	trigger = {
-		NOT = {
-			has_global_variable = curie_joachimsthal_global_var
-		}
+		has_game_rule = curie_historical_uranium_deposits_rule
 		has_technology_researched = verrier_radioactivity_tech
 		any_scope_state = {
 			state_region = s:STATE_BOHEMIA
+			NOT = {
+				has_state_trait = curie_state_trait_uranium
+			}
 		}
 	}
 
 	immediate = {
-		set_global_variable = curie_joachimsthal_global_var
 		random_scope_state = {
 			limit = {
 				state_region = s:STATE_BOHEMIA
+				NOT = {
+					has_state_trait = curie_state_trait_uranium
+				}
 			}
 			save_scope_as = curie_uranium_state_scope
+			state_region = {
+				add_state_trait = curie_state_trait_uranium
+			}
 		}
 	}
 
@@ -60,6 +190,9 @@ curie.12 = {
 		name = curie.12.g
 		default_option = yes
 		scope:curie_uranium_state_scope = {
+			curie_add_x_uranium_deposits_effect = {
+				AMOUNT = 5
+			}
 			create_building = {
 				building = building_uranium_mine
 				level = 1
