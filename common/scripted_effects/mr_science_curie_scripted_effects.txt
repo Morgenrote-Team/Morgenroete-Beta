@@ -6,309 +6,296 @@
 
 ##########################
 
-#Use in State Scope to add additional Uranium Deposit Levels
-curie_add_x_uranium_deposits_effect = {
-	# AMOUNT = Amount of Levels to add
-
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = amount
-		value = $AMOUNT$
-	}
-	save_scope_as = uranium_state
-
-	#This part is used to display an accurate tooltip (Gain, loss, etc.)
-	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ < -1 }
-		custom_tooltip = curie_add_x_uranium_deposits_minus_x_tt
-	}
-	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ = -1 }
-		custom_tooltip = curie_add_x_uranium_deposits_minus_1_tt
-	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = curie_add_x_uranium_deposits_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ = 1 }
-		custom_tooltip = curie_add_x_uranium_deposits_plus_1_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 1 }
-		custom_tooltip = curie_add_x_uranium_deposits_plus_x_tt
-	}
-
-	hidden_effect = {
-		set_local_variable = error_protection_local_var #Prevents Errors in preview
-		if = {
-			limit = { has_local_variable = error_protection_local_var } #Prevents Errors in preview
-
-			#Somehow I needed this for the effect to execute right.
-			root = {
-				set_variable = {
-					name = curie_uranium_state_var
-					value = prev
-				}
-			}
-
-			# This variable is used to keep track of the level of Uranium
-			if = {
-				limit = {
-					NOT = {
-						has_variable = curie_state_uranium_level_var
-					}
-				}
-				set_variable = {
-					name = curie_state_uranium_level_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = curie_state_uranium_level_var
-				add = $AMOUNT$
-			}
-
-			# This part of the effect applies the new Level to the state modifier
-			remove_modifier = curie_uranium_ressources_modifier
-			add_modifier = {
-				name = curie_uranium_ressources_modifier
-				multiplier = root.var:curie_uranium_state_var.var:curie_state_uranium_level_var
-			}
-
-			#Removes Variable again
-			ROOT = {
-				remove_variable = curie_uranium_state_var
-			}
-		}
-	}
-}
+#Add Historical Uranium Deposits at game start
 
 curie_add_historical_uranium_deposits_effect = {
-	every_state = {
-		limit = {
-			OR = {
-				#NORTH AMERICA
-				state_region = s:STATE_COLORADO #Central City/Uravan Mineral Belt
-				state_region = s:STATE_NORTHWEST_TERRITORIES #Port Radium
-				state_region = s:STATE_ONTARIO #Fission Mine (Elliot Lake)
-				state_region = s:STATE_SASKATCHEWAN #Rabbit Lake (1968)
 
-				#SOUTH AMERICA
-
-				#EUROPE
-				state_region = s:STATE_BOHEMIA #Joachimsthal
-				state_region = s:STATE_SAXONY #Schlema (Johanngeorgenstadt)
-				state_region = s:STATE_AUVERGNE_LIMOUSIN #Massif Central
-				state_region = s:STATE_WEST_COUNTRY #St Stephen-in-Brannel
-				state_region = s:STATE_BEIRA #Urgeiriça
-				state_region = s:STATE_BEKES #Băița (1950)
-				state_region = s:STATE_WEST_KARELIA #Pervomayskoye (1950)
-
-				#AFRICA
-				state_region = s:STATE_KATANGA #Shinkolobwe
-				state_region = s:STATE_HEREROLAND #Rössing (updated state location by Grey)
-				state_region = s:STATE_TRANSVAAL #Witwatersrand (early 1940's - also so, so much uranium)
-				state_region = s:STATE_NIGER #Arlit (1969)
-
-				#ASIA
-				state_region = s:STATE_KIRGHIZIA #Tyuya-Muyun
-				state_region = s:STATE_KOLYMA #Butugychag (1945)
-				state_region = s:STATE_PUNJAB #Baghalchur (1959)
-				state_region = s:STATE_BIHAR #Jaduguda (1951)
-
-				#AUSTRALIA
-				state_region = s:STATE_SOUTH_AUSTRALIA #Radium Hill
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
-	}
-}
-
-curie_add_random_uranium_deposits_effect = {
 	#NORTH AMERICA
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_north_america
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_NORTHWEST_TERRITORIES = { #Port Radium 42
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 41
+    	}
 	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_north_america
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_COLORADO = { #Central City/Uravan Mineral Belt 30
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 29
+    	}
 	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_north_america
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_GREENLAND = { #Kvanefjeld 5
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 4
+    	}
 	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_north_america
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
-	}
+	#state_region = s:STATE_ONTARIO #Fission Mine (Elliot Lake) Historically not possible in our time frame: It would need a kind of technology to find it which does not fit in the Victorian timeframe; To deep to get it
+	#state_region = s:STATE_SASKATCHEWAN #Rabbit Lake (1968) Historically not possible in our time frame: geochemical search
+
 	#SOUTH AMERICA
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_south_america
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_TUCUMAN = { #Guandacol 22
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 21
+    	}
 	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_south_america
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_SANTIAGO = { #Tambillos 15
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 14
+    	}
 	}
+	s:STATE_RIO_NEGRO = { #Malargüe 11
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 10
+    	}
+	}
+	s:STATE_POTOSI = { #Potosi 7
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 6
+    	}
+	}
+
 	#EUROPE
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_europe
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_CHERSON = { #Zhovti Vody 40
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 39
+    	}
 	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_europe
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_NORTHERN_THRACE = { #Bukhovo 40
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 39
+    	}
 	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_europe
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_BOHEMIA = { #Joachimsthal 38
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 37
+    	}
 	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_europe
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_BEKES = { #Băița 35
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 34
+    	}
 	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_europe
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_SAXONY = { #Schlema/Johanngeorgenstadt 32
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 31
+    	}
 	}
+	s:STATE_LOWER_SILESIA = { #Schmiedeberg (Kowary) 25
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 24
+    	}
+	}
+	s:STATE_OLD_CASTILE = { #Ciudad Rodrigo 22
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 21
+    	}
+	}
+	s:STATE_AUVERGNE_LIMOUSIN = { #Saint-Sylvestre 20
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 19
+    	}
+	}
+	s:STATE_GOTALAND = { #Ranstad 18
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 17
+    	}
+	}
+	s:STATE_EASTERN_SERBIA = { #Kalna 12
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 11
+    	}
+	}
+	s:STATE_BEIRA = { #Urgeiriça 10
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 9
+    	}
+	}
+	s:STATE_WEST_COUNTRY = { #St Stephen-in-Brannel 8
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 7
+    	}
+	}
+	s:STATE_WESTERN_NORWAY = { #Everify (Bamble) 5
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 4
+    	}
+	}
+	s:STATE_SARDINIA = { #Monte Arcuentu 2
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 1
+    	}
+	}
+
 	#AFRICA
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_africa
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_KATANGA = { #Shinkolobwe 50 [This is the Jackpot]
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 49
+    	}
 	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_africa
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_TRANSVAAL = { #Witwatersrand 28
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 27
+    	}
 	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_africa
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_MARRAKECH = { #Khouribga 15
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 14
+    	}
 	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_africa
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_HEREROLAND = { #Rössing 13 [Not as good as today because of technology]]
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 12
+    	}
 	}
+	s:STATE_SOUTH_MADAGASCAR = { #Antsirabe 10
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 9
+    	}
+	}
+	s:STATE_UPPER_EGYPT = { #East Desert Range 8
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 7
+    	}
+	}
+	#state_region = s:STATE_NIGER #Arlit (1969) Historically not possible in our time frame: It would nee a kind of unrealistic infrastructure
+
 	#ASIA
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_east_asia
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_FERGANA = { #Taboshar 35 [This is today Tajikistan, but geographically, it would be part of Fergana]
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 34
+    	}
 	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_east_asia
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_GUANGDONG = { #Zhu Guang Shan 28
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 27
+    	}
 	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_east_asia
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_BIHAR = { #Jaduguda 26
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 25
+    	}
 	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_east_asia
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_TRAVANCORE = { #Travancore 22
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 21
+    	}
 	}
+	s:STATE_STATE_SHENGJING = { #Haicheng 22
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 21
+    	}
+	}
+	s:STATE_KIRGHIZIA = { #Tyuya-Muyun 15
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 14
+    	}
+	}
+	s:STATE_ALTAI = { #Altai 10
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 9
+    	}
+	}
+	s:STATE_ORISSA = { #Singhbhum 10
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 9
+    	}
+	}
+	s:STATE_ISFAHAN = { #Saghand 5
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 4
+    	}
+	}
+	s:STATE_KOLYMA = { #Butugychag 5 [In Theory, it's gigantic, but the problems of Siberia will minimize this]
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 4
+    	}
+	}
+	#state_region = s:STATE_PUNJAB #Baghalchur (1959) Historically not possible in our time frame: It would need a kind of technology to find it which does not fit in the Victorian timeframe
+
 	#AUSTRALIA
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_east_asia
-			NOT = {
-				has_variable = curie_has_uranium_deposit_var
-			}
-		}
-		set_variable = curie_has_uranium_deposit_var
+	s:STATE_NORTHERN_TERRITORY = { #Rum Jungle 38
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 34
+    	}
+	}
+	s:STATE_SOUTH_AUSTRALIA = { #Radium Hill/Radium Ridge 33
+    	add_resource_potential = building_uranium_mine
+    	change_resource_potential = {
+        	type = building_uranium_mine
+        	amount = 32
+    	}
 	}
 }
