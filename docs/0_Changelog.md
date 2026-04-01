@@ -36,7 +36,10 @@ Uranium
 - Removed historical and random Uranium deposits.
 - Geologists no longer needed to find Uranium (removed events).
 - Removed diplomatic actions to search Uranium in subjects.
-- Added High Quality Uranium State Traits to historical sites which were used in the Victorian Timeframe to undelrine the importance.
+- Added High Quality Uranium State Traits to historical sites which were used in the Victorian Timeframe to underline the importance.
+- Pneumatic tools adds 15% Uranium output bonus.
+- The Nuclear Research Institute needs 25 Electricity, 25 Prints and 50 Uranium.
+- The Cyclotron needs 100 Electricity and 50 Uranium.
 
 Fixes:
 - Moved Pico Bolivar back to Zulia after it shifted to Antiocquia due to unexpected continental shift.
