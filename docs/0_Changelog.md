@@ -31,8 +31,16 @@ Added new historical/unique masterpieces for the following composers:
 - Sullivan
 - Williams
 
+Cydia
+- Our friendly little parasite has now a bigger territory in Europe. Sorry, my dear friends in the Balkans and Eastern Europe!
+
 Uranium
 - Uranium mines now work like every other resource; therefore, many things have been removed, because they were workarounds.
+- Added High Quality Uranium State Traits to historical sites which were used in the Victorian Timeframe to underline the importance.
+- Pneumatic tools adds 15% Uranium output bonus.
+- The Nuclear Research Institute needs 25 Electricity, 25 Prints and 50 Uranium.
+- The Cyclotron needs 100 Electricity and 50 Uranium.
+- Updated Uranium Mine Icon.
 - Removed historical and random Uranium deposits.
 - Geologists no longer needed to find Uranium (removed events).
 - Removed diplomatic actions to search Uranium in subjects.
