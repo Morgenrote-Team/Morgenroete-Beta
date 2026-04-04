@@ -1,0 +1,74 @@
+﻿
+##############################
+# ANDERSSON JOURNAL ENTRIES  #
+##############################
+
+#by Marco Dandolo
+
+##############################
+
+######Microorganism Research######
+
+je_andersson_speology = {
+	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
+
+	group = je_group_andersson_anthropology
+
+	immediate = {
+		set_variable = {
+			name = theiler_estimated_microorganisms_on_microorganisms_research_var
+			value = theiler_microorganisms_research_monthly_microorganisms_value
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			#Adds microorganismss each month
+			if = {
+				limit = {
+					theiler_has_active_biologist_no_tooltip_trigger = yes
+				}
+
+				theiler_add_x_microorganisms_effect = { AMOUNT = theiler_microorganisms_research_monthly_microorganisms_value }
+				#Estimated yield
+				set_variable = {
+					name = theiler_estimated_microorganisms_on_microorganisms_research_var
+					value = theiler_microorganisms_research_monthly_microorganisms_value
+				}
+			}
+			#Keeps track of time spent with microorganism research
+			theiler_add_x_months_microorganism_research_effect = { AMOUNT = 1 }
+			var:theiler_biologist_var ?= {
+				if = {
+					limit = {
+						NOT = { has_trait = theiler_microbiologist }
+					}
+					random_list = {
+						36 = {
+							trigger = { var:theiler_biologist_num_months_microorganism_var < 60 }
+						}
+						1 = {
+							add_trait = theiler_microbiologist
+							modifier = {
+								add = var:theiler_biologist_num_improved_ranching_var
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = andersson_anthropologist_dies_tt
+			andersson_has_anthropologist = no
+		}
+	}
+
+	on_invalid = {
+		remove_variable = theiler_estimated_microorganisms_on_microorganisms_research_var
+	}
+
+	weight = 50
+}
