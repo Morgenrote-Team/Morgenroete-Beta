@@ -5,7 +5,6 @@
 ############################################################################
 
 #All Academics (and Special Characters) should have a variable assigned to the character:
-# mr_is_composer_var	-->	Composer
 # mr_is_writer_var		-->	Writer
 # mr_is_painter_var		-->	Painter
 
@@ -183,57 +182,17 @@ artists_add_x_artistic_progress = {
 #This effect is used to set up the list of travelling composers
 artists_set_up_travelling_composer_list_effect = {
 	clear_global_variable_list = mr_travelling_composer_global_list
-	ordered_character_in_void = {
+	ordered_character = {
 		order_by = var:elgar_composer_experience
 		check_range_bounds = no
 
 		limit = {
-			has_variable = mr_is_travelling_composer_var
+			has_role = character_role_elgar_composer
+			NOT = { has_modifier = artists_character_is_official_composer_modifier }
 		}
 		add_to_global_variable_list = {
 			name = mr_travelling_composer_global_list
 			target = this
-		}
-	}
-}
-
-#This effect is used to remove the travelling composers as there shouldn't be too many.
-artists_remove_travelling_composer_from_void_effect = {
-	if = {
-		#This part is used to limit the effect to only one country
-		limit = {
-			NOT = { has_global_variable = artists_travelling_composer_remove_global_var }
-		}
-		set_global_variable = {
-			name = artists_travelling_composer_remove_global_var
-			days = 15
-		}
-
-		#This is used to keep track of the current number
-		set_local_variable = {
-			name = current_number
-			value = 0
-		}
-
-		#This part gets the travelling composers ordered by experience.
-		# The Composers that are not historical and are over the limit will be deleted.
-		ordered_character_in_void = {
-			limit = { has_variable = mr_is_travelling_composer_var }
-			order_by = var:elgar_composer_experience
-			check_range_bounds = no
-
-			change_local_variable = {
-				name = current_number
-				add = 1
-			}
-
-			if = {
-				limit = {
-					local_var:current_number > 20
-					is_historical = no
-				}
-				free_character_from_void = no
-			}
 		}
 	}
 }
@@ -414,8 +373,7 @@ elgar_remove_new_composer_effect = {
 
 #Sets Composer as Travelling composer
 elgar_set_composer_travelling_composer = {
-	remove_variable = mr_is_composer_var
-	set_variable = mr_is_travelling_composer_var
+	remove_modifier = artists_character_is_official_composer_modifier
 
 	#Is used to prevent a country from getting that composer immediately afterwards
 	set_variable = {
