@@ -1,5 +1,12 @@
 Changelog fot 2.8.0 "XXX"
 
+Bicycles
+- Added Bicycles Tech
+- Bicycles Tech is needed for MO Bicycle Reconassaince
+- Vulcanization, not Rubber Mastication, is needed for the "Pedals on the Pavement" event
+- Bicycle Tech, not Vulcanization, is needed for the "The Bicycle of the Future" event
+
+
 Composer Masterpieces
 Added new historical/unique masterpieces for the following composers:
 - Bizet
