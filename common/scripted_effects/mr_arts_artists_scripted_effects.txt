@@ -6,7 +6,6 @@
 
 #All Academics (and Special Characters) should have a variable assigned to the character:
 # mr_is_writer_var		-->	Writer
-# mr_is_painter_var		-->	Painter
 
 ######Artistic Progress######
 
@@ -197,47 +196,6 @@ artists_set_up_travelling_composer_list_effect = {
 	}
 }
 
-#This effect is used to remove the independent painters as there shouldn't be too many.
-artists_remove_independent_painter_from_void_effect = {
-	if = {
-		#This part is used to limit the effect to only one country
-		limit = {
-			NOT = { has_global_variable = artists_independent_painter_remove_global_var }
-		}
-		set_global_variable = {
-			name = artists_independent_painter_remove_global_var
-			days = 15
-		}
-
-		#This is used to keep track of the current number
-		set_local_variable = {
-			name = current_number
-			value = 0
-		}
-
-		#This part gets the independent artists ordered by experience.
-		# The Composers that are not historical and are over the limit will be deleted.
-		ordered_character_in_void = {
-			limit = { has_variable = mr_is_independent_painter }
-			order_by = var:klimt_painter_experience
-			check_range_bounds = no
-
-			change_local_variable = {
-				name = current_number
-				add = 1
-			}
-
-			if = {
-				limit = {
-					local_var:current_number > 20
-					is_historical = no
-				}
-				free_character_from_void = no
-			}
-		}
-	}
-}
-
 #This effect is used to set up the list of local writers
 artists_set_up_local_writer_list_effect = {
 	clear_variable_list = mr_local_writers_list
@@ -268,7 +226,8 @@ artists_set_up_independent_painter_list_effect = {
 		check_range_bounds = no
 
 		limit = {
-			has_variable = mr_is_independent_painter
+			has_role = character_role_elgar_composer
+			NOT = { has_modifier = artists_character_is_official_painter_modifier }
 		}
 		add_to_global_variable_list = {
 			name = mr_independent_painter_global_list
@@ -880,13 +839,11 @@ set_mr_character_to_agitator_character_scope_effect = {
 		#If this is a painter the variable gets removed
 		if = {
 			limit = {
-				has_variable = mr_is_painter_var
+				owner.var:klimt_painter_var ?= this
 			}
-			#Removes the local writer character variable
-			remove_variable = mr_is_painter_var
 
 			#Removes the painter variable
-			root = {
+			owner = {
 				remove_variable = klimt_painter_var
 			}
 		}
@@ -1294,8 +1251,8 @@ void_writer_experience_gain_effect = { #adds XP to the Writer
 
 #This effect kills the current painter
 kill_painter_effect = {
-	var:klimt_painter_var = {
-		free_character_from_void = no
+	var:klimt_painter_var ?= {
+		kill_character = yes
 	}
 
 	remove_variable = klimt_painter_var
@@ -1310,8 +1267,7 @@ set_painter_independent_painter_effect = {
 			text = set_painter_independent_painter_effect_tt
 
 			var:klimt_painter_var = {
-				remove_variable = mr_is_painter_var
-				set_variable = mr_is_independent_painter
+				remove_modifier = artists_character_is_official_painter_modifier
 				add_to_global_variable_list = {
 					name = mr_independent_painter_global_list
 					target = this
@@ -1324,9 +1280,8 @@ set_painter_independent_painter_effect = {
 }
 
 #Sets an Painter as an independent Painter
-gaudi_set_painter_independent_painter = {
-	remove_variable = mr_is_painter_var
-	set_variable = mr_is_independent_painter
+klimt_set_painter_independent_painter_character_scope_effect = {
+	remove_modifier = artists_character_is_official_painter_modifier
 
 	#Is used to prevent a country from getting that Painter immediately afterwards
 	set_variable = {
@@ -1353,13 +1308,17 @@ klimt_set_new_painter_as_painter_effect = {
 			}
 
 			var:klimt_painter_var = {
-				gaudi_set_painter_independent_painter = yes
+				klimt_set_painter_independent_painter_character_scope_effect = yes
 			}
 		}
 
 		set_variable = {
 			name = klimt_painter_var
 			value = scope:klimt_new_painter_scope
+		}
+
+		add_modifier = {
+			name = artists_character_is_official_painter_modifier
 		}
 
 		remove_variable = klimt_new_painter_var
@@ -1380,20 +1339,11 @@ klimt_set_new_painter_as_independent_painter_effect = {
 		}
 
 		scope:klimt_new_painter_scope = {
-			gaudi_set_painter_independent_painter = yes
+			klimt_set_painter_independent_painter_character_scope_effect = yes
 		}
 
 		remove_variable = klimt_new_painter_var
 	}
-}
-
-# Remove new Painter
-klimt_remove_new_painter_effect = {
-	scope:klimt_new_painter_scope = {
-		free_character_from_void = no
-	}
-
-	remove_variable = klimt_new_painter_var
 }
 
 # Used to set up the Experience of a character
