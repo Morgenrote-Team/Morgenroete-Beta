@@ -4,9 +4,6 @@
 
 ############################################################################
 
-#All Academics (and Special Characters) should have a variable assigned to the character:
-# mr_is_writer_var		-->	Writer
-
 ######Artistic Progress######
 
 #This effect is used to add the monthly Artistic Progress
@@ -199,15 +196,13 @@ artists_set_up_travelling_composer_list_effect = {
 #This effect is used to set up the list of local writers
 artists_set_up_local_writer_list_effect = {
 	clear_variable_list = mr_local_writers_list
-	ordered_character_in_void = {
+	ordered_scope_character = {
 		order_by = var:manzoni_writer_experience
 		check_range_bounds = no
 
 		limit = {
-			has_variable = mr_is_local_writer_var
-			var:mr_is_local_writer_var = {
-				this = root
-			}
+			has_variable = manzoni_writer_experience
+			NOT = { has_modifier = artists_character_is_official_writer_modifier }
 		}
 		root = {
 			add_to_variable_list = {
@@ -757,11 +752,7 @@ set_writer_local_writer_effect = {
 			text = manzoni_set_writer_local_writer_tt
 
 			var:manzoni_writer_var = {
-				remove_variable = mr_is_writer_var
-				set_variable = {
-					name = mr_is_local_writer_var
-					value = root
-				}
+				remove_modifier = artists_character_is_official_writer_modifier
 			}
 
 			remove_variable = manzoni_writer_var
@@ -811,28 +802,11 @@ set_mr_character_to_agitator_character_scope_effect = {
 				root.var:manzoni_writer_var ?= this
 			}
 			#Removes writer character variable
-			remove_variable = mr_is_writer_var
+			remove_modifier = artists_character_is_official_writer_modifier
 
 			#Removes the writer variable
 			root = {
 				remove_variable = manzoni_writer_var
-			}
-		}
-
-		#If the writer is a local writer they get removed from the pool
-		if = {
-			limit = {
-				has_variable = mr_is_local_writer_var
-			}
-			#Removes the local writer character variable
-			remove_variable = mr_is_local_writer_var
-
-			#Removes the local writer from the list
-			root = {
-				remove_list_variable = {
-					name = mr_local_writers_list
-					target = prev
-				}
 			}
 		}
 
@@ -921,11 +895,6 @@ set_character_as_local_writer_character_scope_effect = {
 		}
 
 		writer_experience_set_up_effect = yes
-		set_variable = {
-			name = mr_is_local_writer_var
-			value = root
-		}
-		place_character_in_void = 1200
 
 		owner = {
 			artists_set_up_local_writer_list_effect = yes
@@ -977,10 +946,8 @@ manzoni_set_new_writer_local_writer_effect = {
 		text = manzoni_set_new_writer_local_writer_tt
 
 		scope:manzoni_new_writer_scope = {
-			remove_variable = mr_is_writer_var
-			set_variable = {
-				name = mr_is_local_writer_var
-				value = root
+			add_modifier = {
+				name = artists_character_is_official_writer_modifier
 			}
 		}
 
@@ -1033,11 +1000,7 @@ manzoni_set_new_writer_local_writer_other_country_effect = {
 				}
 			}
 
-			remove_variable = mr_is_writer_var
-			set_variable = {
-				name = mr_is_local_writer_var
-				value = scope:manzoni_new_country_scope
-			}
+			remove_modifier = artists_character_is_official_writer_modifier
 			scope:manzoni_new_country_scope = {
 				artists_set_up_local_writer_list_effect = yes
 			}
