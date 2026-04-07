@@ -1,5 +1,11 @@
 Changelog fot 2.8.0 "XXX"
 
+Anthropology
+- Added Cave Paintings
+- Cave Paintings work a little bit like the old Caves: There are historical sites and random sites distributed at the beginning of the game.
+- Cave Paintings may be discovered by Anthropologists when doing Speology. They need to be at least experienced Anthropologists.
+- Historical Cave Paintings which are guaranteed in each game: Utah, Patagonia, Piaui, Asturias, Guyenne, East Sahara, Zululand, Central India, Guangxi, Sulawesi, Western Territories
+
 Bicycles
 - Added Bicycles Tech
 - Bicycles Tech is needed for MO Bicycle Reconassaince
