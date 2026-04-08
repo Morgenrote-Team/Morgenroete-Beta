@@ -14,48 +14,54 @@ je_andersson_speology = {
 
 	group = je_group_andersson_anthropology
 
-	immediate = {
-		set_variable = {
-			name = theiler_estimated_microorganisms_on_microorganisms_research_var
-			value = theiler_microorganisms_research_monthly_microorganisms_value
-		}
-	}
+	scripted_progress_bar = je_andersson_speology_research_progress_bar
 
 	on_monthly_pulse = {
 		effect = {
-			#Adds microorganismss each month
 			if = {
 				limit = {
-					theiler_has_active_biologist_no_tooltip_trigger = yes
+					scope:journal_entry = {
+						"scripted_bar_progress(je_andersson_speology_research_progress_bar)" >= 60
+					}
 				}
 
-				theiler_add_x_microorganisms_effect = { AMOUNT = theiler_microorganisms_research_monthly_microorganisms_value }
-				#Estimated yield
-				set_variable = {
-					name = theiler_estimated_microorganisms_on_microorganisms_research_var
-					value = theiler_microorganisms_research_monthly_microorganisms_value
-				}
-			}
-			#Keeps track of time spent with microorganism research
-			theiler_add_x_months_microorganism_research_effect = { AMOUNT = 1 }
-			var:theiler_biologist_var ?= {
+				#Adds Minerals and Trait
+				anthropologist_experience_gain_effect = { AMOUNT = 10 }
+				andersson_add_x_human_fossils_effect = { AMOUNT = 10 }
 				if = {
 					limit = {
-						NOT = { has_trait = theiler_microbiologist }
-					}
-					random_list = {
-						36 = {
-							trigger = { var:theiler_biologist_num_months_microorganism_var < 60 }
-						}
-						1 = {
-							add_trait = theiler_microbiologist
-							modifier = {
-								add = var:theiler_biologist_num_improved_ranching_var
+						NOT = {
+							var:andersson_anthropologist_var = {
+								has_trait = andersson_speologist
 							}
 						}
 					}
+					var:andersson_anthropologist_var = {
+						add_trait = andersson_speologist
+					}
 				}
+
+				#Reset Anthropologist Research Bar
+				scope:journal_entry = {
+					set_bar_progress = {
+						name = je_andersson_speology_research_progress_bar
+						value = 0
+					}
+				}
+
+				#Notification for Player
+				post_notification = andersson_anthropological_research_notification
 			}
+		}
+
+		random_events = {
+			chance_to_happen = 50
+			chance_of_no_event = {
+				value = 92 #About every 12 months
+			}
+
+			#Anthropological Discoveries
+			10 = andersson.101 #Andersson 101: Anthropological Site found (Cave Paintings)
 		}
 	}
 
@@ -67,7 +73,6 @@ je_andersson_speology = {
 	}
 
 	on_invalid = {
-		remove_variable = theiler_estimated_microorganisms_on_microorganisms_research_var
 	}
 
 	weight = 50
