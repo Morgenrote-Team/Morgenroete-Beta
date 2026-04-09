@@ -35,30 +35,45 @@ mr_anthropologist_speology_active_sgui = {
 	}
 }
 
-#MR_RECALL_ANTHROPOLOGIST_BUTTON
-mr_recall_anthropologist_button_sgui = {
+#MR_ANTHROPOLOGIST_CAVE_EXPLORATION_BUTTON
+mr_anthropologist_cave_exploration_button_sgui = {
+    scope = country
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ACTIVE_ANTHROPOLOGIST_TRIGGER_TT
+			andersson_has_active_anthropologist = yes
+		}
+		custom_tooltip = {
+			text = MR_ANTHROPOLOGIST_HAS_CAVE_TRIGGER_TT
+			andersson_country_has_cave_trigger = yes
+		}
+		
+	}
+	effect = {
+		trigger_event = {
+			id = andersson.201
+			popup = yes
+		}
+		var:andersson_anthropologist_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+		hidden_effect = {
+			set_variable = andersson_cave_exploration_destination_selection_var
+		}
+	}
+}
+
+mr_cave_exploration_active_sgui = {
     scope = country
 	is_shown = {
-		has_modifier = lepsius_cave_examination_modifier
+		OR = {
+			has_journal_entry = je_andersson_cave_exploration_neoanthropus
+			has_journal_entry = je_andersson_cave_exploration_palaeanthropus
+			has_journal_entry = je_andersson_cave_exploration_pithecanthropus
+			has_journal_entry = je_andersson_cave_exploration_australopithecus
+			has_variable = andersson_cave_exploration_destination_selection_var
+		}
 	}
-    is_valid = {
-		always = yes
-    }
-    effect = {
-		if = {
-			limit = { has_variable = andersson_anthropologist_var }
-			var:andersson_anthropologist_var = {
-				set_character_busy_and_immortal = no
-			}
-		}
-		remove_modifier = lepsius_cave_examination_modifier
-		random_scope_state = {
-			limit = {
-				has_modifier = lepsius_cave_examination_state_modifier
-			}
-			remove_modifier = lepsius_cave_examination_state_modifier
-		}
-    }
 }
 
 #MR_ORIGIN_CONGRESS_BUTTON
@@ -106,7 +121,7 @@ mr_origin_congress_button_sgui = {
         }
 		custom_tooltip = {
 			text = MR_ORIGIN_CONGRESS_HUMAN_FOSSIL_TT
-			var:lepsius_total_human_fossil >= 10
+			var:andersson_total_human_fossil >= 10
 		}
 		custom_tooltip = {
 			text = MR_ORIGIN_CONGRESS_SPECIAL_HUMAN_FOSSIL_TT

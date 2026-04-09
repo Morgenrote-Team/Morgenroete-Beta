@@ -276,3 +276,74 @@ andersson.105 = {
 		}
 	}
 }
+
+#Andersson 201: Cave Exploration Destinantion
+
+andersson.201 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = andersson.201.t
+	desc = andersson.201.d
+	flavor = andersson.201.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:andersson_anthropologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:andersson_anthropologist_var ?= {
+			save_scope_as = andersson_anthropologist_scope
+		}
+	}
+
+	option = {	#Neoanthropus Cave
+		name = andersson.201.h
+		trigger = {
+			andersson_country_has_neoanthropus_cave = yes
+			NOT = {
+				has_journal_entry = je_andersson_cave_exploration_neoanthropus
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+		
+		ai_chance = {
+			base = 1
+			#Focus on North America if less North American Bones than total possible
+			modifier = {
+				trigger = {
+					andersson_has_maximum_neoanthropus_bones_trigger = no
+				}
+				add = 100
+			}
+		}
+	}
+
+	option = {	#Nevermind
+		name = andersson.201.g
+		default_option = yes
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			remove_variable = andersson_cave_exploration_destination_selection_var
+		}
+	}
+}
