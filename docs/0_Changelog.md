@@ -1,6 +1,7 @@
 Changelog fot 2.8.0 "XXX"
 
 Anthropology
+- Anthropology tech depends now on Paleontology and Ethnology; it was Paleontology and Early Archaoelogy before.
 - Added Cave Paintings
 - Cave Paintings work a little bit like the old Caves: There are historical sites and random sites distributed at the beginning of the game.
 - Cave Paintings may be discovered by Anthropologists when doing Speology. They need to be at least experienced Anthropologists.
@@ -12,8 +13,7 @@ Bicycles
 - Vulcanization, not Rubber Mastication, is needed for the "Pedals on the Pavement" event
 - Bicycle Tech, not Vulcanization, is needed for the "The Bicycle of the Future" event
 
-
-Composer Masterpieces
+Composer
 Added new historical/unique masterpieces for the following composers:
 - Bizet
 - Borodin
@@ -46,6 +46,10 @@ Added new historical/unique masterpieces for the following composers:
 
 Cydia
 - Our friendly little parasite has now a bigger territory in Europe. Sorry, my dear friends in the Balkans and Eastern Europe!
+
+Ethnology
+- Added Ethnology tech.
+- Moved -25% infamy generation against unrecognized from Civilizing Mission to Ethnology.
 
 Uranium
 - Uranium mines now work like every other resource; therefore, many things have been removed, because they were workarounds.
