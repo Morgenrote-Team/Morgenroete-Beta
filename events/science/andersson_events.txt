@@ -10,9 +10,159 @@ namespace = andersson
 
 ###################
 
+#Andersson 10: Institute of Anthropology & Ethnology
+
+#################################################
+
+### Neoanthropus "True Man" ###
+
+#Andersson 21: Vero Man
+#Andersson 22: Lagoa Santa Man
+#Andersson 23: Cro-Magnon Man
+#Andersson 24: Boskop Man
+#Andersson 25: Tianyuan Man
+#Andersson 26: Talgai Man
+
+### Palaeanthropus "Cave Man" ###
+
+#Andersson 31: Neanderthal Man
+#Andersson 32: Gibraltar Man
+#Andersson 33: Spy Man
+#Andersson 34: Krapina Man
+#Andersson 35: Galilee Man
+
+### Pithecanthropus "Pre-Man" ###
+
+#Andersson 41: Heidelberg Man
+#Andersson 42: Rhodesian Man
+#Andersson 43: Peking Man
+#Andersson 44: Java Man
+
+### Australopithecus ###
+
+#Andersson 51: Taung Child
+
+###############################################
+
+### Anthropological Sites ###
+
 #Andersson 101: Anthropological Site found (Cave Paintings)
+#Andersson 102: Anthropological Site found (Neoanthropus)
+#Andersson 103: Anthropological Site found (Palaeanthropus)
+#Andersson 104: Anthropological Site found (Pithecanthropus)
+#Andersson 105: Anthropological Site found (Australopithecus)
+
+#Andersson 201: Cave Exploration Destinantion
+#Andersson 211: Cave Exploration Finished
 
 #################################################################################
+
+#Andersson 21: Vero Man
+
+#Andersson 22: Lagoa Santa Man
+
+#Andersson 23: Cro-Magnon Man
+
+#Andersson 24: Boskop Man
+
+#Andersson 25: Tianyuan Man
+
+#Andersson 26: Talgai Man
+
+### Palaeanthropus "Cave Man" ###
+
+#Andersson 31: Neanderthal Man
+andersson.31 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = andersson.31.t
+	desc = andersson.31.d
+	flavor = andersson.31.f
+
+	duration = 3
+
+	placement = scope:andersson_cave_state_scope
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		has_game_rule = andersson_anthropology_historical_rule
+		NOT = {
+			has_global_variable = andersson_neanderthal_global_var
+		}
+		any_scope_state = {
+			state_region = s:STATE_RUHR
+		}
+		game_date >= 1856.1.1
+	}
+
+	immediate = {
+		set_variable = andersson_palaeanthropus_cave_set_var
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_RUHR
+			}
+			andersson_add_palaeanthropus_cave_effect = yes
+			save_scope_as = andersson_cave_state_scope
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_neanderthal_global_var
+					value = THIS
+				}
+			}
+		}
+	}
+
+	option = {
+		name = andersson.21.g #Fascinating
+		default_option = yes
+		andersson_add_palaeanthropus_fossil_effect = yes
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				add_state_trait = andersson_state_trait_palaeanthropus_cave
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = lepsius_neanderthalensis_systemized_notification
+			}
+		}
+	}
+}
+
+#Andersson 32: Gibraltar Man
+
+#Andersson 33: Spy Man
+
+#Andersson 34: Krapina Man
+
+#Andersson 35: Galilee Man
+
+#Andersson 41: Heidelberg Man
+
+#Andersson 42: Rhodesian Man
+
+#Andersson 43: Peking Man
+
+#Andersson 44: Java Man
+
+#Andersson 51: Taung Child
 
 #Andersson 101: Anthropological Site found (Cave Paintings)
 andersson.101 = {
@@ -118,7 +268,7 @@ andersson.102 = {
 		name = andersson.101.g #Fascinating
 		default_option = yes
 		anthropologist_experience_gain_effect = { AMOUNT = 15 }
-		scope:andersson_cave_state_scope = {
+		scope:andersson_neoanthropus_cave_state_scope = {
 			andersson_add_cave_effect = yes
 		}
 	}
@@ -170,7 +320,7 @@ andersson.103 = {
 		default_option = yes
 		anthropologist_experience_gain_effect = { AMOUNT = 15 }
 		scope:andersson_cave_state_scope = {
-			andersson_add_cave_effect = yes
+			andersson_add_palaeanthropus_cave_effect = yes
 		}
 	}
 }
@@ -221,7 +371,7 @@ andersson.104 = {
 		default_option = yes
 		anthropologist_experience_gain_effect = { AMOUNT = 15 }
 		scope:andersson_cave_state_scope = {
-			andersson_add_cave_effect = yes
+			andersson_add_pithecanthropus_cave_effect = yes
 		}
 	}
 }
@@ -272,7 +422,7 @@ andersson.105 = {
 		default_option = yes
 		anthropologist_experience_gain_effect = { AMOUNT = 15 }
 		scope:andersson_cave_state_scope = {
-			andersson_add_cave_effect = yes
+			andersson_add_australopithecus_cave_effect = yes
 		}
 	}
 }
