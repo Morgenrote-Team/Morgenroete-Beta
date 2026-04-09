@@ -9,6 +9,21 @@
 
 ######ANTHROPOLOGY######
 
+### Anthropologist ###
+
+#Set Anthropologist busy
+andersson_set_anthropologist_busy_effect = {
+	custom_tooltip = {
+		text = andersson_set_anthropologist_busy_tt
+		if = {
+			limit = { has_variable = andersson_anthropologist_var }
+			var:andersson_anthropologist_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+	}
+}
+
 #Add Cave Paintings at Game Start
 
 andersson_add_cave_paintings_effect = {
@@ -387,6 +402,130 @@ andersson_add_cave_effect = {
 				flag = flag:andersson_australopithecus_cave_flag
 			}
 		}
+	}
+}
+
+###ANTHROPOLOGICAL RATING######
+
+andersson_change_anthropological_rating = {
+	# Amount = amount of artifacts to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = add_anthropological_prestige
+		value = $AMOUNT$
+	}
+
+	#Used to display the right tooltip
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = andersson_change_anthropological_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = andersson_change_anthropological_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = andersson_change_anthropological_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = andersson_change_anthropological_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = andersson_change_anthropological_plus_x_tt
+	}
+
+	#Fallback in case the variable does not exist yet
+	if = {
+		limit = {
+			NOT = {
+				has_variable = andersson_anthropological_rating
+			}
+		}
+		set_variable = {
+			name = andersson_anthropological_rating
+			value = 0
+		}
+	}
+
+	#Actual Variable Change
+	change_variable = {
+		name = andersson_anthropological_rating
+		add = $AMOUNT$
+	}
+
+	#Adds the correct modifier
+	hidden_effect = {
+		andersson_remove_anthropological_prestige_modifiers_effect = yes
+		if = {
+			limit = {
+				var:andersson_anthropological_rating >= 50
+			}
+			if = {
+				limit = {
+					var:andersson_anthropological_rating < 150
+				}
+				add_modifier = {
+					name = andersson_anthropological_rating_level_1_modifier
+				}
+			}
+			else_if = {
+				limit = {
+					var:andersson_anthropological_rating < 250
+				}
+				add_modifier = {
+					name = andersson_anthropological_rating_level_2_modifier
+				}
+			}
+			else_if = {
+				limit = {
+					var:andersson_anthropological_rating < 400
+				}
+				add_modifier = {
+					name = andersson_anthropological_rating_level_3_modifier
+				}
+			}
+			else_if = {
+				limit = {
+					var:andersson_anthropological_rating < 600
+				}
+				add_modifier = {
+					name = andersson_anthropological_rating_level_4_modifier
+				}
+			}
+			else_if = {
+				limit = {
+					var:andersson_anthropological_rating >= 600
+				}
+				add_modifier = {
+					name = andersson_anthropological_rating_level_5_modifier
+				}
+			}
+		}
+	}
+}
+
+andersson_remove_anthropological_prestige_modifiers_effect = {
+	if = {
+		limit = { has_modifier = andersson_anthropological_rating_level_1_modifier }
+		remove_modifier = andersson_anthropological_rating_level_1_modifier
+	}
+	if = {
+		limit = { has_modifier = andersson_anthropological_rating_level_2_modifier }
+		remove_modifier = andersson_anthropological_rating_level_2_modifier
+	}
+	if = {
+		limit = { has_modifier = andersson_anthropological_rating_level_3_modifier }
+		remove_modifier = andersson_anthropological_rating_level_3_modifier
+	}
+	if = {
+		limit = { has_modifier = andersson_anthropological_rating_level_4_modifier }
+		remove_modifier = andersson_anthropological_rating_level_4_modifier
+	}
+	if = {
+		limit = { has_modifier = andersson_anthropological_rating_level_5_modifier }
+		remove_modifier = andersson_anthropological_rating_level_5_modifier
 	}
 }
 
