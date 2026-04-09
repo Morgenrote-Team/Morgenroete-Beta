@@ -68,3 +68,4 @@ Fixes:
 
 Characters:
 - Franz Weidenreich (random German Anthropologist)
+- Yoshikiyo Koganei (random Japanese Anthropologist)
