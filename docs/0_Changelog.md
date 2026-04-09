@@ -61,3 +61,6 @@ Uranium
 Fixes:
 - Moved Pico Bolivar back to Zulia after it shifted to Antiocquia due to unexpected continental shift.
 - Peter Wilhelm Lund should now spawn properly and not be a clone of Christian Herbst.
+
+Characters:
+- Franz Weidenreich (random German Anthropologist)
