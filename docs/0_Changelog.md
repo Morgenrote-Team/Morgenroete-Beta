@@ -1,8 +1,10 @@
-Changelog fot 2.8.0 "XXX"
+Changelog fot 2.8.0 "Koganei"
 
 Anthropology
 - Anthropology tech depends now on Paleontology and Ethnology; it was Paleontology and Early Archaoelogy before.
-- Added Cave Paintings
+- Added Institute of Anthropology and Ethnology.
+- Old categories and fossils are gone. Now: 16 human fossils in 4 different categories: Neoanthropus, Palaeanthropus, Pithecanthropus, Australopithecus.
+- Added Cave Paintings.
 - Cave Paintings work a little bit like the old Caves: There are historical sites and random sites distributed at the beginning of the game.
 - Cave Paintings may be discovered by Anthropologists when doing Speology. They need to be at least experienced Anthropologists.
 - Historical Cave Paintings which are guaranteed in each game: Utah, Patagonia, Piaui, Asturias, Guyenne, East Sahara, Zululand, Central India, Guangxi, Sulawesi, Western Territories
@@ -61,6 +63,9 @@ Uranium
 - Removed historical and random Uranium deposits.
 - Geologists no longer needed to find Uranium (removed events).
 - Removed diplomatic actions to search Uranium in subjects.
+
+Other changes:
+- Excavation Sites, Caves and Great Formations give 5% University throughput.
 
 Fixes:
 - Moved Pico Bolivar back to Zulia after it shifted to Antiocquia due to unexpected continental shift.
