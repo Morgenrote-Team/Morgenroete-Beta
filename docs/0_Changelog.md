@@ -72,5 +72,6 @@ Fixes:
 - Peter Wilhelm Lund should now spawn properly and not be a clone of Christian Herbst.
 
 Characters:
+- Auguste Piccard (random Swiss Chemist)
 - Franz Weidenreich (random German Anthropologist)
 - Yoshikiyo Koganei (random Japanese Anthropologist)
