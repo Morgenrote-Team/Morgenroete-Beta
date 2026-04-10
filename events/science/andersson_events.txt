@@ -1711,7 +1711,7 @@ andersson.201 = {
 			#Focus on Neoanthropus if the AI nation has less than 10 bones
 			modifier = {
 				trigger = {
-					andersson_has_maximum_neoanthropus_bones_trigger = no
+					andersson_has_maximum_neoanthropus_fossils_trigger = no
 				}
 				add = 100
 			}
@@ -1744,7 +1744,7 @@ andersson.201 = {
 			#Focus on Palaeanthropus if the AI nation has less than 10 bones
 			modifier = {
 				trigger = {
-					andersson_has_maximum_palaeanthropus_bones_trigger = no
+					andersson_has_maximum_palaeanthropus_fossils_trigger = no
 				}
 				add = 100
 			}
@@ -1777,7 +1777,7 @@ andersson.201 = {
 			#Focus on Pithecanthropus if the AI nation has less than 10 bones
 			modifier = {
 				trigger = {
-					andersson_has_maximum_pithecanthropus_bones_trigger = no
+					andersson_has_maximum_pithecanthropus_fossils_trigger = no
 				}
 				add = 100
 			}
@@ -1810,7 +1810,7 @@ andersson.201 = {
 			#Focus on Australopithecus if the AI nation has less than 10 bones
 			modifier = {
 				trigger = {
-					andersson_has_maximum_australopithecus_bones_trigger = no
+					andersson_has_maximum_australopithecus_fossils_trigger = no
 				}
 				add = 100
 			}
@@ -1956,6 +1956,1054 @@ andersson.211 = {
 				remove_modifier = andersson_cave_exploration_modifier
 				remove_variable = andersson_cave_exploration_var
 			}
+		}
+	}
+}
+
+#######Origin of Modern Humans######
+
+#Andersson 911: Origin - Invitation
+andersson.911 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = andersson.911.t
+	desc = andersson.911.d
+	flavor = andersson.911.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/andersson_pictures/andersson_origin_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	immediate = {
+		set_global_variable = andersson_origin_europe
+		set_global_variable = andersson_origin_asia
+		set_global_variable = andersson_origin_africa
+		var:andersson_anthropologist_var = {
+			set_variable = {
+				name = andersson_anthropologist_achievement_attended_origin_congress_var
+				value = flag:andersson_anthropologist_achievement_attended_origin_congress_loc
+			}
+			save_scope_as = andersson_anthropologist_scope
+		}
+	}
+
+	option = {
+		name = andersson.911.g # Invite the leading anthropologist nations
+		every_country = {
+			limit = {
+				NOT = {
+					this = ROOT
+				}
+				has_variable = andersson_anthropologist_var
+				OR = {
+					var:lepsius_neanderthalensis_human_fossil >= 1
+					var:lepsius_erectus_human_fossil >= 1
+					var:lepsius_australopithecus_human_fossil >= 1
+					var:lepsius_paranthropus_human_fossil >= 1
+				}
+			}
+			trigger_event = {
+				id = andersson.912
+				popup = yes
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			trigger_event = {
+				id = andersson.914
+				days = { 7 14 }
+			}
+			trigger_event = {
+				id = andersson.919
+				days = 180
+			}
+		}
+	}
+}
+
+#Andersson 912: Origin - An Invitation
+andersson.912 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = andersson.911.t
+	desc = andersson.912.d
+	flavor = andersson.911.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/andersson_pictures/andersson_origin_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = dubois_congress_host_modifier
+			}
+			save_scope_as = dubois_congress_host_country
+		}
+		var:andersson_anthropologist_var = {
+			set_variable = {
+				name = andersson_anthropologist_achievement_attended_origin_congress_var
+				value = flag:andersson_anthropologist_achievement_attended_origin_congress_loc
+			}
+			save_scope_as = andersson_anthropologist_scope
+		}
+	}
+
+	option = {
+		name = andersson.911.g #We'll come
+		add_modifier = {
+			name = dubois_congress_attend_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			trigger_event = {
+				id = andersson.914
+				days = { 7 14 }
+			}
+		}
+	}
+}
+
+#Andersson 914: Origin - Europe, Asia or Africa?
+andersson.914 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = andersson.914.t
+	desc = andersson.914.d
+	flavor = andersson.914.f
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/andersson_pictures/andersson_origin_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	immediate = {
+		var:andersson_anthropologist_var = {
+			save_scope_as = andersson_anthropologist_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = andersson_anthropologist_var
+				NOT = {
+					this = ROOT
+				}
+			}
+			var:andersson_anthropologist_var = {
+				save_scope_as = dubois_asia_defender_scope
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = andersson_anthropologist_var
+				NOT = {
+					this = ROOT
+				}
+				var:andersson_anthropologist_var = {
+					NOT = {
+						this = scope:dubois_asia_defender_scope
+					}
+				}
+			}
+			var:andersson_anthropologist_var = {
+				save_scope_as = dubois_africa_defender_scope
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = andersson_anthropologist_var
+				NOT = {
+					this = ROOT
+				}
+				var:andersson_anthropologist_var = {
+					NOT = {
+						this = scope:dubois_asia_defender_scope
+					}
+					NOT = {
+						this = scope:dubois_africa_defender_scope
+					}
+				}
+			}
+			var:andersson_anthropologist_var = {
+				save_scope_as = dubois_europe_defender_scope
+			}
+		}
+	}
+
+	option = {
+		name = andersson.914.g #Europe
+		if = {
+			limit = {
+				var:andersson_anthropologist_var = {
+					has_trait = andersson_anthropologist_famous
+				}
+			}
+			change_global_variable = {
+				name = andersson_origin_europe
+				add = 3
+			}
+			custom_tooltip = dubois_conference_anthropologist_double_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:andersson_anthropologist_var = {
+					has_trait = andersson_anthropologist_experienced
+				}
+			}
+			change_global_variable = {
+				name = andersson_origin_europe
+				add = 2
+			}
+			custom_tooltip = dubois_conference_anthropologist_triple_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = andersson_origin_europe
+				add = 1
+			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = { #No Erectus
+				trigger = {
+					NOT = {
+						has_variable = lepsius_erectus_human_fossil
+					}
+				}
+				add = 1
+			}
+			modifier = { #No Australopithecus or Paranthropus
+				trigger = {
+					NOR = {
+						has_variable = lepsius_australopithecus_human_fossil
+						has_variable = lepsius_paranthropus_human_fossil
+					}
+				}
+				add = 1
+			}
+			modifier = { #No Systemization
+				trigger = {
+					NOR = {
+						has_global_variable = lepsius_erectus_systemized
+						has_global_variable = lepsius_australopithecus_systemized
+						has_global_variable = lepsius_paranthropus_systemized
+					}
+				}
+				add = 1
+			}
+			modifier = { #Piltdown Man
+				trigger = {
+					has_variable = dubois_fossil_piltdown
+				}
+				add = 10
+			}
+		}
+	}
+
+	option = {
+		name = andersson.914.h #Asia
+		if = {
+			limit = {
+				var:andersson_anthropologist_var = {
+					has_trait = andersson_anthropologist_famous
+				}
+			}
+			change_global_variable = {
+				name = andersson_origin_asia
+				add = 3
+			}
+			custom_tooltip = dubois_conference_anthropologist_double_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:andersson_anthropologist_var = {
+					has_trait = andersson_anthropologist_experienced
+				}
+			}
+			change_global_variable = {
+				name = andersson_origin_asia
+				add = 2
+			}
+			custom_tooltip = dubois_conference_anthropologist_triple_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = andersson_origin_asia
+				add = 1
+			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = { #Erectus
+				trigger = {
+					has_variable = lepsius_erectus_human_fossil
+				}
+				add = 2
+			}
+			modifier = { #No Australopithecus or Paranthropus
+				trigger = {
+					NOR = {
+						has_variable = lepsius_australopithecus_human_fossil
+						has_variable = lepsius_paranthropus_human_fossil
+					}
+				}
+				add = 2
+			}
+			modifier = { #Erectus Systemization
+				trigger = {
+					has_global_variable = lepsius_erectus_systemized
+				}
+				add = 1
+			}
+			modifier = { #No Australopithecus or Paranthropus Systemization
+				trigger = {
+					NOR = {
+						has_global_variable = lepsius_australopithecus_systemized
+						has_global_variable = lepsius_paranthropus_systemized
+					}
+				}
+				add = 1
+			}
+			modifier = { #Genetics
+				trigger = {
+					has_technology_researched = dubois_genetics_tech
+				}
+				add = 1
+			}
+		}
+	}
+
+	option = {
+		name = andersson.914.i #Africa
+		default_option = yes
+		if = {
+			limit = {
+				var:andersson_anthropologist_var = {
+					has_trait = andersson_anthropologist_famous
+				}
+			}
+			change_global_variable = {
+				name = andersson_origin_africa
+				add = 3
+			}
+			custom_tooltip = dubois_conference_anthropologist_double_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:andersson_anthropologist_var = {
+					has_trait = andersson_anthropologist_experienced
+				}
+			}
+			change_global_variable = {
+				name = andersson_origin_africa
+				add = 2
+			}
+			custom_tooltip = dubois_conference_anthropologist_triple_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = andersson_origin_africa
+				add = 1
+			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = { #Erectus
+				trigger = {
+					has_variable = lepsius_erectus_human_fossil
+				}
+				add = 1
+			}
+			modifier = { #Australopithecus
+				trigger = {
+					has_variable = lepsius_australopithecus_human_fossil
+				}
+				add = 2
+			}
+			modifier = { #No Australopithecus or Paranthropus
+				trigger = {
+					has_variable = lepsius_paranthropus_human_fossil
+				}
+				add = 2
+			}
+			modifier = { #Erectus Systemization
+				trigger = {
+					has_global_variable = lepsius_erectus_systemized
+				}
+				add = 1
+			}
+			modifier = { #Australopithecus Systemization
+				trigger = {
+					has_global_variable = lepsius_australopithecus_systemized
+				}
+				add = 1
+			}
+			modifier = { #Paranthropus Systemization
+				trigger = {
+					has_global_variable = lepsius_paranthropus_systemized
+				}
+				add = 1
+			}
+			modifier = { #Genetics
+				trigger = {
+					has_technology_researched = dubois_genetics_tech
+				}
+				add = 1
+			}
+		}
+	}
+
+
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					var:andersson_anthropologist_var = {
+						OR = {
+							has_trait = inspirational_orator
+							has_trait = demagogue
+							has_trait = firebrand
+							has_trait = charismatic
+						}
+					}
+				}
+				trigger_event = {
+					id = andersson.915 #Respected Speech
+					days = { 14 21 }
+				}
+			}
+			else_if = {
+				limit = {
+					var:andersson_anthropologist_var = {
+						OR = {
+							has_trait = innovative
+							has_trait = meticulous
+							has_trait = erudite
+						}
+					}
+				}
+				trigger_event = {
+					id = andersson.916 #Valuable contribution to the debate
+					days = { 14 21 }
+				}
+			}
+			else = {
+				trigger_event = {
+					id = andersson.917 #Unknown Skull
+					days = { 14 21 }
+				}
+			}
+		}
+	}
+}
+
+#Andersson 915: Origin - Respected Speech
+andersson.915 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = andersson.915.t
+	desc = andersson.915.d
+	flavor = andersson.915.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/andersson_pictures/andersson_origin_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = dubois_congress_host_modifier
+			}
+			save_scope_as = dubois_congress_host_country
+		}
+		var:andersson_anthropologist_var = {
+			save_scope_as = andersson_anthropologist_scope
+		}
+		every_country = {
+			limit = {
+				NOT = {
+					this = ROOT
+				}
+				OR = {
+					has_modifier = dubois_congress_host_modifier
+					has_modifier = dubois_congress_attend_modifier
+				}
+			}
+			save_scope_as = dubois_congress_country
+		}
+	}
+
+	option = {
+		name = dubois.905.g #He brings honor to our country
+		dubois_add_x_academy_progress = {
+			AMOUNT = 30
+		}
+		change_infamy = -3
+		scope:dubois_congress_country = {
+			change_relations = {
+				country = ROOT
+				value = 10
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					var:andersson_anthropologist_var = {
+						OR = {
+							has_trait = innovative
+							has_trait = meticulous
+							has_trait = erudite
+						}
+					}
+				}
+				trigger_event = {
+					id = andersson.916 #Valuable contribution to the debate
+					days = { 14 21 }
+				}
+			}
+			else = {
+				trigger_event = {
+					id = andersson.917 #Unknown Skull
+					days = { 14 21 }
+				}
+			}
+		}
+	}
+}
+
+#Andersson 916: Origin - Valuable contribution to the debate
+andersson.916 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = andersson.916.t
+	desc = andersson.916.d
+	flavor = andersson.916.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/andersson_pictures/andersson_origin_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = dubois_congress_host_modifier
+			}
+			save_scope_as = dubois_congress_host_country
+		}
+		var:andersson_anthropologist_var = {
+			save_scope_as = andersson_anthropologist_scope
+		}
+		every_country = {
+			limit = {
+				NOT = {
+					this = ROOT
+				}
+				OR = {
+					has_modifier = dubois_congress_host_modifier
+					has_modifier = dubois_congress_attend_modifier
+				}
+			}
+			save_scope_as = dubois_congress_country
+		}
+	}
+
+	option = {
+		name = andersson.915.g #He brings honor to our country
+		dubois_small_add_technology = yes
+		scope:dubois_congress_country = {
+			change_relations = {
+				country = ROOT
+				value = 10
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			trigger_event = {
+				id = andersson.917 #Unknown Skull
+				days = { 14 21 }
+			}
+		}
+	}
+}
+
+#Andersson 917: Origin - Unknown Skull
+andersson.917 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = andersson.917.t
+	desc = andersson.917.d
+	flavor = andersson.917.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/andersson_pictures/andersson_origin_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = dubois_congress_host_modifier
+			}
+			save_scope_as = dubois_congress_host_country
+		}
+		var:andersson_anthropologist_var = {
+			save_scope_as = andersson_anthropologist_scope
+		}
+		every_country = {
+			limit = {
+				NOT = {
+					this = ROOT
+				}
+				OR = {
+					has_modifier = dubois_congress_host_modifier
+					has_modifier = dubois_congress_attend_modifier
+				}
+			}
+			save_scope_as = dubois_congress_country
+		}
+		random_list = { #randomizes skull
+			1 = {
+				set_variable = {
+					name = dubois_cromagnon_skull_var
+					value = 1
+				}
+			}
+			1 = {
+				set_variable = {
+					name = dubois_neanderthalensis_skull_var
+					value = 2
+				}
+			}
+			1 = {
+				set_variable = {
+					name = dubois_erectus_skull_var
+					value = 3
+				}
+			}
+			1 = {
+				set_variable = {
+					name = dubois_australopithecus_skull_var
+					value = 4
+				}
+			}
+			1 = {
+				set_variable = {
+					name = dubois_paranthropus_skull_var
+					value = 5
+				}
+			}
+		}
+	}
+
+	option = {
+		name = andersson.917.g #Buy the skull
+		default_option = yes
+		add_treasury = -100000
+		if = {
+			limit = {
+				has_variable = dubois_cromagnon_skull_var
+			}
+			lepsius_add_unknown_cromagnon_fossil_effect = yes
+		}
+		if = {
+			limit = {
+				has_variable = dubois_neanderthalensis_skull_var
+			}
+			lepsius_add_unknown_neanderthalensis_fossil_effect = yes
+		}
+		if = {
+			limit = {
+				has_variable = dubois_erectus_skull_var
+			}
+			lepsius_add_unknown_erectus_fossil_effect = yes
+		}
+		if = {
+			limit = {
+				has_variable = dubois_australopithecus_skull_var
+			}
+			lepsius_add_unknown_australopithecus_fossil_effect = yes
+		}
+		if = {
+			limit = {
+				has_variable = dubois_paranthropus_skull_var
+			}
+			lepsius_add_unknown_paranthropus_fossil_effect = yes
+		}
+	}
+
+	option = {
+		name = andersson.917.h #This is a fake
+	}
+
+	after = {
+		hidden_effect = {
+			remove_variable = dubois_cromagnon_skull_var
+			remove_variable = dubois_neanderthalensis_skull_var
+			remove_variable = dubois_erectus_skull_var
+			remove_variable = dubois_australopithecus_skull_var
+			remove_variable = dubois_paranthropus_skull_var
+		}
+	}
+}
+
+#Andersson 919: Origin - Decision for Host
+andersson.919 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_europe_vote
+			}
+			desc = andersson.919.t_europe
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_asia_vote
+			}
+			desc = andersson.919.t_asia
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_africa_vote
+			}
+			desc = andersson.919.t_africa
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_europe_vote
+			}
+			desc = andersson.919.d_europe
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_asia_vote
+			}
+			desc = andersson.919.d_asia
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_africa_vote
+			}
+			desc = andersson.919.d_africa
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_europe_vote
+			}
+			desc = andersson.919.f_europe
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_asia_vote
+			}
+			desc = andersson.919.f_asia
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_africa_vote
+			}
+			desc = andersson.919.f_africa
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/andersson_pictures/andersson_origin_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = dubois_congress_host_modifier
+			}
+			save_scope_as = dubois_congress_host_country
+		}
+		var:andersson_anthropologist_var = {
+			save_scope_as = andersson_anthropologist_scope
+		}
+		if = {
+			limit = {
+				global_var:andersson_origin_europe > global_var:andersson_origin_asia
+				global_var:andersson_origin_europe > global_var:andersson_origin_africa
+			}
+			set_global_variable = andersson_origin_europe_vote
+		}
+		else_if = {
+			limit = {
+				global_var:andersson_origin_asia > global_var:andersson_origin_europe
+				global_var:andersson_origin_asia > global_var:andersson_origin_africa
+			}
+			set_global_variable = andersson_origin_asia_vote
+		}
+		else_if = {
+			limit = {
+				global_var:andersson_origin_africa > global_var:andersson_origin_asia
+				global_var:andersson_origin_africa > global_var:andersson_origin_europe
+			}
+			set_global_variable = andersson_origin_africa_vote
+		}
+		else = {
+			set_global_variable = andersson_origin_asia_vote
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = andersson_origin_europe_vote
+		}
+		name = andersson.919.g #As expected, Humanity evolved in Europe.
+		dubois_small_add_technology = yes
+		anthropologist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = andersson_origin_asia_vote
+		}
+		name = andersson.919.h #All evidences suggest that humanity evolved in Asia.
+		lepsius_small_add_technology = yes
+		dubois_medium_add_technology = yes
+		anthropologist_experience_gain_effect = {
+			AMOUNT = "25"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = andersson_origin_africa_vote
+		}
+		name = andersson.919.i #'Out of Africa' is an approved thesis now.
+		default_option = yes
+		lepsius_large_add_technology = yes
+		dubois_large_add_technology = yes
+		anthropologist_experience_gain_effect = {
+			AMOUNT = "35"
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					NOT = {
+						this = ROOT
+					}
+					has_modifier = dubois_congress_attend_modifier
+				}
+				trigger_event = {
+					id = andersson.920
+					popup = yes
+				}
+			}
+			remove_global_variable = andersson_origin_europe
+			remove_global_variable = andersson_origin_asia
+			remove_global_variable = andersson_origin_africa
+		}
+	}
+}
+
+#Andersson 920: Origin - Decision for Other
+andersson.920 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_europe_vote
+			}
+			desc = andersson.919.t_europe
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_asia_vote
+			}
+			desc = andersson.919.t_asia
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_africa_vote
+			}
+			desc = andersson.919.t_africa
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_europe_vote
+			}
+			desc = andersson.919.d_europe
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_asia_vote
+			}
+			desc = andersson.919.d_asia
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_africa_vote
+			}
+			desc = andersson.919.d_africa
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_europe_vote
+			}
+			desc = andersson.919.f_europe
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_asia_vote
+			}
+			desc = andersson.919.f_asia
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = andersson_origin_africa_vote
+			}
+			desc = andersson.919.f_africa
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/andersson_pictures/andersson_origin_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = dubois_congress_host_modifier
+			}
+			save_scope_as = dubois_congress_host_country
+		}
+		var:andersson_anthropologist_var = {
+			save_scope_as = andersson_anthropologist_scope
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = andersson_origin_europe_vote
+		}
+		name = andersson.919.g #As expected, Humanity evolved in Europe.
+		remove_modifier = dubois_congress_attend_modifier
+		dubois_small_add_technology = yes
+		anthropologist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = andersson_origin_asia_vote
+		}
+		name = andersson.919.h #All evidences suggest that humanity evolved in Asia.
+		remove_modifier = dubois_congress_attend_modifier
+		lepsius_small_add_technology = yes
+		dubois_medium_add_technology = yes
+		anthropologist_experience_gain_effect = {
+			AMOUNT = "25"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = andersson_origin_africa_vote
+		}
+		name = andersson.919.i #'Out of Africa' is an approved thesis now.
+		remove_modifier = dubois_congress_attend_modifier
+		default_option = yes
+		lepsius_large_add_technology = yes
+		dubois_large_add_technology = yes
+		anthropologist_experience_gain_effect = {
+			AMOUNT = "35"
 		}
 	}
 }
