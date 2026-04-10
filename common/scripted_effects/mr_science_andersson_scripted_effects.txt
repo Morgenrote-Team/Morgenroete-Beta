@@ -421,6 +421,8 @@ andersson_add_australopithecus_cave_effect = {
 andersson_add_neoanthropus_fossil_effect = {
 	#General Fossil for Statistics
 	andersson_add_x_human_fossils_effect = { AMOUNT = 1 }
+	#5 Anthropological Pretsige for each specific fossil
+	andersson_change_anthropological_rating = { AMOUNT = 5 }
 	#Neoanthropus Fossil
 	if = { #Fallback if the variable does not exist yet
 		limit = {
@@ -608,6 +610,8 @@ andersson_add_neoanthropus_fossil_effect = {
 andersson_add_palaeanthropus_fossil_effect = {
 	#General Fossil for Statistics
 	andersson_add_x_human_fossils_effect = { AMOUNT = 1 }
+	#5 Anthropological Pretsige for each specific fossil
+	andersson_change_anthropological_rating = { AMOUNT = 5 }
 	#Palaeanthropus Fossil
 	if = { #Fallback if the variable does not exist yet
 		limit = {
@@ -771,6 +775,8 @@ andersson_add_palaeanthropus_fossil_effect = {
 andersson_add_pithecanthropus_fossil_effect = {
 	#General Fossil for Statistics
 	andersson_add_x_human_fossils_effect = { AMOUNT = 1 }
+	#5 Anthropological Pretsige for each specific fossil
+	andersson_change_anthropological_rating = { AMOUNT = 5 }
 	#Pithecanthropus Fossil
 	if = { #Fallback if the variable does not exist yet
 		limit = {
@@ -910,6 +916,8 @@ andersson_add_pithecanthropus_fossil_effect = {
 andersson_add_australopithecus_fossil_effect = {
 	#General Fossil for Statistics
 	andersson_add_x_human_fossils_effect = { AMOUNT = 1 }
+	#5 Anthropological Pretsige for each specific fossil
+	andersson_change_anthropological_rating = { AMOUNT = 5 }
 	#Australopithecus Fossil
 	if = { #Fallback if the variable does not exist yet
 		limit = {
@@ -977,6 +985,14 @@ andersson_add_australopithecus_fossil_effect = {
 
 ###ANTHROPOLOGICAL RATING######
 
+#Specific Human Fossil: 5 Prestige
+
+#Cave Paintings Discovery: 10 Prestige
+#Neoanthropus Discovery: 20 Prestige, Skeleton: 25 Prestige
+#Palaeanthropus Discovery: 40 Prestige, Skeleton: 50 Prestige
+#Pithecanthropus Discovery: 60 Prestige, Skeleton: 75 Prestige
+#Australopithecus Discovery: 80 Prestige, Skeleton: 100 Prestige
+
 andersson_change_anthropological_rating = {
 	# Amount = amount of artifacts to add
 	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
@@ -1027,75 +1043,20 @@ andersson_change_anthropological_rating = {
 
 	#Adds the correct modifier
 	hidden_effect = {
-		andersson_remove_anthropological_prestige_modifiers_effect = yes
-		if = {
-			limit = {
-				var:andersson_anthropological_rating >= 50
-			}
-			if = {
-				limit = {
-					var:andersson_anthropological_rating < 150
-				}
-				add_modifier = {
-					name = andersson_anthropological_rating_level_1_modifier
-				}
-			}
-			else_if = {
-				limit = {
-					var:andersson_anthropological_rating < 250
-				}
-				add_modifier = {
-					name = andersson_anthropological_rating_level_2_modifier
-				}
-			}
-			else_if = {
-				limit = {
-					var:andersson_anthropological_rating < 400
-				}
-				add_modifier = {
-					name = andersson_anthropological_rating_level_3_modifier
-				}
-			}
-			else_if = {
-				limit = {
-					var:andersson_anthropological_rating < 600
-				}
-				add_modifier = {
-					name = andersson_anthropological_rating_level_4_modifier
-				}
-			}
-			else_if = {
-				limit = {
-					var:andersson_anthropological_rating >= 600
-				}
-				add_modifier = {
-					name = andersson_anthropological_rating_level_5_modifier
-				}
-			}
-		}
+		andersson_update_anthropological_prestige_modifiers_effect = yes
 	}
 }
 
-andersson_remove_anthropological_prestige_modifiers_effect = {
+andersson_update_anthropological_prestige_modifiers_effect = {
 	if = {
-		limit = { has_modifier = andersson_anthropological_rating_level_1_modifier }
-		remove_modifier = andersson_anthropological_rating_level_1_modifier
+		limit = {
+			has_modifier = andersson_anthropological_rating_modifier
+		}
+		remove_modifier = andersson_anthropological_rating_modifier
 	}
-	if = {
-		limit = { has_modifier = andersson_anthropological_rating_level_2_modifier }
-		remove_modifier = andersson_anthropological_rating_level_2_modifier
-	}
-	if = {
-		limit = { has_modifier = andersson_anthropological_rating_level_3_modifier }
-		remove_modifier = andersson_anthropological_rating_level_3_modifier
-	}
-	if = {
-		limit = { has_modifier = andersson_anthropological_rating_level_4_modifier }
-		remove_modifier = andersson_anthropological_rating_level_4_modifier
-	}
-	if = {
-		limit = { has_modifier = andersson_anthropological_rating_level_5_modifier }
-		remove_modifier = andersson_anthropological_rating_level_5_modifier
+	add_modifier = {
+		name = andersson_anthropological_rating_modifier
+		multiplier = root.var:andersson_anthropological_rating #Anthropological Rating = Anthropological Prestige
 	}
 }
 
