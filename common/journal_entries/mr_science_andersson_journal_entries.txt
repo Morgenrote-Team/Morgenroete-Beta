@@ -153,3 +153,64 @@ je_andersson_speology = {
 
 	weight = 50
 }
+
+######################################################
+
+######Cave Exploration###
+
+je_andersson_cave_exploration_neoanthropus = {
+	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
+
+	group = je_group_andersson_anthropology
+
+	scripted_progress_bar = je_andersson_cave_exploration_research_progress_bar
+	scripted_progress_bar = je_andersson_cave_collection_research_progress_bar
+	scripted_progress_bar = je_andersson_cave_identification_research_progress_bar
+
+	on_weekly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"je_andersson_cave_exploration_research_progress_bar)" >= 100
+					}
+				}
+				set_variable = andersson_cave_exploration_completed_var
+			}
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"je_andersson_cave_collection_research_progress_bar)" >= 100
+					}
+				}
+				set_variable = andersson_cave_collection_completed_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_andersson_cave_identification_research_progress_bar_at_full_tt
+			scope:journal_entry = {
+				"scripted_bar_progress(je_andersson_cave_identification_research_progress_bar)" >= 100
+			}
+		}
+	}
+
+	on_complete = {
+		andersson_remove_cave_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = andersson_anthropologist_dies_tt
+			andersson_has_anthropologist = no
+		}
+	}
+
+	on_invalid = {
+		andersson_remove_cave_effect = yes
+	}
+
+	weight = 50
+}
