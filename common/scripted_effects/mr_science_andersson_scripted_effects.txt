@@ -24,6 +24,74 @@ andersson_set_anthropologist_busy_effect = {
 	}
 }
 
+#Add Unspecific Human Fossils
+andersson_add_x_prehistoric_artifacts_effect = {
+	# Amount = amount of artifacts to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = artifact_amount
+		value = $AMOUNT$
+	}
+
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = andersson_add_x_prehistoric_artifacts_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = andersson_add_x_prehistoric_artifacts_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = andersson_add_x_prehistoric_artifacts_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = andersson_add_x_prehistoric_artifacts_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = andersson_add_x_prehistoric_artifacts_plus_x_tt
+	}
+
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = andersson_prehistoric_artifact_var
+			}
+		}
+		set_variable = {
+			name = andersson_prehistoric_artifact_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = andersson_prehistoric_artifact_var
+		add = $AMOUNT$
+	}
+	if = {
+		limit = { #Only works if there actually is an anthropologist
+			has_variable = andersson_anthropologist_var
+		}
+		var:andersson_anthropologist_var = {
+			if = { #Fallback if the variable does not exist yet
+				limit = {
+					NOT = {
+						has_variable = andersson_prehistoric_artifact_anthropologist_var
+					}
+				}
+				set_variable = {
+					name = andersson_prehistoric_artifact_anthropologist_var
+					value = 0
+				}
+			}
+			change_variable = { #The amount of human fossils that this anthropologist discovered
+				name = andersson_prehistoric_artifact_anthropologist_var
+				add = $AMOUNT$
+			}
+		}
+	}
+}
+
 #Add Cave Paintings at Game Start
 andersson_add_cave_paintings_effect = {
 	#HISTORICAL SITES
@@ -114,78 +182,6 @@ andersson_add_cave_paintings_effect = {
 			}
 			state_region = {
 				set_variable = andersson_cave_paintings_var
-			}
-		}
-	}
-}
-
-#Add Unspecific Human Fossils
-andersson_add_x_human_fossils_effect = {
-	# Amount = amount of artifacts to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = fossil_amount
-		value = $AMOUNT$
-	}
-
-	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ < -1 }
-		custom_tooltip = andersson_add_x_human_fossils_minus_x_tt
-	}
-	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ = -1 }
-		custom_tooltip = andersson_add_x_human_fossils_minus_1_tt
-	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = andersson_add_x_human_fossils_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ = 1 }
-		custom_tooltip = andersson_add_x_human_fossils_plus_1_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 1 }
-		custom_tooltip = andersson_add_x_human_fossils_plus_x_tt
-	}
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = andersson_total_human_fossil
-			}
-		}
-		set_variable = {
-			name = andersson_total_human_fossil
-			value = 0
-		}
-	}
-	change_variable = {
-		name = andersson_total_human_fossil
-		add = $AMOUNT$
-	}
-	change_global_variable = {
-		name = andersson_global_human_fossil
-		add = $AMOUNT$
-	}
-	if = {
-		limit = { #Only works if there actually is an anthropologist
-			has_variable = andersson_anthropologist_var
-		}
-		var:andersson_anthropologist_var = {
-			if = { #Fallback if the variable does not exist yet
-				limit = {
-					NOT = {
-						has_variable = andersson_human_fossil_anthropologist_var
-					}
-				}
-				set_variable = {
-					name = andersson_human_fossil_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = { #The amount of human fossils that this anthropologist discovered
-				name = andersson_human_fossil_anthropologist_var
-				add = $AMOUNT$
 			}
 		}
 	}
