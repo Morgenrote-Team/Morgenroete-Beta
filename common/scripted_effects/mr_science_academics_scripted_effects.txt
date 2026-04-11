@@ -4406,3 +4406,90 @@ academics_add_professor_title_effect = {
 		post_notification = academics_character_receives_professor_title_notification
 	}
 }
+
+#Effect for experience gain effects
+# EXPERIENCE_VARIABLE = experience_variable of the character
+# AMOUNT = amount of experienced which was gained
+# BASE_CHANCE = Base chance for the specific role
+academics_character_add_title_from_experience_gain_effect = {
+	#Setting up scope values for the script_value
+	save_temporary_scope_value_as = {
+		name = experience
+		value = var:$EXPERIENCE_VARIABLE$
+	}
+	save_temporary_scope_value_as = {
+		name = amount
+		value = $AMOUNT$
+	}
+	save_temporary_scope_value_as = {
+		name = base_chance
+		value = $BASE_CHANCE$
+	}
+
+	if = {
+		owner = {
+			has_technology_researched = academia
+		}
+
+		#Doctor's degree
+		if = {
+			limit = {
+				NOT = { has_modifier = academics_character_is_doctor_modifier }
+			}
+
+			if = {
+				limit = { var:$EXPERIENCE_VARIABLE$ >= 150 }
+
+				academics_add_doctor_title_effect = yes
+			}
+			else = {
+				random_list = {
+					#Nothing
+					0 = {
+						modifier = {
+							add = academics_no_degree_chance_value
+						}
+					}
+					#Gain Degree
+					0 = {
+						academics_add_doctor_title_effect = yes
+
+						modifier = {
+							add = academics_degree_chance_value
+						}
+					}
+				}
+			}
+		}
+		#Professor
+		else_if = {
+			limit = {
+				NOT = { has_modifier = academics_character_is_professor_modifier }
+			}
+
+			if = {
+				limit = { var:$EXPERIENCE_VARIABLE$ >= 300 }
+
+				academics_add_professor_title_effect = yes
+			}
+			else = {
+				random_list = {
+					#Nothing
+					0 = {
+						modifier = {
+							add = academics_no_degree_chance_value
+						}
+					}
+					#Gain Degree
+					0 = {
+						academics_add_professor_title_effect = yes
+
+						modifier = {
+							add = academics_degree_chance_value
+						}
+					}
+				}
+			}
+		}
+	}
+}
