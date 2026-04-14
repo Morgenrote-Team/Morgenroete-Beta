@@ -15,7 +15,7 @@
 academics_give_professor_title_interaction = {
 	icon = "gfx/interface/icons/timed_modifier_icons/academics_title_professor_modifier.dds"
 	potential = {
-		owner = {
+		owner ?= {
 			has_technology_researched = academia
 		}
 		is_ruler_of_own_country = no
@@ -28,15 +28,42 @@ academics_give_professor_title_interaction = {
 	show_requirements = yes
 
 	possible = {
-		#TODO:
-		# has a specialized University
-		# Cooldown Modifier
+		trigger_if = {
+			limit = { academics_is_character_academic_technical_trigger = yes }
+			owner ?= {
+				any_scope_building = {
+					has_active_production_method = pm_dubois_university_mathematics
+				}
+			}
+		}
+		trigger_if = {
+			limit = { academics_is_character_academic_natural_trigger = yes }
+			owner ?= {
+				any_scope_building = {
+					has_active_production_method = pm_dubois_university_natural_history
+				}
+			}
+		}
+		trigger_if = {
+			limit = { academics_is_character_academic_humanities_trigger = yes }
+			owner ?= {
+				any_scope_building = {
+					has_active_production_method = pm_dubois_university_humanities
+				}
+			}
+		}
+		owner ?= {
+			NOT = { has_modifier = academics_professorship_cooldown_modifier }
+		}
 	}
 
 	effect = {
 		academics_add_professor_title_effect = yes
+		add_modifier = {
+			name = academics_professorship_cooldown_modifier
+			years = 2
+		}
 		#TODO:
-		# Cooldown modifier for country
 		# Negative Loyalty for academics of same specialty --> Maybe depending on the characters experience?
 		# Negative modifier for Intelligentsia
 	}
