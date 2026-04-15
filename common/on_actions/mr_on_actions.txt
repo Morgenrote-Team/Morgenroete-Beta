@@ -284,7 +284,6 @@ mr_on_game_started_after_lobby = {
 on_monthly_pulse = {
 	on_actions = {
 		mr_on_monthly_pulse
-		mr_on_weekly_pulse
 	}
 }
 
@@ -303,217 +302,6 @@ mr_on_monthly_pulse = {
 			remove_list_global_variable = {
 				name = custom_button_list
 				target = ideology:mr_sidebar_button_arts_sgui
-			}
-		}
-	}
-}
-
-mr_on_weekly_pulse = {
-	effect = {
-		com_run_weekly_event_country_effect = {
-			weekday = 1
-			on_action = mr_on_weekly_pulse_character_deaths
-		}
-	}
-}
-
-# Here the Characters get removed, if they exist but are not alive anymore.
-# This effect needs to be in an on_weekly_pulse because otherwise the check does not work,
-# because the characters get deleted when they are dead.
-mr_on_weekly_pulse_character_deaths = {
-	effect = {
-		if = {
-			limit = {
-				has_variable = tesla_engineer_var
-				var:tesla_engineer_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = academics.21
-		}
-		if = {
-			limit = {
-				has_variable = verrier_astronomer_var
-				var:verrier_astronomer_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = academics.22
-		}
-		if = {
-			limit = {
-				has_variable = mendelejew_chemist_var
-				var:mendelejew_chemist_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = academics.23
-		}
-		if = {
-			limit = {
-				has_variable = curie_physicist_var
-				var:curie_physicist_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = academics.24
-		}
-		if = {
-			limit = {
-				has_variable = agassiz_geologist_var
-				var:agassiz_geologist_var = {
-					is_character_alive = no
-				}
-			}
-			trigger_event = academics.25
-		}
-		if = {
-			limit = {
-				has_variable = dubois_naturalist_var
-				var:dubois_naturalist_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = academics.26
-		}
-		if = {
-			limit = {
-				has_variable = dubois_paleontologist_var
-				var:dubois_paleontologist_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = academics.27
-		}
-		if = {
-			limit = {
-				has_variable = theiler_biologist_var
-				var:theiler_biologist_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = academics.28
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_archaeologist_var
-				var:lepsius_archaeologist_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = academics.29
-		}
-		if = {
-			limit = {
-				has_variable = andersson_anthropologist_var
-				var:andersson_anthropologist_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = academics.30
-		}
-		if = {
-			limit = {
-				has_variable = panum_physician_var
-				var:panum_physician_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = academics.31
-		}
-		if = {
-			limit = {
-				has_variable = curtiss_balloonist_var
-				var:curtiss_balloonist_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = curtiss.676
-			trigger_event = curtiss.677
-		}
-		if = {
-			limit = {
-				has_variable = vikelas_racer_var
-				var:vikelas_racer_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = vikelas.592
-		}
-		if = {
-			limit = {
-				has_variable = douglas_mountaineer_var
-				var:douglas_mountaineer_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = athletes.12
-		}
-		if = {
-			limit = {
-				has_variable = elgar_composer_var
-				var:elgar_composer_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = artists.11
-		}
-		if = {
-			limit = {
-				has_variable = manzoni_writer_var
-				var:manzoni_writer_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = artists.12
-		}
-		if = {
-			limit = {
-				has_variable = klimt_painter_var
-				var:klimt_painter_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = artists.13
-		}
-		if = {
-			limit = {
-				has_variable = gaudi_architect_var
-				var:gaudi_architect_var ?= {
-					is_character_alive = no
-				}
-			}
-			trigger_event = artists.14
-		}
-
-		#Effects to remove dead people from lists
-		if = {
-			limit = {
-				NOT = { has_global_variable = mr_list_checker_timer_global_var }
-			}
-
-			set_global_variable = {
-				name = mr_list_checker_timer_global_var
-				days = 6
-			}
-
-			if = {
-				limit = {
-					has_variable_list = mr_local_writers_list
-					any_in_list = {
-						variable = mr_local_writers_list
-						is_character_alive = no
-					}
-				}
-				every_in_list = {
-					variable = mr_local_writers_list
-					limit = { is_character_alive = no }
-
-					remove_list_variable = {
-						name = mr_local_writers_list
-						target = this
-					}
-				}
 			}
 		}
 	}
@@ -921,6 +709,21 @@ mr_on_character_death = {
 
 				owner = {
 					trigger_event = artists.14
+				}
+			}
+
+			owner = {
+				if = {
+					limit = {
+						has_variable_list = mr_local_writers_list
+						any_in_list = {
+							this = root
+						}
+					}
+					remove_list_variable = {
+						name = mr_local_writers_list
+						target = root
+					}
 				}
 			}
 		}
