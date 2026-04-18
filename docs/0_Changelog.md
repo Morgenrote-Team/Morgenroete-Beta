@@ -9,6 +9,9 @@ Anthropology
 - Cave Paintings may be discovered by Anthropologists when doing speleology. They need to be at least experienced Anthropologists.
 - Historical Cave Paintings which are guaranteed in each game: Utah, Patagonia, Piaui, Asturias, Guyenne, East Sahara, Zululand, Central India, Guangxi, Sulawesi, Western Territories
 
+Archaeology
+- Default Action for Archaeologists gives +1 Artifact.
+
 Bicycles
 - Added Bicycles Tech
 - Bicycles Tech is needed for MO Bicycle Reconassaince
