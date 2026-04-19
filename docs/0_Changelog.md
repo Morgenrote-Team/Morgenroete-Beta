@@ -17,6 +17,7 @@ Archaeology
 - Introduced Local Archaeologist Trait. Archaeologists doing Archaeological projects have a 25% chance to get the Local Archaeologist Trait. The trait gives +1 Local Artifacts each year when doing Archaeologicla Projects.
 - Early Archaeology and Modern Archaeology give +1 local artifacts each when doing Archaeological Projects.
 - Added 4 events for local Han Artifacts.
+- Added 4 events for local (Unified) Silla Artifacts.
 
 Bicycles
 - Added Bicycles Tech
