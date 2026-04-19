@@ -9,6 +9,12 @@ Anthropology
 - Cave Paintings may be discovered by Anthropologists when doing speleology. They need to be at least experienced Anthropologists.
 - Historical Cave Paintings which are guaranteed in each game: Utah, Patagonia, Piaui, Asturias, Guyenne, East Sahara, Zululand, Central India, Guangxi, Sulawesi, Western Territories
 
+Archaeology
+- Local Excavations removed. The Default Action (Archaoelogical Project) substitutes it completely.
+- Stone Age events removed. We have Anthropology for that.
+- Changed icons for Local Artifacts to not confuse them with Prehistoric Artifacts.
+- Default Action for Archaeologists gives +1 Artifact.
+
 Bicycles
 - Added Bicycles Tech
 - Bicycles Tech is needed for MO Bicycle Reconassaince
