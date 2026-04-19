@@ -13,7 +13,9 @@ Archaeology
 - Local Excavations removed. The Default Action (Archaoelogical Project) substitutes it completely.
 - Stone Age events removed. We have Anthropology for that.
 - Changed icons for Local Artifacts to not confuse them with Prehistoric Artifacts.
-- Default Action for Archaeologists gives +1 Artifact.
+- Introduced Local Archaeologist Trait. Archaeologists doing Archaeological projects have a 25% chance to get the Local Archaeologist Trait. The trait gives +1 Local Artifacts each year when doing Archaeologicla Projects.
+- Early Archaeology and Modern Archaeology give +1 local artifacts each when doing Archaeological Projects.
+- The Museum has now a small, medium, large and excellent exhibition like the other exhibitions. Prestige is smaller, however: 10, 20, 35, 50. At the moment, no major artifact is needed for the excellent exhibition.
 
 Bicycles
 - Added Bicycles Tech
