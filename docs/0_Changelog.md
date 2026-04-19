@@ -1,4 +1,4 @@
-Changelog fot 2.7.1j "Willems"
+Changelog fot 2.7.1k "Willems"
 
-Fixes:
-- You should get tasked with finding pharmaceuticals other than emetine and strychnine again.
+AI:
+- The AI should now construct Nature Reserves in States that don't have one yet and have a Animal Habitat.
