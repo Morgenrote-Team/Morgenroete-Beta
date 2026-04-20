@@ -84,189 +84,54 @@ elgar_on_yearly_pulse_country = {
 		elgar.802 #Elgar 802: Outdated Anthem
 		elgar.803 #Elgar 803: Reactionary Anthem
 	}
+}
 
-	#Effects applied to Composers in the Void
+on_yearly_pulse = {
+	on_actions = {
+		elgar_on_yearly_pulse
+	}
+}
+
+elgar_on_yearly_pulse = {
 	effect = {
-		if = {
-			limit = { #Should only be executed once and not by every country. Global var checks for that.
-				NOT = { has_global_variable = elgar_character_death_limiter_global_var }
-			}
+		### Travelling Composer Effects ###
+		#Those effects change the experience of the travelling composers and give them the trait if necessary
 
-			#This is used to keep the effect from getting executed by multiple countries
-			set_global_variable = {
-				name = elgar_character_death_limiter_global_var
-				months = 11
-			}
+		every_in_global_list = {
+			variable = mr_travelling_composer_global_list
 
-			#Illnes Event for Donizetti [historical death, will only occur when not under contract]
+			#adds years as travelling composer
+			change_variable = {
+				name = mr_travelling_composer_year_counter_var
+				add = 1
+			}
 			if = {
 				limit = {
-					NOT = {
-						has_global_variable = elgar_donizetti_illness_happened
-					}
-					year >= 1845
-					year < 1848
-					any_character_in_void = {
-						has_template = mr_ita_donizetti_gaetano_character_template
-					}
+					var:mr_travelling_composer_year_counter_var >= 5
+					NOT = { has_trait = elgar_travelling_composer }
 				}
-				random_character_in_void = {
-					limit = {
-						has_template = mr_ita_donizetti_gaetano_character_template
-					}
-					if = {
-						limit = {
-							owner ?= {
-								var:elgar_composer_var ?= {
-									has_template = mr_ita_donizetti_gaetano_character_template
-								}
-							}
-						}
-						owner = {
-							trigger_event = elgar.513 #Elgar 513: Donizetti's illness, 1845 [will not be cured in 80 % of games]
-						}
-					}
-					else = { #Otherwise he just dies.
-						kill_character = yes
-					}
-				}
+				add_trait = elgar_travelling_composer
 			}
 
-			#Death Event for Donizetti [natural, a-historical death]
+			#Experience gain or loss
+			set_local_variable = {
+				name = elgar_experience_gain_local_var
+				value = { -2 4 }
+			}
+			void_composer_experience_gain_effect = { AMOUNT = local_var:elgar_experience_gain_local_var }
+
+			#Compositions for travelling Composers
 			if = {
-				limit = {
-					year >= 1868
-					year < 1871
-					any_character_in_void = {
-						has_template = mr_ita_donizetti_gaetano_character_template
-					}
-				}
-				random_character_in_void = {
-					limit = {
-						has_template = mr_ita_donizetti_gaetano_character_template
-					}
-					if = {
-						limit = {
-							owner ?= {
-								var:elgar_composer_var ?= {
-									has_template = mr_ita_donizetti_gaetano_character_template
-								}
-							}
-						}
-						owner = {
-							trigger_event = elgar.613 #Elgar 613: Donizetti Death
-						}
-					}
-					else = { #Otherwise he just dies.
-						kill_character = yes
-					}
-				}
-			}
-
-			#Schumann's Illness
-			if = {
-				limit = {
-					NOT = {
-						has_global_variable = elgar_schumann_illness_happened
-					}
-					year >= 1854
-					year < 1857
-					any_character_in_void = {
-						has_template = mr_ger_schumann_robert_character_template
-					}
-				}
-				random_character_in_void = {
-					limit = {
-						has_template = mr_ger_schumann_robert_character_template
-					}
-					if = {
-						limit = {
-							owner ?= {
-								var:elgar_composer_var ?= {
-									has_template = mr_ger_schumann_robert_character_template
-								}
-							}
-						}
-						owner = {
-							trigger_event = elgar.531 #Elgar 531: Schumann's illness, 1854 [will not be cured in 80 % of games]
-						}
-					}
-					else = { #Otherwise he just dies.
-						kill_character = yes
-					}
-				}
-			}
-
-			#Death Event for Schumann (a-historical)
-			if = {
-				limit = {
-					year >= 1885
-					year < 1888
-					any_character_in_void = {
-						has_template = mr_ger_schumann_robert_character_template
-					}
-				}
-				random_character_in_void = {
-					limit = {
-						has_template = mr_ger_schumann_robert_character_template
-					}
-					if = {
-						limit = {
-							owner ?= {
-								var:elgar_composer_var ?= {
-									has_template = mr_ger_schumann_robert_character_template
-								}
-							}
-						}
-						owner = {
-							trigger_event = elgar.622 #Elgar 622: Schumann Death
-						}
-					}
-					else = { #Otherwise he just dies.
-						kill_character = yes
-					}
-				}
-			}
-
-			### Travelling Composer Effects ###
-			#Those effects change the experience of the travelling composers and give them the trait if necessary
-
-			every_in_global_list = {
-				variable = mr_travelling_composer_global_list
-
-				#adds years as travelling composer
+				limit = { has_variable = elgar_composer_num_compositions_var }
 				change_variable = {
-					name = mr_travelling_composer_year_counter_var
-					add = 1
+					name = elgar_composer_num_compositions_var
+					add = { 1 3 }
 				}
-				if = {
-					limit = {
-						var:mr_travelling_composer_year_counter_var >= 5
-						NOT = { has_trait = elgar_travelling_composer }
-					}
-					add_trait = elgar_travelling_composer
-				}
-
-				#Experience gain or loss
-				set_local_variable = {
-					name = elgar_experience_gain_local_var
-					value = { -2 4 }
-				}
-				void_composer_experience_gain_effect = { AMOUNT = local_var:elgar_experience_gain_local_var }
-
-				#Compositions for travelling Composers
-				if = {
-					limit = { has_variable = elgar_composer_num_compositions_var }
-					change_variable = {
-						name = elgar_composer_num_compositions_var
-						add = { 1 3 }
-					}
-				}
-				else = {
-					set_variable = {
-						name = elgar_composer_num_compositions_var
-						value = { 1 3 }
-					}
+			}
+			else = {
+				set_variable = {
+					name = elgar_composer_num_compositions_var
+					value = { 1 3 }
 				}
 			}
 		}
