@@ -19,7 +19,7 @@ Archaeology
 - Added 4 events for local Han Artifacts.
 - Added 4 events for local (Unified) Silla Artifacts.
 - Added 4 events for local Yamato Artifacts.
-- Added 4 events for local Harappa Artifacts.
+- Added 4 events for local Harappa Artifacts. Events will only trigger after Harappa was discovered.
 
 Bicycles
 - Added Bicycles Tech
