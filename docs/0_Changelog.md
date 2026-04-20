@@ -18,6 +18,7 @@ Archaeology
 - Early Archaeology and Modern Archaeology give +1 local artifacts each when doing Archaeological Projects.
 - Added 4 events for local Han Artifacts.
 - Added 4 events for local (Unified) Silla Artifacts.
+- Added 4 events for local Yamato Artifacts.
 
 Bicycles
 - Added Bicycles Tech
