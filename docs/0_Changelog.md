@@ -16,7 +16,7 @@ Archaeology
 - The Museum has now a small, medium, large and excellent exhibition like the other exhibitions. Prestige is smaller, however: 10, 20, 35, 50.
 - Added Minor Excavation Sites: Angkor Wat, Cliff Palace
 - Having a Minor Excavation Site gives +1 Local Artifacts when doing Archaeological projects. Having more than one Minor Excavation Site will not give additional Local Artifacts.
-- Introduced Local Archaeologist Trait. Archaeologists doing Archaeological projects have a 25% chance to get the Local Archaeologist Trait. The trait gives +1 Local Artifacts each year when doing Archaeologicla Projects.
+- Introduced Local Archaeologist Trait. Archaeologists doing Archaeological projects have a 25% chance to get the Local Archaeologist Trait. The trait gives +1 Local Artifacts each year when doing Archaeological Projects.
 - Early Archaeology and Modern Archaeology give +1 local artifacts each when doing Archaeological Projects.
 - Archaeologists completing a Minor Excavation Site JE (like Nazca, Tikal, Pompeii etc) gain the Local Archaeologist Trait.
 - Added 4 events for local Han Artifacts.
