@@ -10,16 +10,26 @@ Anthropology
 - Historical Cave Paintings which are guaranteed in each game: Utah, Patagonia, Piaui, Asturias, Guyenne, East Sahara, Zululand, Central India, Guangxi, Sulawesi, Western Territories
 
 Archaeology
-- Local Excavations removed. The Default Action (Archaoelogical Project) substitutes it completely.
+- Local Excavations removed. The Default Action (Archaeological Project) substitutes it completely.
 - Stone Age events removed. We have Anthropology for that.
 - Changed icons for Local Artifacts to not confuse them with Prehistoric Artifacts.
-- The Museum has now a small, medium, large and excellent exhibition like the other exhibitions. Prestige is smaller, however: 10, 20, 35, 50. At the moment, no major artifact is needed for the excellent exhibition.
+- The Museum has now a small, medium, large and excellent exhibition like the other exhibitions. Prestige is smaller, however: 10, 20, 35, 50.
 - Introduced Local Archaeologist Trait. Archaeologists doing Archaeological projects have a 25% chance to get the Local Archaeologist Trait. The trait gives +1 Local Artifacts each year when doing Archaeologicla Projects.
 - Early Archaeology and Modern Archaeology give +1 local artifacts each when doing Archaeological Projects.
 - Added 4 events for local Han Artifacts.
 - Added 4 events for local (Unified) Silla Artifacts.
 - Added 4 events for local Yamato Artifacts.
 - Added 4 events for local Harappa Artifacts. Events will only trigger after Harappa was discovered.
+- Introduced a Major Local Artifact for the Local Archaeological Regions. They can be found in a specific state. You need to control the specific state and have a famous Archaeologist with the Local Archaeologist trait. It will trigger after a year when doing an Archaeological Project. The Major Artifacts are the following:
+- Rome: Hildesheim Treasure
+- Persia: Oxus Treasure
+- Aztec Empire: Statue of Xōchipilli
+- Carthage: Ksour Essef Cuirass
+- Celts: Gundestrup Cauldron
+- Hellenistic Kingdoms: Antikythera Mechanism
+- Han Dynasty: Flying Horse of Gansu
+- Unified Silla: Crowns of Silla
+- Indus Civilization (Harappa): Priest-King
 
 Bicycles
 - Added Bicycles Tech
