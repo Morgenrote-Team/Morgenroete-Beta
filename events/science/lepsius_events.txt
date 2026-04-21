@@ -316,8 +316,13 @@ namespace = lepsius
 #Lepsius 743: Schliemann donates Priam's treasure
 #Lepsius 744: Schliemann donates Priam's treasure (notification)
 
+######GOLDEN RAFT
+#Lepsius 751: The Golden Raft
+#Lepsius 752: The Golden Raft (Auction)
+
 ###PRE-COLUMBIAN ARTIFACTS
 #Lepsius 771: Burial Treasure of Pakal
+#Lepsius 772: The Belt Plaque
 
 #801-900 Excavation Events
 
@@ -17378,6 +17383,13 @@ lepsius.706 = {
 			lepsius_add_1_major_precolumbian_artifact = yes
 			set_variable = lepsius_major_artifact_pakal_found_var
 		}
+		if = {
+			limit = {
+				has_variable = lepsius_smuggle_plaque_var
+			}
+			lepsius_add_1_major_precolumbian_artifact = yes
+			set_variable = lepsius_major_artifact_plaque_found_var
+		}
 	}
 	after = {
 		hidden_effect = {
@@ -17391,6 +17403,7 @@ lepsius.706 = {
 			remove_variable = lepsius_smuggle_diskos_var
 			remove_variable = lepsius_smuggle_snake_var
 			remove_variable = lepsius_smuggle_pakal_var
+			remove_variable = lepsius_smuggle_plaque_var
 
 			lepsius_update_exhibition_effect = yes
 		}
@@ -18394,7 +18407,7 @@ lepsius.751 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				state_region = s:STATE_CUNDIMARCA
+				state_region = s:STATE_CUNDINAMARCA
 			}
 			save_scope_as = lepsius_guatavita_state
 		}
@@ -18460,7 +18473,7 @@ lepsius.752 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				state_region = s:STATE_CUNDIMARCA
+				state_region = s:STATE_CUNDINAMARCA
 			}
 			save_scope_as = lepsius_guatavita_state
 			owner = {
@@ -18604,6 +18617,102 @@ lepsius.771 = {
 					id = lepsius.706
 				}
 			}
+		}
+	}
+}
+
+#Lepsius 772: The Belt Plaque
+
+lepsius.772 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = lepsius.772.t
+
+    desc = lepsius.772.d
+
+	flavor = lepsius.772.f
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/yucatan/lepsius_yucatan_plate11_uxmal.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		has_modifier = lepsius_yucatan_excavation_modifier
+	}
+
+	immediate = {
+		#This is used to keep track of the country and year of the discovery of the Artifact
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = lepsius_plaque_discoverer_global_var
+				}
+			}
+			set_global_variable = {
+				name = lepsius_plaque_discoverer_global_var
+				value = root.country_definition
+			}
+			set_global_variable = {
+				name = lepsius_plaque_year_global_var
+				value = year
+			}
+		}
+	}
+
+	option = { #It will be the finest exhibit in our collection.
+		name = lepsius.711.g
+		trigger = {
+			any_scope_state = {
+				has_state_trait = lepsius_state_trait_yucatan
+			}
+		}
+		default_option = yes
+		lepsius_add_1_major_aegean_artifact = yes
+		set_variable = lepsius_major_artifact_plaque_found_var
+	}
+	option = { #We should try to get the artifact out of the country safely...
+		name = lepsius.711.h
+		trigger = {
+			NOT = {
+				any_scope_state = {
+					has_state_trait = lepsius_state_trait_yucatan
+				}
+			}
+		}
+		set_variable = lepsius_smuggling_major_artifact_var
+		set_variable = lepsius_smuggle_plaque_var
+		random_list = {
+			85 = {
+				random_country = {
+					limit = {
+						any_scope_state = {
+							has_state_trait = lepsius_state_trait_yucatan
+						}
+					}
+					trigger_event = {
+						id = lepsius.701
+					}
+				}
+			}
+			15 = {
+				trigger_event = {
+					id = lepsius.706
+				}
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_technology_researched = lepsius_specialization_precolumbian_tech
+			factor = 2
 		}
 	}
 }
