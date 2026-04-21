@@ -1,5 +1,10 @@
 Changelog fot 2.8.0 "Koganei"
 
+Character System
+- Most Morgenröte Characters do no longer live in the Void and are normal characters now.
+- Morgenröte Characters now have a role. Some historical characters have multiple roles and can spawn in any of these roles.
+- Academics now have the titles Doctor and Professor (ans Sir/Dame for nobles in the Anglosphere). You can grant a Professorship to a character.
+
 Anthropology
 - Anthropology tech depends now on Paleontology and Ethnology; it was Paleontology and Early Archaoelogy before.
 - Added Institute of Anthropology and Ethnology.
