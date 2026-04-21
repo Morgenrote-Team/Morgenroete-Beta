@@ -3326,7 +3326,7 @@ lepsius.79 = {
 			save_scope_as = lepsius_archaeologist_scope
 			set_variable = {
 				name = lepsius_archaeologist_achievement_restored_angkor_var
-				value = flag:lepsius_archaeologist_achievement_discovered_angkor_loc
+				value = flag:lepsius_archaeologist_achievement_restored_angkor_loc
 			}
 		}
 		random_scope_state = {
@@ -18367,6 +18367,161 @@ lepsius.744 = {
 	}
 }
 
+######THE GOLDEN RAFT#######
+
+#Lepsius 751: The Golden Raft
+lepsius.751 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = lepsius.751.t
+	desc = lepsius.751.d
+	flavor = lepsius.751.f
+
+	placement = scope:lepsius_guatavita_state
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_eldorado.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_CUNDIMARCA
+			}
+			save_scope_as = lepsius_guatavita_state
+		}
+		#This is used to keep track of the country and year of the discovery of the Artifact
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = lepsius_raft_discoverer_global_var
+				}
+			}
+			set_global_variable = {
+				name = lepsius_raft_discoverer_global_var
+				value = root.country_definition
+			}
+			set_global_variable = {
+				name = lepsius_raft_year_global_var
+				value = year
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.751.g #It will be the finest exhibit in our collection.
+		default_option = yes
+		trigger = {
+			lepsius_has_archaeological_museum = yes
+		}
+		lepsius_add_1_major_precolumbian_artifact = yes
+		set_variable = lepsius_major_artifact_raft_found_var
+		lepsius_update_exhibition_effect = yes
+	}
+
+	option = {
+		name = lepsius.751.h #We don't have a museum for it. We should sell it in exchange for money, scientific assistance, and a political favor.
+		lepsius_large_add_technology = yes
+		add_treasury = 1000000
+		lepsius_raft_auction_effect = yes
+	}
+}
+
+#Lepsius 752: The Golden Raft (Auction)
+lepsius.752 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = lepsius.751.t
+	desc = lepsius.752.d
+	flavor = lepsius.751.f
+
+	placement = scope:lepsius_guatavita_state
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_eldorado.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_CUNDIMARCA
+			}
+			save_scope_as = lepsius_guatavita_state
+			owner = {
+				save_scope_as = lepsius_raft_country
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.752.g #We need this artifact at any cost!
+		default_option = yes
+		
+		lepsius_add_1_major_precolumbian_artifact = yes
+		set_variable = lepsius_major_artifact_raft_found_var
+		add_treasury = -1000000
+		ROOT = {
+			set_owes_obligation_to = {
+				country = scope:lepsius_raft_country
+				setting = yes
+			}
+		}
+		lepsius_update_exhibition_effect = yes
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				trigger = {
+					gold_reserves < 1000000
+				}
+				subtract = 100
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.752.h #We can't buy this.
+		set_variable = lepsius_raft_auction_denied_var
+		hidden_effect = {
+			if = {
+				limit = {
+					any_country = {
+						has_variable = lepsius_raft_auction_denied_var
+						count <= 4
+					}
+				}
+				lepsius_raft_auction_effect = yes
+			}
+			else = {
+				set_global_variable = lepsius_raft_lost_global_var
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	after = {
+	}
+}
+
 ######PRE-COLUMBIAN ARTIFACTS######
 
 #Lepsius 771: Burial Treasure of Pakal
@@ -28110,6 +28265,18 @@ lepsius.2234 = {
 ### Mississipian Culture ###
 
 #Lepsius 2265: Malden Plates
+
+### Columbian Cultures ###
+
+#Lepsius 2271: Tairona Pendants
+
+#Lepsius 2272: San Augustín Statue
+
+#Lepsius 2273: Quimbaya Artifacts
+
+#Lepsius 2274: Muisca Gold
+
+#Lepsius 2275: The Golden Cacique
 
 ######Archaeologist Events (without interactions)######
 
