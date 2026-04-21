@@ -19,7 +19,7 @@ Archaeology
 - Stone Age events removed. We have Anthropology for that.
 - Changed icons for Local Artifacts to not confuse them with Prehistoric Artifacts.
 - The Museum has now a small, medium, large and excellent exhibition like the other exhibitions. Prestige is smaller, however: 10, 20, 35, 50.
-- Added Minor Excavation Sites: Angkor Wat, Cliff Palace
+- Added Minor Excavation Sites: Angkor Wat, Cliff Palace, Guatavita Lake.
 - Having a Minor Excavation Site gives +1 Local Artifacts when doing Archaeological projects. Having more than one Minor Excavation Site will not give additional Local Artifacts.
 - Introduced Local Archaeologist Trait. Archaeologists doing Archaeological projects have a 25% chance to get the Local Archaeologist Trait. The trait gives +1 Local Artifacts each year when doing Archaeological Projects.
 - Early Archaeology and Modern Archaeology give +1 local artifacts each when doing Archaeological Projects.
@@ -30,8 +30,8 @@ Archaeology
 - Added 4 events for local Harappa Artifacts. Events will only trigger after Harappa was discovered.
 - Added Major Pre-Columbian Artifact: The Golden Raft of Siecha.
 - Added Major Pre-Columbian Artifact: Belt Plaque (Leyden Plaque).
-- The Crystall Skull is not a Major Pre-Columbian Artifact anymore. However, it is still considered a Major Local Artifact (until the fraud is exposed).
-- Introduced a Major Local Artifact for the Local Archaeological Regions. They can be found in a specific state. You need to control the specific state and have a famous Archaeologist with the Local Archaeologist trait. It will trigger after a year when doing an Archaeological Project. The Major Artifacts are the following:
+- The Crystall Skull is not a Major Pre-Columbian Artifact anymore. However, it is still considered a Major Local Artifact and can help to assemble an Excellent Local Exhibition (until the fraud is exposed).
+- Introduced a Major Local Artifact for each of the Local Archaeological Regions. They can be found in a specific state. You need to control the specific state and have a famous Archaeologist with the Local Archaeologist trait. It will trigger after a year when doing an Archaeological Project. The Major Artifacts are the following:
 - Rome: Hildesheim Treasure
 - Persia: Oxus Treasure
 - Aztec Empire: Statue of Xōchipilli
