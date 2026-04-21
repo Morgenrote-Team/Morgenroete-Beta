@@ -28,6 +28,9 @@ Archaeology
 - Added 4 events for local (Unified) Silla Artifacts.
 - Added 4 events for local Yamato Artifacts.
 - Added 4 events for local Harappa Artifacts. Events will only trigger after Harappa was discovered.
+- Added Major Pre-Columbian Artifact: The Golden Raft of Siecha.
+- Added Major Pre-Columbian Artifact: Belt Plaque (Leyden Plaque).
+- The Crystall Skull is not a Major Pre-Columbian Artifact anymore. However, it is still considered a Major Local Artifact (until the fraud is exposed).
 - Introduced a Major Local Artifact for the Local Archaeological Regions. They can be found in a specific state. You need to control the specific state and have a famous Archaeologist with the Local Archaeologist trait. It will trigger after a year when doing an Archaeological Project. The Major Artifacts are the following:
 - Rome: Hildesheim Treasure
 - Persia: Oxus Treasure
@@ -39,6 +42,10 @@ Archaeology
 - Unified Silla: Crowns of Silla
 - Yamato: Haniwa Warrior
 - Indus Civilization (Harappa): Priest-King
+- Angkor (Khmer): Reclining Vishnu
+- Axum: Obelisk of Axum
+- Mississipian Culture: Malden Plates
+- Colombian Cultures (Musica, Quimbaya, Zelú, Tairona, San Augustín): Quimbaya Treasure
 
 Bicycles
 - Added Bicycles Tech
