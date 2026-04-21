@@ -106,3 +106,6 @@ Characters:
 - Auguste Piccard (random Swiss Chemist)
 - Franz Weidenreich (random German Anthropologist)
 - Yoshikiyo Koganei (random Japanese Anthropologist)
+
+Graphics:
+- Added various new Tech Icons by Valerie P (Thanks to Cipherparadox for sharing some of them with us!).
