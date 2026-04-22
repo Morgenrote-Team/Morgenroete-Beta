@@ -1173,104 +1173,21 @@ astronomer_experience_set_up_effect = {
 #Astronomer Experience gain
 astronomer_experience_gain_effect = { #adds XP to the Astronomer
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
-		value = $AMOUNT$
-	}
-
-	if = {
-		limit = {
-			has_variable = verrier_astronomer_var #should only add experience if there actually is an Astronomer
-		}
-		custom_tooltip = {
-			text = verrier_astronomer_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:verrier_astronomer_var = { #Fallback to make sure there are no errors if the Astronomer does not have the variable yet
-							has_variable = verrier_astronomer_experience_var
-						}
-					}
-				}
-				var:verrier_astronomer_var = { #Sets the experience in case it was not set yet
-					astronomer_experience_set_up_effect = yes
-				}
-			}
-			var:verrier_astronomer_var = {
-				change_variable = {
-					name = verrier_astronomer_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = verrier_astronomer_experience_var
-					min = 0
-					max = 300
-				}
-			}
-		}
-		if = {
-			limit = {
-				var:verrier_astronomer_var = {
-					var:verrier_astronomer_experience_var >= 100
-					NOT = {
-						var:verrier_astronomer_experience_var >= 300
-					}
-					NOR = {
-						has_trait = verrier_astronomer_experienced
-						has_trait = verrier_astronomer_famous
-					}
-				}
-			}
-			var:verrier_astronomer_var = {
-				hidden_effect = {
-					remove_trait = verrier_astronomer
-					add_trait = verrier_astronomer_experienced
-				}
-			}
-			trigger_event = {
-				id = academics.102
-				popup = yes
-			}
-		}
-		if = {
-			limit = {
-				var:verrier_astronomer_var = {
-					var:verrier_astronomer_experience_var >= 300
-					NOT = {
-						has_trait = verrier_astronomer_famous
-					}
-				}
-			}
-			var:verrier_astronomer_var = {
-				hidden_effect = {
-					remove_trait = verrier_astronomer
-					remove_trait = verrier_astronomer_experienced
-					add_trait = verrier_astronomer_famous
-				}
-			}
-			trigger_event = {
-				id = academics.103
-				popup = yes
-			}
-		}
-
-		var:verrier_astronomer_var ?= {
-			academics_astronomer_add_academic_title_effect = yes
-		}
+	var:verrier_astronomer_var ?= {
+		verrier_character_astronomer_experience_gain_effect = { AMOUNT = $AMOUNT$ }
 	}
 }
 
-#Astronomer Experience gain
-astronomer_character_experience_gain_effect = { #adds XP to the Astronomer
-	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
+#Character Astronomer Experience Gain Effect
+# scope = character
+verrier_character_astronomer_experience_gain_effect = { #adds Astronomer XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "verrier_character_astronomer_experience_gain_effect_loc"
+		subject = this
 		value = $AMOUNT$
-	}
-	save_scope_as = character
 
-	custom_tooltip = {
-		text = verrier_astronomer_experience_gain_character_tt
+		#Fallback if there is no Experience yet
 		if = {
 			limit = {
 				NOT = {
@@ -1279,34 +1196,39 @@ astronomer_character_experience_gain_effect = { #adds XP to the Astronomer
 			}
 			astronomer_experience_set_up_effect = yes
 		}
+		#Actual change of Experience
 		change_variable = {
 			name = verrier_astronomer_experience_var
 			add = $AMOUNT$
 		}
+		#Clamping to prevent overflow
 		clamp_variable = {
 			name = verrier_astronomer_experience_var
 			min = 0
 			max = 300
 		}
 	}
+
+	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
 			var:verrier_astronomer_experience_var >= 100
-			NOT = {
-				var:verrier_astronomer_experience_var >= 300
-			}
+			var:verrier_astronomer_experience_var < 300
 			NOR = {
 				has_trait = verrier_astronomer_experienced
 				has_trait = verrier_astronomer_famous
 			}
 		}
-		if = {
-			limit = {
-				has_trait = verrier_astronomer
+		owner ?= {
+			trigger_event = {
+				id = academics.102
+				popup = yes
 			}
-			remove_trait = verrier_astronomer
 		}
-		add_trait = verrier_astronomer_experienced
+		hidden_effect = {
+			remove_trait = verrier_astronomer
+			add_trait = verrier_astronomer_experienced
+		}
 	}
 	if = {
 		limit = {
@@ -1315,21 +1237,23 @@ astronomer_character_experience_gain_effect = { #adds XP to the Astronomer
 				has_trait = verrier_astronomer_famous
 			}
 		}
-		if = {
-			limit = {
-				has_trait = verrier_astronomer
+		owner ?= {
+			trigger_event = {
+				id = academics.103
+				popup = yes
 			}
-			remove_trait = verrier_astronomer
 		}
-		if = {
-			limit = {
-				has_trait = verrier_astronomer_experienced
+		hidden_effect = {
+			if = {
+				limit = { has_trait = verrier_astronomer }
+				remove_trait = verrier_astronomer
 			}
 			remove_trait = verrier_astronomer_experienced
+			add_trait = verrier_astronomer_famous
 		}
-		add_trait = verrier_astronomer_famous
 	}
 
+	#Add Academic Title if Character does not have one yet
 	academics_astronomer_add_academic_title_effect = yes
 }
 
@@ -1470,7 +1394,7 @@ chemist_experience_gain_effect = { #adds Chemist XP to the official Chemist
 }
 
 #Character Chemist Experience Gain Effect
-# scope = strategic region
+# scope = character
 mendelejew_character_chemist_experience_gain_effect = { #adds Chemist XP to the Character
 	# AMOUNT = amount of XP to add
 	custom_description = {
@@ -1650,7 +1574,7 @@ physicist_experience_set_up_effect = {
 		UNI_PM = pm_dubois_university_mathematics
 	}
 
-	if = { #Adds the Experienced Astronomer Trait if Experience is above 100
+	if = { #Adds the Experienced Physicist Trait if Experience is above 100
 		limit = {
 			var:curie_physicist_experience_var >= 100
 			NOT = {
@@ -1664,7 +1588,7 @@ physicist_experience_set_up_effect = {
 		remove_trait = curie_physicist
 		add_trait = curie_physicist_experienced
 	}
-	if = { #Adds the Famous Astronomer Trait if Experience is above 300
+	if = { #Adds the Famous Physicist Trait if Experience is above 300
 		limit = {
 			var:curie_physicist_experience_var >= 300
 			NOT = {
@@ -1682,94 +1606,88 @@ physicist_experience_set_up_effect = {
 #Physicist Experience gain
 physicist_experience_gain_effect = { #adds XP to the Physicist
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
-		value = $AMOUNT$
+	var:curie_physicist_var ?= {
+		curie_character_physicist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
 	}
+}
 
-	if = {
-		limit = {
-			has_variable = curie_physicist_var #should only add experience if there actually is an Physicist
-		}
-		custom_tooltip = {
-			text = curie_physicist_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:curie_physicist_var = { #Fallback to make sure there are no errors if the Physicist does not have the variable yet
-							has_variable = curie_physicist_experience_var
-						}
-					}
-				}
-				var:curie_physicist_var = { #Sets the experience in case it was not set yet
-					physicist_experience_set_up_effect = yes
-				}
-			}
-			var:curie_physicist_var = {
-				change_variable = {
-					name = curie_physicist_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = curie_physicist_experience_var
-					min = 0
-					max = 300
-				}
-			}
-		}
+#Character Physicist Experience Gain Effect
+# scope = character
+curie_character_physicist_experience_gain_effect = { #adds Physicist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "curie_character_physicist_experience_gain_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
 		if = {
 			limit = {
-				var:curie_physicist_var = {
-					var:curie_physicist_experience_var >= 100
-					NOT = {
-						var:curie_physicist_experience_var >= 300
-					}
-					NOR = {
-						has_trait = curie_physicist_experienced
-						has_trait = curie_physicist_famous
-					}
+				NOT = {
+					has_variable = curie_physicist_experience_var
 				}
 			}
+			physicist_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = curie_physicist_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = curie_physicist_experience_var
+			min = 0
+			max = 300
+		}
+	}
+
+	#Add Traits if the character does not have one yet
+	if = {
+		limit = {
+			var:curie_physicist_experience_var >= 100
+			var:curie_physicist_experience_var < 300
+			NOR = {
+				has_trait = curie_physicist_experienced
+				has_trait = curie_physicist_famous
+			}
+		}
+		owner ?= {
 			trigger_event = {
 				id = academics.106
 				popup = yes
 			}
-			var:curie_physicist_var = {
-				hidden_effect = {
-					remove_trait = curie_physicist
-					add_trait = curie_physicist_experienced
-				}
+		}
+		hidden_effect = {
+			remove_trait = curie_physicist
+			add_trait = curie_physicist_experienced
+		}
+	}
+	if = {
+		limit = {
+			var:curie_physicist_experience_var >= 300
+			NOT = {
+				has_trait = curie_physicist_famous
 			}
 		}
-		if = {
-			limit = {
-				var:curie_physicist_var = {
-					var:curie_physicist_experience_var >= 300
-					NOT = {
-						has_trait = curie_physicist_famous
-					}
-				}
-			}
+		owner ?= {
 			trigger_event = {
 				id = academics.107
 				popup = yes
 			}
-			var:curie_physicist_var = {
-				hidden_effect = {
-					if = {
-						limit = { has_trait = curie_physicist }
-						remove_trait = curie_physicist
-					}
-					remove_trait = curie_physicist_experienced
-					add_trait = curie_physicist_famous
-				}
-			}
 		}
-
-		var:curie_physicist_var ?= {
-			academics_physicist_add_academic_title_effect = yes
+		hidden_effect = {
+			if = {
+				limit = { has_trait = curie_physicist }
+				remove_trait = curie_physicist
+			}
+			remove_trait = curie_physicist_experienced
+			add_trait = curie_physicist_famous
 		}
 	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_physicist_add_academic_title_effect = yes
 }
 
 ######GEOLOGIST######
@@ -4668,6 +4586,12 @@ mr_academics_yearly_experience_gain_effect = {
 	every_character_is_engineer = {
 	}
 	every_character_is_chemist = {
-		chemist_experience_gain_effect =
+		mendelejew_character_chemist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_astronomer = {
+		verrier_character_astronomer_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_physicist = {
+		curie_character_physicist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
 	}
 }
