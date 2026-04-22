@@ -13541,77 +13541,33 @@ lepsius.521 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
-	cooldown = {
-		years = 5
-	}
-
-	trigger = {
-		OR = {
-			has_modifier = lepsius_babylonia_expedition_modifier
-			has_modifier = lepsius_babylonia_excavation_modifier
-		}
-		NOT = {
-			has_global_variable = lepsius_narrative_ishtar_build_var
-			var:lepsius_archaeological_expedition_progress >= 4 #will only trigger in the beginning of an expedition
-		}
-	}
-
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		set_archaeological_expedition_leader_effect = yes
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeological_expedition_leader
+		}
 		capital = {
 			save_scope_as = capital_scope
 		}
 	}
-	option = { #Just take some parts. It should stay where it is
-		name = lepsius.521.g
-		default_option = yes
-		lepsius_add_x_minor_artifacts = { AMOUNT = 2 }
-		if = {
-			limit = {
-				lepsius_on_archaeological_expedition = yes
-			}
-			lepsius_expedition_success_medium_add = yes
-		}
-	}
+	
 	option = { #It should be transported to $CAPITAL$ and reconstructed
 		name = lepsius.521.h
-		custom_tooltip = lepsius.521.tt
-		set_global_variable = lepsius_narrative_ishtar_build_var #only one country can have this
 		set_variable = {
             name = lepsius_ishtar_fragments
             value = 0
 		}
-		add_modifier = {
-			name = lepsius_ishtar_gate_cost_modifier
-			multiplier = mr_project_cost_very_small_value
-		}
-		add_journal_entry = {
-			type = je_ishtar_gate
+		je:je_gaudi_study_trip = {
+			add_modifier = {
+				name = lepsius_ishtar_gate_cost_modifier
+				multiplier = mr_project_cost_very_small_value
+			}
 		}
 		hidden_effect = {
 			trigger_event = { #first fragments free
 				id = lepsius.522
 				days = 30
 			}
-		}
-	}
-	after = {
-		hidden_effect = {
-			if = {
-				limit = {
-					lepsius_on_archaeological_expedition = yes
-				}
-				lepsius_archaeological_expedition_progress = yes
-			}
-		}
-	}
-
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			has_variable = lepsius_mysterious_guide_var
-			factor = 50
 		}
 	}
 }
@@ -13943,10 +13899,6 @@ lepsius.530 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
-	trigger = {
-		has_modifier = lepsius_babylonia_excavation_modifier
-	}
-
 	immediate = {
 		if = {
 			limit = {
@@ -13959,14 +13911,26 @@ lepsius.530 = {
 				}
 			}
 		}
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = lepsius_ishtar_discoverer_global_var
+				}
+			}
+			set_global_variable = {
+				name = lepsius_ishtar_discoverer_global_var
+				value = root.country_definition
+			}
+			set_global_variable = {
+				name = lepsius_ishtar_year_global_var
+				value = year
+			}
+		}
 	}
 
 	option = { #Magnificient!
 		name = lepsius.530.g
-		remove_modifier = lepsius_ishtar_gate_cost_modifier
-		add_modifier = {
-			name = lepsius_ishtar_gate_modifier
-		}
+		lepsius_add_1_major_mesopotamian_artifact = yes
 	}
 }
 
