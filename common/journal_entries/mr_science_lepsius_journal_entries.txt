@@ -2856,16 +2856,119 @@ je_lepsius_ishtar_gate = {
 
 	invalid = {
 		custom_tooltip = {
-			text = je_ishtar_gate_needle_fail
+			text = je_lepsius_ishtar_gate_fail
 			has_global_variable = lepsius_ishtar_gate_transport_global_var
 		}
     }
 
 	on_complete = {
 		set_global_variable = lepsius_ishtar_gate_transport_global_var
+		trigger_event = { id = lepsius.521 }
 	}
 
 	weight = 10
+}
+
+#Piedras Negras
+je_lepsius_piedras_negras = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = lepsius_piedras_negras_transport_global_var
+		}
+		has_technology_researched = lepsius_specialization_precolumbian_tech
+	}
+
+	possible = {
+		has_technology_researched = lepsius_specialization_precolumbian_tech
+	}
+
+	complete = {
+		has_modifier = lepsius_yucatan_excavation_modifier
+		country_rank >= rank_value:major_power
+		lepsius_has_archaeological_museum = yes
+		lepsius_has_archaeologist = yes
+		tesla_has_engineer = yes
+		has_technology_researched = lepsius_modern_archaeology_tech
+		OR = {
+			s:STATE_GUATEMALA = {
+				any_scope_state = {
+					owner = ROOT
+				}
+			}
+			p:x30E01C.state.owner = {
+				is_subject_of = ROOT
+			}
+			p:x30E01C.state.owner = {
+				relations:root >= relations_threshold:amicable
+			}
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_lepsius_piedras_negras_fail
+			has_global_variable = lepsius_piedras_negras_transport_global_var
+		}
+    }
+
+	on_complete = {
+		set_global_variable = lepsius_piedras_negras_transport_global_var
+	}
+
+	weight = 10
+}
+
+#Cleopatra's Needle Transport
+je_lepsius_cleopatras_needle_transport = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	scripted_progress_bar = lepsius_monument_cleopatras_progress_bar
+	scripted_progress_bar = lepsius_monument_restauration_progress_bar
+	scripted_progress_bar = lepsius_monument_reconstruction_progress_bar
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_variable = lepsius_cleopatras_needle_minimum_var
+					}
+					scope:journal_entry = {
+						"scripted_bar_progress(lepsius_monument_cleopatras_progress_bar)" >= 12
+					}
+				}
+				set_variable = lepsius_cleopatras_needle_minimum_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_cleopatras_needle_success
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_cleopatras_progress_bar)" >= 12
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_restauration_progress_bar)" >= 75
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_reconstruction_progress_bar)" >= 50
+			}
+		}
+	}
+
+	on_complete = {
+		
+	}
+
+    weight = 10
+    transferable = no
 }
 
 #Ishtar Gate Transport
@@ -2877,6 +2980,15 @@ je_lepsius_ishtar_gate_transport = {
 	scripted_progress_bar = lepsius_monument_ishtar_progress_bar
 	scripted_progress_bar = lepsius_monument_restauration_progress_bar
 	scripted_progress_bar = lepsius_monument_reconstruction_progress_bar
+
+	immediate = {
+		je:je_lepsius_ishtar_gate_transport = {
+			add_modifier = {
+				name = lepsius_ishtar_gate_cost_modifier
+				multiplier = mr_project_cost_very_small_value
+			}
+		}
+	}
 
 	on_yearly_pulse = {
 		effect = {
@@ -2929,23 +3041,30 @@ je_lepsius_ishtar_gate_transport = {
 			}
 			if = {
 				limit = {
+					NOT = {
+						has_variable = lepsius_ishtar_gate_minimum_var
+					}
 					scope:journal_entry = {
 						"scripted_bar_progress(lepsius_monument_ishtar_progress_bar)" >= 100000
 					}
 				}
-				NOT = {
-					has_variable = lepsius_ishtar_gate_minimum_var
-				}
+				has_variable = lepsius_ishtar_gate_minimum_var
 			}
 		}
 	}
 
 	complete = {
 		custom_tooltip = {
-			text = je_ishtar_gate_success
+			text = je_lepsius_ishtar_gate_transport_success
 			scope:journal_entry = {
-				is_goal_complete = yes
+				"scripted_bar_progress(lepsius_monument_ishtar_progress_bar)" >= 200000
 			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_restauration_progress_bar)" >= 75
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_reconstruction_progress_bar)" >= 50
+			}		
 		}
 	}
 
@@ -2953,6 +3072,104 @@ je_lepsius_ishtar_gate_transport = {
 		trigger_event = {
 			id = lepsius.530
 		}
+	}
+
+    weight = 10
+    transferable = no
+}
+
+#Piedas Negras Transport
+je_lepsius_piedas_negras_transport = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	scripted_progress_bar = lepsius_monument_stele_progress_bar
+	scripted_progress_bar = lepsius_monument_restauration_progress_bar
+	scripted_progress_bar = lepsius_monument_reconstruction_progress_bar
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_variable = lepsius_piedas_negras_minimum_var
+					}
+					scope:journal_entry = {
+						"scripted_bar_progress(lepsius_monument_stele_progress_bar)" >= 12
+					}
+				}
+				set_variable = lepsius_piedas_negras_minimum_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_piedas_negras_success
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_stele_progress_bar)" >= 12
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_restauration_progress_bar)" >= 75
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_reconstruction_progress_bar)" >= 50
+			}
+		}
+	}
+
+	on_complete = {
+		
+	}
+
+    weight = 10
+    transferable = no
+}
+
+#Axum Obelisk Transport
+je_lepsius_axum_obelisk_transport = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	scripted_progress_bar = lepsius_monument_axum_progress_bar
+	scripted_progress_bar = lepsius_monument_restauration_progress_bar
+	scripted_progress_bar = lepsius_monument_reconstruction_progress_bar
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_variable = lepsius_axum_obelisk_minimum_var
+					}
+					scope:journal_entry = {
+						"scripted_bar_progress(lepsius_monument_axum_progress_bar)" >= 12
+					}
+				}
+				set_variable = lepsius_axum_obelisk_minimum_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_axum_obelisk_success
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_axum_progress_bar)" >= 12
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_restauration_progress_bar)" >= 75
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_reconstruction_progress_bar)" >= 50
+			}
+		}
+	}
+
+	on_complete = {
+		
 	}
 
     weight = 10
