@@ -1463,96 +1463,89 @@ chemist_experience_set_up_effect = {
 }
 
 #Chemist Experience gain
-chemist_experience_gain_effect = { #adds XP to the Chemist
-	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
-		value = $AMOUNT$
+chemist_experience_gain_effect = { #adds Chemist XP to the official Chemist
+	var:mendelejew_chemist_var ?= {
+		mendelejew_character_chemist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
 	}
+}
 
-	if = {
-		limit = {
-			has_variable = mendelejew_chemist_var #should only add experience if there actually is an Chemist
-		}
-		custom_tooltip = {
-			text = mendelejew_chemist_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:mendelejew_chemist_var = { #Fallback to make sure there are no errors if the Chemist does not have the variable yet
-							has_variable = mendelejew_chemist_experience_var
-						}
-					}
-				}
-				var:mendelejew_chemist_var = { #Sets the experience in case it was not set yet
-					chemist_experience_set_up_effect = yes
-				}
-			}
-			var:mendelejew_chemist_var = {
-				change_variable = {
-					name = mendelejew_chemist_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = mendelejew_chemist_experience_var
-					min = 0
-					max = 300
-				}
-			}
-		}
+#Character Chemist Experience Gain Effect
+# scope = strategic region
+mendelejew_character_chemist_experience_gain_effect = { #adds Chemist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "mendelejew_character_chemist_experience_gain_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
 		if = {
 			limit = {
-				var:mendelejew_chemist_var = {
-					var:mendelejew_chemist_experience_var >= 100
-					NOT = {
-						var:mendelejew_chemist_experience_var >= 300
-					}
-					NOR = {
-						has_trait = mendelejew_chemist_experienced
-						has_trait = mendelejew_chemist_famous
-					}
+				NOT = {
+					has_variable = mendelejew_chemist_experience_var
 				}
 			}
+			chemist_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = mendelejew_chemist_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = mendelejew_chemist_experience_var
+			min = 0
+			max = 300
+		}
+	}
+
+	#Add Traits if the character does not have one yet
+	if = {
+		limit = {
+			var:mendelejew_chemist_experience_var >= 100
+			var:mendelejew_chemist_experience_var < 300
+			NOR = {
+				has_trait = mendelejew_chemist_experienced
+				has_trait = mendelejew_chemist_famous
+			}
+		}
+		owner ?= {
 			trigger_event = {
 				id = academics.104
 				popup = yes
 			}
-			var:mendelejew_chemist_var = {
-				hidden_effect = {
-					remove_trait = mendelejew_chemist
-					add_trait = mendelejew_chemist_experienced
-				}
+		}
+		hidden_effect = {
+			remove_trait = mendelejew_chemist
+			add_trait = mendelejew_chemist_experienced
+		}
+	}
+	if = {
+		limit = {
+			var:mendelejew_chemist_experience_var >= 300
+			NOT = {
+				has_trait = mendelejew_chemist_famous
 			}
 		}
-		if = {
-			limit = {
-				var:mendelejew_chemist_var = {
-					var:mendelejew_chemist_experience_var >= 300
-					NOT = {
-						has_trait = mendelejew_chemist_famous
-					}
-				}
-			}
+		owner ?= {
 			trigger_event = {
 				id = academics.105
 				popup = yes
 			}
-			var:mendelejew_chemist_var = {
-				hidden_effect = {
-					if = {
-						limit = { has_trait = mendelejew_chemist }
-						remove_trait = mendelejew_chemist
-					}
-					remove_trait = mendelejew_chemist_experienced
-					add_trait = mendelejew_chemist_famous
-				}
-			}
 		}
-
-		var:mendelejew_chemist_var ?= {
-			academics_chemist_add_academic_title_effect = yes
+		hidden_effect = {
+			if = {
+				limit = { has_trait = mendelejew_chemist }
+				remove_trait = mendelejew_chemist
+			}
+			remove_trait = mendelejew_chemist_experienced
+			add_trait = mendelejew_chemist_famous
 		}
 	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_chemist_add_academic_title_effect = yes
 }
 
 set_start_chemist_stats_effect = {
@@ -4665,5 +4658,16 @@ academics_character_add_title_from_experience_gain_effect = {
 				}
 			}
 		}
+	}
+}
+
+###############################
+
+#Effect to add experience to all scientists
+mr_academics_yearly_experience_gain_effect = {
+	every_character_is_engineer = {
+	}
+	every_character_is_chemist = {
+		chemist_experience_gain_effect =
 	}
 }
