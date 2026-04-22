@@ -91,6 +91,9 @@ Ethnology
 - Added Ethnology tech.
 - Moved -25% infamy generation against unrecognized from Civilizing Mission to Ethnology.
 
+Geology
+- Added Volcano trait to Washington State and Oregon.
+
 Uranium
 - Uranium mines now work like every other resource; therefore, many things have been removed, because they were workarounds.
 - Added High Quality Uranium State Traits to historical sites which were used in the Victorian Timeframe to underline the importance.
