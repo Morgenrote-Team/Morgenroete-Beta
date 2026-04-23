@@ -1,5 +1,10 @@
 Changelog fot 2.8.0 "Koganei"
 
+Character System
+- Most Morgenröte Characters do no longer live in the Void and are normal characters now.
+- Morgenröte Characters now have a role. Some historical characters have multiple roles and can spawn in any of these roles.
+- Academics now have the titles Doctor and Professor (ans Sir/Dame for nobles in the Anglosphere). You can grant a Professorship to a character.
+
 Anthropology
 - Anthropology tech depends now on Paleontology and Ethnology; it was Paleontology and Early Archaoelogy before.
 - Added Institute of Anthropology and Ethnology.
@@ -14,13 +19,21 @@ Archaeology
 - Stone Age events removed. We have Anthropology for that.
 - Changed icons for Local Artifacts to not confuse them with Prehistoric Artifacts.
 - The Museum has now a small, medium, large and excellent exhibition like the other exhibitions. Prestige is smaller, however: 10, 20, 35, 50.
-- Introduced Local Archaeologist Trait. Archaeologists doing Archaeological projects have a 25% chance to get the Local Archaeologist Trait. The trait gives +1 Local Artifacts each year when doing Archaeologicla Projects.
+- Added Minor Excavation Sites: Angkor Wat, Cliff Palace, Guatavita Lake.
+- Having a Minor Excavation Site gives +1 Local Artifacts when doing Archaeological projects. Having more than one Minor Excavation Site will not give additional Local Artifacts.
+- Introduced Local Archaeologist Trait. Archaeologists doing Archaeological projects have a 25% chance to get the Local Archaeologist Trait. The trait gives +1 Local Artifacts each year when doing Archaeological Projects.
 - Early Archaeology and Modern Archaeology give +1 local artifacts each when doing Archaeological Projects.
+- Archaeologists completing a Minor Excavation Site JE (like Nazca, Tikal, Pompeii etc) gain the Local Archaeologist Trait.
 - Added 4 events for local Han Artifacts.
 - Added 4 events for local (Unified) Silla Artifacts.
 - Added 4 events for local Yamato Artifacts.
 - Added 4 events for local Harappa Artifacts. Events will only trigger after Harappa was discovered.
-- Introduced a Major Local Artifact for the Local Archaeological Regions. They can be found in a specific state. You need to control the specific state and have a famous Archaeologist with the Local Archaeologist trait. It will trigger after a year when doing an Archaeological Project. The Major Artifacts are the following:
+- The Crystall Skull is not a Major Pre-Columbian Artifact anymore. However, it is still considered a Major Local Artifact and can help to assemble an Excellent Local Exhibition (until the fraud is exposed).
+- The Ishtar Gate is not a Modifier anymore. Instead, it is now considered a Mesopotamian Major Artifact. The transport of the Ishtar Gate is now much more sophisticated.
+- Added Cleopatra's Needle (Egyptian), Bull Head Rhyton (Aegean), Piedras Negras Stele (Pre-Columbian), Golden Raft of Siecha (Pre-Columbian) and Belt/Leyden Plaque (Pre-Columbian) as Major Artifacts.
+- Cleopatras Needle and Piedras Negras must be transported like the Ishtar Gate. They are faster, however.
+- Cleopatra's Needle, Ishtar Gate and Piedras Negras are JEs connected to a certain archaeological specialization (Egyptology, Assyriology, Pre-Columbian)
+- Introduced a Major Local Artifact for each of the Local Archaeological Regions. They can be found in a specific state. You need to control the specific state and have a famous Archaeologist with the Local Archaeologist trait. It will trigger after a year when doing an Archaeological Project. The Major Artifacts are the following:
 - Rome: Hildesheim Treasure
 - Persia: Oxus Treasure
 - Aztec Empire: Statue of Xōchipilli
@@ -29,7 +42,13 @@ Archaeology
 - Hellenistic Kingdoms: Antikythera Mechanism
 - Han Dynasty: Flying Horse of Gansu
 - Unified Silla: Crowns of Silla
+- Yamato: Haniwa Warrior
 - Indus Civilization (Harappa): Priest-King
+- Angkor (Khmer): Reclining Vishnu
+- Axum: Obelisk of Axum. This must be transported like Cleopatra's Needle or the Piedras Negras Stele.
+- Mississipian Culture: Malden Plates
+- Colombian Cultures (Musica, Quimbaya, Zelú, Tairona, San Augustín): Quimbaya Treasure
+- Cleopatras Needle and Obelisk of Axum can be build like normal buildings after transport. Show the world your imperial ambition!
 
 Bicycles
 - Added Bicycles Tech
@@ -75,6 +94,9 @@ Ethnology
 - Added Ethnology tech.
 - Moved -25% infamy generation against unrecognized from Civilizing Mission to Ethnology.
 
+Geology
+- Added Volcano trait to Washington State and Oregon.
+
 Uranium
 - Uranium mines now work like every other resource; therefore, many things have been removed, because they were workarounds.
 - Added High Quality Uranium State Traits to historical sites which were used in the Victorian Timeframe to underline the importance.
@@ -97,3 +119,6 @@ Characters:
 - Auguste Piccard (random Swiss Chemist)
 - Franz Weidenreich (random German Anthropologist)
 - Yoshikiyo Koganei (random Japanese Anthropologist)
+
+Graphics:
+- Added various new Tech Icons by Valerie P (Thanks to Cipherparadox for sharing some of them with us!).

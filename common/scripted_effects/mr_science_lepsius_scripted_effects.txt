@@ -2191,6 +2191,26 @@ lepsius_add_1_major_local_artifact = {
 	custom_tooltip = lepsius_add_major_local_artifact_tt
 }
 
+lepsius_remove_1_major_local_artifact = {
+	change_variable = {
+		name = lepsius_total_artifacts
+		add = -1
+    }
+	change_variable = {
+		name = lepsius_total_major_artifacts_var
+		add = -1
+    }
+	change_global_variable = {
+		name = lepsius_global_artifacts
+		add = -1
+	}
+	change_variable = {
+ 		name = lepsius_local_artifact_major
+ 		add = -1
+	}
+	custom_tooltip = lepsius_remove_major_local_artifact_tt
+}
+
 #############################
 
 ###ADDING CLUES###
@@ -2840,42 +2860,6 @@ lepsius_add_gilgamesh_pieces = {
 	custom_tooltip = lepsius_add_gilgamesh_pieces_tt
 }
 
-############################
-
-###ISHTAR FRAGMENTS###
-
-lepsius_add_10k_ishtar_fragments = {
-	change_variable = {
- 		name = lepsius_ishtar_fragments
- 		add = 100000
-	}
-	custom_tooltip = lepsius_add_10k_ishtar_fragments_tt
-}
-
-lepsius_add_20k_ishtar_fragments = {
-	change_variable = {
- 		name = lepsius_ishtar_fragments
- 		add = 200000
-	}
-	custom_tooltip = lepsius_add_20k_ishtar_fragments_tt
-}
-
-lepsius_add_30k_ishtar_fragments = {
-	change_variable = {
- 		name = lepsius_ishtar_fragments
- 		add = 300000
-	}
-	custom_tooltip = lepsius_add_30k_ishtar_fragments_tt
-}
-
-lepsius_sub_5k_ishtar_fragments = {
-	change_variable = {
- 		name = lepsius_ishtar_fragments
- 		add = -5000
-	}
-	custom_tooltip = lepsius_sub_5k_ishtar_fragments_tt
-}
-
 ###########################
 
 ###THE LABYRINTH
@@ -3463,6 +3447,29 @@ lepsius_update_exhibition_effect = {
 			}
 		}
 	}
+	###In Case that a Crystall Skull was found and must be removed###
+	if = {
+		limit = {
+			var:lepsius_local_artifact_major = 0
+			any_scope_state = {
+				is_capital = yes
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_excellent_local_exhibition
+				}
+			}
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_lepsius_archaeological_museum
+				is_capital = yes
+			}
+			activate_production_method = {
+				building_type = building_lepsius_archaeological_museum
+				production_method = pm_lepsius_large_local_exhibition
+			}
+		}
+	}
 }
 
 ##############################
@@ -3848,6 +3855,25 @@ lepsius_add_bonus_from_specialized_universities_effect = {
 lepsius_create_palmyra_effect = {
 	s:STATE_SYRIA = {
 		add_state_trait = lepsius_state_trait_palmyra_1
+	}
+}
+
+### Raft Auction ###
+lepsius_raft_auction_effect = {
+	ordered_country = {
+		limit = {
+			NOT = { 
+				has_variable = lepsius_raft_auction_denied_var
+			}
+			lepsius_has_archaeological_museum = yes
+		}
+		order_by = lepsius_auction_value
+		max = 1 #Limits the list to the ten top countries
+		check_range_bounds = no #prevents errors
+
+		trigger_event = {
+			id = lepsius.752
+		}
 	}
 }
 

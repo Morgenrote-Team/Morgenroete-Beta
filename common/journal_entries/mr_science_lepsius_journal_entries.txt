@@ -64,6 +64,14 @@ je_lepsius_archaeological_default_project = {
 					lepsius_add_x_local_artifacts_effect = { AMOUNT = 1 }
 				}
 
+				#Minor Excavation Site: +1 Local Artifact
+				if = {
+					limit = {
+						lepsius_has_minor_excavation_site_trigger = yes
+					}
+					lepsius_add_x_local_artifacts_effect = { AMOUNT = 1 }
+				}
+
 				if = {
 					limit = {
 						NOT = {
@@ -144,8 +152,11 @@ je_lepsius_archaeological_default_project = {
 	on_yearly_pulse = {
 		effect = {
 			trigger_event = {
+				on_action = lepsius_on_local_major_artifact_events
+			}
+			trigger_event = {
 				on_action = lepsius_on_yearly_pulse_local_archaeology_events
-				days = { 0 365 }
+				days = { 30 365 }
 			}
 		}
 	}
@@ -882,6 +893,9 @@ je_lepsius_petra = {
 	can_deactivate = yes
 
 	is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = lepsius_petra_found
+		}
 		any_scope_state = {
 			state_region = s:STATE_TRANSJORDAN
 			any_scope_building = {
@@ -907,6 +921,7 @@ je_lepsius_petra = {
     }
 
 	on_complete = {
+		set_global_variable = lepsius_petra_found
 		random_scope_state = {
 			limit = {
 				state_region = s:STATE_TRANSJORDAN
@@ -922,6 +937,137 @@ je_lepsius_petra = {
 	weight = 10
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
+}
+
+#Cliff Palace
+je_lepsius_cliff = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	can_deactivate = yes
+
+	is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = lepsius_cliff_var
+		}
+		any_scope_state = {
+			state_region = s:STATE_COLORADO
+		}
+	}
+
+	possible = {
+		has_technology_researched = lepsius_early_archaeology_tech
+	}
+
+	complete = {
+		has_technology_researched = lepsius_modern_archaeology_tech
+		has_technology_researched = andersson_anthropology_tech
+		lepsius_has_active_archaeologist = yes
+		custom_tooltip = {
+			text = lepsius_excavation_team_needed_tt
+			var:lepsius_excavation_teams >= 1
+ 		}
+	}
+
+	fail = {
+    }
+
+	on_complete = {
+		set_global_variable = lepsius_cliff_var
+		s:STATE_COLORADO = {
+			add_state_trait = lepsius_state_trait_cliff
+		}
+		trigger_event = { id = lepsius.78 popup = yes }
+	}
+
+	weight = 10
+}
+
+#Angkor
+
+je_lepsius_angkor = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	can_deactivate = yes
+
+	is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = lepsius_angkor_var
+		}
+		any_scope_state = {
+			state_region = s:STATE_CAMBODIA
+		}
+	}
+
+	possible = {
+		has_technology_researched = lepsius_antiquarianism_tech
+	}
+
+	complete = {
+		has_technology_researched = lepsius_early_archaeology_tech
+		has_technology_researched = civilizing_mission
+		lepsius_has_active_archaeologist = yes
+		custom_tooltip = {
+			text = lepsius_excavation_team_needed_tt
+			var:lepsius_excavation_teams >= 1
+ 		}
+	}
+
+	fail = {
+    }
+
+	on_complete = {
+		set_global_variable = lepsius_angkor_var
+		s:STATE_CAMBODIA = {
+			add_state_trait = lepsius_state_trait_angkor
+		}
+		trigger_event = { id = lepsius.79 popup = yes }
+	}
+
+	weight = 10
+}
+
+#Guatavita
+
+je_lepsius_guatavita = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	can_deactivate = yes
+
+	is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = lepsius_guatavita_global_var
+		}
+		any_scope_state = {
+			state_region = s:STATE_CUNDINAMARCA
+		}
+	}
+
+	possible = {
+		has_technology_researched = lepsius_antiquarianism_tech
+	}
+
+	complete = {
+		has_technology_researched = lepsius_early_archaeology_tech
+	}
+
+	fail = {
+    }
+
+	on_complete = {
+		set_global_variable = lepsius_guatavita_global_var
+		s:STATE_CUNDINAMARCA = {
+			add_state_trait = lepsius_state_trait_guatavita
+		}
+		trigger_event = { id = lepsius.751 popup = yes }
+	}
+
+	weight = 10
 }
 
 ##################################################################
@@ -1378,7 +1524,7 @@ je_lepsius_archaeological_expedition_mesopotamia = {
 
 			2 = lepsius.471 #Lepsius 471: Uruk (Babylonia) / Niniveh (Assyria)
 
-			1 = lepsius.521 #Lepsius 521: The Ishtar Gate found
+			#1 = lepsius.521 #Lepsius 521: The Ishtar Gate found
 			1 = lepsius.531 #Lepsius 531: The Legend of the Lamassu
 		}
 	}
@@ -2324,54 +2470,7 @@ je_lepsius_epic_of_gilgamesh = {
     transferable = no
 }
 
-######ISHTAR GATE######
 
-je_ishtar_gate = {
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
-
-	group = je_group_lepsius_archaeology
-
-	on_yearly_pulse = {
-		random_events = {
-			20 = lepsius.522 #Lepsius 522: Normal transport
-			10 = lepsius.523 #Lepsius 523: Rival has fragments
-			10 = lepsius.524 #Lepsius 524: Enemy sabotages transport (war)
-			10 = lepsius.525 #Lepsius 525: A special fee
-			10 = lepsius.526 #Lepsius 526: Half parts
-			10 = lepsius.527 #Lepsius 527: More parts
-			5 = lepsius.528 #Lepsius 528: Bad fragments
-		}
-	}
-
-	complete = {
-		custom_tooltip = {
-			text = je_ishtar_gate_success
-			scope:journal_entry = {
-				is_goal_complete = yes
-			}
-		}
-	}
-
-	on_complete = {
-		trigger_event = {
-			id = lepsius.530
-			days = 1
-		}
-	}
-
-	current_value = {
-		value = var:lepsius_ishtar_fragments
-	}
-
-	goal_add_value = {
-		add = 200000
-	}
-
-	progressbar = yes
-
-    weight = 10
-    transferable = no
-}
 
 ##################################################################
 
@@ -2625,6 +2724,461 @@ je_lepsius_cataloging = {
 	}
 
 	weight = 10
+}
+
+######ARCHAEOLOGICAL TRANSPORT#######
+
+#Cleopatra's Needle
+je_lepsius_cleopatras_needle = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = lepsius_cleopatras_needle_transport_global_var
+		}
+		has_technology_researched = lepsius_specialization_egypt_tech
+	}
+
+	possible = {
+		has_technology_researched = lepsius_specialization_egypt_tech
+	}
+
+	complete = {
+		has_modifier = lepsius_lower_egypt_excavation_modifier
+		country_rank >= rank_value:major_power
+		lepsius_has_archaeological_museum = yes
+		lepsius_has_archaeologist = yes
+		tesla_has_engineer = yes
+		OR = {
+			s:STATE_LOWER_EGYPT = {
+				any_scope_state = {
+					owner = ROOT
+				}
+			}
+			p:xA0D020.state.owner = {
+				is_subject_of = ROOT
+			}
+			p:xA0D020.state.owner = {
+				relations:root >= relations_threshold:amicable
+			}
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_lepsius_cleopatras_needle_fail
+			has_global_variable = lepsius_cleopatras_needle_transport_global_var
+		}
+    }
+
+	on_complete = {
+		set_global_variable = lepsius_cleopatras_needle_transport_global_var
+		trigger_event = {
+			id = lepsius.714
+		}
+	}
+
+	weight = 10
+}
+
+#Cleopatra's Needle Transport
+je_lepsius_cleopatras_needle_transport = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	scripted_progress_bar = lepsius_monument_cleopatras_progress_bar
+	scripted_progress_bar = lepsius_monument_restoration_progress_bar
+	scripted_progress_bar = lepsius_monument_reconstruction_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = lepsius_cleopatras_needle_cost_modifier
+				multiplier = root.mr_project_cost_very_small_value
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_variable = lepsius_cleopatras_needle_minimum_var
+					}
+					scope:journal_entry = {
+						"scripted_bar_progress(lepsius_monument_cleopatras_progress_bar)" >= 12
+					}
+				}
+				set_variable = lepsius_cleopatras_needle_minimum_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_cleopatras_needle_transport_success
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_cleopatras_progress_bar)" >= 12
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_restoration_progress_bar)" >= 75
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_reconstruction_progress_bar)" >= 50
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = lepsius.715
+		}
+	}
+
+    weight = 10
+    transferable = no
+}
+
+#Ishtar Gate
+je_lepsius_ishtar_gate = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = lepsius_ishtar_gate_transport_global_var
+		}
+		is_player = yes
+		#has_technology_researched = lepsius_specialization_mesopotamia_tech
+	}
+
+	possible = {
+		has_technology_researched = lepsius_specialization_mesopotamia_tech
+	}
+
+	complete = {
+		has_modifier = lepsius_babylonia_excavation_modifier
+		country_rank >= rank_value:major_power
+		lepsius_has_archaeological_museum = yes
+		lepsius_has_archaeologist = yes
+		tesla_has_engineer = yes
+		has_technology_researched = lepsius_modern_archaeology_tech
+		OR = {
+			s:STATE_BAGHDAD = {
+				any_scope_state = {
+					owner = ROOT
+				}
+			}
+			p:x34A371.state.owner = {
+				is_subject_of = ROOT
+			}
+			p:x34A371.state.owner = {
+				relations:root >= relations_threshold:amicable
+			}
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_lepsius_ishtar_gate_fail
+			has_global_variable = lepsius_ishtar_gate_transport_global_var
+		}
+    }
+
+	on_complete = {
+		set_global_variable = lepsius_ishtar_gate_transport_global_var
+		trigger_event = { id = lepsius.521 }
+	}
+
+	weight = 10
+}
+
+#Ishtar Gate Transport
+je_lepsius_ishtar_gate_transport = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	scripted_progress_bar = lepsius_monument_ishtar_progress_bar
+	scripted_progress_bar = lepsius_monument_restoration_progress_bar
+	scripted_progress_bar = lepsius_monument_reconstruction_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = lepsius_ishtar_gate_cost_modifier
+				multiplier = root.mr_project_cost_very_small_value
+			}
+		}
+	}
+
+	on_yearly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					has_modifier = lepsius_babylonia_excavation_modifier
+				}
+				random_list = {
+					#Normal Transport
+					50 = {
+						je:je_lepsius_ishtar_gate_transport = {
+							add_progress = {
+								name = lepsius_monument_ishtar_transport_progress_bar
+								value = 20000
+							}
+						}
+						post_notification = lepsius_ishtar_normal_transport_notification
+					}
+					#Double Transport
+					10 = {
+						je:je_lepsius_ishtar_gate_transport = {
+							add_progress = {
+								name = lepsius_monument_ishtar_transport_progress_bar
+								value = 40000
+							}
+						}
+						post_notification = lepsius_ishtar_double_transport_notification
+					}
+					#Half Transport
+					10 = {
+						je:je_lepsius_ishtar_gate_transport = {
+							add_progress = {
+								name = lepsius_monument_ishtar_transport_progress_bar
+								value = 10000
+							}
+						}
+						post_notification = lepsius_ishtar_half_transport_notification
+					}
+					#Bad Transport
+					5 = {
+						je:je_lepsius_ishtar_gate_transport = {
+							add_progress = {
+								name = lepsius_monument_ishtar_transport_progress_bar
+								value = 5000
+							}
+						}
+						post_notification = lepsius_ishtar_bad_transport_notification
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = lepsius_ishtar_gate_minimum_var
+					}
+					scope:journal_entry = {
+						"scripted_bar_progress(lepsius_monument_ishtar_progress_bar)" >= 100000
+					}
+				}
+				set_variable = lepsius_ishtar_gate_minimum_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_ishtar_gate_transport_success
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_ishtar_progress_bar)" >= 200000
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_restoration_progress_bar)" >= 75
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_reconstruction_progress_bar)" >= 50
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = lepsius.530
+		}
+	}
+
+    weight = 10
+    transferable = no
+}
+
+#Piedras Negras
+je_lepsius_piedras_negras = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = lepsius_piedras_negras_transport_global_var
+		}
+		has_technology_researched = lepsius_specialization_precolumbian_tech
+	}
+
+	possible = {
+		has_technology_researched = lepsius_specialization_precolumbian_tech
+	}
+
+	complete = {
+		has_modifier = lepsius_yucatan_excavation_modifier
+		country_rank >= rank_value:major_power
+		lepsius_has_archaeological_museum = yes
+		lepsius_has_archaeologist = yes
+		tesla_has_engineer = yes
+		has_technology_researched = lepsius_modern_archaeology_tech
+		OR = {
+			s:STATE_GUATEMALA = {
+				any_scope_state = {
+					owner = ROOT
+				}
+			}
+			p:x30E01C.state.owner = {
+				is_subject_of = ROOT
+			}
+			p:x30E01C.state.owner = {
+				relations:root >= relations_threshold:amicable
+			}
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_lepsius_piedras_negras_fail
+			has_global_variable = lepsius_piedras_negras_transport_global_var
+		}
+    }
+
+	on_complete = {
+		set_global_variable = lepsius_piedras_negras_transport_global_var
+		trigger_event = {
+			id = lepsius.773
+		}
+	}
+
+	weight = 10
+}
+
+#Piedas Negras Transport
+je_lepsius_piedras_negras_transport = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	scripted_progress_bar = lepsius_monument_stele_progress_bar
+	scripted_progress_bar = lepsius_monument_restoration_progress_bar
+	scripted_progress_bar = lepsius_monument_reconstruction_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = lepsius_piedras_negras_cost_modifier
+				multiplier = root.mr_project_cost_very_small_value
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_variable = lepsius_piedras_negras_minimum_var
+					}
+					scope:journal_entry = {
+						"scripted_bar_progress(lepsius_monument_stele_progress_bar)" >= 12
+					}
+				}
+				set_variable = lepsius_piedras_negras_minimum_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_piedras_negras_transport_success
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_stele_progress_bar)" >= 12
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_restoration_progress_bar)" >= 75
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_reconstruction_progress_bar)" >= 50
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = lepsius.774
+		}
+	}
+
+    weight = 10
+    transferable = no
+}
+
+#Axum Obelisk Transport
+je_lepsius_axum_obelisk_transport = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	scripted_progress_bar = lepsius_monument_axum_progress_bar
+	scripted_progress_bar = lepsius_monument_restoration_progress_bar
+	scripted_progress_bar = lepsius_monument_reconstruction_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = lepsius_axum_obelisk_cost_modifier
+				multiplier = root.mr_project_cost_very_small_value
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_variable = lepsius_axum_obelisk_minimum_var
+					}
+					scope:journal_entry = {
+						"scripted_bar_progress(lepsius_monument_axum_progress_bar)" >= 12
+					}
+				}
+				set_variable = lepsius_axum_obelisk_minimum_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_axum_obelisk_transport_success
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_axum_progress_bar)" >= 12
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_restoration_progress_bar)" >= 75
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_reconstruction_progress_bar)" >= 50
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = lepsius.2256
+		}
+	}
+
+    weight = 10
+    transferable = no
 }
 
 ##################################################################
