@@ -28,9 +28,11 @@ Archaeology
 - Added 4 events for local (Unified) Silla Artifacts.
 - Added 4 events for local Yamato Artifacts.
 - Added 4 events for local Harappa Artifacts. Events will only trigger after Harappa was discovered.
-- Added Major Pre-Columbian Artifact: The Golden Raft of Siecha.
-- Added Major Pre-Columbian Artifact: Belt Plaque (Leyden Plaque).
 - The Crystall Skull is not a Major Pre-Columbian Artifact anymore. However, it is still considered a Major Local Artifact and can help to assemble an Excellent Local Exhibition (until the fraud is exposed).
+- The Ishtar Gate is not a Modifier anymore. Instead, it is now considered a Mesopotamian Major Artifact. The transport of the Ishtar Gate is now much more sophisticated.
+- Added Cleopatra's Needle (Egyptian), Bull Head Rhyton (Aegean), Piedras Negras Stele (Pre-Columbian), Golden Raft of Siecha (Pre-Columbian) and Belt/Leyden Plaque (Pre-Columbian) as Major Artifacts.
+- Cleopatras Needle and Piedras Negras must be transported like the Ishtar Gate. They are faster, however.
+- Cleopatra's Needle, Ishtar Gate and Piedras Negras are JEs connected to a certain archaeological specialization (Egyptology, Assyriology, Pre-Columbian)
 - Introduced a Major Local Artifact for each of the Local Archaeological Regions. They can be found in a specific state. You need to control the specific state and have a famous Archaeologist with the Local Archaeologist trait. It will trigger after a year when doing an Archaeological Project. The Major Artifacts are the following:
 - Rome: Hildesheim Treasure
 - Persia: Oxus Treasure
@@ -43,9 +45,10 @@ Archaeology
 - Yamato: Haniwa Warrior
 - Indus Civilization (Harappa): Priest-King
 - Angkor (Khmer): Reclining Vishnu
-- Axum: Obelisk of Axum
+- Axum: Obelisk of Axum. This must be transported like Cleopatra's Needle or the Piedras Negras Stele.
 - Mississipian Culture: Malden Plates
 - Colombian Cultures (Musica, Quimbaya, Zelú, Tairona, San Augustín): Quimbaya Treasure
+- Cleopatras Needle and Obelisk of Axum can be build like normal buildings after transport. Show the world your imperial ambition!
 
 Bicycles
 - Added Bicycles Tech
