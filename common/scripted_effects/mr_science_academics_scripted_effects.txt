@@ -2442,89 +2442,87 @@ archaeologist_experience_set_up_effect = { #This effect needs to be placed in th
 #Archaeologist Experience gain
 archaeologist_experience_gain_effect = { #adds XP to the Archaeologist
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
+	var:lepsius_archaeologist_var = {
+		lepsius_character_archaeologist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Archaeologist Experience Gain Effect
+# scope = character
+lepsius_character_archaeologist_experience_gain_effect = { #adds Archaeologist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "lepsius_character_archaeologist_experience_gain_effect_loc"
+		subject = this
 		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = lepsius_archaeologist_experience_var
+				}
+			}
+			archaeologist_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = lepsius_archaeologist_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = lepsius_archaeologist_experience_var
+			min = 0
+			max = 300
+		}
 	}
 
+	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
-			has_variable = lepsius_archaeologist_var #should only add experience if there actually is an archaeologist
-		}
-		custom_tooltip = {
-			text = lepsius_archaeologist_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:lepsius_archaeologist_var = { #Fallback to make sure there are no errors if the archaeologist does not have the variable yet
-							has_variable = lepsius_archaeologist_experience_var
-						}
-					}
-				}
-				var:lepsius_archaeologist_var = { #Sets the experience in case it was not set yet
-					archaeologist_experience_set_up_effect = yes
-				}
-			}
-			var:lepsius_archaeologist_var = {
-				change_variable = {
-					name = lepsius_archaeologist_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = lepsius_archaeologist_experience_var
-					min = 0
-					max = 300
-				}
+			var:lepsius_archaeologist_experience_var >= 100
+			var:lepsius_archaeologist_experience_var < 300
+			NOR = {
+				has_trait = lepsius_archaeologist_experienced
+				has_trait = lepsius_archaeologist_famous
 			}
 		}
-		if = {
-			limit = {
-				var:lepsius_archaeologist_var = {
-					var:lepsius_archaeologist_experience_var >= 100
-					NOT = {
-						var:lepsius_archaeologist_experience_var >= 300
-					}
-					NOR = {
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-			}
+		owner ?= {
 			trigger_event = {
-				id = academics.116
-			}
-			hidden_effect = {
-				var:lepsius_archaeologist_var = {
-					remove_trait = lepsius_archaeologist
-					add_trait = lepsius_archaeologist_experienced
-				}
+				id = academics.114
 			}
 		}
-		if = {
-			limit = {
-				var:lepsius_archaeologist_var = {
-					var:lepsius_archaeologist_experience_var >= 300
-					NOT = {
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-			}
-			trigger_event = {
-				id = academics.117
-			}
-			hidden_effect = {
-				var:lepsius_archaeologist_var = {
-					remove_trait = lepsius_archaeologist
-					remove_trait = lepsius_archaeologist_experienced
-					add_trait = lepsius_archaeologist_famous
-				}
-			}
-		}
-
-		var:lepsius_archaeologist_var ?= {
-			academics_archaeologist_add_academic_title_effect = yes
+		hidden_effect = {
+			remove_trait = lepsius_archaeologist
+			add_trait = lepsius_archaeologist_experienced
 		}
 	}
+	if = {
+		limit = {
+			var:lepsius_archaeologist_experience_var >= 300
+			NOT = {
+				has_trait = lepsius_archaeologist_famous
+			}
+		}
+		owner ?= {
+			trigger_event = {
+				id = academics.115
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_trait = lepsius_archaeologist }
+				remove_trait = lepsius_archaeologist
+			}
+			remove_trait = lepsius_archaeologist
+			remove_trait = lepsius_archaeologist_experienced
+			add_trait = lepsius_archaeologist_famous
+		}
+	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_archaeologist_add_academic_title_effect = yes
 }
 
 ######ANTHROPOLOGIST######
@@ -4350,5 +4348,8 @@ mr_academics_yearly_experience_gain_effect = {
 	}
 	every_character_is_biologist = {
 		theiler_character_biologist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_archaeologist = {
+		lepsius_character_archaeologist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
 	}
 }
