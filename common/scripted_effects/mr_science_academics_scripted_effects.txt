@@ -2490,7 +2490,7 @@ lepsius_character_archaeologist_experience_gain_effect = { #adds Archaeologist X
 		}
 		owner ?= {
 			trigger_event = {
-				id = academics.114
+				id = academics.116
 			}
 		}
 		hidden_effect = {
@@ -2507,7 +2507,7 @@ lepsius_character_archaeologist_experience_gain_effect = { #adds Archaeologist X
 		}
 		owner ?= {
 			trigger_event = {
-				id = academics.115
+				id = academics.117
 			}
 		}
 		hidden_effect = {
@@ -2826,89 +2826,87 @@ physician_experience_set_up_effect = {
 #Physician Experience gain
 physician_experience_gain_effect = { #adds XP to the Physician
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
-		value = $AMOUNT$
+	var:panum_physician_var ?= {
+		panum_character_physician_experience_gain_effect = { AMOUNT = $AMOUNT$ }
 	}
+}
 
-	if = {
-		limit = {
-			has_variable = panum_physician_var #should only add experience if there actually is an Physician
-		}
-		custom_tooltip = {
-			text = panum_physician_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:panum_physician_var = { #Fallback to make sure there are no errors if the Physician does not have the variable yet
-							has_variable = panum_physician_experience_var
-						}
-					}
-				}
-				var:panum_physician_var = { #Sets the experience in case it was not set yet
-					physician_experience_set_up_effect = yes
-				}
-			}
-			var:panum_physician_var = {
-				change_variable = {
-					name = panum_physician_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = panum_physician_experience_var
-					min = 0
-					max = 300
-				}
-			}
-		}
+#Character Physician Experience Gain Effect
+# scope = character
+panum_character_physician_experience_gain_effect = { #adds Physician XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "panum_character_physician_experience_gain_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
 		if = {
 			limit = {
-				var:panum_physician_var = {
-					var:panum_physician_experience_var >= 100
-					NOT = {
-						var:panum_physician_experience_var >= 300
-					}
-					NOR = {
-						has_trait = panum_physician_experienced
-						has_trait = panum_physician_famous
-					}
+				NOT = {
+					has_variable = panum_physician_experience_var
 				}
 			}
+			physician_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = panum_physician_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = panum_physician_experience_var
+			min = 0
+			max = 300
+		}
+	}
+
+	#Add Traits if the character does not have one yet
+	if = {
+		limit = {
+			var:panum_physician_experience_var >= 100
+			var:panum_physician_experience_var < 300
+			NOR = {
+				has_trait = panum_physician_experienced
+				has_trait = panum_physician_famous
+			}
+		}
+		owner ?= {
 			trigger_event = {
 				id = academics.120
 			}
-			hidden_effect = {
-				var:panum_physician_var = {
-					remove_trait = panum_physician
-					add_trait = panum_physician_experienced
-				}
+		}
+		hidden_effect = {
+			remove_trait = panum_physician
+			add_trait = panum_physician_experienced
+		}
+	}
+	if = {
+		limit = {
+			var:panum_physician_experience_var >= 300
+			NOT = {
+				has_trait = panum_physician_famous
 			}
 		}
-		if = {
-			limit = {
-				var:panum_physician_var = {
-					var:panum_physician_experience_var >= 300
-					NOT = {
-						has_trait = panum_physician_famous
-					}
-				}
-			}
+		owner ?= {
 			trigger_event = {
 				id = academics.121
 			}
-			hidden_effect = {
-				var:panum_physician_var = {
-					remove_trait = panum_physician
-					remove_trait = panum_physician_experienced
-					add_trait = panum_physician_famous
-				}
-			}
 		}
-
-		var:panum_physician_var ?= {
-			academics_physician_add_academic_title_effect = yes
+		hidden_effect = {
+			if = {
+				limit = { has_trait = panum_physician }
+				remove_trait = panum_physician
+			}
+			remove_trait = panum_physician
+			remove_trait = panum_physician_experienced
+			add_trait = panum_physician_famous
 		}
 	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_physician_add_academic_title_effect = yes
 }
 
 ######ETHNOLOGIST######
@@ -4348,6 +4346,9 @@ mr_academics_yearly_experience_gain_effect = {
 	}
 	every_character_is_biologist = {
 		theiler_character_biologist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_physician = {
+		panum_character_physician_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
 	}
 	every_character_is_archaeologist = {
 		lepsius_character_archaeologist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
