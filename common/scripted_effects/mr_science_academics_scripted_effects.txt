@@ -3007,6 +3007,92 @@ ethnologist_experience_set_up_effect = {
 	academics_ethnologist_add_academic_title_effect = yes
 }
 
+#Ethnologist Experience gain
+roy_ethnologist_experience_gain_effect = { #adds XP to the Ethnologist
+	# Amount = amount of XP to add
+	var:roy_ethnologist_var ?= {
+		roy_character_ethnologist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Ethnologist Experience Gain Effect
+# scope = character
+roy_character_ethnologist_experience_gain_effect = { #adds Ethnologist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "roy_character_ethnologist_experience_gain_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = roy_ethnologist_experience_var
+				}
+			}
+			ethnologist_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = roy_ethnologist_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = roy_ethnologist_experience_var
+			min = 0
+			max = 300
+		}
+	}
+
+	#Add Traits if the character does not have one yet
+	if = {
+		limit = {
+			var:roy_ethnologist_experience_var >= 100
+			var:roy_ethnologist_experience_var < 300
+			NOR = {
+				has_trait = roy_ethnologist_experienced
+				has_trait = roy_ethnologist_famous
+			}
+		}
+#		owner ?= {
+#			trigger_event = {
+#				id = academics.122
+#			}
+#		}
+		hidden_effect = {
+			remove_trait = roy_ethnologist
+			add_trait = roy_ethnologist_experienced
+		}
+	}
+	if = {
+		limit = {
+			var:roy_ethnologist_experience_var >= 300
+			NOT = {
+				has_trait = roy_ethnologist_famous
+			}
+		}
+#		owner ?= {
+#			trigger_event = {
+#				id = academics.123
+#			}
+#		}
+		hidden_effect = {
+			if = {
+				limit = { has_trait = roy_ethnologist }
+				remove_trait = roy_ethnologist
+			}
+			remove_trait = roy_ethnologist
+			remove_trait = roy_ethnologist_experienced
+			add_trait = roy_ethnologist_famous
+		}
+	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_ethnologist_add_academic_title_effect = yes
+}
+
 ##########################################################################
 
 ######ACADEMIC FOCUS######
@@ -4353,5 +4439,8 @@ mr_academics_yearly_experience_gain_effect = {
 	}
 	every_character_is_anthropologist = {
 		andersson_character_anthropologist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_ethnologist = {
+		roy_character_ethnologist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
 	}
 }
