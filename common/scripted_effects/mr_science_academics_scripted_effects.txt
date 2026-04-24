@@ -1831,99 +1831,17 @@ naturalist_experience_set_up_effect = {
 #Naturalist Experience gain
 naturalist_experience_gain_effect = { #adds XP to the Naturalist
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
-		value = $AMOUNT$
-	}
-
-	if = {
-		limit = {
-			has_variable = ito_naturalist_var #should only add experience if there actually is an Naturalist
-		}
-		custom_tooltip = {
-			text = dubois_naturalist_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:ito_naturalist_var = { #Fallback to make sure there are no errors if the Naturalist does not have the variable yet
-							has_variable = ito_naturalist_experience_var
-						}
-					}
-				}
-				var:ito_naturalist_var = { #Sets the experience in case it was not set yet
-					naturalist_experience_set_up_effect = yes
-				}
-			}
-			var:ito_naturalist_var = {
-				change_variable = {
-					name = ito_naturalist_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = ito_naturalist_experience_var
-					min = 0
-					max = 300
-				}
-			}
-		}
-		if = {
-			limit = {
-				var:ito_naturalist_var = {
-					var:ito_naturalist_experience_var >= 100
-					NOT = {
-						var:ito_naturalist_experience_var >= 300
-					}
-					NOR = {
-						has_trait = ito_naturalist_experienced
-						has_trait = ito_naturalist_famous
-					}
-				}
-			}
-			trigger_event = {
-				id = academics.110
-				popup = yes
-			}
-			hidden_effect = {
-				var:ito_naturalist_var = {
-					remove_trait = ito_naturalist
-					add_trait = ito_naturalist_experienced
-				}
-			}
-		}
-		if = {
-			limit = {
-				var:ito_naturalist_var = {
-					var:ito_naturalist_experience_var >= 300
-					NOT = {
-						has_trait = ito_naturalist_famous
-					}
-				}
-			}
-			trigger_event = {
-				id = academics.111
-				popup = yes
-			}
-			hidden_effect = {
-				var:ito_naturalist_var = {
-					remove_trait = ito_naturalist
-					remove_trait = ito_naturalist_experienced
-					add_trait = ito_naturalist_famous
-				}
-			}
-		}
-
-		var:ito_naturalist_var ?= {
-			academics_naturalist_add_academic_title_effect = yes
-		}
+	var:ito_naturalist_var ?= {
+		ito_character_naturalist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
 	}
 }
 
-#Character Geologist Experience Gain Effect
+#Character Naturalist Experience Gain Effect
 # scope = character
-agassiz_character_geologist_experience_gain_effect = { #adds Geologist XP to the Character
+ito_character_naturalist_experience_gain_effect = { #adds Naturalist XP to the Character
 	# AMOUNT = amount of XP to add
 	custom_description = {
-		text = "agassiz_character_geologist_experience_gain_effect_loc"
+		text = "ito_character_naturalist_experience_gain_effect_loc"
 		subject = this
 		value = $AMOUNT$
 
@@ -1931,19 +1849,19 @@ agassiz_character_geologist_experience_gain_effect = { #adds Geologist XP to the
 		if = {
 			limit = {
 				NOT = {
-					has_variable = agassiz_geologist_experience_var
+					has_variable = ito_naturalist_experience_var
 				}
 			}
-			geologist_experience_set_up_effect = yes
+			naturalist_experience_set_up_effect = yes
 		}
 		#Actual change of Experience
 		change_variable = {
-			name = agassiz_geologist_experience_var
+			name = ito_naturalist_experience_var
 			add = $AMOUNT$
 		}
 		#Clamping to prevent overflow
 		clamp_variable = {
-			name = agassiz_geologist_experience_var
+			name = ito_naturalist_experience_var
 			min = 0
 			max = 300
 		}
@@ -1952,11 +1870,11 @@ agassiz_character_geologist_experience_gain_effect = { #adds Geologist XP to the
 	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
-			var:agassiz_geologist_experience_var >= 100
-			var:agassiz_geologist_experience_var < 300
+			var:ito_naturalist_experience_var >= 100
+			var:ito_naturalist_experience_var < 300
 			NOR = {
-				has_trait = agassiz_geologist_experienced
-				has_trait = agassiz_geologist_famous
+				has_trait = ito_naturalist_experienced
+				has_trait = ito_naturalist_famous
 			}
 		}
 		owner ?= {
@@ -1966,15 +1884,15 @@ agassiz_character_geologist_experience_gain_effect = { #adds Geologist XP to the
 			}
 		}
 		hidden_effect = {
-			remove_trait = agassiz_geologist
-			add_trait = agassiz_geologist_experienced
+			remove_trait = ito_naturalist
+			add_trait = ito_naturalist_experienced
 		}
 	}
 	if = {
 		limit = {
-			var:agassiz_geologist_experience_var >= 300
+			var:ito_naturalist_experience_var >= 300
 			NOT = {
-				has_trait = agassiz_geologist_famous
+				has_trait = ito_naturalist_famous
 			}
 		}
 		owner ?= {
@@ -1985,17 +1903,17 @@ agassiz_character_geologist_experience_gain_effect = { #adds Geologist XP to the
 		}
 		hidden_effect = {
 			if = {
-				limit = { has_trait = agassiz_geologist }
-				remove_trait = agassiz_geologist
+				limit = { has_trait = ito_naturalist }
+				remove_trait = ito_naturalist
 			}
-			remove_trait = agassiz_geologist
-			remove_trait = agassiz_geologist_experienced
-			add_trait = agassiz_geologist_famous
+			remove_trait = ito_naturalist
+			remove_trait = ito_naturalist_experienced
+			add_trait = ito_naturalist_famous
 		}
 	}
 
 	#Add Academic Title if Character does not have one yet
-	academics_geologist_add_academic_title_effect = yes
+	academics_naturalist_add_academic_title_effect = yes
 }
 
 ######PALEONTOLOGIST######
@@ -2121,7 +2039,7 @@ paleontologist_experience_set_up_effect = {
 #Paleontologist Experience gain
 paleontologist_experience_gain_effect = { #adds XP to the Paleontologist
 	# Amount = amount of XP to add
-	var:dubois_paleontologist_var = {
+	var:dubois_paleontologist_var ?= {
 		dubois_character_paleontologist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
 	}
 }
@@ -4453,5 +4371,8 @@ mr_academics_yearly_experience_gain_effect = {
 	}
 	every_character_is_paleontologist = {
 		dubois_character_paleontologist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_naturalist = {
+		ito_character_naturalist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
 	}
 }
