@@ -2442,7 +2442,7 @@ archaeologist_experience_set_up_effect = { #This effect needs to be placed in th
 #Archaeologist Experience gain
 archaeologist_experience_gain_effect = { #adds XP to the Archaeologist
 	# Amount = amount of XP to add
-	var:lepsius_archaeologist_var = {
+	var:lepsius_archaeologist_var ?= {
 		lepsius_character_archaeologist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
 	}
 }
@@ -2626,89 +2626,87 @@ anthropologist_experience_set_up_effect = {
 #Anthropologist Experience gain
 anthropologist_experience_gain_effect = { #adds XP to the Anthropologist
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
-		value = $AMOUNT$
+	var:andersson_anthropologist_var ?= {
+		andersson_character_anthropologist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
 	}
+}
 
-	if = {
-		limit = {
-			has_variable = andersson_anthropologist_var #should only add experience if there actually is an Anthropologist
-		}
-		custom_tooltip = {
-			text = andersson_anthropologist_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:andersson_anthropologist_var = { #Fallback to make sure there are no errors if the Anthropologist does not have the variable yet
-							has_variable = andersson_anthropologist_experience_var
-						}
-					}
-				}
-				var:andersson_anthropologist_var = { #Sets the experience in case it was not set yet
-					anthropologist_experience_set_up_effect = yes
-				}
-			}
-			var:andersson_anthropologist_var = {
-				change_variable = {
-					name = andersson_anthropologist_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = andersson_anthropologist_experience_var
-					min = 0
-					max = 300
-				}
-			}
-		}
+#Character Anthropologist Experience Gain Effect
+# scope = character
+andersson_character_anthropologist_experience_gain_effect = { #adds Anthropologist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "andersson_character_anthropologist_experience_gain_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
 		if = {
 			limit = {
-				var:andersson_anthropologist_var = {
-					var:andersson_anthropologist_experience_var >= 100
-					NOT = {
-						var:andersson_anthropologist_experience_var >= 300
-					}
-					NOR = {
-						has_trait = andersson_anthropologist_experienced
-						has_trait = andersson_anthropologist_famous
-					}
+				NOT = {
+					has_variable = andersson_anthropologist_experience_var
 				}
 			}
+			anthropologist_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = andersson_anthropologist_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = andersson_anthropologist_experience_var
+			min = 0
+			max = 300
+		}
+	}
+
+	#Add Traits if the character does not have one yet
+	if = {
+		limit = {
+			var:andersson_anthropologist_experience_var >= 100
+			var:andersson_anthropologist_experience_var < 300
+			NOR = {
+				has_trait = andersson_anthropologist_experienced
+				has_trait = andersson_anthropologist_famous
+			}
+		}
+		owner ?= {
 			trigger_event = {
 				id = academics.118
 			}
-			hidden_effect = {
-				var:andersson_anthropologist_var = {
-					remove_trait = andersson_anthropologist
-					add_trait = andersson_anthropologist_experienced
-				}
+		}
+		hidden_effect = {
+			remove_trait = andersson_anthropologist
+			add_trait = andersson_anthropologist_experienced
+		}
+	}
+	if = {
+		limit = {
+			var:andersson_anthropologist_experience_var >= 300
+			NOT = {
+				has_trait = andersson_anthropologist_famous
 			}
 		}
-		if = {
-			limit = {
-				var:andersson_anthropologist_var = {
-					var:andersson_anthropologist_experience_var >= 300
-					NOT = {
-						has_trait = andersson_anthropologist_famous
-					}
-				}
-			}
+		owner ?= {
 			trigger_event = {
 				id = academics.119
 			}
-			hidden_effect = {
-				var:andersson_anthropologist_var = {
-					remove_trait = andersson_anthropologist
-					remove_trait = andersson_anthropologist_experienced
-					add_trait = andersson_anthropologist_famous
-				}
-			}
 		}
-
-		var:andersson_anthropologist_var ?= {
-			academics_anthropologist_add_academic_title_effect = yes
+		hidden_effect = {
+			if = {
+				limit = { has_trait = andersson_anthropologist }
+				remove_trait = andersson_anthropologist
+			}
+			remove_trait = andersson_anthropologist
+			remove_trait = andersson_anthropologist_experienced
+			add_trait = andersson_anthropologist_famous
 		}
 	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_anthropologist_add_academic_title_effect = yes
 }
 
 ######Physician######
@@ -4352,5 +4350,8 @@ mr_academics_yearly_experience_gain_effect = {
 	}
 	every_character_is_archaeologist = {
 		lepsius_character_archaeologist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_anthropologist = {
+		andersson_character_anthropologist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
 	}
 }
