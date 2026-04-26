@@ -1446,7 +1446,7 @@ andersson.51 = {
 			state_region = s:STATE_NORTHERN_CAPE
 			andersson_state_has_cave_trigger = no
 		}
-		game_date >= 11924.1.1
+		game_date >= 1924.1.1
 	}
 
 	immediate = {
@@ -1503,8 +1503,7 @@ andersson.51 = {
 
 ### Other ###
 
-#Andersson 61: Piltdown Man
-
+#Andersson 61: Piltdown Man (Historical)
 andersson.61 = {
 	dlc = dlc_morgenrote
 
@@ -1516,7 +1515,7 @@ andersson.61 = {
 
 	duration = 3
 
-	placement = scope:andersson_cave_state
+	placement = scope:andersson_cave_state_scope
 
 	event_image = {
 		texture = "gfx/event_pictures/andersson_pictures/andersson_piltdown.dds"
@@ -1532,7 +1531,7 @@ andersson.61 = {
 			state_region = s:STATE_HOME_COUNTIES
 		}
 		NOT = {
-			has_global_variable = andersson_piltdown_discovered
+			has_global_variable = andersson_piltdown_country_global_var
 		}
 		has_game_rule = andersson_anthropology_historical_rule
 	}
@@ -1542,25 +1541,120 @@ andersson.61 = {
 			limit = {
 				state_region = s:STATE_HOME_COUNTIES
 			}
-			save_scope_as = andersson_cave_state
+			save_scope_as = andersson_cave_state_scope
 		}
-		set_global_variable = andersson_piltdown_discovered
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_piltdown_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_piltdown_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_piltdown_year_global_var
+			value = year
+		}
 	}
 
 	option = {
 		name = andersson.61.g #Our ancestors were not as primitive as we thought
 		default_option = yes
-		andersson_add_fossil_piltdown_effect = yes
-		andersson_change_anthropological_rating = {
-			AMOUNT = 100
-		}
+		andersson_add_piltdown_fossil_effect = yes
 	}
 
 	option = {
 		name = andersson.61.h #This is a fraud
-		default_option = yes
+		trigger = {
+			is_player = yes
+		}
 		lepsius_small_add_technology = yes
-		dubois_small_add_technology = yes
+	}
+}
+
+#Andersson 62: Piltdown Man (Dynamic)
+andersson.62 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = andersson.61.t
+	desc = andersson.62.d
+	flavor = andersson.62.f
+
+	duration = 3
+
+	placement = scope:andersson_cave_state_scope
+
+	event_image = {
+		texture = "gfx/event_pictures/andersson_pictures/andersson_piltdown.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		game_date >= 1912.1.1
+		country_rank = rank_value:great_power
+		andersson_has_anthropologist = yes
+		andersson_has_institute_trigger = yes
+		any_scope_state = {
+			is_capital = yes
+			is_in_geographic_region = andersson_geographic_region_cro_magnon
+		}
+		NOT = {
+			has_global_variable = andersson_piltdown_country_global_var
+		}
+		has_game_rule = andersson_anthropology_free_rule
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+				is_in_geographic_region = andersson_geographic_region_cro_magnon
+			}
+			save_scope_as = andersson_cave_state_scope
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_piltdown_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_piltdown_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_piltdown_year_global_var
+			value = year
+		}
+	}
+
+	option = {
+		name = andersson.61.g #Our ancestors were not as primitive as we thought
+		default_option = yes
+		andersson_add_piltdown_fossil_effect = yes
+	}
+
+	option = {
+		name = andersson.61.h #This is a fraud
+		trigger = {
+			is_player = yes
+		}
+		lepsius_small_add_technology = yes
 	}
 }
 
