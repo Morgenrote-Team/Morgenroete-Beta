@@ -71,7 +71,7 @@ mr_anthropologist_cave_exploration_button_sgui = {
 	}
 }
 
-mr_cave_exploration_active_sgui = {
+mr_anthropologist_cave_exploration_active_sgui = {
     scope = country
 	is_shown = {
 		OR = {
@@ -112,7 +112,7 @@ mr_anthropologist_skeleton_reconstruction_button_sgui = {
 	}
 }
 
-mr_skeleton_reconstruction_active_sgui = {
+mr_anthropologist_skeleton_reconstruction_active_sgui = {
     scope = country
 	is_shown = {
 		OR = {
@@ -120,6 +120,69 @@ mr_skeleton_reconstruction_active_sgui = {
 			has_variable = andersson_skeleton_reconstruction_type_selection_var
 		}
 	}
+}
+
+#MR_ANTHROPOLOGIST_EXPOSE_PILTDOWN_FRAUD_BUTTON
+mr_anthropologist_expose_piltdown_fraud_button_sgui = {
+    scope = country
+	is_shown = {
+		has_global_variable = andersson_piltdown_country_global_var
+		NOT = {
+			has_global_variable = andersson_piltdown_exposed_country_global_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+            text = MR_ANTHROPOLOGY_INSTITUTE_TRIGGER_TT
+            andersson_has_institute_trigger = yes
+        }
+		custom_tooltip = {
+            text = MR_HAS_ANTHROPOLOGIST_TRIGGER_TT
+            andersson_has_active_anthropologist = yes
+        }
+		custom_tooltip = {
+			text = MR_ANTHROPOLOGY_RATING_PILTDOWN_FRAUD_TT
+			var:andersson_anthropological_rating >= 100
+		}
+		custom_tooltip = {
+            text = MR_ANTHROPOLOGY_PILTDOWN_NO_RECENT_TRY_TRIGGER_TT
+            NOT = {
+				has_modifier = andersson_piltdown_debate_lost_modifier
+			}
+        }
+		custom_tooltip = {
+            text = MR_ANTHROPOLOGY_PILTDOWN_NO_CURRENT_DEBATE_TRIGGER_TT
+            NOT = {
+				any_country = {
+					has_variable = andersson_piltdown_ongoing_debate_var
+				}
+			}
+        }
+		custom_tooltip = {
+            text = MR_ANTHROPOLOGY_PILTDOWN_CAN_BE_EXPOSED_TRIGGER_TT
+            any_country = {
+				andersson_has_piltdown_fossils_trigger = yes
+				NOT = {
+					has_modifier = andersson_piltdown_debate_won_modifier
+				}
+			}
+        }
+    }
+    effect = {
+		set_variable = andersson_piltdown_ongoing_debate_var
+		trigger_event = {
+			id = andersson.511
+			popup = yes
+		}
+		if = {
+			limit = {
+				has_variable = andersson_anthropologist_var
+			}
+			var:andersson_anthropologist_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
 }
 
 #MR_ORIGIN_CONGRESS_BUTTON
