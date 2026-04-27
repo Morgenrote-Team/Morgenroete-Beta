@@ -49,88 +49,17 @@ je_andersson_anthropological_research = {
 				if = {
 					limit = {
 						var:andersson_anthropologist_var = {
-							has_trait = andersson_speleologist
 							OR = {
 								has_trait = andersson_anthropologist_experienced
 								has_trait = andersson_anthropologist_famous
 							}
 						}
 						any_scope_state = {
-							andersson_state_has_cave_paintings_trigger = yes
-							andersson_state_has_discovered_cave_paintings_no_tooltip_trigger = no
+							andersson_state_has_undiscovered_cave_paintings_trigger = yes
 						}
 					}
 					trigger_event = {
 						id = andersson.101 #Andersson 101: Anthropological Site found (Cave Paintings)
-					}
-				}
-				#Finds Australopithecus Cave
-				else_if = {
-					limit = {
-						andersson_can_find_australopithecus_trigger = yes
-						NOT = {
-							has_variable = andersson_australopithecus_cave_set_var
-						}
-						any_scope_state = {
-							state_region = {
-								is_in_geographic_region = andersson_geographic_region_australopithecus
-								andersson_state_has_cave_trigger = no
-							}
-						}
-					}
-					trigger_event = {
-						id = andersson.105 #Andersson 105: Anthropological Site found (Australopithecus Cave)
-					}
-				}
-				#Finds Pithecnathropus Cave
-				else_if = {
-					limit = {
-						andersson_can_find_pithecanthropus_trigger = yes
-						NOT = {
-							has_variable = andersson_pithecanthropus_cave_set_var
-						}
-						any_scope_state = {
-							state_region = {
-								is_in_geographic_region = andersson_geographic_region_pithecanthropus
-								andersson_state_has_cave_trigger = no
-							}
-						}
-					}
-					trigger_event = {
-						id = andersson.104 #Andersson 104: Anthropological Site found (Pithecanthropus Cave)
-					}
-				}
-				#Finds Palaeanthropus Cave
-				else_if = {
-					limit = {
-						andersson_can_find_palaeanthropus_trigger = yes
-						NOT = {
-							has_variable = andersson_palaeanthropus_cave_set_var
-						}
-						any_scope_state = {
-							state_region = {
-								is_in_geographic_region = andersson_geographic_region_palaeanthropus
-								andersson_state_has_cave_trigger = no
-							}
-						}
-					}
-					trigger_event = {
-						id = andersson.103 #Andersson 103: Anthropological Site found (Palaeanthropus Cave)
-					}
-				}
-				#Finds Neoanthropus Cave
-				else_if = {
-					limit = {
-						NOT = {
-							has_variable = andersson_neoanthropus_cave_set_var
-						}
-						any_scope_state = {
-							is_in_geographic_region = andersson_geographic_region_neoanthropus
-							andersson_state_has_cave_trigger = no
-						}
-					}
-					trigger_event = {
-						id = andersson.102 #Andersson 102: Anthropological Site found (Neoanthropus Cave)
 					}
 				}
 
@@ -170,60 +99,11 @@ je_andersson_anthropological_research = {
 	weight = 50
 }
 
-#Anthropological Team
-je_andersson_overlord_anthropological_team = {
-	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
-
-	group = je_group_andersson_anthropology
-
-	on_monthly_pulse = {
-		effect = {
-			#Adds the yearly progress to the variable
-			change_variable = {
-				name = andersson_overlord_anthropological_team_progress_var
-				add = 1
-			}
-		}
-	}
-
-	immediate = {
-		set_variable = {
-			name = andersson_overlord_anthropological_team_progress_var
-			value = 0
-		}
-	}
-
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
-
-	on_complete = {
-		trigger_event = {
-			id = andersson.106
-			popup = yes
-		}
-	}
-
-	current_value = {
-		value = var:andersson_overlord_anthropological_team_progress_var
-	}
-
-	goal_add_value = {
-		value = 12
-	}
-
-	progressbar = yes
-
-	weight = 30
-}
-
 ######################################################
 
-######Cave Exploration###
+######Hominid Prospecting###
 
-je_andersson_cave_exploration_neoanthropus = {
+je_andersson_hominid_prospecting_neoanthropus = {
 	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
 
 	group = je_group_andersson_anthropology
@@ -240,7 +120,7 @@ je_andersson_cave_exploration_neoanthropus = {
 						"scripted_bar_progress(andersson_cave_exploration_progress_bar)" >= 90
 					}
 				}
-				andersson_cave_exploration_event_effect = yes
+				andersson_hominid_prospecting_exploration_event_effect = yes
 			}
 			if = {
 				limit = {
@@ -248,14 +128,14 @@ je_andersson_cave_exploration_neoanthropus = {
 						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 90
 					}
 				}
-				andersson_cave_collection_event_effect = yes
+				andersson_hominid_prospecting_collecting_event_effect = yes
 			}
 			if = {
 				limit = {
 					scope:journal_entry = {
 						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 50
 					}
-					andersson_cave_neoanthropus_discovery_trigger = yes
+					andersson_prospecting_neoanthropus_discovery_trigger = yes
 				}
 				trigger_event = { id = andersson.221 }
 			}
@@ -272,7 +152,7 @@ je_andersson_cave_exploration_neoanthropus = {
 	}
 
 	on_complete = {
-		andersson_remove_cave_effect = yes
+		andersson_remove_prospecting_effect = yes
 		trigger_event = { id = andersson.211 }
 	}
 
@@ -284,13 +164,14 @@ je_andersson_cave_exploration_neoanthropus = {
 	}
 
 	on_invalid = {
-		andersson_remove_cave_effect = yes
+		andersson_remove_prospecting_effect = yes
+		remove_variable = andersson_hominid_prospecting_neoanthropus_var
 	}
 
 	weight = 50
 }
 
-je_andersson_cave_exploration_palaeanthropus = {
+je_andersson_hominid_prospecting_palaeanthropus = {
 	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
 
 	group = je_group_andersson_anthropology
@@ -307,7 +188,7 @@ je_andersson_cave_exploration_palaeanthropus = {
 						"scripted_bar_progress(andersson_cave_exploration_progress_bar)" >= 90
 					}
 				}
-				andersson_cave_exploration_event_effect = yes
+				andersson_hominid_prospecting_exploration_event_effect = yes
 			}
 			if = {
 				limit = {
@@ -315,14 +196,14 @@ je_andersson_cave_exploration_palaeanthropus = {
 						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 90
 					}
 				}
-				andersson_cave_collection_event_effect = yes
+				andersson_hominid_prospecting_collecting_event_effect = yes
 			}
 			if = {
 				limit = {
 					scope:journal_entry = {
 						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 50
 					}
-					andersson_cave_palaeanthropus_discovery_trigger = yes
+					andersson_prospecting_palaeanthropus_discovery_trigger = yes
 				}
 				trigger_event = { id = andersson.222 }
 			}
@@ -339,7 +220,7 @@ je_andersson_cave_exploration_palaeanthropus = {
 	}
 
 	on_complete = {
-		andersson_remove_cave_effect = yes
+		andersson_remove_prospecting_effect = yes
 		trigger_event = { id = andersson.211 }
 	}
 
@@ -351,13 +232,14 @@ je_andersson_cave_exploration_palaeanthropus = {
 	}
 
 	on_invalid = {
-		andersson_remove_cave_effect = yes
+		andersson_remove_prospecting_effect = yes
+		remove_variable = andersson_hominid_prospecting_palaeanthropus_var
 	}
 
 	weight = 50
 }
 
-je_andersson_cave_exploration_pithecanthropus = {
+je_andersson_hominid_prospecting_pithecanthropus = {
 	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
 
 	group = je_group_andersson_anthropology
@@ -374,7 +256,7 @@ je_andersson_cave_exploration_pithecanthropus = {
 						"scripted_bar_progress(andersson_cave_exploration_progress_bar)" >= 90
 					}
 				}
-				andersson_cave_exploration_event_effect = yes
+				andersson_hominid_prospecting_exploration_event_effect = yes
 			}
 			if = {
 				limit = {
@@ -382,14 +264,14 @@ je_andersson_cave_exploration_pithecanthropus = {
 						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 90
 					}
 				}
-				andersson_cave_collection_event_effect = yes
+				andersson_hominid_prospecting_collecting_event_effect = yes
 			}
 			if = {
 				limit = {
 					scope:journal_entry = {
 						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 50
 					}
-					andersson_cave_pithecanthropus_discovery_trigger = yes
+					andersson_prospecting_pithecanthropus_discovery_trigger = yes
 				}
 				trigger_event = { id = andersson.223 }
 			}
@@ -406,7 +288,7 @@ je_andersson_cave_exploration_pithecanthropus = {
 	}
 
 	on_complete = {
-		andersson_remove_cave_effect = yes
+		andersson_remove_prospecting_effect = yes
 		trigger_event = { id = andersson.211 }
 	}
 
@@ -418,13 +300,14 @@ je_andersson_cave_exploration_pithecanthropus = {
 	}
 
 	on_invalid = {
-		andersson_remove_cave_effect = yes
+		andersson_remove_prospecting_effect = yes
+		remove_variable = andersson_hominid_prospecting_pithecanthropus_var
 	}
 
 	weight = 50
 }
 
-je_andersson_cave_exploration_australopithecus = {
+je_andersson_hominid_prospecting_australopithecus = {
 	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
 
 	group = je_group_andersson_anthropology
@@ -441,7 +324,7 @@ je_andersson_cave_exploration_australopithecus = {
 						"scripted_bar_progress(andersson_cave_exploration_progress_bar)" >= 90
 					}
 				}
-				andersson_cave_exploration_event_effect = yes
+				andersson_hominid_prospecting_exploration_event_effect = yes
 			}
 			if = {
 				limit = {
@@ -449,14 +332,14 @@ je_andersson_cave_exploration_australopithecus = {
 						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 90
 					}
 				}
-				andersson_cave_collection_event_effect = yes
+				andersson_hominid_prospecting_collecting_event_effect = yes
 			}
 			if = {
 				limit = {
 					scope:journal_entry = {
 						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 50
 					}
-					andersson_cave_australopithecus_discovery_trigger = yes
+					andersson_prospecting_australopithecus_discovery_trigger = yes
 				}
 				trigger_event = { id = andersson.224 }
 			}
@@ -473,7 +356,7 @@ je_andersson_cave_exploration_australopithecus = {
 	}
 
 	on_complete = {
-		andersson_remove_cave_effect = yes
+		andersson_remove_prospecting_effect = yes
 		trigger_event = { id = andersson.211 }
 	}
 
@@ -485,13 +368,14 @@ je_andersson_cave_exploration_australopithecus = {
 	}
 
 	on_invalid = {
-		andersson_remove_cave_effect = yes
+		andersson_remove_prospecting_effect = yes
+		remove_variable = andersson_hominid_prospecting_australopithecus_var
 	}
 
 	weight = 50
 }
 
-je_andersson_cave_exploration_mysterious = {
+je_andersson_cave_exploration = {
 	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
 
 	group = je_group_andersson_anthropology
@@ -508,7 +392,7 @@ je_andersson_cave_exploration_mysterious = {
 	}
 
 	on_complete = {
-		andersson_remove_cave_effect = yes
+		andersson_remove_prospecting_effect = yes
 		trigger_event = { id = andersson.212 }
 	}
 
@@ -520,7 +404,7 @@ je_andersson_cave_exploration_mysterious = {
 	}
 
 	on_invalid = {
-		andersson_remove_cave_effect = yes
+		andersson_remove_prospecting_effect = yes
 	}
 
 	weight = 50
