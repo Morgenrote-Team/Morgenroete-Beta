@@ -11,7 +11,7 @@ Anthropology
 - Old categories and fossils are gone. Now: 16 human fossils in 4 different categories: Neoanthropus, Palaeanthropus, Pithecanthropus, Australopithecus.
 - Added Cave Paintings.
 - Cave Paintings work a little bit like the old Caves: There are historical sites and random sites distributed at the beginning of the game.
-- Cave Paintings may be discovered by Anthropologists when doing speleology. They need to be at least experienced Anthropologists.
+- Cave Paintings may be discovered by Anthropologists when doing Anthropological Research. They need to be at least experienced Anthropologists.
 - Historical Cave Paintings which are guaranteed in each game: Utah, Patagonia, Piaui, Asturias, Guyenne, East Sahara, Zululand, Central India, Guangxi, Sulawesi, Western Territories
 
 Archaeology
