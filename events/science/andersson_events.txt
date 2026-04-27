@@ -1568,6 +1568,7 @@ andersson.61 = {
 		name = andersson.61.g #Our ancestors were not as primitive as we thought
 		default_option = yes
 		andersson_add_piltdown_fossil_effect = yes
+		andersson_change_anthropological_rating = { AMOUNT = 100 }
 		anthropologist_experience_gain_effect = { AMOUNT = 30 }
 	}
 
@@ -1648,7 +1649,8 @@ andersson.62 = {
 	option = {
 		name = andersson.61.g #Our ancestors were not as primitive as we thought
 		default_option = yes
-		andersson_add_piltdown_fossil_effect = yes
+		andersson_add_piltdown_fossil_effect = yes	
+		andersson_change_anthropological_rating = { AMOUNT = 100 }
 	}
 
 	option = {
@@ -3778,7 +3780,7 @@ andersson.401 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
 
 	cooldown = {
 		years = 10
@@ -3828,7 +3830,7 @@ andersson.402 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
 
 	cooldown = {
 		years = 10
@@ -3880,7 +3882,7 @@ andersson.403 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
 
 	cooldown = {
 		years = 20
@@ -3936,7 +3938,7 @@ andersson.404 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
 
 	cooldown = {
 		years = 10
@@ -3983,7 +3985,7 @@ andersson.406 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
 
 	cooldown = {
 		years = 10
@@ -4036,7 +4038,7 @@ andersson.408 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
 
 	cooldown = {
 		years = 10
@@ -4087,7 +4089,7 @@ andersson.409 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
 
 	cooldown = {
 		years = 20
@@ -4118,7 +4120,352 @@ andersson.409 = {
 
 ### Piltdown Fraud ###
 
+#Andersson 501: Fraud exposed
+andersson.501 = {
+	dlc = dlc_morgenrote
 
+	type = country_event
+
+	title = andersson.501.t
+	desc = andersson.501.d
+	flavor = andersson.501.f
+
+	placement = scope:andersson_state_scope
+
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:andersson_piltdown_attacker_scope
+	right_icon = scope:andersson_piltdown_defender_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	immediate = {
+		remove_variable = andersson_piltdown_ongoing_debate_var
+		country_definition = {
+			set_global_variable = {
+				name = andersson_piltdown_exposed_country_global_var
+				value = this
+			}
+		}
+
+		save_scope_as = andersson_piltdown_attacker_country_scope
+		var:andersson_anthropologist_var ?= {
+			save_scope_as = andersson_piltdown_attacker_scope
+		}
+
+		random_country = {
+			limit = {
+				andersson_has_piltdown_fossils_trigger = yes
+			}
+			save_scope_as = andersson_piltdown_defender_country_scope
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				save_scope_as = andersson_state_scope
+			}
+			var:andersson_anthropologist_var ?= {
+				save_scope_as = andersson_piltdown_defender_scope
+			}
+		}
+	}
+
+	option = {
+		name = andersson.501.g #This will give us new insights into the past.
+		default_option = yes
+		andersson_change_anthropological_rating = { AMOUNT = 50 }
+		add_modifier = {
+			name = andersson_piltdown_debate_won_modifier
+			years = 10
+		}
+		anthropologist_experience_gain_effect = { AMOUNT = 50 }
+		scope:andersson_piltdown_defender_country_scope = {
+			trigger_event = {
+				id = andersson.502
+			}
+		}
+	}
+}
+
+#Andersson 502: Scientific Desaster
+andersson.502 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = andersson.502.t
+	desc = andersson.501.d
+	flavor = andersson.501.f
+
+	placement = scope:andersson_state_scope
+
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:andersson_piltdown_attacker_scope
+	right_icon = scope:andersson_piltdown_defender_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	immediate = {
+		global_var:andersson_piltdown_exposed_country_global_var = {
+			save_scope_as = andersson_piltdown_attacker_country_scope
+			var:andersson_anthropologist_var ?= {
+				save_scope_as = andersson_piltdown_attacker_scope
+			}
+		}
+
+		random_country = {
+			limit = {
+				andersson_has_piltdown_fossils_trigger = yes
+			}
+			save_scope_as = andersson_piltdown_defender_country_scope
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				save_scope_as = andersson_state_scope
+			}
+			var:andersson_anthropologist_var ?= {
+				save_scope_as = andersson_piltdown_defender_scope
+			}
+		}
+	}
+
+	option = {
+		name = andersson.502.g #This will give us new insights into the past.
+		default_option = yes
+		andersson_change_anthropological_rating = { AMOUNT = -150 }
+		add_modifier = {
+			name = andersson_piltdown_debate_lost_modifier
+			years = 10
+		}
+		scope:andersson_piltdown_defender_scope = {
+			add_trait = grifter
+		}
+		anthropologist_experience_gain_effect = { AMOUNT = -25 }
+	}
+}
+
+#Andersson 503: Debate Lost
+andersson.503 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = andersson.503.t
+	desc = andersson.503.d
+	flavor = andersson.503.f
+
+	placement = scope:andersson_state_scope
+
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:andersson_piltdown_attacker_scope
+	right_icon = scope:andersson_piltdown_defender_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	immediate = {
+		remove_variable = andersson_piltdown_ongoing_debate_var
+
+		save_scope_as = andersson_piltdown_attacker_country_scope
+		var:andersson_anthropologist_var ?= {
+			save_scope_as = andersson_piltdown_attacker_scope
+		}
+
+		random_country = {
+			limit = {
+				andersson_has_piltdown_fossils_trigger = yes
+			}
+			save_scope_as = andersson_piltdown_defender_country_scope
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				save_scope_as = andersson_state_scope
+			}
+			var:andersson_anthropologist_var ?= {
+				save_scope_as = andersson_piltdown_defender_scope
+			}
+		}
+	}
+
+	option = {
+		name = andersson.503.g #This will give us new insights into the past.
+		default_option = yes
+		anthropologist_experience_gain_effect = { AMOUNT = -10 }
+		add_modifier = {
+			name = andersson_piltdown_debate_lost_modifier
+			years = 5
+		}
+		scope:andersson_piltdown_defender_country_scope = {
+			trigger_event = {
+				id = andersson.504
+			}
+		}
+	}
+}
+
+#Andersson 504: Scientific Triumph
+andersson.504 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = andersson.504.t
+	desc = andersson.504.d
+	flavor = andersson.504.f
+
+	placement = scope:andersson_state_scope
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/andersson_pictures/andersson_piltdown.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	immediate = {
+		save_scope_as = andersson_piltdown_defender_country_scope
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			save_scope_as = andersson_state_scope
+		}
+	}
+
+	option = {
+		name = andersson.504.g #This will give us new insights into the past.
+		default_option = yes
+		add_modifier = {
+			name = andersson_piltdown_debate_won_modifier
+			years = 5
+		}
+		anthropologist_experience_gain_effect = { AMOUNT = 5 }
+	}
+}
+
+#Andersson 511: Piltdown Man - Debate Preparation
+andersson.511 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = andersson.511.t
+	desc = andersson.511.d
+	flavor = andersson.511.f
+
+	placement = scope:andersson_state_scope
+
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:andersson_piltdown_attacker_scope
+	right_icon = scope:andersson_piltdown_defender_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	immediate = {
+		save_scope_as = andersson_piltdown_attacker_country_scope
+		var:andersson_anthropologist_var ?= {
+			save_scope_as = andersson_piltdown_attacker_scope
+		}
+		andersson_piltdown_attacker_value = {
+			save_scope_as = andersson_piltdown_attacker_points_scope
+		}
+
+		random_country = {
+			limit = {
+				andersson_has_piltdown_fossils_trigger = yes
+			}
+			save_scope_as = andersson_piltdown_defender_country_scope
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				save_scope_as = andersson_state_scope
+			}
+			if = {
+				limit = {
+					is_player = no
+					NOT = {
+						has_variable = andersson_anthropologist_var
+					}
+				}
+				create_new_character_base_effect = { CHARACTER = anthropologist PROJECT = andersson }
+				andersson_set_new_anthropologist_as_anthropologist_effect = yes
+			}
+			var:andersson_anthropologist_var ?= {
+				save_scope_as = andersson_piltdown_defender_scope
+			}
+			andersson_piltdown_defender_value = {
+				save_scope_as = andersson_piltdown_defender_points_scope
+			}
+		}
+	}
+
+	option = {
+		name = andersson.511.g #This will give us new insights into the past.
+		default_option = yes
+		random_list = {
+			1 = { 
+				modifier = {
+					add = scope:andersson_piltdown_attacker_points_scope
+				}
+				trigger_event = { id = andersson.501 }
+			}
+			1 = { 
+				modifier = {
+					add = scope:andersson_piltdown_defender_points_scope
+				}
+				trigger_event = { id = andersson.503 }
+			}
+			#andersson_piltdown_defender_value = { trigger_event = { id = andersson.503 } }
+		}
+		#hidden_effect = {
+		#	if = {
+		#		limit = {
+		#			scope:andersson_piltdown_attacker_points_scope > scope:andersson_piltdown_defender_points_scope  
+		#		}
+		#		trigger_event = {
+		#			id = andersson.501
+		#		}
+		#	}
+		#	else = {
+		#		trigger_event = {
+		#			id = andersson.503
+		#		}
+		#	}
+		#}
+	}
+
+	option = {
+		name = andersson.511.h #Nevermind
+		trigger = {
+			is_player = yes
+		}
+		remove_variable = andersson_piltdown_ongoing_debate_var
+	}
+}
 
 
 #######Origin of Modern Humans######
