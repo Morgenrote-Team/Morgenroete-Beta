@@ -600,6 +600,9 @@ widget = {
     #Asylum Chooser Popup
     mr_send_to_asylum_chooser_popup = {}
 
+    #Hire Academics
+    mr_hire_academic_popup = {}
+
     window = {
         name = "mr_treatment_character_choser"
         layer = popups
@@ -1317,6 +1320,227 @@ types mr_popup_types {
             position = { -5 13 }
 
             onclick = "[GetScriptedGui('mr_send_character_to_asylum_window_close_button_sgui').Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+            tooltip = "MR_CLOSE_WINDOW_TT"
+            input_action = "back"
+
+            blockoverride "icon" {
+                texture = "gfx/interface/buttons/button_icons/close.dds"
+            }
+            blockoverride "icon_size" {
+                size = { 100% 100% }
+            }
+		}
+    }
+
+    type mr_hire_academic_popup = window {
+        name = "mr_hire_academic_popup"
+        layer = popups
+        using = clickthrough_blocker
+        filter_mouse = all
+        movable = yes
+        allow_outside = yes
+        parentanchor = center
+
+        size = { 780 480 }
+
+        enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+        visible = "[And( GetScriptedGui('mr_academics_hire_chemist_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End), And( IsInGame, And( Not( IsPauseMenuShown ), Not( IsGameOverScreenShown ))))]"
+
+        widget = {
+            size = { 100% 100% }
+
+            background = {
+                texture = "gfx/interface/backgrounds/popup_bg.dds"
+                spriteType = Corneredstretched
+                spriteborder = { 90 90 }
+                texture_density = 2
+
+                modify_texture = {
+                    texture = "gfx/interface/backgrounds/default_bg_shading.dds"
+                    spriteType = Corneredstretched
+                    spriteborder = { 0 0 }
+                    blend_mode = overlay
+                }
+                modify_texture = {
+                    using = texture_velvet
+                }
+            }
+        }
+
+		### HEADER
+		widget = {
+			size = { 100% 82 }
+
+			popup_top_header = {}
+
+			textbox = {
+				block "first_line_position" {
+					position = { 0 24 }
+				}
+				size = { 75% 40 }
+				block "window_header_name" {
+					raw_text = "MR_CHOOSE_ACADEMIC_HEADER"
+				}
+				elide = right
+				fontsize_min = 14
+				parentanchor = hcenter
+				align = hcenter|nobaseline
+				using = header_font
+				using = header_font_size
+				default_format = "#header"
+			}
+
+			block "second_line" {}
+		}
+
+		### FRAME
+		popup_bg_frame = {}
+
+        ### Actual stuff
+		scrollbox = {
+			size = { 735 380 }
+			position = { 0 32 }
+			parentanchor = center
+
+			scrollbarpolicy_horizontal = as_needed
+			scrollbarpolicy_vertical = always_off
+
+			scrollbar_horizontal = {
+				using = Scrollbar_Horizontal
+			}
+
+            blockoverride "scrollbox_content" {
+                hbox = {
+                    spacing = 20
+                    datamodel = "[Country.MakeScope.GetList('mr_academics_hire_chemist_variable_list')]"
+
+                    item = {
+                        widget = {
+                            size = { 220 350 }
+                            using = entry_bg_fancy
+                            datacontext = "[Scope.GetCharacter]"
+
+                            #General Information
+                            widget = {
+                                parentanchor = hcenter
+                                size = { 220 35 }
+                                scissor = yes
+
+                                background = {
+                                    using = default_header_bg
+                                    using = frame_small_mask_top
+                                }
+
+                                character_role_icon = {
+                                    parentanchor = left|vcenter
+                                    position = { 10 0 }
+                                    size = { 25 25 }
+                                }
+
+                                #Name
+                                textbox = {
+                                    raw_text = "#b [Character.GetFullName]#!"
+                                    size = { 80% 100% }
+                                    position = { 30 0 }
+                                    elide = right
+                                    align = nobaseline
+                                    using = fontsize_medium
+                                    margin = { 10 0 }
+                                    parentanchor = vcenter
+                                }
+                            }
+
+                            # Character Portrait
+                            character_portrait_medium_torso = {
+                                parentanchor = top|hcenter
+                                position = { 0 25 }
+
+                                blockoverride "show_hat" {}
+                            }
+
+                            green_progressbar_horizontal = {
+                                name =  "mr_tutorial_highlight_experience_bar"
+                                parentanchor = top|hcenter
+                                position = { 0 202 }
+                                size = { 190 30 }
+                                block "occupation_experience_value_bar_visibility" {
+                                    visible = yes
+                                }
+                                blockoverride "values" {
+                                    block "occupation_experience_range" {
+                                        min = 0
+                                        max = 300
+                                    }
+                                    block "occupation_experience_value" {
+                                        value = "[Scope.Var('mendelejew_chemist_experience_var').GetValue]"
+                                    }
+                                    block "occupation_experience_tooltip" {
+                                        tooltip = "GUI_mendelejew_chemist_character_experience_tt"
+                                    }
+                                }
+                                textbox = {
+                                    block "occupation_experience_bar_text" {
+                                        text = "GUI_mendelejew_chemist_character_experience_text_loc"
+                                    }
+                                    position = { 0 0 }
+                                    parentanchor = center
+                                    autoresize = yes
+                                    using = fontsize_xl
+                                }
+                            }
+
+                            # Displays the Traits of the character
+                            widget = {
+                                size = { 190 42 }
+                                parentanchor = top|hcenter
+                                position = { 0 241 }
+
+                                overlappingitembox = {
+                                    minimumsize = { 180 42 }
+                                    maximumsize = { 180 42 }
+
+                                    datamodel = "[Scope.GetCharacter.AccessTraits]"
+
+                                    item = {
+                                        icon = {
+                                            size = { 30 42 }
+                                            texture = "[CharacterTrait.GetTexture]"
+                                            using = tooltip_above
+
+                                            tooltipwidget = {
+                                                FancyTooltip_CharacterTrait = {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            #Invite
+                            button = {
+                                parentanchor = bottom|hcenter
+                                position = { 0 -20 }
+                                using = default_button_primary_big_action
+                                size = { 200 40 }
+                                raw_text = "MR_ACADEMICS_HIRE_THIS_CHARACTER_BUTTON"
+                                using = fontsize_medium
+
+                                datacontext = "[GetScriptedGui('mr_academics_hire_this_chemist_button_sgui')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).AddScope('chosen_character', Scope.GetCharacter.MakeScope ).End)]"
+                                tooltip = "MR_ACADEMICS_HIRE_THIS_CHARACTER_BUTTON_TT"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        #Close button
+		button_icon_round = {
+            parentanchor = top|right
+            size = { 42 42 }
+            position = { -5 13 }
+
+            onclick = "[GetScriptedGui('mr_academics_hire_chemist_close_button_sgui').Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
             tooltip = "MR_CLOSE_WINDOW_TT"
             input_action = "back"
 
