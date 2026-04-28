@@ -131,6 +131,7 @@ Fixes:
 
 Characters:
 - Auguste Piccard (random Swiss Chemist)
+- Ernst Haeckel (random German Anthropologist and Naturalist)
 - Franz Weidenreich (random German Anthropologist)
 - Yoshikiyo Koganei (random Japanese Anthropologist)
 
