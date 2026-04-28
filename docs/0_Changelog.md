@@ -10,6 +10,7 @@ Anthropology
 - Added Institute of Anthropology and Ethnology.
 - Anthropology is no longer fundamentally based on current knowledge, but on that of the past: In principle, every new find is considered a separate hominid type.
 - Old categories and fossils are gone. Now: 16 human fossils in 4 different categories: Neoanthropus, Palaeanthropus, Pithecanthropus, Australopithecus. The 16 fossils are: Vero Man, Lagoa Santa Man, Cro-Magnon Man, Boskop Man, Tianyuan Man, Talgai Man, Neanderthal Man, Gibraltar Man, Spy Man, Krapine Man, Galilee Man, Heidelberg Man, Rhodesian Man, Peking Man, Java Man, Australopithecus.
+- Paranthropus is a special unique fossil.
 - Anthropological Research is the default setting for anthropologists. This function triggers events and passively collects generic human bones and prehistoric artifacts.
 - Prehistoric artifacts contribute a small amount to anthropological prestige. Generic bones are needed for various actions (not yet implemented).
 - Venus artifacts are somewhat more valuable prehistoric artifacts.
@@ -24,7 +25,7 @@ With free anthropology rules (recommended), fossils are dynamically named after 
 - Whether Neoanthropus, Palaeanthropus, Pithecanthropus, or Australopithecus can be found depends on the production methods used at the institute. Neoanthropus can always be found; for the others, more advanced production methods are needed.
 - Piltdown Man has been completely reworked. The event can be triggered under custom anthropology rules for any major European power, not just the UK. There's a lot of prestige to be gained, but if the fraud is exposed, the consequences are all the more severe. Foreign anthropologists can investigate the fraud via an action button, but they'll need superior experience and traits to truly uncover the deception.
 - All hominid fossils are displayed as icons in the GUI.
-- The Anthropology Update is currently only 65 percent complete. Numerous features are missing. The Anthropological Collection and the Congress on the Origin of Man have been temporarily disabled. Anthropology alerts are not yet implemented. The AI ​​cannot currently use anthropology.
+- The Anthropology Update is currently only 65 percent complete. Numerous features are missing. The Anthropological Collection and the Congress on the Origin of Man have been temporarily disabled. Anthropology alerts are not yet implemented. The AI ​​cannot currently use anthropology. There are some empty localization spots. Anthropological Variables/Skeletons/Fossils etc. may not be transfered to new yountries or in the case of Civil War.
 
 Archaeology
 - Local Excavations removed. The Default Action (Archaeological Project) substitutes it completely.
