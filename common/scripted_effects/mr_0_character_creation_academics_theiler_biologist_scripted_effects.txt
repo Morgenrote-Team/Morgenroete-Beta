@@ -27,7 +27,6 @@ mr_create_historical_biologist_for_character_creation_effect = {
 			scope:theiler_new_biologist_scope = {
 				set_variable = mr_no_headgear_var
 				biologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
-				place_character_in_void = 1200 #This is needed so the character doesn't disappear
 			}
 
 			set_variable = {
@@ -545,6 +544,48 @@ mr_create_historical_biologist_for_character_creation_effect = {
 					min = 0
 					multiply = 2
 					multiply = -2
+				}
+			}
+		}
+		100 = { #Giovanni Battista Amici, Italy
+			trigger = {
+				NOT = { has_global_variable = mr_amici_global_var }
+				OR = {
+					has_state_in_state_region = STATE_ROMAGNA
+					has_state_in_state_region = STATE_EMILIA #Born in Modena
+					has_state_in_state_region = STATE_TUSCANY
+				}
+				country_average_cultural_acceptance = {
+					target = cu:north_italian
+					value >= acceptance_status_4
+				}
+				year >= 1810 #Professor of Geometry and Algebra
+				year <= 1841 #Age 55
+			}
+			create_character = {
+				template = mr_ita_amici_giovanni_battista_character_template
+				save_scope_as = theiler_new_biologist_scope
+			}
+			scope:theiler_new_biologist_scope = {
+				set_variable = mr_no_headgear_var
+				mr_make_character_biologist_effect = yes
+			}
+
+			set_variable = {
+				name = theiler_new_biologist_var
+				value = scope:theiler_new_biologist_scope
+			}
+
+			set_global_variable = mr_amici_global_var
+
+			modifier = {
+				add = {
+					value = year
+					subtract = 1786
+					subtract = 25
+					min = 0
+					multiply = 2
+					multiply = -1
 				}
 			}
 		}
@@ -1635,6 +1676,7 @@ mr_create_random_biologist_for_character_creation_effect = {
 				female = yes
 				trait_generation = {}
 				save_scope_as = theiler_new_biologist_scope
+				role = character_role_theiler_biologist
 			}
 			scope:theiler_new_biologist_scope = {
 				add_trait = theiler_biologist
@@ -1665,6 +1707,7 @@ mr_create_random_biologist_for_character_creation_effect = {
 			create_character = {
 				trait_generation = {}
 				save_scope_as = theiler_new_biologist_scope
+				role = character_role_theiler_biologist
 			}
 			scope:theiler_new_biologist_scope = {
 				add_trait = theiler_biologist
@@ -1695,7 +1738,10 @@ mr_create_random_biologist_for_character_creation_effect = {
 }
 
 mr_make_character_biologist_effect = {
-	set_variable = mr_is_biologist_var
 	biologist_experience_set_up_effect = yes
-	place_character_in_void = 1200
+	set_variable = mr_is_mr_character
+	academics_character_set_role_retirement_effect = {
+		ROLE = character_role_theiler_biologist
+		AGE_LEVEL = 2
+	}
 }

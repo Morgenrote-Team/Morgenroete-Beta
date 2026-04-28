@@ -310,6 +310,43 @@ mr_create_historical_pilot_for_character_creation_effect = {
 				}
 			}
 		}
+		100 = { #Thip Ketudat, Siam
+			trigger = {
+				NOT = { has_global_variable = mr_ketudat_thip_created_global_var }
+				has_state_in_state_region = STATE_BANGKOK
+				country_average_cultural_acceptance = {
+					target = cu:thai
+					value >= acceptance_status_4
+				}
+				year >= 1908 #Age 20
+				year <= 1928 #Age 40
+			}
+			create_character = {
+				template = mr_sia_ketudat_thip_character_template
+				save_scope_as = curtiss_new_pilot_scope
+			}
+			scope:curtiss_new_pilot_scope = {
+				mr_make_character_pilot_effect = yes
+			}
+
+			set_variable = {
+				name = curtiss_new_pilot_var
+				value = scope:curtiss_new_pilot_scope
+			}
+
+			set_global_variable = mr_ketudat_thip_created_global_var
+
+			modifier = {
+				add = {
+					value = year
+					subtract = 1888
+					subtract = 25
+					min = 0
+					multiply = 2
+					multiply = -0.1
+				}
+			}
+		}
 		100 = { #Boonjeam Komolmit, Siam
 			trigger = {
 				NOT = { has_global_variable = mr_komolmit_boonjeam_created_global_var }
@@ -579,6 +616,7 @@ mr_create_random_pilot_for_character_creation_effect = {
 				female = yes
 				trait_generation = {}
 				save_scope_as = curtiss_new_pilot_scope
+				role = character_role_curtiss_pilot
 			}
 			scope:curtiss_new_pilot_scope = {
 				add_trait = curtiss_pilot
@@ -610,6 +648,7 @@ mr_create_random_pilot_for_character_creation_effect = {
 				age = { 20 25 }
 				trait_generation = {}
 				save_scope_as = curtiss_new_pilot_scope
+				role = character_role_curtiss_pilot
 			}
 			scope:curtiss_new_pilot_scope = {
 				add_trait = curtiss_pilot
@@ -640,8 +679,11 @@ mr_create_random_pilot_for_character_creation_effect = {
 }
 
 mr_make_character_pilot_effect = {
-	set_variable = mr_is_pilot_var
 	pilot_experience_set_up_effect = yes
-	place_character_in_void = 1200
+	set_variable = mr_is_mr_character
+	academics_character_set_role_retirement_effect = {
+		ROLE = character_role_vikelas_racer
+		AGE_LEVEL = 1
+	}
 }
 

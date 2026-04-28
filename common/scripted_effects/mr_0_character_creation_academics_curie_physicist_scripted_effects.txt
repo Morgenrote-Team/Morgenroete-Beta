@@ -200,6 +200,48 @@ mr_create_historical_physicist_for_character_creation_effect = {
 				}
 			}
 		}
+		200 = { #Jagadish Chandra Bose, India
+			trigger = {
+				NOT = { has_global_variable = mr_bose_created_global_var }
+				OR = {
+					has_state_in_state_region = STATE_WEST_BENGAL
+					has_state_in_state_region = STATE_EAST_BENGAL
+				}
+				country_average_cultural_acceptance = {
+					target = cu:bengali
+					value >= acceptance_status_4
+				}
+				year >= 1885 #Professor at Presidency College Calcutta
+				year <= 1913 #Age 55
+			}
+			create_character = {
+				template = mr_hnd_bose_jagadish_chandra_character_template
+				save_scope_as = curie_new_physicist_scope
+			}
+			scope:curie_new_physicist_scope = {
+				set_variable = mr_female_glasses_var
+				set_variable = mr_no_headgear_var
+				mr_make_character_physicist_effect = yes
+			}
+
+			set_variable = {
+				name = curie_new_physicist_var
+				value = scope:curie_new_physicist_scope
+			}
+
+			set_global_variable = mr_bose_created_global_var
+
+			modifier = {
+				add = {
+					value = year
+					subtract = 1858
+					subtract = 25
+					min = 0
+					multiply = 2
+					multiply = -2
+				}
+			}
+		}
 		100 = { #Giorgio Abetti, Italy
 			trigger = {
 				NOT = { has_global_variable = mr_abetti_giorgio_global_var }
@@ -528,6 +570,7 @@ mr_create_random_physicist_for_character_creation_effect = {
 				female = yes
 				trait_generation = {}
 				save_scope_as = curie_new_physicist_scope
+				role = character_role_curie_physicist
 			}
 			scope:curie_new_physicist_scope = {
 				add_trait = curie_physicist
@@ -559,6 +602,7 @@ mr_create_random_physicist_for_character_creation_effect = {
 			create_character = {
 				trait_generation = {}
 				save_scope_as = curie_new_physicist_scope
+				role = character_role_curie_physicist
 			}
 			scope:curie_new_physicist_scope = {
 				add_trait = curie_physicist
@@ -590,7 +634,10 @@ mr_create_random_physicist_for_character_creation_effect = {
 }
 
 mr_make_character_physicist_effect = {
-	set_variable = mr_is_physicist_var
 	physicist_experience_set_up_effect = yes
-	place_character_in_void = 1200
+	set_variable = mr_is_mr_character
+	academics_character_set_role_retirement_effect = {
+		ROLE = character_role_curie_physicist
+		AGE_LEVEL = 2
+	}
 }

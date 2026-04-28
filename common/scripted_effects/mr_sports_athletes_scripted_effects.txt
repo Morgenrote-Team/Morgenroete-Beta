@@ -9,8 +9,8 @@
 #This effect kills the current pilot
 # !!! Change stuff in both of the following effects !!!
 kill_pilot_effect = {
-	var:curtiss_pilot_var = {
-		free_character_from_void = no
+	var:curtiss_pilot_var ?= {
+		kill_character = yes
 	}
 
 	remove_variable = curtiss_pilot_var
@@ -22,7 +22,7 @@ retire_pilot_effect = {
 		text = retire_pilot_effect_tt
 
 		var:curtiss_pilot_var = {
-			free_character_from_void = no
+			kill_character = yes
 		}
 	}
 
@@ -39,7 +39,7 @@ curtiss_set_new_pilot_as_pilot_effect = {
 				has_variable = curtiss_pilot_var
 			}
 			var:curtiss_pilot_var = {
-				free_character_from_void = no
+				set_character_busy_and_immortal = no
 			}
 		}
 
@@ -53,10 +53,9 @@ curtiss_set_new_pilot_as_pilot_effect = {
 }
 
 # Remove new Pilot
-curtiss_remove_new_pilot_effect = {
-	scope:curtiss_new_pilot_scope = {
-		free_character_from_void = no
-	}
+curtiss_add_new_pilot_to_character_pool_effect = {
+	custom_tooltip = curtiss_pilot_will_become_part_of_academia_tt
+
 	remove_variable = curtiss_new_pilot_var
 }
 
@@ -183,7 +182,7 @@ pilot_experience_gain_effect = { #adds XP to the Pilot
 #This effect kills the current racer
 kill_racer_effect = {
 	var:vikelas_racer_var = {
-		free_character_from_void = no
+		kill_character = yes
 	}
 
 	remove_variable = vikelas_racer_var
@@ -348,8 +347,8 @@ racer_experience_gain_effect = { #adds XP to the Racer
 
 #This effect kills the current mechanic
 kill_mechanic_effect = {
-	var:vikelas_mechanic_var = {
-		free_character_from_void = no
+	var:vikelas_mechanic_var ?= {
+		kill_character = yes
 	}
 
 	remove_variable = vikelas_mechanic_var
@@ -371,6 +370,7 @@ create_new_mechanic_effect = {
 			create_character = {
 				save_scope_as = vikelas_new_mechanic_scope
 				age = { 18 30 }
+				role = character_role_vikelas_mechanic
 				trait_generation = {
 					add_random_trait = personality
 					random_list = {
@@ -384,9 +384,12 @@ create_new_mechanic_effect = {
 
 			scope:vikelas_new_mechanic_scope = {
 				add_trait = tesla_mechanical_engineer
-				set_variable = mr_is_mechanic_var
 				mechanic_experience_set_up_effect = yes
-				place_character_in_void = 1200
+				set_variable = mr_is_mr_character
+				academics_character_set_role_retirement_effect = {
+					ROLE = character_role_vikelas_mechanic
+					AGE_LEVEL = 2
+				}
 			}
 
 			set_variable = {
@@ -512,8 +515,8 @@ mechanic_experience_gain_effect = { #adds XP to the Mechanic
 
 #This effect kills the current Coach
 kill_coach_effect = {
-	var:vikelas_coach_var = {
-		free_character_from_void = no
+	var:vikelas_coach_var ?= {
+		kill_character = yes
 	}
 
 	remove_variable = vikelas_coach_var
@@ -536,14 +539,18 @@ create_new_coach_effect = {
 				save_scope_as = vikelas_new_coach_scope
 				age = { 25 45 }
 				trait_generation = {}
+				role = character_role_vikelas_coach
 			}
 
 			scope:vikelas_new_coach_scope = {
 				add_trait = vikelas_coach
-				set_variable = mr_is_coach_var
 				mr_trait_generation_coach_effect = yes
 				coach_experience_set_up_effect = yes
-				place_character_in_void = 1200
+				set_variable = mr_is_mr_character
+				academics_character_set_role_retirement_effect = {
+					ROLE = character_role_vikelas_coach
+					AGE_LEVEL = 2
+				}
 			}
 
 			set_variable = {
@@ -563,13 +570,8 @@ vikelas_set_new_coach_as_coach_effect = {
 	custom_tooltip = {
 		text = vikelas_replace_coach_with_new_coach_tt
 
-		if = {
-			limit = {
-				has_variable = vikelas_coach_var
-			}
-			var:vikelas_coach_var = {
-				free_character_from_void = no
-			}
+		var:vikelas_coach_var ?= {
+			free_character_from_void = no
 		}
 
 		set_variable = {
@@ -705,7 +707,7 @@ coach_experience_gain_effect = { #adds XP to the coach
 # !!! Change stuff in both of the following effects !!!
 kill_mountaineer_effect = {
 	var:douglas_mountaineer_var = {
-		free_character_from_void = no
+		kill_character = yes
 	}
 
 	remove_variable = douglas_mountaineer_var
@@ -717,7 +719,7 @@ retire_mountaineer_effect = {
 		text = retire_mountaineer_effect_tt
 
 		var:douglas_mountaineer_var = {
-			free_character_from_void = no
+			kill_character = yes
 		}
 	}
 

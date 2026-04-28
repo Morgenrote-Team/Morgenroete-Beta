@@ -29,7 +29,7 @@ je_lepsius_archaeological_default_project = {
 
 				#Resets Progress Bar
 				scope:journal_entry = {
-					set_bar_progress = { 
+					set_bar_progress = {
 						name = je_lepsius_archaeological_default_project_progress_bar
 						value = 0
 					}
@@ -37,6 +37,58 @@ je_lepsius_archaeological_default_project = {
 
 				#Experience for the Archaeologist
 				archaeologist_experience_gain_effect = { AMOUNT = 5 }
+
+				#Early Archaeology: +1 Local Artifact
+				if = {
+					limit = {
+						has_technology_researched = lepsius_early_archaeology_tech
+					}
+					lepsius_add_x_local_artifacts_effect = { AMOUNT = 1 }
+				}
+
+				#Modern Archaeology: +1 Local Artifact
+				if = {
+					limit = {
+						has_technology_researched = lepsius_modern_archaeology_tech
+					}
+					lepsius_add_x_local_artifacts_effect = { AMOUNT = 1 }
+				}
+
+				#Local Archaeologist: +1 Local Artifact
+				if = {
+					limit = {
+						var:lepsius_archaeologist_var = {
+							has_trait = lepsius_local_specialist
+						}
+					}
+					lepsius_add_x_local_artifacts_effect = { AMOUNT = 1 }
+				}
+
+				#Minor Excavation Site: +1 Local Artifact
+				if = {
+					limit = {
+						lepsius_has_minor_excavation_site_trigger = yes
+					}
+					lepsius_add_x_local_artifacts_effect = { AMOUNT = 1 }
+				}
+
+				if = {
+					limit = {
+						NOT = {
+							var:lepsius_archaeologist_var = {
+								has_trait = lepsius_local_specialist
+							}
+						}
+					}
+					random_list = {
+						1 = {
+							var:lepsius_archaeologist_var = {
+								add_trait = lepsius_local_specialist
+							}
+						}
+						3 = {}
+					}
+				}
 
 				#Adds Artifacts
 				random_list = {
@@ -100,8 +152,11 @@ je_lepsius_archaeological_default_project = {
 	on_yearly_pulse = {
 		effect = {
 			trigger_event = {
+				on_action = lepsius_on_local_major_artifact_events
+			}
+			trigger_event = {
 				on_action = lepsius_on_yearly_pulse_local_archaeology_events
-				days = { 0 365 }
+				days = { 30 365 }
 			}
 		}
 	}
@@ -117,15 +172,13 @@ je_lepsius_archaeological_default_project = {
 	}
 
 	weight = 30
-
-	should_be_pinned_by_default = no
 }
 
 ###### DISCOVERIES ######
 
 #Lepsius' letter to Rosellini, access to Upper Egypt and Lower Egypt
 
-je_lepsius_letter_to_rosellini = { 
+je_lepsius_letter_to_rosellini = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	group = je_group_lepsius_archaeology
@@ -159,11 +212,11 @@ je_lepsius_letter_to_rosellini = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Alternative to Lepsius letter in case Prussia does not exist
-je_lepsius_archaeology_start_in_egypt = { 
+je_lepsius_archaeology_start_in_egypt = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	group = je_group_lepsius_archaeology
@@ -197,7 +250,7 @@ je_lepsius_archaeology_start_in_egypt = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Stephens & Catherwood Expedition, access to Guatemala (you need something against malaria, however)
@@ -238,7 +291,7 @@ je_lepsius_stephens_catherwood_expedition = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Expedition to Yucatán
@@ -281,7 +334,7 @@ je_lepsius_yucatan_expedition = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Decipherment of the Akkadian language, access to Babylonia and Assyria (early archaeology is needed)
@@ -307,8 +360,8 @@ je_lepsius_decipherment_akkadian = {
 		any_scope_building = {
 			is_building_type = building_lepsius_archaeological_museum
 		}
-		country_has_building_type_levels = {  
-			target = bt:building_university  
+		country_has_building_type_levels = {
+			target = bt:building_university
 			value  >= 10
 		}
 		lepsius_has_archaeologist = yes
@@ -340,7 +393,7 @@ je_lepsius_decipherment_akkadian = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Schliemann discovers Troy, access to Argolis and Crete (early archaeology for Argolis and modern archaeology for Crete is needed)
@@ -366,8 +419,8 @@ je_lepsius_support_schliemann = {
 
 	complete = {
 		literacy_rate >= 0.75
-		country_has_building_type_levels = {  
-			target = bt:building_university  
+		country_has_building_type_levels = {
+			target = bt:building_university
 			value  >= 15
 		}
 	}
@@ -381,15 +434,15 @@ je_lepsius_support_schliemann = {
 		add_modifier = {
 			name = lepsius_support_schliemann_modifier
 		}
-		trigger_event = { 
-			id = lepsius.5 
+		trigger_event = {
+			id = lepsius.5
 			popup = yes
 		}
 	}
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Bingham discovers Machu Picchu, access to Peru (modern archaeology is needed)
@@ -432,7 +485,7 @@ je_lepsius_machu_picchu = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Fiorelli's Excavation of Pompeii
@@ -481,7 +534,7 @@ je_lepsius_pompeii = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Batres in Teotihuacán
@@ -532,7 +585,7 @@ je_lepsius_teotihuacan = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Discovery of Harappa
@@ -581,7 +634,7 @@ je_lepsius_harappa = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #The Tomb of the First Emperor
@@ -645,12 +698,12 @@ je_lepsius_first_emperor = {
 		s:STATE_XIAN = {
 			add_state_trait = lepsius_state_trait_emperor
 		}
-		trigger_event = { id = lepsius.70 popup = yes }	
+		trigger_event = { id = lepsius.70 popup = yes }
 	}
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Tikal, City in the Jungle
@@ -694,7 +747,7 @@ je_lepsius_tikal = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Dreamtime
@@ -726,7 +779,7 @@ je_lepsius_dreamtime = {
 	complete = {
 		has_technology_researched = lepsius_modern_archaeology_tech
 		lepsius_has_active_archaeologist = yes
-		lepsius_has_active_anthropologist = yes
+		andersson_has_active_anthropologist = yes
 		custom_tooltip = {
 			text = lepsius_2_excavation_team_needed_tt
 			var:lepsius_excavation_teams >= 2
@@ -742,7 +795,7 @@ je_lepsius_dreamtime = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Gwanggaeto Stele
@@ -780,7 +833,7 @@ je_lepsius_gwanggaeto = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Nazca
@@ -827,7 +880,7 @@ je_lepsius_nazca = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Petra
@@ -840,6 +893,9 @@ je_lepsius_petra = {
 	can_deactivate = yes
 
 	is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = lepsius_petra_found
+		}
 		any_scope_state = {
 			state_region = s:STATE_TRANSJORDAN
 			any_scope_building = {
@@ -865,6 +921,7 @@ je_lepsius_petra = {
     }
 
 	on_complete = {
+		set_global_variable = lepsius_petra_found
 		random_scope_state = {
 			limit = {
 				state_region = s:STATE_TRANSJORDAN
@@ -879,7 +936,138 @@ je_lepsius_petra = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
+}
+
+#Cliff Palace
+je_lepsius_cliff = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	can_deactivate = yes
+
+	is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = lepsius_cliff_var
+		}
+		any_scope_state = {
+			state_region = s:STATE_COLORADO
+		}
+	}
+
+	possible = {
+		has_technology_researched = lepsius_early_archaeology_tech
+	}
+
+	complete = {
+		has_technology_researched = lepsius_modern_archaeology_tech
+		has_technology_researched = andersson_anthropology_tech
+		lepsius_has_active_archaeologist = yes
+		custom_tooltip = {
+			text = lepsius_excavation_team_needed_tt
+			var:lepsius_excavation_teams >= 1
+ 		}
+	}
+
+	fail = {
+    }
+
+	on_complete = {
+		set_global_variable = lepsius_cliff_var
+		s:STATE_COLORADO = {
+			add_state_trait = lepsius_state_trait_cliff
+		}
+		trigger_event = { id = lepsius.78 popup = yes }
+	}
+
+	weight = 10
+}
+
+#Angkor
+
+je_lepsius_angkor = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	can_deactivate = yes
+
+	is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = lepsius_angkor_var
+		}
+		any_scope_state = {
+			state_region = s:STATE_CAMBODIA
+		}
+	}
+
+	possible = {
+		has_technology_researched = lepsius_antiquarianism_tech
+	}
+
+	complete = {
+		has_technology_researched = lepsius_early_archaeology_tech
+		has_technology_researched = civilizing_mission
+		lepsius_has_active_archaeologist = yes
+		custom_tooltip = {
+			text = lepsius_excavation_team_needed_tt
+			var:lepsius_excavation_teams >= 1
+ 		}
+	}
+
+	fail = {
+    }
+
+	on_complete = {
+		set_global_variable = lepsius_angkor_var
+		s:STATE_CAMBODIA = {
+			add_state_trait = lepsius_state_trait_angkor
+		}
+		trigger_event = { id = lepsius.79 popup = yes }
+	}
+
+	weight = 10
+}
+
+#Guatavita
+
+je_lepsius_guatavita = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	can_deactivate = yes
+
+	is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = lepsius_guatavita_global_var
+		}
+		any_scope_state = {
+			state_region = s:STATE_CUNDINAMARCA
+		}
+	}
+
+	possible = {
+		has_technology_researched = lepsius_antiquarianism_tech
+	}
+
+	complete = {
+		has_technology_researched = lepsius_early_archaeology_tech
+	}
+
+	fail = {
+    }
+
+	on_complete = {
+		set_global_variable = lepsius_guatavita_global_var
+		s:STATE_CUNDINAMARCA = {
+			add_state_trait = lepsius_state_trait_guatavita
+		}
+		trigger_event = { id = lepsius.751 popup = yes }
+	}
+
+	weight = 10
 }
 
 ##################################################################
@@ -1007,7 +1195,7 @@ je_lepsius_palmyra = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Excavation of Harappa
@@ -1148,7 +1336,7 @@ je_lepsius_excavation_harappa = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 ##################################################################
@@ -1167,7 +1355,7 @@ je_lepsius_archaeological_expedition_egypt = {
 	on_monthly_pulse = {
 		random_events = {
 			66 = 0
-			
+
 			10 = lepsius.401 #Lepsius 401: Bedouin Raid/Kurdish Raid (Egypt, Mesopotamia)
 			10 = lepsius.402 #Lepsius 402: Desert Storm/Tropical Storm (Egypt, Yucatán)
 			10 = lepsius.407 #Lepsius 407: Oasis (Egypt)
@@ -1193,9 +1381,9 @@ je_lepsius_archaeological_expedition_egypt = {
 			10 = lepsius.435 #Lepsius 435: Auction
 			10 = lepsius.436 #Lepsius 436: Hidden chamber
 			10 = lepsius.437 #Lepsius 437: Abandoned camp
-			10 = lepsius.438 #Lepsius 438: Eremite 
+			10 = lepsius.438 #Lepsius 438: Eremite
 			10 = lepsius.439 #Lepsius 439: Dynamite
-			10 = lepsius.440 #Lepsius 440: A broken piece 
+			10 = lepsius.440 #Lepsius 440: A broken piece
 
 			10 = lepsius.441 #Lepsius 441: Forgotten Obelisk (Egypt)
 			10 = lepsius.442 #Lepsius 442: Mummified animals (Egypt)
@@ -1223,11 +1411,11 @@ je_lepsius_archaeological_expedition_egypt = {
 			1 = lepsius.511 #Lepsius 511: Raise the Flag (Lower Egypt)
 		}
 	}
-	
+
 	immediate = {
 		set_archaeological_expedition_leader_effect = yes
 	}
-	
+
 	complete = {
 		custom_tooltip = {
 			text = je_lepsius_archaeological_expedition_egypt_success
@@ -1238,42 +1426,42 @@ je_lepsius_archaeological_expedition_egypt = {
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.310
 			days = 1
 		}
 	}
-	
+
 	current_value = {
 		value = var:lepsius_archaeological_expedition_progress
 	}
 
 	goal_add_value = {
 		if = {
-			limit = {	
+			limit = {
 				has_variable = lepsius_short_expedition_var
 			}
 			add = 5
 		}
 		if = {
-			limit = {	
+			limit = {
 				has_variable = lepsius_medium_expedition_var
 			}
 			add = 7
 		}
 		if = {
-			limit = {	
+			limit = {
 				has_variable = lepsius_long_expedition_var
 			}
 			add = 9
 		}
 	}
-	
+
 	progressbar = yes
-	
+
     weight = 200
     transferable = no
-    should_be_pinned_by_default = yes
+    should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Mesopotamia
@@ -1289,7 +1477,7 @@ je_lepsius_archaeological_expedition_mesopotamia = {
 	on_monthly_pulse = {
 		random_events = {
 			66 = 0
-			
+
 			10 = lepsius.401 #Lepsius 401: Bedouin Raid/Kurdish Raid (Egypt, Mesopotamia)
 			10 = lepsius.405 #Lepsius 405: Bad roads (Mesopotamia, Yucatan)
 			10 = lepsius.408 #Lepsius 408: Nazar (Mesopotamia)
@@ -1315,9 +1503,9 @@ je_lepsius_archaeological_expedition_mesopotamia = {
 			10 = lepsius.435 #Lepsius 435: Auction
 			10 = lepsius.436 #Lepsius 436: Hidden chamber
 			10 = lepsius.437 #Lepsius 437: Abandoned camp
-			10 = lepsius.438 #Lepsius 438: Eremite 
+			10 = lepsius.438 #Lepsius 438: Eremite
 			10 = lepsius.439 #Lepsius 439: Dynamite
-			10 = lepsius.440 #Lepsius 440: A broken piece 
+			10 = lepsius.440 #Lepsius 440: A broken piece
 
 			5 = lepsius.445 #Lepsius 445: Piece of the Epic of Gilgamesh (Mesopotamia)
 
@@ -1336,15 +1524,15 @@ je_lepsius_archaeological_expedition_mesopotamia = {
 
 			2 = lepsius.471 #Lepsius 471: Uruk (Babylonia) / Niniveh (Assyria)
 
-			1 = lepsius.521 #Lepsius 521: The Ishtar Gate found
+			#1 = lepsius.521 #Lepsius 521: The Ishtar Gate found
 			1 = lepsius.531 #Lepsius 531: The Legend of the Lamassu
 		}
 	}
-	
+
 	immediate = {
 		set_archaeological_expedition_leader_effect = yes
 	}
-	
+
 	complete = {
 		custom_tooltip = {
 			text = je_expedition_success
@@ -1355,42 +1543,42 @@ je_lepsius_archaeological_expedition_mesopotamia = {
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.310
 			days = 1
 		}
 	}
-	
+
 	current_value = {
 		value = var:lepsius_archaeological_expedition_progress
 	}
 
 	goal_add_value = {
 		if = {
-			limit = {	
+			limit = {
 				has_variable = lepsius_short_expedition_var
 			}
 			add = 5
 		}
 		if = {
-			limit = {	
+			limit = {
 				has_variable = lepsius_medium_expedition_var
 			}
 			add = 7
 		}
 		if = {
-			limit = {	
+			limit = {
 				has_variable = lepsius_long_expedition_var
 			}
 			add = 9
 		}
 	}
-	
+
 	progressbar = yes
-	
+
     weight = 200
     transferable = no
-    should_be_pinned_by_default = yes
+    should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Greece
@@ -1406,7 +1594,7 @@ je_lepsius_archaeological_expedition_greece = {
 	on_monthly_pulse = {
 		random_events = {
 			66 = 0
-			
+
 			10 = lepsius.404 #Lepsius 404: Broken bridge (Greece, Peru)
 			10 = lepsius.406 #Lepsius 406: Shipwreck (Greece)
 			10 = lepsius.409 #Lepsius 409: Friendly fishers (Greece)
@@ -1432,9 +1620,9 @@ je_lepsius_archaeological_expedition_greece = {
 			10 = lepsius.435 #Lepsius 435: Auction
 			10 = lepsius.436 #Lepsius 436: Hidden chamber
 			10 = lepsius.437 #Lepsius 437: Abandoned camp
-			10 = lepsius.438 #Lepsius 438: Eremite 
+			10 = lepsius.438 #Lepsius 438: Eremite
 			10 = lepsius.439 #Lepsius 439: Dynamite
-			10 = lepsius.440 #Lepsius 440: A broken piece 
+			10 = lepsius.440 #Lepsius 440: A broken piece
 
 			10 = lepsius.446 #Lepsius 446: Minoan Fresco (Crete)
 			10 = lepsius.447 #Lepsius 447: Cyclopean Walls (Argolis)
@@ -1454,11 +1642,11 @@ je_lepsius_archaeological_expedition_greece = {
 			1 = lepsius.551 #Lepsius 551: The Labyrinth
 		}
 	}
-	
+
 	immediate = {
 		set_archaeological_expedition_leader_effect = yes
 	}
-	
+
 	complete = {
 		custom_tooltip = {
 			text = je_expedition_success
@@ -1469,42 +1657,42 @@ je_lepsius_archaeological_expedition_greece = {
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.310
 			days = 1
 		}
 	}
-	
+
 	current_value = {
 		value = var:lepsius_archaeological_expedition_progress
 	}
 
 	goal_add_value = {
 		if = {
-			limit = {	
+			limit = {
 				has_variable = lepsius_short_expedition_var
 			}
 			add = 5
 		}
 		if = {
-			limit = {	
+			limit = {
 				has_variable = lepsius_medium_expedition_var
 			}
 			add = 7
 		}
 		if = {
-			limit = {	
+			limit = {
 				has_variable = lepsius_long_expedition_var
 			}
 			add = 9
 		}
 	}
-	
+
 	progressbar = yes
-	
+
     weight = 200
     transferable = no
-    should_be_pinned_by_default = yes
+    should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #South America
@@ -1549,13 +1737,13 @@ je_lepsius_archaeological_expedition_south_america = {
 			10 = lepsius.435 #Lepsius 435: Auction
 			10 = lepsius.436 #Lepsius 436: Hidden chamber
 			10 = lepsius.437 #Lepsius 437: Abandoned camp
-			10 = lepsius.438 #Lepsius 438: Eremite 
+			10 = lepsius.438 #Lepsius 438: Eremite
 			10 = lepsius.439 #Lepsius 439: Dynamite
-			10 = lepsius.440 #Lepsius 440: A broken piece 
+			10 = lepsius.440 #Lepsius 440: A broken piece
 
 			10 = lepsius.448 #Lepsius 448: Maya Stele (Yucatán)
 			10 = lepsius.449 #Lepsius 449: Mayan Cave (Yucatán)
-			10 = lepsius.450 #Lepsius 450: Andean mummy (Peru) 
+			10 = lepsius.450 #Lepsius 450: Andean mummy (Peru)
 
 			10 = lepsius.451 #Lepsius 451: A statue
 			10 = lepsius.452 #Lepsius 452: A transcript
@@ -1574,11 +1762,11 @@ je_lepsius_archaeological_expedition_south_america = {
 			5 = lepsius.561 #Lepsius 561: Pyramide Riddle (Yucatán)
 		}
 	}
-	
+
 	immediate = {
 		set_archaeological_expedition_leader_effect = yes
 	}
-	
+
 	complete = {
 		custom_tooltip = {
 			text = je_expedition_success
@@ -1589,42 +1777,42 @@ je_lepsius_archaeological_expedition_south_america = {
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.310
 			days = 1
 		}
 	}
-	
+
 	current_value = {
 		value = var:lepsius_archaeological_expedition_progress
 	}
 
 	goal_add_value = {
 		if = {
-			limit = {	
+			limit = {
 				has_variable = lepsius_short_expedition_var
 			}
 			add = 5
 		}
 		if = {
-			limit = {	
+			limit = {
 				has_variable = lepsius_medium_expedition_var
 			}
 			add = 7
 		}
 		if = {
-			limit = {	
+			limit = {
 				has_variable = lepsius_long_expedition_var
 			}
 			add = 9
 		}
 	}
-	
+
 	progressbar = yes
-	
+
     weight = 200
     transferable = no
-    should_be_pinned_by_default = yes
+    should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 ##################################################################
@@ -1661,9 +1849,9 @@ je_lepsius_priams_treasure = {
 	}
 
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.743
-			popup = yes 
+			popup = yes
 		}
 	}
 
@@ -1676,9 +1864,9 @@ je_lepsius_priams_treasure = {
 			}
 		}
     }
-	
+
 	on_fail = {
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.744 #notification
 			popup = yes
 		}
@@ -1686,7 +1874,7 @@ je_lepsius_priams_treasure = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 ##################################################################
@@ -1712,7 +1900,7 @@ je_lepsius_archaeological_inspection = {
 			text = je_lepsius_archaeological_inspection_timeout
 			random_list = {
 				25 = {
-					trigger_event = { 
+					trigger_event = {
 						id = lepsius.811 #1 clue
 					}
 
@@ -1728,12 +1916,12 @@ je_lepsius_archaeological_inspection = {
 					}
 				}
 				50 = {
-					trigger_event = { 
+					trigger_event = {
 						id = lepsius.812 #2 clues
 					}
 				}
 				25 = {
-					trigger_event = { 
+					trigger_event = {
 						id = lepsius.813 #3 clues
 					}
 
@@ -1795,7 +1983,7 @@ je_lepsius_archaeological_inspection = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Tomb of Tutankhamun
@@ -1808,7 +1996,7 @@ je_lepsius_discovery_tut = {
 	possible = {
 		var:lepsius_tut_clue >= 1
 	}
-	
+
 	current_value = {
 		value = var:lepsius_tut_clue
 	}
@@ -1816,7 +2004,7 @@ je_lepsius_discovery_tut = {
 	goal_add_value = {
 		add = 10
 	}
-	
+
 	complete = {
 		custom_tooltip = {
 			text = je_lepsius_disovery_tut_success
@@ -1826,11 +2014,11 @@ je_lepsius_discovery_tut = {
 			lepsius_has_archaeologist = yes
 		}
 	}
-	
+
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.901
-			popup = yes 
+			popup = yes
 		}
 	}
 
@@ -1843,23 +2031,22 @@ je_lepsius_discovery_tut = {
 			}
 		}
     }
-	
+
 	on_fail = {
 		if = {
 			limit = {
 				is_player = yes
 			}
-			trigger_event = { 
+			trigger_event = {
 				id = lepsius.902 #notification
 				popup = yes
 			}
 		}
 	}
-	
+
 	progressbar = yes
-	
+
     transferable = no
-    should_be_pinned_by_default = no
 }
 
 #Ship of Khufu
@@ -1872,7 +2059,7 @@ je_lepsius_discovery_ship = {
 	possible = {
 		var:lepsius_ship_clue >= 1
 	}
-	
+
 	current_value = {
 		value = var:lepsius_ship_clue
 	}
@@ -1880,7 +2067,7 @@ je_lepsius_discovery_ship = {
 	goal_add_value = {
 		add = 10
 	}
-	
+
 	complete = {
 		custom_tooltip = {
 			text = je_lepsius_disovery_ship_success
@@ -1890,11 +2077,11 @@ je_lepsius_discovery_ship = {
 			lepsius_has_archaeologist = yes
 		}
 	}
-	
+
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.911
-			popup = yes 
+			popup = yes
 		}
 	}
 
@@ -1907,23 +2094,23 @@ je_lepsius_discovery_ship = {
 			}
 		}
     }
-	
+
 	on_fail = {
 		if = {
 			limit = {
 				is_player = yes
 			}
-			trigger_event = { 
+			trigger_event = {
 				id = lepsius.912 #notification
 				popup = yes
 			}
 		}
 	}
-	
+
 	progressbar = yes
-	
+
     transferable = no
-    should_be_pinned_by_default = yes
+    should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Tower of Babylon
@@ -1936,7 +2123,7 @@ je_lepsius_discovery_babylon = {
 	possible = {
 		var:lepsius_babylon_clue >= 1
 	}
-	
+
 	current_value = {
 		value = var:lepsius_babylon_clue
 	}
@@ -1944,7 +2131,7 @@ je_lepsius_discovery_babylon = {
 	goal_add_value = {
 		add = 10
 	}
-	
+
 	complete = {
 		custom_tooltip = {
 			text = je_lepsius_disovery_babylon_success
@@ -1954,11 +2141,11 @@ je_lepsius_discovery_babylon = {
 			lepsius_has_archaeologist = yes
 		}
 	}
-	
+
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.921
-			popup = yes 
+			popup = yes
 		}
 	}
 
@@ -1971,26 +2158,25 @@ je_lepsius_discovery_babylon = {
 			}
 		}
     }
-	
+
 	on_fail = {
 		if = {
 			limit = {
 				is_player = yes
 			}
-			trigger_event = { 
+			trigger_event = {
 				id = lepsius.922 #notification
 				popup = yes
 			}
 		}
 	}
-	
+
 	progressbar = yes
-	
+
     transferable = no
-    should_be_pinned_by_default = no
 }
 
-#Gardens of Sennacherib 
+#Gardens of Sennacherib
 
 je_lepsius_discovery_semiramis = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
@@ -2000,7 +2186,7 @@ je_lepsius_discovery_semiramis = {
 	possible = {
 		var:lepsius_semiramis_clue >= 1
 	}
-	
+
 	current_value = {
 		value = var:lepsius_semiramis_clue
 	}
@@ -2008,7 +2194,7 @@ je_lepsius_discovery_semiramis = {
 	goal_add_value = {
 		add = 10
 	}
-	
+
 	complete = {
 		custom_tooltip = {
 			text = je_lepsius_disovery_semiramis_success
@@ -2018,11 +2204,11 @@ je_lepsius_discovery_semiramis = {
 			lepsius_has_archaeologist = yes
 		}
 	}
-	
+
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.931
-			popup = yes 
+			popup = yes
 		}
 	}
 
@@ -2035,23 +2221,22 @@ je_lepsius_discovery_semiramis = {
 			}
 		}
     }
-	
+
 	on_fail = {
 		if = {
 			limit = {
 				is_player = yes
 			}
-			trigger_event = { 
+			trigger_event = {
 				id = lepsius.932 #notification
 				popup = yes
 			}
 		}
 	}
-	
+
 	progressbar = yes
-	
+
     transferable = no
-    should_be_pinned_by_default = no
 }
 
 #Treasury of Atreus
@@ -2064,7 +2249,7 @@ je_lepsius_discovery_mycenae = {
 	possible = {
 		var:lepsius_mycenae_clue >= 1
 	}
-	
+
 	current_value = {
 		value = var:lepsius_mycenae_clue
 	}
@@ -2072,7 +2257,7 @@ je_lepsius_discovery_mycenae = {
 	goal_add_value = {
 		add = 10
 	}
-	
+
 	complete = {
 		custom_tooltip = {
 			text = je_lepsius_disovery_mycenae_success
@@ -2082,11 +2267,11 @@ je_lepsius_discovery_mycenae = {
 			lepsius_has_archaeologist = yes
 		}
 	}
-	
+
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.941
-			popup = yes 
+			popup = yes
 		}
 	}
 
@@ -2099,23 +2284,22 @@ je_lepsius_discovery_mycenae = {
 			}
 		}
     }
-	
+
 	on_fail = {
 		if = {
 			limit = {
 				is_player = yes
 			}
-			trigger_event = { 
+			trigger_event = {
 				id = lepsius.942 #notification
 				popup = yes
 			}
 		}
 	}
-	
+
 	progressbar = yes
-	
+
     transferable = no
-    should_be_pinned_by_default = no
 }
 
 #Tomb of Pakal
@@ -2128,7 +2312,7 @@ je_lepsius_discovery_pakal = {
 	possible = {
 		var:lepsius_pakal_clue >= 1
 	}
-	
+
 	current_value = {
 		value = var:lepsius_pakal_clue
 	}
@@ -2136,7 +2320,7 @@ je_lepsius_discovery_pakal = {
 	goal_add_value = {
 		add = 10
 	}
-	
+
 	complete = {
 		custom_tooltip = {
 			text = je_lepsius_disovery_pakal_success
@@ -2146,11 +2330,11 @@ je_lepsius_discovery_pakal = {
 			lepsius_has_archaeologist = yes
 		}
 	}
-	
+
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.961
-			popup = yes 
+			popup = yes
 		}
 	}
 
@@ -2163,23 +2347,22 @@ je_lepsius_discovery_pakal = {
 			}
 		}
     }
-	
+
 	on_fail = {
 		if = {
 			limit = {
 				is_player = yes
 			}
-			trigger_event = { 
+			trigger_event = {
 				id = lepsius.962 #notification
 				popup = yes
 			}
 		}
 	}
-	
+
 	progressbar = yes
-	
+
     transferable = no
-    should_be_pinned_by_default = no
 }
 
 #Vilcabamba
@@ -2192,7 +2375,7 @@ je_lepsius_discovery_vilcabamba = {
 	possible = {
 		var:lepsius_vilcabamba_clue >= 1
 	}
-	
+
 	current_value = {
 		value = var:lepsius_vilcabamba_clue
 	}
@@ -2200,7 +2383,7 @@ je_lepsius_discovery_vilcabamba = {
 	goal_add_value = {
 		add = 10
 	}
-	
+
 	complete = {
 		custom_tooltip = {
 			text = je_lepsius_disovery_vilcabamba_success
@@ -2210,11 +2393,11 @@ je_lepsius_discovery_vilcabamba = {
 			lepsius_has_archaeologist = yes
 		}
 	}
-	
+
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.971
-			popup = yes 
+			popup = yes
 		}
 	}
 
@@ -2227,23 +2410,22 @@ je_lepsius_discovery_vilcabamba = {
 			}
 		}
     }
-	
+
 	on_fail = {
 		if = {
 			limit = {
 				is_player = yes
 			}
-			trigger_event = { 
+			trigger_event = {
 				id = lepsius.972 #notification
 				popup = yes
 			}
 		}
 	}
-	
+
 	progressbar = yes
-	
+
     transferable = no
-    should_be_pinned_by_default = no
 }
 
 ##################################################################
@@ -2258,7 +2440,7 @@ je_lepsius_epic_of_gilgamesh = {
 	possible = {
 		var:lepsius_gilgamesh_pieces >= 1
 	}
-	
+
 	current_value = {
 		value = var:lepsius_gilgamesh_pieces
 	}
@@ -2266,7 +2448,7 @@ je_lepsius_epic_of_gilgamesh = {
 	goal_add_value = {
 		add = 5
 	}
-	
+
 	complete = {
 		custom_tooltip = {
 			text = je_lepsius_epic_of_gilgamesh_success
@@ -2275,69 +2457,20 @@ je_lepsius_epic_of_gilgamesh = {
 			}
 		}
 	}
-	
+
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.721
-			popup = yes 
+			popup = yes
 		}
 	}
-	
+
 	progressbar = yes
-	
+
     transferable = no
-    should_be_pinned_by_default = no
 }
 
-######ISHTAR GATE######
 
-je_ishtar_gate = {
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
-
-	group = je_group_lepsius_archaeology
-
-	on_yearly_pulse = {
-		random_events = {
-			20 = lepsius.522 #Lepsius 522: Normal transport
-			10 = lepsius.523 #Lepsius 523: Rival has fragments
-			10 = lepsius.524 #Lepsius 524: Enemy sabotages transport (war)
-			10 = lepsius.525 #Lepsius 525: A special fee
-			10 = lepsius.526 #Lepsius 526: Half parts
-			10 = lepsius.527 #Lepsius 527: More parts
-			5 = lepsius.528 #Lepsius 528: Bad fragments
-		}
-	}
-	
-	complete = {
-		custom_tooltip = {
-			text = je_ishtar_gate_success
-			scope:journal_entry = {
-				is_goal_complete = yes
-			}
-		}
-	}
-
-	on_complete = {
-		trigger_event = { 
-			id = lepsius.530
-			days = 1
-		}
-	}
-	
-	current_value = {
-		value = var:lepsius_ishtar_fragments
-	}
-
-	goal_add_value = {
-		add = 200000
-	}
-	
-	progressbar = yes
-	
-    weight = 10
-    transferable = no
-    should_be_pinned_by_default = no
-}
 
 ##################################################################
 
@@ -2349,7 +2482,7 @@ je_lepsius_the_labyrinth = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	group = je_group_lepsius_archaeology
-	
+
 	current_value = {
 		value = var:lepsius_confusion
 	}
@@ -2360,9 +2493,9 @@ je_lepsius_the_labyrinth = {
 			var:lepsius_confusion >= 4
 		}
     }
-	
+
 	on_fail = {
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.558
 			popup = yes
 		}
@@ -2371,7 +2504,7 @@ je_lepsius_the_labyrinth = {
 			years = 1
 		}
 	}
-	
+
 	complete = {
 		custom_tooltip = {
 			text = je_lepsius_labyrinth_success
@@ -2381,19 +2514,19 @@ je_lepsius_the_labyrinth = {
 			has_variable = lepsius_narrative_labyrinth_success_var
 		}
 	}
-	
+
 	on_complete = {
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.560
-			popup = yes 
+			popup = yes
 		}
 	}
-	
+
 	progressbar = yes
-	
+
     weight = 200
     transferable = no
-    should_be_pinned_by_default = yes
+    should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Quest for the Mascapaicha
@@ -2422,7 +2555,7 @@ je_lepsius_mascapaicha = {
 		lepsius_has_active_experienced_archaeologist = yes
 		curtiss_has_active_pilot = yes
 		any_scope_character = {
-			has_role = general
+			has_role_of_type = general
 			is_busy = no
 		}
 		custom_tooltip = {
@@ -2445,13 +2578,13 @@ je_lepsius_mascapaicha = {
 		}
 		random_scope_character = {
 			limit = {
-				has_role = general
+				has_role_of_type = general
 				is_busy = no
 			}
 			set_variable = lepsius_mascapaicha_attache_var
 			set_character_busy_and_immortal = yes
 		}
-		trigger_event = { 
+		trigger_event = {
 			id = lepsius.572
 			popup = yes
 		}
@@ -2459,7 +2592,7 @@ je_lepsius_mascapaicha = {
 
 	fail = {
     }
-	
+
 	on_fail = {
 	}
 
@@ -2477,7 +2610,7 @@ je_lepsius_mascapaicha = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 ##################################################################
@@ -2513,12 +2646,10 @@ je_lepsius_archaoelogical_society = {
 	on_complete = {
 		add_modifier = {
 			name = lepsius_archaeological_society_modifier
-		}	
+		}
 	}
 
 	weight = 10
-
-	should_be_pinned_by_default = no
 }
 
 #Specialization
@@ -2548,7 +2679,7 @@ je_lepsius_specialization = {
 
 	fail = {
     }
-	
+
 	on_fail = {
 	}
 
@@ -2559,7 +2690,7 @@ je_lepsius_specialization = {
 
 	weight = 10
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 #Cataloging
@@ -2593,62 +2724,461 @@ je_lepsius_cataloging = {
 	}
 
 	weight = 10
-
-	should_be_pinned_by_default = yes
 }
 
-##################################################################
+######ARCHAEOLOGICAL TRANSPORT#######
 
-######ANTHROPOLOGY######
+#Cleopatra's Needle
+je_lepsius_cleopatras_needle = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
-je_lepsius_fossil_identification = {
-	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+	group = je_group_lepsius_archaeology
 
-	group = je_group_lepsius_anthropology
+	is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = lepsius_cleopatras_needle_transport_global_var
+		}
+		has_technology_researched = lepsius_specialization_egypt_tech
+	}
 
-	on_monthly_pulse = {
-		random_events = {
-			100 = lepsius.1312 #Lepsius 1312: Identification (hidden)
+	possible = {
+		has_technology_researched = lepsius_specialization_egypt_tech
+	}
+
+	complete = {
+		has_modifier = lepsius_lower_egypt_excavation_modifier
+		country_rank >= rank_value:major_power
+		lepsius_has_archaeological_museum = yes
+		lepsius_has_archaeologist = yes
+		tesla_has_engineer = yes
+		OR = {
+			s:STATE_LOWER_EGYPT = {
+				any_scope_state = {
+					owner = ROOT
+				}
+			}
+			p:xA0D020.state.owner = {
+				is_subject_of = ROOT
+			}
+			p:xA0D020.state.owner = {
+				relations:root >= relations_threshold:amicable
+			}
 		}
 	}
-	
+
+	invalid = {
+		custom_tooltip = {
+			text = je_lepsius_cleopatras_needle_fail
+			has_global_variable = lepsius_cleopatras_needle_transport_global_var
+		}
+    }
+
+	on_complete = {
+		set_global_variable = lepsius_cleopatras_needle_transport_global_var
+		trigger_event = {
+			id = lepsius.714
+		}
+	}
+
+	weight = 10
+}
+
+#Cleopatra's Needle Transport
+je_lepsius_cleopatras_needle_transport = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	scripted_progress_bar = lepsius_monument_cleopatras_progress_bar
+	scripted_progress_bar = lepsius_monument_restoration_progress_bar
+	scripted_progress_bar = lepsius_monument_reconstruction_progress_bar
+
 	immediate = {
-		var:lepsius_anthropologist_var = {
-			save_scope_as = lepsius_anthropologist_scope
+		scope:journal_entry = {
+			add_modifier = {
+				name = lepsius_cleopatras_needle_cost_modifier
+				multiplier = root.mr_project_cost_very_small_value
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_variable = lepsius_cleopatras_needle_minimum_var
+					}
+					scope:journal_entry = {
+						"scripted_bar_progress(lepsius_monument_cleopatras_progress_bar)" >= 12
+					}
+				}
+				set_variable = lepsius_cleopatras_needle_minimum_var
+			}
 		}
 	}
 
 	complete = {
 		custom_tooltip = {
-			text = je_lepsius_fossil_identification_goal
+			text = je_lepsius_cleopatras_needle_transport_success
 			scope:journal_entry = {
-				is_goal_complete = yes
+				"scripted_bar_progress(lepsius_monument_cleopatras_progress_bar)" >= 12
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_restoration_progress_bar)" >= 75
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_reconstruction_progress_bar)" >= 50
 			}
 		}
 	}
 
 	on_complete = {
 		trigger_event = {
-			id = lepsius.1311
-			popup = yes
+			id = lepsius.715
+		}
+	}
+
+    weight = 10
+    transferable = no
+}
+
+#Ishtar Gate
+je_lepsius_ishtar_gate = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = lepsius_ishtar_gate_transport_global_var
+		}
+		is_player = yes
+		#has_technology_researched = lepsius_specialization_mesopotamia_tech
+	}
+
+	possible = {
+		has_technology_researched = lepsius_specialization_mesopotamia_tech
+	}
+
+	complete = {
+		has_modifier = lepsius_babylonia_excavation_modifier
+		country_rank >= rank_value:major_power
+		lepsius_has_archaeological_museum = yes
+		lepsius_has_archaeologist = yes
+		tesla_has_engineer = yes
+		has_technology_researched = lepsius_modern_archaeology_tech
+		OR = {
+			s:STATE_BAGHDAD = {
+				any_scope_state = {
+					owner = ROOT
+				}
+			}
+			p:x34A371.state.owner = {
+				is_subject_of = ROOT
+			}
+			p:x34A371.state.owner = {
+				relations:root >= relations_threshold:amicable
+			}
 		}
 	}
 
 	invalid = {
-		lepsius_has_anthropologist = no
+		custom_tooltip = {
+			text = je_lepsius_ishtar_gate_fail
+			has_global_variable = lepsius_ishtar_gate_transport_global_var
+		}
+    }
+
+	on_complete = {
+		set_global_variable = lepsius_ishtar_gate_transport_global_var
+		trigger_event = { id = lepsius.521 }
 	}
 
-	current_value = {
-		value = var:lepsius_fossil_identification_progress
+	weight = 10
+}
+
+#Ishtar Gate Transport
+je_lepsius_ishtar_gate_transport = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	scripted_progress_bar = lepsius_monument_ishtar_progress_bar
+	scripted_progress_bar = lepsius_monument_restoration_progress_bar
+	scripted_progress_bar = lepsius_monument_reconstruction_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = lepsius_ishtar_gate_cost_modifier
+				multiplier = root.mr_project_cost_very_small_value
+			}
+		}
 	}
 
-	goal_add_value = {
-		value = 60
+	on_yearly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					has_modifier = lepsius_babylonia_excavation_modifier
+				}
+				random_list = {
+					#Normal Transport
+					50 = {
+						je:je_lepsius_ishtar_gate_transport = {
+							add_progress = {
+								name = lepsius_monument_ishtar_progress_bar
+								value = 20000
+							}
+						}
+						post_notification = lepsius_ishtar_normal_transport_notification
+					}
+					#Double Transport
+					10 = {
+						je:je_lepsius_ishtar_gate_transport = {
+							add_progress = {
+								name = lepsius_monument_ishtar_progress_bar
+								value = 40000
+							}
+						}
+						post_notification = lepsius_ishtar_double_transport_notification
+					}
+					#Half Transport
+					10 = {
+						je:je_lepsius_ishtar_gate_transport = {
+							add_progress = {
+								name = lepsius_monument_ishtar_progress_bar
+								value = 10000
+							}
+						}
+						post_notification = lepsius_ishtar_half_transport_notification
+					}
+					#Bad Transport
+					5 = {
+						je:je_lepsius_ishtar_gate_transport = {
+							add_progress = {
+								name = lepsius_monument_ishtar_progress_bar
+								value = 5000
+							}
+						}
+						post_notification = lepsius_ishtar_bad_transport_notification
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = lepsius_ishtar_gate_minimum_var
+					}
+					scope:journal_entry = {
+						"scripted_bar_progress(lepsius_monument_ishtar_progress_bar)" >= 100000
+					}
+				}
+				set_variable = lepsius_ishtar_gate_minimum_var
+			}
+		}
 	}
 
-	progressbar = yes
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_ishtar_gate_transport_success
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_ishtar_progress_bar)" >= 200000
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_restoration_progress_bar)" >= 75
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_reconstruction_progress_bar)" >= 50
+			}
+		}
+	}
 
-	weight = 25
+	on_complete = {
+		trigger_event = {
+			id = lepsius.530
+		}
+	}
+
+    weight = 10
+    transferable = no
+}
+
+#Piedras Negras
+je_lepsius_piedras_negras = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = lepsius_piedras_negras_transport_global_var
+		}
+		has_technology_researched = lepsius_specialization_precolumbian_tech
+	}
+
+	possible = {
+		has_technology_researched = lepsius_specialization_precolumbian_tech
+	}
+
+	complete = {
+		has_modifier = lepsius_yucatan_excavation_modifier
+		country_rank >= rank_value:major_power
+		lepsius_has_archaeological_museum = yes
+		lepsius_has_archaeologist = yes
+		tesla_has_engineer = yes
+		has_technology_researched = lepsius_modern_archaeology_tech
+		OR = {
+			s:STATE_GUATEMALA = {
+				any_scope_state = {
+					owner = ROOT
+				}
+			}
+			p:x30E01C.state.owner = {
+				is_subject_of = ROOT
+			}
+			p:x30E01C.state.owner = {
+				relations:root >= relations_threshold:amicable
+			}
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_lepsius_piedras_negras_fail
+			has_global_variable = lepsius_piedras_negras_transport_global_var
+		}
+    }
+
+	on_complete = {
+		set_global_variable = lepsius_piedras_negras_transport_global_var
+		trigger_event = {
+			id = lepsius.773
+		}
+	}
+
+	weight = 10
+}
+
+#Piedas Negras Transport
+je_lepsius_piedras_negras_transport = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	scripted_progress_bar = lepsius_monument_stele_progress_bar
+	scripted_progress_bar = lepsius_monument_restoration_progress_bar
+	scripted_progress_bar = lepsius_monument_reconstruction_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = lepsius_piedras_negras_cost_modifier
+				multiplier = root.mr_project_cost_very_small_value
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_variable = lepsius_piedras_negras_minimum_var
+					}
+					scope:journal_entry = {
+						"scripted_bar_progress(lepsius_monument_stele_progress_bar)" >= 12
+					}
+				}
+				set_variable = lepsius_piedras_negras_minimum_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_piedras_negras_transport_success
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_stele_progress_bar)" >= 12
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_restoration_progress_bar)" >= 75
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_reconstruction_progress_bar)" >= 50
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = lepsius.774
+		}
+	}
+
+    weight = 10
+    transferable = no
+}
+
+#Axum Obelisk Transport
+je_lepsius_axum_obelisk_transport = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	scripted_progress_bar = lepsius_monument_axum_progress_bar
+	scripted_progress_bar = lepsius_monument_restoration_progress_bar
+	scripted_progress_bar = lepsius_monument_reconstruction_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = lepsius_axum_obelisk_cost_modifier
+				multiplier = root.mr_project_cost_very_small_value
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_variable = lepsius_axum_obelisk_minimum_var
+					}
+					scope:journal_entry = {
+						"scripted_bar_progress(lepsius_monument_axum_progress_bar)" >= 12
+					}
+				}
+				set_variable = lepsius_axum_obelisk_minimum_var
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_axum_obelisk_transport_success
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_axum_progress_bar)" >= 12
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_restoration_progress_bar)" >= 75
+			}
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_monument_reconstruction_progress_bar)" >= 50
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = lepsius.2256
+		}
+	}
+
+    weight = 10
+    transferable = no
 }
 
 ##################################################################
@@ -2712,7 +3242,7 @@ je_lepsius_alexander = {
 
 	fail = {
     }
-	
+
 	on_fail = {
 	}
 
@@ -2729,7 +3259,7 @@ je_lepsius_alexander = {
 
 	weight = 100
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 je_lepsius_ark = {
@@ -2789,7 +3319,7 @@ je_lepsius_ark = {
 
 	fail = {
     }
-	
+
 	on_fail = {
 	}
 
@@ -2806,7 +3336,7 @@ je_lepsius_ark = {
 
 	weight = 100
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 je_lepsius_atlantis = {
@@ -2866,7 +3396,7 @@ je_lepsius_atlantis = {
 
 	fail = {
     }
-	
+
 	on_fail = {
 	}
 
@@ -2883,7 +3413,7 @@ je_lepsius_atlantis = {
 
 	weight = 100
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
 je_lepsius_eldorado = {
@@ -2943,7 +3473,7 @@ je_lepsius_eldorado = {
 
 	fail = {
     }
-	
+
 	on_fail = {
 	}
 
@@ -2960,5 +3490,5 @@ je_lepsius_eldorado = {
 
 	weight = 100
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }

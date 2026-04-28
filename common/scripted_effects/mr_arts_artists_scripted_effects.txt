@@ -4,12 +4,6 @@
 
 ############################################################################
 
-#All Academics (and Special Characters) should have a variable assigned to the character:
-# mr_is_composer_var	-->	Composer
-# mr_is_writer_var		-->	Writer
-# mr_is_painter_var		-->	Painter
-# mr_is_architect_var	-->	Architect
-
 ######Artistic Progress######
 
 #This effect is used to add the monthly Artistic Progress
@@ -184,12 +178,14 @@ artists_add_x_artistic_progress = {
 #This effect is used to set up the list of travelling composers
 artists_set_up_travelling_composer_list_effect = {
 	clear_global_variable_list = mr_travelling_composer_global_list
-	ordered_character_in_void = {
+	ordered_character = {
 		order_by = var:elgar_composer_experience
 		check_range_bounds = no
 
 		limit = {
-			has_variable = mr_is_travelling_composer_var
+			has_role = character_role_elgar_composer
+			has_variable = elgar_composer_experience
+			NOT = { owner.var:elgar_composer_var ?= this }
 		}
 		add_to_global_variable_list = {
 			name = mr_travelling_composer_global_list
@@ -198,100 +194,17 @@ artists_set_up_travelling_composer_list_effect = {
 	}
 }
 
-#This effect is used to remove the travelling composers as there shouldn't be too many.
-artists_remove_travelling_composer_from_void_effect = {
-	if = {
-		#This part is used to limit the effect to only one country
-		limit = {
-			NOT = { has_global_variable = artists_travelling_composer_remove_global_var }
-		}
-		set_global_variable = {
-			name = artists_travelling_composer_remove_global_var
-			days = 15
-		}
-
-		#This is used to keep track of the current number
-		set_local_variable = {
-			name = current_number
-			value = 0
-		}
-
-		#This part gets the travelling composers ordered by experience.
-		# The Composers that are not historical and are over the limit will be deleted.
-		ordered_character_in_void = {
-			limit = { has_variable = mr_is_travelling_composer_var }
-			order_by = var:elgar_composer_experience
-			check_range_bounds = no
-
-			change_local_variable = {
-				name = current_number
-				add = 1
-			}
-
-			if = {
-				limit = {
-					local_var:current_number > 20
-					is_historical = no
-				}
-				free_character_from_void = no
-			}
-		}
-	}
-}
-
-#This effect is used to remove the independent painters as there shouldn't be too many.
-artists_remove_independent_painter_from_void_effect = {
-	if = {
-		#This part is used to limit the effect to only one country
-		limit = {
-			NOT = { has_global_variable = artists_independent_painter_remove_global_var }
-		}
-		set_global_variable = {
-			name = artists_independent_painter_remove_global_var
-			days = 15
-		}
-
-		#This is used to keep track of the current number
-		set_local_variable = {
-			name = current_number
-			value = 0
-		}
-
-		#This part gets the independent artists ordered by experience.
-		# The Composers that are not historical and are over the limit will be deleted.
-		ordered_character_in_void = {
-			limit = { has_variable = mr_is_independent_painter }
-			order_by = var:klimt_painter_experience
-			check_range_bounds = no
-
-			change_local_variable = {
-				name = current_number
-				add = 1
-			}
-
-			if = {
-				limit = {
-					local_var:current_number > 20
-					is_historical = no
-				}
-				free_character_from_void = no
-			}
-		}
-	}
-}
-
 #This effect is used to set up the list of local writers
 artists_set_up_local_writer_list_effect = {
 	clear_variable_list = mr_local_writers_list
-	ordered_character_in_void = {
+	ordered_scope_character = {
 		order_by = var:manzoni_writer_experience
 		check_range_bounds = no
 
 		limit = {
-			has_variable = mr_is_local_writer_var
-			var:mr_is_local_writer_var = {
-				this = root
-			}
+			has_role = character_role_manzoni_writer
+			has_variable = manzoni_writer_experience
+			NOT = { owner.var:manzoni_writer_var ?= this }
 		}
 		root = {
 			add_to_variable_list = {
@@ -305,12 +218,15 @@ artists_set_up_local_writer_list_effect = {
 #This effect is used to set up the list of independent painters
 artists_set_up_independent_painter_list_effect = {
 	clear_global_variable_list = mr_independent_painter_global_list
-	ordered_character_in_void = {
+	ordered_character = {
+
 		order_by = var:klimt_painter_experience
 		check_range_bounds = no
 
 		limit = {
-			has_variable = mr_is_independent_painter
+			has_role = character_role_klimt_painter
+			has_variable = klimt_painter_experience
+			NOT = { owner.var:klimt_painter_var ?= this }
 		}
 		add_to_global_variable_list = {
 			name = mr_independent_painter_global_list
@@ -415,8 +331,7 @@ elgar_remove_new_composer_effect = {
 
 #Sets Composer as Travelling composer
 elgar_set_composer_travelling_composer = {
-	remove_variable = mr_is_composer_var
-	set_variable = mr_is_travelling_composer_var
+	remove_modifier = artists_character_is_official_composer_modifier
 
 	#Is used to prevent a country from getting that composer immediately afterwards
 	set_variable = {
@@ -841,11 +756,7 @@ set_writer_local_writer_effect = {
 			text = manzoni_set_writer_local_writer_tt
 
 			var:manzoni_writer_var = {
-				remove_variable = mr_is_writer_var
-				set_variable = {
-					name = mr_is_local_writer_var
-					value = root
-				}
+				remove_modifier = artists_character_is_official_writer_modifier
 			}
 
 			remove_variable = manzoni_writer_var
@@ -865,25 +776,25 @@ set_mr_character_to_agitator_character_scope_effect = {
 		#Removes all roles and adds the agitator role.
 		if = {
 			limit = {
-				NOT = { has_role = agitator }
+				NOT = { has_role_of_type = agitator }
 			}
 			add_character_role = agitator
 		}
 		if = {
 			limit = {
-				has_role = general
+				has_role_of_type = general
 			}
 			remove_character_role = general
 		}
 		if = {
 			limit = {
-				has_role = admiral
+				has_role_of_type = admiral
 			}
 			remove_character_role = admiral
 		}
 		if = {
 			limit = {
-				has_role = politician
+				has_role_of_type = politician
 			}
 			set_as_interest_group_leader = no
 			remove_character_role = politician
@@ -895,7 +806,7 @@ set_mr_character_to_agitator_character_scope_effect = {
 				root.var:manzoni_writer_var ?= this
 			}
 			#Removes writer character variable
-			remove_variable = mr_is_writer_var
+			remove_modifier = artists_character_is_official_writer_modifier
 
 			#Removes the writer variable
 			root = {
@@ -903,33 +814,14 @@ set_mr_character_to_agitator_character_scope_effect = {
 			}
 		}
 
-		#If the writer is a local writer they get removed from the pool
-		if = {
-			limit = {
-				has_variable = mr_is_local_writer_var
-			}
-			#Removes the local writer character variable
-			remove_variable = mr_is_local_writer_var
-
-			#Removes the local writer from the list
-			root = {
-				remove_list_variable = {
-					name = mr_local_writers_list
-					target = prev
-				}
-			}
-		}
-
 		#If this is a painter the variable gets removed
 		if = {
 			limit = {
-				has_variable = mr_is_painter_var
+				owner.var:klimt_painter_var ?= this
 			}
-			#Removes the local writer character variable
-			remove_variable = mr_is_painter_var
 
 			#Removes the painter variable
-			root = {
+			owner = {
 				remove_variable = klimt_painter_var
 			}
 		}
@@ -983,35 +875,30 @@ set_character_as_local_writer_character_scope_effect = {
 
 		if = {
 			limit = {
-				has_role = agitator
+				has_role_of_type = agitator
 			}
 			remove_character_role = agitator
 		}
 		if = {
 			limit = {
-				has_role = general
+				has_role_of_type = general
 			}
 			remove_character_role = general
 		}
 		if = {
 			limit = {
-				has_role = admiral
+				has_role_of_type = admiral
 			}
 			remove_character_role = admiral
 		}
 		if = {
 			limit = {
-				NOT = { has_role = politician }
+				NOT = { has_role_of_type = politician }
 			}
 			add_character_role = politician
 		}
 
 		writer_experience_set_up_effect = yes
-		set_variable = {
-			name = mr_is_local_writer_var
-			value = root
-		}
-		place_character_in_void = 1200
 
 		owner = {
 			artists_set_up_local_writer_list_effect = yes
@@ -1063,10 +950,8 @@ manzoni_set_new_writer_local_writer_effect = {
 		text = manzoni_set_new_writer_local_writer_tt
 
 		scope:manzoni_new_writer_scope = {
-			remove_variable = mr_is_writer_var
-			set_variable = {
-				name = mr_is_local_writer_var
-				value = root
+			add_modifier = {
+				name = artists_character_is_official_writer_modifier
 			}
 		}
 
@@ -1119,11 +1004,7 @@ manzoni_set_new_writer_local_writer_other_country_effect = {
 				}
 			}
 
-			remove_variable = mr_is_writer_var
-			set_variable = {
-				name = mr_is_local_writer_var
-				value = scope:manzoni_new_country_scope
-			}
+			remove_modifier = artists_character_is_official_writer_modifier
 			scope:manzoni_new_country_scope = {
 				artists_set_up_local_writer_list_effect = yes
 			}
@@ -1337,8 +1218,8 @@ void_writer_experience_gain_effect = { #adds XP to the Writer
 
 #This effect kills the current painter
 kill_painter_effect = {
-	var:klimt_painter_var = {
-		free_character_from_void = no
+	var:klimt_painter_var ?= {
+		kill_character = yes
 	}
 
 	remove_variable = klimt_painter_var
@@ -1353,8 +1234,7 @@ set_painter_independent_painter_effect = {
 			text = set_painter_independent_painter_effect_tt
 
 			var:klimt_painter_var = {
-				remove_variable = mr_is_painter_var
-				set_variable = mr_is_independent_painter
+				remove_modifier = artists_character_is_official_painter_modifier
 				add_to_global_variable_list = {
 					name = mr_independent_painter_global_list
 					target = this
@@ -1367,9 +1247,8 @@ set_painter_independent_painter_effect = {
 }
 
 #Sets an Painter as an independent Painter
-gaudi_set_painter_independent_painter = {
-	remove_variable = mr_is_painter_var
-	set_variable = mr_is_independent_painter
+klimt_set_painter_independent_painter_character_scope_effect = {
+	remove_modifier = artists_character_is_official_painter_modifier
 
 	#Is used to prevent a country from getting that Painter immediately afterwards
 	set_variable = {
@@ -1396,13 +1275,17 @@ klimt_set_new_painter_as_painter_effect = {
 			}
 
 			var:klimt_painter_var = {
-				gaudi_set_painter_independent_painter = yes
+				klimt_set_painter_independent_painter_character_scope_effect = yes
 			}
 		}
 
 		set_variable = {
 			name = klimt_painter_var
 			value = scope:klimt_new_painter_scope
+		}
+
+		add_modifier = {
+			name = artists_character_is_official_painter_modifier
 		}
 
 		remove_variable = klimt_new_painter_var
@@ -1423,20 +1306,11 @@ klimt_set_new_painter_as_independent_painter_effect = {
 		}
 
 		scope:klimt_new_painter_scope = {
-			gaudi_set_painter_independent_painter = yes
+			klimt_set_painter_independent_painter_character_scope_effect = yes
 		}
 
 		remove_variable = klimt_new_painter_var
 	}
-}
-
-# Remove new Painter
-klimt_remove_new_painter_effect = {
-	scope:klimt_new_painter_scope = {
-		free_character_from_void = no
-	}
-
-	remove_variable = klimt_new_painter_var
 }
 
 # Used to set up the Experience of a character
@@ -1620,7 +1494,7 @@ klimt_independent_painter_character_set_up_cost_effect = {
 #This effect kills the current Architect
 kill_architect_effect = {
 	var:gaudi_architect_var = {
-		free_character_from_void = no
+		kill_character = yes
 	}
 
 	remove_variable = gaudi_architect_var
@@ -1635,8 +1509,10 @@ set_architect_independent_architect_effect = {
 			text = set_architect_independent_architect_effect_tt
 
 			var:gaudi_architect_var = {
-				remove_variable = mr_is_architect_var
-				set_variable = mr_is_independent_architect_var
+				if = {
+					limit = { has_modifier = artists_character_is_official_architect_modifier }
+					remove_modifier = artists_character_is_official_architect_modifier
+				}
 				add_to_global_variable_list = {
 					name = mr_independent_architect_global_list
 					target = this
@@ -1650,8 +1526,10 @@ set_architect_independent_architect_effect = {
 
 #Sets an architect as an independent Architect
 gaudi_set_architect_independent_architect = {
-	remove_variable = mr_is_architect_var
-	set_variable = mr_is_independent_architect_var
+	if = {
+		limit = { has_modifier = artists_character_is_official_architect_modifier }
+		remove_modifier = artists_character_is_official_architect_modifier
+	}
 
 	#Is used to prevent a country from getting that Architect immediately afterwards
 	set_variable = {

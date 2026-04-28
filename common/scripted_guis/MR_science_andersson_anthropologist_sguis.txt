@@ -1,73 +1,231 @@
 ﻿### ANTHROPOLOGIST BUTTONS ###
 
-#by Lord R
+#by Lord R & Marco Dandolo
 
 #Sets the Ranking up
 mr_anthropology_ranking_sgui = {
 	scope = country
 	effect = {
-		academics_anthropologist_cleanup_effect = yes
 		lepsius_create_anthropological_rating_ranking_list_effect = yes
 		lepsius_create_total_human_fossils_ranking_list_effect = yes
 		andersson_create_anthropologist_ranking_effect = yes
 	}
 }
 
-#MR_EXAMINE_CAVE_BUTTON
-mr_examine_cave_button_sgui = {
+#MR_ANTHROPOLOGIST_ANTHROPOLOGICAL_RESEARCH_BUTTON
+mr_anthropologist_anthropological_research_button_sgui = {
     scope = country
-	is_shown = {
+    is_valid = {
+		andersson_has_anthropologist = yes
 		NOT = {
-			has_modifier = lepsius_cave_examination_modifier
+			has_journal_entry = je_andersson_anthropological_research
 		}
 	}
+	effect = {
+		add_journal_entry = { type = je_andersson_anthropological_research }
+	}
+}
+
+#Active
+mr_anthropologist_anthropological_research_active_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_andersson_anthropological_research
+		andersson_has_active_anthropologist_no_tooltip_trigger = yes
+	}
+}
+
+#MR_ANTHROPOLOGIST_HOMINID_PROSPECTING_BUTTON
+mr_anthropologist_hominid_prospecting_button_sgui = {
+    scope = country
     is_valid = {
 		custom_tooltip = {
 			text = MR_ACTIVE_ANTHROPOLOGIST_TRIGGER_TT
-			lepsius_has_active_anthropologist = yes
+			andersson_has_active_anthropologist = yes
 		}
 		custom_tooltip = {
-			text = MR_EXAMINE_CAVE_HAS_CAVE_TRIGGER_TT
-			any_scope_state = {
-				lepsius_has_discovered_cave = yes
+			text = MR_ANTHROPOLOGIST_HOMINID_PROSPECTING_POSSIBLE_TRIGGER_TT
+			andersson_hominid_prospecting_possible_trigger = yes
+		}
+		custom_tooltip = {
+			text = MR_ANTHROPOLOGIST_NOT_HAS_CAVE_MODIFIER_TRIGGER_TT
+			NOR = {
+				has_modifier = andersson_cave_exploration_modifier
+				has_variable = andersson_hominid_prospecting_selection_var
 			}
 		}
-    }
-    effect = {
-		add_treasury = -50000
-		lepsius_set_anthropologist_busy_effect = yes
-		add_modifier = {
-			name = lepsius_cave_examination_modifier
-		}
+
+	}
+	effect = {
 		trigger_event = {
-			id = lepsius.1401
+			id = andersson.201
 			popup = yes
 		}
-    }
+		hidden_effect = {
+			set_variable = andersson_hominid_prospecting_selection_var
+		}
+	}
 }
 
-#MR_RECALL_ANTHROPOLOGIST_BUTTON
-mr_recall_anthropologist_button_sgui = {
+mr_anthropologist_hominid_prospecting_active_sgui = {
     scope = country
 	is_shown = {
-		has_modifier = lepsius_cave_examination_modifier
+		OR = {
+			has_journal_entry = je_andersson_hominid_prospecting_neoanthropus
+			has_journal_entry = je_andersson_hominid_prospecting_palaeanthropus
+			has_journal_entry = je_andersson_hominid_prospecting_pithecanthropus
+			has_journal_entry = je_andersson_hominid_prospecting_australopithecus
+			has_variable = andersson_hominid_prospecting_selection_var
+		}
 	}
+}
+
+#MR_ANTHROPOLOGIST_CAVE_EXPLORATION_BUTTON
+mr_anthropologist_cave_exploration_button_sgui = {
+    scope = country
     is_valid = {
-		always = yes
-    }
-    effect = {
-		if = {
-			limit = { has_variable = lepsius_anthropologist_var }
-			var:lepsius_anthropologist_var = {
-				set_character_busy_and_immortal = no
+		custom_tooltip = {
+			text = MR_ACTIVE_ANTHROPOLOGIST_TRIGGER_TT
+			andersson_has_active_anthropologist = yes
+		}
+		custom_tooltip = {
+			text = MR_ANTHROPOLOGIST_HAS_CAVE_TRIGGER_TT
+			any_scope_state = {
+				has_state_trait = andersson_state_trait_cave
 			}
 		}
-		remove_modifier = lepsius_cave_examination_modifier
+		custom_tooltip = {
+			text = MR_ANTHROPOLOGIST_IS_SPELEOLOGIST_TRIGGER_TT
+			var:andersson_anthropologist_var ?= {
+				has_trait = andersson_speleologist
+			}
+		}
+		custom_tooltip = {
+			text = MR_ANTHROPOLOGIST_NOT_HAS_CAVE_MODIFIER_TRIGGER_TT
+			has_modifier = andersson_cave_exploration_modifier
+		}
+
+	}
+	effect = {
+		add_modifier = {
+			name = andersson_cave_exploration_modifier
+		}
+		add_journal_entry = {
+			type = je_andersson_cave_exploration
+		}
+		if = {
+			limit = {
+				has_variable = andersson_anthropologist_var
+			}
+			var:andersson_anthropologist_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
 		random_scope_state = {
 			limit = {
-				has_modifier = lepsius_cave_examination_state_modifier
+				has_state_trait = andersson_state_trait_cave
 			}
-			remove_modifier = lepsius_cave_examination_state_modifier
+			set_variable = andersson_hominid_prospecting_var
+		}
+	}
+}
+
+mr_anthropologist_cave_exploration_active_sgui = {
+    scope = country
+	is_shown = {
+		has_journal_entry = je_andersson_cave_exploration
+	}
+}
+
+#MR_ANTHROPOLOGIST_SKELETON_RECONSTRUCTION_BUTTON
+mr_anthropologist_skeleton_reconstruction_button_sgui = {
+    scope = country
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ACTIVE_ANTHROPOLOGIST_TRIGGER_TT
+			andersson_has_active_anthropologist = yes
+		}
+		custom_tooltip = {
+			text = MR_ANTHROPOLOGIST_CAN_RECONSTRUCT_TRIGGER_TT
+			andersson_can_reconstruct_prehistoric_skeleton_trigger = yes
+		}
+		custom_tooltip = {
+			text = MR_ANTHROPOLOGIST_HAS_INTITUTE_TRIGGER_TT
+			andersson_has_institute_trigger = yes
+		}
+	}
+	effect = {
+		trigger_event = {
+			id = andersson.301
+			popup = yes
+		}
+		hidden_effect = {
+			set_variable = andersson_skeleton_reconstruction_type_selection_var
+		}
+	}
+}
+
+mr_anthropologist_skeleton_reconstruction_active_sgui = {
+    scope = country
+	is_shown = {
+		OR = {
+			has_journal_entry = je_andersson_reconstruct_prehistoric_skeleton
+			has_variable = andersson_skeleton_reconstruction_type_selection_var
+		}
+	}
+}
+
+#MR_ANTHROPOLOGIST_EXPOSE_PILTDOWN_FRAUD_BUTTON
+mr_anthropologist_expose_piltdown_fraud_button_sgui = {
+    scope = country
+	is_shown = {
+		has_global_variable = andersson_piltdown_country_global_var
+		NOT = {
+			has_global_variable = andersson_piltdown_exposed_country_global_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+            text = MR_ANTHROPOLOGY_INSTITUTE_TRIGGER_TT
+            andersson_has_institute_trigger = yes
+        }
+		custom_tooltip = {
+            text = MR_HAS_ANTHROPOLOGIST_TRIGGER_TT
+            andersson_has_active_anthropologist = yes
+        }
+		custom_tooltip = {
+			text = MR_ANTHROPOLOGY_RATING_PILTDOWN_FRAUD_TT
+			var:andersson_anthropological_rating >= 100
+		}
+		custom_tooltip = {
+            text = MR_ANTHROPOLOGY_PILTDOWN_NO_RECENT_TRY_TRIGGER_TT
+            NOT = {
+				has_modifier = andersson_piltdown_debate_lost_modifier
+			}
+        }
+		custom_tooltip = {
+            text = MR_ANTHROPOLOGY_PILTDOWN_NO_CURRENT_DEBATE_TRIGGER_TT
+            NOT = {
+				any_country = {
+					has_variable = andersson_piltdown_ongoing_debate_var
+				}
+			}
+        }
+		custom_tooltip = {
+            text = MR_ANTHROPOLOGY_PILTDOWN_CAN_BE_EXPOSED_TRIGGER_TT
+            any_country = {
+				andersson_has_piltdown_fossils_trigger = yes
+				NOT = {
+					has_modifier = andersson_piltdown_debate_won_modifier
+				}
+			}
+        }
+    }
+    effect = {
+		set_variable = andersson_piltdown_ongoing_debate_var
+		trigger_event = {
+			id = andersson.511
+			popup = yes
 		}
     }
 }
@@ -76,19 +234,18 @@ mr_recall_anthropologist_button_sgui = {
 mr_origin_congress_button_sgui = {
     scope = country
 	is_shown = {
-		has_global_variable = dubois_hippocampus_congress_hosted_var
+		has_variable = andersson_anthropology_update_var
 		NOT = {
-			has_global_variable = dubois_origin_congress_hosted_var
+			has_global_variable = andersson_origin_congress_hosted_var
 		}
 		NOT = {
 			any_country = {
-				has_modifier = dubois_congress_host_modifier
+				has_modifier = andersson_congress_host_modifier
 			}
 		}
 	}
     is_valid = {
 		mr_gui_has_modern_archaeology_tech_trigger = yes
-		mr_gui_has_paleontology_tech_trigger = yes
 		mr_gui_has_genetics_tech_trigger = yes
 		custom_tooltip = {
 			text = MR_UNIVERSITY_BUILDING_LEVEL_25_TRIGGER_TT
@@ -98,85 +255,47 @@ mr_origin_congress_button_sgui = {
 			}
 		}
 		custom_tooltip = {
-            text = MR_VISIT_ZOO_BUILDING_TRIGGER_TT
-            any_scope_building = {
-                is_building_type = building_dubois_zoo
-                level >= 1
-            }
+            text = MR_ANTHROPOLOGY_INSTITUTE_TRIGGER_TT
+            andersson_has_institute_trigger = yes
         }
 		custom_tooltip = {
             text = MR_HAS_ANTHROPOLOGIST_TRIGGER_TT
-            lepsius_has_anthropologist = yes
+            andersson_has_anthropologist = yes
         }
 		custom_tooltip = {
-            text = MR_AANTHROPOLOGY_10_COUNTRIES_WITH_ANTHROPOLOGIST_TRIGGER_TT
+            text = MR_ANTHROPOLOGY_10_COUNTRIES_WITH_ANTHROPOLOGIST_TRIGGER_TT
             any_country = {
-				lepsius_has_anthropologist = yes
+				andersson_has_anthropologist = yes
 				count >= 10
 			}
         }
 		custom_tooltip = {
 			text = MR_ORIGIN_CONGRESS_HUMAN_FOSSIL_TT
-			var:lepsius_total_human_fossil >= 10
+			var:andersson_total_human_fossil >= 30
 		}
 		custom_tooltip = {
 			text = MR_ORIGIN_CONGRESS_SPECIAL_HUMAN_FOSSIL_TT
 			OR = {
-				var:lepsius_neanderthalensis_human_fossil >= 3
-				var:lepsius_erectus_human_fossil >= 3
-				var:lepsius_australopithecus_human_fossil >= 3
-				var:lepsius_paranthropus_human_fossil >= 3
+				andersson_has_maximum_pithecanthropus_fossils_trigger = yes
+				andersson_has_maximum_australopithecus_fossils_trigger = yes
 			}
 		}
 		custom_tooltip = {
 			text = MR_ORIGIN_CONGRESS_GLOBAL_HUMAN_FOSSIL_TT
-			global_var:lepsius_global_human_fossil >= 50
+			global_var:andersson_global_human_fossil_global_var >= 250
 		}
     }
     effect = {
 		trigger_event = {
-			id = dubois.911
+			id = andersson.911
 			popup = yes
 		}
-		set_global_variable = dubois_origin_congress_hosted_var
+		set_global_variable = andersson_origin_congress_hosted_var
 		add_modifier = {
-			name = dubois_congress_host_modifier
+			name = andersson_congress_host_modifier
 			years = 5
 		}
     }
-}
-
-#MR_FOSSIL_IDENTIFICATION_BUTTON
-mr_fossil_identification_button_sgui = {
-    scope = country
-	is_shown = {
-		always = yes
-	}
-    is_valid = {
-		custom_tooltip = {
-			text = MR_ACTIVE_ANTHROPOLOGIST_TRIGGER_TT
-			lepsius_has_active_anthropologist = yes
-		}
-		custom_tooltip = {
-			text = MR_FOSSIL_IDENTIFICATION_UNKNOWN_BONE_TRIGGER_TT
-			lepsius_has_unknown_bone = yes
-		}
-    }
-    effect = {
-		hidden_effect = {
-			lepsius_set_fossil_identification_progress = yes
-		}
-		lepsius_set_anthropologist_busy_effect = yes
-		add_journal_entry = {
-			type = je_lepsius_fossil_identification
-		}
-    }
-}
-mr_fossil_identification_active_sgui = {
-	scope = country
-	is_shown = {
-		has_journal_entry = je_lepsius_fossil_identification
-	}
 }
 
 #############################################

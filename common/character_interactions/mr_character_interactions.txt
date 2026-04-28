@@ -1,0 +1,239 @@
+﻿#icon					Path to icon for both right click menu and character panel buttons
+#clicksound				Clicksound for both right click menu and character panel buttons
+
+#						All scopes are character scopes with the interacting country stored as the actor
+#potential				Trigger to check if the interaction should be shown
+#possible 				Trigger to check if the interaction is available
+#effect					The effects of the interaction
+#cooldown				Scriptable duration that this interaction will be unavailable for the interacting country
+
+#show_requirements		Whether to always show requirements, similar to highlighted options in events
+#show_confirmation_box	Whether to require confirmation
+
+#ai_chance				Scriptable value for the chance (0-100) that the AI will use this interaction when available, default 0
+
+academics_give_professor_title_interaction = {
+	icon = "gfx/interface/icons/timed_modifier_icons/academics_title_professor_modifier.dds"
+	potential = {
+		owner ?= {
+			has_technology_researched = academia
+		}
+		is_ruler_of_own_country = no
+		is_in_exile_pool = no
+		is_in_void = no
+		mr_character_is_professor_trigger = no
+		academics_is_character_academic_trigger = yes
+	}
+
+	show_requirements = yes
+
+	possible = {
+		trigger_if = {
+			limit = { academics_is_character_academic_technical_trigger = yes }
+			owner ?= {
+				any_scope_building = {
+					has_active_production_method = pm_dubois_university_mathematics
+				}
+			}
+		}
+		trigger_if = {
+			limit = { academics_is_character_academic_natural_trigger = yes }
+			owner ?= {
+				any_scope_building = {
+					has_active_production_method = pm_dubois_university_natural_history
+				}
+			}
+		}
+		trigger_if = {
+			limit = { academics_is_character_academic_humanities_trigger = yes }
+			owner ?= {
+				any_scope_building = {
+					has_active_production_method = pm_dubois_university_humanities
+				}
+			}
+		}
+		owner ?= {
+			NOT = { has_modifier = academics_professorship_cooldown_modifier }
+		}
+	}
+
+	effect = {
+		#Character
+		academics_add_professor_title_effect = yes
+		add_modifier = {
+			name = academics_character_recently_received_professorship_modifier
+			years = 10
+			is_decaying = yes
+		}
+		#Country
+		owner = {
+			add_modifier = {
+				name = academics_professorship_cooldown_modifier
+				years = 2
+			}
+		}
+		if = {
+			limit = {
+				NOR = {
+					trigger_if = {
+						limit = {
+							has_role = character_role_tesla_engineer
+						}
+						trigger_if = {
+							limit = { has_modifier = academics_is_civil_engineer_modifier }
+							has_variable = tesla_civil_engineer_experience_var
+							var:tesla_civil_engineer_experience_var >= 200
+						}
+						trigger_if = {
+							limit = { has_modifier = academics_is_mechanical_engineer_modifier }
+							has_variable = tesla_mechanical_engineer_experience_var
+							var:tesla_mechanical_engineer_experience_var >= 200
+						}
+						trigger_if = {
+							limit = { has_modifier = academics_is_military_engineer_modifier }
+							has_variable = tesla_military_engineer_experience_var
+							var:tesla_military_engineer_experience_var >= 200
+						}
+						trigger_if = {
+							limit = { has_modifier = academics_is_electrical_engineer_modifier }
+							has_variable = tesla_electrical_engineer_experience_var
+							var:tesla_electrical_engineer_experience_var >= 200
+						}
+						trigger_if = {
+							limit = { has_modifier = academics_is_aeronautical_engineer_modifier }
+							has_variable = tesla_aeronautical_engineer_experience_var
+							var:tesla_aeronautical_engineer_experience_var >= 200
+						}
+					}
+					trigger_if = {
+						limit = {
+							has_role = character_role_mendelejew_chemist
+						}
+						var:mendelejew_chemist_experience_var >= 200
+					}
+					trigger_if = {
+						limit = {
+							has_role = character_role_verrier_astronomer
+						}
+						var:verrier_astronomer_experience_var >= 200
+					}
+					trigger_if = {
+						limit = {
+							has_role = character_role_curie_physicist
+						}
+						var:curie_physicist_experience_var >= 200
+					}
+					trigger_if = {
+						limit = {
+							has_role = character_role_agassiz_geologist
+						}
+						var:agassiz_geologist_experience_var >= 200
+					}
+					trigger_if = {
+						limit = {
+							has_role = character_role_dubois_paleontologist
+						}
+						var:dubois_paleontologist_experience_var >= 200
+					}
+					trigger_if = {
+						limit = {
+							has_role = character_role_ito_naturalist
+						}
+						var:ito_naturalist_experience_var >= 200
+					}
+					trigger_if = {
+						limit = {
+							has_role = character_role_theiler_biologist
+						}
+						var:theiler_biologist_experience_var >= 200
+					}
+					trigger_if = {
+						limit = {
+							has_role = character_role_panum_physician
+						}
+						var:panum_physician_experience_var >= 200
+					}
+					trigger_if = {
+						limit = {
+							has_role = character_role_lepsius_archaeologist
+						}
+						var:lepsius_archaeologist_experience_var >= 200
+					}
+					trigger_if = {
+						limit = {
+							has_role = character_role_andersson_anthropologist
+						}
+						var:andersson_anthropologist_experience_var >= 200
+					}
+					trigger_if = {
+						limit = {
+							has_role = character_role_roy_ethnologist
+						}
+						var:roy_ethnologist_experience_var >= 200
+					}
+				}
+			}
+			owner = {
+				ig:ig_intelligentsia = {
+					add_modifier = {
+						name = academics_ig_mad_about_unearned_professorship_modifier
+						years = 5
+						is_decaying = yes
+					}
+				}
+				if = {
+					limit = {
+						prev = {
+							academics_is_character_academic_technical_trigger = yes
+						}
+					}
+					every_character_is_mathematical_academic = {
+						add_modifier = {
+							name = academics_character_mad_about_unearned_professorship_modifier
+							years = 5
+							is_decaying = yes
+						}
+					}
+				}
+				if = {
+					limit = {
+						prev = {
+							academics_is_character_academic_natural_trigger = yes
+						}
+					}
+					every_character_is_natural_history_academic = {
+						add_modifier = {
+							name = academics_character_mad_about_unearned_professorship_modifier
+							years = 5
+							is_decaying = yes
+						}
+					}
+				}
+				if = {
+					limit = {
+						prev = {
+							academics_is_character_academic_humanities_trigger = yes
+						}
+					}
+					every_character_is_humanities_academic = {
+						add_modifier = {
+							name = academics_character_mad_about_unearned_professorship_modifier
+							years = 5
+							is_decaying = yes
+						}
+					}
+				}
+			}
+		}
+	}
+
+	ai_chance = {
+		value = -25
+		if = {
+			limit = {
+				#TODO: Add loyalty trigger
+			}
+			add = 25
+		}
+	}
+}

@@ -1,0 +1,444 @@
+﻿
+##############################
+# ANDERSSON JOURNAL ENTRIES  #
+##############################
+
+#by Marco Dandolo
+
+##############################
+
+######Anthropological Research######
+
+je_andersson_anthropological_research = {
+	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
+
+	group = je_group_andersson_anthropology
+
+	scripted_progress_bar = andersson_anthropological_research_progress_bar
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(andersson_anthropological_research_progress_bar)" >= 60
+					}
+				}
+
+				#Adds Minerals and Trait
+				anthropologist_experience_gain_effect = { AMOUNT = 5 }
+				andersson_add_x_human_fossils_effect = { AMOUNT = 5 }
+				#Special trait
+				if = {
+					limit = {
+						var:andersson_anthropologist_var = {
+							has_trait = andersson_evolutionist
+						}
+					}
+					andersson_add_x_human_fossils_effect = { AMOUNT = 5 }
+				}
+				if = {
+					limit = {
+						var:andersson_anthropologist_var = {
+							has_trait = andersson_diffusionist
+						}
+					}
+					andersson_add_x_prehistoric_artifacts_effect = { AMOUNT = 1 }
+				}
+				#Finds Cave Painting
+				if = {
+					limit = {
+						var:andersson_anthropologist_var = {
+							OR = {
+								has_trait = andersson_anthropologist_experienced
+								has_trait = andersson_anthropologist_famous
+							}
+						}
+						any_scope_state = {
+							andersson_state_has_undiscovered_cave_paintings_trigger = yes
+						}
+					}
+					trigger_event = {
+						id = andersson.101 #Andersson 101: Anthropological Site found (Cave Paintings)
+					}
+				}
+
+				#Reset Anthropologist Research Bar
+				scope:journal_entry = {
+					set_bar_progress = {
+						name = andersson_anthropological_research_progress_bar
+						value = 0
+					}
+				}
+
+				#Notification for Player
+				post_notification = andersson_anthropological_research_notification
+			}
+		}
+	}
+
+	on_yearly_pulse = {
+		effect = {
+			trigger_event = {
+				on_action = andersson_on_yearly_pulse_local_anthropology_events
+				days = { 30 365 }
+			}
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = andersson_anthropologist_dies_tt
+			andersson_has_anthropologist = no
+		}
+	}
+
+	on_invalid = {
+	}
+
+	weight = 50
+}
+
+######################################################
+
+######Hominid Prospecting###
+
+je_andersson_hominid_prospecting_neoanthropus = {
+	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
+
+	group = je_group_andersson_anthropology
+
+	scripted_progress_bar = andersson_cave_exploration_progress_bar
+	scripted_progress_bar = andersson_cave_collection_progress_bar
+	scripted_progress_bar = andersson_cave_identification_progress_bar
+
+	on_weekly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(andersson_cave_exploration_progress_bar)" >= 90
+					}
+				}
+				andersson_hominid_prospecting_exploration_event_effect = yes
+			}
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 90
+					}
+				}
+				andersson_hominid_prospecting_collecting_event_effect = yes
+			}
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 50
+					}
+					andersson_prospecting_neoanthropus_discovery_trigger = yes
+				}
+				trigger_event = { id = andersson.221 }
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = andersson_cave_identification_progress_bar_at_full_tt
+			scope:journal_entry = {
+				"scripted_bar_progress(andersson_cave_identification_progress_bar)" >= 90
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = andersson.211 }
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = andersson_anthropologist_dies_tt
+			andersson_has_anthropologist = no
+		}
+	}
+
+	on_invalid = {
+		andersson_remove_prospecting_effect = yes
+		remove_variable = andersson_hominid_prospecting_neoanthropus_var
+	}
+
+	weight = 50
+}
+
+je_andersson_hominid_prospecting_palaeanthropus = {
+	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
+
+	group = je_group_andersson_anthropology
+
+	scripted_progress_bar = andersson_cave_exploration_progress_bar
+	scripted_progress_bar = andersson_cave_collection_progress_bar
+	scripted_progress_bar = andersson_cave_identification_progress_bar
+
+	on_weekly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(andersson_cave_exploration_progress_bar)" >= 90
+					}
+				}
+				andersson_hominid_prospecting_exploration_event_effect = yes
+			}
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 90
+					}
+				}
+				andersson_hominid_prospecting_collecting_event_effect = yes
+			}
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 50
+					}
+					andersson_prospecting_palaeanthropus_discovery_trigger = yes
+				}
+				trigger_event = { id = andersson.222 }
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = andersson_cave_identification_progress_bar_at_full_tt
+			scope:journal_entry = {
+				"scripted_bar_progress(andersson_cave_identification_progress_bar)" >= 90
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = andersson.211 }
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = andersson_anthropologist_dies_tt
+			andersson_has_anthropologist = no
+		}
+	}
+
+	on_invalid = {
+		andersson_remove_prospecting_effect = yes
+		remove_variable = andersson_hominid_prospecting_palaeanthropus_var
+	}
+
+	weight = 50
+}
+
+je_andersson_hominid_prospecting_pithecanthropus = {
+	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
+
+	group = je_group_andersson_anthropology
+
+	scripted_progress_bar = andersson_cave_exploration_progress_bar
+	scripted_progress_bar = andersson_cave_collection_progress_bar
+	scripted_progress_bar = andersson_cave_identification_progress_bar
+
+	on_weekly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(andersson_cave_exploration_progress_bar)" >= 90
+					}
+				}
+				andersson_hominid_prospecting_exploration_event_effect = yes
+			}
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 90
+					}
+				}
+				andersson_hominid_prospecting_collecting_event_effect = yes
+			}
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 50
+					}
+					andersson_prospecting_pithecanthropus_discovery_trigger = yes
+				}
+				trigger_event = { id = andersson.223 }
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = andersson_cave_identification_progress_bar_at_full_tt
+			scope:journal_entry = {
+				"scripted_bar_progress(andersson_cave_identification_progress_bar)" >= 90
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = andersson.211 }
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = andersson_anthropologist_dies_tt
+			andersson_has_anthropologist = no
+		}
+	}
+
+	on_invalid = {
+		andersson_remove_prospecting_effect = yes
+		remove_variable = andersson_hominid_prospecting_pithecanthropus_var
+	}
+
+	weight = 50
+}
+
+je_andersson_hominid_prospecting_australopithecus = {
+	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
+
+	group = je_group_andersson_anthropology
+
+	scripted_progress_bar = andersson_cave_exploration_progress_bar
+	scripted_progress_bar = andersson_cave_collection_progress_bar
+	scripted_progress_bar = andersson_cave_identification_progress_bar
+
+	on_weekly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(andersson_cave_exploration_progress_bar)" >= 90
+					}
+				}
+				andersson_hominid_prospecting_exploration_event_effect = yes
+			}
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 90
+					}
+				}
+				andersson_hominid_prospecting_collecting_event_effect = yes
+			}
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 50
+					}
+					andersson_prospecting_australopithecus_discovery_trigger = yes
+				}
+				trigger_event = { id = andersson.224 }
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = andersson_cave_identification_progress_bar_at_full_tt
+			scope:journal_entry = {
+				"scripted_bar_progress(andersson_cave_identification_progress_bar)" >= 90
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = andersson.211 }
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = andersson_anthropologist_dies_tt
+			andersson_has_anthropologist = no
+		}
+	}
+
+	on_invalid = {
+		andersson_remove_prospecting_effect = yes
+		remove_variable = andersson_hominid_prospecting_australopithecus_var
+	}
+
+	weight = 50
+}
+
+je_andersson_cave_exploration = {
+	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
+
+	group = je_group_andersson_anthropology
+
+	scripted_progress_bar = andersson_cave_exploration_progress_bar
+
+	complete = {
+		custom_tooltip = {
+			text = andersson_cave_exploration_progress_bar_at_full_tt
+			scope:journal_entry = {
+				"scripted_bar_progress(andersson_cave_exploration_progress_bar)" >= 90
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = andersson.212 }
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = andersson_anthropologist_dies_tt
+			andersson_has_anthropologist = no
+		}
+	}
+
+	on_invalid = {
+		andersson_remove_prospecting_effect = yes
+	}
+
+	weight = 50
+}
+
+######################################################
+
+######Reconstruct Prehistoric Skeleton###
+
+je_andersson_reconstruct_prehistoric_skeleton = {
+	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
+
+	group = je_group_andersson_anthropology
+
+	scripted_progress_bar = andersson_reconstruct_prehistoric_skeleton_progress_bar
+
+	complete = {
+		custom_tooltip = {
+			text = andersson_reconstruct_prehistoric_skeleton_progress_bar_at_full_tt
+			scope:journal_entry = {
+				"scripted_bar_progress(andersson_reconstruct_prehistoric_skeleton_progress_bar)" >= 18
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = andersson.311 }
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = andersson_anthropologist_dies_tt
+			andersson_has_anthropologist = no
+		}
+	}
+
+	on_invalid = {
+		remove_andersson_reconstruct_human_skeleton_effect = yes
+	}
+
+	weight = 50
+}

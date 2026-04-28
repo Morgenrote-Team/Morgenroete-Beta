@@ -1170,10 +1170,7 @@ mr_create_historical_chemist_for_character_creation_effect = {
 			trigger = {
 				NOT = { has_global_variable = mr_bunsen_created_global_var }
 				any_scope_state = {
-					OR = {
-						region = sr:region_south_germany
-						region = sr:region_north_germany
-					}
+					region = sr:region_central_europe
 				}
 				country_average_cultural_acceptance = {
 					target = cu:north_german
@@ -1213,10 +1210,7 @@ mr_create_historical_chemist_for_character_creation_effect = {
 			trigger = {
 				NOT = { has_global_variable = mr_erlenmeyer_created_global_var }
 				any_scope_state = {
-					OR = {
-						region = sr:region_south_germany
-						region = sr:region_north_germany
-					}
+					region = sr:region_central_europe
 				}
 				country_average_cultural_acceptance = {
 					target = cu:north_german
@@ -1525,10 +1519,7 @@ mr_create_historical_chemist_for_character_creation_effect = {
 			trigger = {
 				NOT = { has_global_variable = mr_staedeler_created_global_var }
 				any_scope_state = {
-					OR = {
-						region = sr:region_south_germany
-						region = sr:region_north_germany
-					}
+					region = sr:region_central_europe
 				}
 				country_average_cultural_acceptance = {
 					target = cu:north_german
@@ -1606,10 +1597,7 @@ mr_create_historical_chemist_for_character_creation_effect = {
 			trigger = {
 				NOT = { has_global_variable = mr_von_liebig_created_global_var }
 				any_scope_state = {
-					OR = {
-						region = sr:region_south_germany
-						region = sr:region_north_germany
-					}
+					region = sr:region_central_europe
 				}
 				country_average_cultural_acceptance = {
 					target = cu:north_german
@@ -2647,7 +2635,7 @@ mr_create_historical_chemist_for_character_creation_effect = {
 		100 = { #Jōkichi Takamine, Japan
 			trigger = {
 				NOT = { has_global_variable = mr_takamine_jokichi_created_global_var }
-				has_state_in_state_region = STATE_CHUBU #Born in Takaoka
+				has_state_in_state_region = STATE_HOKUSHINETSU #Born in Takaoka
 				country_average_cultural_acceptance = {
 					target = cu:japanese
 					value >= acceptance_status_4
@@ -2685,7 +2673,7 @@ mr_create_historical_chemist_for_character_creation_effect = {
 		}
 		100 = { #Jacobus Henricus van 't Hoff, Netherlands
 			trigger = {
-				NOT = { has_global_variable = mr_cvan_t_hoff_jacobus_henricus_created_global_var }
+				NOT = { has_global_variable = mr_van_t_hoff_jacobus_henricus_created_global_var }
 				has_state_in_state_region = STATE_HOLLAND
 				country_average_cultural_acceptance = {
 					target = cu:dutch
@@ -2708,7 +2696,7 @@ mr_create_historical_chemist_for_character_creation_effect = {
 				value = scope:mendelejew_new_chemist_scope
 			}
 
-			set_global_variable = mr_cvan_t_hoff_jacobus_henricus_created_global_var
+			set_global_variable = mr_van_t_hoff_jacobus_henricus_created_global_var
 
 			modifier = {
 				add = {
@@ -4860,6 +4848,43 @@ mr_create_historical_chemist_for_character_creation_effect = {
 				}
 			}
 		}
+		100 = { #Jean Piccard, Switzerland
+			trigger = {
+				NOT = { has_global_variable = mr_piccard_jean_created_global_var }
+				mr_country_owns_basel_trigger = yes #Born in Basel
+				country_average_cultural_acceptance = {
+					target = cu:alemannic
+					value >= acceptance_status_4
+				}
+				year >= 1907 #Finished studies at ETH
+				year <= 1939 #Age 55
+			}
+			create_character = {
+				template = mr_swi_piccard_jean_character_template
+				save_scope_as = mendelejew_new_chemist_scope
+			}
+			scope:mendelejew_new_chemist_scope = {
+				mr_make_character_chemist_effect = yes
+			}
+
+			set_variable = {
+				name = mendelejew_new_chemist_var
+				value = scope:mendelejew_new_chemist_scope
+			}
+
+			set_global_variable = mr_piccard_jean_created_global_var
+
+			modifier = {
+				add = {
+					value = year
+					subtract = 1884
+					subtract = 25
+					min = 0
+					multiply = 2
+					multiply = -1
+				}
+			}
+		}
 		100 = { #Amé Pictet, Switzerland
 			trigger = {
 				NOT = { has_global_variable = mr_pictet_ame_created_global_var }
@@ -5448,6 +5473,7 @@ mr_create_random_chemist_for_character_creation_effect = {
 				female = yes
 				trait_generation = {}
 				save_scope_as = mendelejew_new_chemist_scope
+				role = character_role_mendelejew_chemist
 			}
 			scope:mendelejew_new_chemist_scope = {
 				add_trait = mendelejew_chemist
@@ -5479,6 +5505,7 @@ mr_create_random_chemist_for_character_creation_effect = {
 			create_character = {
 				trait_generation = {}
 				save_scope_as = mendelejew_new_chemist_scope
+				role = character_role_mendelejew_chemist
 			}
 			scope:mendelejew_new_chemist_scope = {
 				add_trait = mendelejew_chemist
@@ -5510,7 +5537,10 @@ mr_create_random_chemist_for_character_creation_effect = {
 }
 
 mr_make_character_chemist_effect = {
-	set_variable = mr_is_chemist_var
 	chemist_experience_set_up_effect = yes
-	place_character_in_void = 1200
+	set_variable = mr_is_mr_character
+	academics_character_set_role_retirement_effect = {
+		ROLE = character_role_mendelejew_chemist
+		AGE_LEVEL = 2
+	}
 }

@@ -5,16 +5,6 @@
 ############################################################################
 
 #All Academics (and Special Characters) should have a variable assigned to the character:
-# mr_is_engineer_var		--> Engineer
-# mr_is_astronomer_var		--> Astronomer
-# mr_is_naturalist_var		--> Naturalist
-# mr_is_paleontologist_var	--> Paleontologist
-# mr_is_archaeologist_var	--> Archaeologist
-# mr_is_anthropologist_var	--> Anthropologist
-
-# mr_is_balloonist_var		--> Balloonist
-# mr_is_missionary_var		--> Missionary
-# mr_is_adventurer_var		--> Adventurer
 
 ######GENERAL######
 
@@ -36,16 +26,11 @@ set_retirement_variable_effect = {
 # !!! Change stuff in both of the following effects !!!
 kill_engineer_effect = {
 	var:tesla_engineer_var = {
-		free_character_from_void = no
+		kill_character = yes
 	}
 
 	remove_variable = tesla_engineer_var
 	remove_modifier = gaudi_engineer_technology_spread_modifier
-
-	if = {
-		limit = { has_modifier = academics_engineer_emeritus_delayed_modifier }
-		remove_modifier = academics_engineer_emeritus_delayed_modifier
-	}
 }
 #This Effect retires the current Engineer
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -54,17 +39,20 @@ retire_engineer_effect = {
 		text = retire_engineer_effect_tt
 
 		var:tesla_engineer_var = {
-			free_character_from_void = no
+			kill_character = yes
 		}
 	}
 
 	remove_variable = tesla_engineer_var
 	remove_modifier = gaudi_engineer_technology_spread_modifier
+}
 
-	if = {
-		limit = { has_modifier = academics_engineer_emeritus_delayed_modifier }
-		remove_modifier = academics_engineer_emeritus_delayed_modifier
+#Removes the official Engineer without killing or retiring
+tesla_remove_official_engineer_effect = {
+	var:tesla_engineer_var ?= {
+		set_character_busy_and_immortal = no
 	}
+	remove_variable = tesla_engineer_var
 }
 
 # Set new Engineer as official Engineer
@@ -77,7 +65,7 @@ tesla_set_new_engineer_as_engineer_effect = {
 				has_variable = tesla_engineer_var
 			}
 			var:tesla_engineer_var = {
-				free_character_from_void = no
+				set_character_busy_and_immortal = no
 			}
 		}
 
@@ -110,9 +98,7 @@ tesla_set_new_engineer_as_engineer_effect = {
 
 # Remove new Engineer
 gaudi_remove_new_engineer_effect = {
-	scope:tesla_new_engineer_scope = {
-		free_character_from_void = no
-	}
+	custom_tooltip = tesla_engineer_will_become_part_of_academia_tt
 
 	remove_variable = tesla_new_engineer_var
 }
@@ -150,6 +136,8 @@ engineer_experience_set_up_effect = {
 					TYPE = tesla_civil_engineer_experience_var
 					UNI_PM = pm_dubois_university_mathematics
 				}
+				#Doctor/Professor
+				academics_civil_engineer_add_academic_title_effect = yes
 			}
 			1 = {
 				trigger = { has_trait = tesla_mechanical_engineer }
@@ -162,6 +150,8 @@ engineer_experience_set_up_effect = {
 					TYPE = tesla_mechanical_engineer_experience_var
 					UNI_PM = pm_dubois_university_mathematics
 				}
+				#Doctor/Professor
+				academics_mechanical_engineer_add_academic_title_effect = yes
 			}
 			1 = {
 				trigger = { has_trait = tesla_military_engineer }
@@ -174,6 +164,8 @@ engineer_experience_set_up_effect = {
 					TYPE = tesla_military_engineer_experience_var
 					UNI_PM = pm_dubois_university_mathematics
 				}
+				#Doctor/Professor
+				academics_military_engineer_add_academic_title_effect = yes
 			}
 			1 = {
 				trigger = { has_trait = tesla_electrical_engineer }
@@ -186,6 +178,8 @@ engineer_experience_set_up_effect = {
 					TYPE = tesla_electrical_engineer_experience_var
 					UNI_PM = pm_dubois_university_mathematics
 				}
+				#Doctor/Professor
+				academics_electrical_engineer_add_academic_title_effect = yes
 			}
 			1 = {
 				trigger = { has_trait = tesla_aeronautical_engineer }
@@ -198,6 +192,8 @@ engineer_experience_set_up_effect = {
 					TYPE = tesla_aeronautical_engineer_experience_var
 					UNI_PM = pm_dubois_university_mathematics
 				}
+				#Doctor/Professor
+				academics_aeronautical_engineer_add_academic_title_effect = yes
 			}
 		}
 	}
@@ -212,6 +208,8 @@ engineer_experience_set_up_effect = {
 					UNI_PM = pm_dubois_university_mathematics
 				}
 				add_trait = tesla_civil_engineer
+				#Doctor/Professor
+				academics_civil_engineer_add_academic_title_effect = yes
 			}
 			1 = {
 				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
@@ -222,6 +220,8 @@ engineer_experience_set_up_effect = {
 					UNI_PM = pm_dubois_university_mathematics
 				}
 				add_trait = tesla_mechanical_engineer
+				#Doctor/Professor
+				academics_mechanical_engineer_add_academic_title_effect = yes
 			}
 			1 = {
 				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
@@ -232,6 +232,8 @@ engineer_experience_set_up_effect = {
 					UNI_PM = pm_dubois_university_mathematics
 				}
 				add_trait = tesla_military_engineer
+				#Doctor/Professor
+				academics_military_engineer_add_academic_title_effect = yes
 				modifier = {
 					if = {
 						limit = {
@@ -257,6 +259,8 @@ engineer_experience_set_up_effect = {
 					UNI_PM = pm_dubois_university_mathematics
 				}
 				add_trait = tesla_electrical_engineer
+				#Doctor/Professor
+				academics_electrical_engineer_add_academic_title_effect = yes
 			}
 			1 = {
 				trigger = {
@@ -272,6 +276,8 @@ engineer_experience_set_up_effect = {
 					UNI_PM = pm_dubois_university_mathematics
 				}
 				add_trait = tesla_aeronautical_engineer
+				#Doctor/Professor
+				academics_aeronautical_engineer_add_academic_title_effect = yes
 			}
 		}
 	}
@@ -335,541 +341,390 @@ engineer_experience_set_up_effect = {
 #Engineer Experience gain
 engineer_experience_gain_effect = { #adds XP to the Engineer
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
-		value = $AMOUNT$
+	var:tesla_engineer_var ?= {
+		tesla_character_engineer_experience_gain_effect = { AMOUNT = $AMOUNT$ }
 	}
+}
 
+#Character Engineer Experience Gain Effect
+# scope = character
+tesla_character_engineer_experience_gain_effect = {
+	# AMOUNT = amount of XP to add
 	if = {
 		limit = {
-			has_variable = tesla_engineer_var #should only add experience if there actually is an Engineer
+			has_modifier = academics_is_civil_engineer_modifier
 		}
-		if = {
-			limit = {
-				var:tesla_engineer_var = {
-					has_modifier = academics_is_civil_engineer_modifier
-				}
-			}
-			custom_tooltip = {
-				text = gaudi_civil_engineer_experience_gain_tt
-				if = {
-					limit = {
-						NOT = {
-							var:tesla_engineer_var = { #Fallback to make sure there are no errors if the Engineer does not have the variable yet
-								has_variable = tesla_civil_engineer_experience_var
-							}
-						}
-					}
-					var:tesla_engineer_var = { #Sets the experience in case it was not set yet
-						engineer_experience_set_up_effect = yes
-					}
-				}
-				var:tesla_engineer_var = {
-					change_variable = {
-						name = tesla_civil_engineer_experience_var
-						add = $AMOUNT$
-					}
-					clamp_variable = {
-						name = tesla_civil_engineer_experience_var
-						min = 0
-						max = 300
-					}
-				}
-			}
+		tesla_character_civil_engineer_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+	else_if = {
+		limit = {
+			has_modifier = academics_is_mechanical_engineer_modifier
 		}
-		else_if = {
-			limit = {
-				has_variable = tesla_engineer_var #should only add experience if there actually is an Engineer
-			}
-			if = {
-				limit = {
-					var:tesla_engineer_var = {
-						has_modifier = academics_is_mechanical_engineer_modifier
-					}
-				}
-				custom_tooltip = {
-					text = gaudi_mechanical_engineer_experience_gain_tt
-					if = {
-						limit = {
-							NOT = {
-								var:tesla_engineer_var = { #Fallback to make sure there are no errors if the Engineer does not have the variable yet
-									has_variable = tesla_mechanical_engineer_experience_var
-								}
-							}
-						}
-						var:tesla_engineer_var = { #Sets the experience in case it was not set yet
-							engineer_experience_set_up_effect = yes
-						}
-					}
-					var:tesla_engineer_var = {
-						change_variable = {
-							name = tesla_mechanical_engineer_experience_var
-							add = $AMOUNT$
-						}
-						clamp_variable = {
-							name = tesla_mechanical_engineer_experience_var
-							min = 0
-							max = 300
-						}
-					}
-				}
-			}
+		tesla_character_mechanical_engineer_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+	else_if = {
+		limit = {
+			has_modifier = academics_is_military_engineer_modifier
 		}
-		else_if = {
-			limit = {
-				has_variable = tesla_engineer_var #should only add experience if there actually is an Engineer
-			}
-			if = {
-				limit = {
-					var:tesla_engineer_var = {
-						has_modifier = academics_is_military_engineer_modifier
-					}
-				}
-				custom_tooltip = {
-					text = gaudi_military_engineer_experience_gain_tt
-					if = {
-						limit = {
-							NOT = {
-								var:tesla_engineer_var = { #Fallback to make sure there are no errors if the Engineer does not have the variable yet
-									has_variable = tesla_military_engineer_experience_var
-								}
-							}
-						}
-						var:tesla_engineer_var = { #Sets the experience in case it was not set yet
-							engineer_experience_set_up_effect = yes
-						}
-					}
-					var:tesla_engineer_var = {
-						change_variable = {
-							name = tesla_military_engineer_experience_var
-							add = $AMOUNT$
-						}
-						clamp_variable = {
-							name = tesla_military_engineer_experience_var
-							min = 0
-							max = 300
-						}
-					}
-				}
-			}
+		tesla_character_military_engineer_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+	else_if = {
+		limit = {
+			has_modifier = academics_is_electrical_engineer_modifier
 		}
-		else_if = {
-			limit = {
-				has_variable = tesla_engineer_var #should only add experience if there actually is an Engineer
-			}
-			if = {
-				limit = {
-					var:tesla_engineer_var = {
-						has_modifier = academics_is_electrical_engineer_modifier
-					}
-				}
-				custom_tooltip = {
-					text = gaudi_electrical_engineer_experience_gain_tt
-					if = {
-						limit = {
-							NOT = {
-								var:tesla_engineer_var = { #Fallback to make sure there are no errors if the Engineer does not have the variable yet
-									has_variable = tesla_electrical_engineer_experience_var
-								}
-							}
-						}
-						var:tesla_engineer_var = { #Sets the experience in case it was not set yet
-							engineer_experience_set_up_effect = yes
-						}
-					}
-					var:tesla_engineer_var = {
-						change_variable = {
-							name = tesla_electrical_engineer_experience_var
-							add = $AMOUNT$
-						}
-						clamp_variable = {
-							name = tesla_electrical_engineer_experience_var
-							min = 0
-							max = 300
-						}
-					}
-				}
-			}
+		tesla_character_electrical_engineer_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+	else_if = {
+		limit = {
+			has_modifier = academics_is_aeronautical_engineer_modifier
 		}
-		else_if = {
-			limit = {
-				has_variable = tesla_engineer_var #should only add experience if there actually is an Engineer
-			}
-			if = {
-				limit = {
-					var:tesla_engineer_var = {
-						has_modifier = academics_is_aeronautical_engineer_modifier
-					}
-				}
-				custom_tooltip = {
-					text = gaudi_aeronautical_engineer_experience_gain_tt
-					if = {
-						limit = {
-							NOT = {
-								var:tesla_engineer_var = { #Fallback to make sure there are no errors if the Engineer does not have the variable yet
-									has_variable = tesla_aeronautical_engineer_experience_var
-								}
-							}
-						}
-						var:tesla_engineer_var = { #Sets the experience in case it was not set yet
-							engineer_experience_set_up_effect = yes
-						}
-					}
-					var:tesla_engineer_var = {
-						change_variable = {
-							name = tesla_aeronautical_engineer_experience_var
-							add = $AMOUNT$
-						}
-						clamp_variable = {
-							name = tesla_aeronautical_engineer_experience_var
-							min = 0
-							max = 300
-						}
-					}
-				}
-			}
-		}
-		if = {
-			limit = {
-				var:tesla_engineer_var = {
-					var:tesla_civil_engineer_experience_var >= 100
-					NOT = { has_trait = tesla_civil_engineer }
-				}
-			}
-			trigger_event = {
-				id = academics.140
-				popup = yes
-			}
-		}
-		if = {
-			limit = {
-				var:tesla_engineer_var = {
-					var:tesla_mechanical_engineer_experience_var >= 100
-					NOT = { has_trait = tesla_mechanical_engineer }
-				}
-			}
-			trigger_event = {
-				id = academics.141
-				popup = yes
-			}
-		}
-		if = {
-			limit = {
-				var:tesla_engineer_var = {
-					var:tesla_military_engineer_experience_var >= 100
-					NOT = { has_trait = tesla_military_engineer }
-				}
-			}
-			trigger_event = {
-				id = academics.142
-				popup = yes
-			}
-		}
-		if = {
-			limit = {
-				var:tesla_engineer_var = {
-					var:tesla_electrical_engineer_experience_var >= 100
-					NOT = { has_trait = tesla_electrical_engineer }
-				}
-			}
-			trigger_event = {
-				id = academics.143
-				popup = yes
-			}
-		}
-		if = {
-			limit = {
-				var:tesla_engineer_var = {
-					var:tesla_aeronautical_engineer_experience_var >= 100
-					NOT = { has_trait = tesla_aeronautical_engineer }
-				}
-			}
-			trigger_event = {
-				id = academics.144
-				popup = yes
-			}
-		}
+		tesla_character_aeronautical_engineer_experience_gain_effect = { AMOUNT = $AMOUNT$ }
 	}
 }
 
 #Civil Engineer Experience gain
 civil_engineer_experience_gain_effect = { #adds XP to the Engineer
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
+	var:tesla_engineer_var ?= {
+		tesla_character_civil_engineer_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Civil Engineer Experience Gain Effect
+# scope = character
+tesla_character_civil_engineer_experience_gain_effect = { #adds Chemist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "tesla_character_civil_engineer_experience_gain_effect_loc"
+		subject = this
 		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = tesla_civil_engineer_experience_var
+				}
+			}
+			engineer_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = tesla_civil_engineer_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = tesla_civil_engineer_experience_var
+			min = 0
+			max = 300
+		}
 	}
 
+	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
-			has_variable = tesla_engineer_var #should only add experience if there actually is an Engineer
+			var:tesla_civil_engineer_experience_var >= 100
+			NOT = {
+				has_trait = tesla_civil_engineer
+			}
 		}
-		custom_tooltip = {
-			text = gaudi_civil_engineer_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:tesla_engineer_var = { #Fallback to make sure there are no errors if the Engineer does not have the variable yet
-							has_variable = tesla_civil_engineer_experience_var
-						}
-					}
-				}
-				var:tesla_engineer_var = { #Sets the experience in case it was not set yet
-					engineer_experience_set_up_effect = yes
-				}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:tesla_engineer_var ?= this
 			}
-			var:tesla_engineer_var = {
-				change_variable = {
-					name = tesla_civil_engineer_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = tesla_civil_engineer_experience_var
-					min = 0
-					max = 300
-				}
-			}
-			if = {
-				limit = {
-					var:tesla_engineer_var = {
-						var:tesla_civil_engineer_experience_var >= 100
-						NOT = { has_trait = tesla_civil_engineer }
-					}
-				}
-				var:tesla_engineer_var = {
-					add_trait = tesla_civil_engineer
-				}
+			owner ?= {
 				trigger_event = {
 					id = academics.140
-					popup = yes
 				}
 			}
 		}
+		else = {
+			post_notification = academics_character_is_civil_engineer_notification
+		}
+		hidden_effect = {
+			add_trait = tesla_civil_engineer
+		}
 	}
+	#Add Academic Title if Character does not have one yet
+	academics_civil_engineer_add_academic_title_effect = yes
 }
 
 #Mechanical Engineer Experience gain
 mechanical_engineer_experience_gain_effect = { #adds XP to the Engineer
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
+	var:tesla_engineer_var ?= {
+		tesla_character_mechanical_engineer_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Mechanical Engineer Experience Gain Effect
+# scope = character
+tesla_character_mechanical_engineer_experience_gain_effect = { #adds Chemist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "tesla_character_mechanical_engineer_experience_gain_effect_loc"
+		subject = this
 		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = tesla_mechanical_engineer_experience_var
+				}
+			}
+			engineer_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = tesla_mechanical_engineer_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = tesla_mechanical_engineer_experience_var
+			min = 0
+			max = 300
+		}
 	}
 
+	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
-			has_variable = tesla_engineer_var #should only add experience if there actually is an Engineer
+			var:tesla_mechanical_engineer_experience_var >= 100
+			NOT = {
+				has_trait = tesla_mechanical_engineer
+			}
 		}
-		custom_tooltip = {
-			text = gaudi_mechanical_engineer_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:tesla_engineer_var = { #Fallback to make sure there are no errors if the Engineer does not have the variable yet
-							has_variable = tesla_mechanical_engineer_experience_var
-						}
-					}
-				}
-				var:tesla_engineer_var = { #Sets the experience in case it was not set yet
-					engineer_experience_set_up_effect = yes
-				}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:tesla_engineer_var ?= this
 			}
-			var:tesla_engineer_var = {
-				change_variable = {
-					name = tesla_mechanical_engineer_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = tesla_mechanical_engineer_experience_var
-					min = 0
-					max = 300
-				}
-			}
-			if = {
-				limit = {
-					var:tesla_engineer_var = {
-						var:tesla_mechanical_engineer_experience_var >= 100
-						NOT = { has_trait = tesla_mechanical_engineer }
-					}
-				}
-				var:tesla_engineer_var = {
-					add_trait = tesla_mechanical_engineer
-				}
+			owner ?= {
 				trigger_event = {
 					id = academics.141
-					popup = yes
 				}
 			}
 		}
+		else = {
+			post_notification = academics_character_is_mechanical_engineer_notification
+		}
+		hidden_effect = {
+			add_trait = tesla_mechanical_engineer
+		}
 	}
+	#Add Academic Title if Character does not have one yet
+	academics_mechanical_engineer_add_academic_title_effect = yes
 }
 
 #Military Engineer Experience gain
 military_engineer_experience_gain_effect = { #adds XP to the Engineer
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
+	var:tesla_engineer_var ?= {
+		tesla_character_military_engineer_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Military Engineer Experience Gain Effect
+# scope = character
+tesla_character_military_engineer_experience_gain_effect = { #adds Chemist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "tesla_character_military_engineer_experience_gain_effect_loc"
+		subject = this
 		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = tesla_military_engineer_experience_var
+				}
+			}
+			engineer_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = tesla_military_engineer_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = tesla_military_engineer_experience_var
+			min = 0
+			max = 300
+		}
 	}
 
+	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
-			has_variable = tesla_engineer_var #should only add experience if there actually is an Engineer
+			var:tesla_military_engineer_experience_var >= 100
+			NOT = {
+				has_trait = tesla_military_engineer
+			}
 		}
-		custom_tooltip = {
-			text = gaudi_military_engineer_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:tesla_engineer_var = { #Fallback to make sure there are no errors if the Engineer does not have the variable yet
-							has_variable = tesla_military_engineer_experience_var
-						}
-					}
-				}
-				var:tesla_engineer_var = { #Sets the experience in case it was not set yet
-					engineer_experience_set_up_effect = yes
-				}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:tesla_engineer_var ?= this
 			}
-			var:tesla_engineer_var = {
-				change_variable = {
-					name = tesla_military_engineer_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = tesla_military_engineer_experience_var
-					min = 0
-					max = 300
-				}
-			}
-			if = {
-				limit = {
-					var:tesla_engineer_var = {
-						var:tesla_military_engineer_experience_var >= 100
-						NOT = { has_trait = tesla_military_engineer }
-					}
-				}
-				var:tesla_engineer_var = {
-					add_trait = tesla_military_engineer
-				}
+			owner ?= {
 				trigger_event = {
 					id = academics.142
-					popup = yes
 				}
 			}
 		}
+		else = {
+			post_notification = academics_character_is_military_engineer_notification
+		}
+		hidden_effect = {
+			add_trait = tesla_military_engineer
+		}
 	}
+	#Add Academic Title if Character does not have one yet
+	academics_military_engineer_add_academic_title_effect = yes
 }
 
 #Electrical Engineer Experience gain
 electrical_engineer_experience_gain_effect = { #adds XP to the Engineer
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
+	var:tesla_engineer_var ?= {
+		tesla_character_electrical_engineer_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Electrical Engineer Experience Gain Effect
+# scope = character
+tesla_character_electrical_engineer_experience_gain_effect = { #adds Chemist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "tesla_character_electrical_engineer_experience_gain_effect_loc"
+		subject = this
 		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = tesla_electrical_engineer_experience_var
+				}
+			}
+			engineer_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = tesla_electrical_engineer_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = tesla_electrical_engineer_experience_var
+			min = 0
+			max = 300
+		}
 	}
 
+	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
-			has_variable = tesla_engineer_var #should only add experience if there actually is an Engineer
+			var:tesla_electrical_engineer_experience_var >= 100
+			NOT = {
+				has_trait = tesla_electrical_engineer
+			}
 		}
-		custom_tooltip = {
-			text = gaudi_electrical_engineer_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:tesla_engineer_var = { #Fallback to make sure there are no errors if the Engineer does not have the variable yet
-							has_variable = tesla_electrical_engineer_experience_var
-						}
-					}
-				}
-				var:tesla_engineer_var = { #Sets the experience in case it was not set yet
-					engineer_experience_set_up_effect = yes
-				}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:tesla_engineer_var ?= this
 			}
-			var:tesla_engineer_var = {
-				change_variable = {
-					name = tesla_electrical_engineer_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = tesla_electrical_engineer_experience_var
-					min = 0
-					max = 300
-				}
-			}
-			if = {
-				limit = {
-					var:tesla_engineer_var = {
-						var:tesla_electrical_engineer_experience_var >= 100
-						NOT = { has_trait = tesla_electrical_engineer }
-					}
-				}
-				var:tesla_engineer_var = {
-					add_trait = tesla_electrical_engineer
-				}
+			owner ?= {
 				trigger_event = {
 					id = academics.143
-					popup = yes
 				}
 			}
 		}
+		else = {
+			post_notification = academics_character_is_electrical_engineer_notification
+		}
+		hidden_effect = {
+			add_trait = tesla_electrical_engineer
+		}
 	}
+	#Add Academic Title if Character does not have one yet
+	academics_electrical_engineer_add_academic_title_effect = yes
 }
 
 #Aeronautical Engineer Experience gain
 aeronautical_engineer_experience_gain_effect = { #adds XP to the Engineer
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
+	var:tesla_engineer_var ?= {
+		tesla_character_aeronautical_engineer_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Aeronautical Engineer Experience Gain Effect
+# scope = character
+tesla_character_aeronautical_engineer_experience_gain_effect = { #adds Chemist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "tesla_character_aeronautical_engineer_experience_gain_effect_loc"
+		subject = this
 		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = tesla_aeronautical_engineer_experience_var
+				}
+			}
+			engineer_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = tesla_aeronautical_engineer_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = tesla_aeronautical_engineer_experience_var
+			min = 0
+			max = 300
+		}
 	}
 
+	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
-			has_variable = tesla_engineer_var #should only add experience if there actually is an Engineer
+			var:tesla_aeronautical_engineer_experience_var >= 100
+			NOT = {
+				has_trait = tesla_aeronautical_engineer
+			}
 		}
-		custom_tooltip = {
-			text = gaudi_aeronautical_engineer_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:tesla_engineer_var = { #Fallback to make sure there are no errors if the Engineer does not have the variable yet
-							has_variable = tesla_aeronautical_engineer_experience_var
-						}
-					}
-				}
-				var:tesla_engineer_var = { #Sets the experience in case it was not set yet
-					engineer_experience_set_up_effect = yes
-				}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:tesla_engineer_var ?= this
 			}
-			var:tesla_engineer_var = {
-				change_variable = {
-					name = tesla_aeronautical_engineer_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = tesla_aeronautical_engineer_experience_var
-					min = 0
-					max = 300
-				}
-			}
-			if = {
-				limit = {
-					var:tesla_engineer_var = {
-						var:tesla_aeronautical_engineer_experience_var >= 100
-						NOT = { has_trait = tesla_aeronautical_engineer }
-					}
-				}
-				var:tesla_engineer_var = {
-					add_trait = tesla_aeronautical_engineer
-				}
+			owner ?= {
 				trigger_event = {
 					id = academics.144
-					popup = yes
 				}
 			}
 		}
+		else = {
+			post_notification = academics_character_is_aeronautical_engineer_notification
+		}
+		hidden_effect = {
+			add_trait = tesla_aeronautical_engineer
+		}
 	}
+	#Add Academic Title if Character does not have one yet
+	academics_aeronautical_engineer_add_academic_title_effect = yes
 }
 
 #Sets the Engineer to be a Civil Engineer
@@ -1017,81 +872,16 @@ gaudi_set_aeronautical_engineer_effect = {
 	}
 }
 
-#No longer in use. COMMENTED OUT FOR NOW.
-# Used to set up the Experience of a character
-#engineer_experience_set_up_effect = {
-#	if = {
-#		limit = {
-#			NOT = {
-#				has_variable = gaudi_engineer_experience
-#			}
-#		}
-#		set_variable = {
-#			name = gaudi_engineer_experience
-#			value = age
-#		}
-#		change_variable = {
-#			name = gaudi_engineer_experience
-#			subtract = 30
-#		}
-#		change_variable = {
-#			name = gaudi_engineer_experience
-#			multiply = 10
-#		}
-#	}
-#}
-
-#No longer in use. COMMENTED OUT FOR NOW.
-#Engineer Experience gain
-#engineer_experience_gain_effect = { #adds XP to the Engineer
-#	# Amount = amount of XP to add
-#	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-#		name = xp_amount
-#		value = $AMOUNT$
-#	}
-#
-#	if = {
-#		limit = {
-#			has_variable = tesla_engineer_var #should only add experience if there actually is an Engineer
-#		}
-#		custom_tooltip = {
-#			text = gaudi_engineer_experience_gain_tt
-#			if = {
-#				limit = {
-#					NOT = {
-#						var:tesla_engineer_var = { #Fallback to make sure there are no errors if the Engineer does not have the variable yet
-#							has_variable = gaudi_engineer_experience
-#						}
-#					}
-#				}
-#				var:tesla_engineer_var = { #Sets the experience in case it was not set yet
-#					engineer_experience_set_up_effect = yes
-#				}
-#			}
-#			var:tesla_engineer_var = {
-#				change_variable = {
-#					name = gaudi_engineer_experience
-#					add = $AMOUNT$
-#				}
-#			}
-#		}
-#	}
-#}
-
 ######ASTRONOMER######
 
 #This effect kills the current Astronomer
 # !!! Change stuff in both of the following effects !!!
 kill_astronomer_effect = {
 	var:verrier_astronomer_var = {
-		free_character_from_void = no
+		kill_character = yes
 	}
 
 	remove_variable = verrier_astronomer_var
-	if = {
-		limit = { has_modifier = academics_astronomer_emeritus_delayed_modifier }
-		remove_modifier = academics_astronomer_emeritus_delayed_modifier
-	}
 }
 #This Effect retires the current Astronomer
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -1100,15 +890,11 @@ retire_astronomer_effect = {
 		text = retire_astronomer_effect_tt
 
 		var:verrier_astronomer_var = {
-			free_character_from_void = no
+			kill_character = yes
 		}
 	}
 
 	remove_variable = verrier_astronomer_var
-	if = {
-		limit = { has_modifier = academics_astronomer_emeritus_delayed_modifier }
-		remove_modifier = academics_astronomer_emeritus_delayed_modifier
-	}
 }
 
 # Set new Astronomer as official Astronomer
@@ -1121,7 +907,7 @@ verrier_set_new_astronomer_as_astronomer_effect = {
 				has_variable = verrier_astronomer_var
 			}
 			var:verrier_astronomer_var = {
-				free_character_from_void = no
+				set_character_busy_and_immortal = no
 			}
 		}
 
@@ -1153,9 +939,8 @@ verrier_set_new_astronomer_as_astronomer_effect = {
 
 # Remove new Astronomer
 verrier_remove_new_astronomer_effect = {
-	scope:verrier_new_astronomer_scope = {
-		free_character_from_void = no
-	}
+	custom_tooltip = verrier_astronomer_will_become_part_of_academia_tt
+
 	remove_variable = verrier_new_astronomer_var
 }
 
@@ -1192,105 +977,28 @@ astronomer_experience_set_up_effect = {
 		remove_trait = verrier_astronomer_experienced
 		add_trait = verrier_astronomer_famous
 	}
+
+	academics_astronomer_add_academic_title_effect = yes
 }
 
 #Astronomer Experience gain
 astronomer_experience_gain_effect = { #adds XP to the Astronomer
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
-		value = $AMOUNT$
-	}
-
-	if = {
-		limit = {
-			has_variable = verrier_astronomer_var #should only add experience if there actually is an Astronomer
-		}
-		custom_tooltip = {
-			text = verrier_astronomer_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:verrier_astronomer_var = { #Fallback to make sure there are no errors if the Astronomer does not have the variable yet
-							has_variable = verrier_astronomer_experience_var
-						}
-					}
-				}
-				var:verrier_astronomer_var = { #Sets the experience in case it was not set yet
-					astronomer_experience_set_up_effect = yes
-				}
-			}
-			var:verrier_astronomer_var = {
-				change_variable = {
-					name = verrier_astronomer_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = verrier_astronomer_experience_var
-					min = 0
-					max = 300
-				}
-			}
-		}
-		if = {
-			limit = {
-				var:verrier_astronomer_var = {
-					var:verrier_astronomer_experience_var >= 100
-					NOT = {
-						var:verrier_astronomer_experience_var >= 300
-					}
-					NOR = {
-						has_trait = verrier_astronomer_experienced
-						has_trait = verrier_astronomer_famous
-					}
-				}
-			}
-			var:verrier_astronomer_var = {
-				hidden_effect = {
-					remove_trait = verrier_astronomer
-					add_trait = verrier_astronomer_experienced
-				}
-			}
-			trigger_event = {
-				id = academics.102
-				popup = yes
-			}
-		}
-		if = {
-			limit = {
-				var:verrier_astronomer_var = {
-					var:verrier_astronomer_experience_var >= 300
-					NOT = {
-						has_trait = verrier_astronomer_famous
-					}
-				}
-			}
-			var:verrier_astronomer_var = {
-				hidden_effect = {
-					remove_trait = verrier_astronomer
-					remove_trait = verrier_astronomer_experienced
-					add_trait = verrier_astronomer_famous
-				}
-			}
-			trigger_event = {
-				id = academics.103
-				popup = yes
-			}
-		}
+	var:verrier_astronomer_var ?= {
+		verrier_character_astronomer_experience_gain_effect = { AMOUNT = $AMOUNT$ }
 	}
 }
 
-#Astronomer Experience gain
-astronomer_character_experience_gain_effect = { #adds XP to the Astronomer
-	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
+#Character Astronomer Experience Gain Effect
+# scope = character
+verrier_character_astronomer_experience_gain_effect = { #adds Astronomer XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "verrier_character_astronomer_experience_gain_effect_loc"
+		subject = this
 		value = $AMOUNT$
-	}
-	save_scope_as = character
 
-	custom_tooltip = {
-		text = verrier_astronomer_experience_gain_character_tt
+		#Fallback if there is no Experience yet
 		if = {
 			limit = {
 				NOT = {
@@ -1299,22 +1007,24 @@ astronomer_character_experience_gain_effect = { #adds XP to the Astronomer
 			}
 			astronomer_experience_set_up_effect = yes
 		}
+		#Actual change of Experience
 		change_variable = {
 			name = verrier_astronomer_experience_var
 			add = $AMOUNT$
 		}
+		#Clamping to prevent overflow
 		clamp_variable = {
 			name = verrier_astronomer_experience_var
 			min = 0
 			max = 300
 		}
 	}
+
+	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
 			var:verrier_astronomer_experience_var >= 100
-			NOT = {
-				var:verrier_astronomer_experience_var >= 300
-			}
+			var:verrier_astronomer_experience_var < 300
 			NOR = {
 				has_trait = verrier_astronomer_experienced
 				has_trait = verrier_astronomer_famous
@@ -1322,11 +1032,22 @@ astronomer_character_experience_gain_effect = { #adds XP to the Astronomer
 		}
 		if = {
 			limit = {
-				has_trait = verrier_astronomer
+				exists = owner
+				owner.var:verrier_astronomer_var ?= this
 			}
-			remove_trait = verrier_astronomer
+			owner ?= {
+				trigger_event = {
+					id = academics.102
+				}
+			}
 		}
-		add_trait = verrier_astronomer_experienced
+		else = {
+			post_notification = academics_character_is_experienced_notification
+		}
+		hidden_effect = {
+			remove_trait = verrier_astronomer
+			add_trait = verrier_astronomer_experienced
+		}
 	}
 	if = {
 		limit = {
@@ -1337,18 +1058,30 @@ astronomer_character_experience_gain_effect = { #adds XP to the Astronomer
 		}
 		if = {
 			limit = {
-				has_trait = verrier_astronomer
+				exists = owner
+				owner.var:verrier_astronomer_var ?= this
 			}
-			remove_trait = verrier_astronomer
+			owner ?= {
+				trigger_event = {
+					id = academics.103
+				}
+			}
 		}
-		if = {
-			limit = {
-				has_trait = verrier_astronomer_experienced
+		else = {
+			post_notification = academics_character_is_famous_notification
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_trait = verrier_astronomer }
+				remove_trait = verrier_astronomer
 			}
 			remove_trait = verrier_astronomer_experienced
+			add_trait = verrier_astronomer_famous
 		}
-		add_trait = verrier_astronomer_famous
 	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_astronomer_add_academic_title_effect = yes
 }
 
 ######Chemist######
@@ -1357,14 +1090,10 @@ astronomer_character_experience_gain_effect = { #adds XP to the Astronomer
 # !!! Change stuff in both of the following effects !!!
 kill_chemist_effect = {
 	var:mendelejew_chemist_var = {
-		free_character_from_void = no
+		kill_character = yes
 	}
 
 	remove_variable = mendelejew_chemist_var
-	if = {
-		limit = { has_modifier = academics_chemist_emeritus_delayed_modifier }
-		remove_modifier = academics_chemist_emeritus_delayed_modifier
-	}
 }
 #This Effect retires the current Chemist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -1373,15 +1102,11 @@ retire_chemist_effect = {
 		text = retire_chemist_effect_tt
 
 		var:mendelejew_chemist_var = {
-			free_character_from_void = no
+			kill_character = yes
 		}
 	}
 
 	remove_variable = mendelejew_chemist_var
-	if = {
-		limit = { has_modifier = academics_chemist_emeritus_delayed_modifier }
-		remove_modifier = academics_chemist_emeritus_delayed_modifier
-	}
 }
 
 #Set Chemist unbusy
@@ -1403,7 +1128,7 @@ mendelejew_set_new_chemist_as_chemist_effect = {
 				has_variable = mendelejew_chemist_var
 			}
 			var:mendelejew_chemist_var = {
-				free_character_from_void = no
+				set_character_busy_and_immortal = no
 			}
 		}
 
@@ -1439,9 +1164,7 @@ mendelejew_set_new_chemist_as_chemist_effect = {
 
 # Remove new Chemist
 mendelejew_remove_new_chemist_effect = {
-	scope:mendelejew_new_chemist_scope = {
-		free_character_from_void = no
-	}
+	custom_tooltip = mendelejew_chemist_will_become_part_of_academia_tt
 	remove_variable = mendelejew_new_chemist_var
 }
 
@@ -1478,95 +1201,110 @@ chemist_experience_set_up_effect = {
 		remove_trait = mendelejew_chemist_experienced
 		add_trait = mendelejew_chemist_famous
 	}
+
+	academics_chemist_add_academic_title_effect = yes
 }
 
 #Chemist Experience gain
-chemist_experience_gain_effect = { #adds XP to the Chemist
-	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
+chemist_experience_gain_effect = { #adds Chemist XP to the official Chemist
+	var:mendelejew_chemist_var ?= {
+		mendelejew_character_chemist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Chemist Experience Gain Effect
+# scope = character
+mendelejew_character_chemist_experience_gain_effect = { #adds Chemist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "mendelejew_character_chemist_experience_gain_effect_loc"
+		subject = this
 		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = mendelejew_chemist_experience_var
+				}
+			}
+			chemist_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = mendelejew_chemist_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = mendelejew_chemist_experience_var
+			min = 0
+			max = 300
+		}
 	}
 
+	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
-			has_variable = mendelejew_chemist_var #should only add experience if there actually is an Chemist
-		}
-		custom_tooltip = {
-			text = mendelejew_chemist_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:mendelejew_chemist_var = { #Fallback to make sure there are no errors if the Chemist does not have the variable yet
-							has_variable = mendelejew_chemist_experience_var
-						}
-					}
-				}
-				var:mendelejew_chemist_var = { #Sets the experience in case it was not set yet
-					chemist_experience_set_up_effect = yes
-				}
-			}
-			var:mendelejew_chemist_var = {
-				change_variable = {
-					name = mendelejew_chemist_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = mendelejew_chemist_experience_var
-					min = 0
-					max = 300
-				}
+			var:mendelejew_chemist_experience_var >= 100
+			var:mendelejew_chemist_experience_var < 300
+			NOR = {
+				has_trait = mendelejew_chemist_experienced
+				has_trait = mendelejew_chemist_famous
 			}
 		}
 		if = {
 			limit = {
-				var:mendelejew_chemist_var = {
-					var:mendelejew_chemist_experience_var >= 100
-					NOT = {
-						var:mendelejew_chemist_experience_var >= 300
-					}
-					NOR = {
-						has_trait = mendelejew_chemist_experienced
-						has_trait = mendelejew_chemist_famous
-					}
-				}
+				exists = owner
+				owner.var:mendelejew_chemist_var ?= this
 			}
-			trigger_event = {
-				id = academics.104
-				popup = yes
-			}
-			var:mendelejew_chemist_var = {
-				hidden_effect = {
-					remove_trait = mendelejew_chemist
-					add_trait = mendelejew_chemist_experienced
+			owner ?= {
+				trigger_event = {
+					id = academics.104
 				}
 			}
 		}
-		if = {
-			limit = {
-				var:mendelejew_chemist_var = {
-					var:mendelejew_chemist_experience_var >= 300
-					NOT = {
-						has_trait = mendelejew_chemist_famous
-					}
-				}
-			}
-			trigger_event = {
-				id = academics.105
-				popup = yes
-			}
-			var:mendelejew_chemist_var = {
-				hidden_effect = {
-					if = {
-						limit = { has_trait = mendelejew_chemist }
-						remove_trait = mendelejew_chemist
-					}
-					remove_trait = mendelejew_chemist_experienced
-					add_trait = mendelejew_chemist_famous
-				}
-			}
+		else = {
+			post_notification = academics_character_is_experienced_notification
+		}
+		hidden_effect = {
+			remove_trait = mendelejew_chemist
+			add_trait = mendelejew_chemist_experienced
 		}
 	}
+	if = {
+		limit = {
+			var:mendelejew_chemist_experience_var >= 300
+			NOT = {
+				has_trait = mendelejew_chemist_famous
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:mendelejew_chemist_var ?= this
+			}
+			owner ?= {
+				trigger_event = {
+					id = academics.105
+				}
+			}
+		}
+		else = {
+			post_notification = academics_character_is_famous_notification
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_trait = mendelejew_chemist }
+				remove_trait = mendelejew_chemist
+			}
+			remove_trait = mendelejew_chemist_experienced
+			add_trait = mendelejew_chemist_famous
+		}
+	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_chemist_add_academic_title_effect = yes
 }
 
 set_start_chemist_stats_effect = {
@@ -1606,14 +1344,10 @@ set_start_chemist_stats_effect = {
 # !!! Change stuff in both of the following effects !!!
 kill_physicist_effect = {
 	var:curie_physicist_var = {
-		free_character_from_void = no
+		kill_character = yes
 	}
 
 	remove_variable = curie_physicist_var
-	if = {
-		limit = { has_modifier = academics_physicist_emeritus_delayed_modifier }
-		remove_modifier = academics_physicist_emeritus_delayed_modifier
-	}
 }
 #This Effect retires the current Physicist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -1622,15 +1356,11 @@ retire_physicist_effect = {
 		text = retire_physicist_effect_tt
 
 		var:curie_physicist_var = {
-			free_character_from_void = no
+			kill_character = yes
 		}
 	}
 
 	remove_variable = curie_physicist_var
-	if = {
-		limit = { has_modifier = academics_physicist_emeritus_delayed_modifier }
-		remove_modifier = academics_physicist_emeritus_delayed_modifier
-	}
 }
 
 # Set new Physicist as official Physicist
@@ -1643,7 +1373,7 @@ curie_set_new_physicist_as_physicist_effect = {
 				has_variable = curie_physicist_var
 			}
 			var:curie_physicist_var = {
-				free_character_from_void = no
+				set_character_busy_and_immortal = no
 			}
 		}
 
@@ -1658,9 +1388,7 @@ curie_set_new_physicist_as_physicist_effect = {
 
 # Remove new Physicist
 curie_remove_new_physicist_effect = {
-	scope:curie_new_physicist_scope = {
-		free_character_from_void = no
-	}
+	custom_tooltip = curie_physicist_will_become_part_of_academia_tt
 
 	remove_variable = curie_new_physicist_var
 }
@@ -1669,15 +1397,15 @@ curie_remove_new_physicist_effect = {
 physicist_experience_set_up_effect = {
 	#Adds physicist experience (see effect for further information)
 	general_experience_set_up_effect = {
-		TYPE = curie_physicist_experience
+		TYPE = curie_physicist_experience_var
 		UNI_PM = pm_dubois_university_mathematics
 	}
 
-	if = { #Adds the Experienced Astronomer Trait if Experience is above 100
+	if = { #Adds the Experienced Physicist Trait if Experience is above 100
 		limit = {
-			var:curie_physicist_experience >= 100
+			var:curie_physicist_experience_var >= 100
 			NOT = {
-				var:curie_physicist_experience >= 300
+				var:curie_physicist_experience_var >= 300
 			}
 			NOR = {
 				has_trait = curie_physicist_experienced
@@ -1687,9 +1415,9 @@ physicist_experience_set_up_effect = {
 		remove_trait = curie_physicist
 		add_trait = curie_physicist_experienced
 	}
-	if = { #Adds the Famous Astronomer Trait if Experience is above 300
+	if = { #Adds the Famous Physicist Trait if Experience is above 300
 		limit = {
-			var:curie_physicist_experience >= 300
+			var:curie_physicist_experience_var >= 300
 			NOT = {
 				has_trait = curie_physicist_famous
 			}
@@ -1698,95 +1426,111 @@ physicist_experience_set_up_effect = {
 		remove_trait = curie_physicist_experienced
 		add_trait = curie_physicist_famous
 	}
+
+	academics_physicist_add_academic_title_effect = yes
 }
 
 #Physicist Experience gain
 physicist_experience_gain_effect = { #adds XP to the Physicist
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
+	var:curie_physicist_var ?= {
+		curie_character_physicist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Physicist Experience Gain Effect
+# scope = character
+curie_character_physicist_experience_gain_effect = { #adds Physicist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "curie_character_physicist_experience_gain_effect_loc"
+		subject = this
 		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = curie_physicist_experience_var
+				}
+			}
+			physicist_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = curie_physicist_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = curie_physicist_experience_var
+			min = 0
+			max = 300
+		}
 	}
 
+	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
-			has_variable = curie_physicist_var #should only add experience if there actually is an Physicist
-		}
-		custom_tooltip = {
-			text = curie_physicist_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:curie_physicist_var = { #Fallback to make sure there are no errors if the Physicist does not have the variable yet
-							has_variable = curie_physicist_experience
-						}
-					}
-				}
-				var:curie_physicist_var = { #Sets the experience in case it was not set yet
-					physicist_experience_set_up_effect = yes
-				}
-			}
-			var:curie_physicist_var = {
-				change_variable = {
-					name = curie_physicist_experience
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = curie_physicist_experience
-					min = 0
-					max = 300
-				}
+			var:curie_physicist_experience_var >= 100
+			var:curie_physicist_experience_var < 300
+			NOR = {
+				has_trait = curie_physicist_experienced
+				has_trait = curie_physicist_famous
 			}
 		}
 		if = {
 			limit = {
-				var:curie_physicist_var = {
-					var:curie_physicist_experience >= 100
-					NOT = {
-						var:curie_physicist_experience >= 300
-					}
-					NOR = {
-						has_trait = curie_physicist_experienced
-						has_trait = curie_physicist_famous
-					}
-				}
+				exists = owner
+				owner.var:curie_physicist_var ?= this
 			}
-			trigger_event = {
-				id = academics.106
-				popup = yes
-			}
-			var:curie_physicist_var = {
-				hidden_effect = {
-					remove_trait = curie_physicist
-					add_trait = curie_physicist_experienced
+			owner ?= {
+				trigger_event = {
+					id = academics.106
 				}
 			}
 		}
-		if = {
-			limit = {
-				var:curie_physicist_var = {
-					var:curie_physicist_experience >= 300
-					NOT = {
-						has_trait = curie_physicist_famous
-					}
-				}
-			}
-			trigger_event = {
-				id = academics.107
-				popup = yes
-			}
-			var:curie_physicist_var = {
-				hidden_effect = {
-					if = {
-						limit = { has_trait = curie_physicist }
-						remove_trait = curie_physicist
-					}
-					remove_trait = curie_physicist_experienced
-					add_trait = curie_physicist_famous
-				}
-			}
+		else = {
+			post_notification = academics_character_is_experienced_notification
+		}
+		hidden_effect = {
+			remove_trait = curie_physicist
+			add_trait = curie_physicist_experienced
 		}
 	}
+	if = {
+		limit = {
+			var:curie_physicist_experience_var >= 300
+			NOT = {
+				has_trait = curie_physicist_famous
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:curie_physicist_var ?= this
+			}
+			owner ?= {
+				trigger_event = {
+					id = academics.107
+				}
+			}
+		}
+		else = {
+			post_notification = academics_character_is_famous_notification
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_trait = curie_physicist }
+				remove_trait = curie_physicist
+			}
+			remove_trait = curie_physicist_experienced
+			add_trait = curie_physicist_famous
+		}
+	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_physicist_add_academic_title_effect = yes
 }
 
 ######GEOLOGIST######
@@ -1795,14 +1539,10 @@ physicist_experience_gain_effect = { #adds XP to the Physicist
 # !!! Change stuff in both of the following effects !!!
 kill_geologist_effect = {
 	var:agassiz_geologist_var = {
-		free_character_from_void = no
+		kill_character = yes
 	}
 
 	remove_variable = agassiz_geologist_var
-	if = {
-		limit = { has_modifier = academics_geologist_emeritus_delayed_modifier }
-		remove_modifier = academics_geologist_emeritus_delayed_modifier
-	}
 }
 #This Effect retires the current Geologist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -1811,15 +1551,11 @@ retire_geologist_effect = {
 		text = retire_geologist_effect_tt
 
 		var:agassiz_geologist_var = {
-			free_character_from_void = no
+			kill_character = yes
 		}
 	}
 
 	remove_variable = agassiz_geologist_var
-	if = {
-		limit = { has_modifier = academics_geologist_emeritus_delayed_modifier }
-		remove_modifier = academics_geologist_emeritus_delayed_modifier
-	}
 }
 
 # Set new Geologist as official Geologist
@@ -1832,7 +1568,7 @@ dubois_set_new_geologist_as_geologist_effect = {
 				has_variable = agassiz_geologist_var
 			}
 			var:agassiz_geologist_var = {
-				free_character_from_void = no
+				set_character_busy_and_immortal = no
 			}
 		}
 
@@ -1862,16 +1598,14 @@ dubois_set_new_geologist_as_geologist_effect = {
 
 		#AI action/Automation
 		ai_geology_automation_effect = yes
-		
+
 		remove_variable = agassiz_new_geologist_var
 	}
 }
 
 # Remove new Geologist
 agassiz_remove_new_geologist_effect = {
-	scope:agassiz_new_geologist_scope = {
-		free_character_from_void = no
-	}
+	custom_tooltip = dubois_geologist_will_become_part_of_academia_tt
 	remove_variable = agassiz_new_geologist_var
 }
 
@@ -1916,92 +1650,111 @@ geologist_experience_set_up_effect = {
 		remove_trait = agassiz_geologist_experienced
 		add_trait = agassiz_geologist_famous
 	}
+
+	academics_geologist_add_academic_title_effect = yes
 }
 
 #Geologist Experience gain
 geologist_experience_gain_effect = { #adds XP to the Geologist
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
+	var:agassiz_geologist_var ?= {
+		agassiz_character_geologist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Geologist Experience Gain Effect
+# scope = character
+agassiz_character_geologist_experience_gain_effect = { #adds Geologist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "agassiz_character_geologist_experience_gain_effect_loc"
+		subject = this
 		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = agassiz_geologist_experience_var
+				}
+			}
+			geologist_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = agassiz_geologist_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = agassiz_geologist_experience_var
+			min = 0
+			max = 300
+		}
 	}
 
+	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
-			has_variable = agassiz_geologist_var #should only add experience if there actually is an Geologist
-		}
-		custom_tooltip = {
-			text = dubois_geologist_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:agassiz_geologist_var = { #Fallback to make sure there are no errors if the Geologist does not have the variable yet
-							has_variable = agassiz_geologist_experience_var
-						}
-					}
-				}
-				var:agassiz_geologist_var = { #Sets the experience in case it was not set yet
-					geologist_experience_set_up_effect = yes
-				}
-			}
-			var:agassiz_geologist_var = {
-				change_variable = {
-					name = agassiz_geologist_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = agassiz_geologist_experience_var
-					min = 0
-					max = 300
-				}
+			var:agassiz_geologist_experience_var >= 100
+			var:agassiz_geologist_experience_var < 300
+			NOR = {
+				has_trait = agassiz_geologist_experienced
+				has_trait = agassiz_geologist_famous
 			}
 		}
 		if = {
 			limit = {
-				var:agassiz_geologist_var = {
-					var:agassiz_geologist_experience_var >= 100
-					NOT = {
-						var:agassiz_geologist_experience_var >= 300
-					}
-					NOR = {
-						has_trait = agassiz_geologist_experienced
-						has_trait = agassiz_geologist_famous
-					}
-				}
+				exists = owner
+				owner.var:agassiz_geologist_var ?= this
 			}
-			trigger_event = {
-				id = academics.108
-				popup = yes
-			}
-			var:agassiz_geologist_var = {
-				hidden_effect = {
-					remove_trait = agassiz_geologist
-					add_trait = agassiz_geologist_experienced
+			owner ?= {
+				trigger_event = {
+					id = academics.108
 				}
 			}
 		}
-		if = {
-			limit = {
-				var:agassiz_geologist_var = {
-					var:agassiz_geologist_experience_var >= 300
-					NOT = {
-						has_trait = agassiz_geologist_famous
-					}
-				}
-			}
-			trigger_event = {
-				id = academics.109
-				popup = yes
-			}
-			hidden_effect = {
-				var:agassiz_geologist_var = {
-					remove_trait = agassiz_geologist
-					remove_trait = agassiz_geologist_experienced
-					add_trait = agassiz_geologist_famous
-				}
-			}
+		else = {
+			post_notification = academics_character_is_experienced_notification
+		}
+		hidden_effect = {
+			remove_trait = agassiz_geologist
+			add_trait = agassiz_geologist_experienced
 		}
 	}
+	if = {
+		limit = {
+			var:agassiz_geologist_experience_var >= 300
+			NOT = {
+				has_trait = agassiz_geologist_famous
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:agassiz_geologist_var ?= this
+			}
+			owner ?= {
+				trigger_event = {
+					id = academics.109
+				}
+			}
+		}
+		else = {
+			post_notification = academics_character_is_famous_notification
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_trait = agassiz_geologist }
+				remove_trait = agassiz_geologist
+			}
+			remove_trait = agassiz_geologist_experienced
+			add_trait = agassiz_geologist_famous
+		}
+	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_geologist_add_academic_title_effect = yes
 }
 
 ######NATURALIST######
@@ -2009,18 +1762,11 @@ geologist_experience_gain_effect = { #adds XP to the Geologist
 # !!! Change stuff in both of the following effects !!!
 #This Effect kills the current Naturalist
 kill_naturalist_effect = {
-	var:dubois_naturalist_var = {
-		free_character_from_void = no
+	var:ito_naturalist_var = {
+		kill_character = yes
 	}
 
-	remove_variable = dubois_naturalist_var
-
-	if = {
-		limit = {
-			has_modifier = academics_naturalist_emeritus_delayed_modifier
-		}
-		remove_modifier = academics_naturalist_emeritus_delayed_modifier
-	}
+	remove_variable = ito_naturalist_var
 }
 #This Effect retires the current Naturalist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -2028,19 +1774,12 @@ retire_naturalist_effect = {
 	custom_tooltip = {
 		text = retire_naturalist_effect_tt
 
-		var:dubois_naturalist_var = {
-			free_character_from_void = no
+		var:ito_naturalist_var = {
+			kill_character = yes
 		}
 	}
 
-	remove_variable = dubois_naturalist_var
-
-	if = {
-		limit = {
-			has_modifier = academics_naturalist_emeritus_delayed_modifier
-		}
-		remove_modifier = academics_naturalist_emeritus_delayed_modifier
-	}
+	remove_variable = ito_naturalist_var
 }
 
 # Set new Naturalist as official Naturalist
@@ -2050,15 +1789,15 @@ dubois_set_new_naturalist_as_naturalist_effect = {
 
 		if = {
 			limit = {
-				has_variable = dubois_naturalist_var
+				has_variable = ito_naturalist_var
 			}
-			var:dubois_naturalist_var = {
-				free_character_from_void = no
+			var:ito_naturalist_var = {
+				set_character_busy_and_immortal = no
 			}
 		}
 
 		set_variable = {
-			name = dubois_naturalist_var
+			name = ito_naturalist_var
 			value = scope:dubois_new_naturalist_scope
 		}
 
@@ -2067,7 +1806,7 @@ dubois_set_new_naturalist_as_naturalist_effect = {
 		#Sets Naturalist busy if there is an ongoing project
 		if = {
 			limit = { dubois_naturalist_project_active_trigger = yes }
-			var:dubois_naturalist_var = {
+			var:ito_naturalist_var = {
 				set_character_busy_and_immortal = yes
 			}
 		}
@@ -2081,9 +1820,7 @@ dubois_set_new_naturalist_as_naturalist_effect = {
 
 # Remove new Naturalist
 dubois_remove_new_naturalist_effect = {
-	scope:dubois_new_naturalist_scope = {
-		free_character_from_void = no
-	}
+	custom_tooltip = ito_naturalist_will_become_part_of_academia_tt
 
 	remove_variable = dubois_new_naturalist_var
 }
@@ -2091,7 +1828,7 @@ dubois_remove_new_naturalist_effect = {
 #Set Naturalist unbusy
 # Made this effect to have a central effect for it and to fire the ai_automation from the same effect
 ito_set_naturalist_unbusy_effect = {
-	var:dubois_naturalist_var ?= {
+	var:ito_naturalist_var ?= {
 		set_character_busy_and_immortal = no
 	}
 	# ai_naturalist_automation_effect = yes
@@ -2100,15 +1837,15 @@ ito_set_naturalist_unbusy_effect = {
 # Used to set up the Experience of a character
 naturalist_experience_set_up_effect = {
 	general_experience_set_up_effect = {
-		TYPE = dubois_naturalist_experience_var
+		TYPE = ito_naturalist_experience_var
 		UNI_PM = pm_dubois_university_natural_history
 	}
 
 	if = { #Adds the Experienced Astronomer Trait if Experience is above 100
 		limit = {
-			var:dubois_naturalist_experience_var >= 100
+			var:ito_naturalist_experience_var >= 100
 			NOT = {
-				var:dubois_naturalist_experience_var >= 300
+				var:ito_naturalist_experience_var >= 300
 			}
 			NOR = {
 				has_trait = ito_naturalist_experienced
@@ -2120,7 +1857,7 @@ naturalist_experience_set_up_effect = {
 	}
 	if = { #Adds the Famous Astronomer Trait if Experience is above 300
 		limit = {
-			var:dubois_naturalist_experience_var >= 300
+			var:ito_naturalist_experience_var >= 300
 			NOT = {
 				has_trait = ito_naturalist_famous
 			}
@@ -2134,92 +1871,111 @@ naturalist_experience_set_up_effect = {
 		name = ito_character_num_animal_documentations_var
 		value = 0
 	}
+
+	academics_naturalist_add_academic_title_effect = yes
 }
 
 #Naturalist Experience gain
 naturalist_experience_gain_effect = { #adds XP to the Naturalist
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
+	var:ito_naturalist_var ?= {
+		ito_character_naturalist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Naturalist Experience Gain Effect
+# scope = character
+ito_character_naturalist_experience_gain_effect = { #adds Naturalist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "ito_character_naturalist_experience_gain_effect_loc"
+		subject = this
 		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = ito_naturalist_experience_var
+				}
+			}
+			naturalist_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = ito_naturalist_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = ito_naturalist_experience_var
+			min = 0
+			max = 300
+		}
 	}
 
+	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
-			has_variable = dubois_naturalist_var #should only add experience if there actually is an Naturalist
-		}
-		custom_tooltip = {
-			text = dubois_naturalist_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:dubois_naturalist_var = { #Fallback to make sure there are no errors if the Naturalist does not have the variable yet
-							has_variable = dubois_naturalist_experience_var
-						}
-					}
-				}
-				var:dubois_naturalist_var = { #Sets the experience in case it was not set yet
-					naturalist_experience_set_up_effect = yes
-				}
-			}
-			var:dubois_naturalist_var = {
-				change_variable = {
-					name = dubois_naturalist_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = dubois_naturalist_experience_var
-					min = 0
-					max = 300
-				}
+			var:ito_naturalist_experience_var >= 100
+			var:ito_naturalist_experience_var < 300
+			NOR = {
+				has_trait = ito_naturalist_experienced
+				has_trait = ito_naturalist_famous
 			}
 		}
 		if = {
 			limit = {
-				var:dubois_naturalist_var = {
-					var:dubois_naturalist_experience_var >= 100
-					NOT = {
-						var:dubois_naturalist_experience_var >= 300
-					}
-					NOR = {
-						has_trait = ito_naturalist_experienced
-						has_trait = ito_naturalist_famous
-					}
-				}
+				exists = owner
+				owner.var:ito_naturalist_var ?= this
 			}
-			trigger_event = {
-				id = academics.110
-				popup = yes
-			}
-			hidden_effect = {
-				var:dubois_naturalist_var = {
-					remove_trait = ito_naturalist
-					add_trait = ito_naturalist_experienced
+			owner ?= {
+				trigger_event = {
+					id = academics.110
 				}
 			}
 		}
-		if = {
-			limit = {
-				var:dubois_naturalist_var = {
-					var:dubois_naturalist_experience_var >= 300
-					NOT = {
-						has_trait = ito_naturalist_famous
-					}
-				}
-			}
-			trigger_event = {
-				id = academics.111
-				popup = yes
-			}
-			hidden_effect = {
-				var:dubois_naturalist_var = {
-					remove_trait = ito_naturalist
-					remove_trait = ito_naturalist_experienced
-					add_trait = ito_naturalist_famous
-				}
-			}
+		else = {
+			post_notification = academics_character_is_experienced_notification
+		}
+		hidden_effect = {
+			remove_trait = ito_naturalist
+			add_trait = ito_naturalist_experienced
 		}
 	}
+	if = {
+		limit = {
+			var:ito_naturalist_experience_var >= 300
+			NOT = {
+				has_trait = ito_naturalist_famous
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:ito_naturalist_var ?= this
+			}
+			owner ?= {
+				trigger_event = {
+					id = academics.111
+				}
+			}
+		}
+		else = {
+			post_notification = academics_character_is_famous_notification
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_trait = ito_naturalist }
+				remove_trait = ito_naturalist
+			}
+			remove_trait = ito_naturalist_experienced
+			add_trait = ito_naturalist_famous
+		}
+	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_naturalist_add_academic_title_effect = yes
 }
 
 ######PALEONTOLOGIST######
@@ -2228,15 +1984,11 @@ naturalist_experience_gain_effect = { #adds XP to the Naturalist
 # !!! Change stuff in both of the following effects !!!
 kill_paleontologist_effect = {
 	var:dubois_paleontologist_var = {
-		free_character_from_void = no
+		kill_character = yes
 	}
 
 	#Additional effects
 	remove_variable = dubois_paleontologist_var
-	if = {
-		limit = { has_modifier = academics_paleontologist_emeritus_delayed_modifier }
-		remove_modifier = academics_paleontologist_emeritus_delayed_modifier
-	}
 }
 #This Effect retires the current Paleontologist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -2245,16 +1997,12 @@ retire_paleontologist_effect = {
 		text = retire_paleontologist_effect_tt
 
 		var:dubois_paleontologist_var = {
-			free_character_from_void = no
+			kill_character = yes
 		}
 	}
 
 	#Additional effects
 	remove_variable = dubois_paleontologist_var
-	if = {
-		limit = { has_modifier = academics_paleontologist_emeritus_delayed_modifier }
-		remove_modifier = academics_paleontologist_emeritus_delayed_modifier
-	}
 }
 
 # Set new Paleontologist as official Paleontologist
@@ -2267,7 +2015,7 @@ dubois_set_new_paleontologist_as_paleontologist_effect = {
 				has_variable = dubois_paleontologist_var
 			}
 			var:dubois_paleontologist_var = {
-				free_character_from_void = no
+				set_character_busy_and_immortal = no
 			}
 		}
 
@@ -2302,9 +2050,7 @@ dubois_set_new_paleontologist_as_paleontologist_effect = {
 
 # Remove new Paleontologist
 dubois_remove_new_paleontologist_effect = {
-	scope:dubois_new_paleontologist_scope = {
-		free_character_from_void = no
-	}
+	custom_tooltip = dubois_paleontologist_will_become_part_of_academia_tt
 
 	remove_variable = dubois_new_paleontologist_var
 }
@@ -2340,92 +2086,111 @@ paleontologist_experience_set_up_effect = {
 		remove_trait = dubois_paleontologist_experienced
 		add_trait = dubois_paleontologist_famous
 	}
+
+	academics_paleontologist_add_academic_title_effect = yes
 }
 
 #Paleontologist Experience gain
 paleontologist_experience_gain_effect = { #adds XP to the Paleontologist
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
+	var:dubois_paleontologist_var ?= {
+		dubois_character_paleontologist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Paleontologist Experience Gain Effect
+# scope = character
+dubois_character_paleontologist_experience_gain_effect = { #adds Paleontologist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "dubois_character_paleontologist_experience_gain_effect_loc"
+		subject = this
 		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = dubois_paleontologist_experience_var
+				}
+			}
+			paleontologist_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = dubois_paleontologist_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = dubois_paleontologist_experience_var
+			min = 0
+			max = 300
+		}
 	}
 
+	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
-			has_variable = dubois_paleontologist_var #should only add experience if there actually is an Paleontologist
-		}
-		custom_tooltip = {
-			text = dubois_paleontologist_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:dubois_paleontologist_var = { #Fallback to make sure there are no errors if the Paleontologist does not have the variable yet
-							has_variable = dubois_paleontologist_experience_var
-						}
-					}
-				}
-				var:dubois_paleontologist_var = { #Sets the experience in case it was not set yet
-					paleontologist_experience_set_up_effect = yes
-				}
-			}
-			var:dubois_paleontologist_var = {
-				change_variable = {
-					name = dubois_paleontologist_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = dubois_paleontologist_experience_var
-					min = 0
-					max = 300
-				}
+			var:dubois_paleontologist_experience_var >= 100
+			var:dubois_paleontologist_experience_var < 300
+			NOR = {
+				has_trait = dubois_paleontologist_experienced
+				has_trait = dubois_paleontologist_famous
 			}
 		}
 		if = {
 			limit = {
-				var:dubois_paleontologist_var = {
-					var:dubois_paleontologist_experience_var >= 100
-					NOT = {
-						var:dubois_paleontologist_experience_var >= 300
-					}
-					NOR = {
-						has_trait = dubois_paleontologist_experienced
-						has_trait = dubois_paleontologist_famous
-					}
-				}
+				exists = owner
+				owner.var:dubois_paleontologist_var ?= this
 			}
-			trigger_event = {
-				id = academics.112
-				popup = yes
-			}
-			hidden_effect = {
-				var:dubois_paleontologist_var = {
-					remove_trait = dubois_paleontologist
-					add_trait = dubois_paleontologist_experienced
+			owner ?= {
+				trigger_event = {
+					id = academics.112
 				}
 			}
 		}
-		if = {
-			limit = {
-				var:dubois_paleontologist_var = {
-					var:dubois_paleontologist_experience_var >= 300
-					NOT = {
-						has_trait = dubois_paleontologist_famous
-					}
-				}
-			}
-			trigger_event = {
-				id = academics.113
-				popup = yes
-			}
-			hidden_effect = {
-				var:dubois_paleontologist_var = {
-					remove_trait = dubois_paleontologist
-					remove_trait = dubois_paleontologist_experienced
-					add_trait = dubois_paleontologist_famous
-				}
-			}
+		else = {
+			post_notification = academics_character_is_experienced_notification
+		}
+		hidden_effect = {
+			remove_trait = dubois_paleontologist
+			add_trait = dubois_paleontologist_experienced
 		}
 	}
+	if = {
+		limit = {
+			var:dubois_paleontologist_experience_var >= 300
+			NOT = {
+				has_trait = dubois_paleontologist_famous
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:dubois_paleontologist_var ?= this
+			}
+			owner ?= {
+				trigger_event = {
+					id = academics.113
+				}
+			}
+		}
+		else = {
+			post_notification = academics_character_is_famous_notification
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_trait = dubois_paleontologist }
+				remove_trait = dubois_paleontologist
+			}
+			remove_trait = dubois_paleontologist_experienced
+			add_trait = dubois_paleontologist_famous
+		}
+	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_paleontologist_add_academic_title_effect = yes
 }
 
 ######Biologist######
@@ -2434,14 +2199,10 @@ paleontologist_experience_gain_effect = { #adds XP to the Paleontologist
 # !!! Change stuff in both of the following effects !!!
 kill_biologist_effect = {
 	var:theiler_biologist_var = {
-		free_character_from_void = no
+		kill_character = yes
 	}
 
 	remove_variable = theiler_biologist_var
-	if = {
-		limit = { has_modifier = academics_biologist_emeritus_delayed_modifier }
-		remove_modifier = academics_biologist_emeritus_delayed_modifier
-	}
 }
 #This Effect retires the current Biologist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -2450,15 +2211,11 @@ retire_biologist_effect = {
 		text = retire_biologist_effect_tt
 
 		var:theiler_biologist_var = {
-			free_character_from_void = no
+			kill_character = yes
 		}
 	}
 
 	remove_variable = theiler_biologist_var
-	if = {
-		limit = { has_modifier = academics_biologist_emeritus_delayed_modifier }
-		remove_modifier = academics_biologist_emeritus_delayed_modifier
-	}
 }
 
 # Set new Biologist as official Biologist
@@ -2471,7 +2228,7 @@ theiler_set_new_biologist_as_biologist_effect = {
 				has_variable = theiler_biologist_var
 			}
 			var:theiler_biologist_var = {
-				free_character_from_void = no
+				set_character_busy_and_immortal = no
 			}
 		}
 
@@ -2506,9 +2263,8 @@ theiler_set_new_biologist_as_biologist_effect = {
 
 # Remove new Biologist
 theiler_remove_new_biologist_effect = {
-	scope:theiler_new_biologist_scope = {
-		free_character_from_void = no
-	}
+	custom_tooltip = theiler_biologist_will_become_part_of_academia_tt
+
 	remove_variable = theiler_new_biologist_var
 }
 
@@ -2554,92 +2310,111 @@ biologist_experience_set_up_effect = {
 		remove_trait = theiler_biologist_experienced
 		add_trait = theiler_biologist_famous
 	}
+
+	academics_biologist_add_academic_title_effect = yes
 }
 
 #Biologist Experience gain
 biologist_experience_gain_effect = { #adds XP to the Biologist
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
+	var:theiler_biologist_var ?= {
+		theiler_character_biologist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Biologist Experience Gain Effect
+# scope = character
+theiler_character_biologist_experience_gain_effect = { #adds Biologist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "theiler_character_biologist_experience_gain_effect_loc"
+		subject = this
 		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = theiler_biologist_experience_var
+				}
+			}
+			biologist_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = theiler_biologist_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = theiler_biologist_experience_var
+			min = 0
+			max = 300
+		}
 	}
 
+	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
-			has_variable = theiler_biologist_var #should only add experience if there actually is an Biologist
-		}
-		custom_tooltip = {
-			text = theiler_biologist_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:theiler_biologist_var = { #Fallback to make sure there are no errors if the Biologist does not have the variable yet
-							has_variable = theiler_biologist_experience_var
-						}
-					}
-				}
-				var:theiler_biologist_var = { #Sets the experience in case it was not set yet
-					biologist_experience_set_up_effect = yes
-				}
-			}
-			var:theiler_biologist_var = {
-				change_variable = {
-					name = theiler_biologist_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = theiler_biologist_experience_var
-					min = 0
-					max = 300
-				}
+			var:theiler_biologist_experience_var >= 100
+			var:theiler_biologist_experience_var < 300
+			NOR = {
+				has_trait = theiler_biologist_experienced
+				has_trait = theiler_biologist_famous
 			}
 		}
 		if = {
 			limit = {
-				var:theiler_biologist_var = {
-					var:theiler_biologist_experience_var >= 100
-					NOT = {
-						var:theiler_biologist_experience_var >= 300
-					}
-					NOR = {
-						has_trait = theiler_biologist_experienced
-						has_trait = theiler_biologist_famous
-					}
-				}
+				exists = owner
+				owner.var:theiler_biologist_var ?= this
 			}
-			trigger_event = {
-				id = academics.114
-				popup = yes
-			}
-			hidden_effect = {
-				var:theiler_biologist_var = {
-					remove_trait = theiler_biologist
-					add_trait = theiler_biologist_experienced
+			owner ?= {
+				trigger_event = {
+					id = academics.114
 				}
 			}
 		}
-		if = {
-			limit = {
-				var:theiler_biologist_var = {
-					var:theiler_biologist_experience_var >= 300
-					NOT = {
-						has_trait = theiler_biologist_famous
-					}
-				}
-			}
-			trigger_event = {
-				id = academics.115
-				popup = yes
-			}
-			hidden_effect = {
-				var:theiler_biologist_var = {
-					remove_trait = theiler_biologist
-					remove_trait = theiler_biologist_experienced
-					add_trait = theiler_biologist_famous
-				}
-			}
+		else = {
+			post_notification = academics_character_is_experienced_notification
+		}
+		hidden_effect = {
+			remove_trait = theiler_biologist
+			add_trait = theiler_biologist_experienced
 		}
 	}
+	if = {
+		limit = {
+			var:theiler_biologist_experience_var >= 300
+			NOT = {
+				has_trait = theiler_biologist_famous
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:theiler_biologist_var ?= this
+			}
+			owner ?= {
+				trigger_event = {
+					id = academics.115
+				}
+			}
+		}
+		else = {
+			post_notification = academics_character_is_famous_notification
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_trait = theiler_biologist }
+				remove_trait = theiler_biologist
+			}
+			remove_trait = theiler_biologist_experienced
+			add_trait = theiler_biologist_famous
+		}
+	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_biologist_add_academic_title_effect = yes
 }
 
 ######ARCHAEOLOGIST######
@@ -2648,14 +2423,10 @@ biologist_experience_gain_effect = { #adds XP to the Biologist
 # !!! Change stuff in both of the following effects !!!
 kill_archaeologist_effect = {
 	var:lepsius_archaeologist_var = {
-		free_character_from_void = no
+		kill_character = yes
 	}
 
 	remove_variable = lepsius_archaeologist_var
-	if = {
-		limit = { has_modifier = academics_archaeologist_emeritus_delayed_modifier }
-		remove_modifier = academics_archaeologist_emeritus_delayed_modifier
-	}
 }
 #This Effect retires the current Archaeologist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -2664,15 +2435,11 @@ retire_archaeologist_effect = {
 		text = retire_archaeologist_effect_tt
 
 		var:lepsius_archaeologist_var = {
-			free_character_from_void = no
+			kill_character = yes
 		}
 	}
 
 	remove_variable = lepsius_archaeologist_var
-	if = {
-		limit = { has_modifier = academics_archaeologist_emeritus_delayed_modifier }
-		remove_modifier = academics_archaeologist_emeritus_delayed_modifier
-	}
 }
 
 # Set new Archaeologist as official Archaeologist
@@ -2685,7 +2452,7 @@ lepsius_set_new_archaeologist_as_archaeologist_effect = {
 				has_variable = lepsius_archaeologist_var
 			}
 			var:lepsius_archaeologist_var = {
-				free_character_from_void = no
+				set_character_busy_and_immortal = no
 			}
 		}
 
@@ -2719,9 +2486,7 @@ lepsius_set_new_archaeologist_as_archaeologist_effect = {
 
 # Remove new Archaeologist
 lepsius_remove_new_archaeologist_effect = {
-	scope:lepsius_new_archaeologist_scope = {
-		free_character_from_void = no
-	}
+	custom_tooltip = lepsius_archaeologist_will_become_part_of_academia_tt
 
 	remove_variable = lepsius_new_archaeologist_var
 }
@@ -2757,92 +2522,111 @@ archaeologist_experience_set_up_effect = { #This effect needs to be placed in th
 		remove_trait = lepsius_archaeologist_experienced
 		add_trait = lepsius_archaeologist_famous
 	}
+
+	academics_archaeologist_add_academic_title_effect = yes
 }
 
 #Archaeologist Experience gain
 archaeologist_experience_gain_effect = { #adds XP to the Archaeologist
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
+	var:lepsius_archaeologist_var ?= {
+		lepsius_character_archaeologist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Archaeologist Experience Gain Effect
+# scope = character
+lepsius_character_archaeologist_experience_gain_effect = { #adds Archaeologist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "lepsius_character_archaeologist_experience_gain_effect_loc"
+		subject = this
 		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = lepsius_archaeologist_experience_var
+				}
+			}
+			archaeologist_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = lepsius_archaeologist_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = lepsius_archaeologist_experience_var
+			min = 0
+			max = 300
+		}
 	}
 
+	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
-			has_variable = lepsius_archaeologist_var #should only add experience if there actually is an archaeologist
-		}
-		custom_tooltip = {
-			text = lepsius_archaeologist_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:lepsius_archaeologist_var = { #Fallback to make sure there are no errors if the archaeologist does not have the variable yet
-							has_variable = lepsius_archaeologist_experience_var
-						}
-					}
-				}
-				var:lepsius_archaeologist_var = { #Sets the experience in case it was not set yet
-					archaeologist_experience_set_up_effect = yes
-				}
-			}
-			var:lepsius_archaeologist_var = {
-				change_variable = {
-					name = lepsius_archaeologist_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = lepsius_archaeologist_experience_var
-					min = 0
-					max = 300
-				}
+			var:lepsius_archaeologist_experience_var >= 100
+			var:lepsius_archaeologist_experience_var < 300
+			NOR = {
+				has_trait = lepsius_archaeologist_experienced
+				has_trait = lepsius_archaeologist_famous
 			}
 		}
 		if = {
 			limit = {
-				var:lepsius_archaeologist_var = {
-					var:lepsius_archaeologist_experience_var >= 100
-					NOT = {
-						var:lepsius_archaeologist_experience_var >= 300
-					}
-					NOR = {
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
+				exists = owner
+				owner.var:lepsius_archaeologist_var ?= this
 			}
-			trigger_event = {
-				id = academics.116
-				popup = yes
-			}
-			hidden_effect = {
-				var:lepsius_archaeologist_var = {
-					remove_trait = lepsius_archaeologist
-					add_trait = lepsius_archaeologist_experienced
+			owner ?= {
+				trigger_event = {
+					id = academics.116
 				}
 			}
 		}
-		if = {
-			limit = {
-				var:lepsius_archaeologist_var = {
-					var:lepsius_archaeologist_experience_var >= 300
-					NOT = {
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-			}
-			trigger_event = {
-				id = academics.117
-				popup = yes
-			}
-			hidden_effect = {
-				var:lepsius_archaeologist_var = {
-					remove_trait = lepsius_archaeologist
-					remove_trait = lepsius_archaeologist_experienced
-					add_trait = lepsius_archaeologist_famous
-				}
-			}
+		else = {
+			post_notification = academics_character_is_experienced_notification
+		}
+		hidden_effect = {
+			remove_trait = lepsius_archaeologist
+			add_trait = lepsius_archaeologist_experienced
 		}
 	}
+	if = {
+		limit = {
+			var:lepsius_archaeologist_experience_var >= 300
+			NOT = {
+				has_trait = lepsius_archaeologist_famous
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:lepsius_archaeologist_var ?= this
+			}
+			owner ?= {
+				trigger_event = {
+					id = academics.117
+				}
+			}
+		}
+		else = {
+			post_notification = academics_character_is_famous_notification
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_trait = lepsius_archaeologist }
+				remove_trait = lepsius_archaeologist
+			}
+			remove_trait = lepsius_archaeologist_experienced
+			add_trait = lepsius_archaeologist_famous
+		}
+	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_archaeologist_add_academic_title_effect = yes
 }
 
 ######ANTHROPOLOGIST######
@@ -2850,15 +2634,11 @@ archaeologist_experience_gain_effect = { #adds XP to the Archaeologist
 #Effect to kill the current Anthropologist
 # !!! Change stuff in both of the following effects !!!
 kill_anthropologist_effect = {
-	var:lepsius_anthropologist_var = {
-		free_character_from_void = no
+	var:andersson_anthropologist_var = {
+		kill_character = yes
 	}
 
-	remove_variable = lepsius_anthropologist_var
-	if = {
-		limit = { has_modifier = academics_anthropologist_emeritus_delayed_modifier }
-		remove_modifier = academics_anthropologist_emeritus_delayed_modifier
-	}
+	remove_variable = andersson_anthropologist_var
 }
 #This Effect retires the current Anthropologist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -2866,61 +2646,55 @@ retire_anthropologist_effect = {
 	custom_tooltip = {
 		text = retire_anthropologist_effect_tt
 
-		var:lepsius_anthropologist_var = {
-			free_character_from_void = no
+		var:andersson_anthropologist_var = {
+			kill_character = yes
 		}
 	}
 
-	remove_variable = lepsius_anthropologist_var
-	if = {
-		limit = { has_modifier = academics_anthropologist_emeritus_delayed_modifier }
-		remove_modifier = academics_anthropologist_emeritus_delayed_modifier
-	}
+	remove_variable = andersson_anthropologist_var
 }
 
 # Set new Anthropologist as official Anthropologist
-lepsius_set_new_anthropologist_as_anthropologist_effect = {
+andersson_set_new_anthropologist_as_anthropologist_effect = {
 	custom_tooltip = {
 		text = lepsius_replace_anthropologist_with_new_anthropologist_tt
 
 		if = {
 			limit = {
-				has_variable = lepsius_anthropologist_var
+				has_variable = andersson_anthropologist_var
 			}
-			var:lepsius_anthropologist_var = {
-				free_character_from_void = no
+			var:andersson_anthropologist_var = {
+				set_character_busy_and_immortal = no
 			}
 		}
 
 		set_variable = {
-			name = lepsius_anthropologist_var
-			value = scope:lepsius_new_anthropologist_scope
+			name = andersson_anthropologist_var
+			value = scope:andersson_new_anthropologist_scope
 		}
 
-		remove_variable = lepsius_new_anthropologist_var
+		remove_variable = andersson_new_anthropologist_var
 	}
 }
 
 # Remove new Anthropologist
-lepsius_remove_new_anthropologist_effect = {
-	scope:lepsius_new_anthropologist_scope = {
-		free_character_from_void = no
-	}
+andersson_remove_new_anthropologist_effect = {
+	custom_tooltip = andersson_anthropologist_will_become_part_of_academia_tt
 
-	remove_variable = lepsius_new_anthropologist_var
+	remove_variable = andersson_new_anthropologist_var
 }
 
 # Used to set up the Experience of a character
 anthropologist_experience_set_up_effect = {
 	general_experience_set_up_effect = {
-		TYPE = lepsius_anthropologist_experience_var
+		TYPE = andersson_anthropologist_experience_var
 		UNI_PM = pm_dubois_university_humanities
 	}
 	if = { #Adds the Experienced Anthropologist Trait if Experience is above 100
 		limit = {
-			var:lepsius_anthropologist_experience_var >= 100
+			var:andersson_anthropologist_experience_var >= 100
 			NOT = {
-				var:lepsius_anthropologist_experience_var >= 300
+				var:andersson_anthropologist_experience_var >= 300
 			}
 			NOR = {
 				has_trait = andersson_anthropologist_experienced
@@ -2932,7 +2706,7 @@ anthropologist_experience_set_up_effect = {
 	}
 	if = { #Adds the Famous Anthropologist Trait if Experience is above 100
 		limit = {
-			var:lepsius_anthropologist_experience_var >= 300
+			var:andersson_anthropologist_experience_var >= 300
 			NOT = {
 				has_trait = andersson_anthropologist_famous
 			}
@@ -2941,92 +2715,111 @@ anthropologist_experience_set_up_effect = {
 		remove_trait = andersson_anthropologist_experienced
 		add_trait = andersson_anthropologist_famous
 	}
+
+	academics_anthropologist_add_academic_title_effect = yes
 }
 
 #Anthropologist Experience gain
 anthropologist_experience_gain_effect = { #adds XP to the Anthropologist
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
+	var:andersson_anthropologist_var ?= {
+		andersson_character_anthropologist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Anthropologist Experience Gain Effect
+# scope = character
+andersson_character_anthropologist_experience_gain_effect = { #adds Anthropologist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "andersson_character_anthropologist_experience_gain_effect_loc"
+		subject = this
 		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = andersson_anthropologist_experience_var
+				}
+			}
+			anthropologist_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = andersson_anthropologist_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = andersson_anthropologist_experience_var
+			min = 0
+			max = 300
+		}
 	}
 
+	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
-			has_variable = lepsius_anthropologist_var #should only add experience if there actually is an Anthropologist
-		}
-		custom_tooltip = {
-			text = lepsius_anthropologist_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:lepsius_anthropologist_var = { #Fallback to make sure there are no errors if the Anthropologist does not have the variable yet
-							has_variable = lepsius_anthropologist_experience_var
-						}
-					}
-				}
-				var:lepsius_anthropologist_var = { #Sets the experience in case it was not set yet
-					anthropologist_experience_set_up_effect = yes
-				}
-			}
-			var:lepsius_anthropologist_var = {
-				change_variable = {
-					name = lepsius_anthropologist_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = lepsius_anthropologist_experience_var
-					min = 0
-					max = 300
-				}
+			var:andersson_anthropologist_experience_var >= 100
+			var:andersson_anthropologist_experience_var < 300
+			NOR = {
+				has_trait = andersson_anthropologist_experienced
+				has_trait = andersson_anthropologist_famous
 			}
 		}
 		if = {
 			limit = {
-				var:lepsius_anthropologist_var = {
-					var:lepsius_anthropologist_experience_var >= 100
-					NOT = {
-						var:lepsius_anthropologist_experience_var >= 300
-					}
-					NOR = {
-						has_trait = andersson_anthropologist_experienced
-						has_trait = andersson_anthropologist_famous
-					}
-				}
+				exists = owner
+				owner.var:andersson_anthropologist_var ?= this
 			}
-			trigger_event = {
-				id = academics.118
-				popup = yes
-			}
-			hidden_effect = {
-				var:lepsius_anthropologist_var = {
-					remove_trait = andersson_anthropologist
-					add_trait = andersson_anthropologist_experienced
+			owner ?= {
+				trigger_event = {
+					id = academics.118
 				}
 			}
 		}
-		if = {
-			limit = {
-				var:lepsius_anthropologist_var = {
-					var:lepsius_anthropologist_experience_var >= 300
-					NOT = {
-						has_trait = andersson_anthropologist_famous
-					}
-				}
-			}
-			trigger_event = {
-				id = academics.119
-				popup = yes
-			}
-			hidden_effect = {
-				var:lepsius_anthropologist_var = {
-					remove_trait = andersson_anthropologist
-					remove_trait = andersson_anthropologist_experienced
-					add_trait = andersson_anthropologist_famous
-				}
-			}
+		else = {
+			post_notification = academics_character_is_experienced_notification
+		}
+		hidden_effect = {
+			remove_trait = andersson_anthropologist
+			add_trait = andersson_anthropologist_experienced
 		}
 	}
+	if = {
+		limit = {
+			var:andersson_anthropologist_experience_var >= 300
+			NOT = {
+				has_trait = andersson_anthropologist_famous
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:andersson_anthropologist_var ?= this
+			}
+			owner ?= {
+				trigger_event = {
+					id = academics.119
+				}
+			}
+		}
+		else = {
+			post_notification = academics_character_is_famous_notification
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_trait = andersson_anthropologist }
+				remove_trait = andersson_anthropologist
+			}
+			remove_trait = andersson_anthropologist_experienced
+			add_trait = andersson_anthropologist_famous
+		}
+	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_anthropologist_add_academic_title_effect = yes
 }
 
 ######Physician######
@@ -3035,14 +2828,10 @@ anthropologist_experience_gain_effect = { #adds XP to the Anthropologist
 # !!! Change stuff in both of the following effects !!!
 kill_physician_effect = {
 	var:panum_physician_var = {
-		free_character_from_void = no
+		kill_character = yes
 	}
 
 	remove_variable = panum_physician_var
-	if = {
-		limit = { has_modifier = academics_physician_emeritus_delayed_modifier }
-		remove_modifier = academics_physician_emeritus_delayed_modifier
-	}
 }
 #This Effect retires the current Physician
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -3051,15 +2840,11 @@ retire_physician_effect = {
 		text = retire_physician_effect_tt
 
 		var:panum_physician_var = {
-			free_character_from_void = no
+			kill_character = yes
 		}
 	}
 
 	remove_variable = panum_physician_var
-	if = {
-		limit = { has_modifier = academics_physician_emeritus_delayed_modifier }
-		remove_modifier = academics_physician_emeritus_delayed_modifier
-	}
 }
 
 # Set new Physician as official Physician
@@ -3072,7 +2857,7 @@ panum_set_new_physician_as_physician_effect = {
 				has_variable = panum_physician_var
 			}
 			var:panum_physician_var = {
-				free_character_from_void = no
+				set_character_busy_and_immortal = no
 			}
 		}
 
@@ -3099,9 +2884,8 @@ panum_set_new_physician_as_physician_effect = {
 
 # Remove new Physician
 panum_remove_new_physician_effect = {
-	scope:panum_new_physician_scope = {
-		free_character_from_void = no
-	}
+	custom_tooltip = panum_physician_will_become_part_of_academia_tt
+
 	remove_variable = panum_new_physician_var
 }
 
@@ -3138,95 +2922,137 @@ physician_experience_set_up_effect = {
 		remove_trait = panum_physician_experienced
 		add_trait = panum_physician_famous
 	}
+
+	academics_physician_add_academic_title_effect = yes
 }
 
 #Physician Experience gain
 physician_experience_gain_effect = { #adds XP to the Physician
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
-		value = $AMOUNT$
-	}
-
-	if = {
-		limit = {
-			has_variable = panum_physician_var #should only add experience if there actually is an Physician
-		}
-		custom_tooltip = {
-			text = panum_physician_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:panum_physician_var = { #Fallback to make sure there are no errors if the Physician does not have the variable yet
-							has_variable = panum_physician_experience_var
-						}
-					}
-				}
-				var:panum_physician_var = { #Sets the experience in case it was not set yet
-					physician_experience_set_up_effect = yes
-				}
-			}
-			var:panum_physician_var = {
-				change_variable = {
-					name = panum_physician_experience_var
-					add = $AMOUNT$
-				}
-				clamp_variable = {
-					name = panum_physician_experience_var
-					min = 0
-					max = 300
-				}
-			}
-		}
-		if = {
-			limit = {
-				var:panum_physician_var = {
-					var:panum_physician_experience_var >= 100
-					NOT = {
-						var:panum_physician_experience_var >= 300
-					}
-					NOR = {
-						has_trait = panum_physician_experienced
-						has_trait = panum_physician_famous
-					}
-				}
-			}
-			trigger_event = {
-				id = academics.120
-				popup = yes
-			}
-			hidden_effect = {
-				var:panum_physician_var = {
-					remove_trait = panum_physician
-					add_trait = panum_physician_experienced
-				}
-			}
-		}
-		if = {
-			limit = {
-				var:panum_physician_var = {
-					var:panum_physician_experience_var >= 300
-					NOT = {
-						has_trait = panum_physician_famous
-					}
-				}
-			}
-			trigger_event = {
-				id = academics.121
-				popup = yes
-			}
-			hidden_effect = {
-				var:panum_physician_var = {
-					remove_trait = panum_physician
-					remove_trait = panum_physician_experienced
-					add_trait = panum_physician_famous
-				}
-			}
-		}
+	var:panum_physician_var ?= {
+		panum_character_physician_experience_gain_effect = { AMOUNT = $AMOUNT$ }
 	}
 }
 
+#Character Physician Experience Gain Effect
+# scope = character
+panum_character_physician_experience_gain_effect = { #adds Physician XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "panum_character_physician_experience_gain_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = panum_physician_experience_var
+				}
+			}
+			physician_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = panum_physician_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = panum_physician_experience_var
+			min = 0
+			max = 300
+		}
+	}
+
+	#Add Traits if the character does not have one yet
+	if = {
+		limit = {
+			var:panum_physician_experience_var >= 100
+			var:panum_physician_experience_var < 300
+			NOR = {
+				has_trait = panum_physician_experienced
+				has_trait = panum_physician_famous
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:panum_physician_var ?= this
+			}
+			owner ?= {
+				trigger_event = {
+					id = academics.120
+				}
+			}
+		}
+		else = {
+			post_notification = academics_character_is_experienced_notification
+		}
+		hidden_effect = {
+			remove_trait = panum_physician
+			add_trait = panum_physician_experienced
+		}
+	}
+	if = {
+		limit = {
+			var:panum_physician_experience_var >= 300
+			NOT = {
+				has_trait = panum_physician_famous
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:panum_physician_var ?= this
+			}
+			owner ?= {
+				trigger_event = {
+					id = academics.121
+				}
+			}
+		}
+		else = {
+			post_notification = academics_character_is_famous_notification
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_trait = panum_physician }
+				remove_trait = panum_physician
+			}
+			remove_trait = panum_physician_experienced
+			add_trait = panum_physician_famous
+		}
+	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_physician_add_academic_title_effect = yes
+}
+
 ######ETHNOLOGIST######
+
+#This effect kills the current ethnologist
+# !!! Change stuff in both of the following effects !!!
+kill_ethnologist_effect = {
+	var:roy_ethnologist_var = {
+		kill_character = yes
+	}
+
+	remove_variable = roy_ethnologist_var
+}
+#This Effect retires the current ethnologist
+# Use "set_retirement_variable_effect" in the immediate effect when using this effect.
+retire_ethnologist_effect = {
+	custom_tooltip = {
+		text = retire_ethnologist_effect_tt
+
+		var:roy_ethnologist_var = {
+			kill_character = yes
+		}
+	}
+
+	remove_variable = roy_ethnologist_var
+}
 
 # Set new Ethnologist as official Ethnologist
 roy_set_new_ethnologist_as_ethnologist_effect = {
@@ -3238,7 +3064,7 @@ roy_set_new_ethnologist_as_ethnologist_effect = {
 				has_variable = roy_ethnologist_var
 			}
 			var:roy_ethnologist_var = {
-				free_character_from_void = no
+				set_character_busy_and_immortal = no
 			}
 		}
 
@@ -3261,9 +3087,7 @@ roy_set_new_ethnologist_as_ethnologist_effect = {
 
 # Remove new Ethnologist
 roy_remove_new_ethnologist_effect = {
-	scope:roy_new_ethnologist_scope = {
-		free_character_from_void = no
-	}
+#	custom_tooltip = roy_ethnologist_will_become_part_of_academia_tt
 
 	remove_variable = roy_new_ethnologist_var
 }
@@ -3301,6 +3125,111 @@ ethnologist_experience_set_up_effect = {
 		remove_trait = roy_ethnologist_experienced
 		add_trait = roy_ethnologist_famous
 	}
+
+	academics_ethnologist_add_academic_title_effect = yes
+}
+
+#Ethnologist Experience gain
+roy_ethnologist_experience_gain_effect = { #adds XP to the Ethnologist
+	# Amount = amount of XP to add
+	var:roy_ethnologist_var ?= {
+		roy_character_ethnologist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Ethnologist Experience Gain Effect
+# scope = character
+roy_character_ethnologist_experience_gain_effect = { #adds Ethnologist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "roy_character_ethnologist_experience_gain_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = roy_ethnologist_experience_var
+				}
+			}
+			ethnologist_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = roy_ethnologist_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = roy_ethnologist_experience_var
+			min = 0
+			max = 300
+		}
+	}
+
+	#Add Traits if the character does not have one yet
+	if = {
+		limit = {
+			var:roy_ethnologist_experience_var >= 100
+			var:roy_ethnologist_experience_var < 300
+			NOR = {
+				has_trait = roy_ethnologist_experienced
+				has_trait = roy_ethnologist_famous
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:roy_ethnologist_var ?= this
+			}
+#			owner ?= {
+#				trigger_event = {
+#					id = academics.122
+#				}
+#			}
+		}
+		else = {
+			post_notification = academics_character_is_experienced_notification
+		}
+		hidden_effect = {
+			remove_trait = roy_ethnologist
+			add_trait = roy_ethnologist_experienced
+		}
+	}
+	if = {
+		limit = {
+			var:roy_ethnologist_experience_var >= 300
+			NOT = {
+				has_trait = roy_ethnologist_famous
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:roy_ethnologist_var ?= this
+			}
+#			owner ?= {
+#				trigger_event = {
+#					id = academics.123
+#				}
+#			}
+		}
+		else = {
+			post_notification = academics_character_is_famous_notification
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_trait = roy_ethnologist }
+				remove_trait = roy_ethnologist
+			}
+			remove_trait = roy_ethnologist_experienced
+			add_trait = roy_ethnologist_famous
+		}
+	}
+
+	#Add Academic Title if Character does not have one yet
+	academics_ethnologist_add_academic_title_effect = yes
 }
 
 ##########################################################################
@@ -3829,58 +3758,10 @@ je_academics_get_exotic_animal_variable_remover_effect = {
 }
 
 set_variables_anthropologist_test = {
-	var:lepsius_anthropologist_var = {
+	var:andersson_anthropologist_var = {
 		set_variable = {
-			name = lepsius_total_human_fossils_anthropologist_var
+			name = andersson_total_human_fossils_anthropologist_var
 			value = 42
-		}
-		set_variable = {
-			name = lepsius_total_cromagnon_fossils_anthropologist_var
-			value = 7
-		}
-		set_variable = {
-			name = lepsius_total_neanderthalensis_fossils_anthropologist_var
-			value = 8
-		}
-		set_variable = {
-			name = lepsius_total_erectus_fossils_anthropologist_var
-			value = 9
-		}
-		set_variable = {
-			name = lepsius_total_australopithecus_fossils_anthropologist_var
-			value = 10
-		}
-		set_variable = {
-			name = lepsius_total_paranthropus_fossils_anthropologist_var
-			value = 8
-		}
-		set_variable = {
-			name = lepsius_total_identified_human_fossils_anthropologist_var
-			value = 3
-		}
-		set_variable = {
-			name = andersson_anthropologist_achievement_attended_origin_congress_var
-			value = flag:andersson_anthropologist_achievement_attended_origin_congress_loc
-		}
-		set_variable = {
-			name = andersson_anthropologist_achievement_completed_cromagnon_anthropologist_var
-			value = flag:andersson_anthropologist_achievement_completed_cromagnon_anthropologist_loc
-		}
-		set_variable = {
-			name = andersson_anthropologist_achievement_completed_neanderthalensis_anthropologist_var
-			value = flag:andersson_anthropologist_achievement_completed_neanderthalensis_anthropologist_loc
-		}
-		set_variable = {
-			name = andersson_anthropologist_achievement_completed_erectus_anthropologist_var
-			value = flag:andersson_anthropologist_achievement_completed_erectus_anthropologist_loc
-		}
-		set_variable = {
-			name = andersson_anthropologist_achievement_completed_australopithecus_anthropologist_var
-			value = flag:andersson_anthropologist_achievement_completed_australopithecus_anthropologist_loc
-		}
-		set_variable = {
-			name = andersson_anthropologist_achievement_completed_paranthropus_anthropologist_var
-			value = flag:andersson_anthropologist_achievement_completed_paranthropus_anthropologist_loc
 		}
 	}
 }
@@ -4070,7 +3951,7 @@ academics_academic_recruited_effect = {
 				}
 			}
 			1 = { #Anthropologist
-				trigger = { has_technology_researched = lepsius_anthropology_tech }
+				trigger = { has_technology_researched = andersson_anthropology_tech }
 				trigger_event = {
 					id = academics.60
 					popup = yes
@@ -4096,7 +3977,7 @@ general_experience_set_up_effect = {
 				has_variable = $TYPE$
 			}
 		}
-		if = { #Each year over 30 gives 9 Experience
+		if = { #Each year over 30 gives 5 Experience
 			limit = {
 				age > 30
 			}
@@ -4110,7 +3991,7 @@ general_experience_set_up_effect = {
 			}
 			change_variable = {
 				name = $TYPE$
-				multiply = 9
+				multiply = 5
 			}
 		}
 		else = {
@@ -4358,280 +4239,2492 @@ general_experience_set_up_effect = {
 			}
 		}
 		# + random number between 1 and 10
-		set_local_variable = {
-			name = random_amount_local_var
-			value = { 1 20 }
-		}
-		round_local_variable = {
-			name = random_amount_local_var
-			nearest = 1
-		}
 		change_variable = {
 			name = $TYPE$
-			add = local_var:random_amount_local_var
+			add = { 1 10 }
 		}
 		#If under 0 normalize to 0
+		clamp_variable = {
+			name = $TYPE$
+			min = 0
+			max = 200
+		}
+	}
+}
+
+### Effect to add Doctor/Professor title
+
+#General Effect Doctor
+academics_add_doctor_title_effect = {
+	add_modifier = {
+		name = academics_character_is_doctor_modifier
+	}
+
+	hidden_effect = {
+		post_notification = academics_character_receives_doctor_title_notification
+	}
+}
+
+#General Effect Professor
+academics_add_professor_title_effect = {
+	add_modifier = {
+		name = academics_character_is_professor_modifier
+	}
+
+	hidden_effect = {
+		post_notification = academics_character_receives_professor_title_notification
+	}
+}
+
+#Effect for Civil Engineer
+academics_civil_engineer_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:tesla_civil_engineer_experience_var
+		BASE_CHANCE_DOCTOR = -50
+		BASE_CHANCE_PROFESSOR = -200
+	}
+}
+
+#Effect for Mechanical Engineer
+academics_mechanical_engineer_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:tesla_mechanical_engineer_experience_var
+		BASE_CHANCE_DOCTOR = -50
+		BASE_CHANCE_PROFESSOR = -200
+	}
+}
+
+#Effect for Military Engineer
+academics_military_engineer_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:tesla_military_engineer_experience_var
+		BASE_CHANCE_DOCTOR = -50
+		BASE_CHANCE_PROFESSOR = -200
+	}
+}
+
+#Effect for Electrical Engineer
+academics_electrical_engineer_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:tesla_electrical_engineer_experience_var
+		BASE_CHANCE_DOCTOR = -50
+		BASE_CHANCE_PROFESSOR = -200
+	}
+}
+
+#Effect for Aeronautical Engineer
+academics_aeronautical_engineer_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:tesla_aeronautical_engineer_experience_var
+		BASE_CHANCE_DOCTOR = -50
+		BASE_CHANCE_PROFESSOR = -200
+	}
+}
+
+#Effect for Chemist
+academics_chemist_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:mendelejew_chemist_experience_var
+		BASE_CHANCE_DOCTOR = 25
+		BASE_CHANCE_PROFESSOR = -150
+	}
+}
+
+#Effect for Astronomer
+academics_astronomer_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:verrier_astronomer_experience_var
+		BASE_CHANCE_DOCTOR = 25
+		BASE_CHANCE_PROFESSOR = -150
+	}
+}
+
+#Effect for Physicist
+academics_physicist_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:curie_physicist_experience_var
+		BASE_CHANCE_DOCTOR = 50
+		BASE_CHANCE_PROFESSOR = -150
+	}
+}
+
+#Effect for Geologist
+academics_geologist_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:agassiz_geologist_experience_var
+		BASE_CHANCE_DOCTOR = -50
+		BASE_CHANCE_PROFESSOR = -200
+	}
+}
+
+#Effect for Paleontologist
+academics_paleontologist_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:dubois_paleontologist_experience_var
+		BASE_CHANCE_DOCTOR = 0
+		BASE_CHANCE_PROFESSOR = -200
+	}
+}
+
+#Effect for Naturalist
+academics_naturalist_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:ito_naturalist_experience_var
+		BASE_CHANCE_DOCTOR = -100
+		BASE_CHANCE_PROFESSOR = -250
+	}
+}
+
+#Effect for Biologist
+academics_biologist_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:theiler_biologist_experience_var
+		BASE_CHANCE_DOCTOR = 0
+		BASE_CHANCE_PROFESSOR = -200
+	}
+}
+
+#Effect for Physician
+academics_physician_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:panum_physician_experience_var
+		BASE_CHANCE_DOCTOR = 100
+		BASE_CHANCE_PROFESSOR = -200
+	}
+}
+
+#Effect for Archaeologist
+academics_archaeologist_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:lepsius_archaeologist_experience_var
+		BASE_CHANCE_DOCTOR = -50
+		BASE_CHANCE_PROFESSOR = -200
+	}
+}
+
+#Effect for Anthropologist
+academics_anthropologist_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:andersson_anthropologist_experience_var
+		BASE_CHANCE_DOCTOR = 0
+		BASE_CHANCE_PROFESSOR = -200
+	}
+}
+
+#Effect for Ethnologist
+academics_ethnologist_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:roy_ethnologist_experience_var
+		BASE_CHANCE_DOCTOR = -50
+		BASE_CHANCE_PROFESSOR = -250
+	}
+}
+
+#Effect to add Title randomly depending on various factors
+# EXPERIENCE_VARIABLE = experience_variable of the character
+# BASE_CHANCE_DOCTOR = Base chance for the specific role
+# BASE_CHANCE_PROFESSOR = Base chance for Professor
+academics_character_add_title_from_experience_gain_effect = {
+	if = {
+		limit = {
+			owner = {
+				has_technology_researched = academia
+			}
+		}
+
+		#Doctor's degree
 		if = {
 			limit = {
-				var:$TYPE$ < 0
+				NOT = { has_modifier = academics_character_is_doctor_modifier }
 			}
-			set_variable = {
-				name = $TYPE$
-				value = 0
+
+			if = {
+				limit = {
+					OR = {
+						$EXPERIENCE_VARIABLE$ >= 150
+						has_role = character_role_panum_physician
+					}
+				}
+
+				academics_add_doctor_title_effect = yes
+			}
+			else = {
+				random_list = {
+					#Nothing
+					0 = {
+						modifier = {
+							add = {
+								value = 100
+								subtract = {
+									value = {
+										value = $EXPERIENCE_VARIABLE$
+										add = $BASE_CHANCE_DOCTOR$
+										multiply = 0.3
+									}
+									multiply = academics_traits_for_degree_gain_chance_value
+									min = 1
+									max = 100
+								}
+							}
+						}
+					}
+					#Gain Degree
+					0 = {
+						academics_add_doctor_title_effect = yes
+
+						modifier = {
+							add = {
+								value = {
+									value = $EXPERIENCE_VARIABLE$
+									add = $BASE_CHANCE_DOCTOR$
+									multiply = 0.3
+								}
+								multiply = academics_traits_for_degree_gain_chance_value
+								min = 1
+								max = 100
+							}
+						}
+					}
+				}
+			}
+		}
+		#Professor
+		else_if = {
+			limit = {
+				NOT = { has_modifier = academics_character_is_professor_modifier }
+			}
+
+			if = {
+				limit = { $EXPERIENCE_VARIABLE$ >= 300 }
+
+				academics_add_professor_title_effect = yes
+			}
+			else = {
+				random_list = {
+					#Nothing
+					0 = {
+						modifier = {
+							add = {
+								value = 100
+								subtract = {
+									value = {
+										value = $EXPERIENCE_VARIABLE$
+										add = $BASE_CHANCE_PROFESSOR$
+										multiply = 0.3
+									}
+									multiply = academics_traits_for_degree_gain_chance_value
+									min = 1
+									max = 100
+								}
+							}
+						}
+					}
+					#Gain Degree
+					0 = {
+						academics_add_professor_title_effect = yes
+
+						modifier = {
+							add = {
+								value = {
+									value = $EXPERIENCE_VARIABLE$
+									add = $BASE_CHANCE_PROFESSOR$
+									multiply = 0.3
+								}
+								multiply = academics_traits_for_degree_gain_chance_value
+								min = 1
+								max = 100
+							}
+						}
+					}
+				}
 			}
 		}
 	}
 }
 
-##### Character Cleanup Effects #####
-#Engineer
-academics_engineer_cleanup_effect = {
-	ordered_character_in_void = {
-		limit = {
-			has_variable = mr_is_engineer_var
-		}
-		check_range_bounds = no
+###############################
 
+#Effect to set the retirement age for a specific role to around age 65
+# ROLE = role for which the time should get changed
+# AGE_LEVEL = 1, 2 or 3 decides how long the character should stay active.
+# --> 1 = age 45
+# --> 2 = age 65
+# --> 3 = age 70 - 75
+academics_character_set_role_retirement_effect = {
+	if = {
+		limit = {
+			age <= 14
+		}
 		if = {
 			limit = {
-				OR = {
-					owner ?= {
-						NOT = {
-							var:tesla_engineer_var ?= prev
-						}
-					}
-					NOT = {
-						exists = owner
-					}
-				}
+				$AGE_LEVEL$ = 1
 			}
-
-			kill_character = yes
-			free_character_from_void = no
+			set_career_length = {
+				role = $ROLE$
+				years = 31
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 51
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 61
+				random_range = { 0.93 1.07 }
+			}
 		}
 	}
-}
-
-#Astronomer
-academics_astronomer_cleanup_effect = {
-	ordered_character_in_void = {
+	else_if = {
 		limit = {
-			has_variable = mr_is_astronomer_var
+			age = 15
 		}
-		check_range_bounds = no
-
 		if = {
 			limit = {
-				OR = {
-					owner ?= {
-						NOT = {
-							var:verrier_astronomer_var ?= prev
-						}
-					}
-					NOT = {
-						exists = owner
-					}
-				}
+				$AGE_LEVEL$ = 1
 			}
-
-			kill_character = yes
-			free_character_from_void = no
+			set_career_length = {
+				role = $ROLE$
+				years = 30
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 50
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 60
+				random_range = { 0.93 1.07 }
+			}
 		}
 	}
-}
-
-#Chemist
-academics_chemist_cleanup_effect = {
-	ordered_character_in_void = {
+	else_if = {
 		limit = {
-			has_variable = mr_is_chemist_var
+			age = 16
 		}
-		check_range_bounds = no
-
 		if = {
 			limit = {
-				OR = {
-					owner ?= {
-						NOT = {
-							var:mendelejew_chemist_var ?= prev
-						}
-					}
-					NOT = {
-						exists = owner
-					}
-				}
+				$AGE_LEVEL$ = 1
 			}
-
-			kill_character = yes
-			free_character_from_void = no
+			set_career_length = {
+				role = $ROLE$
+				years = 29
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 49
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 59
+				random_range = { 0.93 1.07 }
+			}
 		}
 	}
-}
-
-#Geologist
-academics_geologist_cleanup_effect = {
-	ordered_character_in_void = {
+	else_if = {
 		limit = {
-			has_variable = mr_is_geologist_var
+			age = 17
 		}
-		check_range_bounds = no
-
 		if = {
 			limit = {
-				OR = {
-					owner ?= {
-						NOT = {
-							var:agassiz_geologist_var ?= prev
-						}
-					}
-					NOT = {
-						exists = owner
-					}
-				}
+				$AGE_LEVEL$ = 1
 			}
-
-			kill_character = yes
-			free_character_from_void = no
+			set_career_length = {
+				role = $ROLE$
+				years = 28
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 48
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 58
+				random_range = { 0.93 1.07 }
+			}
 		}
 	}
-}
-
-#Paleontologist
-academics_paleontologist_cleanup_effect = {
-	ordered_character_in_void = {
+	else_if = {
 		limit = {
-			has_variable = mr_is_paleontologist_var
+			age = 18
 		}
-		check_range_bounds = no
-
 		if = {
 			limit = {
-				OR = {
-					owner ?= {
-						NOT = {
-							var:dubois_paleontologist_var ?= prev
-						}
-					}
-					NOT = {
-						exists = owner
-					}
-				}
+				$AGE_LEVEL$ = 1
 			}
-
-			kill_character = yes
-			free_character_from_void = no
+			set_career_length = {
+				role = $ROLE$
+				years = 27
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 47
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 57
+				random_range = { 0.93 1.07 }
+			}
 		}
 	}
-}
-
-#Naturalist
-academics_naturalist_cleanup_effect = {
-	ordered_character_in_void = {
+	else_if = {
 		limit = {
-			has_variable = mr_is_naturalist_var
+			age = 19
 		}
-		check_range_bounds = no
-
 		if = {
 			limit = {
-				OR = {
-					owner ?= {
-						NOT = {
-							var:dubois_naturalist_var ?= prev
-						}
-					}
-					NOT = {
-						exists = owner
-					}
-				}
+				$AGE_LEVEL$ = 1
 			}
-
-			kill_character = yes
-			free_character_from_void = no
+			set_career_length = {
+				role = $ROLE$
+				years = 26
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 46
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 56
+				random_range = { 0.93 1.07 }
+			}
 		}
 	}
-}
-
-#Physician
-academics_physician_cleanup_effect = {
-	ordered_character_in_void = {
+	else_if = {
 		limit = {
-			has_variable = mr_is_physician_var
+			age = 20
 		}
-		check_range_bounds = no
-
 		if = {
 			limit = {
-				OR = {
-					owner ?= {
-						NOT = {
-							var:panum_physician_var ?= prev
-						}
-					}
-					NOT = {
-						exists = owner
-					}
-				}
+				$AGE_LEVEL$ = 1
 			}
-
-			kill_character = yes
-			free_character_from_void = no
+			set_career_length = {
+				role = $ROLE$
+				years = 25
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 45
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 55
+				random_range = { 0.93 1.07 }
+			}
 		}
 	}
-}
-
-#Archaeologist
-academics_archaeologist_cleanup_effect = {
-	ordered_character_in_void = {
+	else_if = {
 		limit = {
-			has_variable = mr_is_archaeologist_var
+			age = 21
 		}
-		check_range_bounds = no
-
 		if = {
 			limit = {
-				OR = {
-					owner ?= {
-						NOT = {
-							var:lepsius_archaeologist_var ?= prev
-						}
-					}
-					NOT = {
-						exists = owner
-					}
-				}
+				$AGE_LEVEL$ = 1
 			}
-
-			kill_character = yes
-			free_character_from_void = no
+			set_career_length = {
+				role = $ROLE$
+				years = 24
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 44
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 54
+				random_range = { 0.93 1.07 }
+			}
 		}
 	}
-}
-
-#Anthropologist
-academics_anthropologist_cleanup_effect = {
-	ordered_character_in_void = {
+	else_if = {
 		limit = {
-			has_variable = mr_is_anthropologist_var
+			age = 22
 		}
-		check_range_bounds = no
-
 		if = {
 			limit = {
-				OR = {
-					owner ?= {
-						NOT = {
-							var:lepsius_anthropologist_var ?= prev
-						}
-					}
-					NOT = {
-						exists = owner
-					}
-				}
+				$AGE_LEVEL$ = 1
 			}
-
-			kill_character = yes
-			free_character_from_void = no
+			set_career_length = {
+				role = $ROLE$
+				years = 23
+				random_range = { 0.93 1.07 }
+			}
 		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 43
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 53
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 23
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 22
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 42
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 52
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 24
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 21
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 41
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 51
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 25
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 20
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 40
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 50
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 26
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 19
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 39
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 49
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 27
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 18
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 38
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 48
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 28
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 17
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 37
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 47
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 29
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 16
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 36
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 46
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 30
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 15
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 35
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 45
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 31
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 14
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 34
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 44
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 32
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 13
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 33
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 43
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 33
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 12
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 32
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 42
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 34
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 11
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 31
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 41
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 35
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 10
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 30
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 40
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 36
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 9
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 29
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 39
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 37
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 8
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 28
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 38
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 38
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 7
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 27
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 37
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 39
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 6
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 26
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 36
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 40
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 5
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 25
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 35
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 41
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 4
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 24
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 34
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 42
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 3
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 23
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 33
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 43
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 2
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 22
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 32
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 44
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 21
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 31
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 45
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 20
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 30
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 46
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 19
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 29
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 47
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 18
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 28
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 48
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 17
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 27
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 49
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 16
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 26
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 50
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 15
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 25
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 51
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 14
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 24
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 52
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 13
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 23
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 53
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 12
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 22
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 54
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 11
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 21
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 55
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 10
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 20
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 56
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 9
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 19
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 57
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 8
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 18
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 58
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 7
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 17
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 59
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 6
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 16
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 60
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 5
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 15
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 61
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 4
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 14
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 62
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 3
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 13
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 63
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 2
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 12
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 64
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 11
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 65
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 10
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 66
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 9
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 67
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 8
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 68
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 7
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 69
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 6
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 70
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 5
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 71
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 4
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 72
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 3
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			age = 73
+		}
+		if = {
+			limit = {
+				$AGE_LEVEL$ = 1
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 2
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 1
+				random_range = { 0.93 1.07 }
+			}
+		}
+		else_if = {
+			limit = {
+				$AGE_LEVEL$ = 3
+			}
+			set_career_length = {
+				role = $ROLE$
+				years = 2
+				random_range = { 0.93 1.07 }
+			}
+		}
+	}
+	else = {
+		set_career_length = {
+			role = $ROLE$
+			years = 1
+			random_range = { 0.93 1.07 }
+		}
+	}
+
+	#Changes from Traits
+	if = {
+		limit = { has_trait = persistent }
+		add_career_length = {
+			role = $ROLE$
+			years = 1
+			random_range = { 1 5 }
+		}
+	}
+#	if = {
+#		limit = { has_trait = senile }
+#		add_career_length = {
+#			role = $ROLE$
+#			years = 3
+#			random_range = { -1 -3 }
+#		}
+#	}
+}
+
+
+###############################
+
+#Effect to add experience to all scientists
+mr_academics_yearly_experience_gain_effect = {
+	every_character_is_engineer = {
+		tesla_character_engineer_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_chemist = {
+		mendelejew_character_chemist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_astronomer = {
+		verrier_character_astronomer_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_physicist = {
+		curie_character_physicist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_geologist = {
+		agassiz_character_geologist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_paleontologist = {
+		dubois_character_paleontologist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_naturalist = {
+		ito_character_naturalist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_biologist = {
+		theiler_character_biologist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_physician = {
+		panum_character_physician_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_archaeologist = {
+		lepsius_character_archaeologist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_anthropologist = {
+		andersson_character_anthropologist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	every_character_is_ethnologist = {
+		roy_character_ethnologist_experience_gain_effect = { AMOUNT = academics_character_yearly_experience_value }
+	}
+	if = {
+		limit = {
+			any_scope_character = {
+				academics_is_character_academic_trigger = yes
+			}
+		}
+		post_notification = academics_yearly_experience_gain_notification
 	}
 }

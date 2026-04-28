@@ -1584,6 +1584,7 @@ lepsius_add_x_local_artifacts_effect = {
 			}
 		}
 	}
+	lepsius_update_exhibition_effect = yes
 }
 
 #Adds "AMOUNT" minor artifacts
@@ -2188,6 +2189,26 @@ lepsius_add_1_major_local_artifact = {
  		add = 1
 	}
 	custom_tooltip = lepsius_add_major_local_artifact_tt
+}
+
+lepsius_remove_1_major_local_artifact = {
+	change_variable = {
+		name = lepsius_total_artifacts
+		add = -1
+    }
+	change_variable = {
+		name = lepsius_total_major_artifacts_var
+		add = -1
+    }
+	change_global_variable = {
+		name = lepsius_global_artifacts
+		add = -1
+	}
+	change_variable = {
+ 		name = lepsius_local_artifact_major
+ 		add = -1
+	}
+	custom_tooltip = lepsius_remove_major_local_artifact_tt
 }
 
 #############################
@@ -2839,42 +2860,6 @@ lepsius_add_gilgamesh_pieces = {
 	custom_tooltip = lepsius_add_gilgamesh_pieces_tt
 }
 
-############################
-
-###ISHTAR FRAGMENTS###
-
-lepsius_add_10k_ishtar_fragments = {
-	change_variable = {
- 		name = lepsius_ishtar_fragments
- 		add = 100000
-	}
-	custom_tooltip = lepsius_add_10k_ishtar_fragments_tt
-}
-
-lepsius_add_20k_ishtar_fragments = {
-	change_variable = {
- 		name = lepsius_ishtar_fragments
- 		add = 200000
-	}
-	custom_tooltip = lepsius_add_20k_ishtar_fragments_tt
-}
-
-lepsius_add_30k_ishtar_fragments = {
-	change_variable = {
- 		name = lepsius_ishtar_fragments
- 		add = 300000
-	}
-	custom_tooltip = lepsius_add_30k_ishtar_fragments_tt
-}
-
-lepsius_sub_5k_ishtar_fragments = {
-	change_variable = {
- 		name = lepsius_ishtar_fragments
- 		add = -5000
-	}
-	custom_tooltip = lepsius_sub_5k_ishtar_fragments_tt
-}
-
 ###########################
 
 ###THE LABYRINTH
@@ -3375,7 +3360,7 @@ lepsius_update_exhibition_effect = {
 	######LOCAL ARTIFACTS EXHBITION######
 	if = {
 		limit = {
-			var:lepsius_local_artifact_minor >= 25
+			var:lepsius_local_artifact_minor >= 10
 			any_scope_state = {
 				is_capital = yes
 				is_production_method_active = {
@@ -3391,18 +3376,18 @@ lepsius_update_exhibition_effect = {
 			}
 			activate_production_method = {
 				building_type = building_lepsius_archaeological_museum
-				production_method = pm_lepsius_local_exhibition
+				production_method = pm_lepsius_small_local_exhibition
 			}
 		}
 	}
 	if = {
 		limit = {
-			var:lepsius_local_artifact_minor >= 50
+			var:lepsius_local_artifact_minor >= 25
 			any_scope_state = {
 				is_capital = yes
 				is_production_method_active = {
 					building_type = building_lepsius_archaeological_museum
-					production_method = pm_lepsius_local_exhibition
+					production_method = pm_lepsius_small_local_exhibition
 				}
 			}
 		}
@@ -3413,1484 +3398,77 @@ lepsius_update_exhibition_effect = {
 			}
 			activate_production_method = {
 				building_type = building_lepsius_archaeological_museum
-				production_method = pm_lepsius_grand_local_exhibition
+				production_method = pm_lepsius_medium_local_exhibition
 			}
 		}
 	}
-}
-
-###################################
-
-######ANTHROPOLOGY######
-
-#Add Caves
-
-lepsius_add_caves = {
-	#EUROPE
-	while = {
-		count = 3
-
-		random_state = {
+	if = {
+		limit = {
+			var:lepsius_local_artifact_minor >= 50
+			any_scope_state = {
+				is_capital = yes
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_medium_local_exhibition
+				}
+			}
+		}
+		random_scope_state = {
 			limit = {
-				is_in_geographic_region = geographic_region_europe
-				lepsius_cromagnon_region = yes
-				lepsius_has_cave = no
+				has_building = building_lepsius_archaeological_museum
+				is_capital = yes
 			}
-			state_region = {
-				set_variable = lepsius_cromagnon_cave_var
+			activate_production_method = {
+				building_type = building_lepsius_archaeological_museum
+				production_method = pm_lepsius_large_local_exhibition
 			}
 		}
 	}
-	while = {
-		count = 3
-
-		random_state = {
+	if = {
+		limit = {
+			var:lepsius_local_artifact_minor >= 100
+			var:lepsius_local_artifact_major >= 1
+			any_scope_state = {
+				is_capital = yes
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_large_local_exhibition
+				}
+			}
+		}
+		random_scope_state = {
 			limit = {
-				is_in_geographic_region = geographic_region_europe
-				lepsius_neanderthalensis_region = yes
-				lepsius_has_cave = no
+				has_building = building_lepsius_archaeological_museum
+				is_capital = yes
 			}
-			state_region = {
-				set_variable = lepsius_neanderthalensis_cave_var
+			activate_production_method = {
+				building_type = building_lepsius_archaeological_museum
+				production_method = pm_lepsius_excellent_local_exhibition
 			}
 		}
 	}
-	random_state = {
+	###In Case that a Crystall Skull was found and must be removed###
+	if = {
 		limit = {
-			lepsius_heidelbergensis_region = yes
-			lepsius_has_cave = no
+			var:lepsius_local_artifact_major = 0
+			any_scope_state = {
+				is_capital = yes
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_excellent_local_exhibition
+				}
+			}
 		}
-		state_region = {
-			set_variable = lepsius_heidelbergensis_cave_var
-		}
-	}
-	#AFRICA
-	while = {
-		count = 2
-
-		random_state = {
+		random_scope_state = {
 			limit = {
-				is_in_geographic_region = geographic_region_africa
-				lepsius_erectus_region = yes
-				lepsius_has_cave = no
+				has_building = building_lepsius_archaeological_museum
+				is_capital = yes
 			}
-			state_region = {
-				set_variable = lepsius_erectus_cave_var
+			activate_production_method = {
+				building_type = building_lepsius_archaeological_museum
+				production_method = pm_lepsius_large_local_exhibition
 			}
 		}
-	}
-	while = {
-		count = 2
-
-		random_state = {
-			limit = {
-				lepsius_australopithecus_region = yes
-				lepsius_has_cave = no
-			}
-			state_region = {
-				set_variable = lepsius_australopithecus_cave_var
-			}
-		}
-	}
-	random_state = {
-		limit = {
-			lepsius_paranthropus_region = yes
-			lepsius_has_cave = no
-		}
-		state_region = {
-			set_variable = lepsius_paranthropus_cave_var
-		}
-	}
-	random_state = {
-		limit = {
-			lepsius_heidelbergensis_region = yes
-			lepsius_has_cave = no
-		}
-		state_region = {
-			set_variable = lepsius_heidelbergensis_cave_var
-		}
-	}
-	#ASIA
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_india
-			lepsius_erectus_region = yes
-			lepsius_has_cave = no
-		}
-		state_region = {
-			set_variable = lepsius_erectus_cave_var
-		}
-	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_east_asia
-			lepsius_erectus_region = yes
-			lepsius_has_cave = no
-		}
-		state_region = {
-			set_variable = lepsius_erectus_cave_var
-		}
-	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_china
-			lepsius_erectus_region = yes
-			lepsius_has_cave = no
-		}
-		state_region = {
-			set_variable = lepsius_erectus_cave_var
-		}
-	}
-	random_state = {
-		limit = {
-			is_in_geographic_region = geographic_region_south_east_asia
-			lepsius_erectus_region = yes
-			lepsius_has_cave = no
-		}
-		state_region = {
-			set_variable = lepsius_erectus_cave_var
-		}
-	}
-}
-
-lepsius_set_cave_site = {
-	random_scope_state = {
-		limit = {
-			has_modifier = lepsius_cave_examination_state_modifier
-		}
-		save_scope_as = lepsius_cave_site
-	}
-}
-
-lepsius_set_cave_leader = {
-	var:lepsius_anthropologist_var = {
-		save_scope_as = lepsius_anthropologist_scope
-	}
-}
-
-#Add Unspecific Human Fossils
-
-lepsius_add_x_human_fossils_effect = {
-	# Amount = amount of artifacts to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = fossil_amount
-		value = $AMOUNT$
-	}
-
-	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ < -1 }
-		custom_tooltip = lepsius_add_x_human_fossils_minus_x_tt
-	}
-	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ = -1 }
-		custom_tooltip = lepsius_add_x_human_fossils_minus_1_tt
-	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = lepsius_add_x_human_fossils_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ = 1 }
-		custom_tooltip = lepsius_add_x_human_fossils_plus_1_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 1 }
-		custom_tooltip = lepsius_add_x_human_fossils_plus_x_tt
-	}
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_total_human_fossil
-			value = 0
-		}
-	}
-	change_variable = {
-		name = lepsius_total_human_fossil
-		add = $AMOUNT$
-	}
-	change_global_variable = {
-		name = lepsius_global_human_fossil
-		add = $AMOUNT$
-	}
-	if = {
-		limit = { #Only works if there actually is an anthropologist
-			has_variable = lepsius_anthropologist_var
-		}
-		var:lepsius_anthropologist_var = {
-			if = { #Fallback if the variable does not exist yet
-				limit = {
-					NOT = {
-						has_variable = lepsius_human_fossil_anthropologist_var
-					}
-				}
-				set_variable = {
-					name = lepsius_human_fossil_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = { #The amount of Artifacts that this archaeologist discovered
-				name = lepsius_human_fossil_anthropologist_var
-				add = $AMOUNT$
-			}
-		}
-	}
-}
-
-#Add Specific Human Fossils
-
-lepsius_add_cromagnon_fossil_effect = {
-	# Amount not needed
-
-	custom_tooltip = lepsius_add_cromagnon_fossil_tt
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_total_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Total human fossils the TAG found
-		name = lepsius_total_human_fossil
-		add = 1
-	}
-	change_global_variable = { #Total human fossil found worldwide
-		name = lepsius_global_human_fossil
-		add = 1
-	}
-
-	#Total Human Fossils the Anthropologist found
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_human_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_human_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_human_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_cromagnon_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_cromagnon_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown Cro-Magnon
-		name = lepsius_cromagnon_human_fossil
-		add = 1
-	}
-	if = {
-		limit = {
-			var:lepsius_cromagnon_human_fossil >= 3
-			NOT = {
-				has_variable = lepsius_cromagnon_complete
-			}
-		}
-		trigger_event = {
-			id = lepsius.1321
-			popup = yes
-		}
-	}
-
-	#Total Cro-Magnon Fossils the Anthropologist found
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_cromagnon_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_cromagnon_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_cromagnon_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-}
-
-lepsius_add_neanderthalensis_fossil_effect = {
-	# Amount not needed
-
-	custom_tooltip = lepsius_add_neanderthalensis_fossil_tt
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_total_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Total human fossils the TAG found
-		name = lepsius_total_human_fossil
-		add = 1
-	}
-	change_global_variable = { #Total human fossil found worldwide
-		name = lepsius_global_human_fossil
-		add = 1
-	}
-
-	#Total Human Fossils the Anthropologist found
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_human_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_human_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_human_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_neanderthalensis_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_neanderthalensis_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown Neanderthaler
-		name = lepsius_neanderthalensis_human_fossil
-		add = 1
-	}
-	if = {
-		limit = {
-			var:lepsius_neanderthalensis_human_fossil >= 3
-			NOT = {
-				has_variable = lepsius_neanderthalensis_complete
-			}
-		}
-		trigger_event = {
-			id = lepsius.1322
-			popup = yes
-		}
-	}
-
-	#Total Neanderthaler Fossils the Anthropologist found
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_neanderthalensis_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_neanderthalensis_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_neanderthalensis_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-}
-
-lepsius_add_erectus_fossil_effect = {
-	# Amount not needed
-
-	custom_tooltip = lepsius_add_erectus_fossil_tt
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_total_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Total human fossils the TAG found
-		name = lepsius_total_human_fossil
-		add = 1
-	}
-	change_global_variable = { #Total human fossil found worldwide
-		name = lepsius_global_human_fossil
-		add = 1
-	}
-
-	#Total Human Fossils the Anthropologist found
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_human_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_human_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_human_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_erectus_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_erectus_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown Erectus
-		name = lepsius_erectus_human_fossil
-		add = 1
-	}
-	if = {
-		limit = {
-			var:lepsius_erectus_human_fossil >= 3
-			NOT = {
-				has_variable = lepsius_erectus_complete
-			}
-		}
-		trigger_event = {
-			id = lepsius.1323
-			popup = yes
-		}
-	}
-
-	#Total Erectus Fossils the Anthropologist found
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_erectus_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_erectus_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_erectus_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-}
-
-lepsius_add_australopithecus_fossil_effect = {
-	# Amount not needed
-
-	custom_tooltip = lepsius_add_australopithecus_fossil_tt
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_total_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Total human fossils the TAG found
-		name = lepsius_total_human_fossil
-		add = 1
-	}
-	change_global_variable = { #Total human fossil found worldwide
-		name = lepsius_global_human_fossil
-		add = 1
-	}
-
-	#Total Human Fossils the Anthropologist found
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_human_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_human_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_human_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_australopithecus_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_australopithecus_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown Australopithecus
-		name = lepsius_australopithecus_human_fossil
-		add = 1
-	}
-	if = {
-		limit = {
-			var:lepsius_australopithecus_human_fossil >= 3
-			NOT = {
-				has_variable = lepsius_australopithecus_complete
-			}
-		}
-		trigger_event = {
-			id = lepsius.1324
-			popup = yes
-		}
-	}
-
-	#Total Australopithecus Fossils the Anthropologist found
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_australopithecus_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_australopithecus_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_australopithecus_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-}
-
-lepsius_add_paranthropus_fossil_effect = {
-	# Amount not needed
-
-	custom_tooltip = lepsius_add_paranthropus_fossil_tt
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_total_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Total human fossils the TAG found
-		name = lepsius_total_human_fossil
-		add = 1
-	}
-	change_global_variable = { #Total human fossil found worldwide
-		name = lepsius_global_human_fossil
-		add = 1
-	}
-
-	#Total Human Fossils the Anthropologist found
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_human_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_human_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_human_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_paranthropus_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_paranthropus_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown Paranthropus
-		name = lepsius_paranthropus_human_fossil
-		add = 1
-	}
-	if = {
-		limit = {
-			var:lepsius_paranthropus_human_fossil >= 3
-			NOT = {
-				has_variable = lepsius_paranthropus_complete
-			}
-		}
-		trigger_event = {
-			id = lepsius.1325
-			popup = yes
-		}
-	}
-
-	#Total Paranthropus Fossils the Anthropolgist found
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_paranthropus_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_paranthropus_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_paranthropus_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-}
-
-lepsius_add_heidelbergensis_fossil_effect = {
-	# Amount not needed
-
-	custom_tooltip = lepsius_add_heidelbergensis_fossil_tt
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_total_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Total human fossils the TAG found
-		name = lepsius_total_human_fossil
-		add = 1
-	}
-	change_global_variable = { #Total human fossil found worldwide
-		name = lepsius_global_human_fossil
-		add = 1
-	}
-
-	#Total Human Fossils the Anthropologist found
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_human_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_human_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_human_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_heidelbergensis_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_heidelbergensis_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown heidelbergensis
-		name = lepsius_heidelbergensis_human_fossil
-		add = 1
-	}
-	if = {
-		limit = {
-			var:lepsius_heidelbergensis_human_fossil >= 3
-			NOT = {
-				has_variable = lepsius_heidelbergensis_complete
-			}
-		}
-		trigger_event = {
-			id = lepsius.1326
-			popup = yes
-		}
-	}
-
-	#Total heidelbergensis Fossils the Anthropolgist found
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_heidelbergensis_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_heidelbergensis_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_heidelbergensis_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-}
-
-#Add Cave Bone Effect
-
-lepsius_add_cave_bone_effect = {
-	if = {
-		limit = {
-			scope:lepsius_cave_site = {
-				has_state_trait = lepsius_state_trait_cromagnon_cave
-			}
-		}
-		lepsius_add_cromagnon_fossil_effect = yes
-	}
-	if = {
-		limit = {
-			scope:lepsius_cave_site = {
-				has_state_trait = lepsius_state_trait_neanderthalensis_cave
-			}
-		}
-		lepsius_add_neanderthalensis_fossil_effect = yes
-	}
-	if = {
-		limit = {
-			scope:lepsius_cave_site = {
-				has_state_trait = lepsius_state_trait_erectus_cave
-			}
-		}
-		lepsius_add_erectus_fossil_effect = yes
-	}
-	if = {
-		limit = {
-			scope:lepsius_cave_site = {
-				has_state_trait = lepsius_state_trait_australopithecus_cave
-			}
-		}
-		lepsius_add_australopithecus_fossil_effect = yes
-	}
-	if = {
-		limit = {
-			scope:lepsius_cave_site = {
-				has_state_trait = lepsius_state_trait_paranthropus_cave
-			}
-		}
-		lepsius_add_paranthropus_fossil_effect = yes
-	}
-	if = {
-		limit = {
-			scope:lepsius_cave_site = {
-				has_state_trait = lepsius_state_trait_heidelbergensis_cave
-			}
-		}
-		lepsius_add_heidelbergensis_fossil_effect = yes
-	}
-}
-
-#Add Unknown Human Fossils
-
-lepsius_add_unknown_cromagnon_fossil_effect = {
-	# Amount not needed
-
-	custom_tooltip = lepsius_add_archaeological_unknown_fossil_tt
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_total_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Total human fossils the TAG found
-		name = lepsius_total_human_fossil
-		add = 1
-	}
-	change_global_variable = { #Total human fossil found worldwide
-		name = lepsius_global_human_fossil
-		add = 1
-	}
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_unknown_cromagnon_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_unknown_cromagnon_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown Cro-Magnon
-		name = lepsius_unknown_cromagnon_human_fossil
-		add = 1
-	}
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_unknown_human_fossils_var
-			}
-		}
-		set_variable = {
-			name = lepsius_total_unknown_human_fossils_var
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown human fossil
-		name = lepsius_total_unknown_human_fossils_var
-		add = 1
-	}
-}
-
-lepsius_add_unknown_neanderthalensis_fossil_effect = {
-	# Amount not needed
-
-	custom_tooltip = lepsius_add_archaeological_unknown_fossil_tt
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_total_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Total human fossils the TAG found
-		name = lepsius_total_human_fossil
-		add = 1
-	}
-	change_global_variable = { #Total human fossil found worldwide
-		name = lepsius_global_human_fossil
-		add = 1
-	}
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_unknown_neanderthalensis_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_unknown_neanderthalensis_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown Neanderthalensis
-		name = lepsius_unknown_neanderthalensis_human_fossil
-		add = 1
-	}
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_unknown_human_fossils_var
-			}
-		}
-		set_variable = {
-			name = lepsius_total_unknown_human_fossils_var
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown human fossil
-		name = lepsius_total_unknown_human_fossils_var
-		add = 1
-	}
-}
-
-lepsius_add_unknown_erectus_fossil_effect = {
-
-	# Amount not needed
-
-	custom_tooltip = lepsius_add_archaeological_unknown_fossil_tt
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_total_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Total human fossils the TAG found
-		name = lepsius_total_human_fossil
-		add = 1
-	}
-	change_global_variable = { #Total human fossil found worldwide
-		name = lepsius_global_human_fossil
-		add = 1
-	}
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_unknown_erectus_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_unknown_erectus_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown Erectus
-		name = lepsius_unknown_erectus_human_fossil
-		add = 1
-	}
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_unknown_human_fossils_var
-			}
-		}
-		set_variable = {
-			name = lepsius_total_unknown_human_fossils_var
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown human fossil
-		name = lepsius_total_unknown_human_fossils_var
-		add = 1
-	}
-}
-
-lepsius_add_unknown_australopithecus_fossil_effect = {
-
-	# Amount not needed
-
-	custom_tooltip = lepsius_add_archaeological_unknown_fossil_tt
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_total_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Total human fossils the TAG found
-		name = lepsius_total_human_fossil
-		add = 1
-	}
-	change_global_variable = { #Total human fossil found worldwide
-		name = lepsius_global_human_fossil
-		add = 1
-	}
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_unknown_australopithecus_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_unknown_australopithecus_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown Australopithecus
-		name = lepsius_unknown_australopithecus_human_fossil
-		add = 1
-	}
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_unknown_human_fossils_var
-			}
-		}
-		set_variable = {
-			name = lepsius_total_unknown_human_fossils_var
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown human fossil
-		name = lepsius_total_unknown_human_fossils_var
-		add = 1
-	}
-}
-
-lepsius_add_unknown_paranthropus_fossil_effect = {
-
-	# Amount not needed
-
-	custom_tooltip = lepsius_add_archaeological_unknown_fossil_tt
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_total_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Total human fossils the TAG found
-		name = lepsius_total_human_fossil
-		add = 1
-	}
-	change_global_variable = { #Total human fossil found worldwide
-		name = lepsius_global_human_fossil
-		add = 1
-	}
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_unknown_paranthropus_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_unknown_paranthropus_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown Paranthropus
-		name = lepsius_unknown_paranthropus_human_fossil
-		add = 1
-	}
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_unknown_human_fossils_var
-			}
-		}
-		set_variable = {
-			name = lepsius_total_unknown_human_fossils_var
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown human fossil
-		name = lepsius_total_unknown_human_fossils_var
-		add = 1
-	}
-}
-
-lepsius_add_unknown_heidelbergensis_fossil_effect = {
-
-	# Amount not needed
-
-	custom_tooltip = lepsius_add_archaeological_unknown_fossil_tt
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_total_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Total human fossils the TAG found
-		name = lepsius_total_human_fossil
-		add = 1
-	}
-	change_global_variable = { #Total human fossil found worldwide
-		name = lepsius_global_human_fossil
-		add = 1
-	}
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_unknown_heidelbergensis_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_unknown_heidelbergensis_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown heidelbergensis
-		name = lepsius_unknown_heidelbergensis_human_fossil
-		add = 1
-	}
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_total_unknown_human_fossils_var
-			}
-		}
-		set_variable = {
-			name = lepsius_total_unknown_human_fossils_var
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown human fossil
-		name = lepsius_total_unknown_human_fossils_var
-		add = 1
-	}
-}
-
-#Identify Human Fossils
-
-lepsius_identify_cromagnon_fossil_effect = {
-	custom_tooltip = lepsius_identify_cromagnon_fossil_tt
-
-	change_variable = { #Sub unknown Cro-Magnon
-		name = lepsius_unknown_cromagnon_human_fossil
-		add = -1
-	}
-	change_variable = { #Sub Unknown Human Fossil
-		name = lepsius_total_unknown_human_fossils_var
-		add = -1
-	}
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = lepsius_cromagnon_human_fossil
-			}
-		}
-		set_variable = {
-			name = lepsius_cromagnon_human_fossil
-			value = 0
-		}
-	}
-	change_variable = { #Add unknown Cro-Magnon
-		name = lepsius_cromagnon_human_fossil
-		add = 1
-	}
-	if = {
-		limit = {
-			var:lepsius_cromagnon_human_fossil >= 3
-			NOT = {
-				has_variable = lepsius_cromagnon_complete
-			}
-		}
-		trigger_event = {
-			id = lepsius.1321
-			popup = yes
-		}
-	}
-
-	#Total Human Fossils the Anthropolgist identified
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_identified_human_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_identified_human_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_identified_human_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-}
-
-lepsius_identify_neanderthalensis_fossil_effect = {
-	custom_tooltip = lepsius_identify_neanderthalensis_fossil_tt
-
-	change_variable = { #Sub unknown Neanderthalensis
-		name = lepsius_unknown_neanderthalensis_human_fossil
-		add = -1
-	}
-	change_variable = { #Sub Unknown Human Fossil
-		name = lepsius_total_unknown_human_fossils_var
-		add = -1
-	}
-	change_variable = { #Add known Neanderthalensis
-		name = lepsius_neanderthalensis_human_fossil
-		add = 1
-	}
-
-	if = {
-		limit = {
-			var:lepsius_neanderthalensis_human_fossil >= 3
-			NOT = {
-				has_variable = lepsius_neanderthalensis_complete
-			}
-		}
-		trigger_event = {
-			id = lepsius.1322
-			popup = yes
-		}
-	}
-
-	#Total Human Fossils the Anthropolgist identified
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_identified_human_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_identified_human_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_identified_human_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-}
-
-lepsius_identify_erectus_fossil_effect = {
-	custom_tooltip = lepsius_identify_erectus_fossil_tt
-
-	change_variable = { #Sub Erectus
-		name = lepsius_unknown_erectus_human_fossil
-		add = -1
-	}
-	change_variable = { #Sub Unknown Human Fossil
-		name = lepsius_total_unknown_human_fossils_var
-		add = -1
-	}
-	change_variable = { #Add unknown Erectus
-		name = lepsius_erectus_human_fossil
-		add = 1
-	}
-
-	if = {
-		limit = {
-			var:lepsius_erectus_human_fossil >= 3
-			NOT = {
-				has_variable = lepsius_erectus_complete
-			}
-		}
-		trigger_event = {
-			id = lepsius.1323
-			popup = yes
-		}
-	}
-
-	#Total Human Fossils the Anthropolgist identified
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_identified_human_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_identified_human_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_identified_human_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-}
-
-lepsius_identify_australopithecus_fossil_effect = {
-	custom_tooltip = lepsius_identify_australopithecus_fossil_tt
-
-	change_variable = { #Sub Australopithecus
-		name = lepsius_unknown_australopithecus_human_fossil
-		add = -1
-	}
-	change_variable = { #Sub Unknown Human Fossil
-		name = lepsius_total_unknown_human_fossils_var
-		add = -1
-	}
-	change_variable = { #Add unknown Australopithecus
-		name = lepsius_australopithecus_human_fossil
-		add = 1
-	}
-
-	if = {
-		limit = {
-			var:lepsius_australopithecus_human_fossil >= 3
-			NOT = {
-				has_variable = lepsius_australopithecus_complete
-			}
-		}
-		trigger_event = {
-			id = lepsius.1324
-			popup = yes
-		}
-	}
-
-	#Total Human Fossils the Anthropolgist identified
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_identified_human_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_identified_human_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_identified_human_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-}
-
-lepsius_identify_paranthropus_fossil_effect = {
-	custom_tooltip = lepsius_identify_paranthropus_fossil_tt
-
-	change_variable = { #Sub Paranthropus
-		name = lepsius_unknown_paranthropus_human_fossil
-		add = -1
-	}
-	change_variable = { #Sub Unknown Human Fossil
-		name = lepsius_total_unknown_human_fossils_var
-		add = -1
-	}
-	change_variable = { #Add unknown Paranthropus
-		name = lepsius_paranthropus_human_fossil
-		add = 1
-	}
-
-	if = {
-		limit = {
-			var:lepsius_paranthropus_human_fossil >= 3
-			NOT = {
-				has_variable = lepsius_paranthropus_complete
-			}
-		}
-		trigger_event = {
-			id = lepsius.1325
-			popup = yes
-		}
-	}
-
-	#Total Human Fossils the Anthropolgist identified
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_identified_human_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_identified_human_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_identified_human_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-}
-
-lepsius_identify_heidelbergensis_fossil_effect = {
-	custom_tooltip = lepsius_identify_heidelbergensis_fossil_tt
-
-	change_variable = { #Sub heidelbergensis
-		name = lepsius_unknown_heidelbergensis_human_fossil
-		add = -1
-	}
-	change_variable = { #Sub Unknown Human Fossil
-		name = lepsius_total_unknown_human_fossils_var
-		add = -1
-	}
-	change_variable = { #Add unknown heidelbergensis
-		name = lepsius_heidelbergensis_human_fossil
-		add = 1
-	}
-
-	if = {
-		limit = {
-			var:lepsius_heidelbergensis_human_fossil >= 3
-			NOT = {
-				has_variable = lepsius_heidelbergensis_complete
-			}
-		}
-		trigger_event = {
-			id = lepsius.1326
-			popup = yes
-		}
-	}
-
-	#Total Human Fossils the Anthropolgist identified
-	if = {
-		limit = { has_variable = lepsius_anthropologist_var }
-		var:lepsius_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = lepsius_total_identified_human_fossils_anthropologist_var } }
-				set_variable = {
-					name = lepsius_total_identified_human_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = lepsius_total_identified_human_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-}
-
-#Identification Progress
-
-lepsius_set_fossil_identification_progress = {
-	set_variable = {
- 		name = lepsius_fossil_identification_progress
- 		value = 1
-	}
-}
-
-lepsius_fossil_identification_progress = {
-	change_variable = {
- 		name = lepsius_fossil_identification_progress
- 		add = 1
 	}
 }
 
@@ -5094,142 +3672,6 @@ lepsius_set_archaeologist_busy_effect = {
 	}
 }
 
-lepsius_set_anthropologist_busy_effect = {
-	custom_tooltip = {
-		text = lepsius_set_anthropologist_busy_tt
-		if = {
-			limit = { has_variable = lepsius_anthropologist_var }
-			var:lepsius_anthropologist_var = {
-				set_character_busy_and_immortal = yes
-			}
-		}
-	}
-}
-
-###ANTHROPOLOGICAL RATING######
-
-lepsius_change_anthropological_rating = {
-	# Amount = amount of artifacts to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = add_anthropological_prestige
-		value = $AMOUNT$
-	}
-
-	#Used to display the right tooltip
-	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ < -1 }
-		custom_tooltip = lepsius_change_anthropological_minus_x_tt
-	}
-	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ = -1 }
-		custom_tooltip = lepsius_change_anthropological_minus_1_tt
-	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = lepsius_change_anthropological_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ = 1 }
-		custom_tooltip = lepsius_change_anthropological_plus_1_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 1 }
-		custom_tooltip = lepsius_change_anthropological_plus_x_tt
-	}
-
-	#Fallback in case the variable does not exist yet
-	if = {
-		limit = {
-			NOT = {
-				has_variable = lepsius_anthropological_rating
-			}
-		}
-		set_variable = {
-			name = lepsius_anthropological_rating
-			value = 0
-		}
-	}
-
-	#Actual Variable Change
-	change_variable = {
-		name = lepsius_anthropological_rating
-		add = $AMOUNT$
-	}
-
-	#Adds the correct modifier
-	hidden_effect = {
-		lepsius_remove_anthropological_prestige_modifiers_effect = yes
-		if = {
-			limit = {
-				var:lepsius_anthropological_rating >= 50
-			}
-			if = {
-				limit = {
-					var:lepsius_anthropological_rating < 150
-				}
-				add_modifier = {
-					name = lepsius_anthropological_rating_level_1_modifier
-				}
-			}
-			else_if = {
-				limit = {
-					var:lepsius_anthropological_rating < 250
-				}
-				add_modifier = {
-					name = lepsius_anthropological_rating_level_2_modifier
-				}
-			}
-			else_if = {
-				limit = {
-					var:lepsius_anthropological_rating < 400
-				}
-				add_modifier = {
-					name = lepsius_anthropological_rating_level_3_modifier
-				}
-			}
-			else_if = {
-				limit = {
-					var:lepsius_anthropological_rating < 600
-				}
-				add_modifier = {
-					name = lepsius_anthropological_rating_level_4_modifier
-				}
-			}
-			else_if = {
-				limit = {
-					var:lepsius_anthropological_rating >= 600
-				}
-				add_modifier = {
-					name = lepsius_anthropological_rating_level_5_modifier
-				}
-			}
-		}
-	}
-}
-
-lepsius_remove_anthropological_prestige_modifiers_effect = {
-	if = {
-		limit = { has_modifier = lepsius_anthropological_rating_level_1_modifier }
-		remove_modifier = lepsius_anthropological_rating_level_1_modifier
-	}
-	if = {
-		limit = { has_modifier = lepsius_anthropological_rating_level_2_modifier }
-		remove_modifier = lepsius_anthropological_rating_level_2_modifier
-	}
-	if = {
-		limit = { has_modifier = lepsius_anthropological_rating_level_3_modifier }
-		remove_modifier = lepsius_anthropological_rating_level_3_modifier
-	}
-	if = {
-		limit = { has_modifier = lepsius_anthropological_rating_level_4_modifier }
-		remove_modifier = lepsius_anthropological_rating_level_4_modifier
-	}
-	if = {
-		limit = { has_modifier = lepsius_anthropological_rating_level_5_modifier }
-		remove_modifier = lepsius_anthropological_rating_level_5_modifier
-	}
-}
-
 ############################
 
 lepsius_add_variables = {
@@ -5373,63 +3815,6 @@ lepsius_add_variables = {
         name = lepsius_total_discoveries
         value = 0
 	}
-	######Anthropology######
-	set_variable = {
-        name = lepsius_total_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_cromagnon_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_unknown_cromagnon_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_neanderthalensis_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_unknown_neanderthalensis_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_erectus_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_unknown_erectus_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_australopithecus_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_unknown_australopithecus_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_paranthropus_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_unknown_paranthropus_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_heidelbergensis_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_unknown_heidelbergensis_human_fossil
-        value = 0
-	}
-	set_variable = {
-		name = lepsius_anthropological_rating
-		value = 0
-	}
 	######Add all variables######
 	set_variable = lepsius_variables_var
 }
@@ -5473,6 +3858,25 @@ lepsius_create_palmyra_effect = {
 	}
 }
 
+### Raft Auction ###
+lepsius_raft_auction_effect = {
+	ordered_country = {
+		limit = {
+			NOT = { 
+				has_variable = lepsius_raft_auction_denied_var
+			}
+			lepsius_has_archaeological_museum = yes
+		}
+		order_by = lepsius_auction_value
+		max = 1 #Limits the list to the ten top countries
+		check_range_bounds = no #prevents errors
+
+		trigger_event = {
+			id = lepsius.752
+		}
+	}
+}
+
 ##############################
 
 ###Ranking for Archaeologists###
@@ -5482,9 +3886,9 @@ lepsius_create_archaeologist_ranking_effect = {
 	#Removes the global variable list
 	clear_global_variable_list = mr_archaeologist_ranking_global_list
 
-	ordered_character_in_void = {
+	ordered_character = {
 		limit = {
-			has_variable = mr_is_archaeologist_var
+			has_role = character_role_lepsius_archaeologist
 		}
 		order_by = var:lepsius_archaeologist_experience_var
 		check_range_bounds = no

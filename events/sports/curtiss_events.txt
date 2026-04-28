@@ -10,7 +10,7 @@ namespace = curtiss
 
 ###################
 
-#Curtiss 1: REMOVED
+#Curtiss 1: Our Pilot died
 #Curtiss 10: Seaplanes [Schneider's Trophy JE]
 #Curtiss 11: Has Seaplanes tech [hidden]
 #Curtiss 12: Henri Fabre
@@ -294,7 +294,6 @@ namespace = curtiss
 #Curtiss 674: Death by Whale
 #Curtiss 675: Balloonist died in accident (hidden)
 #Curtiss 676: Our Balloonist died
-#Curtiss 677: Our Balloonist died (hidden)
 
 #Test Flights
 
@@ -302,7 +301,41 @@ namespace = curtiss
 
 #################################################################################
 
-#Curtiss 1: REMOVED
+#Curtiss 1: Our Pilot died
+curtiss.1 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = athletes.12.t
+
+	desc = athletes.12.d
+
+#	flavor = athletes.12.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/academics_pictures/academics_academic_funeral.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#This is a huge loss!
+		name = curtiss.1.g
+		default_option = yes
+
+		custom_tooltip = academics.21_tt
+	}
+}
 
 #Curtiss 10: Seaplanes [Schneider's Trophy JE]
 
@@ -9988,7 +10021,9 @@ curtiss.311 = {
 	}
 	option = { #We need him for domestic propaganda.
 		name = curtiss.311.h
-		curtiss_remove_new_pilot_effect = yes
+		scope:curtiss_new_pilot_scope = {
+			set_character_busy_and_immortal = no
+		}
 		scope:flying_circus_war = {
 			add_war_war_support = {
 				target = scope:flying_circus_home
@@ -11373,7 +11408,7 @@ curtiss.411 = {
 			if = {
 				limit = {
 					any_scope_character = {
-						has_role = general
+						has_role_of_type = general
 						has_trait = curtiss_pilot
 					}
 				}
@@ -11472,7 +11507,7 @@ curtiss.412 = {
 			if = {
 				limit = {
 					any_scope_character = {
-						has_role = general
+						has_role_of_type = general
 						has_trait = curtiss_pilot
 					}
 				}
@@ -11567,7 +11602,7 @@ curtiss.413 = {
 			if = {
 				limit = {
 					any_scope_character = {
-						has_role = general
+						has_role_of_type = general
 						has_trait = curtiss_pilot
 					}
 				}
@@ -14758,12 +14793,11 @@ curtiss.601 = {
 			}
 
 			scope:curtiss_balloonist_scope = {
-				set_variable = mr_is_balloonist_var
-				place_character_in_void = 1200
 				set_variable = {
 					name = curtiss_balloonist_experience_var
 					value = 150
 				}
+				set_variable = mr_is_mr_character
 			}
 
 			set_variable = {
@@ -15662,8 +15696,6 @@ curtiss.614 = {
 
 		scope:curtiss_balloonist_scope = {
 			set_variable = mr_female_glasses_var
-			set_variable = mr_is_balloonist_var
-			place_character_in_void = 1200
 		}
 	}
 
@@ -15688,6 +15720,7 @@ curtiss.614 = {
 					name = curtiss_balloonist_experience_var
 					value = 150
 				}
+				set_variable = mr_is_mr_character
 			}
 
 			set_variable = {
@@ -15782,6 +15815,7 @@ curtiss.615 = {
 					name = curtiss_balloonist_experience_var
 					value = 150
 				}
+				set_variable = mr_is_mr_character
 			}
 
 			set_variable = {
@@ -17336,21 +17370,14 @@ curtiss.676 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	trigger = {
-		#Triggered by on_action in the journal
-		NOT = { #prevents event from firing when player doesn't want to see it
-			has_variable = curtiss_no_balloonist_death_events
-		}
 	}
 
 	immediate = {
-		remove_variable = curtiss_balloonist_var
 	}
 
 	option = {	#How horrible!
 		name = curtiss.674.g
 		default_option = yes
-
-		kill_balloonist_effect = yes
 
 		custom_tooltip = academics.21_tt
 
@@ -17362,8 +17389,6 @@ curtiss.676 = {
 	option = {	#Terrible! Is there another balloonist we could sponsor?
 		name = curtiss.674.h
 
-		kill_balloonist_effect = yes
-
 		create_balloonist_effect = yes
 
 		custom_tooltip = academics.21_tt
@@ -17371,25 +17396,6 @@ curtiss.676 = {
 		ai_chance = {
 			base = 0
 		}
-	}
-}
-
-#Curtiss 677: Our Balloonist died (hidden)
-curtiss.677 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-	hidden = yes
-
-	trigger = {
-		#Triggered by on_action in the journal
-		has_variable = curtiss_no_balloonist_death_events
-	}
-
-	immediate = {
-		kill_balloonist_effect = yes
-
-		create_balloonist_effect = yes
 	}
 }
 

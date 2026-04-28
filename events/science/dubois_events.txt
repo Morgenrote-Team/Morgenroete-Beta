@@ -15,7 +15,6 @@ namespace = dubois
 #Dubois 3: Return of the Beagle
 #Dubois 4: Kosmos
 #Dubois 5: Mendel
-#Dubois 6: Dubois finds the Java Man (alternative to Rapanui.250)
 #Dubois 7: The Peppered Moth evolves!
 
 ###Diplomatic Action###
@@ -428,8 +427,8 @@ dubois.1 = {
 			set_variable = dubois_zoo_inauguration_happened
 		}
 		if = {
-			limit = { has_variable = dubois_naturalist_var }
-			var:dubois_naturalist_var ?= {
+			limit = { has_variable = ito_naturalist_var }
+			var:ito_naturalist_var ?= {
 				set_variable = {
 					name = ito_naturalist_achievement_inaugurated_zoo_var
 					value = flag:ito_naturalist_achievement_inaugurated_zoo_loc
@@ -496,13 +495,13 @@ dubois.2 = {
 		if = {
 			limit ={
 				NOT = {
-					has_variable = dubois_naturalist_var
+					has_variable = ito_naturalist_var
 				}
 			}
 			create_new_character_base_effect = { CHARACTER = naturalist PROJECT = dubois }
 			dubois_set_new_naturalist_as_naturalist_effect = yes
 		}
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 			set_variable = {
 				name = ito_naturalist_achievement_invented_evolution_theory_var
@@ -585,7 +584,7 @@ dubois.3 = {
 	immediate = {
 		set_variable = dubois_beagle_returned
 		create_darwin_effect = yes
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -658,7 +657,7 @@ dubois.4 = {
 		if = {
 			limit ={
 				NOT = {
-					has_variable = dubois_naturalist_var
+					has_variable = ito_naturalist_var
 				}
 			}
 			dubois_set_new_naturalist_as_naturalist_effect = yes
@@ -719,120 +718,6 @@ dubois.5 = {
 	}
 }
 
-#Dubois 6: Dubois finds the Java Man (alternative to Rapanui.250)
-
-dubois.6 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = dubois.6.t
-	desc = dubois.6.d
-	flavor = dubois.6.f
-
-	placement = scope:dubois_java_man_location
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_java.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
-
-	trigger = {
-		NOT = {
-			has_global_variable = dubois_java_man_found
-		}
-		game_date >= 1891.1.1
-		has_technology_researched = dubois_paleontology_tech
-		exists = c:NET
-		ROOT = c:NET
-	}
-
-	immediate = {
-		set_global_variable = dubois_java_man_found
-		random_state = {
-			limit = {
-				state_region = s:STATE_EAST_JAVA
-			}
-			save_scope_as = dubois_java_man_location
-		}
-
-		create_dubois_eugene_effect = yes
-	}
-
-	option = {
-		name = rapanui.250.g #A historical day
-		default_option = yes
-		dubois_add_fossil_java = yes
-		if = {
-			limit = {
-				NOT = {
-					has_global_variable = lepsius_erectus_systemized
-				}
-			}
-			set_global_variable = lepsius_erectus_systemized
-			set_variable = lepsius_erectus_systemizer
-			lepsius_change_anthropological_rating = {
-				AMOUNT = 100
-			}
-			hidden_effect = {
-				lepsius_add_erectus_fossil_effect = yes
-				lepsius_add_erectus_fossil_effect = yes
-				lepsius_add_erectus_fossil_effect = yes
-			}
-		}
-		else = {
-			lepsius_change_anthropological_rating = {
-				AMOUNT = 50
-			}
-		}
-
-		dubois_medium_add_technology = yes
-		paleontologist_experience_gain_effect = {
-			AMOUNT = "75"
-		}
-		post_notification = dubois_java_man_notification
-
-		hidden_effect = {
-			dubois_remove_new_paleontologist_effect = yes
-		}
-	}
-
-	option = {
-		name = dubois.6.g #We need this man as our lead palaeontologist!
-		dubois_add_fossil_java = yes
-		if = {
-			limit = {
-				NOT = {
-					has_global_variable = lepsius_erectus_systemized
-				}
-			}
-			set_global_variable = lepsius_erectus_systemized
-			set_variable = lepsius_erectus_systemizer
-			lepsius_change_anthropological_rating = {
-				AMOUNT = 100
-			}
-			hidden_effect = {
-				lepsius_add_erectus_fossil_effect = yes
-				lepsius_add_erectus_fossil_effect = yes
-				lepsius_add_erectus_fossil_effect = yes
-			}
-		}
-
-		post_notification = dubois_java_man_notification
-
-		dubois_set_new_paleontologist_as_paleontologist_effect = yes
-
-		ai_chance = {
-			base = 0
-		}
-	}
-}
-
 #Dubois 7: The Peppered Moth evolves!
 
 dubois.7 = {
@@ -871,7 +756,7 @@ dubois.7 = {
 		name = dubois.7.g
 
 		naturalist_experience_gain_effect = { AMOUNT = 10 }
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			set_variable = {
 				name = ito_naturalist_achievement_showed_evolution_in_peppered_moths_var
 				value = flag:ito_naturalist_achievement_showed_evolution_in_peppered_moths_loc
@@ -879,7 +764,7 @@ dubois.7 = {
 		}
 		dubois_medium_add_technology = yes
 
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = ito_entomologist }
@@ -3913,7 +3798,7 @@ dubois.21 = {
 
 	immediate = {
 		dubois_calculate_catch_animals = yes
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -4593,7 +4478,7 @@ dubois.22 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 		#Sets up a variable that sets the documentation title
@@ -4636,14 +4521,14 @@ dubois.22 = {
 		if = {
 			limit = {
 				NOT = {
-					var:dubois_naturalist_var ?= {
+					var:ito_naturalist_var ?= {
 						has_trait = ito_zoologist
 					}
 				}
 			}
 			random_list = {
 				1 = {
-					var:dubois_naturalist_var ?= {
+					var:ito_naturalist_var ?= {
 						add_trait = ito_zoologist
 					}
 				}
@@ -4696,7 +4581,7 @@ dubois.31 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -5172,7 +5057,7 @@ dubois.32 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 
@@ -5385,7 +5270,7 @@ dubois.33 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -5473,7 +5358,7 @@ dubois.34 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -5528,7 +5413,7 @@ dubois.35 = {
     }
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -5538,7 +5423,7 @@ dubois.35 = {
 		default_option = yes
 		trigger = {
 			NOT = {
-				var:dubois_naturalist_var ?= {
+				var:ito_naturalist_var ?= {
 					has_trait = ito_zoologist
 				}
 			}
@@ -5567,7 +5452,7 @@ dubois.35 = {
 	option = {
 		name = dubois.36.i #The professor has everything under control.
 		trigger = {
-			var:dubois_naturalist_var ?= {
+			var:ito_naturalist_var ?= {
 				has_trait = ito_zoologist
 			}
 		}
@@ -5612,7 +5497,7 @@ dubois.36 = {
     }
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -5622,7 +5507,7 @@ dubois.36 = {
 		default_option = yes
 		trigger = {
 			NOT = {
-				var:dubois_naturalist_var ?= {
+				var:ito_naturalist_var ?= {
 					has_trait = ito_zoologist
 				}
 			}
@@ -5670,7 +5555,7 @@ dubois.36 = {
 		name = dubois.36.h #Lay out the traps anyway!
 		trigger = {
 			NOT = {
-				var:dubois_naturalist_var ?= {
+				var:ito_naturalist_var ?= {
 					has_trait = ito_zoologist
 				}
 			}
@@ -5689,7 +5574,7 @@ dubois.36 = {
 	option = {
 		name = dubois.36.i #The professor has everything under control.
 		trigger = {
-			var:dubois_naturalist_var ?= {
+			var:ito_naturalist_var ?= {
 				has_trait = ito_zoologist
 			}
 		}
@@ -5721,7 +5606,7 @@ dubois.37 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -5784,7 +5669,7 @@ dubois.38 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -5872,7 +5757,7 @@ dubois.39 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -5933,7 +5818,7 @@ dubois.40 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -6338,7 +6223,7 @@ dubois.52 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			set_variable = {
 				name = ito_natualist_achievement_forestry_improvement_finished_var
 				value = flag:ito_natualist_achievement_forestry_improvement_finished_loc
@@ -6378,7 +6263,7 @@ dubois.53 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			set_variable = {
 				name = ito_naturalist_achievement_rubber_improvement_finished_var
 				value = flag:ito_naturalist_achievement_rubber_improvement_finished_loc
@@ -10933,101 +10818,6 @@ dubois.241 = {
 	}
 }
 
-######Human Fossils######
-
-#Dubois 251: Unknown Human Bone (Neanderthalensis)
-
-dubois.251 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = dubois.251.t
-	desc = dubois.251.d
-	flavor = dubois.251.f
-
-	duration = 3
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:dubois_paleontologist_scope
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
-
-	cooldown = {
-		years = 20
-	}
-
-	trigger = {
-		dubois_paleontological_research = yes
-		je:je_dubois_paleontological_expedition ?= {
-			has_modifier = dubois_paleontological_expedition_europe_modifier
-		}
-	}
-
-	immediate = {
-		var:dubois_paleontologist_var ?= {
-			save_scope_as = dubois_paleontologist_scope
-		}
-	}
-
-	option = {
-		name = lepsius.1214.g #A task for an anthropologist.
-		default_option = yes
-		lepsius_add_unknown_neanderthalensis_fossil_effect = yes
-	}
-}
-
-#Dubois 251: Unknown Human Bone (Erectus)
-
-dubois.252 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = dubois.251.t
-	desc = dubois.251.d
-	flavor = dubois.251.f
-
-	duration = 3
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:dubois_paleontologist_scope
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
-
-	cooldown = {
-		years = 20
-	}
-
-	trigger = {
-		dubois_paleontological_research = yes
-		je:je_dubois_paleontological_expedition ?= {
-			OR = {
-				has_modifier = dubois_paleontological_expedition_africa_modifier
-				has_modifier = dubois_paleontological_expedition_asia_modifier
-			}
-		}
-	}
-
-	immediate = {
-		var:dubois_paleontologist_var ?= {
-			save_scope_as = dubois_paleontologist_scope
-		}
-	}
-
-	option = {
-		name = lepsius.1214.g #A task for an anthropologist.
-		default_option = yes
-		lepsius_add_unknown_erectus_fossil_effect = yes
-	}
-}
-
 ######Systemize Fossils######
 
 #Dubois 261: Systemization complete
@@ -11539,7 +11329,7 @@ dubois.301 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -12017,7 +11807,7 @@ dubois.302 = {
 
 	immediate = {
 		ito_set_naturalist_location_botanical_expedition_effect = yes
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 			set_variable = {
 				name = ito_naturalist_achievement_found_victoria_amazonica_var
@@ -12052,7 +11842,7 @@ dubois.302 = {
 		naturalist_experience_gain_effect = {
 			AMOUNT = "10"
 		}
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = ito_botanist }
@@ -12069,7 +11859,7 @@ dubois.302 = {
 		}
 		dubois_small_add_technology = yes
 		dubois_add_x_specimen_effect = { AMOUNT = 3000 }
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = ito_botanist }
@@ -12082,8 +11872,8 @@ dubois.302 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var ?= {
+			has_variable = ito_naturalist_var
+			var:ito_naturalist_var ?= {
 				has_trait = ito_botanist
 			}
 		  	factor = 2
@@ -12124,7 +11914,7 @@ dubois.303 = {
 
 	immediate = {
 		ito_set_naturalist_location_botanical_expedition_effect = yes
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 			set_variable = {
 				name = ito_naturalist_achievement_found_attacus_atlas_var
@@ -12159,7 +11949,7 @@ dubois.303 = {
 		naturalist_experience_gain_effect = {
 			AMOUNT = "10"
 		}
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = ito_entomologist }
@@ -12176,7 +11966,7 @@ dubois.303 = {
 		}
 		dubois_small_add_technology = yes
 		dubois_add_x_specimen_effect = { AMOUNT = 3000 }
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = ito_entomologist }
@@ -12189,8 +11979,8 @@ dubois.303 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var ?= {
+			has_variable = ito_naturalist_var
+			var:ito_naturalist_var ?= {
 				has_trait = ito_entomologist
 			}
 		  	factor = 2
@@ -12227,13 +12017,13 @@ dubois.304 = {
 
 	trigger = {
 		var:rapanui_scientist_character_var ?= {
-			has_variable = mr_is_naturalist_var
+			has_role = character_role_ito_naturalist
 		}
 	}
 
 	immediate = {
 		ito_set_naturalist_location_botanical_expedition_effect = yes
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 			set_variable = {
 				name = ito_naturalist_achievement_found_amorphophallus_titanum_var
@@ -12268,7 +12058,7 @@ dubois.304 = {
 		naturalist_experience_gain_effect = {
 			AMOUNT = "10"
 		}
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = ito_botanist }
@@ -12285,7 +12075,7 @@ dubois.304 = {
 		}
 		dubois_small_add_technology = yes
 		dubois_add_x_specimen_effect = { AMOUNT = 3000 }
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = ito_botanist }
@@ -12298,8 +12088,8 @@ dubois.304 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var ?= {
+			has_variable = ito_naturalist_var
+			var:ito_naturalist_var ?= {
 				has_trait = ito_botanist
 			}
 		  	factor = 2
@@ -12340,7 +12130,7 @@ dubois.305 = {
 
 	immediate = {
 		ito_set_naturalist_location_botanical_expedition_effect = yes
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 			set_variable = {
 				name = ito_naturalist_achievement_found_goliathus_var
@@ -12375,7 +12165,7 @@ dubois.305 = {
 		naturalist_experience_gain_effect = {
 			AMOUNT = "10"
 		}
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = ito_entomologist }
@@ -12392,7 +12182,7 @@ dubois.305 = {
 		}
 		dubois_small_add_technology = yes
 		dubois_add_x_specimen_effect = { AMOUNT = 3000 }
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = ito_entomologist }
@@ -12405,8 +12195,8 @@ dubois.305 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var ?= {
+			has_variable = ito_naturalist_var
+			var:ito_naturalist_var ?= {
 				has_trait = ito_entomologist
 			}
 		  	factor = 2
@@ -12448,7 +12238,7 @@ dubois.306 = {
 
 	immediate = {
 		ito_set_naturalist_location_botanical_expedition_effect = yes
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -12460,7 +12250,7 @@ dubois.306 = {
 		}
 		if = {
 			limit = {
-				var:dubois_naturalist_var ?= {
+				var:ito_naturalist_var ?= {
 					OR = {
 						has_trait = meticulous
 						has_trait = persistent
@@ -12477,8 +12267,8 @@ dubois.306 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var ?= {
+			has_variable = ito_naturalist_var
+			var:ito_naturalist_var ?= {
 				has_trait = ito_botanist
 			}
 		  	factor = 2
@@ -12519,7 +12309,7 @@ dubois.307 = {
 
 	immediate = {
 		ito_set_naturalist_location_botanical_expedition_effect = yes
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -12537,7 +12327,7 @@ dubois.307 = {
 		default_option = yes
 		if = {
 			limit = {
-				var:dubois_naturalist_var ?= {
+				var:ito_naturalist_var ?= {
 					OR = {
 						has_trait = ito_botanist
 					}
@@ -12553,8 +12343,8 @@ dubois.307 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var ?= {
+			has_variable = ito_naturalist_var
+			var:ito_naturalist_var ?= {
 				has_trait = ito_botanist
 			}
 		  	factor = 2
@@ -12596,7 +12386,7 @@ dubois.308 = {
 
 	immediate = {
 		ito_set_naturalist_location_botanical_expedition_effect = yes
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -12605,7 +12395,7 @@ dubois.308 = {
 		name = dubois.308.g #The expedition crew should collect these plants
 		if = {
 			limit = {
-				var:dubois_naturalist_var ?= {
+				var:ito_naturalist_var ?= {
 					OR = {
 						has_trait = meticulous
 						has_trait = persistent
@@ -12641,7 +12431,7 @@ dubois.308 = {
 		name = dubois.308.h #Collect them
 		if = {
 			limit = {
-				var:dubois_naturalist_var ?= {
+				var:ito_naturalist_var ?= {
 					OR = {
 						has_trait = meticulous
 						has_trait = persistent
@@ -12675,8 +12465,8 @@ dubois.308 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var ?= {
+			has_variable = ito_naturalist_var
+			var:ito_naturalist_var ?= {
 				has_trait = ito_botanist
 			}
 		  	factor = 2
@@ -12716,7 +12506,7 @@ dubois.309 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 		random_interest_group = {
@@ -12765,8 +12555,8 @@ dubois.309 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var ?= {
+			has_variable = ito_naturalist_var
+			var:ito_naturalist_var ?= {
 				OR = {
 					has_trait = tactful
 					has_trait = charismatic
@@ -12807,7 +12597,7 @@ dubois.310 = {
 
 	immediate = {
 		ito_set_naturalist_location_botanical_expedition_effect = yes
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -12879,7 +12669,7 @@ dubois.311 = {
 
 	immediate = {
 		ito_set_naturalist_location_botanical_expedition_effect = yes
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -12889,7 +12679,7 @@ dubois.311 = {
 		default_option = yes
 		if = {
 			limit = {
-				var:dubois_naturalist_var ?= {
+				var:ito_naturalist_var ?= {
 					OR = {
 						has_trait = meticulous
 						has_trait = persistent
@@ -12924,8 +12714,8 @@ dubois.311 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var ?= {
+			has_variable = ito_naturalist_var
+			var:ito_naturalist_var ?= {
 				has_trait = ito_botanist
 			}
 		  	factor = 2
@@ -12956,7 +12746,7 @@ dubois.390 = {
 	icon = "gfx/interface/icons/event_icons/event_botany.dds"
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -13017,7 +12807,7 @@ dubois.901 = {
 			name = dubois_unique_no
 			value = 0
 		}
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			set_variable = {
 				name = ito_naturalist_achievement_attended_hippocampus_congress_var
 				value = flag:ito_naturalist_achievement_attended_hippocampus_congress_loc
@@ -13026,11 +12816,11 @@ dubois.901 = {
 		}
 		random_country = {
 			limit = {
-				var:dubois_naturalist_var ?= {
+				var:ito_naturalist_var ?= {
 					has_variable = ito_naturalist_achievement_invented_evolution_theory_var
 				}
 			}
-			var:dubois_naturalist_var ?= {
+			var:ito_naturalist_var ?= {
 				save_scope_as = dubois_darwin_scope
 			}
 		}
@@ -13043,7 +12833,7 @@ dubois.901 = {
 				NOT = {
 					this = ROOT
 				}
-				has_variable = dubois_naturalist_var
+				has_variable = ito_naturalist_var
 			}
 			trigger_event = {
 				id = dubois.902
@@ -13094,7 +12884,7 @@ dubois.902 = {
 			}
 			save_scope_as = dubois_congress_host_country
 		}
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			set_variable = {
 				name = ito_naturalist_achievement_attended_hippocampus_congress_var
 				value = flag:ito_naturalist_achievement_attended_hippocampus_congress_loc
@@ -13143,33 +12933,33 @@ dubois.904 = {
 	icon = "gfx/interface/icons/event_icons/event_animals.dds"
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 		random_country = {
 			limit = {
-				has_variable = dubois_naturalist_var
+				has_variable = ito_naturalist_var
 				NOT = {
 					this = ROOT
 				}
 			}
-			var:dubois_naturalist_var ?= {
+			var:ito_naturalist_var ?= {
 				save_scope_as = dubois_hippocampus_defender_scope
 			}
 		}
 		random_country = {
 			limit = {
-				has_variable = dubois_naturalist_var
+				has_variable = ito_naturalist_var
 				NOT = {
 					this = ROOT
 				}
-				var:dubois_naturalist_var ?= {
+				var:ito_naturalist_var ?= {
 					NOT = {
 						this = scope:dubois_hippocampus_defender_scope
 					}
 				}
 			}
-			var:dubois_naturalist_var ?= {
+			var:ito_naturalist_var ?= {
 				save_scope_as = dubois_hippocampus_attacker_scope
 			}
 		}
@@ -13179,7 +12969,7 @@ dubois.904 = {
 		name = dubois.904.g #Man is unique in the animal kingdom
 		if = {
 			limit = {
-				var:dubois_naturalist_var ?= {
+				var:ito_naturalist_var ?= {
 					has_trait = ito_naturalist_famous
 				}
 			}
@@ -13191,7 +12981,7 @@ dubois.904 = {
 		}
 		else_if = {
 			limit = {
-				var:dubois_naturalist_var ?= {
+				var:ito_naturalist_var ?= {
 					has_trait = ito_naturalist_experienced
 				}
 			}
@@ -13226,7 +13016,7 @@ dubois.904 = {
 			}
 			modifier = { #Cautious Character preserves status quo
 				trigger = {
-					var:dubois_naturalist_var ?= {
+					var:ito_naturalist_var ?= {
 						has_trait = cautious
 					}
 				}
@@ -13234,8 +13024,8 @@ dubois.904 = {
 			}
 			modifier = { #Less experiences remains conformist
 				trigger = {
-					var:dubois_naturalist_var ?= {
-						var:dubois_naturalist_experience_var < 100
+					var:ito_naturalist_var ?= {
+						var:ito_naturalist_experience_var < 100
 					}
 				}
 				add = 1
@@ -13248,7 +13038,7 @@ dubois.904 = {
 		default_option = yes
 		if = {
 			limit = {
-				var:dubois_naturalist_var ?= {
+				var:ito_naturalist_var ?= {
 					has_trait = ito_naturalist_famous
 				}
 			}
@@ -13260,7 +13050,7 @@ dubois.904 = {
 		}
 		else_if = {
 			limit = {
-				var:dubois_naturalist_var ?= {
+				var:ito_naturalist_var ?= {
 					has_trait = ito_naturalist_experienced
 				}
 			}
@@ -13290,7 +13080,7 @@ dubois.904 = {
 			}
 			modifier = { #Atheist Naturalist
 				trigger = {
-					var:dubois_naturalist_var ?= {
+					var:ito_naturalist_var ?= {
 						has_ideology = ideology:ideology_anti_clerical
 					}
 				}
@@ -13312,7 +13102,7 @@ dubois.904 = {
 			}
 			modifier = { #Innovative will tend to Theory of Evolution
 				trigger = {
-					var:dubois_naturalist_var ?= {
+					var:ito_naturalist_var ?= {
 						has_trait = innovative
 					}
 				}
@@ -13320,15 +13110,15 @@ dubois.904 = {
 			}
 			modifier = { #More experience ist non-conformist
 				trigger = {
-					var:dubois_naturalist_var ?= {
-						var:dubois_naturalist_experience_var >= 100
+					var:ito_naturalist_var ?= {
+						var:ito_naturalist_experience_var >= 100
 					}
 				}
 				add = 2
 			}
 			modifier = { #Mr. Darwin will defend his theory at all cost
 				trigger = {
-					var:dubois_naturalist_var ?= {
+					var:ito_naturalist_var ?= {
 						has_variable = ito_naturalist_achievement_invented_evolution_theory_var
 					}
 				}
@@ -13341,7 +13131,7 @@ dubois.904 = {
 		hidden_effect = {
 			if = {
 				limit = {
-					var:dubois_naturalist_var ?= {
+					var:ito_naturalist_var ?= {
 						OR = {
 							has_trait = inspirational_orator
 							has_trait = demagogue
@@ -13357,7 +13147,7 @@ dubois.904 = {
 			}
 			else_if = {
 				limit = {
-					var:dubois_naturalist_var ?= {
+					var:ito_naturalist_var ?= {
 						OR = {
 							has_trait = innovative
 							has_trait = meticulous
@@ -13419,7 +13209,7 @@ dubois.905 = {
 			}
 			save_scope_as = dubois_congress_host_country
 		}
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 		every_country = {
@@ -13454,7 +13244,7 @@ dubois.905 = {
 		hidden_effect = {
 			if = {
 				limit = {
-					var:dubois_naturalist_var ?= {
+					var:ito_naturalist_var ?= {
 						OR = {
 							has_trait = innovative
 							has_trait = meticulous
@@ -13516,7 +13306,7 @@ dubois.906 = {
 			}
 			save_scope_as = dubois_congress_host_country
 		}
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 		every_country = {
@@ -13595,7 +13385,7 @@ dubois.907 = {
 			}
 			save_scope_as = dubois_congress_host_country
 		}
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 		random_scope_character = {
@@ -13652,7 +13442,7 @@ dubois.908 = {
 			}
 			save_scope_as = dubois_congress_host_country
 		}
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -13742,7 +13532,7 @@ dubois.909 = {
 			}
 			save_scope_as = dubois_congress_host_country
 		}
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 		if = {
@@ -13877,7 +13667,7 @@ dubois.910 = {
 			}
 			save_scope_as = dubois_congress_host_country
 		}
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -13904,1062 +13694,6 @@ dubois.910 = {
 		dubois_large_add_technology = yes
 		naturalist_experience_gain_effect = {
 			AMOUNT = "20"
-		}
-	}
-}
-
-#######Origin of Modern Humans######
-
-#Dubois 911: Origin - Invitation
-
-dubois.911 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = dubois.911.t
-	desc = dubois.911.d
-	flavor = dubois.911.f
-
-	duration = 1
-
-	event_image = {
-		texture = "gfx/event_pictures/dubois_pictures/dubois_origin_congress.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
-
-	immediate = {
-		set_global_variable = dubois_origin_europe
-		set_global_variable = dubois_origin_asia
-		set_global_variable = dubois_origin_africa
-		var:lepsius_anthropologist_var = {
-			set_variable = {
-				name = andersson_anthropologist_achievement_attended_origin_congress_var
-				value = flag:andersson_anthropologist_achievement_attended_origin_congress_loc
-			}
-			save_scope_as = lepsius_anthropologist_scope
-		}
-	}
-
-	option = {
-		name = dubois.911.g # Invite the leading anthropologist nations
-		every_country = {
-			limit = {
-				NOT = {
-					this = ROOT
-				}
-				has_variable = lepsius_anthropologist_var
-				OR = {
-					var:lepsius_neanderthalensis_human_fossil >= 1
-					var:lepsius_erectus_human_fossil >= 1
-					var:lepsius_australopithecus_human_fossil >= 1
-					var:lepsius_paranthropus_human_fossil >= 1
-				}
-			}
-			trigger_event = {
-				id = dubois.912
-				popup = yes
-			}
-		}
-	}
-
-	after = {
-		hidden_effect = {
-			trigger_event = {
-				id = dubois.914
-				days = { 7 14 }
-			}
-			trigger_event = {
-				id = dubois.919
-				days = 180
-			}
-		}
-	}
-}
-
-#Dubois 912: Origin - An Invitation
-
-dubois.912 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = dubois.911.t
-	desc = dubois.912.d
-	flavor = dubois.911.f
-
-	duration = 1
-
-	event_image = {
-		texture = "gfx/event_pictures/dubois_pictures/dubois_origin_congress.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
-
-	immediate = {
-		random_country = {
-			limit = {
-				has_modifier = dubois_congress_host_modifier
-			}
-			save_scope_as = dubois_congress_host_country
-		}
-		var:lepsius_anthropologist_var = {
-			set_variable = {
-				name = andersson_anthropologist_achievement_attended_origin_congress_var
-				value = flag:andersson_anthropologist_achievement_attended_origin_congress_loc
-			}
-			save_scope_as = lepsius_anthropologist_scope
-		}
-	}
-
-	option = {
-		name = dubois.911.g #We'll come
-		add_modifier = {
-			name = dubois_congress_attend_modifier
-			years = 5
-		}
-	}
-
-	after = {
-		hidden_effect = {
-			trigger_event = {
-				id = dubois.914
-				days = { 7 14 }
-			}
-		}
-	}
-}
-
-#Dubois 914: Origin - Europe, Asia or Africa?
-
-dubois.914 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = dubois.914.t
-	desc = dubois.914.d
-	flavor = dubois.914.f
-
-	duration = 2
-
-	event_image = {
-		texture = "gfx/event_pictures/dubois_pictures/dubois_origin_congress.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
-
-	immediate = {
-		var:lepsius_anthropologist_var = {
-			save_scope_as = lepsius_anthropologist_scope
-		}
-		random_country = {
-			limit = {
-				has_variable = lepsius_anthropologist_var
-				NOT = {
-					this = ROOT
-				}
-			}
-			var:lepsius_anthropologist_var = {
-				save_scope_as = dubois_asia_defender_scope
-			}
-		}
-		random_country = {
-			limit = {
-				has_variable = lepsius_anthropologist_var
-				NOT = {
-					this = ROOT
-				}
-				var:lepsius_anthropologist_var = {
-					NOT = {
-						this = scope:dubois_asia_defender_scope
-					}
-				}
-			}
-			var:lepsius_anthropologist_var = {
-				save_scope_as = dubois_africa_defender_scope
-			}
-		}
-		random_country = {
-			limit = {
-				has_variable = lepsius_anthropologist_var
-				NOT = {
-					this = ROOT
-				}
-				var:lepsius_anthropologist_var = {
-					NOT = {
-						this = scope:dubois_asia_defender_scope
-					}
-					NOT = {
-						this = scope:dubois_africa_defender_scope
-					}
-				}
-			}
-			var:lepsius_anthropologist_var = {
-				save_scope_as = dubois_europe_defender_scope
-			}
-		}
-	}
-
-	option = {
-		name = dubois.914.g #Europe
-		if = {
-			limit = {
-				var:lepsius_anthropologist_var = {
-					has_trait = andersson_anthropologist_famous
-				}
-			}
-			change_global_variable = {
-				name = dubois_origin_europe
-				add = 3
-			}
-			custom_tooltip = dubois_conference_anthropologist_double_vote_tt
-		}
-		else_if = {
-			limit = {
-				var:lepsius_anthropologist_var = {
-					has_trait = andersson_anthropologist_experienced
-				}
-			}
-			change_global_variable = {
-				name = dubois_origin_europe
-				add = 2
-			}
-			custom_tooltip = dubois_conference_anthropologist_triple_vote_tt
-		}
-		else = {
-			change_global_variable = {
-				name = dubois_origin_europe
-				add = 1
-			}
-		}
-
-		ai_chance = {
-			base = 1
-			modifier = { #No Erectus
-				trigger = {
-					NOT = {
-						has_variable = lepsius_erectus_human_fossil
-					}
-				}
-				add = 1
-			}
-			modifier = { #No Australopithecus or Paranthropus
-				trigger = {
-					NOR = {
-						has_variable = lepsius_australopithecus_human_fossil
-						has_variable = lepsius_paranthropus_human_fossil
-					}
-				}
-				add = 1
-			}
-			modifier = { #No Systemization
-				trigger = {
-					NOR = {
-						has_global_variable = lepsius_erectus_systemized
-						has_global_variable = lepsius_australopithecus_systemized
-						has_global_variable = lepsius_paranthropus_systemized
-					}
-				}
-				add = 1
-			}
-			modifier = { #Piltdown Man
-				trigger = {
-					has_variable = dubois_fossil_piltdown
-				}
-				add = 10
-			}
-		}
-	}
-
-	option = {
-		name = dubois.914.h #Asia
-		if = {
-			limit = {
-				var:lepsius_anthropologist_var = {
-					has_trait = andersson_anthropologist_famous
-				}
-			}
-			change_global_variable = {
-				name = dubois_origin_asia
-				add = 3
-			}
-			custom_tooltip = dubois_conference_anthropologist_double_vote_tt
-		}
-		else_if = {
-			limit = {
-				var:lepsius_anthropologist_var = {
-					has_trait = andersson_anthropologist_experienced
-				}
-			}
-			change_global_variable = {
-				name = dubois_origin_asia
-				add = 2
-			}
-			custom_tooltip = dubois_conference_anthropologist_triple_vote_tt
-		}
-		else = {
-			change_global_variable = {
-				name = dubois_origin_asia
-				add = 1
-			}
-		}
-
-		ai_chance = {
-			base = 1
-			modifier = { #Erectus
-				trigger = {
-					has_variable = lepsius_erectus_human_fossil
-				}
-				add = 2
-			}
-			modifier = { #No Australopithecus or Paranthropus
-				trigger = {
-					NOR = {
-						has_variable = lepsius_australopithecus_human_fossil
-						has_variable = lepsius_paranthropus_human_fossil
-					}
-				}
-				add = 2
-			}
-			modifier = { #Erectus Systemization
-				trigger = {
-					has_global_variable = lepsius_erectus_systemized
-				}
-				add = 1
-			}
-			modifier = { #No Australopithecus or Paranthropus Systemization
-				trigger = {
-					NOR = {
-						has_global_variable = lepsius_australopithecus_systemized
-						has_global_variable = lepsius_paranthropus_systemized
-					}
-				}
-				add = 1
-			}
-			modifier = { #Genetics
-				trigger = {
-					has_technology_researched = dubois_genetics_tech
-				}
-				add = 1
-			}
-		}
-	}
-
-	option = {
-		name = dubois.914.i #Africa
-		default_option = yes
-		if = {
-			limit = {
-				var:lepsius_anthropologist_var = {
-					has_trait = andersson_anthropologist_famous
-				}
-			}
-			change_global_variable = {
-				name = dubois_origin_africa
-				add = 3
-			}
-			custom_tooltip = dubois_conference_anthropologist_double_vote_tt
-		}
-		else_if = {
-			limit = {
-				var:lepsius_anthropologist_var = {
-					has_trait = andersson_anthropologist_experienced
-				}
-			}
-			change_global_variable = {
-				name = dubois_origin_africa
-				add = 2
-			}
-			custom_tooltip = dubois_conference_anthropologist_triple_vote_tt
-		}
-		else = {
-			change_global_variable = {
-				name = dubois_origin_africa
-				add = 1
-			}
-		}
-
-		ai_chance = {
-			base = 1
-			modifier = { #Erectus
-				trigger = {
-					has_variable = lepsius_erectus_human_fossil
-				}
-				add = 1
-			}
-			modifier = { #Australopithecus
-				trigger = {
-					has_variable = lepsius_australopithecus_human_fossil
-				}
-				add = 2
-			}
-			modifier = { #No Australopithecus or Paranthropus
-				trigger = {
-					has_variable = lepsius_paranthropus_human_fossil
-				}
-				add = 2
-			}
-			modifier = { #Erectus Systemization
-				trigger = {
-					has_global_variable = lepsius_erectus_systemized
-				}
-				add = 1
-			}
-			modifier = { #Australopithecus Systemization
-				trigger = {
-					has_global_variable = lepsius_australopithecus_systemized
-				}
-				add = 1
-			}
-			modifier = { #Paranthropus Systemization
-				trigger = {
-					has_global_variable = lepsius_paranthropus_systemized
-				}
-				add = 1
-			}
-			modifier = { #Genetics
-				trigger = {
-					has_technology_researched = dubois_genetics_tech
-				}
-				add = 1
-			}
-		}
-	}
-
-
-
-	after = {
-		hidden_effect = {
-			if = {
-				limit = {
-					var:lepsius_anthropologist_var = {
-						OR = {
-							has_trait = inspirational_orator
-							has_trait = demagogue
-							has_trait = firebrand
-							has_trait = charismatic
-						}
-					}
-				}
-				trigger_event = {
-					id = dubois.915 #Respected Speech
-					days = { 14 21 }
-				}
-			}
-			else_if = {
-				limit = {
-					var:lepsius_anthropologist_var = {
-						OR = {
-							has_trait = innovative
-							has_trait = meticulous
-							has_trait = erudite
-						}
-					}
-				}
-				trigger_event = {
-					id = dubois.916 #Valuable contribution to the debate
-					days = { 14 21 }
-				}
-			}
-			else = {
-				trigger_event = {
-					id = dubois.917 #Unknown Skull
-					days = { 14 21 }
-				}
-			}
-		}
-	}
-}
-
-#Dubois 915: Origin - Respected Speech
-
-dubois.915 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = dubois.915.t
-	desc = dubois.915.d
-	flavor = dubois.915.f
-
-	duration = 1
-
-	event_image = {
-		texture = "gfx/event_pictures/dubois_pictures/dubois_origin_congress.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
-
-	immediate = {
-		random_country = {
-			limit = {
-				has_modifier = dubois_congress_host_modifier
-			}
-			save_scope_as = dubois_congress_host_country
-		}
-		var:lepsius_anthropologist_var = {
-			save_scope_as = lepsius_anthropologist_scope
-		}
-		every_country = {
-			limit = {
-				NOT = {
-					this = ROOT
-				}
-				OR = {
-					has_modifier = dubois_congress_host_modifier
-					has_modifier = dubois_congress_attend_modifier
-				}
-			}
-			save_scope_as = dubois_congress_country
-		}
-	}
-
-	option = {
-		name = dubois.905.g #He brings honor to our country
-		dubois_add_x_academy_progress = {
-			AMOUNT = 30
-		}
-		change_infamy = -3
-		scope:dubois_congress_country = {
-			change_relations = {
-				country = ROOT
-				value = 10
-			}
-		}
-	}
-
-	after = {
-		hidden_effect = {
-			if = {
-				limit = {
-					var:lepsius_anthropologist_var = {
-						OR = {
-							has_trait = innovative
-							has_trait = meticulous
-							has_trait = erudite
-						}
-					}
-				}
-				trigger_event = {
-					id = dubois.916 #Valuable contribution to the debate
-					days = { 14 21 }
-				}
-			}
-			else = {
-				trigger_event = {
-					id = dubois.917 #Unknown Skull
-					days = { 14 21 }
-				}
-			}
-		}
-	}
-}
-
-#Dubois 916: Origin - Valuable contribution to the debate
-
-dubois.916 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = dubois.916.t
-	desc = dubois.916.d
-	flavor = dubois.916.f
-
-	duration = 1
-
-	event_image = {
-		texture = "gfx/event_pictures/dubois_pictures/dubois_origin_congress.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
-
-	immediate = {
-		random_country = {
-			limit = {
-				has_modifier = dubois_congress_host_modifier
-			}
-			save_scope_as = dubois_congress_host_country
-		}
-		var:lepsius_anthropologist_var = {
-			save_scope_as = lepsius_anthropologist_scope
-		}
-		every_country = {
-			limit = {
-				NOT = {
-					this = ROOT
-				}
-				OR = {
-					has_modifier = dubois_congress_host_modifier
-					has_modifier = dubois_congress_attend_modifier
-				}
-			}
-			save_scope_as = dubois_congress_country
-		}
-	}
-
-	option = {
-		name = dubois.915.g #He brings honor to our country
-		dubois_small_add_technology = yes
-		scope:dubois_congress_country = {
-			change_relations = {
-				country = ROOT
-				value = 10
-			}
-		}
-	}
-
-	after = {
-		hidden_effect = {
-			trigger_event = {
-				id = dubois.917 #Unknown Skull
-				days = { 14 21 }
-			}
-		}
-	}
-}
-
-#Dubois 917: Origin - Unknown Skull
-
-dubois.917 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = dubois.917.t
-	desc = dubois.917.d
-	flavor = dubois.917.f
-
-	duration = 1
-
-	event_image = {
-		texture = "gfx/event_pictures/dubois_pictures/dubois_origin_congress.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
-
-	immediate = {
-		random_country = {
-			limit = {
-				has_modifier = dubois_congress_host_modifier
-			}
-			save_scope_as = dubois_congress_host_country
-		}
-		var:lepsius_anthropologist_var = {
-			save_scope_as = lepsius_anthropologist_scope
-		}
-		every_country = {
-			limit = {
-				NOT = {
-					this = ROOT
-				}
-				OR = {
-					has_modifier = dubois_congress_host_modifier
-					has_modifier = dubois_congress_attend_modifier
-				}
-			}
-			save_scope_as = dubois_congress_country
-		}
-		random_list = { #randomizes skull
-			1 = {
-				set_variable = {
-					name = dubois_cromagnon_skull_var
-					value = 1
-				}
-			}
-			1 = {
-				set_variable = {
-					name = dubois_neanderthalensis_skull_var
-					value = 2
-				}
-			}
-			1 = {
-				set_variable = {
-					name = dubois_erectus_skull_var
-					value = 3
-				}
-			}
-			1 = {
-				set_variable = {
-					name = dubois_australopithecus_skull_var
-					value = 4
-				}
-			}
-			1 = {
-				set_variable = {
-					name = dubois_paranthropus_skull_var
-					value = 5
-				}
-			}
-		}
-	}
-
-	option = {
-		name = dubois.917.g #Buy the skull
-		default_option = yes
-		add_treasury = -100000
-		if = {
-			limit = {
-				has_variable = dubois_cromagnon_skull_var
-			}
-			lepsius_add_unknown_cromagnon_fossil_effect = yes
-		}
-		if = {
-			limit = {
-				has_variable = dubois_neanderthalensis_skull_var
-			}
-			lepsius_add_unknown_neanderthalensis_fossil_effect = yes
-		}
-		if = {
-			limit = {
-				has_variable = dubois_erectus_skull_var
-			}
-			lepsius_add_unknown_erectus_fossil_effect = yes
-		}
-		if = {
-			limit = {
-				has_variable = dubois_australopithecus_skull_var
-			}
-			lepsius_add_unknown_australopithecus_fossil_effect = yes
-		}
-		if = {
-			limit = {
-				has_variable = dubois_paranthropus_skull_var
-			}
-			lepsius_add_unknown_paranthropus_fossil_effect = yes
-		}
-	}
-
-	option = {
-		name = dubois.917.h #This is a fake
-	}
-
-	after = {
-		hidden_effect = {
-			remove_variable = dubois_cromagnon_skull_var
-			remove_variable = dubois_neanderthalensis_skull_var
-			remove_variable = dubois_erectus_skull_var
-			remove_variable = dubois_australopithecus_skull_var
-			remove_variable = dubois_paranthropus_skull_var
-		}
-	}
-}
-
-#Dubois 919: Origin - Decision for Host
-
-dubois.919 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = {
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_europe_vote
-			}
-			desc = dubois.919.t_europe
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_asia_vote
-			}
-			desc = dubois.919.t_asia
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_africa_vote
-			}
-			desc = dubois.919.t_africa
-		}
-	}
-
-	desc = {
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_europe_vote
-			}
-			desc = dubois.919.d_europe
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_asia_vote
-			}
-			desc = dubois.919.d_asia
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_africa_vote
-			}
-			desc = dubois.919.d_africa
-		}
-	}
-
-	flavor = {
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_europe_vote
-			}
-			desc = dubois.919.f_europe
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_asia_vote
-			}
-			desc = dubois.919.f_asia
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_africa_vote
-			}
-			desc = dubois.919.f_africa
-		}
-	}
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/dubois_pictures/dubois_origin_congress.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
-
-	immediate = {
-		random_country = {
-			limit = {
-				has_modifier = dubois_congress_host_modifier
-			}
-			save_scope_as = dubois_congress_host_country
-		}
-		var:lepsius_anthropologist_var = {
-			save_scope_as = lepsius_anthropologist_scope
-		}
-		if = {
-			limit = {
-				global_var:dubois_origin_europe > global_var:dubois_origin_asia
-				global_var:dubois_origin_europe > global_var:dubois_origin_africa
-			}
-			set_global_variable = dubois_origin_europe_vote
-		}
-		else_if = {
-			limit = {
-				global_var:dubois_origin_asia > global_var:dubois_origin_europe
-				global_var:dubois_origin_asia > global_var:dubois_origin_africa
-			}
-			set_global_variable = dubois_origin_asia_vote
-		}
-		else_if = {
-			limit = {
-				global_var:dubois_origin_africa > global_var:dubois_origin_asia
-				global_var:dubois_origin_africa > global_var:dubois_origin_europe
-			}
-			set_global_variable = dubois_origin_africa_vote
-		}
-		else = {
-			set_global_variable = dubois_origin_asia_vote
-		}
-	}
-
-	option = {
-		trigger = {
-			has_global_variable = dubois_origin_europe_vote
-		}
-		name = dubois.919.g #As expected, Humanity evolved in Europe.
-		dubois_small_add_technology = yes
-		anthropologist_experience_gain_effect = {
-			AMOUNT = "15"
-		}
-	}
-
-	option = {
-		trigger = {
-			has_global_variable = dubois_origin_asia_vote
-		}
-		name = dubois.919.h #All evidences suggest that humanity evolved in Asia.
-		lepsius_small_add_technology = yes
-		dubois_medium_add_technology = yes
-		anthropologist_experience_gain_effect = {
-			AMOUNT = "25"
-		}
-	}
-
-	option = {
-		trigger = {
-			has_global_variable = dubois_origin_africa_vote
-		}
-		name = dubois.919.i #'Out of Africa' is an approved thesis now.
-		default_option = yes
-		lepsius_large_add_technology = yes
-		dubois_large_add_technology = yes
-		anthropologist_experience_gain_effect = {
-			AMOUNT = "35"
-		}
-	}
-
-	after = {
-		hidden_effect = {
-			every_country = {
-				limit = {
-					NOT = {
-						this = ROOT
-					}
-					has_modifier = dubois_congress_attend_modifier
-				}
-				trigger_event = {
-					id = dubois.920
-					popup = yes
-				}
-			}
-			remove_global_variable = dubois_origin_europe
-			remove_global_variable = dubois_origin_asia
-			remove_global_variable = dubois_origin_africa
-		}
-	}
-}
-
-#Dubois 920: Origin - Decision for Others
-
-dubois.920 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = {
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_europe_vote
-			}
-			desc = dubois.919.t_europe
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_asia_vote
-			}
-			desc = dubois.919.t_asia
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_africa_vote
-			}
-			desc = dubois.919.t_africa
-		}
-	}
-
-	desc = {
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_europe_vote
-			}
-			desc = dubois.919.d_europe
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_asia_vote
-			}
-			desc = dubois.919.d_asia
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_africa_vote
-			}
-			desc = dubois.919.d_africa
-		}
-	}
-
-	flavor = {
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_europe_vote
-			}
-			desc = dubois.919.f_europe
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_asia_vote
-			}
-			desc = dubois.919.f_asia
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_africa_vote
-			}
-			desc = dubois.919.f_africa
-		}
-	}
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/dubois_pictures/dubois_origin_congress.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
-
-	immediate = {
-		random_country = {
-			limit = {
-				has_modifier = dubois_congress_host_modifier
-			}
-			save_scope_as = dubois_congress_host_country
-		}
-		var:lepsius_anthropologist_var = {
-			save_scope_as = lepsius_anthropologist_scope
-		}
-	}
-
-	option = {
-		trigger = {
-			has_global_variable = dubois_origin_europe_vote
-		}
-		name = dubois.919.g #As expected, Humanity evolved in Europe.
-		remove_modifier = dubois_congress_attend_modifier
-		dubois_small_add_technology = yes
-		anthropologist_experience_gain_effect = {
-			AMOUNT = "15"
-		}
-	}
-
-	option = {
-		trigger = {
-			has_global_variable = dubois_origin_asia_vote
-		}
-		name = dubois.919.h #All evidences suggest that humanity evolved in Asia.
-		remove_modifier = dubois_congress_attend_modifier
-		lepsius_small_add_technology = yes
-		dubois_medium_add_technology = yes
-		anthropologist_experience_gain_effect = {
-			AMOUNT = "25"
-		}
-	}
-
-	option = {
-		trigger = {
-			has_global_variable = dubois_origin_africa_vote
-		}
-		name = dubois.919.i #'Out of Africa' is an approved thesis now.
-		remove_modifier = dubois_congress_attend_modifier
-		default_option = yes
-		lepsius_large_add_technology = yes
-		dubois_large_add_technology = yes
-		anthropologist_experience_gain_effect = {
-			AMOUNT = "35"
 		}
 	}
 }
@@ -16049,7 +14783,7 @@ dubois.1013 = {
 	immediate = {
 		random_scope_character = {
 			limit = {
-				has_role = general
+				has_role_of_type = general
 				is_busy = no
 				age >= 70
 			}
@@ -16079,7 +14813,7 @@ dubois.1013 = {
 					if = {
 						limit = {
 							any_scope_character = {
-								has_role = general
+								has_role_of_type = general
 								is_busy = no
 								age >= 70
 							}
@@ -23510,7 +22244,7 @@ dubois.1302 = {
 			var:dubois_breeding_state_var = {
 				OR = {
 					is_in_geographic_region = geographic_region_north_america
-					region = sr:region_mexico
+					is_in_geographic_region = geographic_old_region_mexico
 				}
 			}
 		}
@@ -23522,7 +22256,6 @@ dubois.1302 = {
 				OR = {
 					is_in_geographic_region = geographic_region_south_america
 					region = sr:region_central_america
-					region = sr:region_caribbean
 				}
 			}
 		}
@@ -23633,7 +22366,7 @@ dubois.1302 = {
 				OR = {
 					is_in_geographic_region = geographic_region_north_america
 					is_in_geographic_region = geographic_region_europe
-					region = sr:region_mexico
+					is_in_geographic_region = geographic_old_region_mexico
 				}
 			}
 			has_variable = dubois_zoo_animal_grizzly
@@ -23664,7 +22397,7 @@ dubois.1302 = {
 				}
 				OR = {
 					is_in_geographic_region = geographic_region_north_america
-					region = sr:region_mexico
+					is_in_geographic_region = geographic_old_region_mexico
 				}
 			}
 			has_variable = dubois_zoo_animal_eagle
@@ -23695,7 +22428,7 @@ dubois.1302 = {
 				}
 				OR = {
 					is_in_geographic_region = geographic_region_north_america
-					region = sr:region_mexico
+					is_in_geographic_region = geographic_old_region_mexico
 				}
 			}
 			has_variable = dubois_zoo_animal_bison
@@ -23726,7 +22459,7 @@ dubois.1302 = {
 				}
 				OR = {
 					is_in_geographic_region = geographic_region_north_america
-					region = sr:region_mexico
+					is_in_geographic_region = geographic_old_region_mexico
 				}
 			}
 			has_variable = dubois_zoo_animal_panther
@@ -23757,7 +22490,7 @@ dubois.1302 = {
 				}
 				OR = {
 					is_in_geographic_region = geographic_region_north_america
-					region = sr:region_mexico
+					is_in_geographic_region = geographic_old_region_mexico
 				}
 			}
 			has_variable = dubois_zoo_animal_alligator
@@ -23788,7 +22521,7 @@ dubois.1302 = {
 				}
 				OR = {
 					is_in_geographic_region = geographic_region_north_america
-					region = sr:region_mexico
+					is_in_geographic_region = geographic_old_region_mexico
 				}
 			}
 			has_variable = dubois_zoo_animal_axolotl
@@ -23819,7 +22552,7 @@ dubois.1302 = {
 				}
 				OR = {
 					is_in_geographic_region = geographic_region_north_america
-					region = sr:region_mexico
+					is_in_geographic_region = geographic_old_region_mexico
 				}
 			}
 			has_variable = dubois_zoo_animal_gila
@@ -23851,7 +22584,6 @@ dubois.1302 = {
 				OR = {
 					is_in_geographic_region = geographic_region_south_america
 					region = sr:region_central_america
-					region = sr:region_caribbean
 				}
 			}
 			has_variable = dubois_zoo_animal_sloth
@@ -23883,7 +22615,6 @@ dubois.1302 = {
 				OR = {
 					is_in_geographic_region = geographic_region_south_america
 					region = sr:region_central_america
-					region = sr:region_caribbean
 				}
 			}
 			has_variable = dubois_zoo_animal_jaguar
@@ -23915,7 +22646,6 @@ dubois.1302 = {
 				OR = {
 					is_in_geographic_region = geographic_region_south_america
 					region = sr:region_central_america
-					region = sr:region_caribbean
 				}
 			}
 			has_variable = dubois_zoo_animal_anteater
@@ -23947,7 +22677,6 @@ dubois.1302 = {
 				OR = {
 					is_in_geographic_region = geographic_region_south_america
 					region = sr:region_central_america
-					region = sr:region_caribbean
 				}
 			}
 			has_variable = dubois_zoo_animal_armadillo
@@ -23979,7 +22708,6 @@ dubois.1302 = {
 				OR = {
 					is_in_geographic_region = geographic_region_south_america
 					region = sr:region_central_america
-					region = sr:region_caribbean
 				}
 			}
 			has_variable = dubois_zoo_animal_condor
@@ -24011,7 +22739,6 @@ dubois.1302 = {
 				OR = {
 					is_in_geographic_region = geographic_region_south_america
 					region = sr:region_central_america
-					region = sr:region_caribbean
 				}
 			}
 			has_variable = dubois_zoo_animal_manatee
@@ -24043,7 +22770,6 @@ dubois.1302 = {
 				OR = {
 					is_in_geographic_region = geographic_region_south_america
 					region = sr:region_central_america
-					region = sr:region_caribbean
 				}
 			}
 			has_variable = dubois_zoo_animal_monkey
@@ -24075,7 +22801,6 @@ dubois.1302 = {
 				OR = {
 					is_in_geographic_region = geographic_region_south_america
 					region = sr:region_central_america
-					region = sr:region_caribbean
 				}
 			}
 			has_variable = dubois_zoo_animal_capybara
@@ -24135,7 +22860,7 @@ dubois.1302 = {
 				OR = {
 					is_in_geographic_region = geographic_region_north_america
 					is_in_geographic_region = geographic_region_europe
-					region = sr:region_mexico
+					is_in_geographic_region = geographic_old_region_mexico
 					is_in_geographic_region = geographic_region_middle_east
 					is_in_geographic_region = geographic_region_central_asia
 					is_in_geographic_region = geographic_region_india
@@ -28870,13 +27595,13 @@ dubois.3000 = {
 	}
 
 	trigger = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			age >= 55
 		}
 	}
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 			set_retirement_variable_effect = yes
 		}
@@ -28900,7 +27625,7 @@ dubois.3000 = {
 	option = {
 		name = dubois.3000.h
 
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			add_trait = senile
 		}
 
@@ -28912,14 +27637,14 @@ dubois.3000 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			var:dubois_naturalist_var ?= {
+			var:ito_naturalist_var ?= {
 				age >= 60
 			}
 			factor = 2
 		}
 
 		modifier = {
-			var:dubois_naturalist_var ?= {
+			var:ito_naturalist_var ?= {
 				age >= 65
 			}
 			factor = 5
@@ -28948,14 +27673,14 @@ dubois.3010 = {
 	icon = "gfx/interface/icons/event_icons/event_botany.dds"
 
 	trigger = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			has_trait = senile
 		}
 		var:dubois_specimen >= 3000
 	}
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -28989,7 +27714,7 @@ dubois.3011 = {
 	icon = "gfx/interface/icons/event_icons/event_botany.dds"
 
 	trigger = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			OR = {
 				has_trait = alcoholic
 				has_trait = opium_addiction
@@ -29002,7 +27727,7 @@ dubois.3011 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var ?= {
+		var:ito_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
