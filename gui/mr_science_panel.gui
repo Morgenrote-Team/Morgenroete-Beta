@@ -8235,92 +8235,144 @@ types mr_main_science_panel_types {
             tooltip = "VISIT_ANTHROPOLOGICAL_COLLECTION_BUTTON_TT"
         }
         blockoverride "big_box_content" {
-            mr_shared_interactions_simple = {
+            mr_shared_interactions = {
                 visible = "[Not(GetScriptedGui('mr_setting_academic_compact_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End))]"
 
-                blockoverride "content" {
-                    # Anthropological Research
-                    mr_shared_activity_button = {
-                        datacontext = "[GetScriptedGui('mr_anthropologist_anthropological_research_button_sgui')]"
-                        blockoverride "button_content" {
-                            text = "MR_ANTHROPOLOGIST_ANTHROPOLOGICAL_RESEARCH_BUTTON"
-                            tooltip = "MR_ANTHROPOLOGIST_ANTHROPOLOGICAL_RESEARCH_BUTTON_TT"
+                blockoverride "tabs" {
+                    tab_buttons = {
+                        maximumsize = { @[ panel_button_width + 20 ] 0 }
+                        margin_bottom = -4
+                        blockoverride "first_button" {
+                            text = mr_science_anthropologist_tab_research
                         }
-                        blockoverride "button_highlight_visible" {
-                            visible = "[GetScriptedGui('mr_anthropologist_anthropological_research_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                        blockoverride "first_button_click" {
+                            onclick = "[GetVariableSystem.Set('mr_science_anthropologist_tab', 'research')]"
                         }
-                        blockoverride "button_icon" {
-                            texture = "gfx/interface/icons/GUI_icons/GUI_andersson_anthropological_research_button.dds"
+                        blockoverride "first_button_visibility" {
+                            visible = "[Or(GetVariableSystem.HasValue('mr_science_anthropologist_tab', 'research'), Not(GetVariableSystem.Exists('mr_science_anthropologist_tab')))]"
+                        }
+                        blockoverride "first_button_visibility_checked" {
+                            visible = "[And(Not(GetVariableSystem.HasValue('mr_science_anthropologist_tab', 'research')), GetVariableSystem.Exists('mr_science_anthropologist_tab'))]"
+                        }
+                        blockoverride "first_button_selected" {
+                            text = mr_science_anthropologist_tab_research
+                        }
+
+                        blockoverride "second_button" {
+                            text = mr_science_anthropologist_tab_organization
+                        }
+                        blockoverride "second_button_click" {
+                            onclick = "[GetVariableSystem.Set('mr_science_anthropologist_tab', 'organization')]"
+                        }
+                        blockoverride "second_button_visibility" {
+                            visible = "[GetVariableSystem.HasValue('mr_science_anthropologist_tab', 'organization')]"
+                        }
+                        blockoverride "second_button_visibility_checked" {
+                            visible = "[Not(GetVariableSystem.HasValue('mr_science_anthropologist_tab', 'organization'))]"
+                        }
+                        blockoverride "second_button_selected" {
+                            text = mr_science_anthropologist_tab_organization
                         }
                     }
+                }
+                blockoverride "tab_content" {
+                    vbox = {
+                        visible = "[Or(GetVariableSystem.HasValue('mr_science_anthropologist_tab', 'research'), Not(GetVariableSystem.Exists('mr_science_anthropologist_tab')))]"
+                        layoutpolicy_vertical = expanding
+                        spacing = 7
+                        minimumsize = { @panel_button_width 0 }
 
-                    #Hominid Prospecting
-                    mr_shared_activity_button = {
-                        datacontext = "[GetScriptedGui('mr_anthropologist_hominid_prospecting_button_sgui')]"
-                        blockoverride "button_content" {
-                            text = "MR_ANTHROPOLOGIST_HOMINID_PROSPECTING_BUTTON"
-                            tooltip = "MR_ANTHROPOLOGIST_HOMINID_PROSPECTING_BUTTON_TT"
+                        # Anthropological Research
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_anthropologist_anthropological_research_button_sgui')]"
+                            blockoverride "button_content" {
+                                text = "MR_ANTHROPOLOGIST_ANTHROPOLOGICAL_RESEARCH_BUTTON"
+                                tooltip = "MR_ANTHROPOLOGIST_ANTHROPOLOGICAL_RESEARCH_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_anthropologist_anthropological_research_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_andersson_anthropological_research_button.dds"
+                            }
                         }
-                        blockoverride "button_highlight_visible" {
-                            visible = "[GetScriptedGui('mr_anthropologist_hominid_prospecting_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+
+                        # Hominid Prospecting
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_anthropologist_hominid_prospecting_button_sgui')]"
+                            blockoverride "button_content" {
+                                text = "MR_ANTHROPOLOGIST_HOMINID_PROSPECTING_BUTTON"
+                                tooltip = "MR_ANTHROPOLOGIST_HOMINID_PROSPECTING_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_anthropologist_hominid_prospecting_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_andersson_hominid_prospecting_button.dds"
+                            }
                         }
-                        blockoverride "button_icon" {
-                            texture = "gfx/interface/icons/GUI_icons/GUI_andersson_hominid_prospecting_button.dds"
+
+                        # Cave Exploration
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_anthropologist_cave_exploration_button_sgui')]"
+                            blockoverride "button_content" {
+                                text = "MR_ANTHROPOLOGIST_CAVE_EXPLORATION_BUTTON"
+                                tooltip = "MR_ANTHROPOLOGIST_CAVE_EXPLORATION_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_anthropologist_cave_exploration_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_andersson_cave_exploration_button.dds"
+                            }
                         }
+
+                        # Skeleton Reconstruction
+                        mr_shared_activity_button = {
+                            datacontext = "[GetScriptedGui('mr_anthropologist_skeleton_reconstruction_button_sgui')]"
+                            blockoverride "button_content" {
+                                text = "MR_ANTHROPOLOGIST_SKELETON_RECONSTRUCTION_BUTTON"
+                                tooltip = "MR_ANTHROPOLOGIST_SKELETON_RECONSTRUCTION_BUTTON_TT"
+                            }
+                            blockoverride "button_highlight_visible" {
+                                visible = "[GetScriptedGui('mr_anthropologist_skeleton_reconstruction_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+                            }
+                            blockoverride "button_icon" {
+                                texture = "gfx/interface/icons/GUI_icons/GUI_andersson_skeleton_reconstruction_button.dds"
+                            }
+                        }
+
+                        expand = {}
                     }
+                    vbox = {
+                        visible = "[GetVariableSystem.HasValue('mr_science_anthropologist_tab', 'organization')]"
+                        layoutpolicy_vertical = expanding
+                        spacing = 7
+                        minimumsize = { @panel_button_width 0 }
 
-                    #Cave Exploration
-                    mr_shared_activity_button = {
-                        datacontext = "[GetScriptedGui('mr_anthropologist_cave_exploration_button_sgui')]"
-                        blockoverride "button_content" {
-                            text = "MR_ANTHROPOLOGIST_CAVE_EXPLORATION_BUTTON"
-                            tooltip = "MR_ANTHROPOLOGIST_CAVE_EXPLORATION_BUTTON_TT"
+                        #Piltdown Fraud
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_anthropologist_expose_piltdown_fraud_button_sgui')]"
+                            blockoverride "button_content" {
+                                text = "MR_ANTHROPOLOGIST_EXPOSE_PILTDOWN_FRAUD_BUTTON"
+                                tooltip = "MR_ANTHROPOLOGIST_EXPOSE_PILTDOWN_FRAUD_BUTTON_TT"
+                            }
                         }
-                        blockoverride "button_highlight_visible" {
-                            visible = "[GetScriptedGui('mr_anthropologist_cave_exploration_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
+
+                        #Origin Congress
+                        mr_shared_project_button = {
+                            datacontext = "[GetScriptedGui('mr_origin_congress_button_sgui')]"
+                            blockoverride "button_content" {
+                                text = "MR_ORIGIN_CONGRESS_BUTTON"
+                                tooltip = "MR_ORIGIN_CONGRESS_BUTTON_TT"
+                            }
                         }
-                        blockoverride "button_icon" {
-                            texture = "gfx/interface/icons/GUI_icons/GUI_andersson_cave_exploration_button.dds"
-                        }
+
+                        expand = {}
                     }
-
-                    #Skeleton Reconstruction
-                    mr_shared_activity_button = {
-                        datacontext = "[GetScriptedGui('mr_anthropologist_skeleton_reconstruction_button_sgui')]"
-                        blockoverride "button_content" {
-                            text = "MR_ANTHROPOLOGIST_SKELETON_RECONSTRUCTION_BUTTON"
-                            tooltip = "MR_ANTHROPOLOGIST_SKELETON_RECONSTRUCTION_BUTTON_TT"
-                        }
-                        blockoverride "button_highlight_visible" {
-                            visible = "[GetScriptedGui('mr_anthropologist_skeleton_reconstruction_active_sgui').IsShown(GuiScope.SetRoot(Country.MakeScope).End)]"
-                        }
-                        blockoverride "button_icon" {
-                            texture = "gfx/interface/icons/GUI_icons/GUI_andersson_skeleton_reconstruction_button.dds"
-                        }
-                    }
-
-                    #Piltdown Fraud
-                    mr_shared_project_button = {
-                        datacontext = "[GetScriptedGui('mr_anthropologist_expose_piltdown_fraud_button_sgui')]"
-                        blockoverride "button_content" {
-                            text = "MR_ANTHROPOLOGIST_EXPOSE_PILTDOWN_FRAUD_BUTTON"
-                            tooltip = "MR_ANTHROPOLOGIST_EXPOSE_PILTDOWN_FRAUD_BUTTON_TT"
-                        }
-                    }
-
-                    #Origin Congress
-                    mr_shared_project_button = {
-                        datacontext = "[GetScriptedGui('mr_origin_congress_button_sgui')]"
-                        blockoverride "button_content" {
-                            text = "MR_ORIGIN_CONGRESS_BUTTON"
-                            tooltip = "MR_ORIGIN_CONGRESS_BUTTON_TT"
-                        }
-                    }
-
-                    expand = {}
                 }
                 blockoverride "stop_context" {
-                    datacontext = "[GetScriptedGui('mr_stop_anthropologist_project_button_sgui')]"
+                    datacontext = "[GetScriptedGui('mr_stop_archaeologist_project_button_sgui')]"
                 }
             }
             mr_shared_interactions_simple = {
@@ -8330,6 +8382,100 @@ types mr_main_science_panel_types {
                     margin_bottom = 20
                     hbox = {
                         spacing = 4
+
+                        # Anthropological Research
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_anthropologist_anthropological_research_button_sgui')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                                tooltip = "MR_ANTHROPOLOGIST_ANTHROPOLOGICAL_RESEARCH_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_andersson_anthropological_research_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100% }
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_anthropologist_anthropological_research_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_anthropologist_anthropological_research_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+
+                            #    tooltip = ""
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 31 31 }
+                                texture = "gfx/interface/icons/GUI_icons/GUI_andersson_anthropological_research_button.dds"
+                                visible = "[GetScriptedGui('mr_anthropologist_anthropological_research_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            }
+                        }
+
+                        # Hominid Prospecting
+                        widget = {
+                            size = { 50 50 }
+
+                            #Button when it is not active
+                            button_icon_round = {
+                                parentanchor = center
+                                size = { 45 45 }
+
+                                datacontext = "[GetScriptedGui('mr_anthropologist_hominid_prospecting_button_sgui')]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                                enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                                tooltip = "MR_ANTHROPOLOGIST_HOMINID_PROSPECTING_BUTTON_TT"
+                                blockoverride "icon" {
+                                    texture = "gfx/interface/icons/GUI_icons/GUI_andersson_hominid_prospecting_button.dds"
+                                }
+                                blockoverride "icon_size" {
+                                    size = { 70% 70% }
+                                }
+                            }
+
+                            # Three Icons for when it is active (normal color plus highlight circle)
+                            #highlight circle to indicate that it is currently active
+                            icon = {
+                                parentanchor = center
+                                size = { 100% 100% }
+                                using = highlighted_circle_selection_small
+                                visible = "[GetScriptedGui('mr_anthropologist_hominid_prospecting_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            }
+                            #Button background
+                            icon = {
+                                parentanchor = center
+                                size = { 45 45 }
+                                texture = "gfx/interface/buttons/round_button_small_wood.dds"
+                                visible = "[GetScriptedGui('mr_anthropologist_hominid_prospecting_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+
+                            #    tooltip = ""
+                            }
+                            #Button Icon
+                            icon = {
+                                parentanchor = center
+                                size = { 31 31 }
+                                texture = "gfx/interface/icons/GUI_icons/GUI_andersson_hominid_prospecting_button.dds"
+                                visible = "[GetScriptedGui('mr_anthropologist_hominid_prospecting_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            }
+                        }
 
                         # Cave Exploration
                         widget = {
@@ -8428,7 +8574,7 @@ types mr_main_science_panel_types {
 
                     expand = {}
 
-                    # Origin Congress
+                   #Origin Congress
                     mr_shared_project_button = {
                         datacontext = "[GetScriptedGui('mr_origin_congress_button_sgui')]"
                         blockoverride "button_content" {
