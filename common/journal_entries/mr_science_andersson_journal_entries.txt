@@ -21,30 +21,47 @@ je_andersson_anthropological_research = {
 			if = {
 				limit = {
 					scope:journal_entry = {
-						"scripted_bar_progress(andersson_anthropological_research_progress_bar)" >= 60
+						"scripted_bar_progress(andersson_anthropological_research_progress_bar)" >= 12
 					}
 				}
 
-				#Adds Minerals and Trait
+				#Adds Experience and Fossils
 				anthropologist_experience_gain_effect = { AMOUNT = 5 }
-				andersson_add_x_human_fossils_effect = { AMOUNT = 5 }
-				#Special trait
+				andersson_add_x_human_fossils_effect = { AMOUNT = 1 }
+
+				#Extra Human Fossils
 				if = {
 					limit = {
 						var:andersson_anthropologist_var = {
-							has_trait = andersson_evolutionist
+							has_trait = dubois_paleontologist
 						}
 					}
-					andersson_add_x_human_fossils_effect = { AMOUNT = 5 }
+					andersson_add_x_human_fossils_effect = { AMOUNT = 3 }
 				}
+
+				#Extra Prehistoric Artifacts
 				if = {
 					limit = {
 						var:andersson_anthropologist_var = {
-							has_trait = andersson_diffusionist
+							has_trait = lepsius_archaeologist
 						}
 					}
 					andersson_add_x_prehistoric_artifacts_effect = { AMOUNT = 1 }
 				}
+
+				#Cave Effect
+				if = {
+					limit = {
+						any_scope_state = {
+							OR = {
+								has_state_trait = andersson_state_trait_cave
+								has_state_trait = andersson_state_trait_cave_paintings
+							}
+						}
+					}
+					andersson_add_x_human_fossils_effect = { AMOUNT = 2 }
+				}
+
 				#Finds Cave Painting
 				if = {
 					limit = {
@@ -60,6 +77,31 @@ je_andersson_anthropological_research = {
 					}
 					trigger_event = {
 						id = andersson.101 #Andersson 101: Anthropological Site found (Cave Paintings)
+					}
+				}
+
+				#Palentologist & Archaeologist
+				if = {
+					limit = {
+						var:andersson_anthropologist_var = {
+							NOR = {
+								has_trait = dubois_paleontologist
+								has_trait = lepsius_archaeologist
+							}
+						}
+					}
+					random_list = {
+						1 = {
+							var:andersson_anthropologist_var = {
+								add_trait = dubois_paleontologist
+							}
+						}
+						1 = {
+							var:andersson_anthropologist_var = {
+								add_trait = lepsius_archaeologist
+							}
+						}
+						6 = {}
 					}
 				}
 
