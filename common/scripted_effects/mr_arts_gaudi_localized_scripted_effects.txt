@@ -1,0 +1,122 @@
+﻿##########################
+# GAUDÍ SCRIPTED EFFECTS #
+##########################
+
+#by Marco Dandolo
+
+##########################
+
+#Effect to add $AMOUNT$ Architectural Splendour
+gaudi_add_x_architectural_splendour_effect = {
+	# Amount = amount of Architectural Splendour to add
+	custom_description = {
+		text = "gaudi_add_x_architectural_splendour_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+
+
+		#This part adds the AMOUNT of Architectural Splendour
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = gaudi_architectural_splendour_var
+				}
+			}
+			set_variable = {
+				name = gaudi_architectural_splendour_var
+				value = 0
+			}
+		}
+		change_variable = {
+			name = gaudi_architectural_splendour_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent negative numbers
+		clamp_variable = {
+			name = gaudi_architectural_splendour_var
+			min = 0
+		}
+
+
+		#gaudi_architect_total_architectural_splendour_var is used to keep track of all the Architectural Splendour that a specific architect created.
+		#It is used to show how successful the architect is.
+		#Every time a normal Architectural Splendour Point is added, the same number gets added here.
+		var:gaudi_architect_var ?= {
+			if = { #Fallback if the variable does not exist yet
+				limit = {
+					NOT = {
+						has_variable = gaudi_architect_total_architectural_splendour_var
+					}
+				}
+				set_variable = {
+					name = gaudi_architect_total_architectural_splendour_var
+					value = 0
+				}
+			}
+			change_variable = { #The amount of paintingal Tradition that this architect discovered
+				name = gaudi_architect_total_architectural_splendour_var
+				add = $AMOUNT$
+			}
+		}
+	}
+}
+
+tesla_character_electrical_engineer_experience_gain_effect = { #adds Chemist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "tesla_character_electrical_engineer_experience_gain_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = tesla_electrical_engineer_experience_var
+				}
+			}
+			engineer_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = tesla_electrical_engineer_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = tesla_electrical_engineer_experience_var
+			min = 0
+			max = 300
+		}
+	}
+
+	#Add Traits if the character does not have one yet
+	if = {
+		limit = {
+			var:tesla_electrical_engineer_experience_var >= 100
+			NOT = {
+				has_trait = tesla_electrical_engineer
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:tesla_engineer_var ?= this
+			}
+			owner ?= {
+				trigger_event = {
+					id = academics.143
+				}
+			}
+		}
+		else = {
+			post_notification = academics_character_is_electrical_engineer_notification
+		}
+		hidden_effect = {
+			add_trait = tesla_electrical_engineer
+		}
+	}
+	#Add Academic Title if Character does not have one yet
+	academics_electrical_engineer_add_academic_title_effect = yes
+}
