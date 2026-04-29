@@ -8,3 +8,4 @@ Fixes:
 - The AI ​​should also have now found blueprints for an Anthropological Institute.
 - Alert for Anthropologist when reconstruction of skeleton is possible.
 - Added missing Lepsius Locs.
+- Removed various errors that filled up the error log.
