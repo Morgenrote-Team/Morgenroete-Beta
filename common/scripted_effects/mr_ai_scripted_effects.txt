@@ -1574,49 +1574,107 @@ ai_paleontologist_automation_effect = {
 }
 
 #Handles the Anthropologist for the AI
-#ai_anthropologist_effect = {
-#	hidden_effect = {
-#		#Tests if there is an active anthropologist
-#		if = {
-#			limit = { andersson_has_active_anthropologist_no_tooltip_trigger = yes }
-#			#Unknown Bone Identification
-#			if = {
-#				limit = {
-#					lepsius_has_unknown_bone_no_tooltip_trigger = yes
-#				}
-#				#Effect
-#				hidden_effect = {
-#					lepsius_set_fossil_identification_progress = yes
-#				}
-#				andersson_set_anthropologist_busy_effect = yes
-#				add_journal_entry = {
-#					type = je_lepsius_fossil_identification
-#				}
-#			}
-#			#Examine Cave
-#			if = {
-#				limit = {
-#					NOT = {
-#						has_modifier = lepsius_cave_examination_modifier
-#					}
-#					any_scope_state = {
-#						lepsius_has_discovered_cave_no_tooltip_trigger = yes
-#					}
-#				}
-#				#Effect
-#				add_treasury = -50000
-#				andersson_set_anthropologist_busy_effect = yes
-#				add_modifier = {
-#					name = lepsius_cave_examination_modifier
-#				}
-#				trigger_event = {
-#					id = lepsius.1401
-#					popup = yes
-#				}
-#			}
-#		}
-#	}
-#}
+ai_anthropologist_effect = {
+	hidden_effect = {
+		#Tests if there is an active anthropologist
+		if = {
+			limit = { andersson_has_active_anthropologist_no_tooltip_trigger = yes }
+			#Skeleton Reconstruction
+			if = {
+				limit = {
+					andersson_can_reconstruct_prehistoric_skeleton_trigger = yes
+					andersson_has_institute_trigger = yes
+				}
+				#Effect
+				set_variable = andersson_skeleton_reconstruction_type_selection_var
+				trigger_event = {
+					id = andersson.301
+				}
+			}
+			#Cave Exploration
+			if = {
+				limit = {
+					any_scope_state = {
+						has_state_trait = andersson_state_trait_cave
+					}
+					var:andersson_anthropologist_var ?= {
+						has_trait = andersson_speleologist
+					}
+					NOT = {
+						has_modifier = andersson_cave_exploration_modifier
+					}
+				}
+				#Effect
+				add_modifier = {
+					name = andersson_cave_exploration_modifier
+				}
+				add_journal_entry = {
+					type = je_andersson_cave_exploration
+				}
+				if = {
+					limit = {
+						has_variable = andersson_anthropologist_var
+					}
+					var:andersson_anthropologist_var = {
+						set_character_busy_and_immortal = yes
+					}
+				}
+				random_scope_state = {
+					limit = {
+						has_state_trait = andersson_state_trait_cave
+					}
+					set_variable = andersson_hominid_prospecting_var
+				}
+			}
+			#Hominid Prospecting
+			if = {
+				limit = {
+					andersson_hominid_prospecting_possible_trigger = yes
+					NOR = {
+						has_modifier = andersson_cave_exploration_modifier
+						has_variable = andersson_hominid_prospecting_selection_var
+					}
+				}
+				#Effect
+				trigger_event = {
+					id = andersson.201
+				}
+				set_variable = andersson_hominid_prospecting_selection_var
+			}
+			#Piltdown Fraud
+			if = {
+				limit = {
+					has_global_variable = andersson_piltdown_country_global_var
+					NOT = {
+						has_global_variable = andersson_piltdown_exposed_country_global_var
+					}
+					andersson_has_institute_trigger = yes
+					var:andersson_anthropological_rating >= 100
+					NOT = {
+						has_modifier = andersson_piltdown_debate_lost_modifier
+					}
+					NOT = {
+						any_country = {
+							has_variable = andersson_piltdown_ongoing_debate_var
+						}
+					}
+					any_country = {
+						andersson_has_piltdown_fossils_trigger = yes
+						NOT = {
+							has_modifier = andersson_piltdown_debate_won_modifier
+						}
+					}
+					andersson_piltdown_attacker_value > global_var:andersson_piltdown_country_global_var.andersson_piltdown_defender_value
+				}
+				#Effect
+				set_variable = andersson_piltdown_ongoing_debate_var
+				trigger_event = {
+					id = andersson.511
+				}
+			}
+		}
+	}
+}
 
 #Handles Congresses for the AI
 ai_congresses_effect = {
@@ -1916,47 +1974,47 @@ ai_congresses_effect = {
 		}
 	}
 	#Origin Congress
-	if = {
-		limit = {
-			has_global_variable = dubois_hippocampus_congress_hosted_var
-			NOR = {
-				has_global_variable = andersson_origin_congress_hosted_var
-				any_country = {
-					has_modifier = andersson_congress_host_modifier
-				}
-			}
-			has_technology_researched = lepsius_modern_archaeology_tech
-			has_technology_researched = andersson_anthropology_tech
-			has_technology_researched = dubois_genetics_tech
-			andersson_has_institute_trigger = yes
-			var:andersson_total_human_fossil >= 30
-			global_var:andersson_global_human_fossil_global_var >= 250
-			OR = {
-				andersson_has_maximum_pithecanthropus_fossils_trigger = yes
-				andersson_has_maximum_australopithecus_fossils_trigger = yes
-			}
-			country_has_building_type_levels = {
-				target = bt:building_university
-				value  >= 25
-			}
-			andersson_has_anthropologist_no_tooltip_trigger = yes
-			any_country = {
-				andersson_has_anthropologist_no_tooltip_trigger = yes
-				count >= 10
-			}
-		}
-
-		#Effect
-		trigger_event = {
-			id = andersson.911
-			popup = yes
-		}
-		set_global_variable = andersson_origin_congress_hosted_var
-		add_modifier = {
-			name = andersson_congress_host_modifier
-			years = 5
-		}
-	}
+	#if = {
+	#	limit = {
+	#		has_global_variable = dubois_hippocampus_congress_hosted_var
+	#		NOR = {
+	#			has_global_variable = andersson_origin_congress_hosted_var
+	#			any_country = {
+	#				has_modifier = andersson_congress_host_modifier
+	#			}
+	#		}
+	#		has_technology_researched = lepsius_modern_archaeology_tech
+	#		has_technology_researched = andersson_anthropology_tech
+	#		has_technology_researched = dubois_genetics_tech
+	#		andersson_has_institute_trigger = yes
+	#		var:andersson_total_human_fossil >= 30
+	#		global_var:andersson_global_human_fossil_global_var >= 250
+	#		OR = {
+	#			andersson_has_maximum_pithecanthropus_fossils_trigger = yes
+	#			andersson_has_maximum_australopithecus_fossils_trigger = yes
+	#		}
+	#		country_has_building_type_levels = {
+	#			target = bt:building_university
+	#			value  >= 25
+	#		}
+	#		andersson_has_anthropologist_no_tooltip_trigger = yes
+	#		any_country = {
+	#			andersson_has_anthropologist_no_tooltip_trigger = yes
+	#			count >= 10
+	#		}
+	#	}
+	#
+	#	#Effect
+	#	trigger_event = {
+	#		id = andersson.911
+	#		popup = yes
+	#	}
+	#	set_global_variable = andersson_origin_congress_hosted_var
+	#	add_modifier = {
+	#		name = andersson_congress_host_modifier
+	#		years = 5
+	#	}
+	#}
 	#Dinosaur Extinction Congress
 	if = {
 		limit = {
@@ -2079,6 +2137,37 @@ ai_special_building_construction_effect = {
 		#Effect
 		capital = {
 			start_building_construction = building_lepsius_archaeological_museum
+		}
+	}
+	# Institute of Anthropology & Ethnology
+	if = {
+		limit = {
+			NOT = {
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_andersson_institute
+					}
+				}
+			}
+			can_construct_building = building_andersson_institute
+		}
+		#Effect
+		ordered_scope_state = {
+			max = 1 #Limits to the state with highest urbanization
+			order_by = total_urbanization
+			limit = {
+				NOT = {
+					any_scope_building = {
+						is_building_type = building_andersson_institute
+					}
+				}
+				can_construct_building = building_andersson_institute
+				any_scope_building = {
+					is_building_type = building_university
+					level >= 1
+				}
+			}
+			start_building_construction = building_andersson_institute
 		}
 	}
 	# National Library
