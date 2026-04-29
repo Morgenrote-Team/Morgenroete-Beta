@@ -92,26 +92,21 @@ verrier_add_x_astronomical_objects_effect = {
 	#verrier_astronomer_total_objects_var is used to keep track of all the astronomical objects that a specific Astronomer found.
 	#It is used to show how successful the astronomer is.
 	#Every time a normal astronomical object is added, the same number gets added here.
-	if = {
-		limit = { #Only works if there actually is an Astronomer
-			has_variable = verrier_astronomer_var
-		}
-		var:verrier_astronomer_var = {
-			if = { #Fallback if the variable does not exist yet
-				limit = {
-					NOT = {
-						has_variable = verrier_astronomer_total_objects_var
-					}
-				}
-				set_variable = {
-					name = verrier_astronomer_total_objects_var
-					value = 0
+	var:verrier_astronomer_var ?= {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = verrier_astronomer_total_objects_var
 				}
 			}
-			change_variable = { #The amount of Astronomical Objects that this Astronomer discovered
+			set_variable = {
 				name = verrier_astronomer_total_objects_var
-				add = $AMOUNT$
+				value = 0
 			}
+		}
+		change_variable = { #The amount of Astronomical Objects that this Astronomer discovered
+			name = verrier_astronomer_total_objects_var
+			add = $AMOUNT$
 		}
 	}
 }
@@ -133,9 +128,8 @@ verrier_set_objects_astronomer_yearly = {
 	}
 	if = {
 		limit = {
-			has_variable = verrier_astronomer_var
 			NOT = {
-				var:verrier_astronomer_var = {
+				var:verrier_astronomer_var ?= {
 					has_variable = verrier_astronomer_total_objects_var
 				}
 			}
@@ -151,15 +145,10 @@ verrier_set_objects_astronomer_yearly = {
 		name = verrier_yearly_astronomical_objects_var
 		add = $NUMBER$
 	}
-	if = {
-		limit = {
-			has_variable = verrier_astronomer_var
-		}
-		var:verrier_astronomer_var = {
-			change_variable = {
-				name = verrier_astronomer_total_objects_var
-				add = $NUMBER$
-			}
+	var:verrier_astronomer_var ?= {
+		change_variable = {
+			name = verrier_astronomer_total_objects_var
+			add = $NUMBER$
 		}
 	}
 }
