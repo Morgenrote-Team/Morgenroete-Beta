@@ -47,13 +47,8 @@ namespace = andersson
 ### Anthropological Sites ###
 
 #Andersson 101: Anthropological Site found (Cave Paintings)
-#Andersson 102: Anthropological Site found (Neoanthropus)
-#Andersson 103: Anthropological Site found (Palaeanthropus)
-#Andersson 104: Anthropological Site found (Pithecanthropus)
-#Andersson 105: Anthropological Site found (Australopithecus)
 
-#Andersson 201: Cave Exploration Destinantion
-#Andersson 211: Cave Exploration Finished
+
 
 #################################################################################
 
@@ -102,16 +97,17 @@ andersson.10 = {
 		}
 	}
 
-	option = {
-		name = andersson.10.g
-		default_option = yes
-		dubois_add_x_academy_progress = {
-			AMOUNT = 30
-		}
-	}
+	#option = {
+	#	name = andersson.10.g
+	#	default_option = yes
+	#	dubois_add_x_academy_progress = {
+	#		AMOUNT = 30
+	#	}
+	#}
 
 	option = {
 		name = lepsius.10.h #Have a nice day
+		default_option = yes
 		dubois_add_x_academy_progress = {
 			AMOUNT = 30
 		}
@@ -1195,6 +1191,7 @@ andersson.43 = {
 			name = andersson_peking_year_global_var
 			value = year
 		}
+		set_variable = andersson_andersson_achievement
 	}
 
 	option = {
@@ -2613,12 +2610,12 @@ andersson.202 = {
 	option = {	#South Africa (Australopithecus)
 		name = andersson.202.v
 		trigger = {
-			has_variable = andersson_hominid_prospecting_pithecanthropus_var
+			has_variable = andersson_hominid_prospecting_australopithecus_var
 			any_scope_state = {
 				is_in_geographic_region = andersson_geographic_region_java
 			}
 			NOT = {
-				has_journal_entry = je_andersson_hominid_prospecting_pithecanthropus
+				has_journal_entry = je_andersson_hominid_prospecting_australopithecus
 			}
 			scope:andersson_anthropologist_scope = {
 				is_busy = no
@@ -2632,7 +2629,1117 @@ andersson.202 = {
 			save_scope_as = andersson_state_scope
 		}
 		add_journal_entry = {
-			type = je_andersson_hominid_prospecting_pithecanthropus
+			type = je_andersson_hominid_prospecting_australopithecus
+			target = scope:andersson_state_scope
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+
+		ai_chance = {
+			base = 1
+			#Focus on this if the AI does not yet have 5 bones of this
+			modifier = {
+				trigger = {
+					NOT = {
+						has_variable = andersson_australopithecus_fossil_var
+					}
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					has_variable = andersson_australopithecus_fossil_var
+					var:andersson_australopithecus_fossil_var < 5
+				}
+				add = 75
+			}
+		}
+	}
+
+	option = {	#Nevermind
+		name = andersson.201.g
+		remove_variable = andersson_hominid_prospecting_neoanthropus_var
+		remove_variable = andersson_hominid_prospecting_palaeanthropus_var
+		remove_variable = andersson_hominid_prospecting_pithecanthropus_var
+		remove_variable = andersson_hominid_prospecting_australopithecus_var
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					OR = {
+						has_variable = andersson_hominid_prospecting_neoanthropus_var
+						has_variable = andersson_hominid_prospecting_palaeanthropus_var
+						has_variable = andersson_hominid_prospecting_pithecanthropus_var
+						has_variable = andersson_hominid_prospecting_australopithecus_var
+					}
+				}
+				set_andersson_cave_difficulty_effect = yes
+			}
+		}
+	}
+}
+
+#Andersson 205: Hominid Expedition - Type
+andersson.205 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = andersson.205.t
+	desc = andersson.205.d
+	flavor = andersson.205.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:andersson_anthropologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:andersson_anthropologist_var ?= {
+			save_scope_as = andersson_anthropologist_scope
+		}
+	}
+
+	option = {	#Neoanthropus
+		name = andersson.201.h
+		trigger = {
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_neoanthropus
+				}
+			}
+		}
+		set_variable = andersson_hominid_expedition_neoanthropus_var
+
+		ai_chance = {
+			base = 1
+			#Focus on Neoanthropus if the AI nation has less than 10 bones
+			modifier = {
+				trigger = {
+					andersson_has_maximum_neoanthropus_fossils_trigger = no
+				}
+				add = 100
+			}
+		}
+	}
+
+	option = {	#Palaeanthropus
+		name = andersson.201.i
+		trigger = {
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_palaeanthropus
+				}
+			}
+			andersson_can_find_palaeanthropus_trigger = yes
+		}
+		set_variable = andersson_hominid_expedition_palaeanthropus_var
+
+		ai_chance = {
+			base = 1
+			#Focus on Palaeanthropus if the AI nation has less than 10 bones
+			modifier = {
+				trigger = {
+					andersson_has_maximum_palaeanthropus_fossils_trigger = no
+				}
+				add = 100
+			}
+		}
+	}
+
+	option = {	#Pithecanthropus
+		name = andersson.201.j
+		trigger = {
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_pithecanthropus
+				}
+			}
+			andersson_can_find_pithecanthropus_trigger = yes
+		}
+		set_variable = andersson_hominid_expedition_pithecanthropus_var
+
+		ai_chance = {
+			base = 1
+			#Focus on Pithecanthropus if the AI nation has less than 10 bones
+			modifier = {
+				trigger = {
+					andersson_has_maximum_pithecanthropus_fossils_trigger = no
+				}
+				add = 100
+			}
+		}
+	}
+
+	option = {	#Australopithecus
+		name = andersson.201.k
+		trigger = {
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_australopithecus
+				}	
+			}
+			andersson_can_find_australopithecus_trigger = yes
+		}
+		set_variable = andersson_hominid_expedition_australopithecus_var
+
+		ai_chance = {
+			base = 1
+			#Focus on Australopithecus if the AI nation has less than 10 bones
+			modifier = {
+				trigger = {
+					andersson_has_maximum_australopithecus_fossils_trigger = no
+				}
+				add = 100
+			}
+		}
+	}
+
+	option = {	#Nevermind
+		name = andersson.201.g
+		default_option = yes
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				OR = {
+					has_variable = andersson_hominid_expedition_neoanthropus_var
+					has_variable = andersson_hominid_expedition_palaeanthropus_var
+					has_variable = andersson_hominid_expedition_pithecanthropus_var
+					has_variable = andersson_hominid_expedition_australopithecus_var
+				}
+			}
+			trigger_event = {
+				id = andersson.206
+				popup = yes
+			}
+		}
+		hidden_effect = {
+			remove_variable = andersson_hominid_expedition_selection_var
+		}
+	}
+}
+
+#Andersson 206: Hominid Expedition - Region
+andersson.206 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = andersson.206.t
+	desc = andersson.206.d
+	flavor = andersson.206.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:andersson_anthropologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:andersson_anthropologist_var ?= {
+			save_scope_as = andersson_anthropologist_scope
+		}
+		add_modifier = {
+			name = andersson_hominid_expedition_modifier
+			multiplier = mr_project_cost_small_value
+		}
+	}
+
+	#########################################################################
+
+	###### NEOANTHROPUS ######
+
+	option = {	#North America (Vero)
+		name = andersson.202.g
+		default_option = yes
+		trigger = {
+			has_variable = andersson_hominid_expedition_neoanthropus_var
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_vero
+				}
+			}
+			NOT = {
+				has_journal_entry = je_andersson_hominid_expedition
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_vero
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_in_geographic_region = andersson_geographic_region_vero
+				}
+				set_variable = andersson_hominid_expedition_var
+				save_scope_as = andersson_state_scope
+			}
+		}
+		add_journal_entry = {
+			type = je_andersson_hominid_expedition
+			target = scope:andersson_state_scope
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+
+		ai_chance = {
+			base = 1
+			#Focus on this if the AI does not yet have 5 bones of this
+			modifier = {
+				trigger = {
+					NOT = {
+						has_variable = andersson_vero_fossil_var
+					}
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					has_variable = andersson_vero_fossil_var
+					var:andersson_vero_fossil_var < 5
+				}
+				add = 75
+			}
+		}
+	}
+
+	option = {	#South America (Lagoa Santa)
+		name = andersson.202.h
+		trigger = {
+			has_variable = andersson_hominid_expedition_neoanthropus_var
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_lagoa_santa
+				}
+			}
+			NOT = {
+				has_journal_entry = je_andersson_hominid_expedition
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_lagoa_santa
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_in_geographic_region = andersson_geographic_region_lagoa_santa
+				}
+				set_variable = andersson_hominid_expedition_var
+				save_scope_as = andersson_state_scope
+			}
+		}
+		add_journal_entry = {
+			type = je_andersson_hominid_expedition
+			target = scope:andersson_state_scope
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+
+		ai_chance = {
+			base = 1
+			#Focus on this if the AI does not yet have 5 bones of this
+			modifier = {
+				trigger = {
+					NOT = {
+						has_variable = andersson_lagoa_santa_fossil_var
+					}
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					has_variable = andersson_lagoa_santa_fossil_var
+					var:andersson_lagoa_santa_fossil_var < 5
+				}
+				add = 75
+			}
+		}
+	}
+
+	option = {	#Europe (Cro-Magnon)
+		name = andersson.202.i
+		trigger = {
+			has_variable = andersson_hominid_expedition_neoanthropus_var
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_cro_magnon
+				}	
+			}
+			NOT = {
+				has_journal_entry = je_andersson_hominid_expedition
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_cro_magnon
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_in_geographic_region = andersson_geographic_region_cro_magnon
+				}
+				set_variable = andersson_hominid_expedition_var
+				save_scope_as = andersson_state_scope
+			}
+		}
+		add_journal_entry = {
+			type = je_andersson_hominid_expedition
+			target = scope:andersson_state_scope
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+
+		ai_chance = {
+			base = 1
+			#Focus on this if the AI does not yet have 5 bones of this
+			modifier = {
+				trigger = {
+					NOT = {
+						has_variable = andersson_cro_magnon_fossil_var
+					}
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					has_variable = andersson_cro_magnon_fossil_var
+					var:andersson_cro_magnon_fossil_var < 5
+				}
+				add = 75
+			}
+		}
+	}
+
+	option = {	#Boskop (Africa)
+		name = andersson.202.j
+		trigger = {
+			has_variable = andersson_hominid_expedition_neoanthropus_var
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_boskop
+				}	
+			}
+			NOT = {
+				has_journal_entry = je_andersson_hominid_expedition
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_boskop
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_in_geographic_region = andersson_geographic_region_boskop
+				}
+				set_variable = andersson_hominid_expedition_var
+				save_scope_as = andersson_state_scope
+			}
+		}
+		add_journal_entry = {
+			type = je_andersson_hominid_expedition
+			target = scope:andersson_state_scope
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+
+		ai_chance = {
+			base = 1
+			#Focus on this if the AI does not yet have 5 bones of this
+			modifier = {
+				trigger = {
+					NOT = {
+						has_variable = andersson_boskop_fossil_var
+					}
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					has_variable = andersson_boskop_fossil_var
+					var:andersson_boskop_fossil_var < 5
+				}
+				add = 75
+			}
+		}
+	}
+
+	option = {	#Asia (Tianyuan)
+		name = andersson.202.k
+		trigger = {
+			has_variable = andersson_hominid_expedition_neoanthropus_var
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_tianyuan
+				}	
+			}
+			NOT = {
+				has_journal_entry = je_andersson_hominid_expedition
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_tianyuan
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_in_geographic_region = andersson_geographic_region_tianyuan
+				}
+				set_variable = andersson_hominid_expedition_var
+				save_scope_as = andersson_state_scope
+			}
+		}
+		add_journal_entry = {
+			type = je_andersson_hominid_expedition
+			target = scope:andersson_state_scope
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+
+		ai_chance = {
+			base = 1
+			#Focus on this if the AI does not yet have 5 bones of this
+			modifier = {
+				trigger = {
+					NOT = {
+						has_variable = andersson_tianyuan_fossil_var
+					}
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					has_variable = andersson_tianyuan_fossil_var
+					var:andersson_tianyuan_fossil_var < 5
+				}
+				add = 75
+			}
+		}
+	}
+
+	option = {	#Australia (Talgai)
+		name = andersson.202.l
+		trigger = {
+			has_variable = andersson_hominid_expedition_neoanthropus_var
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_talgai
+				}	
+			}
+			NOT = {
+				has_journal_entry = je_andersson_hominid_expedition
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_talgai
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_in_geographic_region = andersson_geographic_region_talgai
+				}
+				set_variable = andersson_hominid_expedition_var
+				save_scope_as = andersson_state_scope
+			}
+		}
+		add_journal_entry = {
+			type = je_andersson_hominid_expedition
+			target = scope:andersson_state_scope
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+
+		ai_chance = {
+			base = 1
+			#Focus on this if the AI does not yet have 5 bones of this
+			modifier = {
+				trigger = {
+					NOT = {
+						has_variable = andersson_talgai_fossil_var
+					}
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					has_variable = andersson_talgai_fossil_var
+					var:andersson_talgai_fossil_var < 5
+				}
+				add = 75
+			}
+		}
+	}
+
+	##################################################################################
+
+	###### PALAEANTHROPUS ######
+
+	option = {	#Central Europe (Neanderthal)
+		name = andersson.202.m
+		trigger = {
+			has_variable = andersson_hominid_expedition_palaeanthropus_var
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_neanderthal
+				}	
+			}
+			NOT = {
+				has_journal_entry = je_andersson_hominid_expedition
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_neanderthal
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_in_geographic_region = andersson_geographic_region_neanderthal
+				}
+				set_variable = andersson_hominid_expedition_var
+				save_scope_as = andersson_state_scope
+			}
+		}
+		add_journal_entry = {
+			type = je_andersson_hominid_expedition
+			target = scope:andersson_state_scope
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+
+		ai_chance = {
+			base = 1
+			#Focus on this if the AI does not yet have 5 bones of this
+			modifier = {
+				trigger = {
+					NOT = {
+						has_variable = andersson_neanderthal_fossil_var
+					}
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					has_variable = andersson_neanderthal_fossil_var
+					var:andersson_neanderthal_fossil_var < 5
+				}
+				add = 75
+			}
+		}
+	}
+
+	option = {	#Southern Europe (Gibraltar)
+		name = andersson.202.n
+		trigger = {
+			has_variable = andersson_hominid_expedition_palaeanthropus_var
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_gibraltar
+				}	
+			}
+			NOT = {
+				has_journal_entry = je_andersson_hominid_expedition
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_gibraltar
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_in_geographic_region = andersson_geographic_region_gibraltar
+				}
+				set_variable = andersson_hominid_expedition_var
+				save_scope_as = andersson_state_scope
+			}
+		}
+		add_journal_entry = {
+			type = je_andersson_hominid_expedition
+			target = scope:andersson_state_scope
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+
+		ai_chance = {
+			base = 1
+			#Focus on this if the AI does not yet have 5 bones of this
+			modifier = {
+				trigger = {
+					NOT = {
+						has_variable = andersson_gibraltar_fossil_var
+					}
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					has_variable = andersson_gibraltar_fossil_var
+					var:andersson_gibraltar_fossil_var < 5
+				}
+				add = 75
+			}
+		}
+	}
+
+	option = {	#Western Europe (Spy)
+		name = andersson.202.o
+		trigger = {
+			has_variable = andersson_hominid_expedition_palaeanthropus_var
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_spy
+				}	
+			}
+			NOT = {
+				has_journal_entry = je_andersson_hominid_expedition
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_spy
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_in_geographic_region = andersson_geographic_region_spy
+				}
+				set_variable = andersson_hominid_expedition_var
+				save_scope_as = andersson_state_scope
+			}
+		}
+		add_journal_entry = {
+			type = je_andersson_hominid_expedition
+			target = scope:andersson_state_scope
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+
+		ai_chance = {
+			base = 1
+			#Focus on this if the AI does not yet have 5 bones of this
+			modifier = {
+				trigger = {
+					NOT = {
+						has_variable = andersson_spy_fossil_var
+					}
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					has_variable = andersson_spy_fossil_var
+					var:andersson_spy_fossil_var < 5
+				}
+				add = 75
+			}
+		}
+	}
+
+	option = {	#Balkans (Krapina)
+		name = andersson.202.p
+		trigger = {
+			has_variable = andersson_hominid_expedition_palaeanthropus_var
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_krapina
+				}	
+			}
+			NOT = {
+				has_journal_entry = je_andersson_hominid_expedition
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_krapina
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_in_geographic_region = andersson_geographic_region_krapina
+				}
+				set_variable = andersson_hominid_expedition_var
+				save_scope_as = andersson_state_scope
+			}
+		}
+		add_journal_entry = {
+			type = je_andersson_hominid_expedition
+			target = scope:andersson_state_scope
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+
+		ai_chance = {
+			base = 1
+			#Focus on this if the AI does not yet have 5 bones of this
+			modifier = {
+				trigger = {
+					NOT = {
+						has_variable = andersson_krapina_fossil_var
+					}
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					has_variable = andersson_krapina_fossil_var
+					var:andersson_krapina_fossil_var < 5
+				}
+				add = 75
+			}
+		}
+	}
+
+	option = {	#Near East (Galilee)
+		name = andersson.202.q
+		trigger = {
+			has_variable = andersson_hominid_expedition_palaeanthropus_var
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_galilee
+				}	
+			}
+			NOT = {
+				has_journal_entry = je_andersson_hominid_expedition
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_galilee
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_in_geographic_region = andersson_geographic_region_galilee
+				}
+				set_variable = andersson_hominid_expedition_var
+				save_scope_as = andersson_state_scope
+			}
+		}
+		add_journal_entry = {
+			type = je_andersson_hominid_expedition
+			target = scope:andersson_state_scope
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+
+		ai_chance = {
+			base = 1
+			#Focus on this if the AI does not yet have 5 bones of this
+			modifier = {
+				trigger = {
+					NOT = {
+						has_variable = andersson_galilee_fossil_var
+					}
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					has_variable = andersson_galilee_fossil_var
+					var:andersson_galilee_fossil_var < 5
+				}
+				add = 75
+			}
+		}
+	}
+
+	##################################################################################
+
+	###### PITHECANTHROPUS ######
+
+	option = {	#Europe (Heidelberg)
+		name = andersson.202.r
+		trigger = {
+			has_variable = andersson_hominid_expedition_pithecanthropus_var
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_heidelberg
+				}	
+			}
+			NOT = {
+				has_journal_entry = je_andersson_hominid_expedition
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_heidelberg
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_in_geographic_region = andersson_geographic_region_heidelberg
+				}
+				set_variable = andersson_hominid_expedition_var
+				save_scope_as = andersson_state_scope
+			}
+		}
+		add_journal_entry = {
+			type = je_andersson_hominid_expedition
+			target = scope:andersson_state_scope
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+
+		ai_chance = {
+			base = 1
+			#Focus on this if the AI does not yet have 5 bones of this
+			modifier = {
+				trigger = {
+					NOT = {
+						has_variable = andersson_heidelberg_fossil_var
+					}
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					has_variable = andersson_heidelberg_fossil_var
+					var:andersson_heidelberg_fossil_var < 5
+				}
+				add = 75
+			}
+		}
+	}
+
+	option = {	#Africa (Rhodesian)
+		name = andersson.202.s
+		trigger = {
+			has_variable = andersson_hominid_expedition_pithecanthropus_var
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_rhodesian
+				}	
+			}
+			NOT = {
+				has_journal_entry = je_andersson_hominid_expedition
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_rhodesian
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_in_geographic_region = andersson_geographic_region_rhodesian
+				}
+				set_variable = andersson_hominid_expedition_var
+				save_scope_as = andersson_state_scope
+			}
+		}
+		add_journal_entry = {
+			type = je_andersson_hominid_expedition
+			target = scope:andersson_state_scope
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+
+		ai_chance = {
+			base = 1
+			#Focus on this if the AI does not yet have 5 bones of this
+			modifier = {
+				trigger = {
+					NOT = {
+						has_variable = andersson_rhodesian_fossil_var
+					}
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					has_variable = andersson_rhodesian_fossil_var
+					var:andersson_rhodesian_fossil_var < 5
+				}
+				add = 75
+			}
+		}
+	}
+
+	option = {	#East Asia (Peking)
+		name = andersson.202.t
+		trigger = {
+			has_variable = andersson_hominid_expedition_pithecanthropus_var
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_peking
+				}	
+			}
+			NOT = {
+				has_journal_entry = je_andersson_hominid_expedition
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_peking
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_in_geographic_region = andersson_geographic_region_peking
+				}
+				set_variable = andersson_hominid_expedition_var
+				save_scope_as = andersson_state_scope
+			}
+		}
+		add_journal_entry = {
+			type = je_andersson_hominid_expedition
+			target = scope:andersson_state_scope
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+
+		ai_chance = {
+			base = 1
+			#Focus on this if the AI does not yet have 5 bones of this
+			modifier = {
+				trigger = {
+					NOT = {
+						has_variable = andersson_peking_fossil_var
+					}
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					has_variable = andersson_peking_fossil_var
+					var:andersson_peking_fossil_var < 5
+				}
+				add = 75
+			}
+		}
+	}
+
+	option = {	#South East Asia (Java)
+		name = andersson.202.u
+		trigger = {
+			has_variable = andersson_hominid_expedition_pithecanthropus_var
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_java
+				}	
+			}
+			NOT = {
+				has_journal_entry = je_andersson_hominid_expedition
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_java
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_in_geographic_region = andersson_geographic_region_java
+				}
+				set_variable = andersson_hominid_expedition_var
+				save_scope_as = andersson_state_scope
+			}
+		}
+		add_journal_entry = {
+			type = je_andersson_hominid_expedition
 			target = scope:andersson_state_scope
 		}
 		scope:andersson_anthropologist_scope = {
@@ -2660,14 +3767,99 @@ andersson.202 = {
 		}
 	}
 
+	##################################################################################
+
+	###### AUSTRALOPITHECUS ######
+
+	option = {	#South Africa (Australopithecus)
+		name = andersson.202.v
+		trigger = {
+			has_variable = andersson_hominid_expedition_australopithecus_var
+			any_direct_subject = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_java
+				}	
+			}
+			NOT = {
+				has_journal_entry = je_andersson_hominid_expedition
+			}
+			scope:andersson_anthropologist_scope = {
+				is_busy = no
+			}
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					is_in_geographic_region = andersson_geographic_region_australopithecus
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_in_geographic_region = andersson_geographic_region_australopithecus
+				}
+				set_variable = andersson_hominid_expedition_var
+				save_scope_as = andersson_state_scope
+			}
+		}
+		add_journal_entry = {
+			type = je_andersson_hominid_expedition
+			target = scope:andersson_state_scope
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+
+		ai_chance = {
+			base = 1
+			#Focus on this if the AI does not yet have 5 bones of this
+			modifier = {
+				trigger = {
+					NOT = {
+						has_variable = andersson_australopithecus_fossil_var
+					}
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					has_variable = andersson_australopithecus_fossil_var
+					var:andersson_australopithecus_fossil_var < 5
+				}
+				add = 75
+			}
+		}
+	}
+
+	option = {	#Nevermind
+		name = andersson.201.g
+		remove_variable = andersson_hominid_expedition_neoanthropus_var
+		remove_variable = andersson_hominid_expedition_palaeanthropus_var
+		remove_variable = andersson_hominid_expedition_pithecanthropus_var
+		remove_variable = andersson_hominid_expedition_australopithecus_var
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
 	after = {
 		hidden_effect = {
-			set_andersson_cave_difficulty_effect = yes
+			if = {
+				limit = {
+					OR = {
+						has_variable = andersson_hominid_expedition_neoanthropus_var
+						has_variable = andersson_hominid_expedition_palaeanthropus_var
+						has_variable = andersson_hominid_expedition_pithecanthropus_var
+						has_variable = andersson_hominid_expedition_australopithecus_var
+					}
+				}
+				set_andersson_cave_difficulty_effect = yes
+			}
 		}
 	}
 }
 
-#Andersson 211: Cave Exploration Finished
+#Andersson 211: Hominid Prospecting - Finished
 andersson.211 = {
 	dlc = dlc_morgenrote
 
@@ -2880,6 +4072,167 @@ andersson.212 = {
 	}
 }
 
+#Andersson 213: Hominid Expedition - Finished
+andersson.213 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = andersson.213.t
+	desc = andersson.213.d
+	flavor = andersson.213.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:andersson_anthropologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:andersson_anthropologist_var ?= {
+			save_scope_as = andersson_anthropologist_scope
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+				}
+			}
+			random_scope_state = {
+				limit = {
+					has_variable = andersson_hominid_expedition_var
+				}
+				save_scope_as = andersson_cave_state_scope
+			}
+		}
+	}
+
+	option = {	#More fossils for the people
+		name = andersson.211.g
+		default_option = yes
+		trigger = {
+			has_variable = andersson_hominid_expedition_neoanthropus_var
+			scope:andersson_cave_state_scope = {
+				is_in_geographic_region = andersson_geographic_region_neoanthropus
+			}
+		}
+		andersson_add_neoanthropus_fossil_effect = yes
+		anthropologist_experience_gain_effect = { AMOUNT = 10 }
+		if = {
+			limit = {
+				NOT = {
+					var:andersson_anthropologist_var = {
+						has_trait = andersson_speleologist
+						}
+					}
+				}
+			var:andersson_anthropologist_var = {
+				add_trait = andersson_speleologist
+			}
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = no
+		}
+		remove_variable = andersson_hominid_expedition_neoanthropus_var
+	}
+
+	option = {	#More fossils for the people
+		name = andersson.211.g
+		trigger = {
+			has_variable = andersson_hominid_expedition_palaeanthropus_var
+			scope:andersson_cave_state_scope = {
+				is_in_geographic_region = andersson_geographic_region_palaeanthropus
+			}
+		}
+		andersson_add_palaeanthropus_fossil_effect = yes
+		anthropologist_experience_gain_effect = { AMOUNT = 15 }
+		if = {
+			limit = {
+				NOT = {
+					var:andersson_anthropologist_var = {
+						has_trait = andersson_speleologist
+						}
+					}
+				}
+			var:andersson_anthropologist_var = {
+				add_trait = andersson_speleologist
+			}
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = no
+		}
+		remove_variable = andersson_hominid_expedition_palaeanthropus_var
+	}
+
+	option = {	#More fossils for the people
+		name = andersson.211.g
+		trigger = {
+			has_variable = andersson_hominid_expedition_pithecanthropus_var
+			scope:andersson_cave_state_scope = {
+				is_in_geographic_region = andersson_geographic_region_pithecanthropus
+			}
+		}
+		andersson_add_pithecanthropus_fossil_effect = yes
+		anthropologist_experience_gain_effect = { AMOUNT = 20 }
+		if = {
+			limit = {
+				NOT = {
+					var:andersson_anthropologist_var = {
+						has_trait = andersson_speleologist
+						}
+					}
+				}
+			var:andersson_anthropologist_var = {
+				add_trait = andersson_speleologist
+			}
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = no
+		}
+		remove_variable = andersson_hominid_expedition_pithecanthropus_var
+	}
+
+	option = {	#More fossils for the people
+		name = andersson.211.g
+		trigger = {
+			has_variable = andersson_hominid_expedition_australopithecus_var
+			scope:andersson_cave_state_scope = {
+				is_in_geographic_region = andersson_geographic_region_australopithecus
+			}
+		}
+		andersson_add_australopithecus_fossil_effect = yes
+		anthropologist_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:andersson_anthropologist_var = {
+						has_trait = andersson_speleologist
+						}
+					}
+				}
+			var:andersson_anthropologist_var = {
+				add_trait = andersson_speleologist
+			}
+		}
+		scope:andersson_anthropologist_scope = {
+			set_character_busy_and_immortal = no
+		}
+		remove_variable = andersson_hominid_expedition_australopithecus_var
+	}
+
+	after = {
+		hidden_effect = {
+			remove_modifier = andersson_hominid_expedition_modifier
+			andersson_remove_expedition_effect = yes
+		}
+	}
+}
+
 #Andersson 221: The Neoanthropus Man
 andersson.221 = {
 	dlc = dlc_morgenrote
@@ -3070,6 +4423,213 @@ andersson.224 = {
 	option = {	#More fossils for the people
 		name = andersson.224.g
 		default_option = yes
+		andersson_add_australopithecus_fossil_effect = yes
+		andersson_change_anthropological_rating = { AMOUNT = 80 }
+		anthropologist_experience_gain_effect = { AMOUNT = 50 }
+	}
+}
+
+#Andersson 225: The Expedition Man
+andersson.225 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_variable = andersson_hominid_expedition_neoanthropus_var
+			}
+			desc = andersson.221.t
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = andersson_hominid_expedition_palaeanthropus_var
+			}
+			desc = andersson.222.t
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = andersson_hominid_expedition_pithecanthropus_var
+			}
+			desc = andersson.223.t
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = andersson_hominid_expedition_australopithecus_var
+			}
+			desc = andersson.224.t
+		}
+	}
+	desc = andersson.225.d
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = andersson_hominid_expedition_neoanthropus_var
+			}
+			desc = andersson.221.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = andersson_hominid_expedition_palaeanthropus_var
+			}
+			desc = andersson.222.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = andersson_hominid_expedition_pithecanthropus_var
+			}
+			desc = andersson.223.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = andersson_hominid_expedition_australopithecus_var
+			}
+			desc = andersson.224.f
+		}
+	}
+
+	placement = scope:andersson_cave_state_scope
+
+	event_image = {
+		trigger = {
+			has_variable = andersson_hominid_expedition_neoanthropus_var
+		}
+		texture = "gfx/event_pictures/andersson_pictures/andersson_neoanthropus.dds"
+	}
+
+	event_image = {
+		trigger = {
+			has_variable = andersson_hominid_expedition_palaeanthropus_var
+		}
+		texture = "gfx/event_pictures/andersson_pictures/andersson_palaeanthropus.dds"
+	}
+
+	event_image = {
+		trigger = {
+			has_variable = andersson_hominid_expedition_pithecanthropus_var
+		}
+		texture = "gfx/event_pictures/andersson_pictures/andersson_pithecanthropus.dds"
+	}
+	event_image = {
+		trigger = {
+			has_variable = andersson_hominid_expedition_australopithecus_var
+		}
+		texture = "gfx/event_pictures/andersson_pictures/andersson_australopithecus.dds"
+	}
+
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:andersson_anthropologist_var ?= {
+			save_scope_as = andersson_anthropologist_scope
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+				}
+			}
+			save_scope_as = andersson_cave_country_scope
+			random_scope_state = {
+				limit = {
+					has_variable = andersson_hominid_expedition_var
+				}
+				save_scope_as = andersson_cave_state_scope
+			}
+		}
+		if = {
+			limit = {
+				has_variable = andersson_hominid_expedition_neoanthropus_var
+			}
+			andersson_expedition_neoanthropus_discovery_effect = yes
+		}
+		if = {
+			limit = {
+				has_variable = andersson_hominid_expedition_palaeanthropus_var
+			}
+			andersson_expedition_palaeanthropus_discovery_effect = yes
+		}
+		if = {
+			limit = {
+				has_variable = andersson_hominid_expedition_pithecanthropus_var
+			}
+			andersson_expedition_pithecanthropus_discovery_effect = yes
+		}
+		if = {
+			limit = {
+				has_variable = andersson_hominid_expedition_australopithecus_var
+			}
+			andersson_expedition_australopithecus_discovery_effect = yes
+		}
+	}
+
+	option = {	#More fossils for the people
+		name = andersson.221.g
+		default_option = yes
+		trigger = {
+			has_variable = andersson_hominid_expedition_neoanthropus_var
+		}
+		scope:andersson_anthropologist_scope = {
+			set_variable = {
+				name = andersson_anthropologist_achievement_discovered_neoanthropus_var
+				value = flag:andersson_anthropologist_achievement_discovered_neoanthropus_loc
+			}
+		}
+		andersson_add_neoanthropus_fossil_effect = yes
+		andersson_change_anthropological_rating = { AMOUNT = 20 }
+		anthropologist_experience_gain_effect = { AMOUNT = 15 }
+	}
+	option = {	#More fossils for the people
+		name = andersson.222.g
+		default_option = yes
+		trigger = {
+			has_variable = andersson_hominid_expedition_palaeanthropus_var
+		}
+		scope:andersson_anthropologist_scope = {
+			set_variable = {
+				name = andersson_anthropologist_achievement_discovered_palaeanthropus_var
+				value = flag:andersson_anthropologist_achievement_discovered_palaeanthropus_loc
+			}
+		}
+		andersson_add_palaeanthropus_fossil_effect = yes
+		andersson_change_anthropological_rating = { AMOUNT = 40 }
+		anthropologist_experience_gain_effect = { AMOUNT = 25 }
+	}
+	option = {	#More fossils for the people
+		name = andersson.223.g
+		default_option = yes
+		trigger = {
+			has_variable = andersson_hominid_expedition_pithecanthropus_var
+		}
+		scope:andersson_anthropologist_scope = {
+			set_variable = {
+				name = andersson_anthropologist_achievement_discovered_pithecanthropus_var
+				value = flag:andersson_anthropologist_achievement_discovered_pithecanthropus_loc
+			}
+		}
+		andersson_add_pithecanthropus_fossil_effect = yes
+		andersson_change_anthropological_rating = { AMOUNT = 60 }
+		anthropologist_experience_gain_effect = { AMOUNT = 35 }
+	}
+	option = {	#More fossils for the people
+		name = andersson.224.g
+		default_option = yes
+		trigger = {
+			has_variable = andersson_hominid_expedition_australopithecus_var
+		}
+		scope:andersson_anthropologist_scope = {
+			set_variable = {
+				name = andersson_anthropologist_achievement_discovered_australopithecus_var
+				value = flag:andersson_anthropologist_achievement_discovered_australopithecus_loc
+			}
+		}
 		andersson_add_australopithecus_fossil_effect = yes
 		andersson_change_anthropological_rating = { AMOUNT = 80 }
 		anthropologist_experience_gain_effect = { AMOUNT = 50 }
@@ -4522,6 +6082,7 @@ andersson.501 = {
 				save_scope_as = andersson_piltdown_defender_scope
 			}
 		}
+		set_variable = andersson_piltdown_achievement
 	}
 
 	option = {
@@ -5212,6 +6773,15 @@ andersson.914 = {
 				add = 1
 			}
 		}
+	}
+
+	option = {
+		name = andersson.914.i #Polygenism
+		default_option = yes
+		trigger = {
+			has_variable = andersson_anthropology_update_var
+		}
+		set_global_variable = andersson_origin_polygenism_vote
 	}
 
 

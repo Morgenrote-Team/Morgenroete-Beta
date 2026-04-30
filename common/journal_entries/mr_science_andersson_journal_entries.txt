@@ -459,6 +459,92 @@ je_andersson_cave_exploration = {
 
 ######################################################
 
+######Hominid Expedition###
+
+je_andersson_hominid_expedition = {
+	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
+
+	group = je_group_andersson_anthropology
+
+	scripted_progress_bar = andersson_cave_exploration_progress_bar
+	scripted_progress_bar = andersson_cave_collection_progress_bar
+	scripted_progress_bar = andersson_cave_identification_progress_bar
+
+	on_weekly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(andersson_cave_exploration_progress_bar)" >= 90
+					}
+				}
+				andersson_hominid_prospecting_exploration_event_effect = yes
+			}
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 90
+					}
+				}
+				andersson_hominid_prospecting_collecting_event_effect = yes
+			}
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(andersson_cave_collection_progress_bar)" >= 50
+					}
+					andersson_expedition_discovery_trigger = yes
+				}
+				trigger_event = { id = andersson.225 }
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = andersson_cave_identification_progress_bar_at_full_tt
+			scope:journal_entry = {
+				"scripted_bar_progress(andersson_cave_identification_progress_bar)" >= 90
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = andersson.213 }
+	}
+
+	invalid = {
+		OR = {
+			custom_tooltip = {
+				text = andersson_anthropologist_dies_tt
+				andersson_has_anthropologist = no
+			}
+			custom_tooltip = {
+				text = andersson_je_no_subject_anymore_tt
+				NOT = {
+					any_direct_subject = {
+						any_scope_state = {
+							has_variable = andersson_hominid_expedition_var
+						}
+					}
+				}
+			}
+		}
+	}
+
+	on_invalid = {
+		andersson_remove_expedition_effect = yes
+		remove_variable = andersson_hominid_expedition_neoanthropus_var
+		remove_variable = andersson_hominid_expedition_palaeanthropus_var
+		remove_variable = andersson_hominid_expedition_pithecanthropus_var
+		remove_variable = andersson_hominid_expedition_australopithecus_var
+	}
+
+	weight = 50
+}
+
+######################################################
+
 ######Reconstruct Prehistoric Skeleton###
 
 je_andersson_reconstruct_prehistoric_skeleton = {

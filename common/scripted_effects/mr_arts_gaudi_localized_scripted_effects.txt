@@ -1,8 +1,8 @@
-﻿##########################
-# GAUDÍ SCRIPTED EFFECTS #
-##########################
+﻿####################################
+# GAUDÍ LOCALIZED SCRIPTED EFFECTS #
+####################################
 
-#by Marco Dandolo
+#by Lord R
 
 ##########################
 
@@ -13,8 +13,6 @@ gaudi_add_x_architectural_splendour_effect = {
 		text = "gaudi_add_x_architectural_splendour_effect_loc"
 		subject = this
 		value = $AMOUNT$
-
-
 
 		#This part adds the AMOUNT of Architectural Splendour
 		if = { #Fallback if the variable does not exist yet
@@ -60,63 +58,4 @@ gaudi_add_x_architectural_splendour_effect = {
 			}
 		}
 	}
-}
-
-tesla_character_electrical_engineer_experience_gain_effect = { #adds Chemist XP to the Character
-	# AMOUNT = amount of XP to add
-	custom_description = {
-		text = "tesla_character_electrical_engineer_experience_gain_effect_loc"
-		subject = this
-		value = $AMOUNT$
-
-		#Fallback if there is no Experience yet
-		if = {
-			limit = {
-				NOT = {
-					has_variable = tesla_electrical_engineer_experience_var
-				}
-			}
-			engineer_experience_set_up_effect = yes
-		}
-		#Actual change of Experience
-		change_variable = {
-			name = tesla_electrical_engineer_experience_var
-			add = $AMOUNT$
-		}
-		#Clamping to prevent overflow
-		clamp_variable = {
-			name = tesla_electrical_engineer_experience_var
-			min = 0
-			max = 300
-		}
-	}
-
-	#Add Traits if the character does not have one yet
-	if = {
-		limit = {
-			var:tesla_electrical_engineer_experience_var >= 100
-			NOT = {
-				has_trait = tesla_electrical_engineer
-			}
-		}
-		if = {
-			limit = {
-				exists = owner
-				owner.var:tesla_engineer_var ?= this
-			}
-			owner ?= {
-				trigger_event = {
-					id = academics.143
-				}
-			}
-		}
-		else = {
-			post_notification = academics_character_is_electrical_engineer_notification
-		}
-		hidden_effect = {
-			add_trait = tesla_electrical_engineer
-		}
-	}
-	#Add Academic Title if Character does not have one yet
-	academics_electrical_engineer_add_academic_title_effect = yes
 }

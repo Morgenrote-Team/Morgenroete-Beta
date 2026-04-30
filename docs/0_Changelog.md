@@ -1,4 +1,12 @@
-Changelog fot 2.8.0b "Koganei"
+Changelog fot 2.8.0c "Koganei"
+
+Graphics:
+- Replaced 5 AI tech icons with icons commissioned from Valerie P.
+
+Anthropology:
+- Added Hominid Expedition, which allows you to search for human fossils in your subject countries.
+- Changed Anthropological Regions for Neoanthropus and Pithecanthropus a bit (Ice Age).
 
 Fixes:
-- Academics acquired with the diplomatic action will now correctly get roles assigned.
+- Mr. Struct should no longer appear in the Asylum and Character Treatment popup.
+- Major local artifacts should no longer be found multiple times.
