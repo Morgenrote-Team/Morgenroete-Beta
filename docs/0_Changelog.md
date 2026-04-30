@@ -9,3 +9,4 @@ Anthropology:
 
 Fixes:
 - Mr. Struct should no longer appear in the Asylum and Character Treatment popup.
+- Major local artifacts should no longer be found multiple times.
