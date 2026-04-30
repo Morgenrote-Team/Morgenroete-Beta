@@ -1,0 +1,255 @@
+﻿je_mr_verrier_asteriods_conference = {
+	group = je_group_morgenroete_conferences
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+	weight = 100
+	
+	should_be_pinned_by_default_involved = yes
+	can_revolution_inherit = yes
+	transferable = no
+	can_deactivate = no
+	
+	# TODO-Alexedishi implement progress bar
+	scripted_progress_bar = verrier_asteriods_conference_minor_planets_progress_bar
+	scripted_progress_bar = verrier_asteriods_conference_ceres_progress_bar
+	
+	
+	# TODO-Alexedishi implement scripted buttons
+	scripted_button = verrier_join_asteriods_conference_button
+	scripted_button = verrier_leave_asteriods_conference_button
+	scripted_button = verrier_promote_minor_planets_button
+	scripted_button = verrier_demote_minor_planets_button
+	scripted_button = verrier_promote_ceres_button
+	scripted_button = verrier_demote_ceres_button
+	
+	should_be_involved = {
+		has_variable = verrier_hosted_asteroids_conference
+	}
+	
+	should_show_when_not_involved = {
+		always = yes
+	}
+	
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = verrier_hosted_asteroids_conference
+			}
+			save_scope_as = verrier_asteroids_conference_host
+		}
+		every_country = {
+			if = {
+				limit = {
+					mr_gui_has_modern_astronomy_tech_trigger = yes
+				}
+				trigger_event = verrier.30
+			}
+			else = {
+				# TODO-Alexedishi implement notification
+				post_notification = verrier_asteroid_conference_notification
+			}
+		}
+		scope:journal_entry = {
+			set_variable = {
+				name = verrier_promote_minor_planets_votes_var
+				value = 0
+			}
+			set_variable = {
+				name = verrier_demote_minor_planets_votes_var
+				value = 0
+			}
+			set_variable = {
+				name = verrier_minor_planets_vote_ratio_var
+				value = 5
+			}
+			set_variable = {
+				name = verrier_promote_ceres_votes_var
+				value = 0
+			}
+			set_variable = {
+				name = verrier_demote_ceres_votes_var
+				value = 0
+			}
+			set_variable = {
+				name = verrier_ceres_vote_ratio_var
+				value = 5
+			}
+		}
+	}
+	
+	timeout = {
+		value = 120 # TODO-Alexedishi temporary value
+		if = {
+			limit = {
+				scope:journal_entry = {
+					journal_entry_age >= 110
+					var:verrier_ceres_vote_ratio_var > 5
+					NOT = {
+						has_variable = verrier_ceres_debate_extension
+					}
+				}
+			}
+			add = 10 # This will extend the journal just long enough to run the Ceres check
+		}
+		if = {
+			limit = {
+				scope:journal_entry = {
+					has_variable = verrier_ceres_debate_extension
+				}
+			}
+			add = 90
+		}
+	}
+	
+	on_timeout = {
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_TIMEOUT_RESULT
+			# All four planets saved (somehow)
+			if = {
+				limit = {
+					scope:journal_entry = {
+						NOT = {
+							has_variable = verrier_ceres_debate_extension
+						}
+						var:verrier_minor_planets_vote_ratio_var > 5
+					}
+				}
+				every_country = {
+					if = {
+						limit = {
+							is_involved_in_journal_entry = je_mr_verrier_asteriods_conference
+						}
+						trigger_event = verrier.32
+					}
+					else = {
+						post_notification = verrier_asteroid_conference_planets_saved_notification
+					}
+				}
+			}
+			# Three planets cancelled, Ceres saved
+			else_if = {
+				limit = {
+					scope:journal_entry = {
+						has_variable = verrier_ceres_debate_extension
+						var:verrier_ceres_vote_ratio_var > 5
+					}
+				}
+				every_country = {
+					if = {
+						limit = {
+							is_involved_in_journal_entry = je_mr_verrier_asteriods_conference
+						}
+						trigger_event = verrier.34
+					}
+					else = {
+						post_notification = verrier_asteroid_conference_ceres_saved_notification
+					}
+				}
+			}
+			# All four planets cancelled
+			else = {
+				every_country = {
+					if = {
+						limit = {
+							is_involved_in_journal_entry = je_mr_verrier_asteriods_conference
+						}
+						trigger_event = verrier.33
+					}
+					else = {
+						post_notification = verrier_asteroid_conference_planets_cancelled_notification
+					}
+				}
+			}
+		}
+	}
+	
+	fail = {
+		custom_tooltip = { 
+			text = MR_ASTEROID_CONGRESS_NO_PARTICIPANTS
+			NOT = {
+				any_country = { 
+					is_involved_in_journal_entry = je_mr_verrier_asteriods_conference
+				}
+			}
+		}
+	}
+	
+	on_fail = {
+	}
+	
+	on_weekly_pulse = {
+		events = {
+		}
+		random_events = {
+		}
+		effect = {
+			scope:journal_entry = {
+				if = {
+					limit = {
+						NOT = {
+							has_variable = verrier_ceres_debate_extension
+						}
+					}
+					set_variable = {
+						name = verrier_promote_minor_planets_votes_var
+						value = verrier_promote_minor_planets_votes_value
+					}
+					set_variable = {
+						name = verrier_demote_minor_planets_votes_var
+						value = verrier_demote_minor_planets_votes_value
+					}
+					set_variable = {
+						name = verrier_minor_planets_vote_ratio_var
+						value = verrier_minor_planets_vote_ratio_value
+					}
+					set_bar_progress = {
+						name = verrier_asteriods_conference_minor_planets_progress_bar
+						value = verrier_minor_planets_vote_ratio_value
+					}
+				}
+				if = {
+					limit = {
+						has_variable = verrier_ceres_debate_extension
+					}
+					set_variable = {
+						name = verrier_promote_ceres_votes_var
+						value = verrier_promote_ceres_votes_value
+					}
+					set_variable = {
+						name = verrier_demote_ceres_votes_var
+						value = verrier_demote_ceres_votes_value
+					}
+					set_variable = {
+						name = verrier_ceres_vote_ratio_var
+						value = verrier_ceres_vote_ratio_value
+					}
+					set_bar_progress = {
+						name = verrier_asteriods_conference_ceres_progress_bar
+						value = verrier_ceres_vote_ratio_value
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = verrier_ceres_debate_extension
+					}
+					scope:journal_entry.journal_entry_age >= 110
+					var:verrier_minor_planets_vote_ratio_var < 5
+				}
+				scope:journal_entry = {
+					set_variable = verrier_ceres_debate_extension
+				}
+				every_country = {
+					limit = {
+						is_involved_in_journal_entry = je_mr_verrier_asteriods_conference
+					}
+					trigger_event = verrier.31
+				}
+			}
+		}
+	}
+	
+	status_desc = {
+		desc = je_mr_verrier_asteriods_conference_status
+	}
+}
