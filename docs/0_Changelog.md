@@ -6,3 +6,6 @@ Graphics:
 Anthropology:
 - Added Hominid Expedition, which allows you to search for human fossils in your subject countries.
 - Changed Anthropological Regions for Neoanthropus and Pithecanthropus a bit (Ice Age).
+
+Fixes:
+- Mr. Struct should no longer appear in the Asylum and Character Treatment popup.
