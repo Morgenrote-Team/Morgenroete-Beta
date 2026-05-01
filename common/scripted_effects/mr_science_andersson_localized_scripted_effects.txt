@@ -1,0 +1,149 @@
+﻿########################################
+# ANDERSSON LOCALIZED SCRIPTED EFFECTS #
+########################################
+
+#by Lord R
+
+##########################
+
+######PREHISTORIC ARTIFACTS######
+
+###Adding Generic Prehistoric Artifacts###
+
+#Effect to add $AMOUNT$ Generic Prehistoric Artifacts
+andersson_add_x_prehistoric_artifacts_effect = {
+	# AMOUNT = amount of artifacts to add
+	custom_description = {
+		text = "andersson_add_x_prehistoric_artifacts_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+		#Generic Prehistoric Artifacts of Country
+		mr_change_variable_min_0_effect = { AMOUNT = $AMOUNT$ NAME = andersson_prehistoric_artifact_var }
+
+		#Adds Generic Prehistoric Artifacts to the Anthropologist
+		var:andersson_anthropologist_var ?= {
+			#Counts how many Generic Prehistoric Artifacts the character found
+			mr_change_variable_min_0_effect = { AMOUNT = $AMOUNT$ NAME = andersson_prehistoric_artifact_anthropologist_var }
+		}
+	}
+
+	#1 Anthropological Prestige for each Prehistoric Artifact
+	andersson_change_anthropological_prestige_by_amount_effect = { AMOUNT = $AMOUNT$ }
+}
+
+###Adding Generic Prehistoric Venuses###
+
+#Effect to add $AMOUNT$ Prehistoric Venus
+andersson_add_x_prehistoric_venus_effect = {
+	# AMOUNT = amount of Venuses to add
+	custom_description = {
+		text = "andersson_add_x_prehistoric_venus_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+		#Generic Prehistoric Venuses of Country
+		mr_change_variable_min_0_effect = { AMOUNT = $AMOUNT$ NAME = andersson_prehistoric_venus_var }
+
+		#Adds Generic Prehistoric Venuses to the Anthropologist
+		var:andersson_anthropologist_var ?= {
+			#Counts how many Prehistoric Venuses the character found
+			mr_change_variable_min_0_effect = { AMOUNT = $AMOUNT$ NAME = andersson_prehistoric_venus_anthropologist_var }
+		}
+	}
+
+	#5 Anthropological Prestige for each Prehistoric Venus
+	andersson_change_anthropological_prestige_by_amount_with_multiplier_effect = { AMOUNT = $AMOUNT$ MULTIPLIER = 5 }
+}
+
+######HUMAN FOSSILS######
+
+###Adding Unspecific Human Fossil###
+
+#Effect to add $AMOUNT$ Unspecific Human Fossils
+andersson_add_x_human_fossils_effect = {
+	# AMOUNT = amount of artifacts to add
+	custom_description = {
+		text = "andersson_add_x_human_fossils_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+		#Unspecific Human Fossils of Country
+		mr_change_variable_min_0_effect = { AMOUNT = $AMOUNT$ NAME = andersson_total_human_fossil }
+
+		#Global Unspecific Human Fossils
+		mr_change_global_variable_min_0_effect = { AMOUNT = $AMOUNT$ NAME = andersson_global_human_fossil_global_var }
+
+		#Adds Unspecific Human Fossils to the Anthropologist
+		var:andersson_anthropologist_var ?= {
+			#Counts how many Unspecific Human Fossils the character found
+			mr_change_variable_min_0_effect = { AMOUNT = $AMOUNT$ NAME = andersson_total_human_fossils_anthropologist_var }
+		}
+	}
+}
+
+###ANTHROPOLOGICAL RATING######
+
+#Specific Human Fossil: 1 Prestige
+
+#Cave Paintings Discovery: 10 Prestige
+#Neoanthropus Discovery: 20 Prestige, Skeleton: 25 Prestige
+#Palaeanthropus Discovery: 40 Prestige, Skeleton: 50 Prestige
+#Pithecanthropus Discovery: 60 Prestige, Skeleton: 75 Prestige
+#Australopithecus Discovery: 80 Prestige, Skeleton: 100 Prestige
+
+#Effect to add $AMOUNT$ of Anthropological Prestige
+andersson_change_anthropological_prestige_by_amount_effect = {
+	# AMOUNT = amount of Prestige to add
+	custom_description = {
+		text = "andersson_change_anthropological_prestige_by_amount_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+		#Anthropological Prestige of country
+		mr_change_variable_min_0_effect = { AMOUNT = $AMOUNT$ NAME = andersson_anthropological_rating }
+
+		#Adds the correct modifier
+		andersson_update_anthropological_prestige_modifiers_effect = yes
+	}
+}
+
+#Effect to add $AMOUNT$ of Anthropological Prestige
+# This effect uses a multiplier as that is necessary in some scripted effects like andersson_add_x_prehistoric_venus_effect
+andersson_change_anthropological_prestige_by_amount_with_multiplier_effect = {
+	# AMOUNT = amount of Prestige to add
+	# MULTIPLIER = The Amount is multiplied by this value --> This is necessary to e.g. add 5 points per Venus
+	save_temporary_scope_value_as = { #This is used to calculate the final amount
+		name = value
+		value = {
+			value = $AMOUNT$
+			multiply = $MULTIPLIER$
+		}
+	}
+
+	custom_description = {
+		text = "andersson_change_anthropological_prestige_by_amount_effect_loc"
+		subject = this
+		value = scope:value
+
+		#Anthropological Prestige of country
+		mr_change_variable_min_0_effect = { AMOUNT = scope:value NAME = andersson_anthropological_rating }
+
+		#Adds the correct modifier
+		andersson_update_anthropological_prestige_modifiers_effect = yes
+	}
+}
+
+#Updates the Prestige Modifier
+andersson_update_anthropological_prestige_modifiers_effect = {
+	if = {
+		limit = {
+			has_modifier = andersson_anthropological_rating_modifier
+		}
+		remove_modifier = andersson_anthropological_rating_modifier
+	}
+	add_modifier = {
+		name = andersson_anthropological_rating_modifier
+		multiplier = root.var:andersson_anthropological_rating #Anthropological Rating = Anthropological Prestige
+	}
+}
