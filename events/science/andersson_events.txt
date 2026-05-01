@@ -6479,6 +6479,153 @@ andersson.511 = {
 	}
 }
 
+##################################################################################################################
+
+### Our Ancestors ###
+
+#Andersson 601: Scenery complete
+andersson.601 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_variable = andersson_neolithic_scenery_ongoing_var
+			}
+			desc = andersson.601.t_neolithic
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = andersson_mesolithic_scenery_ongoing_var
+			}
+			desc = andersson.601.t_mesolithic
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = andersson_upper_paleolithic_scenery_ongoing_var
+			}
+			desc = andersson.601.t_upper_paleolithic
+		}
+	}
+	desc = andersson.601.d
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = andersson_neolithic_scenery_ongoing_var
+			}
+			desc = andersson.601.f_neolithic
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = andersson_mesolithic_scenery_ongoing_var
+			}
+			desc = andersson.601.f_mesolithic
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = andersson_upper_paleolithic_scenery_ongoing_var
+			}
+			desc = andersson.601.f_upper_paleolithic
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/andersson_pictures/andersson_scenery.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	immediate = {
+		var:andersson_anthropologist_var ?= {
+			set_variable = {
+				name = andersson_anthropologist_achievement_our_ancestors_var
+				value = flag:andersson_anthropologist_achievement_our_ancestors_loc
+			}
+			save_scope_as = andersson_anthropologist_scope
+		}
+		random_scope_building = {
+			limit = {
+				is_building_type = building_university
+				NOR = {
+					has_modifier = andersson_neolithic_scenery_modifier
+					has_modifier = andersson_mesolithic_scenery_modifier
+					has_modifier = andersson_upper_paleolithic_scenery_modifier
+				}
+			}
+			save_scope_as = andersson_university_scope
+		}
+	}
+
+	option = {
+		name = andersson.601.g #Beautiful
+		default_option = yes
+		scope:andersson_university_scope = {
+			if = {
+				limit = {
+					ROOT = {
+						has_variable = andersson_neolithic_scenery_ongoing_var
+					}
+				}
+				add_modifier = {
+					name = andersson_neolithic_scenery_modifier
+				}
+			}
+			if = {
+				limit = {
+					ROOT = {
+						has_variable = andersson_mesolithic_scenery_ongoing_var
+					}
+				}
+				add_modifier = {
+					name = andersson_mesolithic_scenery_modifier
+				}
+			}
+			if = {
+				limit = {
+					ROOT = {
+						has_variable = andersson_upper_paleolithic_scenery_ongoing_var
+					}
+				}
+				add_modifier = {
+					name = andersson_upper_paleolithic_scenery_modifier
+				}
+			}
+		}
+		anthropologist_experience_gain_effect = { AMOUNT = 10 }
+		if = {
+			limit = {
+				NOT = {
+					var:andersson_anthropologist_var = {
+						has_trait = erudite
+					}
+				}
+			}
+			var:andersson_anthropologist_var = {
+				add_trait = erudite
+			}
+		}
+		dubois_add_x_academy_progress = { AMOUNT = 30 }
+		var:andersson_anthropologist_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			remove_variable = andersson_neolithic_scenery_ongoing_var
+			remove_variable = andersson_mesolithic_scenery_ongoing_var
+			remove_variable = andersson_upper_paleolithic_scenery_ongoing_var
+		}
+	}
+}
+
+##################################################################################################################
 
 #######Origin of Modern Humans######
 
