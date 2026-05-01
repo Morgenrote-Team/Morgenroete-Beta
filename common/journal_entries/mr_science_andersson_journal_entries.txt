@@ -688,3 +688,101 @@ je_andersson_our_ancestors = {
 
 	weight = 30
 }
+
+######################################################
+
+######Craniometry######
+
+je_andersson_craniometry = {
+	icon = "gfx/interface/icons/invention_icons/andersson_anthropology_tech.dds"
+
+	group = je_group_andersson_anthropology
+
+	scripted_button = andersson_stop_anthropologist_project_button
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = {
+				name = andersson_anthropologist_craniometry_progress_var
+				add = 1
+			}
+			if = {
+				limit = {
+					var:andersson_anthropologist_craniometry_progress_var >= 4
+					var:andersson_anthropologist_var ?= {
+						NOR = {
+							has_trait = andersson_monogenist
+							has_trait = andersson_polygenist
+						}
+					}
+				}
+				trigger_event = { id = andersson.711 }
+			}
+			if = {
+				limit = {
+					var:andersson_anthropologist_craniometry_progress_var >= 8
+					var:andersson_anthropologist_var ?= {
+						NOR = {
+							has_trait = andersson_diffusionist
+							has_trait = andersson_evolutionist
+						}
+					}
+				}
+				trigger_event = { id = andersson.712 }
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = {
+			name = andersson_anthropologist_craniometry_progress_var
+			value = 0
+		}
+		set_variable = andersson_can_stop_active_anthropologist_project_var
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = andersson.701
+		}
+	}
+
+	current_value = {
+		value = var:andersson_anthropologist_craniometry_progress_var
+	}
+
+	goal_add_value = {
+		value = 12
+	}
+
+	invalid = {
+		OR = {
+			custom_tooltip = {
+				text = andersson_anthropologist_dies_tt
+				andersson_has_anthropologist = no
+			}
+			custom_tooltip = {
+				text = andersson_stop_anthropologist_project_tt
+				has_variable = andersson_stop_anthropologist_project_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = andersson_can_stop_active_anthropologist_project_var #Needs to be removed, when the JE is removed
+		remove_variable = andersson_stop_anthropologist_project_var
+		var:andersson_anthropologist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	progressbar = yes
+
+	weight = 30
+}
