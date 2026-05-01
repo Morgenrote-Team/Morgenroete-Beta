@@ -1,4 +1,4 @@
-Changelog fot 2.8.0e "Koganei"
+Changelog fot 2.8.1 "Haeckel"
 
 Archaeology
 - Added 4 events for the Colombia Archaoelogical Region (Musica, Tairona, San Augustín, Zenú).
