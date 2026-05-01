@@ -6,5 +6,6 @@ Archaeology
 
 Anthropology
 - Institute of Anthropology & Ethnology can only be build in states with a university. It also needs 10 human fossils.
+- Added new Action: Just as a paleontologist can create a diorama depicting different prehistoric eras, an anthropologist can do the same for prehistoric humans. Periods are the Neolithic, the Mesolithic and the Upper Paleolithic. Anthropologists gain the "Erudite" trait after they finished it.
 - Added Random Event about Megaliths.
 - Added Random Event about accidental discovery of numerous skulls in a devastated state.
