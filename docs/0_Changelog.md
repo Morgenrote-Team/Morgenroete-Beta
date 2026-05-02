@@ -8,6 +8,7 @@ Archaeology
 - The Major Local Artifacts are no longer guaranteed to appear as soon as possible but now have a 50% chance each year.
 - Reworked the Labyrinth event chain: During an expedition, the player can discover a mysterious Minoan palace in Crete. Later, they can excavate it using JE (Journey Experience) if they have the Aegean Archaeology specialization, thus triggering the event chain. This allows the labyrinth to be triggered more precisely.
 - Added a secret Major Aegean Artifact.
+- Ethnology is now included in the Lepsius Tech Bonus in events.
 
 Anthropology
 - Institute of Anthropology & Ethnology can only be build in states with a university. It also needs 10 human fossils.
