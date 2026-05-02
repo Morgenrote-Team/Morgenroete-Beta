@@ -1640,7 +1640,8 @@ je_lepsius_archaeological_expedition_greece = {
 
 			2 = lepsius.471 #Lepsius 471: Tiryns (Argolis) / Phaistos (Crete)
 
-			1 = lepsius.551 #Lepsius 551: The Labyrinth
+			10 = lepsius.550 #Lepsius 550: A Mysterious Palace
+			#1 = lepsius.551 #Lepsius 551: The Labyrinth
 		}
 	}
 
@@ -2479,51 +2480,97 @@ je_lepsius_epic_of_gilgamesh = {
 
 #The Labyrinth
 
+je_lepsius_mysterious_minoan_palace = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	is_shown_when_inactive = {
+		has_variable = lepsius_narrative_labyrinth_var #only once in a game
+	}
+
+	possible = {
+		has_technology_researched = lepsius_specialization_aegean_tech
+	}
+
+	complete = {
+		lepsius_has_active_archaeologist = yes
+		var:lepsius_archaeologist_var = {
+			OR = {
+				has_trait = lepsius_archaeologist_experienced
+				has_trait = lepsius_archaeologist_famous
+			}
+		}
+		has_modifier = lepsius_crete_excavation_modifier
+	}
+
+	on_complete = {
+		if = {
+			limit = {
+				is_player = yes
+			}
+			var:lepsius_archaeologist_var = {
+				set_character_busy_and_immortal = yes
+			}
+			trigger_event = {
+				id = lepsius.551
+			}
+		}
+		if = { #AI wins immediately
+			limit = {
+				is_ai = yes
+			}
+			trigger_event = {
+				id = lepsius.560
+			}
+		}
+	}
+
+    weight = 200
+    transferable = no
+}
+
 je_lepsius_the_labyrinth = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	group = je_group_lepsius_archaeology
 
-	current_value = {
-		value = var:lepsius_confusion
-	}
+	scripted_progress_bar = lepsius_labyrinth_progress_bar
+	scripted_progress_bar = lepsius_labyrinth_confusion_bar
 
 	fail = {
 		custom_tooltip = {
-			text = je_lepsius_labyrinth_fail
-			var:lepsius_confusion >= 4
+			text = je_lepsius_the_labyrinth_fail
+			scope:journal_entry = {
+				"scripted_bar_progress(lepsius_labyrinth_confusion_bar)" >= 4
+			}
 		}
     }
 
 	on_fail = {
+		set_variable = lepsius_narrative_labyrinth_fail_var
 		trigger_event = {
 			id = lepsius.558
 			popup = yes
-		}
-		set_variable = {
-			name = lepsius_labyrinth_fail_var
-			years = 1
 		}
 	}
 
 	complete = {
 		custom_tooltip = {
-			text = je_lepsius_labyrinth_success
+			text = je_lepsius_the_labyrinth_success
 			scope:journal_entry = {
-				is_goal_complete = yes
+				"scripted_bar_progress(lepsius_labyrinth_progress_bar)" >= 4
 			}
-			has_variable = lepsius_narrative_labyrinth_success_var
 		}
 	}
 
 	on_complete = {
+		set_variable = lepsius_narrative_labyrinth_success_var
 		trigger_event = {
 			id = lepsius.560
 			popup = yes
 		}
 	}
-
-	progressbar = yes
 
     weight = 200
     transferable = no

@@ -14657,13 +14657,84 @@ lepsius.540 = {
 
 ###THE LABYRINTH (Crete)
 
+#Lepsius 550: A Mysterious Palace
+
+lepsius.550 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+    placement = scope:lepsius_labyrinth_state	
+
+    title = lepsius.550.t
+
+    desc = lepsius.550.d
+
+	flavor = lepsius.550.f
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/greece/lepsius_greece_phaistos.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		OR = {
+			has_modifier = lepsius_crete_expedition_modifier
+			has_modifier = lepsius_crete_excavation_modifier
+		}
+		NOR = {
+			has_game_rule = lepsius_only_historical_rule
+			has_variable = lepsius_narrative_labyrinth_var #only once in a game
+		}
+		var:lepsius_archaeological_expedition_progress >= 4 #will not trigger in the beginning of an expedition
+	}
+
+	immediate = {
+		set_variable = lepsius_narrative_labyrinth_var #only once in game
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
+	}
+
+	option = { #We should explore it.
+		name = lepsius.550.g
+		custom_tooltip = lepsius.550.tt
+		archaeologist_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					lepsius_on_archaeological_expedition = yes
+				}
+				lepsius_archaeological_expedition_progress = yes
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 50
+		}
+	}
+}
+
 #Lepsius 551: An archaeological Incident
 
 lepsius.551 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.551.t
 
@@ -14687,14 +14758,18 @@ lepsius.551 = {
 		}
 		NOT = {
 			has_variable = lepsius_narrative_labyrinth_var #only once in a game
-			var:lepsius_archaeological_expedition_progress >= 4 #will only trigger in the beginning of an expedition
 		}
 	}
 
 	immediate = {
-		lepsius_archaeological_expedition_location = yes
-		set_archaeological_expedition_leader_effect = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
 	}
+
 	option = { #What happened to him?
 		name = lepsius.551.g
 		set_variable = lepsius_narrative_labyrinth_var #only once in game
@@ -14708,14 +14783,6 @@ lepsius.551 = {
 		}
 	}
 	after = {
-		hidden_effect = {
-			if = {
-				limit = {
-					lepsius_on_archaeological_expedition = yes
-				}
-				lepsius_archaeological_expedition_progress = yes
-			}
-		}
 	}
 }
 
@@ -14725,7 +14792,7 @@ lepsius.552 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.552.t
 
@@ -14743,9 +14810,14 @@ lepsius.552 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		lepsius_archaeological_expedition_location = yes
-			set_archaeological_expedition_leader_effect = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
 	}
+
 	option = { #I hope we don't encounter any bull-like mythical creatures...
 		name = lepsius.552.g
 		set_variable = {
@@ -14771,7 +14843,7 @@ lepsius.553 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.553.t
 
@@ -14787,13 +14859,42 @@ lepsius.553 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
-	immediate = {
-		lepsius_archaeological_expedition_location = yes
-		set_archaeological_expedition_leader_effect = yes
+	trigger = {
+		je:je_lepsius_the_labyrinth = {
+			"scripted_bar_progress(lepsius_labyrinth_confusion_bar)" < 4
+		}
 	}
+
+	cancellation_trigger = {
+		OR = {
+			has_variable = lepsius_narrative_labyrinth_fail_var
+			has_variable = lepsius_narrative_labyrinth_success_var
+		}
+	}
+
+	immediate = {
+		je:je_lepsius_the_labyrinth = {
+			add_progress = {
+				name = lepsius_labyrinth_progress_bar
+				value = -4
+			}
+		}
+		je:je_lepsius_the_labyrinth = {
+			add_progress = {
+				name = lepsius_labyrinth_confusion_bar
+				value = 1
+			}
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
+	}
+
 	option = { #It's a heck of a deja vu!
 		name = lepsius.553.g
-		lepsius_add_confusion = yes
 		hidden_effect = {
 			trigger_event = {
 				id = lepsius.554
@@ -14814,7 +14915,7 @@ lepsius.554 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.554.t
 
@@ -14830,14 +14931,28 @@ lepsius.554 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		je:je_lepsius_the_labyrinth = {
+			"scripted_bar_progress(lepsius_labyrinth_confusion_bar)" < 4
+		}
+	}
+
 	cancellation_trigger = {
-		has_variable = lepsius_labyrinth_fail_var
+		OR = {
+			has_variable = lepsius_narrative_labyrinth_fail_var
+			has_variable = lepsius_narrative_labyrinth_success_var
+		}
 	}
 
 	immediate = {
-		lepsius_archaeological_expedition_location = yes
-		set_archaeological_expedition_leader_effect = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
 	}
+
 	option = { #Left [TRAP]
 		name = lepsius.554.g
 		default_option = yes
@@ -14871,6 +14986,12 @@ lepsius.554 = {
 	option = { #Downstairs, Poseidon ramming the trident in the ground [RIGHT]
 		name = lepsius.554.j
 		hidden_effect = {
+			je:je_lepsius_the_labyrinth = {
+				add_progress = {
+					name = lepsius_labyrinth_progress_bar
+					value = 1
+				}
+			}
 			trigger_event = {
 				id = lepsius.555
 				popup = yes
@@ -14885,7 +15006,7 @@ lepsius.555 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.555.t
 
@@ -14901,16 +15022,51 @@ lepsius.555 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		je:je_lepsius_the_labyrinth = {
+			"scripted_bar_progress(lepsius_labyrinth_confusion_bar)" < 4
+		}
+	}
+
 	cancellation_trigger = {
-		has_variable = lepsius_labyrinth_fail_var
+		OR = {
+			has_variable = lepsius_narrative_labyrinth_fail_var
+			has_variable = lepsius_narrative_labyrinth_success_var
+		}
 	}
 
 	immediate = {
-		lepsius_archaeological_expedition_location = yes
-		set_archaeological_expedition_leader_effect = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
 	}
-	option = { #Westen Corridor [RETURN]
+
+	option = { #Eastern Corridor, Eos [RIGHT]
 		name = lepsius.555.g
+		trigger = {
+			NOT = {
+				has_variable = lepsius_labyrinth_false_answer_var
+			}
+		}
+		hidden_effect = {
+			je:je_lepsius_the_labyrinth = {
+				add_progress = {
+					name = lepsius_labyrinth_progress_bar
+					value = 1
+				}
+			}
+			trigger_event = {
+				id = lepsius.556
+				popup = yes
+			}
+		}
+	}
+
+	option = { #Westen Corridor [RETURN]
+		name = lepsius.555.h
 		default_option = yes
 		hidden_effect = {
 			trigger_event = {
@@ -14919,15 +15075,7 @@ lepsius.555 = {
 			}
 		}
 	}
-	option = { #Eastern Corridor, Eos [RIGHT]
-		name = lepsius.555.h
-		hidden_effect = {
-			trigger_event = {
-				id = lepsius.556
-				popup = yes
-			}
-		}
-	}
+
 	option = { #Follow the Corridor [RETURN]
 		name = lepsius.555.i
 		hidden_effect = {
@@ -14945,7 +15093,7 @@ lepsius.556 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.556.t
 
@@ -14961,26 +15109,53 @@ lepsius.556 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		je:je_lepsius_the_labyrinth = {
+			"scripted_bar_progress(lepsius_labyrinth_confusion_bar)" < 4
+		}
+	}
+
 	cancellation_trigger = {
-		has_variable = lepsius_labyrinth_fail_var
+		OR = {
+			has_variable = lepsius_narrative_labyrinth_fail_var
+			has_variable = lepsius_narrative_labyrinth_success_var
+		}
 	}
 
 	immediate = {
-		lepsius_archaeological_expedition_location = yes
-		set_archaeological_expedition_leader_effect = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
 	}
+
 	option = { #Door I, Ariadne with her thread [RIGHT]
 		name = lepsius.556.g
 		default_option = yes
+		trigger = {
+			NOT = {
+				has_variable = lepsius_labyrinth_false_answer_var
+			}
+		}
 		hidden_effect = {
+			je:je_lepsius_the_labyrinth = {
+				add_progress = {
+					name = lepsius_labyrinth_progress_bar
+					value = 1
+				}
+			}
 			trigger_event = {
 				id = lepsius.557
 				popup = yes
 			}
 		}
 	}
+
 	option = { #Door II [TRAP]
 		name = lepsius.556.h
+		set_variable = lepsius_labyrinth_false_answer_var
 		hidden_effect = {
 			trigger_event = {
 				id = lepsius.557
@@ -14988,6 +15163,7 @@ lepsius.556 = {
 			}
 		}
 	}
+
 	option = { #Door III [RETURN]
 		name = lepsius.556.i
 		hidden_effect = {
@@ -14998,7 +15174,7 @@ lepsius.556 = {
 		}
 	}
 	option = { #Door IV [RETURN]
-		name = lepsius.556.i
+		name = lepsius.556.j
 		hidden_effect = {
 			trigger_event = {
 				id = lepsius.553
@@ -15014,7 +15190,7 @@ lepsius.557 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.557.t
 
@@ -15031,13 +15207,21 @@ lepsius.557 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	cancellation_trigger = {
-		has_variable = lepsius_labyrinth_fail_var
+		OR = {
+			has_variable = lepsius_narrative_labyrinth_fail_var
+			has_variable = lepsius_narrative_labyrinth_success_var
+		}
 	}
 
 	immediate = {
-		lepsius_archaeological_expedition_location = yes
-		set_archaeological_expedition_leader_effect = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
 	}
+
 	option = { #Rhodes [RETURN]
 		name = lepsius.557.g
 		default_option = yes
@@ -15073,7 +15257,14 @@ lepsius.557 = {
 				has_variable = lepsius_labyrinth_false_answer_var
 			}
 		}
-		set_variable = lepsius_narrative_labyrinth_success_var
+		hidden_effect = {
+			je:je_lepsius_the_labyrinth = {
+				add_progress = {
+					name = lepsius_labyrinth_progress_bar
+					value = 1
+				}
+			}
+		}
 	}
 }
 
@@ -15083,7 +15274,7 @@ lepsius.558 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.558.t
 
@@ -15100,29 +15291,32 @@ lepsius.558 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		lepsius_archaeological_expedition_location = yes
-		set_archaeological_expedition_leader_effect = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
 	}
+
 	option = { #What just happened down there?
 		name = lepsius.558.g
-		scope:lepsius_archaeological_expedition_leader = {
+		#Archaeologist remains "busy"
+		var:lepsius_archaeologist_var = {
 			add_trait = wounded
-			add_trait = alcoholic
-			add_trait = wounded
-			set_variable = lepsius_minotaur_trauma_var
-			add_modifier = {
-				name = lepsius_lost_honor_modifier
-			}
+			add_trait = psychological_affliction
 			add_modifier = {
 				name = lepsius_wrath_of_the_minotaur_modifier
-				days = 500
+				days = 100
 			}
 		}
+	}
+
+	after = {
 		hidden_effect = {
 			trigger_event = {
 				id = lepsius.559
-				popup = yes
-				days = 500
+				days = 90
 			}
 		}
 	}
@@ -15150,17 +15344,11 @@ lepsius.559 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
-		has_variable = lepsius_archaeologist_var
 		var:lepsius_archaeologist_var = {
-			has_variable = lepsius_minotaur_trauma_var
+			has_modifier = lepsius_wrath_of_the_minotaur_modifier
 		}
 	}
 
-	immediate = {
-		var:lepsius_archaeologist_var = {
-			save_scope_as = lepsius_minotaur_victim
-		}
-	}
 	option = { #But was it really suicide?
 		name = lepsius.559.g
 		kill_archaeologist_effect = yes
@@ -15173,7 +15361,7 @@ lepsius.560 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.560.t
 
@@ -15190,23 +15378,45 @@ lepsius.560 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		lepsius_archaeological_expedition_location = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
+		var:lepsius_archaeologist_var ?= {
+			set_variable = {
+				name = lepsius_archaeologist_achievement_escaped_labyrinth_var
+				value = flag:lepsius_archaeologist_achievement_escaped_labyrinth_loc
+			}
+		}
+		#This is used to keep track of the country and year of the discovery of the Artifact
 		if = {
 			limit = {
-				has_variable = lepsius_archaeologist_var
-			}
-			var:lepsius_archaeologist_var = {
-				set_variable = {
-					name = lepsius_archaeologist_achievement_escaped_labyrinth_var
-					value = flag:lepsius_archaeologist_achievement_escaped_labyrinth_loc
+				NOT = {
+					has_global_variable = lepsius_ariadne_discoverer_global_var
 				}
+			}
+			set_global_variable = {
+				name = lepsius_ariadne_discoverer_global_var
+				value = root.country_definition
+			}
+			set_global_variable = {
+				name = lepsius_ariadne_year_global_var
+				value = year
 			}
 		}
 	}
+
 	option = { #Could this have been ... the legendary labyrinth of Daidalos?
 		name = lepsius.560.g
+		lepsius_add_x_major_aegean_artifacts = { AMOUNT = 1 }
+		set_variable = lepsius_major_artifact_ariadne_found_var
 		archaeologist_experience_gain_effect = {
-			AMOUNT = "50"
+			AMOUNT = 30
+		}
+		var:lepsius_archaeologist_var = {
+			set_character_busy_and_immortal = no
 		}
 	}
 }
