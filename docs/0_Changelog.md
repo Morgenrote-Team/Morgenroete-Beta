@@ -3,6 +3,7 @@ Changelog fot 2.8.1 "Haeckel"
 Archaeology
 - Added 4 events for the Colombia Archaoelogical Region (Musica, Tairona, San Augustín, Zenú).
 - Added 4 Events for the Angkor Archaeological Region.
+- Added 4 Events for the Mississippian Archaeological Region.
 - The Major Local Artifacts are no longer guaranteed to appear as soon as possible but now have a 50% chance each year.
 - Reworked the Labyrinth event chain: During an expedition, the player can discover a mysterious Minoan palace in Crete. Later, they can excavate it using JE (Journey Experience) if they have the Aegean Archaeology specialization, thus triggering the event chain. This allows the labyrinth to be triggered more precisely.
 - Added a secret Major Aegean Artifact.
