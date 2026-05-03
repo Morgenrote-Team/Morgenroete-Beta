@@ -14,6 +14,8 @@ flowcontainer = {
 				texture = "gfx/interface/icons/character_role_icons/verrier_astronomer_role.dds"
 			}
 		}
+		
+		mr_scientific_conference_list = {}
 	}
 }
 
@@ -301,6 +303,71 @@ types mr_scientific_conference_types {
 					size = { 35 35 }
 					texture = "gfx/interface/icons/generic_icons/population.dds"
 				}
+			}
+		}
+	}
+	
+	type mr_scientific_conference_list = flowcontainer {
+		visible = ""
+		ignoreinvisible = yes
+		
+		flowcontainer = {
+			direction = vertical
+			
+			section_header_button = {
+				blockoverride "layout" {
+					size = { 520 38 }
+				}
+				blockoverride "left_text" {
+					text = "DAIMYOS_LIST_HEADER"
+				}
+				blockoverride "onclick" {
+					onclick = "[GetVariableSystem.Toggle('conference_list_toggle')]"
+				}
+				blockoverride "onclick_showmore" {
+					visible = "[Not(GetVariableSystem.Exists('conference_list_toggle'))]"
+				}
+				blockoverride "onclick_showless" {
+					visible = "[GetVariableSystem.Exists('conference_list_toggle')]"
+				}
+			}
+			
+			fixedgridbox = {
+				visible = "[GetVariableSystem.Exists('conference_list_toggle')]"
+				datamodel = "[JournalEntry.MakeScope.GetList('mr_conference_participants_list')]"
+				addcolumn = 500
+				addrow = 110
+				
+				background = {
+					texture = "gfx/interface/tooltip/tooltip_title_bg.dds"
+					color = { 0.69 0.47 0.33 1 }
+					alpha = 0.4
+					
+					modify_texture = {
+						using = texture_velvet
+					}
+				}
+				
+				item = {
+					mr_scientific_conference_participant_item = {}
+				}
+			}
+			expand = {}
+		}
+	}
+	
+	type mr_scientific_conference_participant_item = widget {
+		size = { 500 100 }
+		
+		background = {
+			using = dark_area
+			alpha = 0.75
+		}
+		
+		default_header_clean_faded = {
+			size = { 100 40 }
+			blockoverride "text" {
+				raw_text = "MEEPO"
 			}
 		}
 	}
