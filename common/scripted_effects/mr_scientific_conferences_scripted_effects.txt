@@ -1,7 +1,70 @@
-﻿verrier_clear_asteroid_conference_variables_effect = {
-	remove_variable = verrier_supporting_minor_planets_var
-	remove_variable = verrier_opposing_minor_planets_var
-	remove_variable = verrier_supporting_ceres_var
-	remove_variable = verrier_opposing_ceres_var
-	remove_variable = verrier_left_asteroids_conference_var
+﻿mr_update_conference_participant_list_effect = {
+	# Call this from scope:journal_entry
+	clear_variable_list = mr_conference_participants_list
+	if = {
+		limit = {
+			has_global_variable = $type$
+			exists = global_var:$type$
+		}
+		every_country = {
+			limit = {
+				is_involved_in_journal_entry = $type$
+			}
+			every_scope_character = {
+				limit = {
+					has_role = $role$
+				}
+				global_var:$type$ = {
+					add_to_variable_list = {
+						name = mr_conference_participants_list
+						target = prev
+					}
+				}
+			}
+		}
+	}
+	else = {
+		error_log = "mr_update_conference_participant_list_effect was called, but the specified global variable is either not set or its scope does not exist."
+	}
+}
+
+mr_update_conference_participant_value_effect = {
+	# Call this from scope:journal_entry
+	set_variable = {
+		name = mr_conference_participants_var
+		value = {
+			every_country = {
+				limit = {
+					is_involved_in_journal_entry = $type$
+				}
+				every_scope_character = {
+					limit = {
+						has_role = $role$
+					}
+					add = 1
+				}
+			}
+		}
+	}
+}
+
+mr_update_conference_position_values_effect = {
+	# Call this from scope:journal_entry
+	set_variable = {
+		name = mr_$position$_support_var
+		value = {
+			every_country = {
+				limit = {
+					is_involved_in_journal_entry = $type$
+				}
+				every_scope_character = {
+					limit = {
+						has_role = $role$
+						has_variable = mr_supporting_$position$_var
+					}
+					add = mr_scientist_votes_value
+				}
+			}
+		}
+	}
 }
