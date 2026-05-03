@@ -1,0 +1,68 @@
+﻿#######################################
+# ACADEMICS TRANSFER SCRPITED EFFECTS #
+#######################################
+
+#By Lord R
+
+############################################################################
+
+### General Effects ###
+
+#General Effect to hire an academic
+academics_hire_academic_open_window_effect = {
+	#ROLE = Role name of the specific character type (e.g. chemist)
+	#PROJECT = Projec Name of the specific character type (e.g. mendelejew)
+
+	custom_tooltip = {
+		text = mr_academics_hire_$ROLE$_button_tt
+
+		clear_variable_list = mr_academics_hire_$ROLE$_variable_list
+		ordered_character = {
+			order_by = var:$PROJECT$_$ROLE$_experience_var
+
+			limit = {
+				has_role = character_role_$PROJECT$_$ROLE$
+				has_variable = $PROJECT$_$ROLE$_experience_var
+				NOT = {
+					owner.var:$PROJECT$_$ROLE$_var ?= this
+				}
+			}
+
+			root = {
+				add_to_variable_list = {
+					name = mr_academics_hire_$ROLE$_variable_list
+					target = prev
+				}
+			}
+		}
+		set_variable = mr_academics_hire_$ROLE$_window_active_var
+	}
+}
+
+
+academics_hire_academic_hire_button_effect = {
+	#ROLE = Role name of the specific character type (e.g. chemist)
+	#PROJECT = Projec Name of the specific character type (e.g. mendelejew)
+
+	clear_variable_list = mr_academics_hire_$ROLE$_variable_list
+	remove_variable = mr_academics_hire_$ROLE$_window_active_var
+
+	scope:chosen_character = {
+		save_scope_as = $PROJECT$_new_$ROLE$_scope
+		transfer_character = root
+	}
+
+	set_variable = {
+		name = $PROJECT$_new_$ROLE$_var
+		value = scope:$PROJECT$_new_$ROLE$_scope
+	}
+
+	$PROJECT$_set_new_$ROLE$_as_$ROLE$_effect = yes
+
+	remove_variable = $PROJECT$_new_$ROLE$_var
+}
+
+############################################################################
+
+### Chemist Effects ###
+
