@@ -14,7 +14,9 @@ Archaeology
 Anthropology
 - Institute of Anthropology & Ethnology can only be build in states with a university. It also needs 10 human fossils.
 - Added new Action: Just as a paleontologist can create a diorama depicting different prehistoric eras, an anthropologist can do the same for prehistoric humans. Periods are the Neolithic, the Mesolithic and the Upper Paleolithic. Anthropologists gain the "erudite" trait after they finished it.
+- Added New Action: New Systematization. Anthropologists can, should all types of a category – Neoanthropus, Palaeanthropus, Pithecanthropus – be discovered, reform the old anthropological system and introduce the known names.
 - Added new Action: Once in his lifetime, your Anthropologist can do an extensive craniometric research and gain new traits.
 - Added 3 Special Fossils.
 - Added Random Event about Megaliths.
 - Added Random Event about accidental discovery of numerous skulls in a devastated state.
+- Hopefully only one Institute per country.
