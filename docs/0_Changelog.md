@@ -6,3 +6,5 @@ Anthropology
 
 Fixes:
 - Fixed a bugged effect related to global variables.
+- Expensive Tastes is not a bad body trait.
+
