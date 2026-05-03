@@ -111,9 +111,6 @@ mr_anthropologist_cave_exploration_button_sgui = {
 		add_modifier = {
 			name = andersson_cave_exploration_modifier
 		}
-		add_journal_entry = {
-			type = je_andersson_cave_exploration
-		}
 		if = {
 			limit = {
 				has_variable = andersson_anthropologist_var
@@ -122,11 +119,23 @@ mr_anthropologist_cave_exploration_button_sgui = {
 				set_character_busy_and_immortal = yes
 			}
 		}
-		random_scope_state = {
+		if = {
 			limit = {
-				has_state_trait = andersson_state_trait_cave
+				any_scope_state = {
+					has_state_trait = andersson_state_trait_cave
+				}
 			}
-			set_variable = andersson_hominid_prospecting_var
+			random_scope_state = {
+				limit = {
+					has_state_trait = andersson_state_trait_cave
+				}
+				save_scope_as = andersson_state_scope
+				set_variable = andersson_hominid_prospecting_var
+			}
+			add_journal_entry = {
+				type = je_andersson_cave_exploration
+				target = scope:andersson_state_scope
+			}
 		}
 	}
 }
@@ -223,6 +232,379 @@ mr_anthropologist_skeleton_reconstruction_active_sgui = {
 		OR = {
 			has_journal_entry = je_andersson_reconstruct_prehistoric_skeleton
 			has_variable = andersson_skeleton_reconstruction_type_selection_var
+		}
+	}
+}
+
+#MR_ANTHROPOLOGIST_CRANIOMETRY_BUTTON
+mr_anthropologist_craniometry_button_sgui = {
+    scope = country
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ACTIVE_ANTHROPOLOGIST_TRIGGER_TT
+			andersson_has_active_anthropologist = yes
+		}
+		custom_tooltip = {
+			text = MR_ANDERSSON_25_BONES_TRIGGER_TT
+			has_variable = andersson_total_human_fossil
+			var:andersson_total_human_fossil >= 25
+		}
+		custom_tooltip = {
+			text = MR_ANTHROPOLOGIST_NOT_DONE_CRANIOMETRY_TRIGGER_TT
+			NOT = {
+				var:andersson_anthropologist_var ?= {
+					has_variable = andersson_anthropologist_achievement_craniometry_var
+				}
+			}
+		}
+	}
+	effect = {
+		andersson_add_x_human_fossils_effect = { AMOUNT = -25 }
+		add_journal_entry = {
+			type = je_andersson_craniometry
+		}
+	}
+}
+
+mr_anthropologist_craniometry_active_sgui = {
+    scope = country
+	is_shown = {
+		has_journal_entry = je_andersson_craniometry
+	}
+}
+
+#Our Ancestors buttons
+
+#Neolithic
+mr_anthropologist_neolithic_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = andersson_neolithic_scenery_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ACTIVE_ANTHROPOLOGIST_TRIGGER_TT
+			andersson_has_active_anthropologist = yes
+		}
+		custom_tooltip = {
+			text = MR_ANDERSSON_20_BONES_TRIGGER_TT
+			has_variable = andersson_total_human_fossil
+			var:andersson_total_human_fossil >= 20
+		}
+		custom_tooltip = {
+			text = MR_NO_OUR_ANCESTORS_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_university
+				NOR = {
+					has_modifier = andersson_neolithic_scenery_modifier
+					has_modifier = andersson_mesolithic_scenery_modifier
+					has_modifier = andersson_upper_paleolithic_scenery_modifier
+				}
+			}
+		}
+    }
+    effect = {
+		set_variable = andersson_neolithic_scenery_ongoing_var
+		add_journal_entry = {
+			type = je_andersson_our_ancestors
+		}
+		if = {
+			limit = {
+				has_variable = andersson_anthropologist_var
+			}
+			var:andersson_anthropologist_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+}
+mr_anthropologist_neolithic_button_visible_sgui = {
+	scope = country
+	is_shown = {
+		OR = {
+			NOT = {
+				has_variable = andersson_neolithic_scenery_var
+			}
+			AND = {
+				has_journal_entry = je_andersson_our_ancestors
+				has_variable = andersson_neolithic_scenery_ongoing_var
+			}
+		}
+	}
+}
+mr_anthropologist_neolithic_active_sgui = {
+    scope = country
+	is_shown = {
+		has_variable = andersson_neolithic_scenery_ongoing_var
+	}
+}
+
+#Mesolithic
+mr_anthropologist_mesolithic_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = andersson_mesolithic_scenery_var
+		}
+		has_variable = andersson_neolithic_scenery_var
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ACTIVE_ANTHROPOLOGIST_TRIGGER_TT
+			andersson_has_active_anthropologist = yes
+		}
+		custom_tooltip = {
+			text = MR_ANDERSSON_50_BONES_TRIGGER_TT
+			has_variable = andersson_total_human_fossil
+			var:andersson_total_human_fossil >= 50
+		}
+		custom_tooltip = {
+			text = MR_ANDERSSON_NEOANTHROPUS_FOSSIL_TRIGGER
+			andersson_has_neoanthropus_fossils_trigger = yes
+		}
+		custom_tooltip = {
+			text = MR_NO_OUR_ANCESTORS_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_university
+				NOR = {
+					has_modifier = andersson_neolithic_scenery_modifier
+					has_modifier = andersson_mesolithic_scenery_modifier
+					has_modifier = andersson_upper_paleolithic_scenery_modifier
+				}
+			}
+		}
+    }
+    effect = {
+		set_variable = andersson_mesolithic_scenery_ongoing_var
+		add_journal_entry = {
+			type = je_andersson_our_ancestors
+		}
+		if = {
+			limit = {
+				has_variable = andersson_anthropologist_var
+			}
+			var:andersson_anthropologist_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+}
+mr_anthropologist_mesolithic_button_visible_sgui = {
+	scope = country
+	is_shown = {
+		OR = {
+			NOT = {
+				has_variable = andersson_mesolithic_scenery_var
+			}
+			AND = {
+				has_journal_entry = je_andersson_our_ancestors
+				has_variable = andersson_mesolithic_scenery_ongoing_var
+			}
+		}
+	}
+}
+mr_anthropologist_mesolithic_active_sgui = {
+    scope = country
+	is_shown = {
+		has_variable = andersson_mesolithic_scenery_ongoing_var
+	}
+}
+
+#Upper Paleolithic
+mr_anthropologist_upper_paleolithic_button_sgui = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = andersson_upper_paleolithic_scenery_var
+		}
+		has_variable = andersson_mesolithic_scenery_var
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ACTIVE_ANTHROPOLOGIST_TRIGGER_TT
+			andersson_has_active_anthropologist = yes
+		}
+		custom_tooltip = {
+			text = MR_ANDERSSON_100_BONES_TRIGGER_TT
+			has_variable = andersson_total_human_fossil
+			var:andersson_total_human_fossil >= 100
+		}
+		custom_tooltip = {
+			text = MR_ANDERSSON_NEOANTHROPUS_SKELETON_TRIGGER
+			OR = {
+				has_variable = andersson_vero_skeleton_var
+				has_variable = andersson_lagoa_santa_skeleton_var
+				has_variable = andersson_cro_magnon_skeleton_var
+				has_variable = andersson_boskop_skeleton_var
+				has_variable = andersson_tianyuan_skeleton_var
+				has_variable = andersson_talgai_skeleton_var
+			}
+		}
+		custom_tooltip = {
+			text = MR_NO_OUR_ANCESTORS_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_university
+				NOR = {
+					has_modifier = andersson_neolithic_scenery_modifier
+					has_modifier = andersson_mesolithic_scenery_modifier
+					has_modifier = andersson_upper_paleolithic_scenery_modifier
+				}
+			}
+		}
+    }
+    effect = {
+		set_variable = andersson_upper_paleolithic_scenery_ongoing_var
+		add_journal_entry = {
+			type = je_andersson_our_ancestors
+		}
+		if = {
+			limit = {
+				has_variable = andersson_anthropologist_var
+			}
+			var:andersson_anthropologist_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+}
+mr_anthropologist_upper_paleolithic_button_visible_sgui = {
+	scope = country
+	is_shown = {
+		OR = {
+			NOT = {
+				has_variable = andersson_upper_paleolithic_scenery_var
+			}
+			AND = {
+				has_journal_entry = je_andersson_our_ancestors
+				has_variable = andersson_upper_paleolithic_scenery_ongoing_var
+			}
+		}
+	}
+}
+mr_anthropologist_upper_paleolithic_active_sgui = {
+    scope = country
+	is_shown = {
+		has_variable = andersson_upper_paleolithic_scenery_ongoing_var
+	}
+}
+
+#MR_ANTHROPOLOGIST_NEW_SYSTEMATIZATION_BUTTON
+mr_anthropologist_new_systematization_button_sgui = {
+    scope = country
+	is_shown = {
+		NAND = {
+			has_global_variable = andersson_homo_sapiens_global_var
+			has_global_variable = andersson_homo_neanderthalensis_global_var
+			has_global_variable = andersson_homo_erectus_global_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ACTIVE_ANTHROPOLOGIST_TRIGGER_TT
+			andersson_has_active_anthropologist = yes
+		}
+		custom_tooltip = {
+			text = MR_ANTHROPOLOGIST_AT_LEAST_200_EXPERIENCE_TRIGGER_TT
+			has_variable = andersson_anthropologist_var
+			var:andersson_anthropologist_var.var:andersson_anthropologist_experience_var >= 200
+		}
+		mr_gui_has_genetics_tech_trigger = yes
+		OR = {
+			AND = {
+				custom_tooltip = {
+					text = MR_ANDERSSON_100_BONES_TRIGGER_TT
+					has_variable = andersson_total_human_fossil
+					var:andersson_total_human_fossil >= 100
+				}
+				custom_tooltip = {
+					text = MR_ANTHROPOLOGIST_CAN_SYSTEMIZE_NEOANTHROPUS_TRIGGER_TT
+					andersson_can_systemize_neoanthropus_trigger = yes
+				}
+				custom_tooltip = {
+					text = MR_ANDERSSON_NEOANTHROPUS_SKELETON_TRIGGER
+					OR = {
+						has_variable = andersson_vero_skeleton_var
+						has_variable = andersson_lagoa_santa_skeleton_var
+						has_variable = andersson_cro_magnon_skeleton_var
+						has_variable = andersson_boskop_skeleton_var
+						has_variable = andersson_tianyuan_skeleton_var
+						has_variable = andersson_talgai_skeleton_var
+					}
+				}
+			}
+			AND = {
+				custom_tooltip = {
+					text = MR_ANDERSSON_200_BONES_TRIGGER_TT
+					has_variable = andersson_total_human_fossil
+					var:andersson_total_human_fossil >= 200
+				}
+				custom_tooltip = {
+					text = MR_ANTHROPOLOGIST_CAN_SYSTEMIZE_PALAEANTHROPUS_TRIGGER_TT
+					andersson_can_systemize_palaeanthropus_trigger = yes
+				}
+				custom_tooltip = {
+					text = MR_ANDERSSON_PALAEANTHROPUS_SKELETON_TRIGGER
+					OR = {
+						has_variable = andersson_neanderthal_skeleton_var
+						has_variable = andersson_gibraltar_skeleton_var
+						has_variable = andersson_spy_skeleton_var
+						has_variable = andersson_krapina_skeleton_var
+						has_variable = andersson_galilee_skeleton_var
+					}
+				}
+			}
+			AND = {
+				custom_tooltip = {
+					text = MR_ANDERSSON_300_BONES_TRIGGER_TT
+					has_variable = andersson_total_human_fossil
+					var:andersson_total_human_fossil >= 300
+				}
+				custom_tooltip = {
+					text = MR_ANTHROPOLOGIST_CAN_SYSTEMIZE_PITHECANTHROPUS_TRIGGER_TT
+					andersson_can_systemize_pithecanthropus_trigger = yes
+				}
+				custom_tooltip = {
+					text = MR_ANDERSSON_PITHECANTHROPUS_SKELETON_TRIGGER
+					OR = {
+						has_variable = andersson_heidelberg_skeleton_var
+						has_variable = andersson_rhodesian_skeleton_var
+						has_variable = andersson_peking_skeleton_var
+						has_variable = andersson_java_skeleton_var
+					}
+				}
+			}
+		}
+	}
+	effect = {
+		custom_tooltip = andersson.800.tt
+		if = {
+			limit = {
+				andersson_can_systemize_pithecanthropus_trigger = yes
+			}
+			trigger_event = { 
+				id = andersson.803 
+				popup = yes 
+			}
+		}
+		else_if = {
+			limit = {
+				andersson_can_systemize_palaeanthropus_trigger = yes
+			}
+			trigger_event = { 
+				id = andersson.802 
+				popup = yes 
+			}
+		}
+		else_if = {
+			limit = {
+				andersson_can_systemize_neoanthropus_trigger = yes
+			}
+			trigger_event = { 
+				id = andersson.801 
+				popup = yes 
+			}
 		}
 	}
 }
