@@ -1579,6 +1579,83 @@ ai_anthropologist_effect = {
 		#Tests if there is an active anthropologist
 		if = {
 			limit = { andersson_has_active_anthropologist_no_tooltip_trigger = yes }
+			#New Systematization
+			if = {
+				limit = {
+					NAND = {
+						has_global_variable = andersson_homo_sapiens_global_var
+						has_global_variable = andersson_homo_neanderthalensis_global_var
+						has_global_variable = andersson_homo_erectus_global_var
+					}
+					var:andersson_anthropologist_var.var:andersson_anthropologist_experience_var >= 200
+					mr_gui_has_genetics_tech_trigger = yes
+					OR = {
+						AND = {
+							has_variable = andersson_total_human_fossil
+							var:andersson_total_human_fossil >= 100
+							andersson_can_systemize_neoanthropus_trigger = yes
+							OR = {
+								has_variable = andersson_vero_skeleton_var
+								has_variable = andersson_lagoa_santa_skeleton_var
+								has_variable = andersson_cro_magnon_skeleton_var
+								has_variable = andersson_boskop_skeleton_var
+								has_variable = andersson_tianyuan_skeleton_var
+								has_variable = andersson_talgai_skeleton_var
+							}
+						}
+						AND = {
+							has_variable = andersson_total_human_fossil
+							var:andersson_total_human_fossil >= 200
+							andersson_can_systemize_palaeanthropus_trigger = yes
+							OR = {
+								has_variable = andersson_neanderthal_skeleton_var
+								has_variable = andersson_gibraltar_skeleton_var
+								has_variable = andersson_spy_skeleton_var
+								has_variable = andersson_krapina_skeleton_var
+								has_variable = andersson_galilee_skeleton_var
+							}
+						}
+						AND = {
+							has_variable = andersson_total_human_fossil
+							var:andersson_total_human_fossil >= 300
+							andersson_can_systemize_pithecanthropus_trigger = yes
+							OR = {
+								has_variable = andersson_heidelberg_skeleton_var
+								has_variable = andersson_rhodesian_skeleton_var
+								has_variable = andersson_peking_skeleton_var
+								has_variable = andersson_java_skeleton_var
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						andersson_can_systemize_pithecanthropus_trigger = yes
+					}
+					trigger_event = { 
+						id = andersson.803 
+						popup = yes 
+					}
+				}
+				else_if = {
+					limit = {
+						andersson_can_systemize_palaeanthropus_trigger = yes
+					}
+					trigger_event = { 
+						id = andersson.802 
+						popup = yes 
+					}
+				}
+				else_if = {
+					limit = {
+						andersson_can_systemize_neoanthropus_trigger = yes
+					}
+					trigger_event = { 
+						id = andersson.801 
+						popup = yes 
+					}
+				}
+			}
 			#Skeleton Reconstruction
 			if = {
 				limit = {
@@ -1589,6 +1666,54 @@ ai_anthropologist_effect = {
 				set_variable = andersson_skeleton_reconstruction_type_selection_var
 				trigger_event = {
 					id = andersson.301
+				}
+			}
+			#Our Ancestors - AI will only do one
+			if = {
+				limit = {
+					NOT = {
+						var:andersson_anthropologist_var = {
+							has_trait = erudite
+						}
+					}
+					has_variable = andersson_total_human_fossil
+					var:andersson_total_human_fossil >= 20
+					any_scope_building = {
+						is_building_type = building_university
+						NOR = {
+							has_modifier = andersson_neolithic_scenery_modifier
+							has_modifier = andersson_mesolithic_scenery_modifier
+							has_modifier = andersson_upper_paleolithic_scenery_modifier
+						}
+					}
+				}
+						set_variable = andersson_neolithic_scenery_ongoing_var
+				add_journal_entry = {
+					type = je_andersson_our_ancestors
+				}
+				if = {
+					limit = {
+						has_variable = andersson_anthropologist_var
+					}
+					var:andersson_anthropologist_var = {
+						set_character_busy_and_immortal = yes
+					}
+				}
+			}
+			#Craniometry
+			if = {
+				limit = {
+					has_variable = andersson_total_human_fossil
+					var:andersson_total_human_fossil >= 25
+					NOT = {
+						var:andersson_anthropologist_var ?= {
+							has_variable = andersson_anthropologist_achievement_craniometry_var
+						}
+					}
+				}
+				andersson_add_x_human_fossils_effect = { AMOUNT = -25 }
+				add_journal_entry = {
+					type = je_andersson_craniometry
 				}
 			}
 			#Cave Exploration
@@ -1626,39 +1751,6 @@ ai_anthropologist_effect = {
 					set_variable = andersson_hominid_prospecting_var
 				}
 			}
-			#Hominid Prospecting
-			if = {
-				limit = {
-					andersson_hominid_prospecting_possible_trigger = yes
-					NOR = {
-						has_modifier = andersson_cave_exploration_modifier
-						has_variable = andersson_hominid_prospecting_selection_var
-					}
-				}
-				#Effect
-				trigger_event = {
-					id = andersson.201
-				}
-				set_variable = andersson_hominid_prospecting_selection_var
-			}
-			#Hominid Expedition
-			if = {
-				limit = {
-					any_direct_subject = {
-						andersson_hominid_prospecting_possible_trigger = yes
-					}
-					andersson_has_institute_trigger = yes
-					NOR = {
-				has_modifier = andersson_hominid_expedition_modifier
-				has_variable = andersson_hominid_expedition_selection_var
-			}
-				}
-				#Effect
-				trigger_event = {
-					id = andersson.205
-				}
-				set_variable = andersson_hominid_expedition_selection_var
-			}
 			#Piltdown Fraud
 			if = {
 				limit = {
@@ -1689,6 +1781,39 @@ ai_anthropologist_effect = {
 				trigger_event = {
 					id = andersson.511
 				}
+			}
+			#Hominid Prospecting
+			if = {
+				limit = {
+					andersson_hominid_prospecting_possible_trigger = yes
+					NOR = {
+						has_modifier = andersson_cave_exploration_modifier
+						has_variable = andersson_hominid_prospecting_selection_var
+					}
+				}
+				#Effect
+				trigger_event = {
+					id = andersson.201
+				}
+				set_variable = andersson_hominid_prospecting_selection_var
+			}
+			#Hominid Expedition
+			if = {
+				limit = {
+					any_direct_subject = {
+						andersson_hominid_prospecting_possible_trigger = yes
+					}
+					andersson_has_institute_trigger = yes
+					NOR = {
+						has_modifier = andersson_hominid_expedition_modifier
+						has_variable = andersson_hominid_expedition_selection_var
+					}
+				}
+				#Effect
+				trigger_event = {
+					id = andersson.205
+				}
+				set_variable = andersson_hominid_expedition_selection_var
 			}
 		}
 	}
