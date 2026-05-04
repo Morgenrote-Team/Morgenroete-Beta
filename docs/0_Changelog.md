@@ -1,5 +1,8 @@
 Changelog fot 2.8.1c "Haeckel"
 
+Anthropology
+- The Hominid Prospecting and Cave Exploration JEs will be invalides if the country loses access to the state in which the prospecting takes place.
+
 Concepts
 - Mountaineering, Geology, Biology, Chemistry and Anthropology are now possible loading tips.
 - Complete Rework of Anthropology Concepts.
