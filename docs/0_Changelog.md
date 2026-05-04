@@ -29,6 +29,7 @@ Fixes:
 - Reduced Role Priorities for Morgenröte Characters in case they accidentally become Interest Group Leaders.
 - Fixed an issue that caused the errors when the country got its yearly minerals.
 - Fixed a bug that set up the wrong experience for certain engineers.
+- Fixed some characters getting spawned without their proper template.
 
 Balancing:
 - Reduced the popularity from Morgenröte traits to make accidential Morgenröte politicians less influential.
