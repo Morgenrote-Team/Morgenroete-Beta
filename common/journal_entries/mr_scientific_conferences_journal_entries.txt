@@ -19,7 +19,7 @@
 	}
 	
 	should_be_involved = {
-		has_variable = verrier_hosted_asteroids_conference
+		has_modifier = verrier_congress_host_modifier
 	}
 	
 	should_show_when_not_involved = {
@@ -29,7 +29,7 @@
 	immediate = {
 		random_country = {
 			limit = {
-				has_variable = verrier_hosted_asteroids_conference
+				has_modifier = verrier_congress_host_modifier
 			}
 			save_scope_as = verrier_asteroids_conference_host
 			var:verrier_astronomer_var = {
@@ -41,7 +41,7 @@
 				limit = {
 					mr_gui_has_modern_astronomy_tech_trigger = yes
 				}
-				trigger_event = verrier.30
+				trigger_event = verrier.31
 			}
 			else = {
 				post_notification = verrier_asteroid_conference_notification
@@ -111,6 +111,7 @@
 						var:verrier_ceres_tilt_var > 5
 					}
 				}
+				set_global_variable = verrier_ceres_saved_var
 				every_country = {
 					if = {
 						limit = {
@@ -125,6 +126,7 @@
 			}
 			# All four planets cancelled
 			else = {
+				set_global_variable = verrier_ceres_demoted_var
 				every_country = {
 					if = {
 						limit = {
@@ -179,7 +181,18 @@
 				}
 				set_variable = {
 					name = verrier_ceres_tilt_var
-					value = verrier_ceres_tilt_value
+					value = {
+						add = var:mr_pro_ceres_votes_var
+						divide = {
+							add = var:mr_pro_ceres_votes_var
+							add = var:mr_anti_ceres_votes_var
+							min = 1
+						}
+						multiply = 10
+						round_to = 0.01
+						max = 10
+						min = 0
+					}
 				}
 				set_bar_progress = {
 					name = verrier_asteriods_conference_ceres_progress_bar
