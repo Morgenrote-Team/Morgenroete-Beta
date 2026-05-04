@@ -5,11 +5,13 @@ Anthropology:
 - Hominid Expedition should not be shown as active when doing Hominid Prospecting.
 - Fixed a bug that prevented players from undertaking either hominid prospecting or expeditions after selecting the ‘Nevermind’ option for the anthropologist.
 - Added a Rating for the Anthropologist.
+- Mesolithic and Upper Paleolithic Exhibitions need prehistoric artifacts.
 
 Archaeology:
 - Added 4 Events for the Scythian Archaeological Region.
 - Added 4 Events for the Viking Archaeological Region.
 - Added new Major Local Artifact: The Golden Comb.
+- Added new Major Local Artifact: Cyrus Cylinder. ATTENTION: This is a local major artifact that needs an excavation in Babylonia (Baghdad).
 - Added unspecific Human Fossils to several events.
 - Cleopatra's Needle and Axum Obelisk can only be build once.
 
