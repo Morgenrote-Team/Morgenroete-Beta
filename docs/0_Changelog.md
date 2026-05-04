@@ -6,6 +6,7 @@ Physics
 Technologies
 - Technology Differential Geometry. This Technology is needed for the Mathematics Specialization.
 - Differential Geometry is needed for Astronomy, not Mechanical Tools.
+- Differential Geometry gives +1 Yearly Astronomical Objects.
 - Mathematical-Technical Faculty needs Differential Geometry, not Athmospheric Engine.
 - Tier 1&2 Countries start with Differential Geometry.
 - Added Rocket Science. This Technology is needed für the Rocket Scientist Specialization.
