@@ -45,3 +45,6 @@ Characters:
 - Annibale Rigotti (random North Italian Architect) (Thanks PPsyrius)
 - Mario Tamagno (random North Italian Architect) (Thanks PPsyrius)
 - Karl Döhring (random North German Architect & Engineer) (Thanks PPsyrius)
+
+Fixes
+- Admiral/Generals added by Morgenröte now functions properly again
