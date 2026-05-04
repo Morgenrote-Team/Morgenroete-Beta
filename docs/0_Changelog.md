@@ -4,6 +4,12 @@ Physics
 
 
 Technologies
-- Added Technology Differential Geometry. 
+- Technology Differential Geometry. This Technology is needed for the Mathematics Specialization.
 - Differential Geometry is needed for Astronomy, not Mechanical Tools.
 - Mathematical-Technical Faculty needs Differential Geometry, not Athmospheric Engine.
+- Added Rocket Science. This Technology is needed für the Rocket Scientist Specialization.
+- Added Modern Rockets.
+- Added Nuclear Fission.
+- Added Nuclear Reactor and The Bomb. These are hidden technologies which will be activated by a JE (like Astro Physics).
+- Reconaissance Ballons unlocks Meteorologist Specialization.
+- Nuclear Physics unlocks Nuclear Physicist Specialization.
