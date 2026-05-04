@@ -5,7 +5,12 @@ Anthropology:
 - Hominid Expedition should not be shown as active when doing Hominid Prospecting.
 - Fixed a bug that prevented players from undertaking either hominid prospecting or expeditions after selecting the ‘Nevermind’ option for the anthropologist.
 
-Concepts:
+Archaeology:
+- Added 4 Events for the Scythian Archaeological Region.
+- Added new Major Local Artifact: The Golden Comb.
+- Added unspecific Human Fossils to several events.
+
+Concepts
 - Mountaineering, Geology, Biology, Chemistry and Anthropology are now possible loading tips.
 - Complete Rework of Anthropology Concepts.
 - Added missing Biology Concept.
