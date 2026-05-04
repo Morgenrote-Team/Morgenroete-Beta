@@ -20,3 +20,4 @@ Concepts
 
 Fixes:
 - When you get a new Biologist, the tooltip will now properly display whether it would replace an existing Biologist or not.
+- Global Geological Knowledge will be correctly added again.
