@@ -1,7 +1,7 @@
 Changelog fot 2.9.0 "Curie"
 
 Physics
-
+- Added a new Academic: Physicist.
 
 Technologies
 - Technology Differential Geometry. This Technology is needed for the Mathematics Specialization.
@@ -15,3 +15,7 @@ Technologies
 - Added Nuclear Reactor and The Bomb. These are hidden technologies which will be activated by a JE (like Astro Physics).
 - Reconaissance Ballons unlocks Meteorologist Specialization.
 - Nuclear Physics unlocks Nuclear Physicist Specialization.
+
+Promotion
+- To promote an Engineer, you need the technology Atmospheric Engine.
+- To promote an Archaeologist, you need the technology Antiquarianism.
