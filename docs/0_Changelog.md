@@ -24,6 +24,7 @@ Concepts
 Fixes:
 - When you get a new Biologist, the tooltip will now properly display whether it would replace an existing Biologist or not.
 - Global Geological Knowledge will be correctly added again.
+- Reduced Role Priorities for Morgenröte Characters in case they accidentally become Interest Group Leaders.
 
 Balancing:
 - Reduced the popularity from Morgenröte traits to make accidential Morgenröte politicians less influential.
