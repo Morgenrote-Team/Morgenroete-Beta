@@ -1784,24 +1784,19 @@ retire_naturalist_effect = {
 
 # Set new Naturalist as official Naturalist
 dubois_set_new_naturalist_as_naturalist_effect = {
-	custom_tooltip = {
-		text = dubois_replace_naturalist_with_new_naturalist_tt
+	custom_description = {
+		text = "dubois_set_new_naturalist_as_naturalist_effect_loc"
+		subject = this
+		object = scope:dubois_new_naturalist_scope
 
-		if = {
-			limit = {
-				has_variable = ito_naturalist_var
-			}
-			var:ito_naturalist_var = {
-				set_character_busy_and_immortal = no
-			}
+		var:ito_naturalist_var ?= {
+			set_character_busy_and_immortal = no
 		}
 
 		set_variable = {
 			name = ito_naturalist_var
 			value = scope:dubois_new_naturalist_scope
 		}
-
-		remove_variable = dubois_new_naturalist_var
 
 		#Sets Naturalist busy if there is an ongoing project
 		if = {
@@ -1811,10 +1806,21 @@ dubois_set_new_naturalist_as_naturalist_effect = {
 			}
 		}
 
-		#Adds the Default Action
-		add_journal_entry = {
-			type = je_ito_specimen_collection
+		#Adds the Default action
+		if = {
+			limit = {
+				NOT = { has_journal_entry = je_ito_specimen_collection }
+			}
+			add_journal_entry = {
+				type = je_ito_specimen_collection
+			}
 		}
+
+		#Starts Project for new Astronomer if automation is active
+		#TODO
+
+		#Removes variable
+		remove_variable = dubois_new_naturalist_var
 	}
 }
 
@@ -2007,16 +2013,13 @@ retire_paleontologist_effect = {
 
 # Set new Paleontologist as official Paleontologist
 dubois_set_new_paleontologist_as_paleontologist_effect = {
-	custom_tooltip = {
-		text = dubois_replace_paleontologist_with_new_paleontologist_tt
+	custom_description = {
+		text = "dubois_set_new_paleontologist_as_paleontologist_effect_loc"
+		subject = this
+		object = scope:dubois_new_paleontologist_scope
 
-		if = {
-			limit = {
-				has_variable = dubois_paleontologist_var
-			}
-			var:dubois_paleontologist_var = {
-				set_character_busy_and_immortal = no
-			}
+		var:dubois_paleontologist_var ?= {
+			set_character_busy_and_immortal = no
 		}
 
 		set_variable = {
@@ -2032,10 +2035,6 @@ dubois_set_new_paleontologist_as_paleontologist_effect = {
 			}
 		}
 
-		remove_variable = dubois_new_paleontologist_var
-
-		#Starts the next project for AI or automated player
-		ai_paleontologist_automation_effect = yes
 		#Adds the Default action
 		if = {
 			limit = {
@@ -2045,6 +2044,12 @@ dubois_set_new_paleontologist_as_paleontologist_effect = {
 				type = je_systemize_fossils
 			}
 		}
+
+		#Starts Project for new Astronomer if automation is active
+		ai_paleontologist_automation_effect = yes
+
+		#Removes variable
+		remove_variable = dubois_new_paleontologist_var
 	}
 }
 
