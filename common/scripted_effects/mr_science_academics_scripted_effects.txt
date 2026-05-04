@@ -2863,16 +2863,13 @@ retire_physician_effect = {
 
 # Set new Physician as official Physician
 panum_set_new_physician_as_physician_effect = {
-	custom_tooltip = {
-		text = panum_replace_physician_with_new_physician_tt
+	custom_description = {
+		text = "panum_set_new_physician_as_physician_effect_loc"
+		subject = this
+		object = scope:panum_new_physician_scope
 
-		if = {
-			limit = {
-				has_variable = panum_physician_var
-			}
-			var:panum_physician_var = {
-				set_character_busy_and_immortal = no
-			}
+		var:panum_physician_var ?= {
+			set_character_busy_and_immortal = no
 		}
 
 		set_variable = {
@@ -2888,11 +2885,21 @@ panum_set_new_physician_as_physician_effect = {
 			}
 		}
 
-		remove_variable = panum_new_physician_var
-
-		add_journal_entry = {
-			type = je_panum_medical_research_project
+		#Adds the default action of the Physician
+		if = {
+			limit = {
+				NOT = { has_journal_entry = je_panum_medical_research_project }
+			}
+			add_journal_entry = {
+				type = je_panum_medical_research_project
+			}
 		}
+
+		#Starts Project for new Physician if automation is active
+		#TODO
+
+		#Removes variable
+		remove_variable = panum_new_physician_var
 	}
 }
 
