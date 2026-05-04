@@ -7,8 +7,10 @@ Anthropology:
 
 Archaeology:
 - Added 4 Events for the Scythian Archaeological Region.
+- Added 4 Events for the Viking Archaeological Region.
 - Added new Major Local Artifact: The Golden Comb.
 - Added unspecific Human Fossils to several events.
+- Cleopatra's Needle and Axum Obelisk can only be build once.
 
 Concepts
 - Mountaineering, Geology, Biology, Chemistry and Anthropology are now possible loading tips.
