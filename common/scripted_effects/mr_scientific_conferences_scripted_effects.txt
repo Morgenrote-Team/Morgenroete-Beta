@@ -77,3 +77,25 @@ mr_update_conference_position_values_effect = {
 		}
 	}
 }
+
+mr_check_conference_chair_effect = {
+	# This is a safety effect in case a conference chair dies/retires mid-conference
+	# Call this from scope:journal_entry
+	if = {
+		limit = {
+			NOT = {
+				exists = var:mr_conference_chair_var
+			}
+		}
+		ordered_in_list = {
+			variable = mr_conference_participants_list
+			order_by = owner.prestige
+			position = 0
+			save_scope_as = mr_conference_chair_scope
+		}
+		set_variable = {
+			name = mr_conference_chair_var
+			value = scope:mr_conference_chair_scope
+		}
+	}
+}
