@@ -1,5 +1,5 @@
 ﻿mr_scientist_votes_value = {
-	# Evaluate this from the character scope!
+	# Evaluated in the character scope
 	value = 0
 	if = {
 		limit = {
@@ -28,9 +28,60 @@
 }
 
 verrier_pro_ceres_stance_value = {
+	# Evaluated in the character scope
 	value = 0
+	
+	# Add loyalty if they like their home country
+	if = {
+		limit = {
+			owner ?= {
+				var:mr_conference_position_var ?= flag:mr_stance_pro_ceres
+			}
+			loyalty > define:NCharacters|LOYALTY_UNCERTAIN_THRESHOLD # Loyalty is 25 or below
+		}
+		add = loyalty
+	}
+	# Subtract the loyalty gap if they hate their home country; yes scientists are petty
+	else_if = {
+		limit = {
+			owner ?= {
+				var:mr_conference_position_var ?= flag:mr_stance_pro_ceres
+			}
+			loyalty <= define:NCharacters|LOYALTY_UNCERTAIN_THRESHOLD # Loyalty is 25 or below
+		}
+		subtract = {
+			add = 100
+			subtract = loyalty
+		}
+	}
 }
 
 verrier_anti_ceres_stance_value = {
+	# Evaluated in the character scope
 	value = 0
+	
+	# Add loyalty if they like their home country
+	if = {
+		limit = {
+			owner ?= {
+				var:mr_conference_position_var ?= flag:mr_stance_anti_ceres
+			}
+			loyalty > define:NCharacters|LOYALTY_UNCERTAIN_THRESHOLD # Loyalty is 25 or below
+		}
+		add = loyalty
+	}
+	
+	# Subtract the loyalty gap if they hate their home country; yes scientists are petty
+	else_if = {
+		limit = {
+			owner ?= {
+				var:mr_conference_position_var ?= flag:mr_stance_anti_ceres
+			}
+			loyalty <= define:NCharacters|LOYALTY_UNCERTAIN_THRESHOLD # Loyalty is 25 or below
+		}
+		subtract = {
+			add = 100
+			subtract = loyalty
+		}
+	}
 }
