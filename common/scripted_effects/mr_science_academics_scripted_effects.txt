@@ -215,7 +215,7 @@ engineer_experience_set_up_effect = {
 					name = academics_is_mechanical_engineer_modifier
 				}
 				general_experience_set_up_effect = {
-					TYPE = tesla_civil_engineer_experience_var
+					TYPE = tesla_mechanical_engineer_experience_var
 					UNI_PM = pm_dubois_university_mathematics
 				}
 				add_trait = tesla_mechanical_engineer
@@ -227,7 +227,7 @@ engineer_experience_set_up_effect = {
 					name = academics_is_military_engineer_modifier
 				}
 				general_experience_set_up_effect = {
-					TYPE = tesla_civil_engineer_experience_var
+					TYPE = tesla_military_engineer_experience_var
 					UNI_PM = pm_dubois_university_mathematics
 				}
 				add_trait = tesla_military_engineer
@@ -1784,24 +1784,19 @@ retire_naturalist_effect = {
 
 # Set new Naturalist as official Naturalist
 dubois_set_new_naturalist_as_naturalist_effect = {
-	custom_tooltip = {
-		text = dubois_replace_naturalist_with_new_naturalist_tt
+	custom_description = {
+		text = "dubois_set_new_naturalist_as_naturalist_effect_loc"
+		subject = this
+		object = scope:dubois_new_naturalist_scope
 
-		if = {
-			limit = {
-				has_variable = ito_naturalist_var
-			}
-			var:ito_naturalist_var = {
-				set_character_busy_and_immortal = no
-			}
+		var:ito_naturalist_var ?= {
+			set_character_busy_and_immortal = no
 		}
 
 		set_variable = {
 			name = ito_naturalist_var
 			value = scope:dubois_new_naturalist_scope
 		}
-
-		remove_variable = dubois_new_naturalist_var
 
 		#Sets Naturalist busy if there is an ongoing project
 		if = {
@@ -1811,10 +1806,21 @@ dubois_set_new_naturalist_as_naturalist_effect = {
 			}
 		}
 
-		#Adds the Default Action
-		add_journal_entry = {
-			type = je_ito_specimen_collection
+		#Adds the Default action
+		if = {
+			limit = {
+				NOT = { has_journal_entry = je_ito_specimen_collection }
+			}
+			add_journal_entry = {
+				type = je_ito_specimen_collection
+			}
 		}
+
+		#Starts Project for new Astronomer if automation is active
+		#TODO
+
+		#Removes variable
+		remove_variable = dubois_new_naturalist_var
 	}
 }
 
@@ -2007,16 +2013,13 @@ retire_paleontologist_effect = {
 
 # Set new Paleontologist as official Paleontologist
 dubois_set_new_paleontologist_as_paleontologist_effect = {
-	custom_tooltip = {
-		text = dubois_replace_paleontologist_with_new_paleontologist_tt
+	custom_description = {
+		text = "dubois_set_new_paleontologist_as_paleontologist_effect_loc"
+		subject = this
+		object = scope:dubois_new_paleontologist_scope
 
-		if = {
-			limit = {
-				has_variable = dubois_paleontologist_var
-			}
-			var:dubois_paleontologist_var = {
-				set_character_busy_and_immortal = no
-			}
+		var:dubois_paleontologist_var ?= {
+			set_character_busy_and_immortal = no
 		}
 
 		set_variable = {
@@ -2032,10 +2035,6 @@ dubois_set_new_paleontologist_as_paleontologist_effect = {
 			}
 		}
 
-		remove_variable = dubois_new_paleontologist_var
-
-		#Starts the next project for AI or automated player
-		ai_paleontologist_automation_effect = yes
 		#Adds the Default action
 		if = {
 			limit = {
@@ -2045,6 +2044,12 @@ dubois_set_new_paleontologist_as_paleontologist_effect = {
 				type = je_systemize_fossils
 			}
 		}
+
+		#Starts Project for new Astronomer if automation is active
+		ai_paleontologist_automation_effect = yes
+
+		#Removes variable
+		remove_variable = dubois_new_paleontologist_var
 	}
 }
 
@@ -2220,16 +2225,13 @@ retire_biologist_effect = {
 
 # Set new Biologist as official Biologist
 theiler_set_new_biologist_as_biologist_effect = {
-	custom_tooltip = {
-		text = theiler_replace_biologist_with_new_biologist_tt
+	custom_description = {
+		text = "theiler_set_new_biologist_as_biologist_effect_loc"
+		subject = this
+		object = scope:theiler_new_biologist_scope
 
-		if = {
-			limit = {
-				has_variable = theiler_biologist_var
-			}
-			var:theiler_biologist_var = {
-				set_character_busy_and_immortal = no
-			}
+		var:theiler_biologist_var ?= {
+			set_character_busy_and_immortal = no
 		}
 
 		set_variable = {
@@ -2237,8 +2239,7 @@ theiler_set_new_biologist_as_biologist_effect = {
 			value = scope:theiler_new_biologist_scope
 		}
 
-		remove_variable = theiler_new_biologist_var
-
+		#Sets Naturalist busy if there is an ongoing project
 		if = {
 			limit = { theiler_has_active_biologist_project_with_busy_biologist_trigger = yes }
 			var:theiler_biologist_var = {
@@ -2258,6 +2259,9 @@ theiler_set_new_biologist_as_biologist_effect = {
 
 		#Starts Project for new Biologist if automation is active
 		ai_biology_automation_effect = yes
+
+		#Removes variable
+		remove_variable = theiler_new_biologist_var
 	}
 }
 
@@ -2656,16 +2660,13 @@ retire_anthropologist_effect = {
 
 # Set new Anthropologist as official Anthropologist
 andersson_set_new_anthropologist_as_anthropologist_effect = {
-	custom_tooltip = {
-		text = lepsius_replace_anthropologist_with_new_anthropologist_tt
+	custom_description = {
+		text = "andersson_set_new_anthropologist_as_anthropologist_effect_loc"
+		subject = this
+		object = scope:andersson_new_anthropologist_scope
 
-		if = {
-			limit = {
-				has_variable = andersson_anthropologist_var
-			}
-			var:andersson_anthropologist_var = {
-				set_character_busy_and_immortal = no
-			}
+		var:andersson_anthropologist_var ?= {
+			set_character_busy_and_immortal = no
 		}
 
 		set_variable = {
@@ -2673,7 +2674,10 @@ andersson_set_new_anthropologist_as_anthropologist_effect = {
 			value = scope:andersson_new_anthropologist_scope
 		}
 
-		#Adds Default Action
+		#Sets the Physician busy if there is an active project he is involved in
+		#TODO
+
+		#Adds the default action of the Physician
 		if = {
 			limit = {
 				NOT = { has_journal_entry = je_andersson_anthropological_research }
@@ -2683,6 +2687,10 @@ andersson_set_new_anthropologist_as_anthropologist_effect = {
 			}
 		}
 
+		#Starts Project for new Physician if automation is active
+		#TODO
+
+		#Removes variable
 		remove_variable = andersson_new_anthropologist_var
 	}
 }
@@ -2859,16 +2867,13 @@ retire_physician_effect = {
 
 # Set new Physician as official Physician
 panum_set_new_physician_as_physician_effect = {
-	custom_tooltip = {
-		text = panum_replace_physician_with_new_physician_tt
+	custom_description = {
+		text = "panum_set_new_physician_as_physician_effect_loc"
+		subject = this
+		object = scope:panum_new_physician_scope
 
-		if = {
-			limit = {
-				has_variable = panum_physician_var
-			}
-			var:panum_physician_var = {
-				set_character_busy_and_immortal = no
-			}
+		var:panum_physician_var ?= {
+			set_character_busy_and_immortal = no
 		}
 
 		set_variable = {
@@ -2884,11 +2889,21 @@ panum_set_new_physician_as_physician_effect = {
 			}
 		}
 
-		remove_variable = panum_new_physician_var
-
-		add_journal_entry = {
-			type = je_panum_medical_research_project
+		#Adds the default action of the Physician
+		if = {
+			limit = {
+				NOT = { has_journal_entry = je_panum_medical_research_project }
+			}
+			add_journal_entry = {
+				type = je_panum_medical_research_project
+			}
 		}
+
+		#Starts Project for new Physician if automation is active
+		#TODO
+
+		#Removes variable
+		remove_variable = panum_new_physician_var
 	}
 }
 

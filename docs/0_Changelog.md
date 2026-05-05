@@ -1,8 +1,4 @@
-Changelog fot 2.8.1c "Haeckel"
-
-Concepts
-- Mountaineering, Geology, Biology, Chemistry and Anthropology are now possible loading tips.
-- Added missing Biology Concept.
+Changelog fot 2.8.1d "Haeckel"
 
 Characters:
 - Sukich Nimmanheminda (random Thai Engineer) (Thanks PPsyrius)
@@ -46,5 +42,6 @@ Characters:
 - Mario Tamagno (random North Italian Architect) (Thanks PPsyrius)
 - Karl Döhring (random North German Architect & Engineer) (Thanks PPsyrius)
 
-Fixes
+Fixes:
+- Stratigraphy PM needs Modern Archaeology, not Camera.
 - Admiral/Generals added by Morgenröte now functions properly again
