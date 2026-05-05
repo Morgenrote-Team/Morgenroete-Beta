@@ -8,7 +8,15 @@
 		}
 	}
 	possible = {
-		verrier_has_astronomer = yes
+		has_technology_researched = verrier_astronomy_tech
+		verrier_astronomical_observation = yes
+		OR = {
+			any_scope_character = {
+				has_trait = verrier_astronomer
+			}
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomical_objects >= 50
+		}
 	}
 	effect = {
 		global_var:je_mr_verrier_asteriods_conference = {
@@ -51,7 +59,41 @@ verrier_support_ceres_button = {
 			}
 		}
 	}
-	# TODO-Alexedishi add ai_chance
+	ai_chance = { # Inherited from verrier.31.g
+		base = 40
+		modifier = { #Want to defend prestige
+			trigger = {
+				OR = {
+					has_variable = verrier_discovered_ceres_variable
+					has_variable = verrier_discovered_pallas_var
+					has_variable = verrier_discovered_juno_var
+					has_variable = verrier_discovered_vesta_var
+				}
+			}
+			add = 100
+		}
+		modifier = { #No reason to reform if lesser objects
+			trigger = {
+				global_var:verrier_total_astronomical_objects <= 2000
+			}
+			add = 25
+		}
+		modifier = { #No reason to reform if lesser objects
+			trigger = {
+				global_var:verrier_total_astronomical_objects <= 2500
+			}
+			add = 20
+		}
+		modifier = { #If the player is the host and wants to preserve Ceres, it'll be 50:50 instead 60:40 against Ceres
+			trigger = {
+				any_country = {
+					is_player = yes
+					has_modifier = verrier_congress_host_modifier
+				}
+			}
+			add = 20
+		}
+	}
 }
 
 verrier_oppose_ceres_button = {
@@ -87,5 +129,34 @@ verrier_oppose_ceres_button = {
 			}
 		}
 	}
-	# TODO-Alexedishi add ai_chance
+	ai_chance = { # Inherited from verrier.31.h
+		base = 60
+		modifier = { #Want to defend prestige and hurt others
+			trigger = {
+				OR = {
+					has_variable = verrier_discovered_uranus_variable
+					has_variable = verrier_discovered_neptune_variable
+				}
+			}
+			add = 100
+		}
+		modifier = { #Reason to reform if more objects
+			trigger = {
+				global_var:verrier_total_astronomical_objects >= 3500
+			}
+			add = 10
+		}
+		modifier = { #No reason to reform if lesser objects
+			trigger = {
+				global_var:verrier_total_astronomical_objects >= 4000
+			}
+			add = 20
+		}
+		modifier = { #Historically, Prussian academics lead the reform to introduce asteroids and demote Ceres, Vesta, Pallas and Juno
+			trigger = {
+				ROOT = c:PRU
+			}
+			add = 100
+		}
+	}
 }
