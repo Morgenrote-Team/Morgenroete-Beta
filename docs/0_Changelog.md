@@ -20,3 +20,7 @@ Academics
 - To promote an Engineer, you need the technology Atmospheric Engine.
 - To promote an Archaeologist, you need the technology Antiquarianism.
 - All academics can spawn randomly if no special acadmeic is promoted, except for these: Anthropologist (needs Early Archaeology Tech), Biologist (needs Vaccination Tech), Physicist (needs Dirrential Geometry Tech)
+
+Archaeology
+- Major artifacts belonging to AI countries are now displayed correctly.
+- Major Artifacts are now truly unique - any potential duplicates where two nations could possess the same Major Artifact should be fixed.
