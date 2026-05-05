@@ -1582,12 +1582,13 @@ verrier.23 = {
 
 ######CERES######
 
-#Verrier 30: Congress on Asteroids
-# TODO-Alexedishi resequence these events as needed
+# Verrier 30: Congress on Asteroids - Fires for the country starting the congress
 verrier.30 = {
-	dlc = dlc_morgenrote
-
 	type = country_event
+	placement = root
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+	duration = 1
+	dlc = dlc_morgenrote
 
 	title = verrier.30.t
 	desc = verrier.30.d
@@ -1607,82 +1608,30 @@ verrier.30 = {
 			desc = verrier.30.f
 		}
 	}
-
-	duration = 1
-
+	
 	event_image = {
 		texture = "gfx/event_pictures/verrier_pictures/verrier_old_solar_system.dds"
 	}
-
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
-
+	
 	immediate = {
-		set_global_variable = verrier_vesta_demoted_var
-		set_global_variable = verrier_pallas_demoted_var
-		set_global_variable = verrier_juno_demoted_var
-		if = {
+		random_country = {
 			limit = {
-				has_global_variable = verrier_astraea_year_global_var
+				has_modifier = verrier_congress_host_modifier
 			}
-			set_global_variable = verrier_astraea_demoted_var
-			change_global_variable = {
-				name = verrier_planets_number
-				add = -4
-		   }
-		}
-		else = {
-			change_global_variable = {
-				name = verrier_planets_number
-				add = -3
-		   }
+			save_scope_as = mr_conference_host_scope
+			var:verrier_astronomer_var = {
+				save_scope_as = mr_conference_chair_scope
+			}
 		}
 	}
 
-	option = {
+	option = { # Send in the scientists
 		name = verrier.30.g
 		default_option = yes
 		custom_tooltip = verrier.30a.tt
-		every_country = {
-			limit = {
-				has_technology_researched = verrier_astronomy_tech
-				verrier_astronomical_observation = yes
-				OR = {
-					any_scope_character = {
-						has_trait = verrier_astronomer
-					}
-					has_variable = verrier_astronomer_var
-					var:verrier_astronomical_objects >= 50
-				}
-			}
-			trigger_event = {
-				id = verrier.31
-				days = 7
-			}
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = verrier.32
-				popup = yes
-				days = 50
-			}
-		}
-		ai_chance = {
-			base = 70
-		}
-	}
-
-	option = { #There is no need for another meeting
-		name = verrier.30.h
-		custom_tooltip = verrier.30b.tt
-		set_global_variable = verrier_ceres_demoted_var
-		change_global_variable = {
- 			name = verrier_planets_number
- 			add = -1
-		}
-		every_country = {
+		if = {
 			limit = {
 				OR = {
 					has_variable = verrier_discovered_ceres_variable
@@ -1692,43 +1641,27 @@ verrier.30 = {
 					has_variable = verrier_discovered_astraea_var
 				}
 			}
-			trigger_event = {
-				id = verrier.35
-				days = 7
-			}
-		}
-		hidden_effect = {
-			random_country = {
-				limit = {
-					is_player = yes
-				}
-				trigger_event = {
-					id = verrier.33
-					days = 3
-				}
-			}
-		}
-		ai_chance = {
-			base = 30
+			custom_tooltip = verrier_credit_loss_warning
 		}
 	}
 }
 
-#Verrier 31: Should Ceres remain a planet?
-
+# Verrier 31: The Status of Ceres - Fires for eligible countries after the Congress has been activated
 verrier.31 = {
-	dlc = dlc_morgenrote
-
 	type = country_event
-
+	placement = scope:mr_conference_host_scope
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+	duration = 1
+	dlc = dlc_morgenrote
+	
 	title = verrier.31.t
-	desc = verrier.31.d
+	desc = verrier.30.d
 	flavor = {
 		triggered_desc = {
 			trigger = {
 				has_global_variable = verrier_astraea_year_global_var
 			}
-			desc = verrier.31.f_astraea
+			desc = verrier.30.f_astraea
 		}
 		triggered_desc = {
 			trigger = {
@@ -1736,20 +1669,15 @@ verrier.31 = {
 					has_global_variable = verrier_astraea_year_global_var
 				}
 			}
-			desc = verrier.31.f
+			desc = verrier.30.f
 		}
 	}
-
-	duration = 1
-
+	
 	event_image = {
 		texture = "gfx/event_pictures/verrier_pictures/verrier_old_solar_system.dds"
 	}
-
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	immediate = {
 		random_country = {
@@ -1758,256 +1686,100 @@ verrier.31 = {
 			}
 			save_scope_as = verrier_congress_host_country
 		}
-	}
-
-	option = {
-		name = verrier.31.g #Ceres is a planet
-		change_global_variable = {
-			name = verrier_ceres_yes
-			add = 1
-		}
-		ai_chance = {
-			base = 40
-			modifier = { #Want to defend prestige
-				trigger = {
-					OR = {
-						has_variable = verrier_discovered_ceres_variable
-						has_variable = verrier_discovered_pallas_var
-						has_variable = verrier_discovered_juno_var
-						has_variable = verrier_discovered_vesta_var
-					}
-				}
-				add = 100
-			}
-			modifier = { #No reason to reform if lesser objects
-				trigger = {
-					global_var:verrier_total_astronomical_objects <= 2000
-				}
-				add = 25
-			}
-			modifier = { #No reason to reform if lesser objects
-				trigger = {
-					global_var:verrier_total_astronomical_objects <= 2500
-				}
-				add = 20
-			}
-			modifier = { #If the player is the host and wants to preserve Ceres, it'll be 50:50 instead 60:40 against Ceres
-				trigger = {
-					any_country = {
-						is_player = yes
-						has_modifier = verrier_congress_host_modifier
-					}
-				}
-				add = 20
-			}
+		set_variable = {
+			name = verrier_considering_conference_var
+			months = 3
 		}
 	}
 
-	option = { #Ceres is not a planet
-		name = verrier.31.h
+	option = { # Send in the scientists
+		name = verrier.30.g #Ceres is a planet
 		default_option = yes
-		change_global_variable = {
-			name = verrier_ceres_no
-			add = 1
-		}
-		ai_chance = {
-			base = 60
-			modifier = { #Want to defend prestige and hurt others
-				trigger = {
-					OR = {
-						has_variable = verrier_discovered_uranus_variable
-						has_variable = verrier_discovered_neptune_variable
-					}
-				}
-				add = 100
-			}
-			modifier = { #Reason to reform if more objects
-				trigger = {
-					global_var:verrier_total_astronomical_objects >= 3500
-				}
-				add = 10
-			}
-			modifier = { #No reason to reform if lesser objects
-				trigger = {
-					global_var:verrier_total_astronomical_objects >= 4000
-				}
-				add = 20
-			}
-			modifier = { #Historically, Prussian academics lead the reform to introduce asteroids and demote Ceres, Vesta, Pallas and Juno
-				trigger = {
-					ROOT = c:PRU
-				}
-				add = 100
-			}
-		}
-	}
-}
-
-#Verrier 32: Ceres is not a planet anymore/Ceres remains a planet
-
-verrier.32 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = {
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_ceres_demoted_var
-			}
-			desc = verrier.32.t_demoted
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_ceres_saved_var
-			}
-			desc = verrier.32.t_saved
-		}
-	}
-
-	desc = {
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_ceres_demoted_var
-			}
-			desc = verrier.32.d_demoted
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_ceres_saved_var
-			}
-			desc = verrier.32.d_saved
-		}
-	}
-
-	flavor = {
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_ceres_demoted_var
-			}
-			desc = verrier.32.f_demoted
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_ceres_saved_var
-			}
-			desc = verrier.32.f_saved
-		}
-	}
-
-	duration = 1
-
-	event_image = {
-		texture = "gfx/event_pictures/verrier_pictures/verrier_old_solar_system.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
-
-	immediate = {
-		random_country = {
-			limit = {
-				has_modifier = verrier_congress_host_modifier
-			}
-			save_scope_as = verrier_congress_host_country
+		global_var:je_mr_verrier_asteriods_conference = {
+			add_involved_country = root
 		}
 		if = {
-			limit = {
-				global_var:verrier_ceres_yes < global_var:verrier_ceres_no
-			}
-			set_global_variable = verrier_ceres_demoted_var
-		}
-		if = {
-			limit = {
-				global_var:verrier_ceres_yes > global_var:verrier_ceres_no
-			}
-			set_global_variable = verrier_ceres_saved_var
-		}
-		if = {
-			limit = {
-				global_var:verrier_ceres_yes = global_var:verrier_ceres_no
-			}
-			set_global_variable = verrier_ceres_saved_var
-		}
-	}
-
-	option = {
-		trigger = {
-			has_global_variable = verrier_ceres_demoted_var
-		}
-		name = verrier.32.g #Ceres has been only a dwarf of a planet
-		change_global_variable = {
- 			name = verrier_planets_number
- 			add = -1
-		}
-		every_country = {
 			limit = {
 				OR = {
 					has_variable = verrier_discovered_ceres_variable
 					has_variable = verrier_discovered_pallas_var
 					has_variable = verrier_discovered_vesta_var
 					has_variable = verrier_discovered_juno_var
+					has_variable = verrier_discovered_astraea_var
 				}
 			}
-			trigger_event = {
-				id = verrier.35
-				days = 7
-			}
+			custom_tooltip = verrier_credit_loss_warning
 		}
-		hidden_effect = {
-			random_country = {
-				limit = {
-					is_player = yes
-				}
-				trigger_event = {
-					id = verrier.33
-					days = 3
-				}
-			}
+		ai_chance = {
+			base = 70
 		}
 	}
-	option = {
-		trigger = {
-			has_global_variable = verrier_ceres_saved_var
-		}
-		name = verrier.32.h #Ceres is saved!
-		default_option = yes
-		every_country = {
+
+	option = { # Hell to the f no
+		name = verrier.31.h
+		custom_tooltip = mr_nonparticipation_warning
+		if = {
 			limit = {
 				OR = {
+					has_variable = verrier_discovered_ceres_variable
 					has_variable = verrier_discovered_pallas_var
 					has_variable = verrier_discovered_vesta_var
 					has_variable = verrier_discovered_juno_var
+					has_variable = verrier_discovered_astraea_var
 				}
 			}
-			trigger_event = {
-				id = verrier.35
-				days = 7
-			}
+			custom_tooltip = verrier_credit_loss_warning
 		}
-		hidden_effect = {
-			random_country = {
-				limit = {
-					is_player = yes
-				}
-				trigger_event = {
-					id = verrier.34
-					days = 3
-				}
-			}
+		ai_chance = {
+			base = 30
 		}
+	}
+	
+	after = {
+		remove_variable = verrier_considering_conference_var
 	}
 }
 
-#Verrier 33: Notification: All four planets cancelled
-
-verrier.33 = {
-	dlc = dlc_morgenrote
-
+# Verrier 32: Three planets cancelled, Ceres saved
+verrier.32 = {
 	type = country_event
+	placement = scope:mr_conference_host_scope
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+	duration = 3
+	dlc = dlc_morgenrote
+	
+	title = verrier.32.t
+	desc = verrier.32.d
+	flavor = verrier.32.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_old_solar_system.dds"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+	
+	trigger = {
+	}
+	
+	immediate = {
+	}
+	
+	option = {
+		name = verrier.32.g
+		default_option = yes
+		verrier_subtract_demoted_planets_effect = yes
+	}
+}
 
+
+# Verrier 33: All Four Planets Cancelled
+verrier.33 = {
+	type = country_event
+	placement = root
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+	duration = 3
+	dlc = dlc_morgenrote
+	
 	title = {
 		triggered_desc = {
 			trigger = {
@@ -2024,7 +1796,22 @@ verrier.33 = {
 			desc = verrier.33.t
 		}
 	}
-	desc = verrier.33.d
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_astraea_year_global_var
+			}
+			desc = verrier.33.d_astraea
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_global_variable = verrier_astraea_year_global_var
+				}
+			}
+			desc = verrier.33.d
+		}
+	}
 	flavor = {
 		triggered_desc = {
 			trigger = {
@@ -2041,189 +1828,29 @@ verrier.33 = {
 			desc = verrier.33.f
 		}
 	}
-
-	duration = 1
-
+	
 	event_image = {
 		texture = "gfx/event_pictures/verrier_pictures/verrier_old_solar_system.dds"
 	}
-
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
-
-	immediate = {
-		random_country = {
-			limit = {
-				has_modifier = verrier_congress_host_modifier
-			}
-			save_scope_as = verrier_congress_host_country
-		}
+	
+	trigger = {
 	}
-
+	
+	immediate = {
+	}
+	
 	option = {
-		name = verrier.33.g #The solar system has 8 planets
+		name = verrier.33.g
+		default_option = yes
+	}
+	
+	option = {
+		name = verrier.33.h
 	}
 }
 
-#Verrier 34: Notification: Three planets cancelled, Ceres saved
-
-verrier.34 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = {
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_astraea_year_global_var
-			}
-			desc = verrier.34.t_astraea
-		}
-		triggered_desc = {
-			trigger = {
-				NOT = {
-					has_global_variable = verrier_astraea_year_global_var
-				}
-			}
-			desc = verrier.34.t
-		}
-	}
-	desc = verrier.34.d
-	flavor = {
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_astraea_year_global_var
-			}
-			desc = verrier.34.f_astraea
-		}
-		triggered_desc = {
-			trigger = {
-				NOT = {
-					has_global_variable = verrier_astraea_year_global_var
-				}
-			}
-			desc = verrier.34.f
-		}
-	}
-
-	duration = 1
-
-	event_image = {
-		texture = "gfx/event_pictures/verrier_pictures/verrier_old_solar_system.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
-
-	immediate = {
-		random_country = {
-			limit = {
-				has_modifier = verrier_congress_host_modifier
-			}
-			save_scope_as = verrier_congress_host_country
-		}
-	}
-
-	option = {
-		name = verrier.34.g #The solar system has 9 planets
-	}
-}
-
-#Verrier 35: Planets demoted, modifier lost
-
-verrier.35 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = verrier.35.t
-	desc = verrier.35.d
-	flavor = verrier.35.f
-
-	duration = 1
-
-	event_image = {
-		texture = "gfx/event_pictures/verrier_pictures/verrier_old_solar_system.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
-
-	immediate = {
-		random_country = {
-			limit = {
-				has_modifier = verrier_congress_host_modifier
-			}
-			save_scope_as = verrier_congress_host_country
-		}
-	}
-
-	option = {
-		name = verrier.35.g #Oh well
-		if = {
-			limit = {
-				has_variable = verrier_discovered_ceres_variable
-			}
-			remove_variable = verrier_discovered_ceres_variable
-			change_variable = {
-				name = verrier_num_discovered_planets_var
-				add = -1
-			}
-		}
-		if = {
-			limit = {
-				has_variable = verrier_discovered_vesta_var
-			}
-			remove_variable = verrier_discovered_vesta_var
-			change_variable = {
-				name = verrier_num_discovered_planets_var
-				add = -1
-			}
-		}
-		if = {
-			limit = {
-				has_variable = verrier_discovered_pallas_var
-			}
-			remove_variable = verrier_discovered_pallas_var
-			change_variable = {
-				name = verrier_num_discovered_planets_var
-				add = -1
-			}
-		}
-		if = {
-			limit = {
-				has_variable = verrier_discovered_juno_var
-			}
-			remove_variable = verrier_discovered_juno_var
-			change_variable = {
-				name = verrier_num_discovered_planets_var
-				add = -1
-			}
-		}
-		if = {
-			limit = {
-				has_variable = verrier_discovered_astraea_var
-			}
-			remove_variable = verrier_discovered_astraea_var
-			change_variable = {
-				name = verrier_num_discovered_planets_var
-				add = -1
-			}
-		}
-	}
-
-	after = {
-		hidden_effect = {
-			verrier_update_astronomical_prestige_effect = yes
-		}
-	}
-}
 
 ####################################################################################
 
