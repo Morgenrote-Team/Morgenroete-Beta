@@ -5,6 +5,8 @@ flowcontainer = {
 	
 	flowcontainer = {
 		direction = vertical
+		margin = { 5 5 }
+		margin_bottom = 60
 		
 		mr_scientific_conference_widget = {
 			blockoverride "conference_subject_matter" {
@@ -24,6 +26,7 @@ types mr_scientific_conference_types {
 	type mr_scientific_conference_widget = widget {
 		# FRAME SIZE
 		size = { 520 300 }
+		using = Animation_Character_Panel_Refresh
 		
 		# BACKGROUND
 		background = {
@@ -35,9 +38,10 @@ types mr_scientific_conference_types {
 		# CONFERENCE CHAIR
 		character_portrait_base_no_mask = {
 			parentanchor = left|vcenter
-			datacontext = "[JournalEntry.MakeScope.Var('mr_conference_chair_var')]"
+			datacontext = "[JournalEntry.MakeScope.Var('mr_conference_chair_var').GetCharacter]"
 			ignore_in_debug_draw = yes
 			size = { 340 340 }
+			max_update_rate = 24
 			
 			block "character_layout" {
 				position = { -54 -16 }
@@ -48,6 +52,7 @@ types mr_scientific_conference_types {
 				}
 			}
 			blockoverride "portrait_texture" {
+				datacontext = "[JournalEntry.MakeScope.Var('mr_conference_chair_var')]"
 				portrait_texture = "[Scope.GetCharacter.GetAnimatedPortrait(
 					'ruler_environment',
 					'camera_event_left',
@@ -57,50 +62,41 @@ types mr_scientific_conference_types {
 			}
 			blockoverride "portrait_icons" {}
 			blockoverride "tooltip" {}
+		}
+		
+		flowcontainer = {
+			parentanchor = bottom|left
+			position = { 10 -20 }
+			direction = vertical
+			spacing = 5
+			margin = { 5 5 }
 			
-			flowcontainer = {
-				parentanchor = bottom|left
-				position = { 64 -20 }
-				direction = vertical
-				spacing = 5
-				margin = { 5 5 }
+			background = {
+				using = dark_area
+				alpha = 0.75
 				
-				background = {
-					using = dark_area
-					alpha = 0.75
-					
-					modify_texture = {
-						texture = "gfx/interface/masks/fade_horizontal_right.dds"
-						blend_mode = alphamultiply
-					}
+				modify_texture = {
+					texture = "gfx/interface/masks/fade_horizontal_right.dds"
+					blend_mode = alphamultiply
 				}
-				
-				widget = {
-					size = { 200 50 }
-					vbox = {
-						layoutpolicy_horizontal = expanding
-						layoutpolicy_vertical = expanding
-						margin = { 0 5 }
-						
-						textbox = {
-							layoutpolicy_horizontal = expanding
-							size = { 0 16 }
-							text = "MR_CONFERENCE_CHAIR_TITLE"
-							align = left|nobaseline
-							elide = right
-							fontsize_min = 12
-						}
-						textbox = {
-							layoutpolicy_horizontal = expanding
-							size = { 0 20 }
-							text = "MR_CONFERENCE_CHAIR_NAME"
-							align = left|nobaseline
-							elide = right
-							fontsize_min = 12
-							using = fontsize_large
-						}
-					}
-				}
+			}
+			
+			textbox = {
+				layoutpolicy_horizontal = expanding
+				size = { 200 18 }
+				text = "MR_CONFERENCE_CHAIR_TITLE"
+				align = left|nobaseline
+				elide = right
+				fontsize_min = 12
+			}
+			textbox = {
+				layoutpolicy_horizontal = expanding
+				size = { 200 20 }
+				text = "MR_CONFERENCE_CHAIR_NAME"
+				align = left|nobaseline
+				elide = right
+				fontsize_min = 12
+				using = fontsize_large
 			}
 		}
 		
@@ -360,18 +356,107 @@ types mr_scientific_conference_types {
 		}
 	}
 	
-	type mr_scientific_conference_participant_item = widget {
-		size = { 500 100 }
+	type mr_scientific_conference_participant_item = flowcontainer {
+		minimumsize = { 520 160 }
+		margin_top = 5
+		margin_bottom = 5
+		spacing = 10
 		
-		background = {
-			using = dark_area
-			alpha = 0.75
+		direction = horizontal
+		using = entry_bg_fancy_solid_bg
+		
+		datacontext = "[Scope.GetCharacter]"
+		
+		flowcontainer = {
+			direction = vertical
+			margin_left = 10
+			
+			widget = {
+				size = { 180 120 }
+				character_portrait_large = {
+					parentanchor = center
+					position = { 0 0 }
+					using = tooltip_below
+					blockoverride "show_hat" {}
+					blockoverride "highlight" {}
+					
+					default_header_clean_faded = {
+						parentanchor = bottom|hcenter
+						size = { 180 30 }
+						position = { 0 5 }
+						blockoverride "text" {
+							raw_text = "[Character.GetFullName]"
+						}
+						blockoverride "text_size" {
+							fontsize = 18
+						}
+					}
+					
+					fancy_flag_ui = {
+						size = { 60 40 }
+						position = { -20 0 }
+						parentanchor = top|left
+						datacontext = "[Character.GetCountry]"
+						
+						blockoverride "overlay_button_and_bg_glow_position" {
+							position = { -9 -4 }
+						}
+						
+						blockoverride "rank_badge_block" {}
+					}
+				}
+			}
+			divider_clean = {}
+			textbox = {
+				autoresize = yes
+				minimumsize = { 0 20 }
+				align = center|nobaseline
+				text = "MR_SCIENTIFIC_POSITION"
+				elide = right
+			}
+			textbox = {
+				visible = "[Character.MakeScope.Var('mr_conference_stance_var').IsSet]"
+				autoresize = yes
+				minimumsize = { 0 20 }
+				align = left|nobaseline
+				text = "MR_SCIENTIFIC_POSITION_FLAG"
+				elide = right
+			}
 		}
 		
-		default_header_clean_faded = {
-			size = { 100 40 }
-			blockoverride "text" {
-				raw_text = "MEEPO"
+		flowcontainer = {
+			direction = vertical
+			spacing = 5
+			
+			flowcontainer = {
+				direction = horizontal
+				spacing = 10
+				textbox = {
+					autoresize = yes
+					minimumsize = { 0 20 }
+					align = left|nobaseline
+					text = "CHARACTER_POPULARITY_LABEL"
+					elide = right
+				}
+				textbox = {
+					visible = "[Character.MakeScope.Var('mr_scientist_votes_var').IsSet]"
+					autoresize = yes
+					minimumsize = { 0 20 }
+					align = left|nobaseline
+					text = "MR_SCIENTIST_VOTES"
+					elide = right
+				}
+			}
+			divider_decorative = {}
+			dynamicgridbox = {
+				layoutpolicy_vertical = preferred
+				datamodel = "[Character.AccessTraits]"
+				datamodel_wrap = 3
+				flipdirection = yes
+				
+				item = {
+					character_trait_with_label = {}
+				}
 			}
 		}
 	}
