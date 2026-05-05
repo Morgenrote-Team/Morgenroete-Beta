@@ -13,247 +13,50 @@
 
 #Set Anthropologist busy
 andersson_set_anthropologist_busy_effect = {
-	custom_tooltip = {
-		text = andersson_set_anthropologist_busy_tt
-		if = {
-			limit = { has_variable = andersson_anthropologist_var }
-			var:andersson_anthropologist_var = {
-				set_character_busy_and_immortal = yes
-			}
-		}
+	var:andersson_anthropologist_var ?= {
+		set_character_busy_and_immortal = yes
 	}
 }
 
 andersson_set_cave_leader = {
-	var:andersson_anthropologist_var = {
+	var:andersson_anthropologist_var ?= {
 		save_scope_as = andersson_anthropologist_scope
 	}
 }
 
 andersson_set_cave_site = {
-	random_scope_state = {
+	if = {
 		limit = {
-			has_variable = andersson_hominid_prospecting_var
+			has_modifier = andersson_cave_exploration_modifier
 		}
-		save_scope_as = andersson_cave_site
+		random_scope_state = {
+			limit = {
+				has_variable = andersson_hominid_prospecting_var
+			}
+			save_scope_as = andersson_cave_site
+		}
+	}
+	if = {
+		limit = {
+			has_modifier = andersson_hominid_expedition_modifier
+		}
+		random_direct_subject = {
+			limit = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+				}
+			}
+			random_scope_state = {
+				limit = {
+					has_variable = andersson_hominid_expedition_var
+				}
+				save_scope_as = andersson_cave_site
+			}
+		}
 	}
 }
 
 #######################################################
-
-#Add Prehistoric Artifacts
-andersson_add_x_prehistoric_artifacts_effect = {
-	# Amount = amount of artifacts to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = artifact_amount
-		value = $AMOUNT$
-	}
-
-	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ < -1 }
-		custom_tooltip = andersson_add_x_prehistoric_artifacts_minus_x_tt
-	}
-	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ = -1 }
-		custom_tooltip = andersson_add_x_prehistoric_artifacts_minus_1_tt
-	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = andersson_add_x_prehistoric_artifacts_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ = 1 }
-		custom_tooltip = andersson_add_x_prehistoric_artifacts_plus_1_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 1 }
-		custom_tooltip = andersson_add_x_prehistoric_artifacts_plus_x_tt
-	}
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = andersson_prehistoric_artifact_var
-			}
-		}
-		set_variable = {
-			name = andersson_prehistoric_artifact_var
-			value = 0
-		}
-	}
-	change_variable = {
-		name = andersson_prehistoric_artifact_var
-		add = $AMOUNT$
-	}
-	if = {
-		limit = { #Only works if there actually is an anthropologist
-			has_variable = andersson_anthropologist_var
-		}
-		var:andersson_anthropologist_var = {
-			if = { #Fallback if the variable does not exist yet
-				limit = {
-					NOT = {
-						has_variable = andersson_prehistoric_artifact_anthropologist_var
-					}
-				}
-				set_variable = {
-					name = andersson_prehistoric_artifact_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = { #The amount of human fossils that this anthropologist discovered
-				name = andersson_prehistoric_artifact_anthropologist_var
-				add = $AMOUNT$
-			}
-		}
-	}
-
-	#5 Anthropological Pretsige for each specific fossil
-	andersson_change_anthropological_rating = { AMOUNT = 1 }
-}
-
-#Add Prehistoric Venus
-andersson_add_x_prehistoric_venus_effect = {
-	# Amount = amount of venus to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = artifact_amount
-		value = $AMOUNT$
-	}
-
-	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ < -1 }
-		custom_tooltip = andersson_add_x_prehistoric_venus_minus_x_tt
-	}
-	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ = -1 }
-		custom_tooltip = andersson_add_x_prehistoric_venus_minus_1_tt
-	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = andersson_add_x_prehistoric_venus_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ = 1 }
-		custom_tooltip = andersson_add_x_prehistoric_venus_plus_1_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 1 }
-		custom_tooltip = andersson_add_x_prehistoric_venus_plus_x_tt
-	}
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = andersson_prehistoric_venus_var
-			}
-		}
-		set_variable = {
-			name = andersson_prehistoric_venus_var
-			value = 0
-		}
-	}
-	change_variable = {
-		name = andersson_prehistoric_venus_var
-		add = $AMOUNT$
-	}
-	if = {
-		limit = { #Only works if there actually is an anthropologist
-			has_variable = andersson_anthropologist_var
-		}
-		var:andersson_anthropologist_var = {
-			if = { #Fallback if the variable does not exist yet
-				limit = {
-					NOT = {
-						has_variable = andersson_prehistoric_venus_anthropologist_var
-					}
-				}
-				set_variable = {
-					name = andersson_prehistoric_venus_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = { #The amount of human fossils that this anthropologist discovered
-				name = andersson_prehistoric_venus_anthropologist_var
-				add = $AMOUNT$
-			}
-		}
-	}
-
-	#5 Anthropological Pretsige for each specific fossil
-	andersson_change_anthropological_rating = { AMOUNT = 5 }
-}
-
-#Add Unspecific Human Fossils
-andersson_add_x_human_fossils_effect = {
-	# Amount = amount of artifacts to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = fossil_amount
-		value = $AMOUNT$
-	}
-
-	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ < -1 }
-		custom_tooltip = andersson_add_x_human_fossils_minus_x_tt
-	}
-	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ = -1 }
-		custom_tooltip = andersson_add_x_human_fossils_minus_1_tt
-	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = andersson_add_x_human_fossils_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ = 1 }
-		custom_tooltip = andersson_add_x_human_fossils_plus_1_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 1 }
-		custom_tooltip = andersson_add_x_human_fossils_plus_x_tt
-	}
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = andersson_total_human_fossil
-			}
-		}
-		set_variable = {
-			name = andersson_total_human_fossil
-			value = 0
-		}
-	}
-	change_variable = {
-		name = andersson_total_human_fossil
-		add = $AMOUNT$
-	}
-	change_global_variable = {
-		name = andersson_global_human_fossil_global_var
-		add = $AMOUNT$
-	}
-	if = {
-		limit = { #Only works if there actually is an anthropologist
-			has_variable = andersson_anthropologist_var
-		}
-		var:andersson_anthropologist_var = {
-			if = { #Fallback if the variable does not exist yet
-				limit = {
-					NOT = {
-						has_variable = andersson_total_human_fossils_anthropologist_var
-					}
-				}
-				set_variable = {
-					name = andersson_total_human_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = { #The amount of human fossils that this anthropologist discovered
-				name = andersson_total_human_fossils_anthropologist_var
-				add = $AMOUNT$
-			}
-		}
-	}
-}
 
 #Add Cave Paintings at Game Start
 andersson_add_cave_paintings_effect = {
@@ -360,573 +163,6 @@ andersson_add_cave_paintings_effect = {
 	}
 }
 
-###CAVE FOSSILS ###
-
-#Add Neoanthropus Fossil
-andersson_add_neoanthropus_fossil_effect = {
-	#General Fossil for Statistics
-	andersson_add_x_human_fossils_effect = { AMOUNT = 1 }
-	#5 Anthropological Pretsige for each specific fossil
-	andersson_change_anthropological_rating = { AMOUNT = 1 }
-	#Neoanthropus Fossil
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = andersson_neoanthropus_fossil_var
-			}
-		}
-		set_variable = {
-			name = andersson_neoanthropus_fossil_var
-			value = 0
-		}
-	}
-	custom_tooltip = andersson_neoanthropus_fossil_add_tt
-	change_variable = { #Total human fossils the TAG found
-		name = andersson_neoanthropus_fossil_var
-		add = 1
-	}
-	change_global_variable = { #Total human fossil found worldwide
-		name = andersson_neoanthropus_fossil_var
-		add = 1
-	}
-	#Neoanthropus Fossils the Anthropologist found
-	if = {
-		limit = { has_variable = andersson_anthropologist_var }
-		var:andersson_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = andersson_neoanthropus_fossils_anthropologist_var } }
-				set_variable = {
-					name = andersson_neoanthropus_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = andersson_neoanthropus_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-
-	#Vero Fossils
-	if = {
-		limit = {
-			scope:andersson_cave_state_scope = {
-				is_in_geographic_region = andersson_geographic_region_vero
-			}
-		}
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = andersson_vero_fossil_var
-				}
-			}
-			set_variable = {
-				name = andersson_vero_fossil_var
-				value = 0
-			}
-		}
-		change_variable = { #Vero fossils the TAG found
-			name = andersson_vero_fossil_var
-			add = 1
-		}
-	}
-
-	#Lagoa Santa Fossils
-	if = {
-		limit = {
-			scope:andersson_cave_state_scope = {
-				is_in_geographic_region = andersson_geographic_region_lagoa_santa
-			}
-		}
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = andersson_lagoa_santa_fossil_var
-				}
-			}
-			set_variable = {
-				name = andersson_lagoa_santa_fossil_var
-				value = 0
-			}
-		}
-		change_variable = { #Lagoa Santa fossils the TAG found
-			name = andersson_lagoa_santa_fossil_var
-			add = 1
-		}
-	}
-
-	#Cro-Magnon Fossils
-	if = {
-		limit = {
-			scope:andersson_cave_state_scope = {
-				is_in_geographic_region = andersson_geographic_region_cro_magnon
-			}
-		}
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = andersson_cro_magnon_fossil_var
-				}
-			}
-			set_variable = {
-				name = andersson_cro_magnon_fossil_var
-				value = 0
-			}
-		}
-		change_variable = { #Cro-Magnon fossils the TAG found
-			name = andersson_cro_magnon_fossil_var
-			add = 1
-		}
-	}
-
-	#Boskop Fossils
-	if = {
-		limit = {
-			scope:andersson_cave_state_scope = {
-				is_in_geographic_region = andersson_geographic_region_boskop
-			}
-		}
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = andersson_boskop_fossil_var
-				}
-			}
-			set_variable = {
-				name = andersson_boskop_fossil_var
-				value = 0
-			}
-		}
-		change_variable = { #Boskop fossils the TAG found
-			name = andersson_boskop_fossil_var
-			add = 1
-		}
-	}
-
-	#Tianyuan Fossils
-	if = {
-		limit = {
-			scope:andersson_cave_state_scope = {
-				is_in_geographic_region = andersson_geographic_region_tianyuan
-			}
-		}
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = andersson_tianyuan_fossil_var
-				}
-			}
-			set_variable = {
-				name = andersson_tianyuan_fossil_var
-				value = 0
-			}
-		}
-		change_variable = { #Tianyuan fossils the TAG found
-			name = andersson_tianyuan_fossil_var
-			add = 1
-		}
-	}
-
-	#Talgai Fossils
-	if = {
-		limit = {
-			scope:andersson_cave_state_scope = {
-				is_in_geographic_region = andersson_geographic_region_talgai
-			}
-		}
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = andersson_talgai_fossil_var
-				}
-			}
-			set_variable = {
-				name = andersson_talgai_fossil_var
-				value = 0
-			}
-		}
-		change_variable = { #Talgai fossils the TAG found
-			name = andersson_talgai_fossil_var
-			add = 1
-		}
-	}
-}
-
-#Add Palaeanthropus Fossil
-andersson_add_palaeanthropus_fossil_effect = {
-	#General Fossil for Statistics
-	andersson_add_x_human_fossils_effect = { AMOUNT = 1 }
-	#5 Anthropological Pretsige for each specific fossil
-	andersson_change_anthropological_rating = { AMOUNT = 1 }
-	#Palaeanthropus Fossil
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = andersson_palaeanthropus_fossil_var
-			}
-		}
-		set_variable = {
-			name = andersson_palaeanthropus_fossil_var
-			value = 0
-		}
-	}
-	change_variable = { #Total human fossils the TAG found
-		name = andersson_palaeanthropus_fossil_var
-		add = 1
-	}
-	change_global_variable = { #Total human fossil found worldwide
-		name = andersson_palaeanthropus_fossil_var
-		add = 1
-	}
-	#Palaeanthropus Fossils the Anthropologist found
-	if = {
-		limit = { has_variable = andersson_anthropologist_var }
-		var:andersson_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = andersson_palaeanthropus_fossils_anthropologist_var } }
-				set_variable = {
-					name = andersson_palaeanthropus_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = andersson_palaeanthropus_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-
-	#Neanderthal Fossils
-	if = {
-		limit = {
-			scope:andersson_cave_state_scope = {
-				is_in_geographic_region = andersson_geographic_region_neanderthal
-			}
-		}
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = andersson_neanderthal_fossil_var
-				}
-			}
-			set_variable = {
-				name = andersson_neanderthal_fossil_var
-				value = 0
-			}
-		}
-		change_variable = { #Neanderthalfossils the TAG found
-			name = andersson_neanderthal_fossil_var
-			add = 1
-		}
-	}
-
-	#Gibraltar Fossils
-	if = {
-		limit = {
-			scope:andersson_cave_state_scope = {
-				is_in_geographic_region = andersson_geographic_region_gibraltar
-			}
-		}
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = andersson_gibraltar_fossil_var
-				}
-			}
-			set_variable = {
-				name = andersson_gibraltar_fossil_var
-				value = 0
-			}
-		}
-		change_variable = { #Gibraltar fossils the TAG found
-			name = andersson_gibraltar_fossil_var
-			add = 1
-		}
-	}
-
-	#Spy Fossils
-	if = {
-		limit = {
-			scope:andersson_cave_state_scope = {
-				is_in_geographic_region = andersson_geographic_region_spy
-			}
-		}
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = andersson_spy_fossil_var
-				}
-			}
-			set_variable = {
-				name = andersson_spy_fossil_var
-				value = 0
-			}
-		}
-		change_variable = { #Spy fossils the TAG found
-			name = andersson_spy_fossil_var
-			add = 1
-		}
-	}
-
-	#Krapina Fossils
-	if = {
-		limit = {
-			scope:andersson_cave_state_scope = {
-				is_in_geographic_region = andersson_geographic_region_krapina
-			}
-		}
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = andersson_krapina_fossil_var
-				}
-			}
-			set_variable = {
-				name = andersson_krapina_fossil_var
-				value = 0
-			}
-		}
-		change_variable = { #Krapina fossils the TAG found
-			name = andersson_krapina_fossil_var
-			add = 1
-		}
-	}
-
-	#Galilee Fossils
-	if = {
-		limit = {
-			scope:andersson_cave_state_scope = {
-				is_in_geographic_region = andersson_geographic_region_galilee
-			}
-		}
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = andersson_galilee_fossil_var
-				}
-			}
-			set_variable = {
-				name = andersson_galilee_fossil_var
-				value = 0
-			}
-		}
-		change_variable = { #Galilee fossils the TAG found
-			name = andersson_galilee_fossil_var
-			add = 1
-		}
-	}
-}
-
-#Add Pithecanthropus Fossil
-andersson_add_pithecanthropus_fossil_effect = {
-	#General Fossil for Statistics
-	andersson_add_x_human_fossils_effect = { AMOUNT = 1 }
-	#5 Anthropological Pretsige for each specific fossil
-	andersson_change_anthropological_rating = { AMOUNT = 1 }
-	#Pithecanthropus Fossil
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = andersson_pithecanthropus_fossil_var
-			}
-		}
-		set_variable = {
-			name = andersson_pithecanthropus_fossil_var
-			value = 0
-		}
-	}
-	change_variable = { #Total human fossils the TAG found
-		name = andersson_pithecanthropus_fossil_var
-		add = 1
-	}
-	change_global_variable = { #Total human fossil found worldwide
-		name = andersson_pithecanthropus_fossil_var
-		add = 1
-	}
-	#Pithecanthropus Fossils the Anthropologist found
-	if = {
-		limit = { has_variable = andersson_anthropologist_var }
-		var:andersson_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = andersson_pithecanthropus_fossils_anthropologist_var } }
-				set_variable = {
-					name = andersson_pithecanthropus_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = andersson_pithecanthropus_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-
-	#Heidelberg Fossils
-	if = {
-		limit = {
-			scope:andersson_cave_state_scope = {
-				is_in_geographic_region = andersson_geographic_region_heidelberg
-			}
-		}
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = andersson_heidelberg_fossil_var
-				}
-			}
-			set_variable = {
-				name = andersson_heidelberg_fossil_var
-				value = 0
-			}
-		}
-		change_variable = { #Heidelberg fossils the TAG found
-			name = andersson_heidelberg_fossil_var
-			add = 1
-		}
-	}
-
-	#Rhodesian Fossils
-	if = {
-		limit = {
-			scope:andersson_cave_state_scope = {
-				is_in_geographic_region = andersson_geographic_region_rhodesian
-			}
-		}
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = andersson_rhodesian_fossil_var
-				}
-			}
-			set_variable = {
-				name = andersson_rhodesian_fossil_var
-				value = 0
-			}
-		}
-		change_variable = { #Rhodesian fossils the TAG found
-			name = andersson_rhodesian_fossil_var
-			add = 1
-		}
-	}
-
-	#Peking Fossils
-	if = {
-		limit = {
-			scope:andersson_cave_state_scope = {
-				is_in_geographic_region = andersson_geographic_region_peking
-			}
-		}
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = andersson_peking_fossil_var
-				}
-			}
-			set_variable = {
-				name = andersson_peking_fossil_var
-				value = 0
-			}
-		}
-		change_variable = { #Peking fossils the TAG found
-			name = andersson_peking_fossil_var
-			add = 1
-		}
-	}
-
-	#Java Fossils
-	if = {
-		limit = {
-			scope:andersson_cave_state_scope = {
-				is_in_geographic_region = andersson_geographic_region_java
-			}
-		}
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = andersson_java_fossil_var
-				}
-			}
-			set_variable = {
-				name = andersson_java_fossil_var
-				value = 0
-			}
-		}
-		change_variable = { #Java fossils the TAG found
-			name = andersson_java_fossil_var
-			add = 1
-		}
-	}
-}
-
-#Add Australopithecus Fossil
-andersson_add_australopithecus_fossil_effect = {
-	#General Fossil for Statistics
-	andersson_add_x_human_fossils_effect = { AMOUNT = 1 }
-	#5 Anthropological Pretsige for each specific fossil
-	andersson_change_anthropological_rating = { AMOUNT = 1 }
-	#Australopithecus Fossil
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = andersson_australopithecus_fossil_var
-			}
-		}
-		set_variable = {
-			name = andersson_australopithecus_fossil_var
-			value = 0
-		}
-	}
-	change_variable = { #Total human fossils the TAG found
-		name = andersson_australopithecus_fossil_var
-		add = 1
-	}
-	change_global_variable = { #Total human fossil found worldwide
-		name = andersson_australopithecus_fossil_var
-		add = 1
-	}
-	#Australopithecus Fossils the Anthropologist found
-	if = {
-		limit = { has_variable = andersson_anthropologist_var }
-		var:andersson_anthropologist_var = {
-			if = {
-				limit = { NOT = { has_variable = andersson_australopithecus_fossils_anthropologist_var } }
-				set_variable = {
-					name = andersson_australopithecus_fossils_anthropologist_var
-					value = 0
-				}
-			}
-			change_variable = {
-				name = andersson_australopithecus_fossils_anthropologist_var
-				add = 1
-			}
-		}
-	}
-
-	#Australopithecus Fossils
-	if = {
-		limit = {
-			scope:andersson_cave_state_scope = {
-				is_in_geographic_region = andersson_geographic_region_australopithecus
-			}
-		}
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = andersson_australopithecus_fossil_var
-				}
-			}
-			set_variable = {
-				name = andersson_australopithecus_fossil_var
-				value = 0
-			}
-		}
-		change_variable = { #Australopithecus fossils the TAG found
-			name = andersson_australopithecus_fossil_var
-			add = 1
-		}
-	}
-}
-
 #######################################################################
 
 ###CAVE EXPLORATION###
@@ -999,6 +235,22 @@ andersson_remove_prospecting_effect = {
 			has_variable = andersson_hominid_prospecting_var
 		}
 		remove_variable = andersson_hominid_prospecting_var
+	}
+}
+
+andersson_remove_expedition_effect = {
+	random_direct_subject = {
+		limit = {
+			any_scope_state = {
+				has_variable = andersson_hominid_expedition_var
+			}
+		}
+		random_scope_state = {
+			limit = {
+				has_variable = andersson_hominid_expedition_var
+			}
+			remove_variable = andersson_hominid_expedition_var
+		}
 	}
 }
 
@@ -1535,6 +787,518 @@ andersson_hominid_prospecting_collecting_event_effect = {
 
 ###############################################################################
 
+### HOMINID EXPEDITION ###
+
+andersson_expedition_neoanthropus_discovery_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = andersson_vero_global_var
+			}
+			any_direct_subject = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+					is_in_geographic_region = andersson_geographic_region_vero
+				}
+			}
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_vero_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_vero_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_vero_year_global_var
+			value = year
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = andersson_lagoa_santa_global_var
+			}
+			any_direct_subject = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+					is_in_geographic_region = andersson_geographic_region_lagoa_santa
+				}
+			}
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_lagoa_santa_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_lagoa_santa_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_lagoa_santa_year_global_var
+			value = year
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = andersson_cro_magnon_global_var
+			}
+			any_direct_subject = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+					is_in_geographic_region = andersson_geographic_region_cro_magnon
+				}
+			}
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_cro_magnon_global_var
+					value = this
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_cro_magnon_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_cro_magnon_year_global_var
+			value = year
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = andersson_boskop_global_var
+			}
+			any_direct_subject = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+					is_in_geographic_region = andersson_geographic_region_boskop
+				}
+			}
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_boskop_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_boskop_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_boskop_year_global_var
+			value = year
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = andersson_tianyuan_global_var
+			}
+			any_direct_subject = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+					is_in_geographic_region = andersson_geographic_region_tianyuan
+				}
+			}
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_tianyuan_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_tianyuan_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_vero_year_global_var
+			value = year
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = andersson_talgai_global_var
+			}
+			any_direct_subject = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+					is_in_geographic_region = andersson_geographic_region_talgai
+				}
+			}
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_talgai_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_talgai_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_talgai_year_global_var
+			value = year
+		}
+	}
+}
+
+andersson_expedition_palaeanthropus_discovery_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = andersson_neanderthal_global_var
+			}
+			any_direct_subject = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+					is_in_geographic_region = andersson_geographic_region_neanderthal
+				}
+			}
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_neanderthal_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_neanderthal_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_neanderthal_year_global_var
+			value = year
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = andersson_gibraltar_global_var
+			}
+			any_direct_subject = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+					is_in_geographic_region = andersson_geographic_region_gibraltar
+				}
+			}
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_gibraltar_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_gibraltar_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_gibraltar_year_global_var
+			value = year
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = andersson_spy_global_var
+			}
+			any_direct_subject = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+					is_in_geographic_region = andersson_geographic_region_spy
+				}
+			}
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_spy_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_spy_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_spy_year_global_var
+			value = year
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = andersson_krapina_global_var
+			}
+			any_direct_subject = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+					is_in_geographic_region = andersson_geographic_region_krapina
+				}
+			}
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_krapina_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_krapina_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_krapina_year_global_var
+			value = year
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = andersson_galilee_global_var
+			}
+			any_direct_subject = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+					is_in_geographic_region = andersson_geographic_region_galilee
+				}
+			}
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_galilee_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_galilee_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_galilee_year_global_var
+			value = year
+		}
+	}
+}
+
+andersson_expedition_pithecanthropus_discovery_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = andersson_heidelberg_global_var
+			}
+			any_direct_subject = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+					is_in_geographic_region = andersson_geographic_region_heidelberg
+				}
+			}
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_heidelberg_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_heidelberg_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_heidelberg_year_global_var
+			value = year
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = andersson_rhodesian_global_var
+			}
+			any_direct_subject = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+					is_in_geographic_region = andersson_geographic_region_rhodesian
+				}
+			}
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_rhodesian_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_rhodesian_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_rhodesian_year_global_var
+			value = year
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = andersson_peking_global_var
+			}
+			any_direct_subject = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+					is_in_geographic_region = andersson_geographic_region_peking
+				}
+			}
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_peking_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_peking_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_peking_year_global_var
+			value = year
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = andersson_java_global_var
+			}
+			any_direct_subject = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+					is_in_geographic_region = andersson_geographic_region_java
+				}
+			}
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_java_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_java_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_java_year_global_var
+			value = year
+		}
+	}
+}
+
+andersson_expedition_australopithecus_discovery_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = andersson_australopithecus_global_var
+			}
+			any_direct_subject = {
+				any_scope_state = {
+					has_variable = andersson_hominid_expedition_var
+					is_in_geographic_region = andersson_geographic_region_australopithecus
+				}
+			}
+		}
+		scope:andersson_cave_state_scope = {
+			state_region = {
+				set_global_variable = {
+					name = andersson_australopithecus_global_var
+					value = THIS
+				}
+			}
+		}
+		country_definition = {
+			set_global_variable = {
+				name = andersson_australopithecus_country_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = andersson_australopithecus_year_global_var
+			value = year
+		}
+	}
+}
+
+###############################################################################
+
 ### Reconstruct Human Skeletons ###
 
 andersson_reconstruct_human_skeleton_effect = {
@@ -1925,7 +1689,7 @@ andersson_add_x_neoanthropus_skeleton_effect = {
 		}
 	}
 
-	andersson_change_anthropological_rating = { AMOUNT = 25 }
+	andersson_change_anthropological_prestige_by_amount_effect = { AMOUNT = 25 }
 }
 
 #Add Palaeanthropus Skeleton Effect
@@ -1995,7 +1759,7 @@ andersson_add_x_palaeanthropus_skeleton_effect = {
 		}
 	}
 
-	andersson_change_anthropological_rating = { AMOUNT = 50 }
+	andersson_change_anthropological_prestige_by_amount_effect = { AMOUNT = 50 }
 }
 
 #Add Pithecanthropus Skeleton Effect
@@ -2065,7 +1829,7 @@ andersson_add_x_pithecanthropus_skeleton_effect = {
 		}
 	}
 
-	andersson_change_anthropological_rating = { AMOUNT = 75 }
+	andersson_change_anthropological_prestige_by_amount_effect = { AMOUNT = 75 }
 }
 
 #Add Australopithecus Skeleton Effect
@@ -2135,7 +1899,7 @@ andersson_add_x_australopithecus_skeleton_effect = {
 		}
 	}
 
-	andersson_change_anthropological_rating = { AMOUNT = 100 }
+	andersson_change_anthropological_prestige_by_amount_effect = { AMOUNT = 100 }
 }
 
 ################################################################################
@@ -2175,8 +1939,85 @@ andersson_add_paranthropus_fossil_effect = {
 		set_variable = andersson_paranthropus_fossil_var
 		#General Fossil for Statistics
 		andersson_add_x_human_fossils_effect = { AMOUNT = 1 }
-		#5 Anthropological Pretsige for each specific fossil
-		andersson_change_anthropological_rating = { AMOUNT = 80 }
+		#Special Fossil
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = andersson_special_human_fossil_var
+				}
+			}
+			set_variable = {
+				name = andersson_special_human_fossil_var
+				value = 0
+			}
+		}
+		change_variable = {
+			name = andersson_special_human_fossil_var
+			add = 1
+		}
+	}
+}
+
+### Clovis Flake ###
+
+andersson_add_clovis_points_effect = {
+	custom_tooltip = {
+		text = andersson_add_clovis_points_effect_tt
+		set_variable = andersson_clovis_points_var
+		#Special Fossil
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = andersson_special_human_fossil_var
+				}
+			}
+			set_variable = {
+				name = andersson_special_human_fossil_var
+				value = 0
+			}
+		}
+		change_variable = {
+			name = andersson_special_human_fossil_var
+			add = 1
+		}
+	}
+}
+
+### Dragon Man ###
+
+andersson_add_dragon_fossil_effect = {
+	custom_tooltip = {
+		text = andersson_add_dragon_fossil_effect_tt
+		set_variable = andersson_dragon_fossil_var
+		#General Fossil for Statistics
+		andersson_add_x_human_fossils_effect = { AMOUNT = 1 }
+		#Special Fossil
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = andersson_special_human_fossil_var
+				}
+			}
+			set_variable = {
+				name = andersson_special_human_fossil_var
+				value = 0
+			}
+		}
+		change_variable = {
+			name = andersson_special_human_fossil_var
+			add = 1
+		}
+	}
+}
+
+### Homo floresiensis ###
+
+andersson_add_floresiensis_fossil_effect = {
+	custom_tooltip = {
+		text = andersson_add_floresiensis_fossil_effect_tt
+		set_variable = andersson_floresiensis_fossil_var
+		#General Fossil for Statistics
+		andersson_add_x_human_fossils_effect = { AMOUNT = 1 }
 		#Special Fossil
 		if = { #Fallback if the variable does not exist yet
 			limit = {
@@ -2295,85 +2136,6 @@ andersson_update_anthropological_collection_effect = {
 				production_method = pm_andersson_standard_australopithecus_skeleton
 			}
 		}
-	}
-}
-
-#######################################################################
-
-###ANTHROPOLOGICAL RATING######
-
-#Specific Human Fossil: 1 Prestige
-
-#Cave Paintings Discovery: 10 Prestige
-#Neoanthropus Discovery: 20 Prestige, Skeleton: 25 Prestige
-#Palaeanthropus Discovery: 40 Prestige, Skeleton: 50 Prestige
-#Pithecanthropus Discovery: 60 Prestige, Skeleton: 75 Prestige
-#Australopithecus Discovery: 80 Prestige, Skeleton: 100 Prestige
-
-andersson_change_anthropological_rating = {
-	# Amount = amount of artifacts to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = add_anthropological_prestige
-		value = $AMOUNT$
-	}
-
-	#Used to display the right tooltip
-	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ < -1 }
-		custom_tooltip = andersson_change_anthropological_minus_x_tt
-	}
-	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ = -1 }
-		custom_tooltip = andersson_change_anthropological_minus_1_tt
-	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = andersson_change_anthropological_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ = 1 }
-		custom_tooltip = andersson_change_anthropological_plus_1_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 1 }
-		custom_tooltip = andersson_change_anthropological_plus_x_tt
-	}
-
-	#Fallback in case the variable does not exist yet
-	if = {
-		limit = {
-			NOT = {
-				has_variable = andersson_anthropological_rating
-			}
-		}
-		set_variable = {
-			name = andersson_anthropological_rating
-			value = 0
-		}
-	}
-
-	#Actual Variable Change
-	change_variable = {
-		name = andersson_anthropological_rating
-		add = $AMOUNT$
-	}
-
-	#Adds the correct modifier
-	hidden_effect = {
-		andersson_update_anthropological_prestige_modifiers_effect = yes
-	}
-}
-
-andersson_update_anthropological_prestige_modifiers_effect = {
-	if = {
-		limit = {
-			has_modifier = andersson_anthropological_rating_modifier
-		}
-		remove_modifier = andersson_anthropological_rating_modifier
-	}
-	add_modifier = {
-		name = andersson_anthropological_rating_modifier
-		multiplier = root.var:andersson_anthropological_rating #Anthropological Rating = Anthropological Prestige
 	}
 }
 

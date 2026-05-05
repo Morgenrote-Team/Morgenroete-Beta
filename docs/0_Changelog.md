@@ -1,4 +1,5 @@
-Changelog fot 2.8.0b "Koganei"
+Changelog fot 2.8.1b "Haeckel"
 
-Fixes:
-- Academics acquired with the diplomatic action will now correctly get roles assigned.
+Fixes
+- Fixed an issues involving not finding bones anymore, but Anthropological Prestige instead.
+- Institute is fixed now. Really.

@@ -210,7 +210,7 @@ namespace = lepsius
 
 #471-500 Events with specific locations
 
-#Lepsius 471: Karnak (Upper Egypt) / Memphis (Lower Egypt) / Uruk (Babylonia) / Niniveh (Assyria) / Tiryns (Argolis) / Phaistos (Crete) / Chichen Itza (Yucatan) / Ollantaytambo (Peru)
+#Lepsius 471: Karnak (Upper Egypt) / Memphis (Lower Egypt) / Uruk (Babylonia) / Nineveh (Assyria) / Tiryns (Argolis) / Phaistos (Crete) / Chichen Itza (Yucatan) / Ollantaytambo (Peru)
 #Lepsius 472: A Lost World? (Yucatán, may lead to the LOST WORLD)
 #Lepsius 473: REMOVED
 #Lepsius 474: The mysterious Quipu (Peru), may lead to the QUEST FOR THE MASCAPAICHA
@@ -2497,6 +2497,83 @@ lepsius.62 = {
 	}
 }
 
+#Lepsius 69: Persepolis
+
+lepsius.69 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = lepsius.69.t
+	desc = lepsius.69.d
+	flavor = lepsius.69.f
+
+	placement = scope:lepsius_persepolis_state
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_archaeologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+			set_variable = {
+				name = lepsius_archaeologist_achievement_discovered_persepolis_var
+				value = flag:lepsius_archaeologist_achievement_discovered_persepolis_loc
+			}
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_FARS
+			}
+			save_scope_as = lepsius_persepolis_state
+		}
+		if = {
+			limit = {
+				NOT = {
+					var:lepsius_archaeologist_var = {
+						has_trait = lepsius_local_specialist
+					}
+				}
+			}
+			var:lepsius_archaeologist_var = {
+				add_trait = lepsius_local_specialist
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.7.g #We are primarily interested in artifacts.
+		lepsius_add_x_local_artifacts_effect = { AMOUNT = 10 }
+	}
+
+	option = {
+		name = lepsius.7.h #We want to know more about the past.
+		default_option = yes
+		lepsius_medium_add_technology = yes
+	}
+
+	option = {
+		name = lepsius.7.i #We want to train a new generation of scientists
+		archaeologist_experience_gain_effect = { AMOUNT = 30 }
+		dubois_add_x_academy_progress = {
+			AMOUNT = 60
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+	}
+}
+
 #Lepsius 70: The Tomb of the First Emperor
 
 lepsius.70 = {
@@ -2699,7 +2776,7 @@ lepsius.72 = {
 		lepsius_small_add_technology = yes
 		lepsius_add_x_local_artifacts_effect = { AMOUNT = 3 }
 		lepsius_add_x_oceanic_artifacts_effect = { AMOUNT = 2 }
-		andersson_add_x_human_fossils_effect = {
+		andersson_add_x_human_fossils_effect  = {
 			AMOUNT = 5
 		}
 		archaeologist_experience_gain_effect = { AMOUNT = 15 }
@@ -3568,8 +3645,8 @@ lepsius.81 = {
 
 		anthropologist_experience_gain_effect = { AMOUNT = 30 }
 
-		andersson_add_x_human_fossils_effect = { AMOUNT = 5 }
-		andersson_change_anthropological_rating = { AMOUNT = 5 }
+		andersson_add_x_human_fossils_effect  = { AMOUNT = 5 }
+		andersson_change_anthropological_prestige_by_amount_effect = { AMOUNT = 5 }
 	}
 }
 
@@ -8734,7 +8811,7 @@ lepsius.429 = {
 	option = { #We add it to the collection.
 		name = lepsius.429.g
 		default_option = yes
-		lepsius_add_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_skull_found_var
 		add_modifier = {
 			name = lepsius_crystall_skull_modifier
@@ -8796,7 +8873,7 @@ lepsius.430 = {
 	option = { #A national disgrace to our archeology!
 		name = lepsius.430.g
 		remove_modifier = lepsius_crystall_skull_modifier
-		lepsius_remove_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = -1 }
 		remove_variable = lepsius_major_artifact_skull_found_var
 		add_modifier = {
 			name = lepsius_fake_crystall_skull_modifier
@@ -11436,7 +11513,7 @@ lepsius.468 = {
 
 #Events with specific locations
 
-#Lepsius 471: Karnak (Upper Egypt) / Memphis (Lower Egypt) / Uruk (Babylonia) / Niniveh (Assyria) / Tiryns (Argolis) / Phaistos (Crete) / Chichen Itza (Yucatan) / Ollantaytambo (Peru)
+#Lepsius 471: Karnak (Upper Egypt) / Memphis (Lower Egypt) / Uruk (Babylonia) / Nineveh (Assyria) / Tiryns (Argolis) / Phaistos (Crete) / Chichen Itza (Yucatan) / Ollantaytambo (Peru)
 
 lepsius.471 = {
 	dlc = dlc_morgenrote
@@ -11569,7 +11646,7 @@ lepsius.471 = {
 		texture = "gfx/event_pictures/lepsius_pictures/mesopotamia/lepsius_mesopotamia_uruk.dds"
 	}
 
-	event_image = { #Assyria, Niniveh
+	event_image = { #Assyria, Nineveh
 		trigger = {
 			has_modifier = lepsius_assyria_expedition_modifier
 		}
@@ -12283,7 +12360,7 @@ lepsius.506 = {
 		default_option = yes
 		custom_tooltip = lepsius_add_archaeological_experience_tt
 		lepsius_large_add_technology = yes
-		lepsius_add_1_major_egyptian_artifact = yes
+		lepsius_add_x_major_egyptian_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_sarcophagus_found_var
 		archaeologist_experience_gain_effect = {
 			AMOUNT = "25"
@@ -12322,7 +12399,7 @@ lepsius.506 = {
 		trigger = {
 			has_variable = lepsius_sarcophagus_engine_var
 		}
-		lepsius_add_1_major_egyptian_artifact = yes
+		lepsius_add_x_major_egyptian_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_sarcophagus_found_var
 		if = { #Used for the overview of the Archaeologist
 			limit = {
@@ -13549,7 +13626,7 @@ lepsius.521 = {
 			save_scope_as = capital_scope
 		}
 	}
-	
+
 	option = { #It should be transported to $CAPITAL$ and reconstructed
 		name = lepsius.521.h
 		add_journal_entry = {
@@ -13612,7 +13689,7 @@ lepsius.530 = {
 	option = { #Magnificient!
 		name = lepsius.530.g
 		set_variable = 	lepsius_major_artifact_ishtar_found_var
-		lepsius_add_1_major_mesopotamian_artifact = yes
+		lepsius_add_x_major_mesopotamian_artifacts = { AMOUNT = 1 }
 	}
 }
 
@@ -14639,7 +14716,7 @@ lepsius.540 = {
 		archaeologist_experience_gain_effect = {
 			AMOUNT = "25"
 		}
-		lepsius_add_1_major_mesopotamian_artifact = yes
+		lepsius_add_x_major_mesopotamian_artifacts = { AMOUNT = 1 }
 		scope:lepsius_military_attache = {
 			if = {
 				limit = {
@@ -14657,13 +14734,84 @@ lepsius.540 = {
 
 ###THE LABYRINTH (Crete)
 
+#Lepsius 550: A Mysterious Palace
+
+lepsius.550 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+    placement = scope:lepsius_labyrinth_state	
+
+    title = lepsius.550.t
+
+    desc = lepsius.550.d
+
+	flavor = lepsius.550.f
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/greece/lepsius_greece_phaistos.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		OR = {
+			has_modifier = lepsius_crete_expedition_modifier
+			has_modifier = lepsius_crete_excavation_modifier
+		}
+		NOR = {
+			has_game_rule = lepsius_only_historical_rule
+			has_variable = lepsius_narrative_labyrinth_var #only once in a game
+		}
+		var:lepsius_archaeological_expedition_progress >= 4 #will not trigger in the beginning of an expedition
+	}
+
+	immediate = {
+		set_variable = lepsius_narrative_labyrinth_var #only once in game
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
+	}
+
+	option = { #We should explore it.
+		name = lepsius.550.g
+		custom_tooltip = lepsius.550.tt
+		archaeologist_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					lepsius_on_archaeological_expedition = yes
+				}
+				lepsius_archaeological_expedition_progress = yes
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 50
+		}
+	}
+}
+
 #Lepsius 551: An archaeological Incident
 
 lepsius.551 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.551.t
 
@@ -14687,14 +14835,18 @@ lepsius.551 = {
 		}
 		NOT = {
 			has_variable = lepsius_narrative_labyrinth_var #only once in a game
-			var:lepsius_archaeological_expedition_progress >= 4 #will only trigger in the beginning of an expedition
 		}
 	}
 
 	immediate = {
-		lepsius_archaeological_expedition_location = yes
-		set_archaeological_expedition_leader_effect = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
 	}
+
 	option = { #What happened to him?
 		name = lepsius.551.g
 		set_variable = lepsius_narrative_labyrinth_var #only once in game
@@ -14708,14 +14860,6 @@ lepsius.551 = {
 		}
 	}
 	after = {
-		hidden_effect = {
-			if = {
-				limit = {
-					lepsius_on_archaeological_expedition = yes
-				}
-				lepsius_archaeological_expedition_progress = yes
-			}
-		}
 	}
 }
 
@@ -14725,7 +14869,7 @@ lepsius.552 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.552.t
 
@@ -14743,9 +14887,14 @@ lepsius.552 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		lepsius_archaeological_expedition_location = yes
-			set_archaeological_expedition_leader_effect = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
 	}
+
 	option = { #I hope we don't encounter any bull-like mythical creatures...
 		name = lepsius.552.g
 		set_variable = {
@@ -14771,7 +14920,7 @@ lepsius.553 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.553.t
 
@@ -14787,13 +14936,42 @@ lepsius.553 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
-	immediate = {
-		lepsius_archaeological_expedition_location = yes
-		set_archaeological_expedition_leader_effect = yes
+	trigger = {
+		je:je_lepsius_the_labyrinth = {
+			"scripted_bar_progress(lepsius_labyrinth_confusion_bar)" < 4
+		}
 	}
+
+	cancellation_trigger = {
+		OR = {
+			has_variable = lepsius_narrative_labyrinth_fail_var
+			has_variable = lepsius_narrative_labyrinth_success_var
+		}
+	}
+
+	immediate = {
+		je:je_lepsius_the_labyrinth = {
+			add_progress = {
+				name = lepsius_labyrinth_progress_bar
+				value = -4
+			}
+		}
+		je:je_lepsius_the_labyrinth = {
+			add_progress = {
+				name = lepsius_labyrinth_confusion_bar
+				value = 1
+			}
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
+	}
+
 	option = { #It's a heck of a deja vu!
 		name = lepsius.553.g
-		lepsius_add_confusion = yes
 		hidden_effect = {
 			trigger_event = {
 				id = lepsius.554
@@ -14814,7 +14992,7 @@ lepsius.554 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.554.t
 
@@ -14830,14 +15008,28 @@ lepsius.554 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		je:je_lepsius_the_labyrinth = {
+			"scripted_bar_progress(lepsius_labyrinth_confusion_bar)" < 4
+		}
+	}
+
 	cancellation_trigger = {
-		has_variable = lepsius_labyrinth_fail_var
+		OR = {
+			has_variable = lepsius_narrative_labyrinth_fail_var
+			has_variable = lepsius_narrative_labyrinth_success_var
+		}
 	}
 
 	immediate = {
-		lepsius_archaeological_expedition_location = yes
-		set_archaeological_expedition_leader_effect = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
 	}
+
 	option = { #Left [TRAP]
 		name = lepsius.554.g
 		default_option = yes
@@ -14871,6 +15063,12 @@ lepsius.554 = {
 	option = { #Downstairs, Poseidon ramming the trident in the ground [RIGHT]
 		name = lepsius.554.j
 		hidden_effect = {
+			je:je_lepsius_the_labyrinth = {
+				add_progress = {
+					name = lepsius_labyrinth_progress_bar
+					value = 1
+				}
+			}
 			trigger_event = {
 				id = lepsius.555
 				popup = yes
@@ -14885,7 +15083,7 @@ lepsius.555 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.555.t
 
@@ -14901,16 +15099,51 @@ lepsius.555 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		je:je_lepsius_the_labyrinth = {
+			"scripted_bar_progress(lepsius_labyrinth_confusion_bar)" < 4
+		}
+	}
+
 	cancellation_trigger = {
-		has_variable = lepsius_labyrinth_fail_var
+		OR = {
+			has_variable = lepsius_narrative_labyrinth_fail_var
+			has_variable = lepsius_narrative_labyrinth_success_var
+		}
 	}
 
 	immediate = {
-		lepsius_archaeological_expedition_location = yes
-		set_archaeological_expedition_leader_effect = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
 	}
-	option = { #Westen Corridor [RETURN]
+
+	option = { #Eastern Corridor, Eos [RIGHT]
 		name = lepsius.555.g
+		trigger = {
+			NOT = {
+				has_variable = lepsius_labyrinth_false_answer_var
+			}
+		}
+		hidden_effect = {
+			je:je_lepsius_the_labyrinth = {
+				add_progress = {
+					name = lepsius_labyrinth_progress_bar
+					value = 1
+				}
+			}
+			trigger_event = {
+				id = lepsius.556
+				popup = yes
+			}
+		}
+	}
+
+	option = { #Westen Corridor [RETURN]
+		name = lepsius.555.h
 		default_option = yes
 		hidden_effect = {
 			trigger_event = {
@@ -14919,15 +15152,7 @@ lepsius.555 = {
 			}
 		}
 	}
-	option = { #Eastern Corridor, Eos [RIGHT]
-		name = lepsius.555.h
-		hidden_effect = {
-			trigger_event = {
-				id = lepsius.556
-				popup = yes
-			}
-		}
-	}
+
 	option = { #Follow the Corridor [RETURN]
 		name = lepsius.555.i
 		hidden_effect = {
@@ -14945,7 +15170,7 @@ lepsius.556 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.556.t
 
@@ -14961,26 +15186,53 @@ lepsius.556 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		je:je_lepsius_the_labyrinth = {
+			"scripted_bar_progress(lepsius_labyrinth_confusion_bar)" < 4
+		}
+	}
+
 	cancellation_trigger = {
-		has_variable = lepsius_labyrinth_fail_var
+		OR = {
+			has_variable = lepsius_narrative_labyrinth_fail_var
+			has_variable = lepsius_narrative_labyrinth_success_var
+		}
 	}
 
 	immediate = {
-		lepsius_archaeological_expedition_location = yes
-		set_archaeological_expedition_leader_effect = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
 	}
+
 	option = { #Door I, Ariadne with her thread [RIGHT]
 		name = lepsius.556.g
 		default_option = yes
+		trigger = {
+			NOT = {
+				has_variable = lepsius_labyrinth_false_answer_var
+			}
+		}
 		hidden_effect = {
+			je:je_lepsius_the_labyrinth = {
+				add_progress = {
+					name = lepsius_labyrinth_progress_bar
+					value = 1
+				}
+			}
 			trigger_event = {
 				id = lepsius.557
 				popup = yes
 			}
 		}
 	}
+
 	option = { #Door II [TRAP]
 		name = lepsius.556.h
+		set_variable = lepsius_labyrinth_false_answer_var
 		hidden_effect = {
 			trigger_event = {
 				id = lepsius.557
@@ -14988,6 +15240,7 @@ lepsius.556 = {
 			}
 		}
 	}
+
 	option = { #Door III [RETURN]
 		name = lepsius.556.i
 		hidden_effect = {
@@ -14998,7 +15251,7 @@ lepsius.556 = {
 		}
 	}
 	option = { #Door IV [RETURN]
-		name = lepsius.556.i
+		name = lepsius.556.j
 		hidden_effect = {
 			trigger_event = {
 				id = lepsius.553
@@ -15014,7 +15267,7 @@ lepsius.557 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.557.t
 
@@ -15031,13 +15284,21 @@ lepsius.557 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	cancellation_trigger = {
-		has_variable = lepsius_labyrinth_fail_var
+		OR = {
+			has_variable = lepsius_narrative_labyrinth_fail_var
+			has_variable = lepsius_narrative_labyrinth_success_var
+		}
 	}
 
 	immediate = {
-		lepsius_archaeological_expedition_location = yes
-		set_archaeological_expedition_leader_effect = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
 	}
+
 	option = { #Rhodes [RETURN]
 		name = lepsius.557.g
 		default_option = yes
@@ -15073,7 +15334,14 @@ lepsius.557 = {
 				has_variable = lepsius_labyrinth_false_answer_var
 			}
 		}
-		set_variable = lepsius_narrative_labyrinth_success_var
+		hidden_effect = {
+			je:je_lepsius_the_labyrinth = {
+				add_progress = {
+					name = lepsius_labyrinth_progress_bar
+					value = 1
+				}
+			}
+		}
 	}
 }
 
@@ -15083,7 +15351,7 @@ lepsius.558 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.558.t
 
@@ -15100,29 +15368,32 @@ lepsius.558 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		lepsius_archaeological_expedition_location = yes
-		set_archaeological_expedition_leader_effect = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
 	}
+
 	option = { #What just happened down there?
 		name = lepsius.558.g
-		scope:lepsius_archaeological_expedition_leader = {
+		#Archaeologist remains "busy"
+		var:lepsius_archaeologist_var = {
 			add_trait = wounded
-			add_trait = alcoholic
-			add_trait = wounded
-			set_variable = lepsius_minotaur_trauma_var
-			add_modifier = {
-				name = lepsius_lost_honor_modifier
-			}
+			add_trait = psychological_affliction
 			add_modifier = {
 				name = lepsius_wrath_of_the_minotaur_modifier
-				days = 500
+				days = 100
 			}
 		}
+	}
+
+	after = {
 		hidden_effect = {
 			trigger_event = {
 				id = lepsius.559
-				popup = yes
-				days = 500
+				days = 90
 			}
 		}
 	}
@@ -15150,17 +15421,11 @@ lepsius.559 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
-		has_variable = lepsius_archaeologist_var
 		var:lepsius_archaeologist_var = {
-			has_variable = lepsius_minotaur_trauma_var
+			has_modifier = lepsius_wrath_of_the_minotaur_modifier
 		}
 	}
 
-	immediate = {
-		var:lepsius_archaeologist_var = {
-			save_scope_as = lepsius_minotaur_victim
-		}
-	}
 	option = { #But was it really suicide?
 		name = lepsius.559.g
 		kill_archaeologist_effect = yes
@@ -15173,7 +15438,7 @@ lepsius.560 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-    placement = scope:lepsius_arrival_state
+    placement = scope:lepsius_labyrinth_state
 
     title = lepsius.560.t
 
@@ -15190,23 +15455,45 @@ lepsius.560 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		lepsius_archaeological_expedition_location = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_labyrinth_state
+		}
+		var:lepsius_archaeologist_var ?= {
+			set_variable = {
+				name = lepsius_archaeologist_achievement_escaped_labyrinth_var
+				value = flag:lepsius_archaeologist_achievement_escaped_labyrinth_loc
+			}
+		}
+		#This is used to keep track of the country and year of the discovery of the Artifact
 		if = {
 			limit = {
-				has_variable = lepsius_archaeologist_var
-			}
-			var:lepsius_archaeologist_var = {
-				set_variable = {
-					name = lepsius_archaeologist_achievement_escaped_labyrinth_var
-					value = flag:lepsius_archaeologist_achievement_escaped_labyrinth_loc
+				NOT = {
+					has_global_variable = lepsius_ariadne_discoverer_global_var
 				}
+			}
+			set_global_variable = {
+				name = lepsius_ariadne_discoverer_global_var
+				value = root.country_definition
+			}
+			set_global_variable = {
+				name = lepsius_ariadne_year_global_var
+				value = year
 			}
 		}
 	}
+
 	option = { #Could this have been ... the legendary labyrinth of Daidalos?
 		name = lepsius.560.g
+		lepsius_add_x_major_aegean_artifacts = { AMOUNT = 1 }
+		set_variable = lepsius_major_artifact_ariadne_found_var
 		archaeologist_experience_gain_effect = {
-			AMOUNT = "50"
+			AMOUNT = 30
+		}
+		var:lepsius_archaeologist_var = {
+			set_character_busy_and_immortal = no
 		}
 	}
 }
@@ -15966,7 +16253,7 @@ lepsius.576 = {
 	option = { #This must be the crown of Huayna Capac!
 		name = lepsius.576.g
 		default_option = yes
-		lepsius_add_1_major_precolumbian_artifact = yes
+		lepsius_add_x_major_precolumbian_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_manco_found_var
 		archaeologist_experience_gain_effect = {
 			AMOUNT = 25
@@ -16600,7 +16887,7 @@ lepsius.588 = {
 
 	option = { #He chose ... wisely.
 		name = lepsius.588.g
-		lepsius_add_1_major_precolumbian_artifact = yes
+		lepsius_add_x_major_precolumbian_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_kukulkan_found_var
 		hidden_effect = {
 			trigger_event = {
@@ -16978,77 +17265,77 @@ lepsius.706 = {
 			limit = {
 				has_variable = lepsius_smuggle_tut_var
 			}
-			lepsius_add_1_major_egyptian_artifact = yes
+			lepsius_add_x_major_egyptian_artifacts = { AMOUNT = 1 }
 			set_variable = lepsius_major_artifact_tut_found_var
 		}
 		if = {
 			limit = {
 				has_variable = lepsius_smuggle_nefertiti_var
 			}
-			lepsius_add_1_major_egyptian_artifact = yes
+			lepsius_add_x_major_egyptian_artifacts = { AMOUNT = 1 }
 			set_variable = lepsius_major_artifact_nefertiti_found_var
 		}
 		if = {
 			limit = {
 				has_variable = lepsius_smuggle_narmer_var
 			}
-			lepsius_add_1_major_egyptian_artifact = yes
+			lepsius_add_x_major_egyptian_artifacts = { AMOUNT = 1 }
 			set_variable = lepsius_major_artifact_narmer_found_var
 		}
 		if = {
 			limit = {
 				has_variable = lepsius_smuggle_sargon_var
 			}
-			lepsius_add_1_major_mesopotamian_artifact = yes
+			lepsius_add_x_major_mesopotamian_artifacts = { AMOUNT = 1 }
 			set_variable = lepsius_major_artifact_sargon_found_var
 		}
 		if = {
 			limit = {
 				has_variable = lepsius_smuggle_meskalamdug_var
 			}
-			lepsius_add_1_major_mesopotamian_artifact = yes
+			lepsius_add_x_major_mesopotamian_artifacts = { AMOUNT = 1 }
 			set_variable = lepsius_major_artifact_meskalamdug_found_var
 		}
 		if = {
 			limit = {
 				has_variable = lepsius_smuggle_agamemnon_var
 			}
-			lepsius_add_1_major_aegean_artifact = yes
+			lepsius_add_x_major_aegean_artifacts = { AMOUNT = 1 }
 			set_variable = lepsius_major_artifact_agamemnon_found_var
 		}
 		if = {
 			limit = {
 				has_variable = lepsius_smuggle_diskos_var
 			}
-			lepsius_add_1_major_aegean_artifact = yes
+			lepsius_add_x_major_aegean_artifacts = { AMOUNT = 1 }
 			set_variable = lepsius_major_artifact_diskos_found_var
 		}
 		if = {
 			limit = {
 				has_variable = lepsius_smuggle_snake_var
 			}
-			lepsius_add_1_major_aegean_artifact = yes
+			lepsius_add_x_major_aegean_artifacts = { AMOUNT = 1 }
 			set_variable = lepsius_major_artifact_snake_found_var
 		}
 		if = {
 			limit = {
 				has_variable = lepsius_smuggle_rhyton_var
 			}
-			lepsius_add_1_major_aegean_artifact = yes
+			lepsius_add_x_major_aegean_artifacts = { AMOUNT = 1 }
 			set_variable = lepsius_major_artifact_rhyton_found_var
 		}
 		if = {
 			limit = {
 				has_variable = lepsius_smuggle_pakal_var
 			}
-			lepsius_add_1_major_precolumbian_artifact = yes
+			lepsius_add_x_major_precolumbian_artifacts = { AMOUNT = 1 }
 			set_variable = lepsius_major_artifact_pakal_found_var
 		}
 		if = {
 			limit = {
 				has_variable = lepsius_smuggle_plaque_var
 			}
-			lepsius_add_1_major_precolumbian_artifact = yes
+			lepsius_add_x_major_precolumbian_artifacts = { AMOUNT = 1 }
 			set_variable = lepsius_major_artifact_plaque_found_var
 		}
 	}
@@ -17122,7 +17409,7 @@ lepsius.711 = {
 			}
 		}
 		default_option = yes
-		lepsius_add_1_major_egyptian_artifact = yes
+		lepsius_add_x_major_egyptian_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_tut_found_var
 	}
 	option = { #We should try to get the artifact out of the country safely...
@@ -17211,7 +17498,7 @@ lepsius.712 = {
 			}
 		}
 		default_option = yes
-		lepsius_add_1_major_egyptian_artifact = yes
+		lepsius_add_x_major_egyptian_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_nefertiti_found_var
 	}
 	option = { #We should try to get the artifact out of the country safely...
@@ -17308,7 +17595,7 @@ lepsius.713 = {
 			}
 		}
 		default_option = yes
-		lepsius_add_1_major_egyptian_artifact = yes
+		lepsius_add_x_major_egyptian_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_narmer_found_var
 	}
 	option = { #We should try to get the artifact out of the country safely...
@@ -17376,7 +17663,7 @@ lepsius.714 = {
 
 	immediate = {
 	}
-	
+
 	option = { #It should be transported to $CAPITAL$ and reconstructed
 		name = lepsius.714.g
 		add_journal_entry = {
@@ -17428,7 +17715,7 @@ lepsius.715 = {
 	option = { #It will be the finest exhibit in our collection.
 		name = lepsius.715.g
 		default_option = yes
-		lepsius_add_1_major_egyptian_artifact = yes
+		lepsius_add_x_major_egyptian_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_needle_found_var
 		custom_tooltip = {
 			text = lepsius.715.tt
@@ -17481,7 +17768,7 @@ lepsius.721 = {
 
 	option = { #The oldest epic in human history...
 		name = lepsius.721.g
-		lepsius_add_1_major_mesopotamian_artifact = yes
+		lepsius_add_x_major_mesopotamian_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_gilgamesh_found_var
 		lepsius_update_exhibition_effect = yes
 	}
@@ -17535,7 +17822,7 @@ lepsius.722 = {
 			}
 		}
 		default_option = yes
-		lepsius_add_1_major_mesopotamian_artifact = yes
+		lepsius_add_x_major_mesopotamian_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_sargon_found_var
 	}
 	option = { #We should try to get the artifact out of the country safely...
@@ -17631,7 +17918,7 @@ lepsius.723 = {
 			}
 		}
 		default_option = yes
-		lepsius_add_1_major_mesopotamian_artifact = yes
+		lepsius_add_x_major_mesopotamian_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_meskalamdug_found_var
 	}
 	option = { #We should try to get the artifact out of the country safely...
@@ -17725,7 +18012,7 @@ lepsius.731 = {
 			}
 		}
 		default_option = yes
-		lepsius_add_1_major_aegean_artifact = yes
+		lepsius_add_x_major_aegean_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_agamemnon_found_var
 	}
 	option = { #We should try to get the artifact out of the country safely...
@@ -17813,7 +18100,7 @@ lepsius.732 = {
 			}
 		}
 		default_option = yes
-		lepsius_add_1_major_aegean_artifact = yes
+		lepsius_add_x_major_aegean_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_diskos_found_var
 	}
 	option = { #We should try to get the artifact out of the country safely...
@@ -17909,7 +18196,7 @@ lepsius.733 = {
 			}
 		}
 		default_option = yes
-		lepsius_add_1_major_aegean_artifact = yes
+		lepsius_add_x_major_aegean_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_snake_found_var
 	}
 	option = { #We should try to get the artifact out of the country safely...
@@ -18005,7 +18292,7 @@ lepsius.734 = {
 			}
 		}
 		default_option = yes
-		lepsius_add_1_major_aegean_artifact = yes
+		lepsius_add_x_major_aegean_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_rhyton_found_var
 	}
 	option = { #We should try to get the artifact out of the country safely...
@@ -18171,7 +18458,7 @@ lepsius.743 = {
 		name = lepsius.743.g
 		default_option = yes
 		set_variable = lepsius_major_artifact_priam_found_var
-		lepsius_add_1_major_aegean_artifact = yes
+		lepsius_add_x_major_aegean_artifacts = { AMOUNT = 1 }
 		lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 10 }
 
 		lepsius_remove_new_archaeologist_effect = yes
@@ -18278,7 +18565,7 @@ lepsius.751 = {
 		trigger = {
 			lepsius_has_archaeological_museum = yes
 		}
-		lepsius_add_1_major_precolumbian_artifact = yes
+		lepsius_add_x_major_precolumbian_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_raft_found_var
 		lepsius_update_exhibition_effect = yes
 	}
@@ -18328,8 +18615,8 @@ lepsius.752 = {
 	option = {
 		name = lepsius.752.g #We need this artifact at any cost!
 		default_option = yes
-		
-		lepsius_add_1_major_precolumbian_artifact = yes
+
+		lepsius_add_x_major_precolumbian_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_raft_found_var
 		add_treasury = -1000000
 		ROOT = {
@@ -18428,7 +18715,7 @@ lepsius.771 = {
 			}
 		}
 		default_option = yes
-		lepsius_add_1_major_precolumbian_artifact = yes
+		lepsius_add_x_major_precolumbian_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_pakal_found_var
 	}
 	option = { #We should try to get the artifact out of the country safely...
@@ -18516,7 +18803,7 @@ lepsius.772 = {
 			}
 		}
 		default_option = yes
-		lepsius_add_1_major_precolumbian_artifact = yes
+		lepsius_add_x_major_precolumbian_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_plaque_found_var
 	}
 	option = { #We should try to get the artifact out of the country safely...
@@ -18584,7 +18871,7 @@ lepsius.773 = {
 
 	immediate = {
 	}
-	
+
 	option = { #It should be transported to $CAPITAL$ and reconstructed
 		name = lepsius.773.g
 		add_journal_entry = {
@@ -18636,7 +18923,7 @@ lepsius.774 = {
 	option = { #It will be the finest exhibit in our collection.
 		name = lepsius.711.g
 		default_option = yes
-		lepsius_add_1_major_precolumbian_artifact = yes
+		lepsius_add_x_major_precolumbian_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_stele_found_var
 	}
 }
@@ -19533,7 +19820,6 @@ lepsius.911 = {
 			name = lepsius_discovery_ship_modifier
 		}
 		lepsius_add_x_egyptian_artifacts_effect = { AMOUNT = 10 }
-		custom_tooltip = lepsius_add_10_egyptian_artifact_tt
 		archaeologist_experience_gain_effect = {
 			AMOUNT = "50"
 		}
@@ -19825,8 +20111,8 @@ lepsius.941 = {
 			}
 			var:lepsius_archaeologist_var = {
 				set_variable = {
-					name = lepsius_archaeologist_achivement_found_treasury_of_atreus_var
-					value = flag:lepsius_archaeologist_achivement_found_treasury_of_atreus_loc
+					name = lepsius_archaeologist_achievement_found_treasury_of_atreus_var
+					value = flag:lepsius_archaeologist_achievement_found_treasury_of_atreus_loc
 				}
 			}
 		}
@@ -25728,6 +26014,7 @@ lepsius.2105 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
+		NOT = { has_variable = lepsius_major_artifact_hildesheim_treasure_found_var }
 		any_scope_state = {
 			state_region = s:STATE_HANNOVER
 		}
@@ -25761,7 +26048,7 @@ lepsius.2105 = {
 	option = { #It will be the finest exhibit in our collection.
 		name = lepsius.2105.g
 		default_option = yes
-		lepsius_add_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_hildesheim_treasure_found_var
 	}
 }
@@ -25999,6 +26286,7 @@ lepsius.2115 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
+		NOT = { has_variable = lepsius_major_artifact_oxus_treasure_found_var }
 		any_scope_state = {
 			state_region = s:STATE_TAJIKISTAN
 		}
@@ -26032,7 +26320,7 @@ lepsius.2115 = {
 	option = { #It will be the finest exhibit in our collection.
 		name = lepsius.2115.g
 		default_option = yes
-		lepsius_add_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_oxus_treasure_found_var
 	}
 }
@@ -26269,6 +26557,7 @@ lepsius.2135 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
+		NOT = { has_variable = lepsius_major_artifact_xochipilli_found_var }
 		any_scope_state = {
 			state_region = s:STATE_MEXICO
 		}
@@ -26302,7 +26591,7 @@ lepsius.2135 = {
 	option = { #It will be the finest exhibit in our collection.
 		name = lepsius.2135.g
 		default_option = yes
-		lepsius_add_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_xochipilli_found_var
 	}
 }
@@ -26539,6 +26828,7 @@ lepsius.2145 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
+		NOT = { has_variable = lepsius_major_artifact_ksour_essef_found_var }
 		any_scope_state = {
 			state_region = s:STATE_TUNISIA
 		}
@@ -26572,7 +26862,7 @@ lepsius.2145 = {
 	option = { #It will be the finest exhibit in our collection.
 		name = lepsius.2145.g
 		default_option = yes
-		lepsius_add_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_ksour_essef_found_var
 	}
 }
@@ -26812,6 +27102,8 @@ lepsius.2155 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
+		NOT = { has_variable = lepsius_major_artifact_gundestrap_cauldron_found_var }
+		lepsius_has_active_archaeologist = yes
 		any_scope_state = {
 			state_region = s:STATE_JUTLAND
 		}
@@ -26845,7 +27137,7 @@ lepsius.2155 = {
 	option = { #It will be the finest exhibit in our collection.
 		name = lepsius.2155.g
 		default_option = yes
-		lepsius_add_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_gundestrap_cauldron_found_var
 	}
 }
@@ -27512,6 +27804,7 @@ lepsius.2185 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
+		NOT = { has_variable = lepsius_major_artifact_antikythera_found_var }
 		any_scope_state = {
 			state_region = s:STATE_IONIAN_ISLANDS
 		}
@@ -27545,7 +27838,7 @@ lepsius.2185 = {
 	option = { #It will be the finest exhibit in our collection.
 		name = lepsius.2185.g
 		default_option = yes
-		lepsius_add_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_antikythera_found_var
 	}
 }
@@ -27799,14 +28092,14 @@ lepsius.2201 = {
 	trigger = {
 		lepsius_has_active_archaeologist = yes
 		any_scope_state = {
-			is_in_geographic_region = lepsius_geographic_region_han_dynasty 
+			is_in_geographic_region = lepsius_geographic_region_han_dynasty
 		}
 	}
 
 	immediate = {
 		random_scope_state = {
 			limit = {
-				is_in_geographic_region = lepsius_geographic_region_han_dynasty 
+				is_in_geographic_region = lepsius_geographic_region_han_dynasty
 			}
 			save_scope_as = lepsius_local_archaeological_state_scope
 		}
@@ -27851,14 +28144,14 @@ lepsius.2202 = {
 	trigger = {
 		lepsius_has_active_archaeologist = yes
 		any_scope_state = {
-			is_in_geographic_region = lepsius_geographic_region_han_dynasty 
+			is_in_geographic_region = lepsius_geographic_region_han_dynasty
 		}
 	}
 
 	immediate = {
 		random_scope_state = {
 			limit = {
-				is_in_geographic_region = lepsius_geographic_region_han_dynasty 
+				is_in_geographic_region = lepsius_geographic_region_han_dynasty
 			}
 			save_scope_as = lepsius_local_archaeological_state_scope
 		}
@@ -27902,14 +28195,14 @@ lepsius.2203 = {
 	trigger = {
 		lepsius_has_active_archaeologist = yes
 		any_scope_state = {
-			is_in_geographic_region = lepsius_geographic_region_han_dynasty 
+			is_in_geographic_region = lepsius_geographic_region_han_dynasty
 		}
 	}
 
 	immediate = {
 		random_scope_state = {
 			limit = {
-				is_in_geographic_region = lepsius_geographic_region_han_dynasty 
+				is_in_geographic_region = lepsius_geographic_region_han_dynasty
 			}
 			save_scope_as = lepsius_local_archaeological_state_scope
 		}
@@ -27955,14 +28248,14 @@ lepsius.2204 = {
 	trigger = {
 		lepsius_has_active_archaeologist = yes
 		any_scope_state = {
-			is_in_geographic_region = lepsius_geographic_region_han_dynasty 
+			is_in_geographic_region = lepsius_geographic_region_han_dynasty
 		}
 	}
 
 	immediate = {
 		random_scope_state = {
 			limit = {
-				is_in_geographic_region = lepsius_geographic_region_han_dynasty 
+				is_in_geographic_region = lepsius_geographic_region_han_dynasty
 			}
 			save_scope_as = lepsius_local_archaeological_state_scope
 		}
@@ -28006,6 +28299,7 @@ lepsius.2205 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
+		NOT = { has_variable = lepsius_major_artifact_gansu_horse_found_var }
 		any_scope_state = {
 			state_region = s:STATE_GANSU
 		}
@@ -28039,7 +28333,7 @@ lepsius.2205 = {
 	option = { #It will be the finest exhibit in our collection.
 		name = lepsius.2205.g
 		default_option = yes
-		lepsius_add_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_gansu_horse_found_var
 	}
 }
@@ -28283,6 +28577,7 @@ lepsius.2215 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
+		NOT = { has_variable = lepsius_major_artifact_silla_crown_found_var }
 		any_scope_state = {
 			state_region = s:STATE_BUSAN
 		}
@@ -28316,7 +28611,7 @@ lepsius.2215 = {
 	option = { #It will be the finest exhibit in our collection.
 		name = lepsius.2215.g
 		default_option = yes
-		lepsius_add_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_silla_crown_found_var
 	}
 }
@@ -28555,6 +28850,7 @@ lepsius.2225 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
+		NOT = { has_variable = lepsius_major_artifact_haniwa_found_var }
 		any_scope_state = {
 			state_region = s:STATE_KANTO
 		}
@@ -28588,7 +28884,7 @@ lepsius.2225 = {
 	option = { #It will be the finest exhibit in our collection.
 		name = lepsius.2225.g
 		default_option = yes
-		lepsius_add_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_haniwa_found_var
 	}
 }
@@ -28830,6 +29126,7 @@ lepsius.2235 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
+		NOT = { has_variable = lepsius_major_artifact_priest_king_found_var }
 		any_scope_state = {
 			state_region = s:STATE_SINDH
 		}
@@ -28863,12 +29160,237 @@ lepsius.2235 = {
 	option = { #It will be the finest exhibit in our collection.
 		name = lepsius.2235.g
 		default_option = yes
-		lepsius_add_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_priest_king_found_var
 	}
 }
 
 ### Angkor ###
+
+#Lepsius 2241: Khmer Temple
+lepsius.2241 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2241.t
+	desc = lepsius.2241.d
+	flavor = lepsius.2241.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_khmer/lepsius_khmer_temple.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			is_in_geographic_region = lepsius_geographic_region_angkor
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = lepsius_geographic_region_angkor
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2241.g #Remnants of a Golden Age.
+		default_option = yes
+		lepsius_small_add_technology = yes
+		lepsius_add_x_local_artifacts_effect = { AMOUNT = 2 }
+		archaeologist_experience_gain_effect = { AMOUNT = 15 }
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+	}
+}
+
+#Lepsius 2242: Khmer Sculptures
+lepsius.2242 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2242.t
+	desc = lepsius.2242.d
+	flavor = lepsius.2242.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_khmer/lepsius_khmer_statue.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			is_in_geographic_region = lepsius_geographic_region_angkor
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = lepsius_geographic_region_angkor
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2242.g #Remnants of a Golden Age.
+		default_option = yes
+		lepsius_medium_add_technology = yes
+	}
+
+	option = {
+		name = lepsius.2242.h #Remnants of a Golden Age.
+		lepsius_add_x_local_artifacts_effect = { AMOUNT = 3 }
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+	}
+}
+
+#Lepsius 2243: Khmer Artifacts
+lepsius.2243 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2243.t
+	desc = lepsius.2243.d
+	flavor = lepsius.2243.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_khmer/lepsius_khmer_artifact.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			is_in_geographic_region = lepsius_geographic_region_angkor
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = lepsius_geographic_region_angkor
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2243.g #Remnants of a Golden Age.
+		default_option = yes
+		lepsius_add_x_local_artifacts_effect = { AMOUNT = 5 }
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+	}
+}
+
+#Lepsius 2244: Khmer History
+lepsius.2244 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2244.t
+	desc = lepsius.2244.d
+	flavor = lepsius.2244.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_khmer/lepsius_khmer_ruins.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	cooldown = {
+		years = 25 
+	}
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			is_in_geographic_region = lepsius_geographic_region_angkor
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = lepsius_geographic_region_angkor
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2244.g #Remnants of a Golden Age.
+		default_option = yes
+		lepsius_medium_add_technology = yes
+		archaeologist_experience_gain_effect = { AMOUNT = 20 }
+		manzoni_add_x_publications_country_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				var:lepsius_archaeologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
+	}
+}
 
 #Lepsius 2245: The Reclining Vishnu (Major)
 lepsius.2245 = {
@@ -28893,6 +29415,7 @@ lepsius.2245 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
+		NOT = { has_variable = lepsius_major_artifact_vishnu_found_var }
 		any_scope_state = {
 			state_region = s:STATE_CAMBODIA
 		}
@@ -28926,12 +29449,229 @@ lepsius.2245 = {
 	option = { #It will be the finest exhibit in our collection.
 		name = lepsius.2245.g
 		default_option = yes
-		lepsius_add_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_vishnu_found_var
 	}
 }
 
 ### Axum ###
+
+#Lepsius 2251: Aksumite Coin Hoard
+lepsius.2251 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2251.t
+	desc = lepsius.2251.d
+	flavor = lepsius.2251.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_axum/lepsius_local_axum_coin.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			is_in_geographic_region = lepsius_geographic_region_axum
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = lepsius_geographic_region_axum
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2251.g #Remnants of a Golden Age.
+		default_option = yes
+		lepsius_add_x_local_artifacts_effect = { AMOUNT = 5 }
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+	}
+}
+
+#Lepsius 2252: Aksumite Palace
+lepsius.2252 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2252.t
+	desc = lepsius.2252.d
+	flavor = lepsius.2252.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_axum/lepsius_local_axum_palace.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			is_in_geographic_region = lepsius_geographic_region_axum
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = lepsius_geographic_region_axum
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2252.g #Remnants of a Golden Age.
+		default_option = yes
+		lepsius_add_x_local_artifacts_effect = { AMOUNT = 3 }
+		lepsius_small_add_technology = yes
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+	}
+}
+
+#Lepsius 2253: Ge'ez Literature
+lepsius.2253 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2253.t
+	desc = lepsius.2253.d
+	flavor = lepsius.2253.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_axum/lepsius_local_axum_geez.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			is_in_geographic_region = lepsius_geographic_region_axum
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = lepsius_geographic_region_axum
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2253.g #Remnants of a Golden Age.
+		default_option = yes
+		lepsius_add_x_local_artifacts_effect = { AMOUNT = 2 }
+		lepsius_small_add_technology = yes
+		archaeologist_experience_gain_effect = { AMOUNT = 15 }
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+	}
+}
+
+#Lepsius 2254: Aksumite History
+lepsius.2254 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2254.t
+	desc = lepsius.2254.d
+	flavor = lepsius.2254.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_axum/lepsius_local_axum_geez.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			is_in_geographic_region = lepsius_geographic_region_axum
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = lepsius_geographic_region_axum
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2254.g #Remnants of a Golden Age.
+		default_option = yes
+		lepsius_medium_add_technology = yes
+		archaeologist_experience_gain_effect = { AMOUNT = 20 }
+		manzoni_add_x_publications_country_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				var:lepsius_archaeologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
+	}
+}
 
 #Lepsius 2255: The Obelisk of Axum (Major)
 lepsius.2255 = {
@@ -28956,6 +29696,7 @@ lepsius.2255 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
+		NOT = { has_variable = lepsius_major_artifact_obelisk_found_var }
 		any_scope_state = {
 			state_region = s:STATE_GONDER
 		}
@@ -28994,7 +29735,7 @@ lepsius.2255 = {
 				value = year
 			}
 		}
-		lepsius_add_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_obelisk_found_var
 	}
 
@@ -29016,7 +29757,6 @@ lepsius.2255 = {
 }
 
 #Lepsius 2256: Obelisk of Axum
-
 lepsius.2256 = {
 	dlc = dlc_morgenrote
 
@@ -29058,7 +29798,7 @@ lepsius.2256 = {
 	option = { #It will be the finest exhibit in our collection.
 		name = lepsius.2256.g
 		default_option = yes
-		lepsius_add_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_obelisk_found_var
 		custom_tooltip = {
 			text = lepsius.2256.tt
@@ -29067,7 +29807,212 @@ lepsius.2256 = {
 	}
 }
 
-### Mississipian Culture ###
+### Mississippian Culture ###
+
+#Lepsius 2261: Mississippian Figurines
+lepsius.2261 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2261.t
+	desc = lepsius.2261.d
+	flavor = lepsius.2261.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_mississippi/lepsius_mississippi_artifacts.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			is_in_geographic_region = lepsius_geographic_region_mississippi
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = lepsius_geographic_region_mississippi
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2261.g #Remnants of a Golden Age.
+		default_option = yes
+		lepsius_small_add_technology = yes
+		lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 3 }
+		archaeologist_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+	}
+}
+
+#Lepsius 2262: Mississippian Mound
+lepsius.2262 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2262.t
+	desc = lepsius.2262.d
+	flavor = lepsius.2262.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_mississippi/lepsius_mississippi_mound.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			is_in_geographic_region = lepsius_geographic_region_mississippi
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = lepsius_geographic_region_mississippi
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2262.g #Remnants of a Golden Age.
+		default_option = yes
+		lepsius_medium_add_technology = yes
+		archaeologist_experience_gain_effect = { AMOUNT = 20 }
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+	}
+}
+
+#Lepsius 2263: Mississippian Ceramics
+lepsius.2263 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2263.t
+	desc = lepsius.2263.d
+	flavor = lepsius.2263.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_mississippi/lepsius_mississippi_artifacts.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			is_in_geographic_region = lepsius_geographic_region_mississippi
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = lepsius_geographic_region_mississippi
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2263.g #Remnants of a Golden Age.
+		default_option = yes
+		lepsius_add_x_local_artifacts_effect = { AMOUNT = 5 }
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+	}
+}
+
+#Lepsius 2264: Mississippian Burial Site
+lepsius.2264 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2264.t
+	desc = lepsius.2264.d
+	flavor = lepsius.2264.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_mississippi/lepsius_mississippi_mound.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			is_in_geographic_region = lepsius_geographic_region_mississippi
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = lepsius_geographic_region_mississippi
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2264.g #Remnants of a Golden Age.
+		default_option = yes
+		lepsius_add_x_local_artifacts_effect = { AMOUNT = 2 }
+		andersson_add_x_human_fossils_effect = { AMOUNT = 3 }
+		archaeologist_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+	}
+}
 
 #Lepsius 2265: Malden Plates (Major)
 lepsius.2265 = {
@@ -29092,6 +30037,7 @@ lepsius.2265 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
+		NOT = { has_variable = lepsius_major_artifact_malden_found_var }
 		any_scope_state = {
 			state_region = s:STATE_MISSOURI
 		}
@@ -29125,7 +30071,7 @@ lepsius.2265 = {
 	option = { #It will be the finest exhibit in our collection.
 		name = lepsius.2265.g
 		default_option = yes
-		lepsius_add_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_malden_found_var
 	}
 }
@@ -29133,12 +30079,214 @@ lepsius.2265 = {
 ### Colombian Cultures ###
 
 #Lepsius 2271: Tairona Pendants
+lepsius.2271 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2271.t
+	desc = lepsius.2271.d
+	flavor = lepsius.2271.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_columbia/lepsius_local_columbia_tairona.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			is_in_geographic_region = lepsius_geographic_region_colombia
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = lepsius_geographic_region_colombia
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2271.g #Remnants of a Golden Age.
+		default_option = yes
+
+		lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 3 }
+		archaeologist_experience_gain_effect = { AMOUNT = 15 }
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+	}
+}
 
 #Lepsius 2272: San Augustín Statue
+lepsius.2272 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2272.t
+	desc = lepsius.2272.d
+	flavor = lepsius.2272.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_columbia/lepsius_local_columbia_augustin.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			is_in_geographic_region = lepsius_geographic_region_colombia
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = lepsius_geographic_region_colombia
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2272.g #Remnants of a Golden Age.
+		default_option = yes
+
+		lepsius_medium_add_technology = yes
+		lepsius_add_x_local_artifacts_effect = { AMOUNT = 1 }
+		archaeologist_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+	}
+}
 
 #Lepsius 2273: Zenú Artifacts
+lepsius.2273 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2273.t
+	desc = lepsius.2273.d
+	flavor = lepsius.2273.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_columbia/lepsius_local_columbia_quimbaya.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			is_in_geographic_region = lepsius_geographic_region_colombia
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = lepsius_geographic_region_colombia
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2273.g #Remnants of a Golden Age.
+		default_option = yes
+
+		lepsius_add_x_local_artifacts_effect = { AMOUNT = 5 }
+		archaeologist_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+	}
+}
 
 #Lepsius 2274: Muisca Gold
+lepsius.2274 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2274.t
+	desc = lepsius.2274.d
+	flavor = lepsius.2274.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_columbia/lepsius_local_columbia_muisca.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			is_in_geographic_region = lepsius_geographic_region_colombia
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_in_geographic_region = lepsius_geographic_region_colombia
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2274.g #Remnants of a Golden Age.
+		default_option = yes
+		lepsius_small_add_technology = yes
+		lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 5 }
+		lepsius_add_x_local_artifacts_effect = { AMOUNT = 5 }
+		archaeologist_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	after = {
+		hidden_effect = {
+			lepsius_update_exhibition_effect = yes
+		}
+	}
+}
 
 #Lepsius 2275: The Quimbaya Treasure (Major)
 lepsius.2275 = {
@@ -29163,6 +30311,7 @@ lepsius.2275 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
+		NOT = { has_variable = lepsius_major_artifact_quimbaya_found_var }
 		any_scope_state = {
 			state_region = s:STATE_CAUCA
 		}
@@ -29196,7 +30345,7 @@ lepsius.2275 = {
 	option = { #It will be the finest exhibit in our collection.
 		name = lepsius.2275.g
 		default_option = yes
-		lepsius_add_1_major_local_artifact = yes
+		lepsius_add_x_major_local_artifacts = { AMOUNT = 1 }
 		set_variable = lepsius_major_artifact_quimbaya_found_var
 	}
 }
