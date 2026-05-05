@@ -16,6 +16,7 @@ Technologies
 - Reconaissance Ballons unlocks Meteorologist Specialization.
 - Nuclear Physics unlocks Nuclear Physicist Specialization.
 
-Promotion
+Academics
 - To promote an Engineer, you need the technology Atmospheric Engine.
 - To promote an Archaeologist, you need the technology Antiquarianism.
+- All academics can spawn randomly if no special acadmeic is promoted, except for these: Anthropologist (needs Early Archaeology Tech), Biologist (needs Vaccination Tech), Physicist (needs Dirrential Geometry Tech)
