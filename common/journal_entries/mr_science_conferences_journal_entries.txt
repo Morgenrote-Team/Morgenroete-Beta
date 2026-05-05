@@ -32,6 +32,25 @@
 	}
 	
 	immediate = {
+		set_global_variable = verrier_vesta_demoted_var
+		set_global_variable = verrier_pallas_demoted_var
+		set_global_variable = verrier_juno_demoted_var
+		if = {
+			limit = {
+				has_global_variable = verrier_astraea_year_global_var
+			}
+			set_global_variable = verrier_astraea_demoted_var
+			change_global_variable = {
+				name = verrier_planets_number
+				add = -4
+			}
+		}
+		else = {
+			change_global_variable = {
+				name = verrier_planets_number
+				add = -3
+			}
+		}
 		random_country = {
 			limit = {
 				has_modifier = verrier_congress_host_modifier
@@ -44,7 +63,18 @@
 		every_country = {
 			if = {
 				limit = {
-					mr_gui_has_modern_astronomy_tech_trigger = yes
+					NOT = {
+						has_modifier = verrier_congress_host_modifier
+					}
+					has_technology_researched = verrier_astronomy_tech
+					verrier_astronomical_observation = yes
+					OR = {
+						any_scope_character = {
+							has_trait = verrier_astronomer
+						}
+						has_variable = verrier_astronomer_var
+						var:verrier_astronomical_objects >= 50
+					}
 				}
 				trigger_event = verrier.31
 			}
@@ -154,6 +184,10 @@
 			# All four planets cancelled
 			else = {
 				set_global_variable = verrier_ceres_demoted_var
+				change_global_variable = {
+					name = verrier_planets_number
+					add = -1
+				}
 				every_country = {
 					if = {
 						limit = {
