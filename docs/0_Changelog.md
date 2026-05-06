@@ -41,6 +41,10 @@ Characters:
 - Annibale Rigotti (random North Italian Architect) (Thanks PPsyrius)
 - Mario Tamagno (random North Italian Architect) (Thanks PPsyrius)
 - Karl Döhring (random North German Architect & Engineer) (Thanks PPsyrius)
+- Paul Pelliot (random French Archaeologist) (Thanks PPsyrius)
+- George Coedès (random French Archaeologist) (Thanks PPsyrius)
+- Willem Pieter Groeneveldt (random Dutch Archaeologist) (Thanks PPsyrius)
+- Mikhail Ivanovich Rostovtsev (random Russian Archaeologist) (Thanks PPsyrius)
 
 Fixes:
 - Stratigraphy PM needs Modern Archaeology, not Camera.
