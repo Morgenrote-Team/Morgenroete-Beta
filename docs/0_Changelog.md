@@ -29,5 +29,5 @@ Archaeology
 
 Biology
 - Removed Cydia and Cochliomyia State Traits.
-- Coddling Moth (Cydia) and New World Screwworm Fly (Cochliomyia ) are now Harvest Conditions.
+- Codling Moth (Cydia) and New World Screwworm Fly (Cochliomyia ) are now Harvest Conditions.
 - Added Boll Weevil, Grape Phylloxera and Colorado Potato Beetle as new Harvest Conditions. They will not appear at game start, but in the mid-game.
