@@ -12,3 +12,5 @@ Fixes:
 - Stratigraphy PM needs Modern Archaeology, not Camera.
 - DLC Icon got its frame back.
 - Fixed some weirdness with character roles. E.g. Writers becoming politicians out of nowhere.
+- César Cui should now get a correct career length.
+- Revolutions should no longer get none-existing variables from the original country.
