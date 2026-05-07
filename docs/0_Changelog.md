@@ -33,3 +33,6 @@ Biology
 - Added Boll Weevil, Grape Phylloxera and Colorado Potato Beetle as new Harvest Conditions. They will not appear at game start, but in the mid-game.
 - Vanilla Locust Swarm adjusted to include it in the pest list.
 - You need uranium for the SIT.
+
+Changes
+- Added Great Terroir (Wine bonus) to Aquitaine and Piedmont (Paradox, you added the best wine grounds in Europe and forgot about Bordeaux and Barolo?)
