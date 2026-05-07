@@ -11,3 +11,4 @@ Archaeology:
 Fixes:
 - Stratigraphy PM needs Modern Archaeology, not Camera.
 - DLC Icon got its frame back.
+- Fixed some weirdness with character roles. E.g. Writers becoming politicians out of nowhere.
