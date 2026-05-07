@@ -2448,16 +2448,13 @@ retire_archaeologist_effect = {
 
 # Set new Archaeologist as official Archaeologist
 lepsius_set_new_archaeologist_as_archaeologist_effect = {
-	custom_tooltip = {
-		text = lepsius_replace_archaeologist_with_new_archaeologist_tt
+	custom_description = {
+		text = "lepsius_set_new_archaeologist_as_archaeologist_effect_loc"
+		subject = this
+		object = scope:lepsius_new_archaeologist_scope
 
-		if = {
-			limit = {
-				has_variable = lepsius_archaeologist_var
-			}
-			var:lepsius_archaeologist_var = {
-				set_character_busy_and_immortal = no
-			}
+		var:lepsius_archaeologist_var ?= {
+			set_character_busy_and_immortal = no
 		}
 
 		set_variable = {
@@ -2465,15 +2462,23 @@ lepsius_set_new_archaeologist_as_archaeologist_effect = {
 			value = scope:lepsius_new_archaeologist_scope
 		}
 
-		remove_variable = lepsius_new_archaeologist_var
-
-		#Sets Archaeologist busy if there is an ongoing project
+		#Sets the Archaeologist busy if there is an active project he is involved in
 		if = {
 			limit = { lepsius_archaeologist_project_active_trigger = yes }
 			lepsius_set_archaeologist_busy_effect = yes
 		}
 
-		#Adds Default Project
+		#Adds the default action of the Archaeologist
+		if = {
+			limit = {
+				NOT = { has_journal_entry = je_andersson_anthropological_research }
+			}
+			add_journal_entry = {
+				type = je_andersson_anthropological_research
+			}
+		}
+
+		#Starts Project for new Archaeologist if automation is active
 		hidden_effect = {
 			if = {
 				limit = {
@@ -2485,6 +2490,9 @@ lepsius_set_new_archaeologist_as_archaeologist_effect = {
 				}
 			}
 		}
+
+		#Removes variable
+		remove_variable = lepsius_new_archaeologist_var
 	}
 }
 
@@ -2674,10 +2682,10 @@ andersson_set_new_anthropologist_as_anthropologist_effect = {
 			value = scope:andersson_new_anthropologist_scope
 		}
 
-		#Sets the Physician busy if there is an active project he is involved in
+		#Sets the Anthropologist busy if there is an active project he is involved in
 		#TODO
 
-		#Adds the default action of the Physician
+		#Adds the default action of the Anthropologist
 		if = {
 			limit = {
 				NOT = { has_journal_entry = je_andersson_anthropological_research }
@@ -2687,7 +2695,7 @@ andersson_set_new_anthropologist_as_anthropologist_effect = {
 			}
 		}
 
-		#Starts Project for new Physician if automation is active
+		#Starts Project for new Anthropologist if automation is active
 		#TODO
 
 		#Removes variable
