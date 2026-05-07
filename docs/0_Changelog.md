@@ -6,3 +6,4 @@ Archaeology
 
 Fixes:
 - Stratigraphy PM needs Modern Archaeology, not Camera.
+- DLC Icon got its frame back.
