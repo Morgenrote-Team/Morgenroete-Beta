@@ -38,7 +38,7 @@ Technologies
 - Nuclear Physics unlocks Nuclear Physicist Specialization.
 - Added Early Pesticides. This lowers the impact of pests.
 - Added Modern Pesticides. This lowers the impact of pests.
-- Chemistry and Malaria Prevention also lowers the impact of pests.
+- Chemistry and Malaria Prevention also lowers the impact of pests. Flamethrowers help a little bit again locusts.
 
 Changes
 - Added Great Terroir (Wine bonus) to Aquitaine and Piedmont (Paradox, you added the best wine grounds in Europe and forgot about Bordeaux and Barolo?)
