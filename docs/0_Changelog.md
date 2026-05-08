@@ -1,8 +1,4 @@
-Changelog fot 2.8.1d "Haeckel"
-
-Archaeology
-- Archaeologists with a specialization have a slightly higher chance of experiencing positive events on expeditions.
-- Archaeologists with a particular specialization have a slightly higher chance of finding the corresponding major artifacts during an excavation.
+Changelog fot 2.8.1e "Haeckel"
 
 Characters:
 - Sukich Nimmanheminda (random Thai Engineer) (Thanks PPsyrius)
@@ -49,7 +45,7 @@ Characters:
 - George Coedès (random French Archaeologist) (Thanks PPsyrius)
 - Willem Pieter Groeneveldt (random Dutch Archaeologist) (Thanks PPsyrius)
 - Mikhail Ivanovich Rostovtsev (random Russian Archaeologist) (Thanks PPsyrius)
+- George Washington Carver (American Biologist)
 
 Fixes:
-- Stratigraphy PM needs Modern Archaeology, not Camera.
 - Admiral/Generals added by Morgenröte now functions properly again
