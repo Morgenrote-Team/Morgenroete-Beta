@@ -37,6 +37,7 @@ Technologies
 - Reconaissance Ballons unlocks Meteorologist Specialization.
 - Nuclear Physics unlocks Nuclear Physicist Specialization.
 - Added Early Pesticides. This lowers the impact of pests.
+- Added Modern Pesticides. This lowers the impact of pests.
 - Chemistry and Malaria Prevention also lowers the impact of pests.
 
 Changes
