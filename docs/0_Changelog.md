@@ -19,6 +19,7 @@ Biology & Chemistry
 - Codling Moth (Cydia) and New World Screwworm Fly (Cochliomyia) are now Harvest Conditions.
 - Added Boll Weevil, Grape Phylloxera, Colorado Potato Beetle and Tea Mosquito Bug as new Harvest Conditions. They will not appear at game start, but in the mid-game.
 - Pests will affect you country way longer than other conditions, normally 5-10 years.
+- Most pests will remain in their native territory, but the potato beetle may spread to Europe, the codling moth may spread to Australia, South America and South Africa. Having a Biologist and a Chemist may prevent a successful pest invasion, but it is not guaranteed.
 - Added Eredication Actions for each Pest. You find them in a new tab of the Biologist called "Pest Control".
 - A Biologist will first find a solution to combat the pests, after that a JE triggers which will remove one pest from each state in a month. Caution: The New World Screwworm Fly is very resistent and takes a year.
 - Vanilla Locust Swarm adjusted to include it in the pest list.
@@ -41,4 +42,4 @@ Technologies
 - Chemistry and Malaria Prevention also lowers the impact of pests. Flamethrowers help a little bit again locusts.
 
 Changes
-- Added Great Terroir (Wine bonus) to Aquitaine and Piedmont (Paradox, you added the best wine grounds in Europe and forgot about Bordeaux and Barolo?)
+- Added Great Terroir (Wine bonus) to Aquitaine and Piedmont (Paradox, you added the best wine grounds in Europe and forgot about Bordeaux and Barolo?).
