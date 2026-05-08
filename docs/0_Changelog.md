@@ -14,7 +14,7 @@ Archaeology
 - Major artifacts belonging to AI countries are now displayed correctly.
 - Major Artifacts are now truly unique - any potential duplicates where two nations could possess the same Major Artifact should be fixed.
 
-Biology
+Biology & Chemistry
 - Removed Cydia and Cochliomyia State Traits.
 - Codling Moth (Cydia) and New World Screwworm Fly (Cochliomyia) are now Harvest Conditions.
 - Added Boll Weevil, Grape Phylloxera and Colorado Potato Beetle as new Harvest Conditions. They will not appear at game start, but in the mid-game.
