@@ -1,5 +1,11 @@
 Changelog fot 2.8.1e "Haeckel"
 
+General:
+- Added a Game Rule for additional Experience for important historical characters.
+- Added more important historical characters to gain additional experience passively.
+- Reworked game rule locs to be more similar to vanilla.
+- Reworked some Concepts to reflect the current state of Morgenröte.
+
 Characters:
 - Sukich Nimmanheminda (random Thai Engineer) (Thanks PPsyrius)
 - Chalaem Amatayakul (random Thai Engineer) (Thanks PPsyrius)
@@ -50,3 +56,4 @@ Characters:
 Fixes:
 - Admiral/Generals added by Morgenröte now functions properly again
 - Schliemann now retires instead of joining the country's character pool.
+- Matsuura should now have the correct roles and stay retirement age.
