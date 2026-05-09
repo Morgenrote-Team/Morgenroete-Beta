@@ -59,3 +59,4 @@ Fixes:
 - Matsuura should now have the correct roles and stay retirement age.
 - Balloonists should no longer cause two death events.
 - Fixed 200+ graphics which had a false format.
+- The Anthropologist interface now displays properly in the condensed view.
