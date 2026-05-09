@@ -18,11 +18,13 @@ Biology & Chemistry
 - Removed Cydia and Cochliomyia State Traits.
 - Codling Moth (Cydia) and New World Screwworm Fly (Cochliomyia) are now Harvest Conditions.
 - Added Boll Weevil, Grape Phylloxera, Colorado Potato Beetle and Tea Mosquito Bug as new Harvest Conditions. They will not appear at game start, but in the mid-game.
+- Vanilla Locust Swarm adjusted to include it in the pest list.
 - Pests will affect you country way longer than other conditions, normally 5-10 years.
 - Most pests will remain in their native territory, but the potato beetle may spread to Europe, the codling moth may spread to Australia, South America and South Africa. Having a Biologist and a Chemist may prevent a successful pest invasion, but it is not guaranteed.
 - Added Eredication Actions for each Pest. You find them in a new tab of the Biologist called "Pest Control".
-- A Biologist will first find a solution to combat the pests, after that a JE triggers which will remove one pest from each state in a month. Caution: The New World Screwworm Fly is very resistent and takes a year.
-- Vanilla Locust Swarm adjusted to include it in the pest list.
+- A Biologist will find a solution to combat the pests, giving you a prevention for future pest infestations.
+- If the pest is active in your country for which you have a solution for, a JE triggers which will remove this pest from each state in a month. Caution: The New World Screwworm Fly is very resistent and takes a year.
+- You can share your pesticide knowledge with your subjects through a subject interaction (Biological Team). This will also lower liberty desire a little bit.
 - You need uranium for the SIT.
 
 Technologies
