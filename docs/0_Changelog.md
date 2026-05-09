@@ -49,3 +49,4 @@ Characters:
 
 Fixes:
 - Admiral/Generals added by Morgenröte now functions properly again
+- Schliemann now retires instead of joining the country's character pool.
