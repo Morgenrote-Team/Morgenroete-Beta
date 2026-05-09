@@ -58,3 +58,4 @@ Fixes:
 - Schliemann now retires instead of joining the country's character pool.
 - Matsuura should now have the correct roles and stay retirement age.
 - Balloonists should no longer cause two death events.
+- Fixed 200+ graphics which had a false format.
