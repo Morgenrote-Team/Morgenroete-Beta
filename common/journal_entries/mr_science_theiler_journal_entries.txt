@@ -229,7 +229,66 @@ je_theiler_microorganism_research = {
 
 #################################################################################################
 
-### Cydia ###
+#Grafting
+je_theiler_grafting = {
+	icon = "gfx/interface/icons/invention_icons/theiler_microbiology_tech.dds"
+
+	group = je_group_theiler_biology
+
+	immediate = {
+		set_variable = {
+			name = theiler_grafting_progress_var
+			value = 0
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					theiler_has_biologist_no_tooltip_trigger = yes
+					var:theiler_grafting_progress_var < 12
+				}
+				change_variable = {
+					name = theiler_grafting_progress_var
+					add = 1
+				}
+			}
+		}
+	}
+
+	complete = {
+		theiler_has_biologist = yes
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		set_variable = theiler_grape_phylloxera_prevention_var
+		trigger_event = {
+			id = theiler.75
+		}
+		theiler_set_biologist_unbusy_effect = yes
+		remove_variable = theiler_grafting_progress_var
+		theiler_remove_active_variables_effect = yes
+	}
+
+	invalid = {
+	}
+
+	goal_add_value = {
+		add = 12
+	}
+
+	current_value = {
+		value = var:theiler_grafting_progress_var
+	}
+
+	progressbar = yes
+
+	weight = 10
+}
 
 #Pesticide Development
 je_theiler_pesticide_development = {
@@ -269,10 +328,42 @@ je_theiler_pesticide_development = {
 	}
 
 	on_complete = {
-		set_variable = theiler_codling_moth_prevention_var
-		set_variable = theiler_potato_beetle_prevention_var
-		trigger_event = {
-			id = theiler.71
+		if = {
+			limit = {
+				var:theiler_pesticide_type_var ?= flag:theiler_lead_arsenate_flag
+			}
+			set_variable = theiler_codling_moth_prevention_var
+			set_variable = theiler_potato_beetle_prevention_var
+			trigger_event = {
+				id = theiler.71
+			}
+		}
+		else_if = {
+			limit = {
+				var:theiler_pesticide_type_var ?= flag:theiler_sodium_arsenite_flag
+			}
+			set_variable = theiler_locust_swarm_prevention_var
+			trigger_event = {
+				id = theiler.73
+			}
+		}
+		else_if = {
+			limit = {
+				var:theiler_pesticide_type_var ?= flag:theiler_calcium_arsenate_flag
+			}
+			set_variable = theiler_boll_weevil_prevention_var
+			trigger_event = {
+				id = theiler.74
+			}
+		}
+		else_if = {
+			limit = {
+				var:theiler_pesticide_type_var ?= flag:theiler_nicotine_sulfate_flag
+			}
+			set_variable = theiler_tea_mosquito_prevention_var
+			trigger_event = {
+				id = theiler.76
+			}
 		}
 		theiler_set_biologist_unbusy_effect = yes
 		remove_variable = theiler_pesticide_progress_var
@@ -295,63 +386,251 @@ je_theiler_pesticide_development = {
 	weight = 10
 }
 
-#Cydia Lead Arsenate (per state)
-je_theiler_lead_arsenate = {
+#Pest Control
+je_theiler_pest_control = {
 	icon = "gfx/interface/icons/invention_icons/theiler_microbiology_tech.dds"
 
 	group = je_group_theiler_biology
 
 	is_shown_when_inactive = {
-		has_variable = theiler_codling_moth_prevention_var
+		OR = {
+			has_variable = theiler_boll_weevil_prevention_var
+			has_variable = theiler_codling_moth_prevention_var
+			has_variable = theiler_locust_swarm_prevention_var
+			has_variable = theiler_grape_phylloxera_prevention_var
+			has_variable = theiler_potato_beetle_prevention_var
+			has_variable = theiler_tea_mosquito_prevention_var
+		}
 	}
 
 	possible = {
-		any_scope_state = {
-			state_region = {
-				has_harvest_condition = theiler_codling_moth_condition
+		theiler_has_biologist = yes
+		OR = {
+			AND = {
+				has_variable = theiler_boll_weevil_prevention_var
+				market.mg:lead = {
+					market_goods_has_goods_shortage = no
+				}
+				any_scope_state = {
+					state_region = {
+						has_harvest_condition = theiler_boll_weevil_condition
+					}
+				}
 			}
-		}
-		market.mg:lead = {
-			market_goods_has_goods_shortage = no
+			AND = {
+				has_variable = theiler_codling_moth_prevention_var
+				market.mg:lead = {
+					market_goods_has_goods_shortage = no
+				}
+				any_scope_state = {
+					state_region = {
+						has_harvest_condition = theiler_codling_moth_condition
+					}
+				}
+			}
+			AND = {
+				has_variable = theiler_locust_swarm_prevention_var
+				market.mg:lead = {
+					market_goods_has_goods_shortage = no
+				}
+				any_scope_state = {
+					state_region = {
+						has_harvest_condition = theiler_locust_swarm_condition
+					}
+				}
+			}
+			AND = {
+				has_variable = theiler_grape_phylloxera_prevention_var
+				any_scope_state = {
+					state_region = {
+						has_harvest_condition = theiler_grape_phylloxera_condition
+					}
+				}
+			}
+			AND = {
+				has_variable = theiler_potato_beetle_prevention_var
+				market.mg:lead = {
+					market_goods_has_goods_shortage = no
+				}
+				any_scope_state = {
+					state_region = {
+						has_harvest_condition = theiler_potato_beetle_condition
+					}
+				}
+			}
+			AND = {
+				has_variable = theiler_tea_mosquito_prevention_var
+				market.mg:tobacco = {
+					market_goods_has_goods_shortage = no
+				}
+				market.mg:sulfur = {
+					market_goods_has_goods_shortage = no
+				}
+				any_scope_state = {
+					state_region = {
+						has_harvest_condition = theiler_tea_mosquito_condition
+					}
+				}
+			}
 		}
 	}
 
 	can_deactivate = yes
 
-	immediate = {
-	}
-
 	on_monthly_pulse = {
 		effect = {
-			random_scope_state = {
+			if = {
 				limit = {
-					state_region = {
-						has_harvest_condition = theiler_codling_moth_condition
+					has_variable = theiler_boll_weevil_prevention_var
+					market.mg:lead = {
+						market_goods_has_goods_shortage = no
+					}
+					any_scope_state = {
+						state_region = {
+							has_harvest_condition = theiler_boll_weevil_condition
+						}
 					}
 				}
-				state_region = {
-					finish_harvest_condition = theiler_codling_moth_condition
+				random_scope_state = {
+					limit = {
+						any_scope_state = {
+							state_region = {
+								has_harvest_condition = theiler_boll_weevil_condition
+							}
+						}
+					}
+					state_region = {
+						finish_harvest_condition = theiler_boll_weevil_condition
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_variable = theiler_codling_moth_prevention_var
+					market.mg:lead = {
+						market_goods_has_goods_shortage = no
+					}
+					any_scope_state = {
+						state_region = {
+							has_harvest_condition = theiler_codling_moth_condition
+						}
+					}
+				}
+				random_scope_state = {
+					limit = {
+						any_scope_state = {
+							state_region = {
+								has_harvest_condition = theiler_codling_moth_condition
+							}
+						}
+					}
+					state_region = {
+						finish_harvest_condition = theiler_codling_moth_condition
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_variable = theiler_locust_swarm_prevention_var
+					market.mg:lead = {
+						market_goods_has_goods_shortage = no
+					}
+					any_scope_state = {
+						state_region = {
+							has_harvest_condition = theiler_locust_swarm_condition
+						}
+					}
+				}
+				random_scope_state = {
+					limit = {
+						any_scope_state = {
+							state_region = {
+								has_harvest_condition = theiler_locust_swarm_condition
+							}
+						}
+					}
+					state_region = {
+						finish_harvest_condition = theiler_locust_swarm_condition
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_variable = theiler_grape_phylloxera_prevention_var
+					any_scope_state = {
+						state_region = {
+							has_harvest_condition = theiler_grape_phylloxera_condition
+						}
+					}
+				}
+				random_scope_state = {
+					limit = {
+						any_scope_state = {
+							state_region = {
+								has_harvest_condition = theiler_grape_phylloxera_condition
+							}
+						}
+					}
+					state_region = {
+						finish_harvest_condition = theiler_grape_phylloxera_condition
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_variable = theiler_potato_beetle_prevention_var
+					market.mg:lead = {
+						market_goods_has_goods_shortage = no
+					}
+					any_scope_state = {
+						state_region = {
+							has_harvest_condition = theiler_potato_beetle_condition
+						}
+					}
+				}
+				random_scope_state = {
+					limit = {
+						any_scope_state = {
+							state_region = {
+								has_harvest_condition = theiler_potato_beetle_condition
+							}
+						}
+					}
+					state_region = {
+						finish_harvest_condition = theiler_potato_beetle_condition
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_variable = theiler_tea_mosquito_prevention_var
+					market.mg:tobacco = {
+						market_goods_has_goods_shortage = no
+					}
+					market.mg:sulfur = {
+						market_goods_has_goods_shortage = no
+					}
+					any_scope_state = {
+						state_region = {
+							has_harvest_condition = theiler_tea_mosquito_condition
+						}
+					}
+				}
+				random_scope_state = {
+					limit = {
+						any_scope_state = {
+							state_region = {
+								has_harvest_condition = theiler_tea_mosquito_condition
+							}
+						}
+					}
+					state_region = {
+						finish_harvest_condition = theiler_tea_mosquito_condition
+					}
 				}
 			}
 		}
 	}
-
-	complete = {
-	}
-
-	on_complete = {
-	}
-
-	invalid = {
-	}
-
-	on_invalid = {
-	}
-
-	current_value = {
-	}
-
-	progressbar = yes
 
 	weight = 10
 }
