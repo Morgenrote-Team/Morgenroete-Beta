@@ -11,6 +11,8 @@ Academics
 Archaeology
 - Added 4 Events to the Maurya Empire Archaeological Region.
 - Added Major Local Artifact: Lion Capital of Ashoka.
+- Added Major Local Artifact: Pergamon Altar.
+- Like the Ishtar Gate, the Pergamon Altar is a bit more complex and needs a transport.
 - Major artifacts belonging to AI countries are now displayed correctly.
 - Major Artifacts are now truly unique - any potential duplicates where two nations could possess the same Major Artifact should be fixed.
 
