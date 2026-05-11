@@ -29,8 +29,7 @@ kill_engineer_effect = {
 		kill_character = yes
 	}
 
-	remove_variable = tesla_engineer_var
-	remove_modifier = gaudi_engineer_technology_spread_modifier
+	tesla_remove_official_engineer_effect = yes
 }
 #This Effect retires the current Engineer
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -43,16 +42,27 @@ retire_engineer_effect = {
 		}
 	}
 
-	remove_variable = tesla_engineer_var
-	remove_modifier = gaudi_engineer_technology_spread_modifier
+	tesla_remove_official_engineer_effect = yes
 }
 
 #Removes the official Engineer without killing or retiring
 tesla_remove_official_engineer_effect = {
 	var:tesla_engineer_var ?= {
 		set_character_busy_and_immortal = no
+		tesla_remove_official_modifiers_from_engineer_effect = yes
 	}
+	remove_modifier = gaudi_engineer_technology_spread_modifier
 	remove_variable = tesla_engineer_var
+}
+
+#This effect is used to remove all modifiers that are bound to being the official engineer
+tesla_remove_official_modifiers_from_engineer_effect = {
+	if = {
+		limit = {
+			has_modifier = academics_character_is_official_engineer_modifier
+		}
+		remove_modifier = academics_character_is_official_engineer_modifier
+	}
 }
 
 # Set new Engineer as official Engineer
@@ -62,16 +72,13 @@ tesla_set_new_engineer_as_engineer_effect = {
 		subject = this
 		object = scope:tesla_new_engineer_scope
 
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
+		tesla_remove_official_engineer_effect = yes
 
 		set_variable = {
 			name = tesla_engineer_var
 			value = scope:tesla_new_engineer_scope
 		}
 
-		remove_modifier = gaudi_engineer_technology_spread_modifier
 		add_modifier = {
 			name = gaudi_engineer_technology_spread_modifier
 			multiplier = tesla_percentage_more_advanced_countries_value
@@ -81,6 +88,11 @@ tesla_set_new_engineer_as_engineer_effect = {
 			limit = { tesla_has_active_engineering_project_with_busy_engineer_trigger = yes }
 			var:tesla_engineer_var = {
 				set_character_busy_and_immortal = yes
+			}
+		}
+		var:tesla_engineer_var ?= {
+			add_modifier = {
+				name = academics_character_is_official_engineer_modifier
 			}
 		}
 
@@ -115,168 +127,180 @@ tesla_set_engineer_unbusy_effect = {
 engineer_experience_set_up_effect = {
 	if = {
 		limit = {
-			OR = {
-				has_trait = tesla_civil_engineer
-				has_trait = tesla_mechanical_engineer
-				has_trait = tesla_military_engineer
-				has_trait = tesla_electrical_engineer
-				has_trait = tesla_aeronautical_engineer
+			NOR = {
+				has_modifier = academics_is_civil_engineer_modifier
+				has_modifier = academics_is_mechanical_engineer_modifier
+				has_modifier = academics_is_military_engineer_modifier
+				has_modifier = academics_is_electrical_engineer_modifier
+				has_modifier = academics_is_aeronautical_engineer_modifier
 			}
 		}
-		random_list = {
-			1 = {
-				trigger = { has_trait = tesla_civil_engineer }
 
-				#Effect
-				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-					name = academics_is_civil_engineer_modifier
+		if = {
+			limit = {
+				OR = {
+					has_trait = tesla_civil_engineer
+					has_trait = tesla_mechanical_engineer
+					has_trait = tesla_military_engineer
+					has_trait = tesla_electrical_engineer
+					has_trait = tesla_aeronautical_engineer
 				}
-				general_experience_set_up_effect = {
-					TYPE = tesla_civil_engineer_experience_var
-					UNI_PM = pm_dubois_university_mathematics
-				}
-				#Doctor/Professor
-				academics_civil_engineer_add_academic_title_effect = yes
 			}
-			1 = {
-				trigger = { has_trait = tesla_mechanical_engineer }
+			random_list = {
+				1 = {
+					trigger = { has_trait = tesla_civil_engineer }
 
-				#Effect
-				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-					name = academics_is_mechanical_engineer_modifier
+					#Effect
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_civil_engineer_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = tesla_civil_engineer_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					#Doctor/Professor
+					academics_civil_engineer_add_academic_title_effect = yes
 				}
-				general_experience_set_up_effect = {
-					TYPE = tesla_mechanical_engineer_experience_var
-					UNI_PM = pm_dubois_university_mathematics
-				}
-				#Doctor/Professor
-				academics_mechanical_engineer_add_academic_title_effect = yes
-			}
-			1 = {
-				trigger = { has_trait = tesla_military_engineer }
+				1 = {
+					trigger = { has_trait = tesla_mechanical_engineer }
 
-				#Effect
-				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-					name = academics_is_military_engineer_modifier
+					#Effect
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_mechanical_engineer_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = tesla_mechanical_engineer_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					#Doctor/Professor
+					academics_mechanical_engineer_add_academic_title_effect = yes
 				}
-				general_experience_set_up_effect = {
-					TYPE = tesla_military_engineer_experience_var
-					UNI_PM = pm_dubois_university_mathematics
-				}
-				#Doctor/Professor
-				academics_military_engineer_add_academic_title_effect = yes
-			}
-			1 = {
-				trigger = { has_trait = tesla_electrical_engineer }
+				1 = {
+					trigger = { has_trait = tesla_military_engineer }
 
-				#Effect
-				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-					name = academics_is_electrical_engineer_modifier
+					#Effect
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_military_engineer_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = tesla_military_engineer_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					#Doctor/Professor
+					academics_military_engineer_add_academic_title_effect = yes
 				}
-				general_experience_set_up_effect = {
-					TYPE = tesla_electrical_engineer_experience_var
-					UNI_PM = pm_dubois_university_mathematics
-				}
-				#Doctor/Professor
-				academics_electrical_engineer_add_academic_title_effect = yes
-			}
-			1 = {
-				trigger = { has_trait = tesla_aeronautical_engineer }
+				1 = {
+					trigger = { has_trait = tesla_electrical_engineer }
 
-				#Effect
-				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-					name = academics_is_aeronautical_engineer_modifier
+					#Effect
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_electrical_engineer_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = tesla_electrical_engineer_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					#Doctor/Professor
+					academics_electrical_engineer_add_academic_title_effect = yes
 				}
-				general_experience_set_up_effect = {
-					TYPE = tesla_aeronautical_engineer_experience_var
-					UNI_PM = pm_dubois_university_mathematics
+				1 = {
+					trigger = { has_trait = tesla_aeronautical_engineer }
+
+					#Effect
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_aeronautical_engineer_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = tesla_aeronautical_engineer_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					#Doctor/Professor
+					academics_aeronautical_engineer_add_academic_title_effect = yes
 				}
-				#Doctor/Professor
-				academics_aeronautical_engineer_add_academic_title_effect = yes
 			}
 		}
-	}
-	else = {
-		random_list = { #Here, a random focus is chosen for the engineer. Then the Experience and trait are set up for them.
-			1 = {
-				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-					name = academics_is_civil_engineer_modifier
+		else = {
+			random_list = { #Here, a random focus is chosen for the engineer. Then the Experience and trait are set up for them.
+				1 = {
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_civil_engineer_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = tesla_civil_engineer_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					add_trait = tesla_civil_engineer
+					#Doctor/Professor
+					academics_civil_engineer_add_academic_title_effect = yes
 				}
-				general_experience_set_up_effect = {
-					TYPE = tesla_civil_engineer_experience_var
-					UNI_PM = pm_dubois_university_mathematics
+				1 = {
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_mechanical_engineer_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = tesla_mechanical_engineer_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					add_trait = tesla_mechanical_engineer
+					#Doctor/Professor
+					academics_mechanical_engineer_add_academic_title_effect = yes
 				}
-				add_trait = tesla_civil_engineer
-				#Doctor/Professor
-				academics_civil_engineer_add_academic_title_effect = yes
-			}
-			1 = {
-				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-					name = academics_is_mechanical_engineer_modifier
-				}
-				general_experience_set_up_effect = {
-					TYPE = tesla_mechanical_engineer_experience_var
-					UNI_PM = pm_dubois_university_mathematics
-				}
-				add_trait = tesla_mechanical_engineer
-				#Doctor/Professor
-				academics_mechanical_engineer_add_academic_title_effect = yes
-			}
-			1 = {
-				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-					name = academics_is_military_engineer_modifier
-				}
-				general_experience_set_up_effect = {
-					TYPE = tesla_military_engineer_experience_var
-					UNI_PM = pm_dubois_university_mathematics
-				}
-				add_trait = tesla_military_engineer
-				#Doctor/Professor
-				academics_military_engineer_add_academic_title_effect = yes
-				modifier = {
-					if = {
-						limit = {
-							interest_group = {
-								is_interest_group_type = ig_armed_forces
+				1 = {
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_military_engineer_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = tesla_military_engineer_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					add_trait = tesla_military_engineer
+					#Doctor/Professor
+					academics_military_engineer_add_academic_title_effect = yes
+					modifier = {
+						if = {
+							limit = {
+								interest_group = {
+									is_interest_group_type = ig_armed_forces
+								}
 							}
+							add = 5
 						}
-						add = 5
 					}
 				}
-			}
-			1 = {
-				trigger = {
-					owner = {
-						has_technology_researched = verrier_physics_tech
+				1 = {
+					trigger = {
+						owner = {
+							has_technology_researched = verrier_physics_tech
+						}
 					}
-				}
-				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-					name = academics_is_electrical_engineer_modifier
-				}
-				general_experience_set_up_effect = {
-					TYPE = tesla_electrical_engineer_experience_var
-					UNI_PM = pm_dubois_university_mathematics
-				}
-				add_trait = tesla_electrical_engineer
-				#Doctor/Professor
-				academics_electrical_engineer_add_academic_title_effect = yes
-			}
-			1 = {
-				trigger = {
-					owner = {
-						has_technology_researched = curtiss_reconnaissance_balloon_tech
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_electrical_engineer_modifier
 					}
+					general_experience_set_up_effect = {
+						TYPE = tesla_electrical_engineer_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					add_trait = tesla_electrical_engineer
+					#Doctor/Professor
+					academics_electrical_engineer_add_academic_title_effect = yes
 				}
-				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-					name = academics_is_aeronautical_engineer_modifier
+				1 = {
+					trigger = {
+						owner = {
+							has_technology_researched = curtiss_reconnaissance_balloon_tech
+						}
+					}
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_aeronautical_engineer_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = tesla_aeronautical_engineer_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					add_trait = tesla_aeronautical_engineer
+					#Doctor/Professor
+					academics_aeronautical_engineer_add_academic_title_effect = yes
 				}
-				general_experience_set_up_effect = {
-					TYPE = tesla_aeronautical_engineer_experience_var
-					UNI_PM = pm_dubois_university_mathematics
-				}
-				add_trait = tesla_aeronautical_engineer
-				#Doctor/Professor
-				academics_aeronautical_engineer_add_academic_title_effect = yes
 			}
 		}
 	}
@@ -880,7 +904,7 @@ kill_astronomer_effect = {
 		kill_character = yes
 	}
 
-	remove_variable = verrier_astronomer_var
+	verrier_remove_official_astronomer_effect = yes
 }
 #This Effect retires the current Astronomer
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -893,7 +917,26 @@ retire_astronomer_effect = {
 		}
 	}
 
+	verrier_remove_official_astronomer_effect = yes
+}
+
+#Removes the official Astronomer without killing or retiring
+verrier_remove_official_astronomer_effect = {
+	var:verrier_astronomer_var ?= {
+		set_character_busy_and_immortal = no
+		verrier_remove_official_modifiers_from_astronomer_effect = yes
+	}
 	remove_variable = verrier_astronomer_var
+}
+
+#This effect is used to remove all modifiers that are bound to being the official Astronomer
+verrier_remove_official_modifiers_from_astronomer_effect = {
+	if = {
+		limit = {
+			has_modifier = academics_character_is_official_astronomer_modifier
+		}
+		remove_modifier = academics_character_is_official_astronomer_modifier
+	}
 }
 
 # Set new Astronomer as official Astronomer
@@ -903,9 +946,7 @@ verrier_set_new_astronomer_as_astronomer_effect = {
 		subject = this
 		object = scope:verrier_new_astronomer_scope
 
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
+		verrier_remove_official_astronomer_effect = yes
 
 		set_variable = {
 			name = verrier_astronomer_var
@@ -917,6 +958,11 @@ verrier_set_new_astronomer_as_astronomer_effect = {
 			limit = { verrier_astronomer_project_active_trigger = yes }
 			var:verrier_astronomer_var ?= {
 				set_character_busy_and_immortal = yes
+			}
+		}
+		var:verrier_astronomer_var ?= {
+			add_modifier = {
+				name = academics_character_is_official_astronomer_modifier
 			}
 		}
 
@@ -1092,7 +1138,7 @@ kill_chemist_effect = {
 		kill_character = yes
 	}
 
-	remove_variable = mendelejew_chemist_var
+	mendeljew_remove_official_chemist_effect = yes
 }
 #This Effect retires the current Chemist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -1105,7 +1151,26 @@ retire_chemist_effect = {
 		}
 	}
 
+	mendeljew_remove_official_chemist_effect = yes
+}
+
+#Removes the official Chemist without killing or retiring
+mendeljew_remove_official_chemist_effect = {
+	var:mendelejew_chemist_var ?= {
+		set_character_busy_and_immortal = no
+		mendelejew_remove_official_modifiers_from_chemist_effect = yes
+	}
 	remove_variable = mendelejew_chemist_var
+}
+
+#This effect is used to remove all modifiers that are bound to being the official chemist
+mendelejew_remove_official_modifiers_from_chemist_effect = {
+	if = {
+		limit = {
+			has_modifier = academics_character_is_official_chemist_modifier
+		}
+		remove_modifier = academics_character_is_official_chemist_modifier
+	}
 }
 
 #Set Chemist unbusy
@@ -1124,9 +1189,7 @@ mendelejew_set_new_chemist_as_chemist_effect = {
 		subject = this
 		object = scope:mendelejew_new_chemist_scope
 
-		var:mendelejew_chemist_var ?= {
-			set_character_busy_and_immortal = no
-		}
+		mendeljew_remove_official_chemist_effect = yes
 
 		set_variable = {
 			name = mendelejew_chemist_var
@@ -1137,6 +1200,12 @@ mendelejew_set_new_chemist_as_chemist_effect = {
 			limit = { mendelejew_chemist_project_active_trigger = yes }
 			var:mendelejew_chemist_var = {
 				set_character_busy_and_immortal = yes
+			}
+		}
+
+		var:mendelejew_chemist_var ?= {
+			add_modifier = {
+				name = academics_character_is_official_chemist_modifier
 			}
 		}
 
@@ -1343,7 +1412,7 @@ kill_physicist_effect = {
 		kill_character = yes
 	}
 
-	remove_variable = curie_physicist_var
+	curie_remove_official_physicist_effect = yes
 }
 #This Effect retires the current Physicist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -1356,7 +1425,26 @@ retire_physicist_effect = {
 		}
 	}
 
+	curie_remove_official_physicist_effect = yes
+}
+
+#Removes the official Physicist without killing or retiring
+curie_remove_official_physicist_effect = {
+	var:curie_physicist_var ?= {
+		set_character_busy_and_immortal = no
+		curie_remove_official_modifiers_from_physicist_effect = yes
+	}
 	remove_variable = curie_physicist_var
+}
+
+#This effect is used to remove all modifiers that are bound to being the official Physicist
+curie_remove_official_modifiers_from_physicist_effect = {
+	if = {
+		limit = {
+			has_modifier = academics_character_is_official_physicist_modifier
+		}
+		remove_modifier = academics_character_is_official_physicist_modifier
+	}
 }
 
 # Set new Physicist as official Physicist
@@ -1366,9 +1454,7 @@ curie_set_new_physicist_as_physicist_effect = {
 		subject = this
 		object = scope:curie_new_physicist_scope
 
-		var:curie_physicist_var ?= {
-			set_character_busy_and_immortal = no
-		}
+		curie_remove_official_physicist_effect = yes
 
 		set_variable = {
 			name = curie_physicist_var
@@ -1377,6 +1463,12 @@ curie_set_new_physicist_as_physicist_effect = {
 
 		#Sets the Physicist busy if there is an active project
 		#TODO add busy effect
+
+		var:curie_physicist_var ?= {
+			add_modifier = {
+				name = academics_character_is_official_physicist_modifier
+			}
+		}
 
 		#No Default Project JE
 
@@ -1544,7 +1636,7 @@ kill_geologist_effect = {
 		kill_character = yes
 	}
 
-	remove_variable = agassiz_geologist_var
+	agassiz_remove_official_geologist_effect = yes
 }
 #This Effect retires the current Geologist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -1557,7 +1649,26 @@ retire_geologist_effect = {
 		}
 	}
 
+	agassiz_remove_official_geologist_effect = yes
+}
+
+#Removes the official Geologist without killing or retiring
+agassiz_remove_official_geologist_effect = {
+	var:agassiz_geologist_var ?= {
+		set_character_busy_and_immortal = no
+		agassiz_remove_official_modifiers_from_geologist_effect = yes
+	}
 	remove_variable = agassiz_geologist_var
+}
+
+#This effect is used to remove all modifiers that are bound to being the official Geologist
+agassiz_remove_official_modifiers_from_geologist_effect = {
+	if = {
+		limit = {
+			has_modifier = academics_character_is_official_geologist_modifier
+		}
+		remove_modifier = academics_character_is_official_geologist_modifier
+	}
 }
 
 # Set new Geologist as official Geologist
@@ -1567,9 +1678,7 @@ dubois_set_new_geologist_as_geologist_effect = {
 		subject = this
 		object = scope:agassiz_new_geologist_scope
 
-		var:agassiz_geologist_var ?= {
-			set_character_busy_and_immortal = no
-		}
+		agassiz_remove_official_geologist_effect = yes
 
 		set_variable = {
 			name = agassiz_geologist_var
@@ -1581,6 +1690,12 @@ dubois_set_new_geologist_as_geologist_effect = {
 			limit = { agassiz_geologist_project_with_busy_geologist_active_trigger = yes }
 			var:agassiz_geologist_var = {
 				set_character_busy_and_immortal = yes
+			}
+		}
+
+		var:agassiz_geologist_var ?= {
+			add_modifier = {
+				name = academics_character_is_official_geologist_modifier
 			}
 		}
 
@@ -1766,7 +1881,7 @@ kill_naturalist_effect = {
 		kill_character = yes
 	}
 
-	remove_variable = ito_naturalist_var
+	ito_remove_official_naturalist_effect = yes
 }
 #This Effect retires the current Naturalist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -1779,7 +1894,26 @@ retire_naturalist_effect = {
 		}
 	}
 
+	ito_remove_official_naturalist_effect = yes
+}
+
+#Removes the official Naturalist without killing or retiring
+ito_remove_official_naturalist_effect = {
+	var:ito_naturalist_var ?= {
+		set_character_busy_and_immortal = no
+		ito_remove_official_modifiers_from_naturalist_effect = yes
+	}
 	remove_variable = ito_naturalist_var
+}
+
+#This effect is used to remove all modifiers that are bound to being the official Naturalist
+ito_remove_official_modifiers_from_naturalist_effect = {
+	if = {
+		limit = {
+			has_modifier = academics_character_is_official_naturalist_modifier
+		}
+		remove_modifier = academics_character_is_official_naturalist_modifier
+	}
 }
 
 # Set new Naturalist as official Naturalist
@@ -1789,9 +1923,7 @@ dubois_set_new_naturalist_as_naturalist_effect = {
 		subject = this
 		object = scope:dubois_new_naturalist_scope
 
-		var:ito_naturalist_var ?= {
-			set_character_busy_and_immortal = no
-		}
+		ito_remove_official_naturalist_effect = yes
 
 		set_variable = {
 			name = ito_naturalist_var
@@ -1803,6 +1935,12 @@ dubois_set_new_naturalist_as_naturalist_effect = {
 			limit = { dubois_naturalist_project_active_trigger = yes }
 			var:ito_naturalist_var = {
 				set_character_busy_and_immortal = yes
+			}
+		}
+
+		var:ito_naturalist_var ?= {
+			add_modifier = {
+				name = academics_character_is_official_naturalist_modifier
 			}
 		}
 
@@ -1994,7 +2132,7 @@ kill_paleontologist_effect = {
 	}
 
 	#Additional effects
-	remove_variable = dubois_paleontologist_var
+	dubois_remove_official_paleontologist_effect = yes
 }
 #This Effect retires the current Paleontologist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -2008,7 +2146,26 @@ retire_paleontologist_effect = {
 	}
 
 	#Additional effects
+	dubois_remove_official_paleontologist_effect = yes
+}
+
+#Removes the official Paleontologist without killing or retiring
+dubois_remove_official_paleontologist_effect = {
+	var:dubois_paleontologist_var ?= {
+		set_character_busy_and_immortal = no
+		dubois_remove_official_modifiers_from_paleontologist_effect = yes
+	}
 	remove_variable = dubois_paleontologist_var
+}
+
+#This effect is used to remove all modifiers that are bound to being the official Paleontologist
+dubois_remove_official_modifiers_from_paleontologist_effect = {
+	if = {
+		limit = {
+			has_modifier = academics_character_is_official_paleontologist_modifier
+		}
+		remove_modifier = academics_character_is_official_paleontologist_modifier
+	}
 }
 
 # Set new Paleontologist as official Paleontologist
@@ -2018,9 +2175,7 @@ dubois_set_new_paleontologist_as_paleontologist_effect = {
 		subject = this
 		object = scope:dubois_new_paleontologist_scope
 
-		var:dubois_paleontologist_var ?= {
-			set_character_busy_and_immortal = no
-		}
+		dubois_remove_official_paleontologist_effect = yes
 
 		set_variable = {
 			name = dubois_paleontologist_var
@@ -2032,6 +2187,12 @@ dubois_set_new_paleontologist_as_paleontologist_effect = {
 			limit = { dubois_paleontologist_project_active_trigger = yes }
 			var:dubois_paleontologist_var = {
 				set_character_busy_and_immortal = yes
+			}
+		}
+
+		var:dubois_paleontologist_var ?= {
+			add_modifier = {
+				name = academics_character_is_official_paleontologist_modifier
 			}
 		}
 
@@ -2207,7 +2368,7 @@ kill_biologist_effect = {
 		kill_character = yes
 	}
 
-	remove_variable = theiler_biologist_var
+	theiler_remove_official_biologist_effect = yes
 }
 #This Effect retires the current Biologist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -2220,7 +2381,26 @@ retire_biologist_effect = {
 		}
 	}
 
+	theiler_remove_official_biologist_effect = yes
+}
+
+#Removes the official Biologist without killing or retiring
+theiler_remove_official_biologist_effect = {
+	var:theiler_biologist_var ?= {
+		set_character_busy_and_immortal = no
+		theiler_remove_official_modifiers_from_biologist_effect = yes
+	}
 	remove_variable = theiler_biologist_var
+}
+
+#This effect is used to remove all modifiers that are bound to being the official Biologist
+theiler_remove_official_modifiers_from_biologist_effect = {
+	if = {
+		limit = {
+			has_modifier = academics_character_is_official_biologist_modifier
+		}
+		remove_modifier = academics_character_is_official_biologist_modifier
+	}
 }
 
 # Set new Biologist as official Biologist
@@ -2230,9 +2410,7 @@ theiler_set_new_biologist_as_biologist_effect = {
 		subject = this
 		object = scope:theiler_new_biologist_scope
 
-		var:theiler_biologist_var ?= {
-			set_character_busy_and_immortal = no
-		}
+		theiler_remove_official_biologist_effect = yes
 
 		set_variable = {
 			name = theiler_biologist_var
@@ -2244,6 +2422,12 @@ theiler_set_new_biologist_as_biologist_effect = {
 			limit = { theiler_has_active_biologist_project_with_busy_biologist_trigger = yes }
 			var:theiler_biologist_var = {
 				set_character_busy_and_immortal = yes
+			}
+		}
+
+		var:theiler_biologist_var ?= {
+			add_modifier = {
+				name = academics_character_is_official_biologist_modifier
 			}
 		}
 
@@ -2430,7 +2614,7 @@ kill_archaeologist_effect = {
 		kill_character = yes
 	}
 
-	remove_variable = lepsius_archaeologist_var
+	lepsius_remove_official_archaeologist_effect = yes
 }
 #This Effect retires the current Archaeologist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -2443,37 +2627,65 @@ retire_archaeologist_effect = {
 		}
 	}
 
+	lepsius_remove_official_archaeologist_effect = yes
+}
+
+#Removes the official Archaeologist without killing or retiring
+lepsius_remove_official_archaeologist_effect = {
+	var:lepsius_archaeologist_var ?= {
+		set_character_busy_and_immortal = no
+		lepsius_remove_official_modifiers_from_archaeologist_effect = yes
+	}
 	remove_variable = lepsius_archaeologist_var
+}
+
+#This effect is used to remove all modifiers that are bound to being the official Archaeologist
+lepsius_remove_official_modifiers_from_archaeologist_effect = {
+	if = {
+		limit = {
+			has_modifier = academics_character_is_official_archaeologist_modifier
+		}
+		remove_modifier = academics_character_is_official_archaeologist_modifier
+	}
 }
 
 # Set new Archaeologist as official Archaeologist
 lepsius_set_new_archaeologist_as_archaeologist_effect = {
-	custom_tooltip = {
-		text = lepsius_replace_archaeologist_with_new_archaeologist_tt
+	custom_description = {
+		text = "lepsius_set_new_archaeologist_as_archaeologist_effect_loc"
+		subject = this
+		object = scope:lepsius_new_archaeologist_scope
 
-		if = {
-			limit = {
-				has_variable = lepsius_archaeologist_var
-			}
-			var:lepsius_archaeologist_var = {
-				set_character_busy_and_immortal = no
-			}
-		}
+		lepsius_remove_official_archaeologist_effect = yes
 
 		set_variable = {
 			name = lepsius_archaeologist_var
 			value = scope:lepsius_new_archaeologist_scope
 		}
 
-		remove_variable = lepsius_new_archaeologist_var
-
-		#Sets Archaeologist busy if there is an ongoing project
+		#Sets the Archaeologist busy if there is an active project he is involved in
 		if = {
 			limit = { lepsius_archaeologist_project_active_trigger = yes }
 			lepsius_set_archaeologist_busy_effect = yes
 		}
 
-		#Adds Default Project
+		var:lepsius_archaeologist_var ?= {
+			add_modifier = {
+				name = academics_character_is_official_archaeologist_modifier
+			}
+		}
+
+		#Adds the default action of the Archaeologist
+		if = {
+			limit = {
+				NOT = { has_journal_entry = je_andersson_anthropological_research }
+			}
+			add_journal_entry = {
+				type = je_andersson_anthropological_research
+			}
+		}
+
+		#Starts Project for new Archaeologist if automation is active
 		hidden_effect = {
 			if = {
 				limit = {
@@ -2485,6 +2697,9 @@ lepsius_set_new_archaeologist_as_archaeologist_effect = {
 				}
 			}
 		}
+
+		#Removes variable
+		remove_variable = lepsius_new_archaeologist_var
 	}
 }
 
@@ -2642,7 +2857,7 @@ kill_anthropologist_effect = {
 		kill_character = yes
 	}
 
-	remove_variable = andersson_anthropologist_var
+	andersson_remove_official_anthropologist_effect = yes
 }
 #This Effect retires the current Anthropologist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -2655,7 +2870,26 @@ retire_anthropologist_effect = {
 		}
 	}
 
+	andersson_remove_official_anthropologist_effect = yes
+}
+
+#Removes the official Anthropologist without killing or retiring
+andersson_remove_official_anthropologist_effect = {
+	var:andersson_anthropologist_var ?= {
+		set_character_busy_and_immortal = no
+		andersson_remove_official_modifiers_from_anthropologist_effect = yes
+	}
 	remove_variable = andersson_anthropologist_var
+}
+
+#This effect is used to remove all modifiers that are bound to being the official Anthropologist
+andersson_remove_official_modifiers_from_anthropologist_effect = {
+	if = {
+		limit = {
+			has_modifier = academics_character_is_official_anthropologist_modifier
+		}
+		remove_modifier = academics_character_is_official_anthropologist_modifier
+	}
 }
 
 # Set new Anthropologist as official Anthropologist
@@ -2665,19 +2899,23 @@ andersson_set_new_anthropologist_as_anthropologist_effect = {
 		subject = this
 		object = scope:andersson_new_anthropologist_scope
 
-		var:andersson_anthropologist_var ?= {
-			set_character_busy_and_immortal = no
-		}
+		andersson_remove_official_anthropologist_effect = yes
 
 		set_variable = {
 			name = andersson_anthropologist_var
 			value = scope:andersson_new_anthropologist_scope
 		}
 
-		#Sets the Physician busy if there is an active project he is involved in
+		#Sets the Anthropologist busy if there is an active project he is involved in
 		#TODO
 
-		#Adds the default action of the Physician
+		var:andersson_anthropologist_var ?= {
+			add_modifier = {
+				name = academics_character_is_official_anthropologist_modifier
+			}
+		}
+
+		#Adds the default action of the Anthropologist
 		if = {
 			limit = {
 				NOT = { has_journal_entry = je_andersson_anthropological_research }
@@ -2687,7 +2925,7 @@ andersson_set_new_anthropologist_as_anthropologist_effect = {
 			}
 		}
 
-		#Starts Project for new Physician if automation is active
+		#Starts Project for new Anthropologist if automation is active
 		#TODO
 
 		#Removes variable
@@ -2849,7 +3087,7 @@ kill_physician_effect = {
 		kill_character = yes
 	}
 
-	remove_variable = panum_physician_var
+	panum_remove_official_physician_effect = yes
 }
 #This Effect retires the current Physician
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -2862,7 +3100,26 @@ retire_physician_effect = {
 		}
 	}
 
+	panum_remove_official_physician_effect = yes
+}
+
+#Removes the official Physician without killing or retiring
+panum_remove_official_physician_effect = {
+	var:panum_physician_var ?= {
+		set_character_busy_and_immortal = no
+		panum_remove_official_modifiers_from_physician_effect = yes
+	}
 	remove_variable = panum_physician_var
+}
+
+#This effect is used to remove all modifiers that are bound to being the official Physician
+panum_remove_official_modifiers_from_physician_effect = {
+	if = {
+		limit = {
+			has_modifier = academics_character_is_official_physician_modifier
+		}
+		remove_modifier = academics_character_is_official_physician_modifier
+	}
 }
 
 # Set new Physician as official Physician
@@ -2872,9 +3129,7 @@ panum_set_new_physician_as_physician_effect = {
 		subject = this
 		object = scope:panum_new_physician_scope
 
-		var:panum_physician_var ?= {
-			set_character_busy_and_immortal = no
-		}
+		panum_remove_official_physician_effect = yes
 
 		set_variable = {
 			name = panum_physician_var
@@ -2886,6 +3141,12 @@ panum_set_new_physician_as_physician_effect = {
 			limit = { panum_physician_project_active_trigger = yes }
 			var:panum_physician_var = {
 				set_character_busy_and_immortal = yes
+			}
+		}
+
+		var:panum_physician_var ?= {
+			add_modifier = {
+				name = academics_character_is_official_physician_modifier
 			}
 		}
 
@@ -3063,7 +3324,7 @@ kill_ethnologist_effect = {
 		kill_character = yes
 	}
 
-	remove_variable = roy_ethnologist_var
+	roy_remove_official_ethnologist_effect = yes
 }
 #This Effect retires the current ethnologist
 # Use "set_retirement_variable_effect" in the immediate effect when using this effect.
@@ -3076,13 +3337,34 @@ retire_ethnologist_effect = {
 		}
 	}
 
+	roy_remove_official_ethnologist_effect = yes
+}
+
+#Removes the official Ethnologist without killing or retiring
+roy_remove_official_ethnologist_effect = {
+	var:roy_ethnologist_var ?= {
+		set_character_busy_and_immortal = no
+		roy_remove_official_modifiers_from_ethnologist_effect = yes
+	}
 	remove_variable = roy_ethnologist_var
+}
+
+#This effect is used to remove all modifiers that are bound to being the official Ethnologist
+roy_remove_official_modifiers_from_ethnologist_effect = {
+	if = {
+		limit = {
+			has_modifier = academics_character_is_official_ethnologist_modifier
+		}
+		remove_modifier = academics_character_is_official_ethnologist_modifier
+	}
 }
 
 # Set new Ethnologist as official Ethnologist
 roy_set_new_ethnologist_as_ethnologist_effect = {
 	custom_tooltip = {
 		text = roy_replace_ethnologist_with_new_ethnologist_tt
+
+		roy_remove_official_ethnologist_effect = yes
 
 		if = {
 			limit = {
@@ -3106,6 +3388,12 @@ roy_set_new_ethnologist_as_ethnologist_effect = {
 #			}
 #		}
 
+		var:roy_ethnologist_var ?= {
+			add_modifier = {
+				name = academics_character_is_official_ethnologist_modifier
+			}
+		}
+
 		remove_variable = roy_new_ethnologist_var
 	}
 }
@@ -3125,7 +3413,7 @@ ethnologist_experience_set_up_effect = {
 		UNI_PM = pm_dubois_university_humanities
 	}
 
-	if = { #Adds the Experienced physician Trait if Experience is above 100
+	if = { #Adds the Experienced ethnologist Trait if Experience is above 100
 		limit = {
 			var:roy_ethnologist_experience_var >= 100
 			NOT = {
@@ -3139,7 +3427,7 @@ ethnologist_experience_set_up_effect = {
 		remove_trait = roy_ethnologist
 		add_trait = roy_ethnologist_experienced
 	}
-	if = { #Adds the Famous physician Trait if Experience is above 300
+	if = { #Adds the Famous ethnologist Trait if Experience is above 300
 		limit = {
 			var:roy_ethnologist_experience_var >= 300
 			NOT = {
