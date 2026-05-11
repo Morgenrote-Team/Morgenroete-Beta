@@ -8,9 +8,9 @@
 
 ############################################################################
 
-#Changes a variable that with no min or max
+#Changes a variable with no additional script math
 # Includes a setting the variable if it does not exist yet.
-mr_change_variable_no_min_effect = {
+mr_change_variable_effect = {
 	#AMOUNT = Amount to change the variable by
 	#NAME = Name of the variable
 	set_variable = {
@@ -23,6 +23,29 @@ mr_change_variable_no_min_effect = {
 			add = $AMOUNT$
 		}
 	}
+}
+
+#Changes a variable that with no min or max
+# Includes a setting the variable if it does not exist yet.
+mr_change_variable_with_additional_script_math_parameter_effect = {
+	#AMOUNT = Amount to change the variable by
+	#NAME = Name of the variable
+	#ADDITIONAL_SCRIPT_MATH = additional script math like min or max
+
+	# Usage example:
+	#mr_change_variable_with_additional_script_math_parameter_effect = { NAME = foo AMOUNT = -3 "min = 0 max = 100" }
+
+	set_variable = {
+        name = $NAME$
+        value = {
+            if = {
+                limit = { has_variable = $NAME$ }
+                value = var:$NAME$
+            }
+            add = $AMOUNT$
+            $ADDITIONAL_SCRIPT_MATH$
+        }
+    }
 }
 
 #Changes a variable that can't have a value below 0
