@@ -27,7 +27,7 @@ Biology & Chemistry
 - A Biologist will find a solution to combat the pests, giving you a prevention for future pest infestations.
 - If the pest is active in your country for which you have a solution for, a JE triggers which will remove this pest from each state in a month. Caution: The New World Screwworm Fly is very resistent and takes a year.
 - You can share your pesticide knowledge with your subjects through a subject interaction (Biological Team). This will also lower liberty desire a little bit.
-- You need uranium for the SIT.
+- A Chemist can invent DDT like Synthetic Rubber or Synthetic Oil. DDT gives agriculture bonuses and prevention against boll weevil, codling moth, locust swarms. potato beetles and tea mosquito.
 
 Technologies
 - Technology Differential Geometry. This Technology is needed for the Mathematics Specialization.
