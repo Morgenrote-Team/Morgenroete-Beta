@@ -44,6 +44,7 @@ Technologies
 - Added Early Pesticides. This lowers the impact of pests.
 - Added Modern Pesticides. This lowers the impact of pests.
 - Chemistry and Malaria Prevention also lowers the impact of pests. Flamethrowers help a little bit again locusts.
+- Added DDT. This is a hidden technology which will be activated by vour Chemist.
 
 Changes
 - Added Great Terroir (Wine bonus) to Aquitaine and Piedmont (Paradox, you added the best wine grounds in Europe and forgot about Bordeaux and Barolo?).
