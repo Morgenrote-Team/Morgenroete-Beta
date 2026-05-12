@@ -1,5 +1,10 @@
 Changelog fot 2.8.1f "Haeckel"
 
+Academics:
+- You can now recruit Chemists from your own National Cast or from other Nations.
+- You have to pay the Chemists depending on whether they are from other countries and whether they share languages and other cultural traits with your primary cultures.
+- In the same window you can also fire your official Chemist if you no longer need them.
+
 Characters:
 - Added DNA to some characters.
 - Rachadapisek Sonakul (Thai Physicist & Engineer) (Thanks PPsyrius)
