@@ -48,3 +48,4 @@ Technologies
 
 Changes
 - Added Great Terroir (Wine bonus) to Aquitaine and Piedmont (Paradox, you added the best wine grounds in Europe and forgot about Bordeaux and Barolo?).
+- Pope will be protected until 1850 by Austria and France (integrated "Protect the Pope" Mini-Mod).
