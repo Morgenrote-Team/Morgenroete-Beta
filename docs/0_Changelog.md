@@ -2,14 +2,14 @@ Changelog fot 2.8.1f "Haeckel"
 
 Characters:
 - Added DNA to some characters.
-- Rachadapisek Sonakul (random Thai Physicist & Engineer) (Thanks PPsyrius)
-- Phrot Decha (random Thai Physicist) (Thanks PPsyrius)
-- Rapipun Kasemsri (random Thai Engineer) (Thanks PPsyrius)
-- Lorm Disyaniyom (random Thai Architect) (Thanks PPsyrius)
-- Mahidol Hongsakul (random Thai Engineer) (Thanks PPsyrius)
-- Ronachit Kanchanawanit (random Thai Engineer) (Thanks PPsyrius)
-- Chom Ramakomud (random Thai Engineer) (Thanks PPsyrius)
-- Tab Nilanidhi (random Thai Chemist) (Thanks PPsyrius)
+- Rachadapisek Sonakul (Thai Physicist & Engineer) (Thanks PPsyrius)
+- Phrot Decha (Thai Physicist) (Thanks PPsyrius)
+- Rapipun Kasemsri (Thai Engineer) (Thanks PPsyrius)
+- Lorm Disyaniyom (Thai Architect) (Thanks PPsyrius)
+- Mahidol Hongsakul (Thai Engineer) (Thanks PPsyrius)
+- Ronachit Kanchanawanit (Thai Engineer) (Thanks PPsyrius)
+- Chom Ramakomud (Thai Engineer) (Thanks PPsyrius)
+- Tab Nilanidhi (Thai Chemist) (Thanks PPsyrius)
 
 Changes:
 - Official Artists now get 20 loyalty instead of 10 from being an official artist.
