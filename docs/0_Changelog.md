@@ -15,6 +15,7 @@ Characters:
 - Ronachit Kanchanawanit (Thai Engineer) (Thanks PPsyrius)
 - Chom Ramakomud (Thai Engineer) (Thanks PPsyrius)
 - Tab Nilanidhi (Thai Chemist) (Thanks PPsyrius)
+- Emilio Goeldi and Jacques Huber can now spawn in East Switzerland too and change their name depending on where they get spawned.
 
 Changes:
 - Official Artists now get 20 loyalty instead of 10 from being an official artist.
