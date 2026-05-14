@@ -1,9 +1,9 @@
 Changelog fot 2.8.1f "Haeckel"
 
 Academics:
-- You can now recruit Chemists from your own National Cast or from other Nations.
-- You have to pay the Chemists depending on whether they are from other countries and whether they share languages and other cultural traits with your primary cultures.
-- In the same window you can also fire your official Chemist if you no longer need them.
+- You can now recruit Chemists and Biologists from your own National Cast or from other Nations.
+- You have to pay the Chemists and Biologists depending on whether they are from other countries and whether they share languages and other cultural traits with your primary cultures.
+- In the same window you can also fire your official Chemists and Biologists if you no longer need them.
 
 Characters:
 - Added DNA to some characters.
@@ -24,3 +24,4 @@ Changes:
 
 Fixes:
 - The female scientist event should no longer eliminate you existing scientists and instead properly moves them to the National Cast.
+- Added a missing vanilla animation.
