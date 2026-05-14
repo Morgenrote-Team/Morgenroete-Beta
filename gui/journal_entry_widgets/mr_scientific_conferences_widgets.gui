@@ -20,7 +20,8 @@ flowcontainer = {
 		com_international_organization_reason = { }
 		com_default_journal_buttons = { }
 		com_international_organization_modifiers = { }
-		mr_scientific_conference_list = { }
+		mr_scientific_conference_participants_list = { }
+		mr_scientific_conference_involved_list = { }
 	}
 }
 
@@ -87,11 +88,10 @@ types mr_scientific_conference_types {
 		}
 	}
 	
-	type mr_scientific_conference_list = flowcontainer {
-		visible = "[Not(
-			IsDataModelEmpty(
-				JournalEntry.MakeScope.GetList('mr_conference_participants_list')
-			)
+	type mr_scientific_conference_participants_list = flowcontainer {
+		visible = "[Nor(
+			IsDataModelEmpty(JournalEntry.MakeScope.GetList('mr_conference_participants_list')),
+			JournalEntry.MakeScope.Var('mr_non_voting_conference_var').IsSet
 		)]"
 		ignoreinvisible = yes
 		
@@ -192,20 +192,24 @@ types mr_scientific_conference_types {
 				}
 			}
 			divider_clean = {}
-			textbox = {
-				autoresize = yes
-				minimumsize = { 0 20 }
-				align = center|nobaseline
-				text = "MR_SCIENTIFIC_POSITION"
-				elide = right
-			}
-			textbox = {
+			flowcontainer = {
+				direction = vertical
 				visible = "[Character.MakeScope.Var('mr_conference_stance_var').IsSet]"
-				autoresize = yes
-				minimumsize = { 0 20 }
-				align = left|nobaseline
-				text = "MR_SCIENTIFIC_POSITION_FLAG"
-				elide = right
+				textbox = {
+					autoresize = yes
+					minimumsize = { 0 20 }
+					align = center|nobaseline
+					text = "MR_SCIENTIFIC_POSITION"
+					elide = right
+				}
+				textbox = {
+					
+					autoresize = yes
+					minimumsize = { 0 20 }
+					align = left|nobaseline
+					text = "MR_SCIENTIFIC_POSITION_FLAG"
+					elide = right
+				}
 			}
 		}
 		
@@ -244,5 +248,62 @@ types mr_scientific_conference_types {
 				}
 			}
 		}
+	}
+	
+	type mr_scientific_conference_involved_list = flowcontainer {
+		visible = "[And(
+			Not(IsDataModelEmpty(JournalEntry.GetInvolvedCountries)),
+			JournalEntry.MakeScope.Var('mr_non_voting_conference_var').IsSet
+		)]"
+		ignoreinvisible = yes
+		
+		margin_bottom = 60
+		
+		flowcontainer = {
+			direction = vertical
+			
+			section_header_button = {
+				blockoverride "layout" {
+					size = { 520 38 }
+				}
+				blockoverride "left_text" {
+					text = "MR_PARTICIPATING_COUNTRIES"
+				}
+				blockoverride "onclick" {
+					onclick = "[GetVariableSystem.Toggle('conference_list_toggle')]"
+				}
+				blockoverride "onclick_showmore" {
+					visible = "[Not(GetVariableSystem.Exists('conference_list_toggle'))]"
+				}
+				blockoverride "onclick_showless" {
+					visible = "[GetVariableSystem.Exists('conference_list_toggle')]"
+				}
+			}
+			
+			fixedgridbox = {
+				visible = "[GetVariableSystem.Exists('conference_list_toggle')]"
+				datamodel = "[JournalEntry.MakeScope.GetList('mr_conference_participants_list')]"
+				addcolumn = 500
+				addrow = 110
+				
+				background = {
+					texture = "gfx/interface/tooltip/tooltip_title_bg.dds"
+					color = { 0.69 0.47 0.33 1 }
+					alpha = 0.4
+					
+					modify_texture = {
+						using = texture_velvet
+					}
+				}
+				
+				item = {
+					mr_scientific_conference_involved_list = {}
+				}
+			}
+		}
+	}
+	
+	type mr_scientific_conference_involved_list = flowcontainer {
+		direction = verticle
 	}
 }
