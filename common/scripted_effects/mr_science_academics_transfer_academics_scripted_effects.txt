@@ -12,6 +12,7 @@
 academics_hire_academic_open_window_effect = {
 	#ROLE = Role name of the specific character type (e.g. chemist)
 	#PROJECT = Projec Name of the specific character type (e.g. mendelejew)
+	# example of usage: academics_hire_academic_open_window_effect = { ROLE = chemist PROJECT = mendelejew }
 
 	custom_tooltip = {
 		text = mr_academics_hire_$ROLE$_button_tt
@@ -21,10 +22,38 @@ academics_hire_academic_open_window_effect = {
 			order_by = var:$PROJECT$_$ROLE$_experience_var
 
 			limit = {
+				#Triggers for all countries
 				has_role = character_role_$PROJECT$_$ROLE$
 				has_variable = $PROJECT$_$ROLE$_experience_var
-				NOT = {
+				NOR = {
+					is_ruler_of_own_country = yes
 					owner.var:$PROJECT$_$ROLE$_var ?= this
+					AND = {
+						owner ?= root
+						has_modifier = academics_character_recently_fired_modifier
+					}
+				}
+				#Triggers applying only to other countries
+				trigger_if = {
+					limit = {
+						exists = root.owner
+						NOT = { owner ?= root.owner }
+					}
+					NOR = {
+						is_heir_of_own_country = yes
+						owner.var:tesla_engineer_var ?= root
+						owner.var:mendelejew_chemist_var ?= root
+						owner.var:verrier_astronomer_var ?= root
+						owner.var:curie_physicist_var ?= root
+						owner.var:agassiz_geologist_var ?= root
+						owner.var:dubois_paleontologist_var ?= root
+						owner.var:ito_naturalist_var ?= root
+						owner.var:theiler_biologist_var ?= root
+						owner.var:panum_physician_var ?= root
+						owner.var:lepsius_archaeologist_var ?= root
+						owner.var:andersson_anthropologist_var ?= root
+						owner.var:roy_ethnologist_var ?= root
+					}
 				}
 			}
 
@@ -39,7 +68,7 @@ academics_hire_academic_open_window_effect = {
 	}
 }
 
-
+#Effect to hire an academic
 academics_hire_academic_hire_button_effect = {
 	#ROLE = Role name of the specific character type (e.g. chemist)
 	#PROJECT = Projec Name of the specific character type (e.g. mendelejew)
@@ -47,9 +76,51 @@ academics_hire_academic_hire_button_effect = {
 	clear_variable_list = mr_academics_hire_$ROLE$_variable_list
 	remove_variable = mr_academics_hire_$ROLE$_window_active_var
 
+	add_treasury = {
+		value = scope:chosen_character.var:$PROJECT$_$ROLE$_experience_var
+		round = yes
+		multiply = 10000
+		multiply = -1
+		if = {
+			limit = {
+				NOT = {
+					scope:chosen_character.owner ?= this
+				}
+			}
+			multiply = 1.2
+		}
+		if = {
+			limit = {
+				NOT = {
+					scope:chosen_character.culture = {
+						shares_language_trait_group_with_any_primary_culture = root
+					}
+				}
+			}
+			multiply = 1.3
+		}
+		if = {
+			limit = {
+				NOT = {
+					scope:chosen_character.culture = {
+						shares_heritage_trait_with_any_primary_culture = root
+					}
+				}
+			}
+			multiply = 1.5
+		}
+	}
+
+	academics_hire_academic_fire_button_effect = { PROJECT = $PROJECT$ ROLE = $ROLE$ }
+
 	scope:chosen_character = {
 		save_scope_as = $PROJECT$_new_$ROLE$_scope
 		transfer_character = root
+		#Removes the recently fired modifier, as the new nation can't be the one that fired the character
+		if = {
+			limit = { has_modifier = academics_character_recently_fired_modifier }
+			remove_modifier = academics_character_recently_fired_modifier
+		}
 	}
 
 	set_variable = {
@@ -62,7 +133,18 @@ academics_hire_academic_hire_button_effect = {
 	remove_variable = $PROJECT$_new_$ROLE$_var
 }
 
-############################################################################
+#Effect to fire an academic
+academics_hire_academic_fire_button_effect = {
+	#ROLE = Role name of the specific character type (e.g. chemist)
+	#PROJECT = Projec Name of the specific character type (e.g. mendelejew)
 
-### Chemist Effects ###
+	var:$PROJECT$_$ROLE$_var ?= {
+		add_modifier = {
+			name = academics_character_recently_fired_modifier
+			years = 5
+			is_decaying = yes
+		}
+	}
 
+	$PROJECT$_remove_official_$ROLE$_effect = yes
+}
