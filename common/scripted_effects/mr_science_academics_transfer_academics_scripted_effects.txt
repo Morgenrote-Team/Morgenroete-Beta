@@ -22,18 +22,38 @@ academics_hire_academic_open_window_effect = {
 			order_by = var:$PROJECT$_$ROLE$_experience_var
 
 			limit = {
+				#Triggers for all countries
+				has_role = character_role_$PROJECT$_$ROLE$
+				has_variable = $PROJECT$_$ROLE$_experience_var
 				NOR = {
 					is_ruler_of_own_country = yes
-					is_heir_of_own_country = yes
+					owner.var:$PROJECT$_$ROLE$_var ?= this
 					AND = {
-						owner = root
+						owner ?= root
 						has_modifier = academics_character_recently_fired_modifier
 					}
 				}
-				has_role = character_role_$PROJECT$_$ROLE$
-				has_variable = $PROJECT$_$ROLE$_experience_var
-				NOT = {
-					owner.var:$PROJECT$_$ROLE$_var ?= this
+				#Triggers applying only to other countries
+				trigger_if = {
+					limit = {
+						exists = root.owner
+						NOT = { owner ?= root.owner }
+					}
+					NOR = {
+						is_heir_of_own_country = yes
+						owner.var:tesla_engineer_var ?= root
+						owner.var:mendelejew_chemist_var ?= root
+						owner.var:verrier_astronomer_var ?= root
+						owner.var:curie_physicist_var ?= root
+						owner.var:agassiz_geologist_var ?= root
+						owner.var:dubois_paleontologist_var ?= root
+						owner.var:ito_naturalist_var ?= root
+						owner.var:theiler_biologist_var ?= root
+						owner.var:panum_physician_var ?= root
+						owner.var:lepsius_archaeologist_var ?= root
+						owner.var:andersson_anthropologist_var ?= root
+						owner.var:roy_ethnologist_var ?= root
+					}
 				}
 			}
 
@@ -43,9 +63,6 @@ academics_hire_academic_open_window_effect = {
 					target = prev
 				}
 			}
-
-			#Removes the recently fired modifier, as the new nation can't be the one that fired the character
-			remove_modifier = academics_character_recently_fired_modifier
 		}
 		set_variable = mr_academics_hire_$ROLE$_window_active_var
 	}
@@ -99,6 +116,11 @@ academics_hire_academic_hire_button_effect = {
 	scope:chosen_character = {
 		save_scope_as = $PROJECT$_new_$ROLE$_scope
 		transfer_character = root
+		#Removes the recently fired modifier, as the new nation can't be the one that fired the character
+		if = {
+			limit = { has_modifier = academics_character_recently_fired_modifier }
+			remove_modifier = academics_character_recently_fired_modifier
+		}
 	}
 
 	set_variable = {
