@@ -203,7 +203,6 @@ types mr_scientific_conference_types {
 					elide = right
 				}
 				textbox = {
-					
 					autoresize = yes
 					minimumsize = { 0 20 }
 					align = left|nobaseline
@@ -267,7 +266,7 @@ types mr_scientific_conference_types {
 					size = { 520 38 }
 				}
 				blockoverride "left_text" {
-					text = "MR_PARTICIPATING_COUNTRIES"
+					raw_text = "MR_PARTICIPATING_COUNTRIES"
 				}
 				blockoverride "onclick" {
 					onclick = "[GetVariableSystem.Toggle('conference_list_toggle')]"
@@ -282,7 +281,7 @@ types mr_scientific_conference_types {
 			
 			fixedgridbox = {
 				visible = "[GetVariableSystem.Exists('conference_list_toggle')]"
-				datamodel = "[JournalEntry.MakeScope.GetList('mr_conference_participants_list')]"
+				datamodel = "[JournalEntry.GetInvolvedCountries]"
 				addcolumn = 500
 				addrow = 110
 				
@@ -297,13 +296,118 @@ types mr_scientific_conference_types {
 				}
 				
 				item = {
-					mr_scientific_conference_involved_list = {}
+					mr_scientific_conference_involved_item = {}
 				}
 			}
 		}
 	}
 	
-	type mr_scientific_conference_involved_list = flowcontainer {
-		direction = verticle
+	type mr_scientific_conference_involved_item = flowcontainer {
+		minimumsize = { 520 160 }
+		direction = vertical
+		using = entry_bg_fancy_solid_bg
+		
+		# Country Header
+		container = {
+			minimumsize = { 520 38 }
+			
+			background = {
+				using = fade_top_entry_header_colored
+				color = "[Country.GetMapColor]"
+			}
+			
+			flowcontainer = {
+				position = { 30 2 }
+				parentanchor = vcenter
+				spacing = 5
+				
+				textbox = {
+					parentanchor = vcenter
+					multiline = yes
+					autoresize = yes
+					align = nobaseline
+					elide = right
+					fontsize_min = 12
+					max_width = 250
+					text = "POWER_BLOC_MEMBER_COUNTRY_NAME"
+				}
+				
+				button_icon_goto = {
+					size = { 28 28 }
+					tooltip = "GO_TO_BUTTON_COUNTRY"
+					onclick = "[InformationPanelBar.OpenCountryPanelTab( Country.Self, 'default' )]"
+				}
+			}
+			
+			flowcontainer = {
+				position = { -8 2 }
+				parentanchor = right|vcenter
+				spacing = 5
+				
+				# Zoom-to button
+				widget = {
+					parentanchor = vcenter
+					size = { 28 28 }
+					
+					button_icon_zoom = {
+						size = { 100% 100% }
+						
+						block "goto_properties" {
+							onclick = "[Country.AccessCapital.ZoomToCapital]"
+							tooltip = "ZOOM_TO_COUNTRY_CAPITAL"
+							enabled = "[Not( Country.GetCapital.IsZoomingToCapital )]"
+						}
+					}
+				}
+			}
+			
+			rank_badge = {
+				size = { 45 45 }
+				position = { -15 -15 }
+				
+				blockoverride "font_size_under_100_rank" {
+					using = fontsize_medium
+				}
+			}
+		}
+		
+		flowcontainer = {
+			direction = horizontal
+			margin = { 20 0 }
+			
+			character_portrait_large = {
+				parentanchor = center
+				position = { 0 0 }
+				using = tooltip_below
+				blockoverride "show_hat" {}
+				blockoverride "highlight" {}
+				
+				datacontext = "[Country.GetRuler]"
+				
+				default_header_clean_faded = {
+					parentanchor = bottom|hcenter
+					size = { 150 30 }
+					position = { 0 5 }
+					blockoverride "text" {
+						raw_text = "[Character.GetFullName]"
+					}
+					blockoverride "text_size" {
+						fontsize = 18
+					}
+				}
+			}
+			
+			vertical_divider_full = {
+				size = { 2 0 }
+				layoutpolicy_vertical = expanding
+			}
+			
+			widget = {
+				size = { 200 160 }
+				background = {
+					using = entry_bg
+				}
+			}
+		}
 	}
 }
