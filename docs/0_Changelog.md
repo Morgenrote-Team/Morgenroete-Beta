@@ -30,6 +30,9 @@ Biology & Chemistry
 - You can share your pesticide knowledge with your subjects through a subject interaction (Biological Team). This will also lower liberty desire a little bit.
 - A Chemist can invent DDT like Synthetic Rubber or Synthetic Oil. DDT gives agriculture bonuses and prevention against boll weevil, codling moth, locust swarms. potato beetles and tea mosquito.
 
+Music
+- Added JE and event for the Rediscovery of Vivaldi's works.
+
 Technologies
 - Technology Differential Geometry. This Technology is needed for the Mathematics Specialization.
 - Differential Geometry is needed for Astronomy, not Mechanical Tools.
