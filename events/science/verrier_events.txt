@@ -3917,22 +3917,18 @@ verrier.80 = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	immediate = {
+		var:verrier_astronomer_var = {
+			save_scope_as = mr_conference_chair_scope
+		}
 	}
 
 	option = {
-		name = verrier.80.g # Invite the leading astronomic nations
-		every_country = {
-			limit = {
-				has_technology_researched = verrier_astronomy_tech
-				verrier_astronomical_observation = yes
-				OR = {
-					has_variable = verrier_astronomer_var
-					var:verrier_astronomical_objects >= 250
-				}
-			}
-			trigger_event = {
-				id = verrier.81
-				days = 7
+		name = verrier.80.g # If you host, you WILL present
+		custom_tooltip = {
+			text = verrier_astronomer_will_make_presentation
+			set_variable = {
+				name = verrier_making_presentation_var
+				years = 1
 			}
 		}
 	}
@@ -3961,44 +3957,67 @@ verrier.81 = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = verrier_congress_host_modifier
+			}
+			save_scope_as = mr_conference_host_scope
+			var:verrier_astronomer_var = {
+				save_scope_as = mr_conference_chair_scope
+			}
+		}
 	}
 
 	option = {
 		name = verrier.81.g #We'll come
-		add_modifier = {
-			name = verrier_congress_attend_modifier
-			years = 5
+		if = {
+			limit = {
+				NOT = {
+					is_involved_in_journal_entry = je_mr_verrier_carte_du_ciel
+				}
+			}
+			global_var:je_mr_verrier_carte_du_ciel = {
+				add_involved_country = prev
+			}
 		}
-		hidden_effect = {
-			trigger_event = {
-				id = verrier.82
-				days = { 14 28 }
+		custom_tooltip = {
+			text = verrier_astronomer_will_make_presentation
+			set_variable = {
+				name = verrier_making_presentation_var
+				years = 1
 			}
 		}
 	}
-
-	after = {
-		hidden_effect = {
-			if = {
-				limit = {
-					var:verrier_astronomical_objects < 300
+	
+	option = {
+		name = verrier.81.h
+		if = {
+			limit = {
+				NOT = {
+					is_involved_in_journal_entry = je_mr_verrier_carte_du_ciel
 				}
-				set_variable = verrier_carte_congress_laughed_var
 			}
-			if = {
-				limit = {
-					var:verrier_astronomical_objects >= 300
-					var:verrier_astronomical_objects < 500
-				}
-				set_variable = verrier_carte_congress_respected_var
-			}
-			if = {
-				limit = {
-					var:verrier_astronomical_objects >= 500
-				}
-				set_variable = verrier_carte_congress_lauded_var
+			global_var:je_mr_verrier_carte_du_ciel = {
+				add_involved_country = prev
 			}
 		}
+		custom_tooltip = {
+			text = mr_conference_no_presentation
+			add_modifier = {
+				name = verrier_congress_attend_modifier
+				years = 1
+			}
+		}
+	}
+	
+	option = {
+		name = verrier.81.i
+		trigger = {
+			NOT = {
+				is_involved_in_journal_entry = je_mr_verrier_carte_du_ciel
+			}
+		}
+		custom_tooltip = verrier_conference_no_attendance
 	}
 }
 
@@ -4082,8 +4101,28 @@ verrier.82 = {
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
 
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+	
+	trigger = {
+		has_variable = verrier_making_presentation_var
+	}
 
 	immediate = {
+		if = {
+			limit = {
+				var:verrier_astronomical_objects >= 500
+			}
+			set_variable = verrier_carte_congress_lauded_var
+		}
+		else_if = {
+			limit = {
+				var:verrier_astronomical_objects >= 300
+				var:verrier_astronomical_objects < 500
+			}
+			set_variable = verrier_carte_congress_respected_var
+		}
+		else = {
+			set_variable = verrier_carte_congress_laughed_var
+		}
 	}
 
 	option = {
@@ -4096,6 +4135,7 @@ verrier.82 = {
 			years = 5
 		}
 	}
+	
 	option = {
 		name = verrier.82.h #
 		trigger = {
@@ -4109,6 +4149,7 @@ verrier.82 = {
 			years = 5
 		}
 	}
+	
 	option = {
 		name = verrier.82.i #
 		trigger = {
@@ -4124,15 +4165,6 @@ verrier.82 = {
 			years = 5
 		}
 		custom_tooltip = verrier_add_20_astronomical_object_tt
-	}
-
-	after = {
-		hidden_effect = {
-			trigger_event = {
-				id = verrier.83
-				days = { 14 28 }
-			}
-		}
 	}
 }
 
@@ -4161,8 +4193,8 @@ verrier.83 = {
 	immediate = {
 		random_country = {
 			limit = {
-				has_modifier = verrier_congress_attend_modifier
-				NOT = { this = ROOT }
+				is_involved_in_journal_entry = je_mr_verrier_carte_du_ciel
+				this != root
 			}
 			save_scope_as = verrier_exchange_country
 		}
