@@ -6,3 +6,7 @@ Quality of Life:
 Characters:
 - Various historical important scientists now gain additional experience.
 - Pavlov can now also spawn as a Physician.
+- Le Verrier can now also spawn as a random Astronomer in France.
+
+Fixes:
+- Some historical Characters will no longer wear rags and instead will wear the correct outfits.
