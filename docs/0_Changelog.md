@@ -33,6 +33,12 @@ Biology & Chemistry
 Music
 - Added JE and event for the Rediscovery of Vivaldi's works.
 
+Research License
+- Archaeological, Botanical, Mountaineering and Paleontological Licenses are now one diplomatic action: Research License.
+- You can ask a research license from anyone, even those who don't have something to research (yet).
+- You need to be recognized and at least a minor power to ask for a research license (yes, that also counts for archaeology).
+- Normally, Great Powers will not give research licenses. However, they will be more open to your question if you are an ally.
+
 Technologies
 - Technology Differential Geometry. This Technology is needed for the Mathematics Specialization.
 - Differential Geometry is needed for Astronomy, not Mechanical Tools.
