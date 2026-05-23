@@ -11,5 +11,9 @@ Characters:
 - Pavlov can now also spawn as a Physician.
 - Le Verrier can now also spawn as a random Astronomer in France.
 
+Chnges:
+- Reworked various geographic triggers for generic minerals to use geographic regions instead.
+- Moutain Ranges with mountains over 4000 meters are now counted as mountains for the yearly generic minerals
+
 Fixes:
 - Some historical Characters will no longer wear rags and instead will wear the correct outfits.
