@@ -17,3 +17,4 @@ Chnges:
 
 Fixes:
 - Some historical Characters will no longer wear rags and instead will wear the correct outfits.
+- Hopefully fixed an issue with some Anthropologist Events not having an option 
