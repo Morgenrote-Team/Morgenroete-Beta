@@ -5,6 +5,7 @@ Quality of Life:
 
 Graphics:
 - The Volcano Expedition and Botanical Expedition JE now has a fancy new image and depicts the Geologist character.
+- Replaced various icons by ones created by Valerie P.
 
 Characters:
 - Various historical important scientists now gain additional experience.
@@ -17,4 +18,4 @@ Chnges:
 
 Fixes:
 - Some historical Characters will no longer wear rags and instead will wear the correct outfits.
-- Hopefully fixed an issue with some Anthropologist Events not having an option 
+- Hopefully fixed an issue with some Anthropologist Events not having an option
