@@ -7,6 +7,7 @@ Graphics:
 - The Volcano Expedition and Botanical Expedition JE now has a fancy new image and depicts the Geologist character.
 - Replaced various icons by ones created by Valerie P.
 - Improved the DNA of le Verrier.
+- The Biologists will now also use Erlenmeyer Flasks and Test Tubes.
 
 Characters:
 - Various historical important scientists now gain additional experience.
