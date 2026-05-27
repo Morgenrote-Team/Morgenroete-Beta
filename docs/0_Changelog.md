@@ -7,3 +7,4 @@ Graphics:
 
 Fixes:
 - The Confer Professorship interaction should no longer anger academics multiple times or anger the person who got the Professorship.
+- The Promote Biologist Button now properly shows that it's active.
