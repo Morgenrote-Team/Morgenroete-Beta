@@ -11,6 +11,7 @@ Fixes:
 - The Promote Biologist Button now properly shows that it's active.
 - Potentially fixed an issue that caused the first Archaeological Team to not being properly assigned.
 - The Naturalist is now properly transfered if bought from another country.
+- Fixed an error in the mountaineer experience set up effect.
 
 Other:
 - The Expedition and Excavations alert is now an alert instead of an important action.
