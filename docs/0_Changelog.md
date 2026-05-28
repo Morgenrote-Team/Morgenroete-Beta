@@ -10,3 +10,4 @@ Fixes:
 - Dostoevsky is no longer going to criticize the work of Dostoevsky.
 - The Promote Biologist Button now properly shows that it's active.
 - Potentially fixed an issue that caused the first Archaeological Team to not being properly assigned.
+- The Naturalist is now properly transfered if bought from another country.
