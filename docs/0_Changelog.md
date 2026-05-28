@@ -1,25 +1,16 @@
-Changelog fot 2.8.1h "Haeckel"
-
-Quality of Life:
-- The Center of Art Buttons now show whether there already is a center of art or not.
+Changelog fot 2.8.1i "Haeckel"
 
 Graphics:
-- The Volcano Expedition and Botanical Expedition JE now has a fancy new image and depicts the Geologist character.
-- Replaced various icons by ones created by Valerie P.
-- Improved the DNA of le Verrier.
-- The Biologists will now also use Erlenmeyer Flasks and Test Tubes.
-
-Characters:
-- Various historical important scientists now gain additional experience.
-- Pavlov can now also spawn as a Physician.
-- Le Verrier can now also spawn as a random Astronomer in France.
-
-Chnges:
-- Reworked various geographic triggers for generic minerals to use geographic regions instead.
-- Moutain Ranges with mountains over 4000 meters are now counted as mountains for the yearly generic minerals
+- Various Biology Journal Entry now has a fancy new image and depicts the Biologist character.
+- The Volcano Expedition Journal Entry now features some ash falling down from the sky.
+- Added various particle effects to jounral entry widgets.
 
 Fixes:
-- Some historical Characters will no longer wear rags and instead will wear the correct outfits.
-- Hopefully fixed an issue with some Anthropologist Events not having an option.
-- You can no longer let your Geologist and Paleontologist gather for a symposium for an unlimited amount when your Geologist is automated.
-- Dufour should spawn as General again.
+- The Confer Professorship interaction should no longer anger academics multiple times or anger the person who got the Professorship.
+- Dostoevsky is no longer going to criticize the work of Dostoevsky.
+- The Promote Biologist Button now properly shows that it's active.
+- Potentially fixed an issue that caused the first Archaeological Team to not being properly assigned.
+- The Naturalist is now properly transfered if bought from another country.
+
+Other:
+- The Expedition and Excavations alert is now an alert instead of an important action.
