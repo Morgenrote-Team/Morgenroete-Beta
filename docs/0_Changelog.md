@@ -9,3 +9,4 @@ Fixes:
 - The Confer Professorship interaction should no longer anger academics multiple times or anger the person who got the Professorship.
 - Dostoevsky is no longer going to criticize the work of Dostoevsky.
 - The Promote Biologist Button now properly shows that it's active.
+- Potentially fixed an issue that caused the first Archaeological Team to not being properly assigned.
