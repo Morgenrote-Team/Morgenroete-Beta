@@ -2,6 +2,7 @@ Changelog fot 2.8.1j "Haeckel"
 
 Characters:
 - Gustaf Lagerheim (Swedish Naturalist)
+- Theodor Schwann (German Biologist)
 - Harald Huss (Swedish Biologist)
 - Félix Valloton (Swiss Painter)
 
