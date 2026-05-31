@@ -4,6 +4,7 @@ Characters:
 - Gustaf Lagerheim (Swedish Naturalist)
 - Jaques Loeb (German Biologist)
 - Theodor Schwann (German Biologist and Physician)
+- Christiaan Eijkman (Dutch Biologist and Physician)
 - Harald Huss (Swedish Biologist)
 - Félix Valloton (Swiss Painter)
 
