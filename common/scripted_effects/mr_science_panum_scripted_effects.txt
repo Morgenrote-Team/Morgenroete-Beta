@@ -5578,63 +5578,29 @@ panum_add_x_psycho_points_effect = {
 panum_monthly_psychotherapeutic_progress_effect = {
 	if = { #Effect only gets executed if there is either a psychotherapeutic tech, a mental asylum, or a psychiatrist
 		limit = {
+			NOT = { has_variable = panum_psychiatry_level_5_var }
 			OR = {
 				has_technology_researched = psychiatry
 				has_technology_researched = psychoanalysis
+				var:panum_physician_var ?= {
+					has_trait = panum_psychiatrist
+				}
 				any_scope_building = {
 					is_building_type = building_panum_asylum
 				}
-				AND = {
-					var:panum_physician_var ?= {
-						has_trait = panum_psychiatrist
-					}
-				}
 			}
 		}
-		#Set up
-		if = {
-			limit = { NOT = { has_variable = panum_psycho_points_var } }
-			set_variable = {
-				name = panum_psycho_points_var
-				value = 0
-			}
-		}
-
 		### Actual calculation done in script_value ###
-		if = {
-			limit = { panum_psychiatry_points_value > 0 }
-			set_variable = {
-				name = panum_estimated_monthly_psychotherapeutic_progress_var
-				value = panum_psychiatry_points_value
-			}
-		}
-		else = {
-			set_variable = {
-				name = panum_estimated_monthly_psychotherapeutic_progress_var
-				value = 0
-			}
-		}
-
-		#Add monthly variable to the total variable
-		if = {
-			limit = { var:panum_estimated_monthly_psychotherapeutic_progress_var > 0 }
-			change_variable = {
-				name = panum_psycho_points_var
-				add = var:panum_estimated_monthly_psychotherapeutic_progress_var
-			}
-			clamp_variable = {
-				name = panum_psycho_points_var
-				min = 0
-				max = 1000
-			}
+		mr_change_variable_with_additional_script_math_parameter_effect = {
+			AMOUNT = panum_psychiatry_points_value
+			NAME = panum_psycho_points_var
+			ADDITIONAL_SCRIPT_MATH = "min = 0 max = 1000"
 		}
 
 		#Trigger New Level Event
 		if = {
 			limit = {
-				NOT = {
-					has_variable = panum_psychiatry_level_1_var
-				}
+				NOT = { has_variable = panum_psychiatry_level_1_var }
 				var:panum_psycho_points_var >= 100
 			}
 			set_variable = panum_psychiatry_level_1_var
@@ -5644,9 +5610,7 @@ panum_monthly_psychotherapeutic_progress_effect = {
 		}
 		if = {
 			limit = {
-				NOT = {
-					has_variable = panum_psychiatry_level_2_var
-				}
+				NOT = { has_variable = panum_psychiatry_level_2_var }
 				var:panum_psycho_points_var >= 250
 			}
 			set_variable = panum_psychiatry_level_2_var
@@ -5656,9 +5620,7 @@ panum_monthly_psychotherapeutic_progress_effect = {
 		}
 		if = {
 			limit = {
-				NOT = {
-					has_variable = panum_psychiatry_level_3_var
-				}
+				NOT = { has_variable = panum_psychiatry_level_3_var }
 				var:panum_psycho_points_var >= 500
 			}
 			set_variable = panum_psychiatry_level_3_var
@@ -5668,9 +5630,7 @@ panum_monthly_psychotherapeutic_progress_effect = {
 		}
 		if = {
 			limit = {
-				NOT = {
-					has_variable = panum_psychiatry_level_4_var
-				}
+				NOT = { has_variable = panum_psychiatry_level_4_var }
 				var:panum_psycho_points_var >= 750
 			}
 			set_variable = panum_psychiatry_level_4_var
@@ -5680,9 +5640,7 @@ panum_monthly_psychotherapeutic_progress_effect = {
 		}
 		if = {
 			limit = {
-				NOT = {
-					has_variable = panum_psychiatry_level_5_var
-				}
+				NOT = { has_variable = panum_psychiatry_level_5_var }
 				var:panum_psycho_points_var >= 1000
 			}
 			set_variable = panum_psychiatry_level_5_var
