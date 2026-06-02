@@ -6,6 +6,7 @@ Characters:
 - Theodor Schwann (German Biologist and Physician)
 - Christiaan Eijkman (Dutch Biologist and Physician)
 - Harald Huss (Swedish Biologist)
+- Charles Gleyre (Swiss Painter)
 - Félix Valloton (Swiss Painter)
 
 Changes:
