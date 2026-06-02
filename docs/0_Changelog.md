@@ -18,3 +18,6 @@ Changes:
 Fixes:
 - Adapted the Topbar Framework entries to the new system.
 - The Naval Research is now correctly indicated in the Research Journal Entry.
+
+Performance:
+- Various small changes to slightly improve performance.
