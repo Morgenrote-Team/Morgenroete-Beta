@@ -21,3 +21,6 @@ Fixes:
 
 Performance:
 - Various small changes to slightly improve performance.
+
+Quality of Life:
+- Changed the shortcut of the Popups to close
