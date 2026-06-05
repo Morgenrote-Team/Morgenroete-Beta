@@ -18,9 +18,10 @@ Changes:
 Fixes:
 - Adapted the Topbar Framework entries to the new system.
 - The Naval Research is now correctly indicated in the Research Journal Entry.
+- Non historical balloonists should no longer stay around. That way you will no longer be able to flood your National Cast with Balloonists.
 
 Performance:
 - Various small changes to slightly improve performance.
 
 Quality of Life:
-- Changed the shortcut of the Popups to close
+- Changed the shortcut of the Popups to the close shortcut.
