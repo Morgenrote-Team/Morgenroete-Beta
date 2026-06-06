@@ -6,6 +6,7 @@ Characters:
 - Theodor Schwann (German Biologist and Physician)
 - Christiaan Eijkman (Dutch Biologist and Physician)
 - Harald Huss (Swedish Biologist)
+- Solon Robinson (American Biologist and Writer)
 - Hokusai Katsushika (Japanese starting Painter)
 - Eugène Burnand (Swiss Painter)
 - Charles Gleyre (Swiss Painter)
