@@ -2,6 +2,7 @@ Changelog fot 2.8.1j "Haeckel"
 
 Characters:
 - Gustaf Lagerheim (Swedish Naturalist)
+- Benjamin Dann Walsh (British Biologist)
 - Jaques Loeb (German Biologist)
 - Theodor Schwann (German Biologist and Physician)
 - Christiaan Eijkman (Dutch Biologist and Physician)
