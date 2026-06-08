@@ -13,6 +13,7 @@ Characters:
 - Leo Perutz (Austrian Writer)
 - Cyriel Buysse (Belgian Writer)
 - Felix Timmermans (Belgian Writer)
+- Pelham Grenville Wodehouse (British Writer - Thanks Cipherparadox)
 - Halide Edib Adıvar (Turkish Writer - Thanks Cipherparadox)
 - Lyman Frank Baum (American Writer - Thanks Cipherparadox)
 - Hokusai Katsushika (Japanese starting Painter)
