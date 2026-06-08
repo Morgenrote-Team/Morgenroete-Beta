@@ -12,6 +12,7 @@ Characters:
 - Auguste Groner (Austrian Writer - Thanks Cipherparadox)
 - Karl Kraus (Austrian Writer - Thanks Cipherparadox)
 - Leo Perutz (Austrian Writer)
+- Josef Rank (Austrian Writer - Thanks Cipherparadox)
 - Peter Rosegger (Austrian Writer - Thanks Cipherparadox)
 - Friedrich Uhl (Austrian Writer - Thanks Cipherparadox)
 - Ferdinand von Saar (Austrian Writer - Thanks Cipherparadox)
