@@ -13,6 +13,7 @@ Characters:
 - Karl Kraus (Austrian Writer - Thanks Cipherparadox)
 - Leo Perutz (Austrian Writer)
 - Peter Rosegger (Austrian Writer - Thanks Cipherparadox)
+- Friedrich Uhl (Austrian Writer - Thanks Cipherparadox)
 - Ferdinand von Saar (Austrian Writer - Thanks Cipherparadox)
 - Cyriel Buysse (Belgian Writer)
 - Felix Timmermans (Belgian Writer)
