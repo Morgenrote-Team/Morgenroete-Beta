@@ -30,6 +30,7 @@ Changes:
 - Matthias Schleiden can now also spawn as Biologist.
 - The new scientist events now use the correct title for the character instead of always using Doctor.
 - Various historical painters no longer require certain technologies to be unlocked to spawn.
+- Clothes definitions are now injected into the vanilla clothes definitions. headgear is now properly seperated from outfits.
 
 Fixes:
 - Adapted the Topbar Framework entries to the new system.
