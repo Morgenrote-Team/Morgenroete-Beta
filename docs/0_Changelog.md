@@ -8,6 +8,7 @@ Characters:
 - Christiaan Eijkman (Dutch Biologist and Physician)
 - Harald Huss (Swedish Biologist)
 - Solon Robinson (American Biologist and Writer)
+- Rudolf Greinz (Austrian Writer - Thanks Cipherparadox)
 - Auguste Groner (Austrian Writer - Thanks Cipherparadox)
 - Karl Kraus (Austrian Writer - Thanks Cipherparadox)
 - Leo Perutz (Austrian Writer)
