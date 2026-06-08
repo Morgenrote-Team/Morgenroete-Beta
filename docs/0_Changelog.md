@@ -11,6 +11,7 @@ Characters:
 - Leo Perutz (Austiran Writer)
 - Felix Timmermans (Belgian Writer)
 - Halide Edib Adıvar (Turkish Writer - Thanks Cipherparadox)
+- Lyman Frank Baum (American Writer - Thanks Cipherparadox)
 - Hokusai Katsushika (Japanese starting Painter)
 - Eugène Burnand (Swiss Painter)
 - Charles Gleyre (Swiss Painter)
