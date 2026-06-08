@@ -9,6 +9,7 @@ Characters:
 - Harald Huss (Swedish Biologist)
 - Solon Robinson (American Biologist and Writer)
 - Leo Perutz (Austiran Writer)
+- Felix Timmermans (Belgian Writer)
 - Hokusai Katsushika (Japanese starting Painter)
 - Eugène Burnand (Swiss Painter)
 - Charles Gleyre (Swiss Painter)
