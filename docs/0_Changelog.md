@@ -11,6 +11,7 @@ Characters:
 - Auguste Groner (Austrian Writer - Thanks Cipherparadox)
 - Karl Kraus (Austrian Writer - Thanks Cipherparadox)
 - Leo Perutz (Austrian Writer)
+- Peter Rosegger (Austrian Writer - Thanks Cipherparadox)
 - Cyriel Buysse (Belgian Writer)
 - Felix Timmermans (Belgian Writer)
 - Pelham Grenville Wodehouse (British Writer - Thanks Cipherparadox)
