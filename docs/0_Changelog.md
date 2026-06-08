@@ -9,6 +9,7 @@ Characters:
 - Harald Huss (Swedish Biologist)
 - Solon Robinson (American Biologist and Writer)
 - Auguste Groner (Austrian Writer - Thanks Cipherparadox)
+- Karl Kraus (Austrian Writer - Thanks Cipherparadox)
 - Leo Perutz (Austrian Writer)
 - Cyriel Buysse (Belgian Writer)
 - Felix Timmermans (Belgian Writer)
