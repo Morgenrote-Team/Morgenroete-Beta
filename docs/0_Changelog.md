@@ -18,6 +18,7 @@ Characters:
 - Ferdinand von Saar (Austrian Writer - Thanks Cipherparadox)
 - Cyriel Buysse (Belgian Writer)
 - Felix Timmermans (Belgian Writer)
+- Émile Verhaeren (Belgian Writer)
 - Pelham Grenville Wodehouse (British Writer - Thanks Cipherparadox)
 - Halide Edib Adıvar (Turkish Writer - Thanks Cipherparadox)
 - Lyman Frank Baum (American Writer - Thanks Cipherparadox)
