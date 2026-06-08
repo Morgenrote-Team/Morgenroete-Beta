@@ -10,6 +10,7 @@ Characters:
 - Solon Robinson (American Biologist and Writer)
 - Leo Perutz (Austiran Writer)
 - Felix Timmermans (Belgian Writer)
+- Halide Edib Adıvar (Turkish Writer - Thanks Cipherparadox)
 - Hokusai Katsushika (Japanese starting Painter)
 - Eugène Burnand (Swiss Painter)
 - Charles Gleyre (Swiss Painter)
