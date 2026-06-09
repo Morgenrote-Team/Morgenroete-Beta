@@ -13,6 +13,7 @@ Archaeology
 - Added Major Local Artifact: Lion Capital of Ashoka.
 - Added Major Local Artifact: Pergamon Altar.
 - Like the Ishtar Gate, the Pergamon Altar is a bit more complex and needs a transport.
+- Added 4 events to the Pueblo Archaeological Region.
 - Major artifacts belonging to AI countries are now displayed correctly.
 - Major Artifacts are now truly unique - any potential duplicates where two nations could possess the same Major Artifact should be fixed.
 
@@ -27,7 +28,16 @@ Biology & Chemistry
 - A Biologist will find a solution to combat the pests, giving you a prevention for future pest infestations.
 - If the pest is active in your country for which you have a solution for, a JE triggers which will remove this pest from each state in a month. Caution: The New World Screwworm Fly is very resistent and takes a year.
 - You can share your pesticide knowledge with your subjects through a subject interaction (Biological Team). This will also lower liberty desire a little bit.
-- You need uranium for the SIT.
+- A Chemist can invent DDT like Synthetic Rubber or Synthetic Oil. DDT gives agriculture bonuses and prevention against boll weevil, codling moth, locust swarms. potato beetles and tea mosquito.
+
+Music
+- Added JE and event for the Rediscovery of Vivaldi's works.
+
+Research License
+- Archaeological, Botanical, Mountaineering and Paleontological Licenses are now one diplomatic action: Research License.
+- You can ask a research license from anyone, even those who don't have something to research (yet).
+- You need to be recognized and at least a minor power to ask for a research license (yes, that also counts for archaeology).
+- Normally, Great Powers will not give research licenses. However, they will be more open to your question if you are an ally.
 
 Technologies
 - Technology Differential Geometry. This Technology is needed for the Mathematics Specialization.
@@ -44,6 +54,8 @@ Technologies
 - Added Early Pesticides. This lowers the impact of pests.
 - Added Modern Pesticides. This lowers the impact of pests.
 - Chemistry and Malaria Prevention also lowers the impact of pests. Flamethrowers help a little bit again locusts.
+- Added DDT. This is a hidden technology which will be activated by vour Chemist.
 
 Changes
 - Added Great Terroir (Wine bonus) to Aquitaine and Piedmont (Paradox, you added the best wine grounds in Europe and forgot about Bordeaux and Barolo?).
+- Pope will be protected until 1850 by Austria and France (integrated "Protect the Pope" Mini-Mod).
