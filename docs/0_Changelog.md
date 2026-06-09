@@ -38,6 +38,7 @@ Fixes:
 - The Naval Research is now correctly indicated in the Research Journal Entry.
 - Non historical balloonists should no longer stay around. That way you will no longer be able to flood your National Cast with Balloonists.
 - Retirement events should no longer be followed by a death event for the same character.
+- Various small bug fixes.
 
 Performance:
 - Various small changes to slightly improve performance.
