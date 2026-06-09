@@ -8,7 +8,7 @@
 
 on_harvest_condition_started_in_country = {
 	on_actions = {
-		panum_on_harvest_condition_started_in_country 
+		panum_on_harvest_condition_started_in_country
 	}
 }
 
@@ -18,13 +18,13 @@ on_acquired_technology = {
 	}
 }
 
-on_monthly_pulse_country = { 
+on_half_yearly_pulse_country = {
 	on_actions = {
-		panum_on_monthly_pulse_country
+		panum_on_half_yearly_pulse_country
 	}
 }
 
-on_yearly_pulse_country = { 
+on_yearly_pulse_country = {
 	on_actions = {
 		delay = { days = { 1 360 } }
 		panum_on_yearly_pulse_country
@@ -69,7 +69,7 @@ panum_on_acquired_technology = {
 	}
 }
 
-panum_on_monthly_pulse_country = {
+panum_on_half_yearly_pulse_country = {
 	effect = {
 		#This effect is used to add the psychotherapeutic progress to all countries
 		panum_monthly_psychotherapeutic_progress_effect = yes
@@ -77,15 +77,26 @@ panum_on_monthly_pulse_country = {
 }
 
 panum_on_yearly_pulse_country = {
+	random_events = {
+		10 = 0
+
+		10 = panum.2121 #Panum 2121: Doctor's love of skulls
+		10 = panum.2122 #Panum 2122: Biological Determinism
+		4 = panum.2123 #Panum 2123: Doctor claims CHARACTER is a criminal
+		2 = panum.2124 #Panum 2124: Doctor introduces Anthropologist
+
+		1 = panum.1102 #Panum 1102: Spanish Flu Pancemic (dynamic)
+	}
+}
+
+panum_on_yearly_pulse = {
 	effect = {
 		######################
 		#Smallpox Eredication#
 		if = {
 			limit = {
-				NOT = {
+				NOR = {
 					has_global_variable = panum_eredication_smallpox_global_var
-				}
-				NOT = {
 					any_country = {
 						panum_has_smallpox_prevention_trigger = no
 					}
@@ -101,41 +112,13 @@ panum_on_yearly_pulse_country = {
 			}
 		}
 		######################
-	}
-	events = {
-		panum.101 #Panum 101: Third Cholera Pandemic
-		panum.800 #Panum 800: Third Plague Wave starts
-
-		panum.1101 #Panum 1101: Spanish Flu Pancemic (historical)
-
-		panum.2621 #Panum 2621: The Concept of Anxiety
-
-		panum.3002 #Panum 3002: The Red Cross - Event for Switzerland
-		panum.3031 #Panum 3031: First Convention becomes a binding Convention
-		panum.3032 #Panum 3032: Second Convention becomes a binding Convention
-		panum.3033 #Panum 3033: Third Convention becomes a binding Convention
-	}
-
-	random_events = {
-		10 = 0
-
-		10 = panum.2121 #Panum 2121: Doctor's love of skulls
-		10 = panum.2122 #Panum 2122: Biological Determinism
-		4 = panum.2123 #Panum 2123: Doctor claims CHARACTER is a criminal
-		2 = panum.2124 #Panum 2124: Doctor introduces Anthropologist
-
-		1 = panum.1102 #Panum 1102: Spanish Flu Pancemic (dynamic)
-	}
-}
-
-panum_on_yearly_pulse = {
-	effect = {
+		#Polio Epidemic#
 		if = {
 			limit = {
 				NOT = {
 					has_global_variable = panum_polio_epidemic_global_var
 				}
-				game_date >= 1886.1.1 #Historically, polio began to become an epidemic disease around the late 19th century. The date is a little earlier because otherwise it coincides too closely with the plague
+				year >= 1886 #Historically, polio began to become an epidemic disease around the late 19th century. The date is a little earlier because otherwise it coincides too closely with the plague
 				any_country = {
 					panum_has_polio_prevention_trigger = no
 					has_technology_researched = modern_sewerage
@@ -168,6 +151,130 @@ panum_on_yearly_pulse = {
 					id = panum.1001 #Panum 1001: Polio becomes Epidemic
 					days = { 1 60 }
 				}
+			}
+		}
+		######################
+		#Cholera - Third Wave#
+		if = {
+			limit = {
+				NOT = { has_global_variable = panum_third_cholera_global_var }
+				year >= 1846 #We start with the third wave
+			}
+			s:STATE_EAST_BENGAL = {
+				random_scope_state = {
+					owner = {
+						trigger_event = panum.101 #Panum 101: Third Cholera Pandemic
+					}
+				}
+			}
+		}
+		######################
+		#Third Plague Wave starts#
+		if = {
+			limit = {
+				NOT = { has_global_variable = panum_third_plague_global_var }
+				year >= 1894 #Third Wave started way earlier, but we begin with the Hong Kong outbreak to give enough time to develop antitoxins
+			}
+			s:STATE_YUNNAN = {
+				random_scope_state = {
+					owner = {
+						trigger_event = panum.800 #Panum 800: Third Plague Wave starts
+					}
+				}
+			}
+		}
+		######################
+		#Spanish Flu starts#
+		if = {
+			limit = {
+				has_game_rule = panum_historical_spanish_flu_rule
+				NOT = { has_global_variable = panum_spanish_flu_pandemic_global_var }
+				year >= 1918 #Patient Zero; however, Spanish Flu started way earlier
+			}
+			s:STATE_NEW_CASTILE = { #Spanish Flu did not start in Spain, but we get the name from here
+				random_scope_state = {
+					owner = {
+						trigger_event = panum.1101 #Panum 1101: Spanish Flu Pancemic (historical)
+					}
+				}
+			}
+		}
+		######################
+		#The Concept of Anxiety#
+		if = {
+			limit = {
+				NOT = { has_global_variable = panum_concept_of_anxiety_global_var }
+				year >= 1844
+				year < 1850
+				exists = c:DEN
+			}
+			c:DEN ?= {
+				trigger_event = panum.2621 #Panum 2621: The Concept of Anxiety
+			}
+		}
+		######################
+		#Historcial Red Cross#
+		if = {
+			limit = {
+				has_game_rule = panum_historical_and_dynamic_red_cross_rule
+				NOT = { has_global_variable = panum_red_cross_global_var }
+				year >= 1862
+				year < 1870
+				exists = c:SWI
+			}
+			c:SWI ?= {
+				trigger_event = panum.3002 #Panum 3002: The Red Cross - Event for Switzerland
+			}
+		}
+		######################
+		#Red Cross - First Convention#
+		if = {
+			limit = {
+				has_global_variable = panum_first_convention_proposed_global_var
+				NOT = { has_global_variable = panum_first_convention_binding_global_var }
+				panum_first_geneva_convention_becomes_binding_trigger = yes
+			}
+			random_scope_country = {
+				limit = {
+					any_scope_building = {
+						is_building_type = building_panum_red_cross
+					}
+				}
+				trigger_event = panum.3031 #Panum 3031: First Convention becomes a binding Convention
+			}
+		}
+		######################
+		#Red Cross - Second Convention#
+		if = {
+			limit = {
+				has_global_variable = panum_second_convention_proposed_global_var
+				NOT = { has_global_variable = panum_second_convention_binding_global_var }
+				panum_second_geneva_convention_becomes_binding_trigger = yes
+			}
+			random_scope_country = {
+				limit = {
+					any_scope_building = {
+						is_building_type = building_panum_red_cross
+					}
+				}
+				trigger_event = panum.3032 #Panum 3032: Second Convention becomes a binding Convention
+			}
+		}
+		######################
+		#Red Cross - Second Convention#
+		if = {
+			limit = {
+				has_global_variable = panum_third_convention_proposed_global_var
+				NOT = { has_global_variable = panum_third_convention_binding_global_var }
+				panum_third_geneva_convention_becomes_binding_trigger = yes
+			}
+			random_scope_country = {
+				limit = {
+					any_scope_building = {
+						is_building_type = building_panum_red_cross
+					}
+				}
+				trigger_event = panum.3033 #Panum 3033: Third Convention becomes a binding Convention
 			}
 		}
 	}

@@ -1787,7 +1787,7 @@ widget = {
 
             onclick = "[GetScriptedGui('mr_physician_character_treatment_window_close_button_sgui').Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
             tooltip = "MR_CLOSE_WINDOW_TT"
-            input_action = "back"
+            shortcut = "close_window"
 
             blockoverride "icon" {
                 texture = "gfx/interface/buttons/button_icons/close.dds"
@@ -2004,7 +2004,7 @@ types mr_popup_types {
 
             onclick = "[GetScriptedGui('mr_send_character_to_asylum_window_close_button_sgui').Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
             tooltip = "MR_CLOSE_WINDOW_TT"
-            input_action = "back"
+            shortcut = "close_window"
 
             blockoverride "icon" {
                 texture = "gfx/interface/buttons/button_icons/close.dds"
@@ -2481,7 +2481,7 @@ types mr_popup_types {
                 onclick = "[GetScriptedGui('mr_academics_hire_chemist_close_button_sgui').Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
             }
             tooltip = "MR_CLOSE_WINDOW_TT"
-            input_action = "back"
+            shortcut = "close_window"
 
             blockoverride "icon" {
                 texture = "gfx/interface/buttons/button_icons/close.dds"
@@ -2490,285 +2490,6 @@ types mr_popup_types {
                 size = { 100% 100% }
             }
 		}
-    }
-
-    type building_choser_popup = window {
-        block "name" {
-            name = "mr_improve_forestry_building_choser"
-        }
-        layer = popups
-        using = clickthrough_blocker
-        filter_mouse = all
-        movable = yes
-        allow_outside = yes
-        parentanchor = center
-
-        size = { 780 500 }
-
-        enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
-        block "visible" {
-            visible = "[And( GetScriptedGui('mr_improve_forestry_window_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End), And( IsInGame, And( Not( IsPauseMenuShown ), Not( IsGameOverScreenShown ))))]"
-        }
-
-        widget = {
-            size = { 100% 100% }
-
-            background = {
-                texture = "gfx/interface/backgrounds/popup_bg.dds"
-                spriteType = Corneredstretched
-                spriteborder = { 90 90 }
-                texture_density = 2
-
-                modify_texture = {
-                    texture = "gfx/interface/backgrounds/default_bg_shading.dds"
-                    spriteType = Corneredstretched
-                    spriteborder = { 0 0 }
-                    blend_mode = overlay
-                }
-                modify_texture = {
-                    using = texture_velvet
-                }
-            }
-        }
-
-        ### HEADER
-        widget = {
-            size = { 100% 82 }
-
-            popup_top_header = {}
-
-            textbox = {
-                block "first_line_position" {
-                    position = { 0 24 }
-                }
-                size = { 75% 40 }
-                block "window_header_name" {
-                    raw_text = "MR_BUILDING_CHOSER_HEADER"
-                }
-                elide = right
-                fontsize_min = 14
-                parentanchor = hcenter
-                align = hcenter|nobaseline
-                using = header_font
-                using = header_font_size
-                default_format = "#header"
-            }
-
-            block "second_line" {}
-        }
-
-        ### FRAME
-        popup_bg_frame = {}
-
-        ### Actual stuff
-        flowcontainer = {
-            position = { 15 85 }
-            block "datamodel" {
-                datamodel = "[Country.MakeScope.GetList('dubois_improve_forestry_buildings_variable_list')]"
-            }
-            minimumsize = { 100 -1 }
-            margin = { 10 0 }
-            spacing = 2
-
-            sort_button = {
-                size = { 266 30 }
-                text = "NAME"
-                block "sort_by_name" {
-                    enabled = no
-                }
-                align = center|nobaseline
-            }
-
-            sort_button = {
-                size = { 80 30 }
-                text = "SIZE"
-                tooltip = "SORT_BY_BUILDING_SIZE"
-                align = center|nobaseline
-
-                block "sort_by_size_datamodel" {
-                    datacontext = "[GetScriptedGui('mr_sort_logging_camp_by_size_button_sgui')]"
-                }
-                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
-            }
-
-            sort_button = {
-                size = { 90 30 }
-                text = "concept_productivity"
-                tooltip = "SORT_BY_BUILDING_PRODUCTIVITY"
-                align = nobaseline
-                using = fontsize_small
-                block "sort_by_productivity_datamodel" {
-                    datacontext = "[GetScriptedGui('mr_sort_logging_camp_by_productivity_button_sgui')]"
-                }
-                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
-            }
-
-            sort_button = {
-                size = { 200 30 }
-                text = "EMPLOYMENT"
-                tooltip = "SORT_BY_NUMBER_OF_EMPLOYED"
-                align = center|nobaseline
-                block "sort_by_employment_percentage_datamodel" {
-                    datacontext = "[GetScriptedGui('mr_sort_logging_camp_by_employment_percentage_button_sgui')]"
-                }
-                onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
-            }
-
-            widget = {
-                size = { 65 30 }
-            }
-        }
-
-        scrollbox = {
-            size = { 730 360 }
-            position = { 0 45 }
-            parentanchor = center
-
-            scrollbarpolicy_horizontal = always_off
-            scrollbarpolicy_vertical = as_needed
-
-            scrollbar_vertical = {
-                using = Scrollbar_Vertical
-            }
-
-            blockoverride "scrollbox_content" {
-                vbox = {
-                    spacing = 5
-                    block "datamodel" {
-                        datamodel = "[Country.MakeScope.GetList('dubois_improve_forestry_buildings_variable_list')]"
-                    }
-
-                    item = {
-                        widget = {
-
-                            size = { 700 90 }
-                            using = entry_bg_fancy
-                            datacontext = "[Scope.GetBuilding]"
-
-                            flowcontainer = {
-                                parentanchor = left
-                                margin = { 10 10 }
-                                spacing = 10
-
-                                #Building
-                                widget = {
-                                    tooltipwidget = {
-                                        FancyTooltip_Building = {}
-                                    }
-
-                                    size = { 70 70 }
-
-                                    icon = {
-                                        parentanchor = center
-                                        size = { 70 70 }
-                                        texture = "[Building.GetIcon]"
-                                    }
-                                }
-
-                                #Name
-                                textbox = {
-                                    raw_text = "MR_BUILDING_CHOSER_BUILDING_NAME"
-                                    size = { 150 70 }
-                                    elide = right
-                                    align = nobaseline
-                                    using = fontsize_medium
-                                }
-
-                                #Divider
-                                vertical_divider = {
-                                    blockoverride "size" {
-                                        size = { 3 70 }
-                                    }
-                                }
-
-                                #Level
-                                textbox = {
-                                    raw_text = "BUILDING_SIZE"
-                                    size = { 60 70 }
-                                    elide = right
-                                    align = center|nobaseline
-                                    using = fontsize_medium
-                                }
-
-                                #Divider
-                                vertical_divider = {
-                                    blockoverride "size" {
-                                        size = { 3 70 }
-                                    }
-                                }
-
-                                #Productivity
-                                textbox = {
-                                    raw_text = "@money![Building.GetAverageAnnualEarningsPerEmployeeFormatted|+]"
-                                    size = { 70 70 }
-                                    elide = right
-                                    align = center|nobaseline
-                                    using = fontsize_medium
-                                }
-
-                                #Divider
-                                vertical_divider = {
-                                    blockoverride "size" {
-                                        size = { 3 70 }
-                                    }
-                                }
-
-                                building_progressbars = {
-                                    parentanchor = center
-                                    blockoverride "progressbar_size" {
-                                        size = { 180 20 }
-                                    }
-                                }
-
-                                #Divider
-                                vertical_divider = {
-                                    blockoverride "size" {
-                                        size = { 3 70 }
-                                    }
-                                }
-
-                                button_icon_round = {
-                                    parentanchor = center
-                                    size = { 40 40 }
-
-                                    block "improve_button_datacontext" {
-                                        datacontext = "[GetScriptedGui('mr_improve_forestry_window_chose_button_sgui')]"
-                                    }
-                                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).AddScope('chosen_building', Scope.GetBuilding.MakeScope ).End)]"
-                                    tooltip = "MR_IMPROVE_BUILDING_TT"
-                                    blockoverride "icon" {
-                                        texture = "gfx/interface/icons/generic_icons/upgrade_arrow.dds"
-                                    }
-                                    blockoverride "icon_size" {
-                                        size = { 75% 75% }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        #Close button
-        button_icon_round = {
-            parentanchor = top|right
-            size = { 42 42 }
-            position = { -5 13 }
-
-            block "close_button_onclick" {
-                onclick = "[GetScriptedGui('mr_improve_forestry_window_close_button_sgui').Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
-            }
-            tooltip = "MR_CLOSE_WINDOW_TT"
-            input_action = "back"
-
-            blockoverride "icon" {
-                texture = "gfx/interface/buttons/button_icons/close.dds"
-            }
-            blockoverride "icon_size" {
-                size = { 100% 100% }
-            }
-        }
     }
 
     type mr_building_chooser_multiple_popup = window {
@@ -3239,7 +2960,7 @@ types mr_popup_types {
                 onclick = "[GetScriptedGui('mr_biologist_improve_agriculture_window_close_button_sgui').Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
             }
             tooltip = "MR_CLOSE_WINDOW_TT"
-            input_action = "back"
+            shortcut = "close_window"
 
             blockoverride "icon" {
                 texture = "gfx/interface/buttons/button_icons/close.dds"
@@ -3707,7 +3428,7 @@ types mr_popup_types {
                 onclick = "[GetScriptedGui('mr_state_prioritizing_topographic_project_window_close_button_sgui').Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
             }
             tooltip = "MR_CLOSE_WINDOW_TT"
-            input_action = "back"
+            shortcut = "close_window"
 
             blockoverride "icon" {
                 texture = "gfx/interface/buttons/button_icons/close.dds"
