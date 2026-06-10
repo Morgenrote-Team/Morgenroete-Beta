@@ -5,3 +5,7 @@ Characters:
 - J.-H. Rosny aîné (Belgian Writer)
 - Hans Carossa (German Writer - Thanks Cipherparadox)
 - Ludwig Ganghofer (German Writer - Thanks Cipherparadox)
+- Sven Elvestad (Norwegian Writer - Thanks Cipherparadox)
+
+Fixes:
+- Hopefully fixed characters wearing rags randomly.
