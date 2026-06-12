@@ -1,6 +1,7 @@
 Changelog for 2.8.1k "Haeckel"
 
 Characters:
+- Adolf Brix (German Engineer)
 - Felix Salten (Austrian Writer - Thanks Cipherparadox)
 - J.-H. Rosny aîné (Belgian Writer)
 - Frank L. Packard (Canadian Writer - Thanks Cipherparadox)
