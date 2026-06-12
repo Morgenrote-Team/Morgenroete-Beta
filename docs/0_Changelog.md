@@ -16,3 +16,4 @@ lowered the interest group pop attraction from scientist traits to 2%, 4% and 6%
 Fixes:
 - Hopefully fixed characters wearing rags randomly.
 - The Experienced Geologist Trait no longer adds 50% interest group attraction and correctly adds 4%.
+- The Events about the origin of the moon should no longer get fired each year.
