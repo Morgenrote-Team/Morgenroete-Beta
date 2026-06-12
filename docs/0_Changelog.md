@@ -19,3 +19,4 @@ Fixes:
 - Hopefully fixed characters wearing rags randomly.
 - The Experienced Geologist Trait no longer adds 50% interest group attraction and correctly adds 4%.
 - The Events about the origin of the moon should no longer get fired each year.
+- Schwann no longer spawns over and over again as a Physician.
