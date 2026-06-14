@@ -1,7 +1,7 @@
 Changelog for 2.8.1l "Haeckel"
 
 Changes:
-- You will no longer gain free Morgenröte characters as a revolution. But some characters from your original country might join you.
+- Revolutions no longer get a guaranteed Academic/Artist if the original country had one. Instead there is now a 50% chance per character.
 
 Fixes:
 - Modifiers for official Writers, etc. should no longer be set on the country but on the writer.
