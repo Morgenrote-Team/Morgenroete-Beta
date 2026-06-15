@@ -1,6 +1,7 @@
 Changelog for 2.8.1m "Haeckel"
 
 Characters:
+- André Rebouças (Brazilian Engineer)
 - Teodoro Sampaio (Brazilian Engineer)
 
 Fixes:
