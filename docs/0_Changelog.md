@@ -3,6 +3,7 @@ Changelog for 2.8.1m "Haeckel"
 Characters:
 - André Rebouças (Brazilian Engineer)
 - Teodoro Sampaio (Brazilian Engineer)
+- Manuel Pereira Reis (Brazilian Astronomer)
 
 Fixes:
 - You should no longer be able to take the Roma Aeterna decision multiple times.
