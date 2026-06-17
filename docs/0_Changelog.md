@@ -8,6 +8,7 @@ Characters:
 - Francisco Freire Allemão (Brazillian Naturalist and Physician)
 - Adolf Lutz (Brazillian Physician and Biologist)
 - Vital Brazil Mineiro da Campanha (Brazillian Physician and Biologist)
+- Edgar Roquette-Pinto (Brazillian Physician and Ethnologist)
 
 Fixes:
 - You should no longer be able to take the Roma Aeterna decision multiple times.
