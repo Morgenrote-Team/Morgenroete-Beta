@@ -5,6 +5,7 @@ Characters:
 - André Rebouças (Brazillian Engineer)
 - Teodoro Sampaio (Brazillian Engineer)
 - Manuel Pereira Reis (Brazillian Astronomer)
+- Francisco Freire Allemão (Brazillian Naturalist and Physician)
 
 Fixes:
 - You should no longer be able to take the Roma Aeterna decision multiple times.
