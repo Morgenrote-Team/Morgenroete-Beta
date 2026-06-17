@@ -6,6 +6,7 @@ Characters:
 - Teodoro Sampaio (Brazillian Engineer)
 - Manuel Pereira Reis (Brazillian Astronomer)
 - Francisco Freire Allemão (Brazillian Naturalist and Physician)
+- Vital Brazil Mineiro da Campanha (Brazillian Physician and Biologist)
 
 Fixes:
 - You should no longer be able to take the Roma Aeterna decision multiple times.
