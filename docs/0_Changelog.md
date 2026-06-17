@@ -6,6 +6,7 @@ Characters:
 - Teodoro Sampaio (Brazillian Engineer)
 - Manuel Pereira Reis (Brazillian Astronomer)
 - Francisco Freire Allemão (Brazillian Naturalist and Physician)
+- Adolf Lutz (Brazillian Physician and Biologist)
 - Vital Brazil Mineiro da Campanha (Brazillian Physician and Biologist)
 
 Fixes:
