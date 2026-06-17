@@ -1,14 +1,15 @@
 Changelog for 2.8.1m "Haeckel"
 
 Characters:
-- Paulo de Frontin (Brazillian Engineer)
-- André Rebouças (Brazillian Engineer)
-- Teodoro Sampaio (Brazillian Engineer)
-- Manuel Pereira Reis (Brazillian Astronomer)
-- Francisco Freire Allemão (Brazillian Naturalist and Physician)
-- Adolf Lutz (Brazillian Physician and Biologist)
-- Vital Brazil Mineiro da Campanha (Brazillian Physician and Biologist)
-- Edgar Roquette-Pinto (Brazillian Physician and Ethnologist)
+- Paulo de Frontin (Brazilian Engineer)
+- André Rebouças (Brazilian Engineer)
+- Teodoro Sampaio (Brazilian Engineer)
+- Manuel Pereira Reis (Brazilian Astronomer)
+- Francisco Freire Allemão (Brazilian Naturalist and Physician)
+- Adolf Lutz (Brazilian Physician and Biologist)
+- Vital Brazil Mineiro da Campanha (Brazilian Physician and Biologist)
+- Raimundo Nina Rodrigues (Brazilian Physician, Anthropologist and Ethnologist)
+- Edgar Roquette-Pinto (Brazilian Physician and Ethnologist)
 
 Fixes:
 - You should no longer be able to take the Roma Aeterna decision multiple times.
