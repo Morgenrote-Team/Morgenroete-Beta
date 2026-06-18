@@ -3,6 +3,7 @@ Changelog for 2.8.1m "Haeckel"
 Characters:
 - Paulo de Frontin (Brazilian Engineer)
 - André Rebouças (Brazilian Engineer)
+- Cândido Rondon (Brazilian Engineer)
 - Teodoro Sampaio (Brazilian Engineer)
 - Manuel Pereira Reis (Brazilian Astronomer)
 - Francisco Freire Allemão (Brazilian Naturalist and Physician)
