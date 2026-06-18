@@ -12,7 +12,7 @@ Characters:
 - Raimundo Nina Rodrigues (Brazilian Physician, Anthropologist and Ethnologist)
 - Edgar Roquette-Pinto (Brazilian Physician and Ethnologist)
 - Francisco Joaquim Béthencourt da Silva (Brazilian Architect)
-- Grandjean de Montigny (Brazilian Architect)
+- Auguste Henri Victor Grandjean de Montigny (Brazilian Architect)
 
 Graphics:
 - Added a Loading Screen and Event Video depicting the discovery of Tutenkhamun's grave. CC BY-NC 4.0 by Angel.
