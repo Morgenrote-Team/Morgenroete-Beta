@@ -13,6 +13,7 @@ Characters:
 - Edgar Roquette-Pinto (Brazilian Physician and Ethnologist)
 - Francisco Joaquim Béthencourt da Silva (Brazilian Architect)
 - Auguste Henri Victor Grandjean de Montigny (Brazilian Architect)
+- Zequinha de Abreu (Brazilian Composer)
 
 Graphics:
 - Added a Loading Screen and Event Video depicting the discovery of Tutenkhamun's grave. CC BY-NC 4.0 by Angel.
