@@ -11,6 +11,9 @@ Characters:
 - Raimundo Nina Rodrigues (Brazilian Physician, Anthropologist and Ethnologist)
 - Edgar Roquette-Pinto (Brazilian Physician and Ethnologist)
 
+Graphics:
+- Added a Loading Screen and Event Video depicting the discovery of Tutenkhamun's grave. CC BY-NC 4.0 by Angel.
+
 Fixes:
 - You should no longer be able to take the Roma Aeterna decision multiple times.
 - The discoverers of various Major Artifacts should now properly be displayed.
