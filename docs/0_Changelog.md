@@ -16,6 +16,7 @@ Characters:
 - Ernesto Júlio de Nazareth (Brazilian Composer)
 - Zequinha de Abreu (Brazilian Composer)
 - Ernesto Nazareth (Brazilian Composer)
+- Alberto Nepomuceno (Brazilian Composer)
 
 Graphics:
 - Added a Loading Screen and Event Video depicting the discovery of Tutenkhamun's grave. CC BY-NC 4.0 by Angel.
