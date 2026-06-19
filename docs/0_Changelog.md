@@ -1,8 +1,30 @@
-Changelog for 2.8.1l "Haeckel"
+Changelog for 2.8.2 "Allemao"
 
-Changes:
-- Revolutions no longer get a guaranteed Academic/Artist if the original country had one. Instead there is now a 50% chance per character.
+Characters:
+- Paulo de Frontin (Brazilian Engineer)
+- André Rebouças (Brazilian Engineer)
+- Cândido Rondon (Brazilian Engineer)
+- Teodoro Sampaio (Brazilian Engineer)
+- Manuel Pereira Reis (Brazilian Astronomer)
+- Francisco Freire Allemão (Brazilian Naturalist and Physician)
+- Adolf Lutz (Brazilian Physician and Biologist)
+- Vital Brazil Mineiro da Campanha (Brazilian Physician and Biologist)
+- Raimundo Nina Rodrigues (Brazilian Physician, Anthropologist and Ethnologist)
+- Edgar Roquette-Pinto (Brazilian Physician and Ethnologist)
+- Francisco Joaquim Béthencourt da Silva (Brazilian Architect)
+- Auguste Henri Victor Grandjean de Montigny (Brazilian Architect)
+- Ernesto Júlio de Nazareth (Brazilian Composer)
+- Zequinha de Abreu (Brazilian Composer)
+- Ernesto Nazareth (Brazilian Composer)
+- Alberto Nepomuceno (Brazilian Composer)
+- Henrique Oswald (Brazilian Composer)
+
+Graphics:
+- Added a Loading Screen and Event Video depicting the discovery of Tutenkhamun's grave. CC BY-NC 4.0 by Angel.
 
 Fixes:
-- Modifiers for official Writers, etc. should no longer be set on the country but on the writer.
-- There should be no more ghosts when a character leaves a country due to a revolution.
+- You should no longer be able to take the Roma Aeterna decision multiple times.
+- The discoverers of various Major Artifacts should now properly be displayed.
+- Various small loc fixes.
+- Russian localizations for cases should now work again.
+- Fixed Red Cross Events not firing properly.
