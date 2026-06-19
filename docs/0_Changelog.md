@@ -1,4 +1,4 @@
-Changelog for 2.8.1m "Haeckel"
+Changelog for 2.8.2 "Allemao"
 
 Characters:
 - Paulo de Frontin (Brazilian Engineer)
