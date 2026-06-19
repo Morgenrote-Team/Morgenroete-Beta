@@ -13,6 +13,7 @@ Characters:
 - Edgar Roquette-Pinto (Brazilian Physician and Ethnologist)
 - Francisco Joaquim Béthencourt da Silva (Brazilian Architect)
 - Auguste Henri Victor Grandjean de Montigny (Brazilian Architect)
+- Ernesto Júlio de Nazareth (Brazilian Composer)
 - Zequinha de Abreu (Brazilian Composer)
 - Ernesto Nazareth (Brazilian Composer)
 
