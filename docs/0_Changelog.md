@@ -3,6 +3,7 @@ Changelog for 2.8.2a "Allemão"
 Characters:
 - Jan van Beers (Belgian Writer)
 - Lima Barreto (Brazilian Writer)
+- João da Cruz e Sousa (Brazilian Writer)
 - Jan van Beers (Belgian Painter)
 
 Fixes:
