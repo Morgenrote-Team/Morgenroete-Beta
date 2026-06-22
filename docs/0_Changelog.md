@@ -5,6 +5,7 @@ Characters:
 - Lima Barreto (Brazilian Writer)
 - João da Cruz e Sousa (Brazilian Writer)
 - Jan van Beers (Belgian Painter)
+- Pedro Américo (Brazilian Painter)
 - Belmiro de Almeida (Brazilian Painter)
 - Franklin de Massena (Brazilian Mountaineer, Astronomer and Engineer)
 
