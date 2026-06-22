@@ -7,6 +7,7 @@ Characters:
 - Jan van Beers (Belgian Painter)
 - Pedro Américo (Brazilian Painter)
 - Belmiro de Almeida (Brazilian Painter)
+- Aurélio de Figueiredo (Brazilian Painter)
 - Franklin de Massena (Brazilian Mountaineer, Astronomer and Engineer)
 
 Fixes:
