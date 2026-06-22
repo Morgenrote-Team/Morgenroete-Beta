@@ -8,6 +8,7 @@ Characters:
 - Pedro Américo (Brazilian Painter)
 - Belmiro de Almeida (Brazilian Painter)
 - Aurélio de Figueiredo (Brazilian Painter)
+- Victor Meirelles (Brazilian Painter)
 - Franklin de Massena (Brazilian Mountaineer, Astronomer and Engineer)
 
 Fixes:
