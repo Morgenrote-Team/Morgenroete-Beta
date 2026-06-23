@@ -1,30 +1,17 @@
-Changelog for 2.8.2 "Allemao"
+Changelog for 2.8.2a "Allemão"
 
 Characters:
-- Paulo de Frontin (Brazilian Engineer)
-- André Rebouças (Brazilian Engineer)
-- Cândido Rondon (Brazilian Engineer)
-- Teodoro Sampaio (Brazilian Engineer)
-- Manuel Pereira Reis (Brazilian Astronomer)
-- Francisco Freire Allemão (Brazilian Naturalist and Physician)
-- Adolf Lutz (Brazilian Physician and Biologist)
-- Vital Brazil Mineiro da Campanha (Brazilian Physician and Biologist)
-- Raimundo Nina Rodrigues (Brazilian Physician, Anthropologist and Ethnologist)
-- Edgar Roquette-Pinto (Brazilian Physician and Ethnologist)
-- Francisco Joaquim Béthencourt da Silva (Brazilian Architect)
-- Auguste Henri Victor Grandjean de Montigny (Brazilian Architect)
-- Ernesto Júlio de Nazareth (Brazilian Composer)
-- Zequinha de Abreu (Brazilian Composer)
-- Ernesto Nazareth (Brazilian Composer)
-- Alberto Nepomuceno (Brazilian Composer)
-- Henrique Oswald (Brazilian Composer)
-
-Graphics:
-- Added a Loading Screen and Event Video depicting the discovery of Tutenkhamun's grave. CC BY-NC 4.0 by Angel.
+- Jan van Beers (Belgian Writer)
+- Lima Barreto (Brazilian Writer)
+- João da Cruz e Sousa (Brazilian Writer)
+- Jan van Beers (Belgian Painter)
+- Pedro Américo (Brazilian Painter)
+- Belmiro de Almeida (Brazilian Painter)
+- Aurélio de Figueiredo (Brazilian Painter)
+- Victor Meirelles (Brazilian Painter)
+- Franklin de Massena (Brazilian Mountaineer, Astronomer and Engineer)
 
 Fixes:
-- You should no longer be able to take the Roma Aeterna decision multiple times.
-- The discoverers of various Major Artifacts should now properly be displayed.
-- Various small loc fixes.
-- Russian localizations for cases should now work again.
-- Fixed Red Cross Events not firing properly.
+- You should no longer be able to have one scientist be in charge of two fields by hiring them in the other field. Now they just step down from their old position.
+- Disease Descriptions should no longer get blocked if there is no available disease anymore.
+- Advanced Seismology should now properly get activated in Volcano Observatories.
