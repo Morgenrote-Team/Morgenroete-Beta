@@ -10,3 +10,4 @@ Fixes:
 
 Changes:
 - Vanilla Dickens now has the correct Morgenröte Traits.
+- Peter Wilhelm Lund can now also spawn in Brazil.
