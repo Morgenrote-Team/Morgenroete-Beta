@@ -6,3 +6,6 @@ Characters:
 
 Fixes:
 - Removed Karl Kraus double.
+
+Changes:
+- Vanilla Dickens now has the correct Morgenröte Traits.
