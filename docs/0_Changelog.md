@@ -1,6 +1,7 @@
 Changelog for 2.8.2b "Allemão"
 
 Characters:
+- João Barbosa Rodrigues (Brazilian Naturalist)
 - Ivan Mažuranić (Croatian Writer and Politician)
 - Anita Malfatti (Brazilian Painter)
 
