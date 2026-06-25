@@ -7,6 +7,9 @@ Characters:
 - Ivan Mažuranić (Croatian Writer and Politician)
 - Anita Malfatti (Brazilian Painter)
 
+Quality of Life:
+- Morgenröte Characters are now displayed under "other" in the outliner.
+
 Fixes:
 - Removed Karl Kraus double.
 
