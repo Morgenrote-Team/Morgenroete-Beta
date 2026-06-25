@@ -1,17 +1,18 @@
-Changelog for 2.8.2a "Allemão"
+Changelog for 2.8.2b "Allemão"
+
+Updated to 1.13.9
 
 Characters:
-- Jan van Beers (Belgian Writer)
-- Lima Barreto (Brazilian Writer)
-- João da Cruz e Sousa (Brazilian Writer)
-- Jan van Beers (Belgian Painter)
-- Pedro Américo (Brazilian Painter)
-- Belmiro de Almeida (Brazilian Painter)
-- Aurélio de Figueiredo (Brazilian Painter)
-- Victor Meirelles (Brazilian Painter)
-- Franklin de Massena (Brazilian Mountaineer, Astronomer and Engineer)
+- João Barbosa Rodrigues (Brazilian Naturalist)
+- Ivan Mažuranić (Croatian Writer and Politician)
+- Anita Malfatti (Brazilian Painter)
+
+Quality of Life:
+- Morgenröte Characters are now displayed under "other" in the outliner.
 
 Fixes:
-- You should no longer be able to have one scientist be in charge of two fields by hiring them in the other field. Now they just step down from their old position.
-- Disease Descriptions should no longer get blocked if there is no available disease anymore.
-- Advanced Seismology should now properly get activated in Volcano Observatories.
+- Removed Karl Kraus double.
+
+Changes:
+- Vanilla Dickens now has the correct Morgenröte Traits.
+- Peter Wilhelm Lund can now also spawn in Brazil.
