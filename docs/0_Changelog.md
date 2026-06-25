@@ -1,5 +1,7 @@
 Changelog for 2.8.2b "Allemão"
 
+Updated to 1.13.9
+
 Characters:
 - João Barbosa Rodrigues (Brazilian Naturalist)
 - Ivan Mažuranić (Croatian Writer and Politician)
