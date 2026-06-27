@@ -1,18 +1,7 @@
-Changelog for 2.8.2b "Allemão"
+Changelog for 2.8.2c "Allemão"
 
-Updated to 1.13.9
-
-Characters:
-- João Barbosa Rodrigues (Brazilian Naturalist)
-- Ivan Mažuranić (Croatian Writer and Politician)
-- Anita Malfatti (Brazilian Painter)
-
-Quality of Life:
-- Morgenröte Characters are now displayed under "other" in the outliner.
+Graphics:
+- Loading Screen & Event Video: Schneider Trophy - Air Race over Venice (CC4.0 BY-NC angel): https://x.com/angelsrntreal/status/2070577474069753931/photo/1
 
 Fixes:
-- Removed Karl Kraus double.
-
-Changes:
-- Vanilla Dickens now has the correct Morgenröte Traits.
-- Peter Wilhelm Lund can now also spawn in Brazil.
+- Fixed a crash related to unset Production Methods at game start.
