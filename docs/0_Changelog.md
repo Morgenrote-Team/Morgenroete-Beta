@@ -11,3 +11,6 @@ Changes:
 Fixes:
 - Character outfits should now be set correctly again with Western Clothes Redux active.
 - Fixed various localizations.
+
+Arts:
+- Replaced the Loading Screen with the new ModCon loading screen.
