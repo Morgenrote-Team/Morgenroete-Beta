@@ -10,3 +10,4 @@ Changes:
 
 Fixes:
 - Character outfits should now be set correctly again with Western Clothes Redux active.
+- Fixed various localizations.
