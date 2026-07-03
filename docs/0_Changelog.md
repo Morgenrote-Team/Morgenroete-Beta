@@ -1,7 +1,17 @@
-Changelog for 2.8.2c "Allemão"
+Changelog for 2.8.2d "Allemão"
 
-Graphics:
-- Loading Screen & Event Video: Schneider Trophy - Air Race over Venice (CC4.0 BY-NC angel): https://x.com/angelsrntreal/status/2070577474069753931/photo/1
+Characters:
+- Mahmud al-Falaki (Egyptian Engineer and Astronomer)
+- Ali Mubarak (Egyptian Engineer)
+
+Changes:
+- Inviting a Foreign scientists will now give the country sending the scientists 100 involvement in the strategic region of the capital of the receiving country.
+- Pacific Expedition now give your country some involvement in the region of the destination.
 
 Fixes:
-- Fixed a crash related to unset Production Methods at game start.
+- Character outfits should now be set correctly again with Western Clothes Redux active.
+- Fixed various localizations.
+- Gave Dickens the Writer Role.
+
+Arts:
+- Replaced the Loading Screen with the new ModCon loading screen. (Get this mod to remove the ModCon loading Screen: https://steamcommunity.com/sharedfiles/filedetails/?id=3215509403)
