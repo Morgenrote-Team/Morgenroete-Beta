@@ -11,6 +11,7 @@ Changes:
 Fixes:
 - Character outfits should now be set correctly again with Western Clothes Redux active.
 - Fixed various localizations.
+- Gave Dickens the Writer Role.
 
 Arts:
 - Replaced the Loading Screen with the new ModCon loading screen. (Get this mod to remove the ModCon loading Screen: https://steamcommunity.com/sharedfiles/filedetails/?id=3215509403)
