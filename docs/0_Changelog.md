@@ -13,4 +13,4 @@ Fixes:
 - Fixed various localizations.
 
 Arts:
-- Replaced the Loading Screen with the new ModCon loading screen.
+- Replaced the Loading Screen with the new ModCon loading screen. (Get this mod to remove the ModCon loading Screen: https://steamcommunity.com/sharedfiles/filedetails/?id=3215509403)
