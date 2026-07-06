@@ -9,3 +9,6 @@ Characters:
 
 Fixes:
 - Removing missing characters from revolutions should now work properly.
+
+Quality of Life:
+- Character rankings now also display a tiny portrait of the characters.
