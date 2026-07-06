@@ -5,6 +5,7 @@ Characters:
 - Hermann Mooser (Swiss Biologist and Physician)
 - Eduard von Freudenreich (Swiss Biologist)
 - Francis Peyton Rous (American Biologist)
+- Niels Ryberg Finsen (Danish Physician)
 
 Fixes:
 - Removing missing characters from revolutions should now work properly.
