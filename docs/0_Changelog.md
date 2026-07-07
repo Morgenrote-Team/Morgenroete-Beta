@@ -1,7 +1,4 @@
-Changelog for 2.8.2c "Allemão"
-
-Graphics:
-- Loading Screen & Event Video: Schneider Trophy - Air Race over Venice (CC4.0 BY-NC angel): https://x.com/angelsrntreal/status/2070577474069753931/photo/1
+Changelog for 2.8.2f "Allemão"
 
 Fixes:
-- Fixed a crash related to unset Production Methods at game start.
+- Ghost characters should now get removed every half year.
