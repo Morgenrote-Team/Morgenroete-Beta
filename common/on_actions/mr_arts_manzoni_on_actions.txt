@@ -306,10 +306,8 @@ manzoni_on_yearly_pulse_country_writers = {
 
 manzoni_on_yearly_pulse_country_local_writers = {
 	trigger = {
-		has_variable_list = mr_local_writers_list
-		variable_list_size = {
-			name = mr_local_writers_list
-			value > 0
+		any_character_is_local_writer = {
+			count > 0
 		}
 	}
 
@@ -320,52 +318,14 @@ manzoni_on_yearly_pulse_country_local_writers = {
 
 	effect = {
 		#This part adds or removes a random amount of reputation
-		ordered_in_list = {
-			variable = mr_local_writers_list
-			order_by = var:manzoni_writer_experience
-			max = 3
-			check_range_bounds = no
-
+		every_character_is_local_writer = {
 			void_writer_experience_gain_effect = { AMOUNT = local_writer_experience_gain_value }
 		}
 
 		#AI national writer appointment
 		manzoni_ai_hire_writer_effect = yes
 
-		#This part removes writers if there are more than 3
-		if = {
-			limit = {
-				has_variable_list = mr_local_writers_list
-				variable_list_size  = {
-					name = mr_local_writers_list
-					value > 3
-				}
-			}
-			set_local_variable = {
-				name = counter_local_var
-				value = 0
-			}
-			ordered_in_list = {
-				variable = mr_local_writers_list
-				order_by = var:manzoni_writer_experience
-				check_range_bounds = no
-
-				change_local_variable = {
-					name = counter_local_var
-					add = 1
-				}
-				if = {
-					limit = { local_var:counter_local_var > 3 }
-					remove_list_variable = {
-						name = mr_local_writers_list
-						target = this
-					}
-				}
-			}
-		}
-
-		every_in_list = {
-			variable = mr_local_writers_list
+		every_character_is_local_writer = {
 			manzoni_add_yearly_publications_character_effect = yes #If no Bestseller, there is a chance for a normal literary work
 		}
 
@@ -374,9 +334,7 @@ manzoni_on_yearly_pulse_country_local_writers = {
 		#Either fires an Event/Effect or nothing depending on the writers genre and the genre preference.
 		if = {
 			limit = {
-				any_in_list = {
-					variable = mr_local_writers_list
-
+				any_character_is_local_writer = {
 					has_trait = manzoni_writer_fiction
 					NOT = { has_modifier = manzoni_recently_published_bestseller_modifier }
 				}
@@ -404,8 +362,7 @@ manzoni_on_yearly_pulse_country_local_writers = {
 					#Makes the right local writer a scope
 					if = {
 						limit = { manzoni_local_writer_meets_taste_trigger = yes }
-						random_in_list = {
-							variable = mr_local_writers_list
+						random_character_is_local_writer = {
 							limit = {
 								manzoni_local_writer_meets_taste_character_scope_trigger = yes
 								NOT = { has_modifier = manzoni_recently_published_bestseller_modifier }
@@ -416,8 +373,7 @@ manzoni_on_yearly_pulse_country_local_writers = {
 					}
 					else_if = {
 						limit = { manzoni_local_writer_close_taste_trigger = yes }
-						random_in_list = {
-							variable = mr_local_writers_list
+						random_character_is_local_writer = {
 							limit = {
 								manzoni_local_writer_close_taste_character_scope_trigger = yes
 								NOT = { has_modifier = manzoni_recently_published_bestseller_modifier }
@@ -427,8 +383,7 @@ manzoni_on_yearly_pulse_country_local_writers = {
 						}
 					}
 					else = {
-						random_in_list = {
-							variable = mr_local_writers_list
+						random_character_is_local_writer = {
 							limit = {
 								has_trait = manzoni_writer_fiction
 							}
