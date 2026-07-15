@@ -9,3 +9,4 @@ Characters:
 Fixes:
 - Ghost characters should now get removed every half year.
 - Fixed an error spam caused by a missing ? in clothes definitions.
+- No longer adds the wrong characters to Jorunal Entry GUI widgets.
