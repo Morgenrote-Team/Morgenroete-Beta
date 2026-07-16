@@ -8,73 +8,6 @@
 
 ######SCHNEIDER TROPHY######
 
-je_curtiss_found_schneider_trophy = {
-	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
-
-	group = je_group_curtiss_aviation
-
-	immediate = {
-		set_variable = {
-			name = je_curtiss_found_schneider_trophy_var
-			days = 1
-		}
-	}
-
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-		any_scope_state = {
-			is_incorporated = yes
-			any_scope_building = {
-				is_building_type = building_port
-			}
-			any_scope_building = {
-				is_building_type = building_urban_center
-				level >= 15
-			}
-		}
-		hidden_trigger = {
-			NOT = { has_variable = je_curtiss_found_schneider_trophy_var }
-		}
-	}
-
-	on_complete = {
-		trigger_event = {
-			id = curtiss.100
-			popup = yes
-		}
-	}
-
-	fail = {
-	}
-
-	on_fail = {
-	}
-
-	current_value = {
-		if = {
-			limit = {
-				scope:journal_entry = {
-					goal_value = 0
-				}
-			}
-			value = 0
-		}
-		else = {
-			value = global_var:curtiss_seaplane_nations #value or variable you use to meassure progress
-		}
-	}
-
-	goal_add_value = {
-		value = 5
-	}
-
-	progressbar = yes
-
-	weight = 25
-}
-
 je_curtiss_schneider_trophy_race = {
 	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
 
@@ -148,6 +81,105 @@ je_curtiss_schneider_trophy_race = {
 	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
+je_curtiss_found_schneider_trophy_contextless = {
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	group = je_group_vikelas_international_sports_events
+
+	scripted_progress_bar = curtiss_nations_with_seaplanes_progress_bar
+
+	should_be_involved = { always = no }
+
+	on_monthly_pulse = {
+		effect = {
+			every_country = {
+				limit = {
+					curtiss_schneider_trophy_possible = yes
+					NOT = { is_involved_in_journal_entry = je_curtiss_found_schneider_trophy_contextless }
+				}
+				scope:journal_entry = {
+					add_involved_country = prev
+				}
+			}
+		}
+	}
+
+	complete = {
+		scope:journal_entry = {
+			custom_tooltip = {
+				text = je_curtiss_found_schneider_trophy_contextless_seaplane_nations_number_trigger_tt
+				any_scope_je_involved = {
+					count >= 5
+				}
+			}
+			custom_tooltip = {
+				text = je_curtiss_found_schneider_trophy_contextless_seaplane_nations_founder_trigger_tt
+				any_scope_je_involved = {
+					country_rank >= rank_value:major_power
+					any_scope_state = {
+						is_incorporated = yes
+						any_scope_building = {
+							is_building_type = building_port
+						}
+						any_scope_building = {
+							is_building_type = building_urban_center
+							level >= 15
+						}
+					}
+				}
+			}
+		}
+	}
+
+	on_complete = {
+		scope:journal_entry = {
+			random_scope_je_involved = {
+				limit = {
+					country_rank >= rank_value:major_power
+					any_scope_state = {
+						is_incorporated = yes
+						any_scope_building = {
+							is_building_type = building_port
+						}
+						any_scope_building = {
+							is_building_type = building_urban_center
+							level >= 15
+						}
+					}
+				}
+				trigger_event = {
+					id = curtiss.100
+					popup = yes
+				}
+			}
+		}
+	}
+
+	# fires when a country becomes involved after activation of a contextless JE, ie not as a result of the should_be_involved trigger
+	# root = specific country
+	on_become_involved_after_activation = {
+		scope:journal_entry = {
+			add_progress = {
+				name = curtiss_nations_with_seaplanes_progress_bar
+				value = 1
+			}
+		}
+	}
+
+	# fires when a country stops being involved in a contextless JE
+	# root = specific country
+	on_no_longer_involved = {
+		scope:journal_entry = {
+			add_progress = {
+				name = curtiss_nations_with_seaplanes_progress_bar
+				value = -1
+			}
+		}
+	}
+
+	weight = 25
+}
+
 je_curtiss_schneider_trophy_race_contextless = {
 	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
 
@@ -183,6 +215,26 @@ je_curtiss_schneider_trophy_race_contextless = {
 					limit = {
 						has_variable = curtiss_schneider_trophy_race_active_var
 					}
+					if = {
+						limit = {
+							any_scope_je_involved = {
+								has_variable = curtiss_schneider_trophy_point_var
+								var:curtiss_schneider_trophy_point_var >= 30
+							}
+						}
+						#Ends the Race
+						remove_variable = curtiss_schneider_trophy_race_active_var
+						#Victory Event for a nation
+						ordered_scope_je_involved = {
+							order_by = var:curtiss_schneider_trophy_point_var
+							position = 0 #We only want the first one here
+
+							trigger_event = {
+								id = curtiss.111
+								popup = yes
+							}
+						}
+					}
 					every_scope_je_involved = {
 						### Event Pulse
 						trigger_event = {
@@ -194,9 +246,97 @@ je_curtiss_schneider_trophy_race_contextless = {
 		}
 	}
 
+	on_monthly_pulse = {
+		effect = {
+			scope:journal_entry = {
+				if = {
+					limit = {
+						curtiss_schneider_trophy_time_till_next_race_value <= 180
+						NOT = { has_variable = curtiss_schneider_trophy_preparation_stage_var }
+					}
+					#Starts preparation stages
+					set_variable = {
+						name = curtiss_schneider_trophy_preparation_stage_var
+						value = 1
+					}
+					#Invites new Countries
+					every_country = {
+						limit = {
+							curtiss_schneider_trophy_possible = yes
+						}
+						if = {
+							limit = {
+								NOT = { is_involved_in_journal_entry = je_curtiss_schneider_trophy_race_contextless }
+							}
+							trigger_event = {
+								id = curtiss.101
+								popup = yes
+							}
+						}
+						else = {
+							#Add a Notification
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						curtiss_schneider_trophy_time_till_next_race_value <= 120
+						var:curtiss_schneider_trophy_preparation_stage_var ?= 1
+					}
+					#Sets next stage
+					set_variable = {
+						name = curtiss_schneider_trophy_preparation_stage_var
+						value = 2
+					}
+					every_scope_je_involved = {
+						set_variable = {
+							name = schneider_trophy_point_var
+							value = 0
+						}
+						#Curtiss 103: State Support
+						trigger_event = {
+							id = curtiss.103
+							days = { 5 15 }
+						}
+						#Curtiss 108: Leading pilot
+						trigger_event = {
+							id = curtiss.108
+							days = { 25 35 }
+						}
+						#Curtiss 140: [Aeronautical Engineer] constructs new engine
+						trigger_event = {
+							id = curtiss.140
+							days = { 55 65 }
+						}
+					}
+				}
+				else_if = {
+					limit = { curtiss_schneider_trophy_time_till_next_race_value <= 10 }
+					#Resets Stage
+					remove_variable = curtiss_schneider_trophy_preparation_stage_var
+					#Resets timer
+					curtiss_schneider_trophy_set_time_till_next_race_effect = { DAYS = 365 }
+					#Starts the Race
+					set_variable = curtiss_schneider_trophy_race_active_var
+					every_scope_je_involved = {
+						#Sets Points up
+						curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = curtiss_schneider_trophy_before_race_points_score }
+						#Removes Variables
+						remove_variable = curtiss_schneider_trophy_training_good
+						remove_variable = curtiss_schneider_trophy_training_normal
+						remove_variable = curtiss_schneider_trophy_new_engine
+					}
+				}
+			}
+		}
+	}
+
 	complete = {
-		scope:journal_entry = {
-			has_variable = curtiss_end_of_schneider_trophy
+		custom_tooltip = {
+			text = je_curtiss_schneider_trophy_race_contextless_complete_tt
+			scope:journal_entry = {
+				has_variable = curtiss_end_of_schneider_trophy
+			}
 		}
 	}
 

@@ -12,7 +12,6 @@ namespace = curtiss
 
 #Curtiss 1: Our Pilot died
 #Curtiss 10: Seaplanes [Schneider's Trophy JE]
-#Curtiss 11: Has Seaplanes tech [hidden]
 #Curtiss 12: Henri Fabre
 #Curtiss 13: Water Airport
 
@@ -49,7 +48,6 @@ namespace = curtiss
 
 #Curtiss 100: Schneider Trophy founded
 #Curtiss 101: Invitation to Schneider Trophy
-#Curtiss 102: Regular Schneider Trophy
 #Curtiss 103: State Support
 #Curtiss 104: Training
 #Curtiss 105: Good Training (New record)
@@ -364,61 +362,30 @@ curtiss.10 = {
 	trigger = {
 		has_technology_researched = curtiss_seaplanes_tech
 		country_rank >= rank_value:major_power
+		NOT = { has_global_variable = curtiss_seaplanes_invented }
 		any_scope_building = {
 			is_building_type = building_port
 			count >= 3
-		}
-		NOT = {
-			has_global_variable = curtiss_seaplanes_invented
 		}
 	}
 
 	immediate = {
 		set_global_variable = curtiss_seaplanes_invented
-		set_global_variable = {
-			name = curtiss_seaplane_nations
-			value = 0
-		}
 	}
 
 	option = { #A noble idea.
 		name = curtiss.10.g
-		add_journal_entry = {
-			type = je_curtiss_found_schneider_trophy
+		add_contextless_journal_entry = je_curtiss_found_schneider_trophy_contextless
+		je:je_curtiss_found_schneider_trophy_contextless = {
+			add_involved_country = root
 		}
-	}
-}
-
-#Curtiss 11: Has Seaplanes tech [hidden]
-
-curtiss.11 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	hidden = yes
-
-	trigger = {
-		has_technology_researched = curtiss_seaplanes_tech
-		has_global_variable = curtiss_seaplanes_invented
-		NOT = {
-			has_variable = curtiss_seaplanes_country_var
-		}
-	}
-
-	immediate = {
-		set_variable = curtiss_seaplanes_country_var
-		if = {
+		every_country = {
 			limit = {
-				any_scope_building = {
-					is_building_type = building_port
-					count >= 3
-				}
-				country_rank >= rank_value:major_power
+				curtiss_schneider_trophy_possible = yes
+				NOT = { is_involved_in_journal_entry = je_curtiss_found_schneider_trophy_contextless }
 			}
-			change_global_variable = {
-				name = curtiss_seaplane_nations
-				add = 1
+			je:je_curtiss_found_schneider_trophy_contextless = {
+				add_involved_country = prev
 			}
 		}
 	}
@@ -1687,7 +1654,7 @@ curtiss.100 = {
 	}
 
 	immediate = {
-		set_variable = curtiss_schneider_trophy_host
+		add_contextless_journal_entry = je_curtiss_schneider_trophy_race_contextless
 		random_scope_state = {
 			limit = {
 				is_incorporated = yes
@@ -1701,46 +1668,29 @@ curtiss.100 = {
 			}
 			save_scope_as = curtiss_schneider_trophy_state
 		}
-		set_variable = {
-            name = schneider_trophy_point_var
-            value = 0
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = curtiss.103
-				popup = yes
-				days = 30
+		je:je_curtiss_schneider_trophy_race_contextless ?= {
+			set_variable = {
+				name = curtiss_schneider_trophy_host_nation_var
+				value = root
 			}
-			if = {
-				limit = {
-					curtiss_has_pilot = no
-				}
-				trigger_event = {
-					id = curtiss.108
-					popup = yes
-					days = 60
-				}
+			set_variable = {
+				name = curtiss_schneider_trophy_host_state_var
+				value = scope:curtiss_schneider_trophy_state
 			}
-			trigger_event = {
-				id = curtiss.140
-				popup = yes
-				days = { 65 90 }
-			}
-			trigger_event = {
-				id = curtiss.110
-				popup = yes
-				days = 120
+			curtiss_schneider_trophy_set_time_till_next_race_effect = { DAYS = 180 }
+			#Starts preparation stages
+			set_variable = {
+				name = curtiss_schneider_trophy_preparation_stage_var
+				value = 1
 			}
 		}
-		curtiss_create_participiants_list_schneider_effect = yes
 	}
 
 	option = { #Invite everyone to $STATE$
 		name = curtiss.100.g
-		scope:curtiss_schneider_trophy_state = {
-			add_modifier = {
-				name = curtiss_schneider_trophy_state_modifier
-			}
+
+		je:je_curtiss_schneider_trophy_race_contextless ?= {
+			add_involved_country = root
 		}
 		every_country = {
 			limit = {
@@ -1784,28 +1734,21 @@ curtiss.101 = {
 
 	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
 
-	trigger = {
-	}
-
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
+		je:je_curtiss_schneider_trophy_race_contextless ?= {
+			var:curtiss_schneider_trophy_host_state_var ?= {
+				save_scope_as = curtiss_schneider_trophy_state
 			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
-		random_country = {
-			limit = {
-				has_variable = curtiss_schneider_trophy_host
+			var:curtiss_schneider_trophy_host_nation_var ?= {
+				save_scope_as = curtiss_schneider_trophy_host
 			}
-			save_scope_as = curtiss_schneider_trophy_host
 		}
 	}
 
 	option = { #Thrilling!
 		name = curtiss.101.g
 		default_option = yes
-		set_variable = curtiss_schneider_trophy_member
+
 		set_variable = {
             name = schneider_trophy_point_var
             value = 0
@@ -1816,167 +1759,20 @@ curtiss.101 = {
 			}
 			add_treasury = -10000
 		}
-		hidden_effect = {
-			trigger_event = {
-				id = curtiss.103
-				popup = yes
-				days = 30
+		if = {
+			limit = {
+				NOT = { is_involved_in_journal_entry = je_curtiss_schneider_trophy_race_contextless }
 			}
-			if = {
-				limit = {
-					curtiss_has_pilot = no
-				}
-				trigger_event = {
-					id = curtiss.108
-					popup = yes
-					days = 60
-				}
-			}
-			trigger_event = {
-				id = curtiss.140
-				popup = yes
-				days = { 65 90 }
-			}
-			trigger_event = {
-				id = curtiss.110
-				popup = yes
-				days = 120
+			je:je_curtiss_schneider_trophy_race_contextless ?= {
+				add_involved_country = root
 			}
 		}
-		curtiss_create_participiants_list_schneider_effect = yes
 	}
 
 	option = { #Only when red pigs learn to fly
 		name = curtiss.101.h
 		ai_chance = {
 			base = 0
-		}
-	}
-}
-
-#Curtiss 102: Regular Schneider Trophy
-
-curtiss.102 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-    title = curtiss.100.t
-
-    desc = curtiss.102.d
-
-	flavor = curtiss.100.f
-
-	duration = 1
-
-	placement = scope:curtiss_schneider_trophy_state
-
-	event_image = {
-		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_foundation.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
-
-	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
-
-	trigger = {
-	}
-
-	immediate = {
-		set_variable = curtiss_schneider_trophy_host
-		if = {
-			limit = {
-				NOT = {
-					AND = {
-						exists = c:SWI
-						c:SWI = ROOT
-					}
-				}
-			}
-			random_scope_state = {
-				limit = {
-					is_incorporated = yes
-					any_scope_building = {
-						is_building_type = building_port
-					}
-					any_scope_building = {
-						is_building_type = building_urban_center
-						level >= 10
-					}
-				}
-				save_scope_as = curtiss_schneider_trophy_state
-			}
-		}
-		if = {
-			limit = {
-				exists = c:SWI
-				c:SWI = ROOT
-			}
-			random_scope_state = {
-				limit = {
-					is_incorporated = yes
-					any_scope_building = {
-						is_building_type = building_urban_center
-						level >= 10
-					}
-				}
-				save_scope_as = curtiss_schneider_trophy_state
-			}
-		}
-		set_variable = {
-            name = schneider_trophy_point_var
-            value = 0
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = curtiss.103
-				popup = yes
-				days = 30
-			}
-			if = {
-				limit = {
-					curtiss_has_pilot = no
-				}
-				trigger_event = {
-					id = curtiss.108
-					popup = yes
-					days = 60
-				}
-			}
-			trigger_event = {
-				id = curtiss.140
-				popup = yes
-				days = { 65 90 }
-			}
-			trigger_event = {
-				id = curtiss.110
-				popup = yes
-				days = 120
-			}
-		}
-		curtiss_create_participiants_list_schneider_effect = yes
-	}
-
-	option = { #Invite everyone to $STATE$
-		name = curtiss.100.g
-		scope:curtiss_schneider_trophy_state = {
-			add_modifier = {
-				name = curtiss_schneider_trophy_state_modifier
-			}
-		}
-		every_country = {
-			limit = {
-				curtiss_schneider_trophy_possible = yes
-				NOT = {
-					this = ROOT
-				}
-			}
-			trigger_event = {
-				id = curtiss.101
-				popup = yes
-				days = 3
-			}
 		}
 	}
 }
