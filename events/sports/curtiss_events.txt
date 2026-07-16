@@ -2222,57 +2222,13 @@ curtiss.111 = {
 	}
 
 	immediate = {
-		every_country = {
-			limit = {
-				has_variable = curtiss_last_trophy_winner_var
-			}
-			remove_variable = curtiss_last_trophy_winner_var
-		}
-		set_variable = curtiss_last_trophy_winner_var
-		set_variable = {
-			name = curtiss_schneider_trophy_recent_winner
-			days = 90
-		}
-		add_modifier = {
-			name = curtiss_schneider_trophy_break_modifier
-			days = 365
-		}
-		if = {
-			limit = {
-				NOT = {
-					var:curtiss_pilot_var ?= {
-						has_trait = curtiss_schneider_veteran
-					}
-				}
-			}
-			var:curtiss_pilot_var ?= {
-				add_trait = curtiss_schneider_veteran
-			}
-		}
-		#Used to display victories in GUI
-		if = {
-			limit = { NOT = { has_variable = curtiss_schneider_trophy_victories_var } }
-			set_variable = {
-				name = curtiss_schneider_trophy_victories_var
-				value = 1
-			}
-		}
-		else = {
-			change_variable = {
-				name = curtiss_schneider_trophy_victories_var
-				add = 1
-			}
-		}
-	}
+		#Used to keep track of the  victories in GUI
+		mr_change_variable_min_0_effect = { AMOUNT = 1 NAME = curtiss_schneider_trophy_victories_var }
+		mr_change_variable_min_0_effect = { AMOUNT = 1 NAME = curtiss_schneider_trophy_consecutive_victories_var }
 
-	option = { #Victory!
-		name = curtiss.111.g
-		default_option = yes
-		curtiss_add_pilot_num_schneider_races_effect = { AMOUNT = 1 }
-		curtiss_add_pilot_num_schneider_victories_effect = { AMOUNT = 1 }
-		pilot_experience_gain_effect = {
-			AMOUNT = 50
-		}
+
+
+
 		every_country = {
 			limit = {
 				OR = {
@@ -2288,6 +2244,30 @@ curtiss.111 = {
 				popup = yes
 				days = 3
 			}
+		}
+
+		#Adds Schneider Veteran Trait to Pilot
+		if = {
+			limit = {
+				NOT = {
+					var:curtiss_pilot_var ?= {
+						has_trait = curtiss_schneider_veteran
+					}
+				}
+			}
+			var:curtiss_pilot_var ?= {
+				add_trait = curtiss_schneider_veteran
+			}
+		}
+	}
+
+	option = { #Victory!
+		name = curtiss.111.g
+		default_option = yes
+		curtiss_add_pilot_num_schneider_races_effect = { AMOUNT = 1 }
+		curtiss_add_pilot_num_schneider_victories_effect = { AMOUNT = 1 }
+		pilot_experience_gain_effect = {
+			AMOUNT = 50
 		}
 		if = {
 			limit = {
@@ -2326,20 +2306,11 @@ curtiss.111 = {
 
 	after = {
 		hidden_effect = {
-			remove_variable = curtiss_schneider_trophy_member
-			remove_variable = curtiss_schneider_trophy_host
 			remove_modifier = curtiss_schneider_trophy_support_modifier
 			var:curtiss_pilot_var = {
 				set_character_busy_and_immortal = no
 				remove_modifier = curtiss_schneider_pilot_modifier
 			}
-			random_state = {
-				limit = {
-					has_modifier = curtiss_schneider_trophy_state_modifier
-				}
-				remove_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			curtiss_remove_participiants_list_schneider_effect = yes
 		}
 	}
 }
