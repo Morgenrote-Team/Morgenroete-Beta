@@ -8,6 +8,7 @@ Characters:
 - Naguib Pasha Mahfouz (Egyptian Physician)
 - Selim Hassan (Egyptian Archaeologist)
 - Ahmed Kamal (Egyptian Archaeologist)
+- Mahmoud Sa'id (Egyptian Painter)
 
 Fixes:
 - Fixed the Tooltip for Showing the Periodic Table/Element Overview.
