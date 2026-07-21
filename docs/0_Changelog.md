@@ -11,5 +11,6 @@ Characters:
 
 Fixes:
 - Fixed the Tooltip for Showing the Periodic Table/Element Overview.
-- Element 67 now gets its correct name again.
+- Element 67 now gets its correct name again. (Requires a game in which the name was not set yet.)
 - Classical Masterwork Paintings should now properly display their name again.
+- The Centers of Impressionism, Expressionism and Art Nouveau should not correctly state their state region in the tooltip again. (Requires a game in which they were not set yet.)
