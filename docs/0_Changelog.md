@@ -1,12 +1,21 @@
-Changelog for 2.8.2f "Allemão"
-
-Changes:
-- Internal Change: Local Writers now get tracked differently. This also means that you can now have more than 3 local writers.
+Changelog for 2.8.2g "Allemão"
 
 Characters:
-- Oscar Wilde is now a writer.
+- Louis Linant (Egyptian Engineer)
+- Ali Moustafa Mosharafa (Egyptian Physicist and Astronomer)
+- Antoine Clot (Egyptian Physician)
+- Ali Ibrahim (Egyptian Physician)
+- Naguib Pasha Mahfouz (Egyptian Physician)
+- Selim Hassan (Egyptian Archaeologist)
+- Ahmed Kamal (Egyptian Archaeologist)
+- Effat Nagy (Egyptian Painter)
+- Mohamed Nagi (Egyptian Painter)
+- Mahmoud Sa'id (Egyptian Painter)
 
 Fixes:
-- Ghost characters should now get removed every half year.
-- Fixed an error spam caused by a missing ? in clothes definitions.
-- No longer adds the wrong characters to Jorunal Entry GUI widgets.
+- Fixed the Tooltip for Showing the Periodic Table/Element Overview.
+- Element 67 now gets its correct name again. (Requires a game in which the name was not set yet.)
+- Classical Masterwork Paintings should now properly display their name again.
+- The Centers of Impressionism, Expressionism and Art Nouveau should not correctly state their state region in the tooltip again. (Requires a game in which they were not set yet.)
+- Naturalists now use the correct title in the Science Panel.
+- The amount of Microorganisms from the Agriculture Project are now correctly displayed in the Journal Entry and the ending event.
