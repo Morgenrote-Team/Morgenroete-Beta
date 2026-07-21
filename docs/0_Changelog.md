@@ -16,3 +16,4 @@ Fixes:
 - Element 67 now gets its correct name again. (Requires a game in which the name was not set yet.)
 - Classical Masterwork Paintings should now properly display their name again.
 - The Centers of Impressionism, Expressionism and Art Nouveau should not correctly state their state region in the tooltip again. (Requires a game in which they were not set yet.)
+- Naturalists now use the correct title in the Science Panel.
