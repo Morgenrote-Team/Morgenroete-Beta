@@ -8,6 +8,7 @@ Characters:
 - Naguib Pasha Mahfouz (Egyptian Physician)
 - Selim Hassan (Egyptian Archaeologist)
 - Ahmed Kamal (Egyptian Archaeologist)
+- Effat Nagy (Egyptian Painter)
 - Mohamed Nagi (Egyptian Painter)
 - Mahmoud Sa'id (Egyptian Painter)
 
