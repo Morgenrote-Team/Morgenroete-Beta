@@ -6,6 +6,7 @@ Characters:
 - Antoine Clot (Egyptian Physician)
 - Ali Ibrahim (Egyptian Physician)
 - Naguib Pasha Mahfouz (Egyptian Physician)
+- Selim Hassan (Egyptian Archaeologist)
 - Ahmed Kamal (Egyptian Archaeologist)
 
 Fixes:
