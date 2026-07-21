@@ -17,3 +17,4 @@ Fixes:
 - Classical Masterwork Paintings should now properly display their name again.
 - The Centers of Impressionism, Expressionism and Art Nouveau should not correctly state their state region in the tooltip again. (Requires a game in which they were not set yet.)
 - Naturalists now use the correct title in the Science Panel.
+- The amount of Microorganisms from the Agriculture Project are now correctly displayed in the Journal Entry and the ending event.
