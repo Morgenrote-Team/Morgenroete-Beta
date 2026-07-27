@@ -10,12 +10,101 @@ namespace = tesla
 
 ###################
 
+###### Historical Engineering Events ######
+
+#Tesla 101: Peytier's return to France
+
 ###### Mechanical Engineer Projects ######
 
 #Tesla 223: A First Prototype
 #Tesla 224: Feature Creep
 
 #################################################################################
+
+###### Historical Engineering Events ######
+
+#Tesla 101: Peytier's return to France
+tesla.101 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = tesla.101.t
+    desc = tesla.101.d
+	flavor = tesla.101.f
+
+    gui_window = event_window_1char_tabloid
+
+	left_icon = scope:tesla_new_engineer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+		has_state_in_state_region = STATE_PELOPONNESE
+		basileia_is_active = no #Built in compatibility to Basileia
+	}
+
+	immediate = {
+		create_character = {
+			template = mr_gre_peytier_pierre_character_template
+			save_scope_as = tesla_new_engineer_scope
+		}
+		set_variable = {
+			name = tesla_new_engineer_var
+			value = scope:tesla_new_engineer_scope
+		}
+	}
+
+	option = { #Thank you for your service!
+		name = tesla.101.g
+		default_option = yes
+
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_PELOPONNESE
+			}
+
+			add_modifier = {
+				name = gaudi_topographic_state_map_modifier
+			}
+		}
+
+		scope:tesla_new_engineer_scope ?= {
+			free_character_from_void = no
+		}
+		remove_variable = tesla_new_engineer_var
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { #We can't lose Peytier!
+		name = tesla.101.h
+
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_PELOPONNESE
+			}
+
+			add_modifier = {
+				name = gaudi_topographic_state_map_modifier
+			}
+		}
+
+		add_treasury = -100000
+
+		tesla_set_new_engineer_as_engineer_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
 
 ###### Mechanical Engineer Projects ######
 
