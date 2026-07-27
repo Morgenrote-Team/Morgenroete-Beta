@@ -4,6 +4,7 @@ Characters:
 - Abdu al-Hamuli (Egyptian Composer)
 - Sayed Darwish (Egyptian Composer)
 - Dawood Hosni (Egyptian Composer)
+- Muhammad Uthman (Egyptian Composer)
 - Amy Nimr (Egyptian Painter)
 
 Changes:
