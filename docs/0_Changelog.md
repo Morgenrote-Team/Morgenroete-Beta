@@ -5,3 +5,6 @@ Characters:
 - Sayed Darwish (Egyptian Composer)
 - Dawood Hosni (Egyptian Composer)
 - Amy Nimr (Egyptian Painter)
+
+Fixes:
+- A Balloonist who gets a new trait will no longer be accompanied by a destruction sound effect.
