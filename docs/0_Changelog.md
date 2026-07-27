@@ -1,21 +1,14 @@
-Changelog for 2.8.2g "Allemão"
+Changelog for 2.8.2h "Allemão"
 
 Characters:
-- Louis Linant (Egyptian Engineer)
-- Ali Moustafa Mosharafa (Egyptian Physicist and Astronomer)
-- Antoine Clot (Egyptian Physician)
-- Ali Ibrahim (Egyptian Physician)
-- Naguib Pasha Mahfouz (Egyptian Physician)
-- Selim Hassan (Egyptian Archaeologist)
-- Ahmed Kamal (Egyptian Archaeologist)
-- Effat Nagy (Egyptian Painter)
-- Mohamed Nagi (Egyptian Painter)
-- Mahmoud Sa'id (Egyptian Painter)
+- Abdu al-Hamuli (Egyptian Composer)
+- Sayed Darwish (Egyptian Composer)
+- Dawood Hosni (Egyptian Composer)
+- Muhammad Uthman (Egyptian Composer)
+- Amy Nimr (Egyptian Painter)
+
+Changes:
+- Removed ModCon start screen.
 
 Fixes:
-- Fixed the Tooltip for Showing the Periodic Table/Element Overview.
-- Element 67 now gets its correct name again. (Requires a game in which the name was not set yet.)
-- Classical Masterwork Paintings should now properly display their name again.
-- The Centers of Impressionism, Expressionism and Art Nouveau should not correctly state their state region in the tooltip again. (Requires a game in which they were not set yet.)
-- Naturalists now use the correct title in the Science Panel.
-- The amount of Microorganisms from the Agriculture Project are now correctly displayed in the Journal Entry and the ending event.
+- A Balloonist who gets a new trait will no longer be accompanied by a destruction sound effect.
