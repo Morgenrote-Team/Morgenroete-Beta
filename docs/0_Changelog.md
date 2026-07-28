@@ -5,6 +5,7 @@ Characters:
 - Stamatios Kleanthis (Greek Architect and Engineer)
 - Spyridon Miliarakis (Greek Naturalist and Physician)
 - Theodoros Orphanides (Greek Naturalist and Writer)
+- Dimitrios Zaganiaris (Greek Naturalist and Physicist)
 - Theodoros Afentoulis (Greek Biologist and Physician)
 
 Fixes:
