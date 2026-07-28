@@ -5,6 +5,7 @@ Characters:
 - Stamatios Kleanthis (Greek Architect and Engineer)
 - Iraklis Mitsopoulos (Greek Geologist, Physicist, Naturalist, Biologist, Paleontologist and Archaeologist)
 - Konstantinos M. Mitsopoulos (Greek Geologist and Chemsit)
+- Maximos Mitsopoulos (Greek Geologist and Paleontologist)
 - Kyriakos Domnandos (Greek Naturalist)
 - Spyridon Miliarakis (Greek Naturalist and Physician)
 - Theodoros Orphanides (Greek Naturalist and Writer)
