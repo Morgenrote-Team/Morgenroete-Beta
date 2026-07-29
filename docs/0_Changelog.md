@@ -12,7 +12,8 @@ Characters:
 - Dimitrios Zaganiaris (Greek Naturalist and Physicist)
 - Theodoros Afentoulis (Greek Biologist and Physician)
 - Anastasios Christomanos (Greek Chemist)
-- Anastasios Christomanos (Greek Chemist)
+- Xaver Landerer (German Chemist in Greece)
+- Peter Hess (German Painter in Greece)
 - Theodoros Vryzakis (Greek Painter)
 
 Fixes:
