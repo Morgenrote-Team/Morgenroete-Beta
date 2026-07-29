@@ -12,5 +12,6 @@ Characters:
 - Dimitrios Zaganiaris (Greek Naturalist and Physicist)
 - Theodoros Afentoulis (Greek Biologist and Physician)
 - Anastasios Christomanos (Greek Chemist)
+- Theodoros Vryzakis (Greek Painter)
 
 Fixes:
