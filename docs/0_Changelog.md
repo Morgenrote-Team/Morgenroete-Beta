@@ -1,4 +1,4 @@
-Changelog for 2.8.2i "Allemão"
+Changelog for 2.8.3 "Mitsopoulos"
 
 Characters:
 - Pierre Peytier (French Engineer (event in Greece))
