@@ -18,6 +18,7 @@ Characters:
 - Ioulios Galvanis (Greek Physician)
 - Marinos Geroulanos (Greek Physician)
 - Ioannis Olympios (Greek Physician)
+- Theodoros Zaimis (Greek Physician)
 - Peter Hess (German Painter in Greece)
 - Theodoros Vryzakis (Greek Painter)
 - Dimitrios Kamberos (Greek Pilot)
