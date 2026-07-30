@@ -14,6 +14,7 @@ Characters:
 - Nikolaos Apostilidis (Greek Biologist and Naturalist)
 - Anastasios Christomanos (Greek Chemist)
 - Xaver Landerer (German Chemist in Greece)
+- Antonios Christomanos (Greek Physician and Biologist)
 - Ioannis Olympios (Greek Physician)
 - Peter Hess (German Painter in Greece)
 - Theodoros Vryzakis (Greek Painter)
