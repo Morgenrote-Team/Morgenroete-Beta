@@ -1,14 +1,27 @@
-Changelog for 2.8.2h "Allemão"
+Changelog for 2.8.2i "Allemão"
 
 Characters:
-- Abdu al-Hamuli (Egyptian Composer)
-- Sayed Darwish (Egyptian Composer)
-- Dawood Hosni (Egyptian Composer)
-- Muhammad Uthman (Egyptian Composer)
-- Amy Nimr (Egyptian Painter)
-
-Changes:
-- Removed ModCon start screen.
+- Pierre Peytier (French Engineer (event in Greece))
+- Stamatios Kleanthis (Greek Architect and Engineer)
+- Iraklis Mitsopoulos (Greek Geologist, Physicist, Naturalist, Biologist, Paleontologist and Archaeologist)
+- Konstantinos M. Mitsopoulos (Greek Geologist and Chemsit)
+- Maximos Mitsopoulos (Greek Geologist and Paleontologist)
+- Kyriakos Domnandos (Greek Naturalist)
+- Spyridon Miliarakis (Greek Naturalist and Physician)
+- Theodoros Orphanides (Greek Naturalist and Writer)
+- Dimitrios Zaganiaris (Greek Naturalist and Physicist)
+- Theodoros Afentoulis (Greek Biologist and Physician)
+- Nikolaos Apostilidis (Greek Biologist and Naturalist)
+- Anastasios Christomanos (Greek Chemist)
+- Xaver Landerer (German Chemist in Greece)
+- Antonios Christomanos (Greek Physician and Biologist)
+- Ioulios Galvanis (Greek Physician)
+- Marinos Geroulanos (Greek Physician)
+- Ioannis Olympios (Greek Physician)
+- Ioannis Vouros (Greek Physician)
+- Theodoros Zaimis (Greek Physician)
+- Peter Hess (German Painter in Greece)
+- Theodoros Vryzakis (Greek Painter)
+- Dimitrios Kamberos (Greek Pilot)
 
 Fixes:
-- A Balloonist who gets a new trait will no longer be accompanied by a destruction sound effect.
