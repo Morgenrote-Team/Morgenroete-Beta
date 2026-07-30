@@ -15,5 +15,6 @@ Characters:
 - Xaver Landerer (German Chemist in Greece)
 - Peter Hess (German Painter in Greece)
 - Theodoros Vryzakis (Greek Painter)
+- Dimitrios Kamberos (Greek Pilot)
 
 Fixes:
