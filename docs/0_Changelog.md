@@ -15,6 +15,7 @@ Characters:
 - Anastasios Christomanos (Greek Chemist)
 - Xaver Landerer (German Chemist in Greece)
 - Antonios Christomanos (Greek Physician and Biologist)
+- Ioulios Galvanis (Greek Physician)
 - Ioannis Olympios (Greek Physician)
 - Peter Hess (German Painter in Greece)
 - Theodoros Vryzakis (Greek Painter)
