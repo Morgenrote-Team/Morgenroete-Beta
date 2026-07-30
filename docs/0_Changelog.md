@@ -25,3 +25,4 @@ Characters:
 - Dimitrios Kamberos (Greek Pilot)
 
 Fixes:
+- Schleiden now correctly gets the Biologist Role.
