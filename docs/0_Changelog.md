@@ -11,6 +11,7 @@ Characters:
 - Theodoros Orphanides (Greek Naturalist and Writer)
 - Dimitrios Zaganiaris (Greek Naturalist and Physicist)
 - Theodoros Afentoulis (Greek Biologist and Physician)
+- Nikolaos Apostilidis (Greek Biologist and Naturalist)
 - Anastasios Christomanos (Greek Chemist)
 - Xaver Landerer (German Chemist in Greece)
 - Peter Hess (German Painter in Greece)
