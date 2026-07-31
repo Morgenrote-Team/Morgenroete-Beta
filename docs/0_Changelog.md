@@ -4,3 +4,4 @@ Characters:
 
 
 Fixes:
+- Pilots now get the correct career length effect.
