@@ -863,7 +863,7 @@ curtiss_schneider_trophy_race_ranking_set_up_effect_effect = {
 }
 
 #Sets up the Schneider Trophy Race Ranking
-curtiss_schneider_trophy_race_ranking_order_effect_effect = {
+curtiss_schneider_trophy_race_ranking_order_effect = {
 	#JOURNAL_ENTRY_SCOPE = scope of the JE (e.g. scope:je)
 	$JOURNAL_ENTRY_SCOPE$ = {
 		sort_variable_list = {
@@ -946,49 +946,21 @@ curtiss_add_pilot_num_schneider_victories_effect = {
 	}
 }
 
-#Effect to add $AMOUNT$ Schneider Trophy Points
-curtiss_add_x_schneider_trophy_point_unscaled_effect = {
-	# Amount = amount of Painting tradition to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = schneider_trophy_point_amount
+curtiss_add_x_schneider_trophy_points_effect = {
+	# Amount = amount of Architectural Splendour to add
+	custom_description = {
+		text = "curtiss_add_x_schneider_trophy_points_effect_loc"
+		subject = this
 		value = $AMOUNT$
-	}
 
-	#This part is used to display an accurate tooltip (Gain, loss, etc.)
-	if = { #Negative Plural Tooltip if local_var is negative
-		limit = { $AMOUNT$ < 0 }
-		custom_tooltip = curtiss_add_x_schneider_trophy_point_minus_x_tt
-	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = curtiss_add_x_schneider_trophy_point_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 0 }
-		custom_tooltip = curtiss_add_x_schneider_trophy_point_plus_x_tt
-	}
+		#This part adds the AMOUNT of Architectural Splendour
+		mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = $AMOUNT$ NAME = curtiss_schneider_trophy_point_var ADDITIONAL_SCRIPT_MATH = "min = 0 round = yes" }
 
-	#This part adds the AMOUNT of Schneider Trophy Points
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = curtiss_schneider_trophy_point_var
-			}
-		}
-		set_variable = {
-			name = curtiss_schneider_trophy_point_var
-			value = 0
-		}
+		#Updates the Ranking
+		curtiss_schneider_trophy_race_ranking_order_effect = { JOURNAL_ENTRY_SCOPE = je:je_curtiss_schneider_trophy_race_contextless }
+		#Victoria effect in case the country has 30 or more points
+		curtiss_schneider_trophy_victory_effect = yes
 	}
-	change_variable = {
-		name = curtiss_schneider_trophy_point_var
-		add = scope:schneider_trophy_point_amount
-	}
-
-	#Updates the Ranking
-	curtiss_schneider_trophy_race_ranking_order_effect_effect = { JOURNAL_ENTRY_SCOPE = je:je_curtiss_schneider_trophy_race_contextless }
-	#Victoria effect in case the country has 30 or more points
-	curtiss_schneider_trophy_victory_effect = yes
 }
 
 #########################################################################
