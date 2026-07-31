@@ -14,7 +14,6 @@ mr_set_gui_variables_for_mr_windows_effect = {
 	vikelas_set_member_states_effect = yes
 	vikelas_ioc_board_members_effect = yes
 	curtiss_set_schneider_overview_effect = yes
-	curtiss_create_schneider_trophy_current_ranking_global_effect = yes
 	artists_set_yearly_tradition_gain_variable = yes
 	artists_set_up_travelling_composer_list_effect = yes
 	artists_set_up_local_writer_list_effect = yes
@@ -137,167 +136,6 @@ vikelas_set_member_states_effect = {
 			value = scope:GUI_vikelas_next_host_scope
 		}
 	}
-}
-
-#This effect sets up all the variables for the Schneider Trophy Overview
-curtiss_set_schneider_overview_effect = {
-
-	#Sets the last winning country as a variable
-	if = {
-		limit = {
-			any_country = {
-				has_variable = curtiss_last_trophy_winner_var
-			}
-		}
-		random_country = {
-			limit = {
-				has_variable = curtiss_last_trophy_winner_var
-			}
-			save_scope_as = GUI_curtiss_last_trophy_winner_scope
-		}
-		set_variable = {
-			name = GUI_curtiss_last_trophy_winner_for_gui_var
-			value = scope:GUI_curtiss_last_trophy_winner_scope
-		}
-	}
-}
-
-### Schneider Trophy Participants GLOBAL variables ###
-#Creates a list of the Schneider Trophy Participants ranked for Points.
-#As this effect is called in an effect, it creates the list with GLOBAL variables.
-#Look at the customizable localizations to see how the countries are displayed.
-#Basically the custom loc uses the variable to display both the countries in their order as well as the variables of those countries
-curtiss_create_schneider_trophy_current_ranking_global_effect = {
-	#Removes the GLOBAL ranking variables
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_1_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_2_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_3_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_4_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_5_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_6_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_7_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_8_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_9_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_10_global_var
-
-	ordered_country = {
-		limit = {
-			has_variable = schneider_trophy_point_var
-			has_journal_entry = je_curtiss_schneider_trophy_race
-		}
-		order_by = var:schneider_trophy_point_var
-		max = 10
-		check_range_bounds = no #prevents errors
-
-		#This part checks one after another whether the the first, second, etc. ranked countries are saved already.
-		#Luckily the ordered_country effect iterates through the countries one after another.
-		#So the first country gets saved to the first variable but as that variable now is set,
-		# the second country gets saved to the second variable and so on.
-		if = {
-			limit = {
-				NOT = { has_global_variable = curtiss_create_schneider_trophy_current_rank_1_global_var }
-			}
-			set_global_variable = {
-				name = curtiss_create_schneider_trophy_current_rank_1_global_var
-				value = this
-			}
-		}
-		else_if = {
-			limit = {
-				NOT = { has_global_variable = curtiss_create_schneider_trophy_current_rank_2_global_var }
-			}
-			set_global_variable = {
-				name = curtiss_create_schneider_trophy_current_rank_2_global_var
-				value = this
-			}
-		}
-		else_if = {
-			limit = {
-				NOT = { has_global_variable = curtiss_create_schneider_trophy_current_rank_3_global_var }
-			}
-			set_global_variable = {
-				name = curtiss_create_schneider_trophy_current_rank_3_global_var
-				value = this
-			}
-		}
-		else_if = {
-			limit = {
-				NOT = { has_global_variable = curtiss_create_schneider_trophy_current_rank_4_global_var }
-			}
-			set_global_variable = {
-				name = curtiss_create_schneider_trophy_current_rank_4_global_var
-				value = this
-			}
-		}
-		else_if = {
-			limit = {
-				NOT = { has_global_variable = curtiss_create_schneider_trophy_current_rank_5_global_var }
-			}
-			set_global_variable = {
-				name = curtiss_create_schneider_trophy_current_rank_5_global_var
-				value = this
-			}
-		}
-		else_if = {
-			limit = {
-				NOT = { has_global_variable = curtiss_create_schneider_trophy_current_rank_6_global_var }
-			}
-			set_global_variable = {
-				name = curtiss_create_schneider_trophy_current_rank_6_global_var
-				value = this
-			}
-		}
-		else_if = {
-			limit = {
-				NOT = { has_global_variable = curtiss_create_schneider_trophy_current_rank_7_global_var }
-			}
-			set_global_variable = {
-				name = curtiss_create_schneider_trophy_current_rank_7_global_var
-				value = this
-			}
-		}
-		else_if = {
-			limit = {
-				NOT = { has_global_variable = curtiss_create_schneider_trophy_current_rank_8_global_var }
-			}
-			set_global_variable = {
-				name = curtiss_create_schneider_trophy_current_rank_8_global_var
-				value = this
-			}
-		}
-		else_if = {
-			limit = {
-				NOT = { has_global_variable = curtiss_create_schneider_trophy_current_rank_9_global_var }
-			}
-			set_global_variable = {
-				name = curtiss_create_schneider_trophy_current_rank_9_global_var
-				value = this
-			}
-		}
-		else_if = {
-			limit = {
-				NOT = { has_global_variable = curtiss_create_schneider_trophy_current_rank_10_global_var }
-			}
-			set_global_variable = {
-				name = curtiss_create_schneider_trophy_current_rank_10_global_var
-				value = this
-			}
-		}
-	}
-}
-
-#Removes the GLOBAL ranking variables
-curtiss_remove_schneider_trophy_current_ranking_variables = {
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_1_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_2_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_3_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_4_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_5_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_6_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_7_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_8_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_9_global_var
-	remove_global_variable = curtiss_create_schneider_trophy_current_rank_10_global_var
 }
 
 #########################################################################
@@ -2107,7 +1945,6 @@ GUI_remove_unnecessary_variables_effect = {
 	remove_variable = GUI_vikelas_athlete_var
 	remove_variable = GUI_vikelas_next_host_var
 	remove_variable = GUI_vikelas_athlete_var
-	remove_variable = GUI_curtiss_last_trophy_winner_for_gui_var
 	remove_variable = elgar_yearly_musical_tradition_var
 	remove_variable = manzoni_yearly_literary_tradition_var
 	remove_variable = klimt_yearly_painting_tradition_var
