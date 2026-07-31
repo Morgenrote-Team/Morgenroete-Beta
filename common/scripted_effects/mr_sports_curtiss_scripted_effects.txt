@@ -718,8 +718,9 @@ curtiss_schneider_trophy_set_time_till_next_race_effect = {
 curtiss_schneider_trophy_race_ranking_set_up_effect_effect = {
 	#JOURNAL_ENTRY_SCOPE = scope of the JE (e.g. scope:je)
 	$JOURNAL_ENTRY_SCOPE$ = {
-		clear_variable_list = curtiss_schneider_trophy_participants_list
-		every_scope_je_involved = {
+		ordered_scope_je_involved = {
+			order_by = var:curtiss_schneider_trophy_point_var
+
 			$JOURNAL_ENTRY_SCOPE$ = {
 				add_to_variable_list = {
 					name = curtiss_schneider_trophy_participants_list
@@ -730,22 +731,44 @@ curtiss_schneider_trophy_race_ranking_set_up_effect_effect = {
 	}
 }
 
+#Sets up the Schneider Trophy Race Ranking
+curtiss_schneider_trophy_race_ranking_order_effect_effect = {
+	#JOURNAL_ENTRY_SCOPE = scope of the JE (e.g. scope:je)
+	$JOURNAL_ENTRY_SCOPE$ = {
+		sort_variable_list = {
+			name = curtiss_schneider_trophy_participants_list
+			order = var:curtiss_schneider_trophy_point_var
+		}
+	}
+}
+
 #Sets up the Schneider Trophy Ranking
 curtiss_schneider_trophy_ranking_set_up_effect_effect = {
 	#JOURNAL_ENTRY_SCOPE = scope of the JE (e.g. scope:je)
 	$JOURNAL_ENTRY_SCOPE$ = {
 		clear_variable_list = curtiss_schneider_trophy_ranking_list
-		every_scope_je_involved = {
+		ordered_scope_je_involved = {
 			limit = {
 				has_variable = curtiss_schneider_trophy_victories_var
 				var:curtiss_schneider_trophy_victories_var > 0
 			}
+			order_by = var:curtiss_schneider_trophy_victories_var
+
 			$JOURNAL_ENTRY_SCOPE$ = {
 				add_to_variable_list = {
 					name = curtiss_schneider_trophy_ranking_list
 					target = prev
 				}
 			}
+		}
+	}
+}
+
+#Saves the Schneider Trophy Host State as a scope
+curtiss_schneider_trophy_set_host_state_scope_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		var:curtiss_schneider_trophy_host_state_var ?= {
+			save_scope_as = curtiss_schneider_trophy_state
 		}
 	}
 }
@@ -830,6 +853,8 @@ curtiss_add_x_schneider_trophy_point_unscaled_effect = {
 		name = curtiss_schneider_trophy_point_var
 		add = scope:schneider_trophy_point_amount
 	}
+
+	curtiss_schneider_trophy_race_ranking_order_effect_effect = { JOURNAL_ENTRY_SCOPE = je:je_curtiss_schneider_trophy_race_contextless }
 }
 
 #########################################################################
