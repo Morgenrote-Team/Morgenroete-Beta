@@ -180,6 +180,12 @@ je_curtiss_found_schneider_trophy_contextless = {
 	weight = 25
 }
 
+#Schneider Trophy JE
+# This JE controlls the Trophy. Once a country wins 3 times in a row, the JE disappears
+#
+# The weekly pulse controls the Races themselves.
+# The monthly pulse controls when the race takes place.
+# The victory in a race is controlled in the schneider trophy points effect.
 je_curtiss_schneider_trophy_race_contextless = {
 	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
 
@@ -215,156 +221,6 @@ je_curtiss_schneider_trophy_race_contextless = {
 				if = {
 					limit = {
 						has_variable = curtiss_schneider_trophy_race_active_var
-					}
-					if = {
-						limit = {
-							any_scope_je_involved = {
-								has_variable = curtiss_schneider_trophy_point_var
-								var:curtiss_schneider_trophy_point_var >= 30
-							}
-						}
-						#Ends the Race
-						remove_variable = curtiss_schneider_trophy_race_active_var
-						#Victory Event for a nation
-						ordered_scope_je_involved = {
-							order_by = var:curtiss_schneider_trophy_point_var
-							position = 0 #We only want the first one here
-
-							#Victory Event
-							trigger_event = {
-								id = curtiss.111
-								popup = yes
-							}
-
-							#New Host State
-							if = {
-								limit = {
-									any_scope_state = {
-										is_incorporated = yes
-										any_scope_building = {
-											is_building_type = building_port
-										}
-										any_scope_building = {
-											is_building_type = building_urban_center
-											level >= 10
-										}
-									}
-								}
-								random_scope_state = {
-									limit = {
-										is_incorporated = yes
-										any_scope_building = {
-											is_building_type = building_port
-										}
-										any_scope_building = {
-											is_building_type = building_urban_center
-											level >= 10
-										}
-									}
-									save_scope_as = curtiss_schneider_trophy_state
-								}
-							}
-							else_if = {
-								limit = {
-									c:SWI ?= this
-								}
-								random_scope_state = {
-									limit = {
-										is_incorporated = yes
-										any_scope_building = {
-											is_building_type = building_urban_center
-											level >= 10
-										}
-									}
-									save_scope_as = curtiss_schneider_trophy_state
-								}
-							}
-							else_if = {
-								limit = {
-									any_scope_state = {
-										is_coastal = yes
-									}
-								}
-								random_scope_state = {
-									limit = {
-										is_coastal = yes
-									}
-									save_scope_as = curtiss_schneider_trophy_state
-								}
-							}
-							else = {
-								capital = {
-									save_scope_as = curtiss_schneider_trophy_state
-								}
-							}
-
-							#Sets new Host variables
-							scope:journal_entry = {
-								set_variable = {
-									name = curtiss_schneider_trophy_host_nation_var
-									value = prev
-								}
-								set_variable = {
-									name = curtiss_schneider_trophy_host_state_var
-									value = scope:curtiss_schneider_trophy_state
-								}
-							}
-						}
-
-						scope:journal_entry = {
-							#Informs other countries about winner and removes variables, etc.
-							every_scope_je_involved = {
-								limit = {
-									NOT = { scope:journal_entry.var:curtiss_schneider_trophy_host_nation_var ?= this }
-								}
-								#Sends Event
-								trigger_event = curtiss.112
-
-								#Resets consecutive Victories
-								if = {
-									limit = { has_variable = curtiss_schneider_trophy_consecutive_victories_var }
-									set_variable = {
-										name = curtiss_schneider_trophy_consecutive_victories_var
-										value = 0
-									}
-								}
-								if = {
-									limit = {
-										has_modifier = curtiss_schneider_trophy_1_win_modifier
-									}
-									remove_modifier = curtiss_schneider_trophy_1_win_modifier
-								}
-								if = {
-									limit = {
-										has_modifier = curtiss_schneider_trophy_2_win_modifier
-									}
-									remove_modifier = curtiss_schneider_trophy_2_win_modifier
-								}
-								#Adds Schneider Veteran Trait to Pilot and adds experience
-								if = {
-									limit = {
-										NOT = {
-											var:curtiss_pilot_var ?= {
-												has_trait = curtiss_schneider_veteran
-											}
-										}
-									}
-									var:curtiss_pilot_var ?= {
-										add_trait = curtiss_schneider_veteran
-									}
-								}
-								curtiss_add_pilot_num_schneider_races_effect = { AMOUNT = 1 }
-								pilot_experience_gain_effect = {
-									AMOUNT = 25
-								}
-								#Resets other Variables
-								remove_modifier = curtiss_schneider_trophy_support_modifier
-								var:curtiss_pilot_var ?= {
-									set_character_busy_and_immortal = no
-									remove_modifier = curtiss_schneider_pilot_modifier
-								}
-							}
-						}
 					}
 					#Race Events
 					if = {

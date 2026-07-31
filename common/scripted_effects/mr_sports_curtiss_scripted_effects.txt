@@ -715,7 +715,149 @@ curtiss_schneider_trophy_set_time_till_next_race_effect = {
 }
 
 #Effect that gets fired when a country has 30 Schneider Trophy points
+curtiss_schneider_trophy_victory_effect = {
+	if = {
+		limit = {
+			var:curtiss_schneider_trophy_point_var >= 30
+		}
+		#Victory Event
+		trigger_event = {
+			id = curtiss.111
+			popup = yes
+		}
 
+		#New Host State
+		if = {
+			limit = {
+				any_scope_state = {
+					is_incorporated = yes
+					any_scope_building = {
+						is_building_type = building_port
+					}
+					any_scope_building = {
+						is_building_type = building_urban_center
+						level >= 10
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_incorporated = yes
+					any_scope_building = {
+						is_building_type = building_port
+					}
+					any_scope_building = {
+						is_building_type = building_urban_center
+						level >= 10
+					}
+				}
+				save_scope_as = curtiss_schneider_trophy_state
+			}
+		}
+		else_if = {
+			limit = {
+				c:SWI ?= this
+			}
+			random_scope_state = {
+				limit = {
+					is_incorporated = yes
+					any_scope_building = {
+						is_building_type = building_urban_center
+						level >= 10
+					}
+				}
+				save_scope_as = curtiss_schneider_trophy_state
+			}
+		}
+		else_if = {
+			limit = {
+				any_scope_state = {
+					is_coastal = yes
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_coastal = yes
+				}
+				save_scope_as = curtiss_schneider_trophy_state
+			}
+		}
+		else = {
+			capital = {
+				save_scope_as = curtiss_schneider_trophy_state
+			}
+		}
+
+		#Ends the Race
+		je:je_curtiss_schneider_trophy_race_contextless = {
+			remove_variable = curtiss_schneider_trophy_race_active_var
+
+			#Sets new Host variables
+			set_variable = {
+				name = curtiss_schneider_trophy_host_nation_var
+				value = prev
+			}
+			set_variable = {
+				name = curtiss_schneider_trophy_host_state_var
+				value = scope:curtiss_schneider_trophy_state
+			}
+
+			#Informs other countries about winner and removes variables, etc.
+
+			every_scope_je_involved = {
+				limit = {
+					NOT = { scope:journal_entry.var:curtiss_schneider_trophy_host_nation_var ?= this }
+				}
+				#Sends Event
+				trigger_event = curtiss.112
+
+				#Resets consecutive Victories
+				if = {
+					limit = { has_variable = curtiss_schneider_trophy_consecutive_victories_var }
+					set_variable = {
+						name = curtiss_schneider_trophy_consecutive_victories_var
+						value = 0
+					}
+				}
+				if = {
+					limit = {
+						has_modifier = curtiss_schneider_trophy_1_win_modifier
+					}
+					remove_modifier = curtiss_schneider_trophy_1_win_modifier
+				}
+				if = {
+					limit = {
+						has_modifier = curtiss_schneider_trophy_2_win_modifier
+					}
+					remove_modifier = curtiss_schneider_trophy_2_win_modifier
+				}
+				#Adds Schneider Veteran Trait to Pilot and adds experience
+				if = {
+					limit = {
+						NOT = {
+							var:curtiss_pilot_var ?= {
+								has_trait = curtiss_schneider_veteran
+							}
+						}
+					}
+					var:curtiss_pilot_var ?= {
+						add_trait = curtiss_schneider_veteran
+					}
+				}
+				curtiss_add_pilot_num_schneider_races_effect = { AMOUNT = 1 }
+				pilot_experience_gain_effect = {
+					AMOUNT = 25
+				}
+				#Resets other Variables
+				remove_modifier = curtiss_schneider_trophy_support_modifier
+				var:curtiss_pilot_var ?= {
+					set_character_busy_and_immortal = no
+					remove_modifier = curtiss_schneider_pilot_modifier
+				}
+			}
+		}
+	}
+}
 
 #Sets up the Schneider Trophy Race Ranking
 curtiss_schneider_trophy_race_ranking_set_up_effect_effect = {
@@ -857,7 +999,10 @@ curtiss_add_x_schneider_trophy_point_unscaled_effect = {
 		add = scope:schneider_trophy_point_amount
 	}
 
+	#Updates the Ranking
 	curtiss_schneider_trophy_race_ranking_order_effect_effect = { JOURNAL_ENTRY_SCOPE = je:je_curtiss_schneider_trophy_race_contextless }
+	#Victoria effect in case the country has 30 or more points
+	curtiss_schneider_trophy_victory_effect = yes
 }
 
 #########################################################################
