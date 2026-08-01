@@ -1,6 +1,7 @@
 Changelog for 2.8.3a "Mitsopoulos"
 
 Characters:
+- Spyridon Oikonomidis (Greek Chemist)
 - Konstantinos Ktenas (Greek Geologist)
 - Theodoros Skouphos (Greek Paleontologist and Geologist)
 - Georgios Karamitsas (Greek Physician)
