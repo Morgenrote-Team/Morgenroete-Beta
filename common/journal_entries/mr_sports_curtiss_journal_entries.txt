@@ -170,6 +170,39 @@ je_curtiss_schneider_trophy_race_contextless = {
 	on_monthly_pulse = {
 		effect = {
 			scope:journal_entry = {
+				### Maintenance ###
+				#Checks on Host Country and Host State
+				if = {
+					limit = {
+						OR = {
+							NOT = { var:curtiss_schneider_trophy_host_nation_var ?= exists }
+							NOT = { var:curtiss_schneider_trophy_host_state_var ?= exists }
+						}
+					}
+					var:curtiss_schneider_trophy_host_state_region_var = {
+						ordered_scope_state = {
+							order_by = total_urbanization
+							max = 1
+
+							scope:journal_entry = {
+								set_variable = {
+									name = curtiss_schneider_trophy_host_state_var
+									value = prev
+								}
+							}
+							owner = {
+								scope:journal_entry = {
+									set_variable = {
+										name = curtiss_schneider_trophy_host_country_var
+										value = prev
+									}
+								}
+							}
+						}
+					}
+				}
+
+				### Race Preparation ###
 				#The first stage invites countries that are not currently part of the Schneider Trophy.
 				if = {
 					limit = {
