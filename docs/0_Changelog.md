@@ -11,10 +11,11 @@ Characters:
 - Hayrullah Hekimbaşılar (Turkish Physician)
 - Konstantinos Karatodori (Greek Ottoman Physician)
 - Spyridon Mavrogenis (Greek Ottoman Physician)
-- Maleas Konstantinos (Greek Painter)
+- Konstantinos Maleas (Greek Painter)
 
 Fixes:
 - Pilots now get the correct career length effect.
 - The Disease Description alert should now work properly again.
 - Fixed Golgi and Yersin's Career length
 - Fixed the Hippocampus Congress Alert.
+- Fixed various headgear for historical characters.
