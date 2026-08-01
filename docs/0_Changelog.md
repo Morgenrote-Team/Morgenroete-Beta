@@ -1,6 +1,7 @@
 Changelog for 2.8.3a "Mitsopoulos"
 
 Characters:
+- Theodoros Skouphos (Greek Paleontologist and Geologist)
 - Georgios Karamitsas (Greek Physician)
 - Polybios Koryllos (Greek Physician)
 - Mustafa Cantekin (Turkish Physician)
