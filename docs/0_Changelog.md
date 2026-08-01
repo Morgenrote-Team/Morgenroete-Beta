@@ -16,3 +16,4 @@ Fixes:
 - Pilots now get the correct career length effect.
 - The Disease Description alert should now work properly again.
 - Fixed Golgi and Yersin's Career length
+- Fixed the Hippocampus Congress Alert.
