@@ -3,6 +3,7 @@ Changelog for 2.8.3a "Mitsopoulos"
 Characters:
 - Mustafa Cantekin (Turkish Physician)
 - Asaf Derviş (Turkish Physician)
+- Hayrullah Hekimbaşılar (Turkish Physician)
 - Konstantinos Karatodori (Greek Ottoman Physician)
 - Spyridon Mavrogenis (Greek Ottoman Physician)
 
