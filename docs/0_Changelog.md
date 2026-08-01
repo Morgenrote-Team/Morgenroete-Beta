@@ -2,6 +2,7 @@ Changelog for 2.8.3a "Mitsopoulos"
 
 Characters:
 - Hüseyin Tevfik (Turkish Engineer, Physicist and Astronomer)
+- Salih Zeki (Turkish Engineer, Physicist and Astronomer)
 - Spyridon Oikonomidis (Greek Chemist)
 - Konstantinos Ktenas (Greek Geologist)
 - Theodoros Skouphos (Greek Paleontologist and Geologist)
