@@ -1,6 +1,7 @@
 Changelog for 2.8.3a "Mitsopoulos"
 
 Characters:
+- Mehmet Hulusi (Turkish Engineer)
 - Hüseyin Tevfik (Turkish Engineer, Physicist and Astronomer)
 - Salih Zeki (Turkish Engineer, Physicist and Astronomer)
 - Spyridon Oikonomidis (Greek Chemist)
