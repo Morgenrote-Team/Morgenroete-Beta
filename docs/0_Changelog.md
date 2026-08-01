@@ -1,6 +1,7 @@
 Changelog for 2.8.3a "Mitsopoulos"
 
 Characters:
+- Georgios Karamitsas (Greek Physician)
 - Mustafa Cantekin (Turkish Physician)
 - Asaf Derviş (Turkish Physician)
 - Hayrullah Hekimbaşılar (Turkish Physician)
