@@ -11,6 +11,7 @@ Characters:
 - Hayrullah Hekimbaşılar (Turkish Physician)
 - Konstantinos Karatodori (Greek Ottoman Physician)
 - Spyridon Mavrogenis (Greek Ottoman Physician)
+- Maleas Konstantinos (Greek Painter)
 
 Fixes:
 - Pilots now get the correct career length effect.
