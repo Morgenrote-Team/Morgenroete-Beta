@@ -23,3 +23,6 @@ Fixes:
 - Fixed Golgi and Yersin's Career length
 - Fixed the Hippocampus Congress Alert.
 - Fixed various headgear for historical characters.
+- The Botanical Expedition now gives you whole numbers of medicinal plants (rounded up) instead of also using decimals.
+- Improved the progress bar labels for the Botanical Expedition.
+- Fixed the label of the Pharmaceutical Progress Bar which was wrongly labeled as x/12 instead of x/15.
