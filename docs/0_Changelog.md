@@ -12,6 +12,7 @@ Characters:
 - Konstantinos Karatodori (Greek Ottoman Physician)
 - Spyridon Mavrogenis (Greek Ottoman Physician)
 - Konstantinos Maleas (Greek Painter)
+- Konstantinos Parthenis (Greek Painter)
 
 Fixes:
 - Pilots now get the correct career length effect.
