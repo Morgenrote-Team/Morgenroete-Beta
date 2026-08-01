@@ -2,6 +2,7 @@ Changelog for 2.8.3a "Mitsopoulos"
 
 Characters:
 - Asaf Derviş (Turkish Physician)
+- Konstantinos Karatodori (Greek Ottoman Physician)
 
 Fixes:
 - Pilots now get the correct career length effect.
