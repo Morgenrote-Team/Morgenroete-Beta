@@ -702,6 +702,212 @@ set_curtiss_shangrila_characters_effect = {
 
 ######SCHNEIDER TROPHY######
 
+#Effect to set time till next race
+curtiss_schneider_trophy_set_time_till_next_race_effect = {
+	#DAYS = days until next race
+	set_variable = {
+		name = curtiss_schneider_trophy_time_till_race_var
+		value = {
+			value = game_date
+			add = $DAYS$
+		}
+	}
+}
+
+#Effect that gets fired when a country has 30 Schneider Trophy points
+curtiss_schneider_trophy_victory_effect = {
+	if = {
+		limit = {
+			var:curtiss_schneider_trophy_point_var >= 30
+		}
+		#Victory Event
+		trigger_event = {
+			id = curtiss.111
+			popup = yes
+		}
+		#Resetting Schneider Trophy Points
+		set_variable = {
+			name = curtiss_schneider_trophy_point_var
+			value = 0
+		}
+
+		#New Host State
+		ordered_scope_state = {
+			limit = {
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_port
+				}
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 10
+				}
+			}
+			order_by = total_urbanization
+			max = 1 #Limits to the state with highest urbanization
+
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+		if = {
+			limit = { NOT = { exists = scope:curtiss_schneider_trophy_state } }
+			ordered_scope_state = {
+				limit = {
+					is_coastal = yes
+				}
+				order_by = total_urbanization
+				max = 1 #Limits to the state with highest urbanization
+
+				save_scope_as = curtiss_schneider_trophy_state
+			}
+		}
+		if = {
+			limit = { NOT = { exists = scope:curtiss_schneider_trophy_state } }
+			capital = {
+				save_scope_as = curtiss_schneider_trophy_state
+			}
+		}
+
+		#Ends the Race
+		je:je_curtiss_schneider_trophy_race_contextless = {
+			remove_variable = curtiss_schneider_trophy_race_active_var
+
+			#Sets new Host variables
+			set_variable = {
+				name = curtiss_schneider_trophy_host_nation_var
+				value = prev
+			}
+			set_variable = {
+				name = curtiss_schneider_trophy_host_state_var
+				value = scope:curtiss_schneider_trophy_state
+			}
+			set_variable = {
+				name = curtiss_schneider_trophy_host_state_region_var
+				value = scope:curtiss_schneider_trophy_state.state_region
+			}
+
+			#Informs other countries about winner and removes variables, etc.
+
+			every_scope_je_involved = {
+				limit = {
+					NOT = { je:je_curtiss_schneider_trophy_race_contextless.var:curtiss_schneider_trophy_host_nation_var ?= this }
+				}
+
+				#Resets Schneider Trophy Points
+				set_variable = {
+					name = curtiss_schneider_trophy_point_var
+					value = 0
+				}
+
+				#Sends Event
+				trigger_event = curtiss.112
+
+				#Resets consecutive Victories
+				if = {
+					limit = { has_variable = curtiss_schneider_trophy_consecutive_victories_var }
+					set_variable = {
+						name = curtiss_schneider_trophy_consecutive_victories_var
+						value = 0
+					}
+				}
+				if = {
+					limit = {
+						has_modifier = curtiss_schneider_trophy_1_win_modifier
+					}
+					remove_modifier = curtiss_schneider_trophy_1_win_modifier
+				}
+				if = {
+					limit = {
+						has_modifier = curtiss_schneider_trophy_2_win_modifier
+					}
+					remove_modifier = curtiss_schneider_trophy_2_win_modifier
+				}
+				#Adds Schneider Veteran Trait to Pilot and adds experience
+				if = {
+					limit = {
+						NOT = {
+							var:curtiss_pilot_var ?= {
+								has_trait = curtiss_schneider_veteran
+							}
+						}
+					}
+					var:curtiss_pilot_var ?= {
+						add_trait = curtiss_schneider_veteran
+					}
+				}
+				curtiss_add_pilot_num_schneider_races_effect = { AMOUNT = 1 }
+				pilot_experience_gain_effect = {
+					AMOUNT = 25
+				}
+				#Resets other Variables
+				remove_modifier = curtiss_schneider_trophy_support_modifier
+				var:curtiss_pilot_var ?= {
+					set_character_busy_and_immortal = no
+					remove_modifier = curtiss_schneider_pilot_modifier
+				}
+			}
+		}
+	}
+}
+
+#Sets up the Schneider Trophy Race Ranking
+curtiss_schneider_trophy_race_ranking_set_up_effect_effect = {
+	#JOURNAL_ENTRY_SCOPE = scope of the JE (e.g. scope:je)
+	$JOURNAL_ENTRY_SCOPE$ = {
+		ordered_scope_je_involved = {
+			order_by = var:curtiss_schneider_trophy_point_var
+
+			$JOURNAL_ENTRY_SCOPE$ = {
+				add_to_variable_list = {
+					name = curtiss_schneider_trophy_participants_list
+					target = prev
+				}
+			}
+		}
+	}
+}
+
+#Sets up the Schneider Trophy Race Ranking
+curtiss_schneider_trophy_race_ranking_order_effect = {
+	#JOURNAL_ENTRY_SCOPE = scope of the JE (e.g. scope:je)
+	$JOURNAL_ENTRY_SCOPE$ = {
+		sort_variable_list = {
+			name = curtiss_schneider_trophy_participants_list
+			order = var:curtiss_schneider_trophy_point_var
+		}
+	}
+}
+
+#Sets up the Schneider Trophy Ranking
+curtiss_schneider_trophy_ranking_set_up_effect_effect = {
+	#JOURNAL_ENTRY_SCOPE = scope of the JE (e.g. scope:je)
+	$JOURNAL_ENTRY_SCOPE$ = {
+		clear_variable_list = curtiss_schneider_trophy_ranking_list
+		ordered_scope_je_involved = {
+			limit = {
+				has_variable = curtiss_schneider_trophy_victories_var
+				var:curtiss_schneider_trophy_victories_var > 0
+			}
+			order_by = var:curtiss_schneider_trophy_victories_var
+
+			$JOURNAL_ENTRY_SCOPE$ = {
+				add_to_variable_list = {
+					name = curtiss_schneider_trophy_ranking_list
+					target = prev
+				}
+			}
+		}
+	}
+}
+
+#Saves the Schneider Trophy Host State as a scope
+curtiss_schneider_trophy_set_host_state_scope_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		var:curtiss_schneider_trophy_host_state_var ?= {
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+	}
+}
+
 #Effect to add Number of Schneider Trophy Races
 curtiss_add_pilot_num_schneider_races_effect = {
 	var:curtiss_pilot_var ?= {
@@ -744,241 +950,24 @@ curtiss_add_pilot_num_schneider_victories_effect = {
 	}
 }
 
-#Effect to add $AMOUNT$ Schneider Trophy Points
-curtiss_add_x_schneider_trophy_point_unscaled_effect = {
-	# Amount = amount of Painting tradition to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = schneider_trophy_point_amount
+curtiss_add_x_schneider_trophy_points_effect = {
+	# Amount = amount of Architectural Splendour to add
+	custom_description = {
+		text = "curtiss_add_x_schneider_trophy_points_effect_loc"
+		subject = this
 		value = $AMOUNT$
-	}
 
-	#This part is used to display an accurate tooltip (Gain, loss, etc.)
-	if = { #Negative Plural Tooltip if local_var is negative
-		limit = { $AMOUNT$ < 0 }
-		custom_tooltip = curtiss_add_x_schneider_trophy_point_minus_x_tt
-	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = curtiss_add_x_schneider_trophy_point_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 0 }
-		custom_tooltip = curtiss_add_x_schneider_trophy_point_plus_x_tt
-	}
+		#This part adds the AMOUNT of Architectural Splendour
+		mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = $AMOUNT$ NAME = curtiss_schneider_trophy_point_var ADDITIONAL_SCRIPT_MATH = "min = 0 round = yes" }
 
-	#This part adds the AMOUNT of Schneider Trophy Points
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = curtiss_schneider_trophy_point_var
-			}
-		}
-		set_variable = {
-			name = curtiss_schneider_trophy_point_var
-			value = 0
-		}
-	}
-	change_variable = {
-		name = curtiss_schneider_trophy_point_var
-		add = scope:schneider_trophy_point_amount
+		#Updates the Ranking
+		curtiss_schneider_trophy_race_ranking_order_effect = { JOURNAL_ENTRY_SCOPE = je:je_curtiss_schneider_trophy_race_contextless }
+		#Victoria effect in case the country has 30 or more points
+		curtiss_schneider_trophy_victory_effect = yes
 	}
 }
-
-#########################################################################
-
-
-############################
-
-#by Lord R
 
 ##########################
-
-###Schneider Trophy Participants###
-curtiss_create_participiants_list_schneider_effect = {
-	if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_1_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_1_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_2_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_2_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_3_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_3_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_4_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_4_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_5_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_5_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_6_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_6_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_7_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_7_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_8_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_8_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_9_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_9_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_10_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_10_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_11_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_11_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_12_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_12_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_13_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_13_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_14_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_14_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_15_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_15_global_var
-			value = ROOT
-		}
-	}
-}
-
-curtiss_remove_participiants_list_schneider_effect = {
-	remove_global_variable = curtiss_schneider_participiant_1_global_var
-	remove_global_variable = curtiss_schneider_participiant_2_global_var
-	remove_global_variable = curtiss_schneider_participiant_3_global_var
-	remove_global_variable = curtiss_schneider_participiant_4_global_var
-	remove_global_variable = curtiss_schneider_participiant_5_global_var
-	remove_global_variable = curtiss_schneider_participiant_6_global_var
-	remove_global_variable = curtiss_schneider_participiant_7_global_var
-	remove_global_variable = curtiss_schneider_participiant_8_global_var
-	remove_global_variable = curtiss_schneider_participiant_9_global_var
-	remove_global_variable = curtiss_schneider_participiant_10_global_var
-	remove_global_variable = curtiss_schneider_participiant_11_global_var
-	remove_global_variable = curtiss_schneider_participiant_12_global_var
-	remove_global_variable = curtiss_schneider_participiant_13_global_var
-	remove_global_variable = curtiss_schneider_participiant_14_global_var
-	remove_global_variable = curtiss_schneider_participiant_15_global_var
-}
 
 ###RESEARCH BOOST###
 

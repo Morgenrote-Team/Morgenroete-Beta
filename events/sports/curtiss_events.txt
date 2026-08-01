@@ -12,7 +12,6 @@ namespace = curtiss
 
 #Curtiss 1: Our Pilot died
 #Curtiss 10: Seaplanes [Schneider's Trophy JE]
-#Curtiss 11: Has Seaplanes tech [hidden]
 #Curtiss 12: Henri Fabre
 #Curtiss 13: Water Airport
 
@@ -49,7 +48,6 @@ namespace = curtiss
 
 #Curtiss 100: Schneider Trophy founded
 #Curtiss 101: Invitation to Schneider Trophy
-#Curtiss 102: Regular Schneider Trophy
 #Curtiss 103: State Support
 #Curtiss 104: Training
 #Curtiss 105: Good Training (New record)
@@ -364,61 +362,30 @@ curtiss.10 = {
 	trigger = {
 		has_technology_researched = curtiss_seaplanes_tech
 		country_rank >= rank_value:major_power
+		NOT = { has_global_variable = curtiss_seaplanes_invented }
 		any_scope_building = {
 			is_building_type = building_port
 			count >= 3
-		}
-		NOT = {
-			has_global_variable = curtiss_seaplanes_invented
 		}
 	}
 
 	immediate = {
 		set_global_variable = curtiss_seaplanes_invented
-		set_global_variable = {
-			name = curtiss_seaplane_nations
-			value = 0
-		}
 	}
 
 	option = { #A noble idea.
 		name = curtiss.10.g
-		add_journal_entry = {
-			type = je_curtiss_found_schneider_trophy
+		add_contextless_journal_entry = je_curtiss_found_schneider_trophy_contextless
+		je:je_curtiss_found_schneider_trophy_contextless = {
+			add_involved_country = root
 		}
-	}
-}
-
-#Curtiss 11: Has Seaplanes tech [hidden]
-
-curtiss.11 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	hidden = yes
-
-	trigger = {
-		has_technology_researched = curtiss_seaplanes_tech
-		has_global_variable = curtiss_seaplanes_invented
-		NOT = {
-			has_variable = curtiss_seaplanes_country_var
-		}
-	}
-
-	immediate = {
-		set_variable = curtiss_seaplanes_country_var
-		if = {
+		every_country = {
 			limit = {
-				any_scope_building = {
-					is_building_type = building_port
-					count >= 3
-				}
-				country_rank >= rank_value:major_power
+				curtiss_schneider_trophy_possible = yes
+				NOT = { is_involved_in_journal_entry = je_curtiss_found_schneider_trophy_contextless }
 			}
-			change_global_variable = {
-				name = curtiss_seaplane_nations
-				add = 1
+			je:je_curtiss_found_schneider_trophy_contextless = {
+				add_involved_country = prev
 			}
 		}
 	}
@@ -1687,8 +1654,8 @@ curtiss.100 = {
 	}
 
 	immediate = {
-		set_variable = curtiss_schneider_trophy_host
-		random_scope_state = {
+		add_contextless_journal_entry = je_curtiss_schneider_trophy_race_contextless
+		ordered_scope_state = {
 			limit = {
 				is_incorporated = yes
 				any_scope_building = {
@@ -1699,48 +1666,38 @@ curtiss.100 = {
 					level >= 15
 				}
 			}
+			order_by = total_urbanization
+			max = 1 #Limits to the state with highest urbanization
+
 			save_scope_as = curtiss_schneider_trophy_state
 		}
-		set_variable = {
-            name = schneider_trophy_point_var
-            value = 0
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = curtiss.103
-				popup = yes
-				days = 30
+		je:je_curtiss_schneider_trophy_race_contextless ?= {
+			set_variable = {
+				name = curtiss_schneider_trophy_host_nation_var
+				value = root
 			}
-			if = {
-				limit = {
-					curtiss_has_pilot = no
-				}
-				trigger_event = {
-					id = curtiss.108
-					popup = yes
-					days = 60
-				}
+			set_variable = {
+				name = curtiss_schneider_trophy_host_state_var
+				value = scope:curtiss_schneider_trophy_state
 			}
-			trigger_event = {
-				id = curtiss.140
-				popup = yes
-				days = { 65 90 }
+			set_variable = {
+				name = curtiss_schneider_trophy_host_state_region_var
+				value = scope:curtiss_schneider_trophy_state.state_region
 			}
-			trigger_event = {
-				id = curtiss.110
-				popup = yes
-				days = 120
+			curtiss_schneider_trophy_set_time_till_next_race_effect = { DAYS = 180 }
+			#Starts preparation stages
+			set_variable = {
+				name = curtiss_schneider_trophy_preparation_stage_var
+				value = 1
 			}
 		}
-		curtiss_create_participiants_list_schneider_effect = yes
 	}
 
 	option = { #Invite everyone to $STATE$
 		name = curtiss.100.g
-		scope:curtiss_schneider_trophy_state = {
-			add_modifier = {
-				name = curtiss_schneider_trophy_state_modifier
-			}
+
+		je:je_curtiss_schneider_trophy_race_contextless ?= {
+			add_involved_country = root
 		}
 		every_country = {
 			limit = {
@@ -1784,30 +1741,23 @@ curtiss.101 = {
 
 	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
 
-	trigger = {
-	}
-
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
+		je:je_curtiss_schneider_trophy_race_contextless ?= {
+			var:curtiss_schneider_trophy_host_state_var ?= {
+				save_scope_as = curtiss_schneider_trophy_state
 			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
-		random_country = {
-			limit = {
-				has_variable = curtiss_schneider_trophy_host
+			var:curtiss_schneider_trophy_host_nation_var ?= {
+				save_scope_as = curtiss_schneider_trophy_host
 			}
-			save_scope_as = curtiss_schneider_trophy_host
 		}
 	}
 
 	option = { #Thrilling!
 		name = curtiss.101.g
 		default_option = yes
-		set_variable = curtiss_schneider_trophy_member
+
 		set_variable = {
-            name = schneider_trophy_point_var
+            name = curtiss_schneider_trophy_point_var
             value = 0
 		}
 		if = {
@@ -1816,167 +1766,20 @@ curtiss.101 = {
 			}
 			add_treasury = -10000
 		}
-		hidden_effect = {
-			trigger_event = {
-				id = curtiss.103
-				popup = yes
-				days = 30
+		if = {
+			limit = {
+				NOT = { is_involved_in_journal_entry = je_curtiss_schneider_trophy_race_contextless }
 			}
-			if = {
-				limit = {
-					curtiss_has_pilot = no
-				}
-				trigger_event = {
-					id = curtiss.108
-					popup = yes
-					days = 60
-				}
-			}
-			trigger_event = {
-				id = curtiss.140
-				popup = yes
-				days = { 65 90 }
-			}
-			trigger_event = {
-				id = curtiss.110
-				popup = yes
-				days = 120
+			je:je_curtiss_schneider_trophy_race_contextless ?= {
+				add_involved_country = root
 			}
 		}
-		curtiss_create_participiants_list_schneider_effect = yes
 	}
 
 	option = { #Only when red pigs learn to fly
 		name = curtiss.101.h
 		ai_chance = {
 			base = 0
-		}
-	}
-}
-
-#Curtiss 102: Regular Schneider Trophy
-
-curtiss.102 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-    title = curtiss.100.t
-
-    desc = curtiss.102.d
-
-	flavor = curtiss.100.f
-
-	duration = 1
-
-	placement = scope:curtiss_schneider_trophy_state
-
-	event_image = {
-		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_foundation.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
-
-	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
-
-	trigger = {
-	}
-
-	immediate = {
-		set_variable = curtiss_schneider_trophy_host
-		if = {
-			limit = {
-				NOT = {
-					AND = {
-						exists = c:SWI
-						c:SWI = ROOT
-					}
-				}
-			}
-			random_scope_state = {
-				limit = {
-					is_incorporated = yes
-					any_scope_building = {
-						is_building_type = building_port
-					}
-					any_scope_building = {
-						is_building_type = building_urban_center
-						level >= 10
-					}
-				}
-				save_scope_as = curtiss_schneider_trophy_state
-			}
-		}
-		if = {
-			limit = {
-				exists = c:SWI
-				c:SWI = ROOT
-			}
-			random_scope_state = {
-				limit = {
-					is_incorporated = yes
-					any_scope_building = {
-						is_building_type = building_urban_center
-						level >= 10
-					}
-				}
-				save_scope_as = curtiss_schneider_trophy_state
-			}
-		}
-		set_variable = {
-            name = schneider_trophy_point_var
-            value = 0
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = curtiss.103
-				popup = yes
-				days = 30
-			}
-			if = {
-				limit = {
-					curtiss_has_pilot = no
-				}
-				trigger_event = {
-					id = curtiss.108
-					popup = yes
-					days = 60
-				}
-			}
-			trigger_event = {
-				id = curtiss.140
-				popup = yes
-				days = { 65 90 }
-			}
-			trigger_event = {
-				id = curtiss.110
-				popup = yes
-				days = 120
-			}
-		}
-		curtiss_create_participiants_list_schneider_effect = yes
-	}
-
-	option = { #Invite everyone to $STATE$
-		name = curtiss.100.g
-		scope:curtiss_schneider_trophy_state = {
-			add_modifier = {
-				name = curtiss_schneider_trophy_state_modifier
-			}
-		}
-		every_country = {
-			limit = {
-				curtiss_schneider_trophy_possible = yes
-				NOT = {
-					this = ROOT
-				}
-			}
-			trigger_event = {
-				id = curtiss.101
-				popup = yes
-				days = 3
-			}
 		}
 	}
 }
@@ -2345,9 +2148,7 @@ curtiss.110 = {
 	type = country_event
 
     title = curtiss.110.t
-
     desc = curtiss.110.d
-
 	flavor = curtiss.110.f
 
 	placement = scope:curtiss_schneider_trophy_state
@@ -2367,24 +2168,10 @@ curtiss.110 = {
 	}
 
 	immediate = {
-		set_variable = {
-			name = curtiss_schneider_trophy_point_var
-			value = 0
-		}
-		add_journal_entry = {
-        		type = je_curtiss_schneider_trophy_race
-        	}
-		curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = curtiss_schneider_trophy_before_race_points_score }
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
-		random_country = {
-			limit = {
-				has_variable = curtiss_schneider_trophy_host
-			}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
+		#Sets host country as scope
+		je:je_curtiss_schneider_trophy_race_contextless.var:curtiss_schneider_trophy_host_nation_var = {
 			save_scope_as = curtiss_schneider_trophy_host
 		}
 	}
@@ -2392,9 +2179,6 @@ curtiss.110 = {
 	option = { #Let's have fun
 		name = curtiss.110.g
 		default_option = yes
-		remove_variable = curtiss_schneider_trophy_training_good
-		remove_variable = curtiss_schneider_trophy_training_normal
-		remove_variable = curtiss_schneider_trophy_new_engine
 	}
 }
 
@@ -2406,9 +2190,7 @@ curtiss.111 = {
 	type = country_event
 
     title = curtiss.111.t
-
     desc = curtiss.111.d
-
 	flavor = curtiss.111.f
 
 	duration = 1
@@ -2426,21 +2208,13 @@ curtiss.111 = {
 	}
 
 	immediate = {
-		every_country = {
-			limit = {
-				has_variable = curtiss_last_trophy_winner_var
-			}
-			remove_variable = curtiss_last_trophy_winner_var
-		}
-		set_variable = curtiss_last_trophy_winner_var
-		set_variable = {
-			name = curtiss_schneider_trophy_recent_winner
-			days = 90
-		}
-		add_modifier = {
-			name = curtiss_schneider_trophy_break_modifier
-			days = 365
-		}
+		#Used to keep track of the  victories in GUI
+		mr_change_variable_min_0_effect = { AMOUNT = 1 NAME = curtiss_schneider_trophy_victories_var }
+		mr_change_variable_min_0_effect = { AMOUNT = 1 NAME = curtiss_schneider_trophy_consecutive_victories_var }
+		#Ranking in JE
+		curtiss_schneider_trophy_ranking_set_up_effect_effect = { JOURNAL_ENTRY_SCOPE = je:je_curtiss_schneider_trophy_race_contextless }
+
+		#Adds Schneider Veteran Trait to Pilot
 		if = {
 			limit = {
 				NOT = {
@@ -2453,20 +2227,6 @@ curtiss.111 = {
 				add_trait = curtiss_schneider_veteran
 			}
 		}
-		#Used to display victories in GUI
-		if = {
-			limit = { NOT = { has_variable = curtiss_schneider_trophy_victories_var } }
-			set_variable = {
-				name = curtiss_schneider_trophy_victories_var
-				value = 1
-			}
-		}
-		else = {
-			change_variable = {
-				name = curtiss_schneider_trophy_victories_var
-				add = 1
-			}
-		}
 	}
 
 	option = { #Victory!
@@ -2476,22 +2236,6 @@ curtiss.111 = {
 		curtiss_add_pilot_num_schneider_victories_effect = { AMOUNT = 1 }
 		pilot_experience_gain_effect = {
 			AMOUNT = 50
-		}
-		every_country = {
-			limit = {
-				OR = {
-					has_variable = curtiss_schneider_trophy_member
-					has_variable = curtiss_schneider_trophy_host
-				}
-				NOT = {
-					this = ROOT
-				}
-			}
-			trigger_event = {
-				id = curtiss.112
-				popup = yes
-				days = 3
-			}
 		}
 		if = {
 			limit = {
@@ -2530,20 +2274,11 @@ curtiss.111 = {
 
 	after = {
 		hidden_effect = {
-			remove_variable = curtiss_schneider_trophy_member
-			remove_variable = curtiss_schneider_trophy_host
 			remove_modifier = curtiss_schneider_trophy_support_modifier
 			var:curtiss_pilot_var = {
 				set_character_busy_and_immortal = no
 				remove_modifier = curtiss_schneider_pilot_modifier
 			}
-			random_state = {
-				limit = {
-					has_modifier = curtiss_schneider_trophy_state_modifier
-				}
-				remove_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			curtiss_remove_participiants_list_schneider_effect = yes
 		}
 	}
 }
@@ -2556,9 +2291,7 @@ curtiss.112 = {
 	type = country_event
 
     title = curtiss.112.t
-
     desc = curtiss.112.d
-
 	flavor = curtiss.112.f
 
 	duration = 1
@@ -2576,55 +2309,31 @@ curtiss.112 = {
 	}
 
 	immediate = {
-		random_country = {
-			limit = {
-				has_variable = curtiss_schneider_trophy_recent_winner
-			}
+		je:je_curtiss_schneider_trophy_race_contextless.var:curtiss_schneider_trophy_host_nation_var ?= {
 			save_scope_as = curtiss_schneider_trophy_recent_winner
-		}
-		if = {
-			limit = {
-				NOT = {
-					var:curtiss_pilot_var ?= {
-						has_trait = curtiss_schneider_veteran
-					}
-				}
-			}
-			var:curtiss_pilot_var ?= {
-				add_trait = curtiss_schneider_veteran
-			}
 		}
 	}
 
 	option = { #Disappointing
 		name = curtiss.112.g
 		default_option = yes
-		curtiss_add_pilot_num_schneider_races_effect = { AMOUNT = 1 }
-		pilot_experience_gain_effect = {
-			AMOUNT = 25
-		}
-		if = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_1_win_modifier
-			}
-			remove_modifier = curtiss_schneider_trophy_1_win_modifier
-		}
-		if = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_2_win_modifier
-			}
-			remove_modifier = curtiss_schneider_trophy_2_win_modifier
-		}
-	}
 
-	after = {
-		hidden_effect = {
-			remove_variable = curtiss_schneider_trophy_member
-			remove_variable = curtiss_schneider_trophy_host
-			remove_modifier = curtiss_schneider_trophy_support_modifier
-			var:curtiss_pilot_var ?= {
-				set_character_busy_and_immortal = no
-				remove_modifier = curtiss_schneider_pilot_modifier
+		show_as_tooltip = {
+			curtiss_add_pilot_num_schneider_races_effect = { AMOUNT = 1 }
+			pilot_experience_gain_effect = {
+				AMOUNT = 25
+			}
+			if = {
+				limit = {
+					has_modifier = curtiss_schneider_trophy_1_win_modifier
+				}
+				remove_modifier = curtiss_schneider_trophy_1_win_modifier
+			}
+			if = {
+				limit = {
+					has_modifier = curtiss_schneider_trophy_2_win_modifier
+				}
+				remove_modifier = curtiss_schneider_trophy_2_win_modifier
 			}
 		}
 	}
@@ -2638,9 +2347,7 @@ curtiss.113 = {
 	type = country_event
 
     title = curtiss.113.t
-
     desc = curtiss.113.d
-
 	flavor = curtiss.113.f
 
 	duration = 1
@@ -2658,6 +2365,9 @@ curtiss.113 = {
 	}
 
 	immediate = {
+		je:je_curtiss_schneider_trophy_race_contextless = {
+			set_variable = curtiss_end_of_schneider_trophy
+		}
 	}
 
 	option = { #We deserve it
@@ -2691,9 +2401,7 @@ curtiss.114 = {
 	type = country_event
 
     title = curtiss.114.t
-
     desc = curtiss.114.d
-
 	flavor = curtiss.114.f
 
 	duration = 1
@@ -2735,7 +2443,7 @@ curtiss.120 = {
 	hidden = yes
 
 	immediate = {
-		curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = curtiss_schneider_trophy_in_race_points_score }
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = curtiss_schneider_trophy_in_race_points_score }
 	}
 }
 
@@ -2747,9 +2455,7 @@ curtiss.121 = {
 	type = country_event
 
     title = curtiss.121.t
-
     desc = curtiss.121.d
-
 	flavor = curtiss.121.f
 
 	duration = 1
@@ -2773,18 +2479,18 @@ curtiss.121 = {
 		tesla_has_aeronautical_engineer_trigger = no
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 	}
 
 	option = { #Bunglers!
 		name = curtiss.121.g
-		curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = -2 }
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -2 }
 		default_option = yes
 	}
 }
@@ -2797,9 +2503,7 @@ curtiss.122 = {
 	type = country_event
 
     title = curtiss.122.t
-
     desc = curtiss.122.d
-
 	flavor = curtiss.122.f
 
 	duration = 1
@@ -2825,18 +2529,18 @@ curtiss.122 = {
 		}
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 	}
 
 	option = { #Yikes
 		name = curtiss.122.g
-		curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = -3 }
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -3 }
 		default_option = yes
 	}
 }
@@ -2849,9 +2553,7 @@ curtiss.123 = {
 	type = country_event
 
     title = curtiss.123.t
-
     desc = curtiss.123.d
-
 	flavor = curtiss.123.f
 
 	duration = 1
@@ -2874,18 +2576,18 @@ curtiss.123 = {
 	trigger = {
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 	}
 
 	option = { #Yikes
 		name = curtiss.123.g
-		curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = -1 }
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -1 }
 	}
 
 	option = { #Try to bribe a referee
@@ -2895,7 +2597,7 @@ curtiss.123 = {
 		random_list = {
 			65 = { }
 			35 = {
-				curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = -1 }
+				curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -1 }
 				change_infamy = 3
 			}
 		}
@@ -2910,9 +2612,7 @@ curtiss.124 = {
 	type = country_event
 
     title = curtiss.124.t
-
     desc = curtiss.124.d
-
 	flavor = curtiss.124.f
 
 	duration = 1
@@ -2935,13 +2635,13 @@ curtiss.124 = {
 	trigger = {
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 		var:curtiss_pilot_var ?= {
 			save_scope_as = curtiss_pilot_scope
 		}
@@ -2949,32 +2649,32 @@ curtiss.124 = {
 
 	option = { #Full Power!
 		name = curtiss.124.g
-		curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 2 }
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 2 }
 		if = {
 			limit = {
 				has_technology_researched = curtiss_modern_aviation_tech
 			}
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 2 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 2 }
 		}
 		if = {
 			limit = {
-				scope:curtiss_pilot_scope = {
+				scope:curtiss_pilot_scope ?= {
 					has_trait = curtiss_pilot_ace
 				}
 			}
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 1 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
 		}
 		if = {
 			limit = {
-				scope:curtiss_pilot_scope = {
+				scope:curtiss_pilot_scope ?= {
 					has_trait = curtiss_schneider_veteran
 				}
 			}
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 1 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
 		}
 		if = {
 			limit = {
-				scope:curtiss_pilot_scope = {
+				scope:curtiss_pilot_scope ?= {
 					OR = {
 						has_trait = brave
 						has_trait = reckless
@@ -2984,31 +2684,31 @@ curtiss.124 = {
 					}
 				}
 			}
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 1 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
 		}
 		if = {
 			limit = {
 				has_modifier = curtiss_airplane_focus_modifier
 			}
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 1 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
 		}
 		if = {
 			limit = {
 				has_modifier = curtiss_schneider_trophy_support_modifier
 			}
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 1 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
 		}
 		if = {
 			limit = {
 				has_variable = tesla_engineer_var
 			}
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 1 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
 		}
 		if = {
 			limit = {
 				tesla_has_aeronautical_engineer_trigger = yes
 			}
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 1 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
 		}
 	}
 }
@@ -3021,9 +2721,7 @@ curtiss.125 = {
 	type = country_event
 
     title = curtiss.125.t
-
     desc = curtiss.125.d
-
 	flavor = curtiss.125.f
 
 	duration = 1
@@ -3046,13 +2744,13 @@ curtiss.125 = {
 	trigger = {
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 		var:curtiss_pilot_var ?= {
 			save_scope_as = curtiss_pilot_scope
 		}
@@ -3060,26 +2758,26 @@ curtiss.125 = {
 
 	option = { #Fly with elegance
 		name = curtiss.126.g
-		curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 1 }
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
 		if = {
 			limit = {
-				scope:curtiss_pilot_scope = {
+				scope:curtiss_pilot_scope ?= {
 					has_trait = curtiss_pilot_ace
 				}
 			}
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 3 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 3 }
 		}
 		if = {
 			limit = {
-				scope:curtiss_pilot_scope = {
+				scope:curtiss_pilot_scope ?= {
 					has_trait = curtiss_schneider_veteran
 				}
 			}
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 2 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 2 }
 		}
 		if = {
 			limit = {
-				scope:curtiss_pilot_scope = {
+				scope:curtiss_pilot_scope ?= {
 					OR = {
 						has_trait = tactful
 						has_trait = meticulous
@@ -3087,13 +2785,13 @@ curtiss.125 = {
 					}
 				}
 			}
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 2 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 2 }
 		}
 		if = {
 			limit = {
 				has_modifier = curtiss_pilot_school_modifier
 			}
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 1 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
 		}
 	}
 }
@@ -3106,9 +2804,7 @@ curtiss.126 = {
 	type = country_event
 
     title = curtiss.126.t
-
     desc = curtiss.126.d
-
 	flavor = curtiss.126.f
 
 	duration = 1
@@ -3131,13 +2827,13 @@ curtiss.126 = {
 	trigger = {
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 		var:curtiss_pilot_var ?= {
 			save_scope_as = curtiss_pilot_scope
 		}
@@ -3147,23 +2843,23 @@ curtiss.126 = {
 		name = curtiss.126.g
 		if = {
 			limit = {
-				scope:curtiss_pilot_scope = {
+				scope:curtiss_pilot_scope ?= {
 					has_trait = curtiss_pilot_ace
 				}
 			}
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 1 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
 		}
 		if = {
 			limit = {
-				scope:curtiss_pilot_scope = {
+				scope:curtiss_pilot_scope ?= {
 					has_trait = curtiss_schneider_veteran
 				}
 			}
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 1 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
 		}
 		if = {
 			limit = {
-				scope:curtiss_pilot_scope = {
+				scope:curtiss_pilot_scope ?= {
 					OR = {
 						has_trait = innovative
 						has_trait = persistent
@@ -3174,13 +2870,13 @@ curtiss.126 = {
 					}
 				}
 			}
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 2 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 2 }
 		}
 		if = {
 			limit = {
 				has_modifier = curtiss_pilot_school_modifier
 			}
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 1 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
 		}
 	}
 }
@@ -3193,9 +2889,7 @@ curtiss.127 = {
 	type = country_event
 
     title = curtiss.127.t
-
     desc = curtiss.127.d
-
 	flavor = curtiss.127.f
 
 	duration = 1
@@ -3234,13 +2928,13 @@ curtiss.127 = {
 		}
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 		var:curtiss_pilot_var ?= {
 			save_scope_as = curtiss_pilot_scope
 		}
@@ -3248,7 +2942,7 @@ curtiss.127 = {
 
 	option = { #Excellent!
 		name = curtiss.127.g
-		curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 4 }
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 4 }
 	}
 }
 
@@ -3260,9 +2954,7 @@ curtiss.128 = {
 	type = country_event
 
     title = curtiss.128.t
-
     desc = curtiss.128.d
-
 	flavor = curtiss.128.f
 
 	duration = 1
@@ -3285,25 +2977,23 @@ curtiss.128 = {
 		}
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 		var:curtiss_pilot_var ?= {
 			save_scope_as = duel_participant_1
 		}
-		random_country = {
-			limit = {
-				has_variable = curtiss_schneider_trophy_member
-				NOT = {
-					ROOT = THIS
+		je:je_curtiss_schneider_trophy_race_contextless = {
+			random_scope_je_involved = {
+				limit = { NOT = { this = root } }
+
+				var:curtiss_pilot_var ?= {
+					save_scope_as = duel_participant_2
 				}
-			}
-			var:curtiss_pilot_var ?= {
-				save_scope_as = duel_participant_2
 			}
 		}
 	}
@@ -3427,7 +3117,7 @@ curtiss.128 = {
 						add = -10
 					}
 				}
-				curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 5 }
+				curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 5 }
 			}
 			50 = {
 				modifier = {
@@ -3544,7 +3234,7 @@ curtiss.128 = {
 						add = -10
 					}
 				}
-				curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = -1 }
+				curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -1 }
 				scope:duel_participant_2 = {
 					owner = {
 						trigger_event = {
@@ -3559,7 +3249,7 @@ curtiss.128 = {
 
 	option = { #Fly ahead
 		name = curtiss.128.h
-		curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 1 }
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
 	}
 
 	after = {
@@ -3580,9 +3270,7 @@ curtiss.129 = {
 	type = country_event
 
     title = curtiss.129.t
-
     desc = curtiss.129.d
-
 	flavor = curtiss.129.f
 
 	duration = 1
@@ -3601,21 +3289,21 @@ curtiss.129 = {
 	trigger = {
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
-		var:curtiss_pilot_var = {
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
+		var:curtiss_pilot_var ?= {
 			save_scope_as = curtiss_schneider_pilot
 		}
 	}
 
 	option = { #Excellent!
 		name = curtiss.127.g
-		curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 3 }
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 3 }
 		pilot_experience_gain_effect = {
 			AMOUNT = 25
 		}
@@ -3650,41 +3338,42 @@ curtiss.130 = {
 	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
 
 	trigger = {
-		any_country = {
-			has_diplomatic_pact = {
-				who = ROOT
-				type = rivalry
+		je:je_curtiss_schneider_trophy_race_contextless = {
+			any_scope_je_involved = {
+				NOT = { this = root }
+				has_diplomatic_pact = {
+					who = ROOT
+					type = rivalry
+				}
 			}
-			has_variable = curtiss_schneider_trophy_member
 		}
 		NOT = {
 			has_global_variable = curtiss_schneider_rival_cooldown
 		}
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 		var:curtiss_pilot_var ?= {
 			save_scope_as = duel_participant_1
 		}
-		random_country = {
-			limit = {
-				has_variable = curtiss_schneider_trophy_member
-				NOT = {
-					ROOT = THIS
+		je:je_curtiss_schneider_trophy_race_contextless = {
+			random_scope_je_involved = {
+				limit = {
+					NOT = { root = this }
+					has_diplomatic_pact = {
+						who = ROOT
+						type = rivalry
+					}
 				}
-				has_diplomatic_pact = {
-					who = ROOT
-					type = rivalry
+				var:curtiss_pilot_var ?= {
+					save_scope_as = duel_participant_2
 				}
-			}
-			var:curtiss_pilot_var ?= {
-				save_scope_as = duel_participant_2
 			}
 		}
 	}
@@ -3809,7 +3498,7 @@ curtiss.130 = {
 					}
 				}
 
-				curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 6 }
+				curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 6 }
 				add_modifier = {
 					name = curtiss_schneider_disgraced_rival_modifier
 					years = 2
@@ -3931,7 +3620,7 @@ curtiss.130 = {
 					}
 				}
 
-				curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = -2 }
+				curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -2 }
 				set_variable = {
 					name = curtiss_schneider_failed_rival
 					days = 35
@@ -3954,7 +3643,7 @@ curtiss.130 = {
 
 	option = { #Fly ahead
 		name = curtiss.128.h
-		curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 1 }
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
 	}
 
 	after = {
@@ -3975,9 +3664,7 @@ curtiss.131 = {
 	type = country_event
 
     title = curtiss.131.t
-
     desc = curtiss.131.d
-
 	flavor = curtiss.131.f
 
 	duration = 1
@@ -3996,27 +3683,27 @@ curtiss.131 = {
 	trigger = {
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 		random_country = {
 			limit = {
 				has_variable = curtiss_schneider_failed_rival
 			}
 			save_scope_as = curtiss_schneider_failed_rival
 		}
-		var:curtiss_pilot_var = {
+		var:curtiss_pilot_var ?= {
 			save_scope_as = curtiss_schneider_pilot
 		}
 	}
 
 	option = { #Excellent!
 		name = curtiss.127.g
-		curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 5 }
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 5 }
 		add_modifier = {
 			name = curtiss_schneider_disgraced_rival_modifier
 			years = 2
@@ -4035,9 +3722,7 @@ curtiss.132 = {
 	type = country_event
 
     title = curtiss.132.t
-
     desc = curtiss.132.d
-
 	flavor = curtiss.132.f
 
 	duration = 1
@@ -4060,18 +3745,18 @@ curtiss.132 = {
 	trigger = {
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 	}
 
 	option = { #The Weather is on our side
 		name = curtiss.132.g
-		curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 3 }
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 3 }
 	}
 }
 
@@ -4083,9 +3768,7 @@ curtiss.133 = {
 	type = country_event
 
     title = curtiss.133.t
-
     desc = curtiss.133.d
-
 	flavor = curtiss.133.f
 
 	duration = 1
@@ -4108,13 +3791,13 @@ curtiss.133 = {
 	trigger = {
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 	}
 
 	option = { #A bad omen
@@ -4130,9 +3813,7 @@ curtiss.134 = {
 	type = country_event
 
     title = curtiss.134.t
-
     desc = curtiss.134.d
-
 	flavor = curtiss.134.f
 
 	duration = 1
@@ -4153,16 +3834,18 @@ curtiss.134 = {
 	}
 
 	trigger = {
-		has_variable = curtiss_schneider_trophy_host
+		je:je_curtiss_schneider_trophy_race_contextless = {
+			var:curtiss_schneider_trophy_host_nation_var ?= root
+		}
+	}
+
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
 	}
 
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 	}
 
 	option = { #Great
@@ -4186,6 +3869,8 @@ curtiss.135 = {
     desc = curtiss.135.d
     flavor = curtiss.135.f
 
+	placement = scope:curtiss_schneider_trophy_state
+
 	duration = 1
 
     event_image = {
@@ -4201,174 +3886,76 @@ curtiss.135 = {
 		months = 12
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
-		random_country = {
-			limit = {
-				curtiss_schneider_can_be_sabotaged = yes
-			}
-			save_scope_as = curtiss_schneider_sabotage_country_1
-		}
-		random_country = {
-			limit = {
-				curtiss_schneider_can_be_sabotaged = yes
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_1
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
+
+		je:je_curtiss_schneider_trophy_race_contextless = {
+			ordered_scope_je_involved = {
+				order_by = var:curtiss_schneider_trophy_point_var
+				limit = {
+					NOT  = { root = this }
+				}
+
+				if = {
+					limit = {
+						NOT = { exists = scope:curtiss_schneider_sabotage_country_1 }
+					}
+					save_scope_as = curtiss_schneider_sabotage_country_1
+				}
+				else_if = {
+					limit = {
+						NOT = { exists = scope:curtiss_schneider_sabotage_country_2 }
+					}
+					save_scope_as = curtiss_schneider_sabotage_country_2
+				}
+				else_if = {
+					limit = {
+						NOT = { exists = scope:curtiss_schneider_sabotage_country_3 }
+					}
+					save_scope_as = curtiss_schneider_sabotage_country_3
+				}
+				else_if = {
+					limit = {
+						NOT = { exists = scope:curtiss_schneider_sabotage_country_4 }
+					}
+					save_scope_as = curtiss_schneider_sabotage_country_4
+				}
+				else_if = {
+					limit = {
+						NOT = { exists = scope:curtiss_schneider_sabotage_country_5 }
+					}
+					save_scope_as = curtiss_schneider_sabotage_country_5
+				}
+				else_if = {
+					limit = {
+						NOT = { exists = scope:curtiss_schneider_sabotage_country_6 }
+					}
+					save_scope_as = curtiss_schneider_sabotage_country_6
+				}
+				else_if = {
+					limit = {
+						NOT = { exists = scope:curtiss_schneider_sabotage_country_7 }
+					}
+					save_scope_as = curtiss_schneider_sabotage_country_7
+				}
+				else_if = {
+					limit = {
+						NOT = { exists = scope:curtiss_schneider_sabotage_country_8 }
+					}
+					save_scope_as = curtiss_schneider_sabotage_country_8
+				}
+				else_if = {
+					limit = {
+						NOT = { exists = scope:curtiss_schneider_sabotage_country_9 }
+					}
+					save_scope_as = curtiss_schneider_sabotage_country_9
 				}
 			}
-			save_scope_as = curtiss_schneider_sabotage_country_2
-		}
-		random_country = {
-			limit = {
-				curtiss_schneider_can_be_sabotaged = yes
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_1
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_2
-				}
-			}
-			save_scope_as = curtiss_schneider_sabotage_country_3
-		}
-		random_country = {
-			limit = {
-				curtiss_schneider_can_be_sabotaged = yes
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_1
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_2
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_3
-				}
-			}
-			save_scope_as = curtiss_schneider_sabotage_country_4
-		}
-		random_country = {
-			limit = {
-				curtiss_schneider_can_be_sabotaged = yes
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_1
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_2
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_3
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_4
-				}
-			}
-			save_scope_as = curtiss_schneider_sabotage_country_5
-		}
-		random_country = {
-			limit = {
-				curtiss_schneider_can_be_sabotaged = yes
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_1
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_2
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_3
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_4
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_5
-				}
-			}
-			save_scope_as = curtiss_schneider_sabotage_country_6
-		}
-		random_country = {
-			limit = {
-				curtiss_schneider_can_be_sabotaged = yes
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_1
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_2
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_3
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_4
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_5
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_6
-				}
-			}
-			save_scope_as = curtiss_schneider_sabotage_country_7
-		}
-		random_country = {
-			limit = {
-				curtiss_schneider_can_be_sabotaged = yes
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_1
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_2
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_3
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_4
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_5
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_6
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_7
-				}
-			}
-			save_scope_as = curtiss_schneider_sabotage_country_8
-		}
-		random_country = {
-			limit = {
-				curtiss_schneider_can_be_sabotaged = yes
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_1
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_2
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_3
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_4
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_5
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_6
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_7
-				}
-				NOT = {
-					this = scope:curtiss_schneider_sabotage_country_8
-				}
-			}
-			save_scope_as = curtiss_schneider_sabotage_country_9
 		}
 	}
 
@@ -4697,14 +4284,12 @@ curtiss.136 = {
 	type = country_event
 
     title = curtiss.136.t
-
     desc = curtiss.136.d
-
 	flavor = curtiss.136.f
 
-	duration = 1
-
 	placement = scope:curtiss_schneider_trophy_state
+
+	duration = 1
 
 	event_image = {
 		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_engine.dds"
@@ -4718,18 +4303,18 @@ curtiss.136 = {
 	trigger = {
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 	}
 
 	option = { #Smells like sabotage ...
 		name = curtiss.136.g
-		curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = -5 }
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -5 }
 	}
 }
 
@@ -4741,14 +4326,12 @@ curtiss.137 = {
 	type = country_event
 
     title = curtiss.137.t
-
     desc = curtiss.137.d
-
 	flavor = curtiss.137.f
 
-	duration = 1
-
 	placement = scope:curtiss_schneider_trophy_state
+
+	duration = 1
 
 	event_image = {
 		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_engine.dds"
@@ -4762,13 +4345,13 @@ curtiss.137 = {
 	trigger = {
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 	}
 
 	option = { #This will make them lose points
@@ -4784,14 +4367,12 @@ curtiss.138 = {
 	type = country_event
 
     title = curtiss.138.t
-
     desc = curtiss.138.d
-
 	flavor = curtiss.138.f
 
-	duration = 1
-
 	placement = scope:curtiss_schneider_trophy_state
+
+	duration = 1
 
 	event_image = {
 		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_good.dds"
@@ -4805,13 +4386,13 @@ curtiss.138 = {
 	trigger = {
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 	}
 
 	option = { #Good
@@ -4827,9 +4408,7 @@ curtiss.139 = {
 	type = country_event
 
     title = curtiss.139.t
-
     desc = curtiss.139.d
-
 	flavor = curtiss.139.f
 
 	duration = 1
@@ -4848,18 +4427,18 @@ curtiss.139 = {
 	trigger = {
 	}
 
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
+	}
+
 	immediate = {
-		random_state = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_state_modifier
-			}
-			save_scope_as = curtiss_schneider_trophy_state
-		}
+		#Sets host state scope
+		curtiss_schneider_trophy_set_host_state_scope_effect = yes
 	}
 
 	option = { #Bad
 		name = curtiss.139.g
-		curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = -5 }
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -5 }
 		every_country = {
 			limit = {
 				curtiss_schneider_can_be_sabotaged = yes
@@ -4881,9 +4460,7 @@ curtiss.140 = {
 	type = country_event
 
     title = curtiss.140.t
-
     desc = curtiss.140.d
-
 	flavor = curtiss.140.f
 
 	duration = 1
@@ -4899,6 +4476,10 @@ curtiss.140 = {
 
 	trigger = {
 		tesla_has_aeronautical_engineer_trigger = yes
+	}
+
+	cancellation_trigger = {
+		curtiss_schneider_trophy_active_trigger = no
 	}
 
 	immediate = {
