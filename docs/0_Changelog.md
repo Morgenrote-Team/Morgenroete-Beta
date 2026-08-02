@@ -5,6 +5,7 @@ Characters:
 - Ziya Songülen (Turkish Engineer)
 - Demetrios Eginitis (Greek Astronomer and Physicist)
 - Demetrios Kokkidis (Greek Astronomer and Physicist)
+- Dimitrios Stroumpos (Greek Physicist and Astronomer)
 
 Fixes:
 -
