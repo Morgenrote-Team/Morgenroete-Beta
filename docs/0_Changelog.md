@@ -1,28 +1,28 @@
-Changelog for 2.8.3 "Mitsopoulos"
+Changelog for 2.8.3a "Mitsopoulos"
 
 Characters:
-- Pierre Peytier (French Engineer (event in Greece))
-- Stamatios Kleanthis (Greek Architect and Engineer)
-- Iraklis Mitsopoulos (Greek Geologist, Physicist, Naturalist, Biologist, Paleontologist and Archaeologist)
-- Konstantinos M. Mitsopoulos (Greek Geologist and Chemsit)
-- Maximos Mitsopoulos (Greek Geologist and Paleontologist)
-- Kyriakos Domnandos (Greek Naturalist)
-- Spyridon Miliarakis (Greek Naturalist and Physician)
-- Theodoros Orphanides (Greek Naturalist and Writer)
-- Dimitrios Zaganiaris (Greek Naturalist and Physicist)
-- Theodoros Afentoulis (Greek Biologist and Physician)
-- Nikolaos Apostilidis (Greek Biologist and Naturalist)
-- Anastasios Christomanos (Greek Chemist)
-- Xaver Landerer (German Chemist in Greece)
-- Antonios Christomanos (Greek Physician and Biologist)
-- Ioulios Galvanis (Greek Physician)
-- Marinos Geroulanos (Greek Physician)
-- Ioannis Olympios (Greek Physician)
-- Ioannis Vouros (Greek Physician)
-- Theodoros Zaimis (Greek Physician)
-- Peter Hess (German Painter in Greece)
-- Theodoros Vryzakis (Greek Painter)
-- Dimitrios Kamberos (Greek Pilot)
+- Mehmet Hulusi (Turkish Engineer)
+- Hüseyin Tevfik (Turkish Engineer, Physicist and Astronomer)
+- Salih Zeki (Turkish Engineer, Physicist and Astronomer)
+- Spyridon Oikonomidis (Greek Chemist)
+- Konstantinos Ktenas (Greek Geologist)
+- Theodoros Skouphos (Greek Paleontologist and Geologist)
+- Georgios Karamitsas (Greek Physician)
+- Polybios Koryllos (Greek Physician)
+- Mustafa Cantekin (Turkish Physician)
+- Asaf Derviş (Turkish Physician)
+- Hayrullah Hekimbaşılar (Turkish Physician)
+- Konstantinos Karatodori (Greek Ottoman Physician)
+- Spyridon Mavrogenis (Greek Ottoman Physician)
+- Konstantinos Maleas (Greek Painter)
+- Konstantinos Parthenis (Greek Painter)
 
 Fixes:
-- Schleiden now correctly gets the Biologist Role.
+- Pilots now get the correct career length effect.
+- The Disease Description alert should now work properly again.
+- Fixed Golgi and Yersin's Career length
+- Fixed the Hippocampus Congress Alert.
+- Fixed various headgear for historical characters.
+- The Botanical Expedition now gives you whole numbers of medicinal plants (rounded up) instead of also using decimals.
+- Improved the progress bar labels for the Botanical Expedition.
+- Fixed the label of the Pharmaceutical Progress Bar which was wrongly labeled as x/12 instead of x/15.
