@@ -4,6 +4,7 @@ Characters:
 - Mehmet Refik Fenmen (Turkish Engineer)
 - Ziya Songülen (Turkish Engineer)
 - Demetrios Eginitis (Greek Astronomer and Physicist)
+- Demetrios Kokkidis (Greek Astronomer and Physicist)
 
 Fixes:
 -
