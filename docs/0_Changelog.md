@@ -1,6 +1,7 @@
 Changelog for 2.8.3b "Mitsopoulos"
 
 Characters:
+- Mehmet Refik Fenmen (Turkish Engineer)
 - Ziya Songülen (Turkish Engineer)
 
 Fixes:
