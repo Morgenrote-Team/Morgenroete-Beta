@@ -14,3 +14,4 @@ Fixes:
 Changes:
 - Reworked the add x medicinal plants effect to use better localizations.
 - Improved Vouris' DNA.
+- Fixed a tooltip that tells you whether a character will step down.
