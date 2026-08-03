@@ -1,6 +1,7 @@
 Changelog for 2.8.3b "Mitsopoulos"
 
 Characters:
+- Ifikratis Kokkidis (Greek Engineer)
 - Mehmet Refik Fenmen (Turkish Engineer)
 - Ziya Songülen (Turkish Engineer)
 - Demetrios Eginitis (Greek Astronomer and Physicist)
