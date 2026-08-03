@@ -9,6 +9,7 @@ Characters:
 - Demetrios Eginitis (Greek Astronomer and Physicist)
 - Demetrios Kokkidis (Greek Astronomer and Physicist)
 - Dimitrios Stroumpos (Greek Physicist and Astronomer)
+- Sophus Müller (Danish Archaeologist)
 
 Fixes:
 - Fixed a tooltip that tells you whether a character will step down.
