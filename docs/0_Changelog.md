@@ -4,6 +4,7 @@ Characters:
 - Ifikratis Kokkidis (Greek Engineer)
 - Mehmet Refik Fenmen (Turkish Engineer)
 - Ziya Songülen (Turkish Engineer)
+- Athanasios Sofianopoulos (Greek Chemist)
 - Demetrios Eginitis (Greek Astronomer and Physicist)
 - Demetrios Kokkidis (Greek Astronomer and Physicist)
 - Dimitrios Stroumpos (Greek Physicist and Astronomer)
