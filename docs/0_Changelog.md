@@ -9,6 +9,7 @@ Characters:
 - Demetrios Eginitis (Greek Astronomer and Physicist)
 - Demetrios Kokkidis (Greek Astronomer and Physicist)
 - Dimitrios Stroumpos (Greek Physicist and Astronomer)
+- Alfred Romer (American Paleontologist)
 - Sophus Müller (Danish Archaeologist)
 
 Fixes:
