@@ -11,6 +11,7 @@ Characters:
 - Dimitrios Stroumpos (Greek Physicist and Astronomer)
 - Alfred Romer (American Paleontologist)
 - Sophus Müller (Danish Archaeologist)
+- Marcellin Boule (French Anthropologist and Paleontologist)
 
 Fixes:
 - Fixed a tooltip that tells you whether a character will step down.
