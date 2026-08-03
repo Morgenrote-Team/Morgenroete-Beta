@@ -15,6 +15,7 @@ Fixes:
 Changes:
 - Reworked the add x medicinal plants effect to use better localizations.
 - Improved Vouris' DNA.
+- Reduced the amount of Events you get from Paleontological Expeditions.
 
 Quality of Life:
 - You now get a warning, if a character is already employed by you in another position.
