@@ -9,9 +9,11 @@ Characters:
 - Dimitrios Stroumpos (Greek Physicist and Astronomer)
 
 Fixes:
--
+- Fixed a tooltip that tells you whether a character will step down.
 
 Changes:
 - Reworked the add x medicinal plants effect to use better localizations.
 - Improved Vouris' DNA.
-- Fixed a tooltip that tells you whether a character will step down.
+
+Quality of Life:
+- You now get a warning, if a character is already employed by you in another position.
