@@ -12,6 +12,7 @@ Characters:
 - Alfred Romer (American Paleontologist)
 - Sophus Müller (Danish Archaeologist)
 - Marcellin Boule (French Anthropologist and Paleontologist)
+- Aisha Taymur (Egyptian Writer)
 
 Fixes:
 - Fixed a tooltip that tells you whether a character will step down.
