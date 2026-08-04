@@ -12,6 +12,7 @@ Characters:
 - Alfred Romer (American Paleontologist)
 - Sophus Müller (Danish Archaeologist)
 - Marcellin Boule (French Anthropologist and Paleontologist)
+- Hafez Ibrahim (Egyptian Writer)
 - Ahmed Shawqi (Egyptian Writer)
 - Aisha Taymur (Egyptian Writer)
 
