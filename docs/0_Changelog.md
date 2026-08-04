@@ -29,3 +29,6 @@ Changes:
 
 Quality of Life:
 - You now get a warning, if a character is already employed by you in another position.
+
+Graphics:
+- Added a sunglasses variant for glasses_02.
