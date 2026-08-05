@@ -42,6 +42,7 @@ Changes:
 Quality of Life:
 - You now get a warning, if a character is already employed by you in another position.
 - Removed the tooltip which displays the chances for a character to gain a doctorate or professorship.
+- The Painter Traits now have a modifier that shows you that the Painter can now create Masterworks.
 
 Graphics:
 - Added a sunglasses variant for glasses_02.
