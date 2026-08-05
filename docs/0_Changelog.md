@@ -14,6 +14,7 @@ Characters:
 - Marcellin Boule (French Anthropologist and Paleontologist)
 - Murshed Khater (Lebanese Physician)
 - Munif al-Aidi (Syrian Physician)
+- Rida al-Sa'id (Syrian Physician)
 - Taha Hussein (Egyptian Writer)
 - Hafez Ibrahim (Egyptian Writer)
 - Ahmed Shawqi (Egyptian Writer)
