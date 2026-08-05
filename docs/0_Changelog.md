@@ -34,6 +34,7 @@ Fixes:
 
 Changes:
 - Painters can now change their Art Style for the low price of 100 Renown.
+- Historical Painters now start with their Painter trait even if they are not yet 40 years old.
 - Reworked the add x medicinal plants effect to use better localizations.
 - Improved Vouris' DNA.
 - Reduced the amount of Events you get from Paleontological Expeditions.
