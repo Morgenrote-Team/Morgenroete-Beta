@@ -25,6 +25,7 @@ Fixes:
 - Adventurers now wear expedition clothes instead of rags.
 - Wergeland is no longer killed but instead we inject the traits, etc. into the vanilla template.
 - Added a clothes definition for racers.
+- Travelling Composers should no longer accidentally be busy and therefore never retire.
 
 Changes:
 - Reworked the add x medicinal plants effect to use better localizations.
