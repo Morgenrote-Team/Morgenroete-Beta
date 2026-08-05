@@ -20,6 +20,7 @@ Characters:
 - Ahmed Shawqi (Egyptian Writer)
 - Aisha Taymur (Egyptian Writer)
 - May Ziadeh (Palestinian Writer)
+- Abu Saud Abd al-Wahab (Syrian Painter)
 
 Fixes:
 - Fixed a tooltip that tells you whether a character will step down.
