@@ -12,6 +12,7 @@ Characters:
 - Alfred Romer (American Paleontologist)
 - Sophus Müller (Danish Archaeologist)
 - Marcellin Boule (French Anthropologist and Paleontologist)
+- Murshed Khater (Lebanese Physician)
 - Munif al-Aidi (Syrian Physician)
 - Taha Hussein (Egyptian Writer)
 - Hafez Ibrahim (Egyptian Writer)
