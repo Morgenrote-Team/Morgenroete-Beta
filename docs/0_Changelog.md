@@ -24,6 +24,7 @@ Fixes:
 - The experienced and famous physician event now use the correct icon.
 - Adventurers now wear expedition clothes instead of rags.
 - Wergeland is no longer killed but instead we inject the traits, etc. into the vanilla template.
+- Added a clothes definition for racers.
 
 Changes:
 - Reworked the add x medicinal plants effect to use better localizations.
@@ -32,6 +33,7 @@ Changes:
 
 Quality of Life:
 - You now get a warning, if a character is already employed by you in another position.
+- Removed the tooltip which displays the chances for a character to gain a doctorate or professorship.
 
 Graphics:
 - Added a sunglasses variant for glasses_02.
