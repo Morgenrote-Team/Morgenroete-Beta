@@ -33,6 +33,7 @@ Fixes:
 - The Aida event should no longer fire before the Suez Canal is finished.
 
 Changes:
+- Painters can now change their Art Style for the low price of 100 Renown.
 - Reworked the add x medicinal plants effect to use better localizations.
 - Improved Vouris' DNA.
 - Reduced the amount of Events you get from Paleontological Expeditions.
