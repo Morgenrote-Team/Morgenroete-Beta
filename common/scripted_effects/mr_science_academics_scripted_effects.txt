@@ -4763,37 +4763,56 @@ academics_ethnologist_add_academic_title_effect = {
 # BASE_CHANCE_DOCTOR = Base chance for the specific role
 # BASE_CHANCE_PROFESSOR = Base chance for Professor
 academics_character_add_title_from_experience_gain_effect = {
-	if = {
-		limit = {
-			owner = {
-				has_technology_researched = academia
-			}
-		}
-
-		#Doctor's degree
+	hidden_effect = {
 		if = {
 			limit = {
-				NOT = { has_modifier = academics_character_is_doctor_modifier }
+				owner = {
+					has_technology_researched = academia
+				}
 			}
 
+			#Doctor's degree
 			if = {
 				limit = {
-					OR = {
-						$EXPERIENCE_VARIABLE$ >= 150
-						has_role = character_role_panum_physician
-					}
+					NOT = { has_modifier = academics_character_is_doctor_modifier }
 				}
 
-				academics_add_doctor_title_effect = yes
-			}
-			else = {
-				random_list = {
-					#Nothing
-					0 = {
-						modifier = {
-							add = {
-								value = 100
-								subtract = {
+				if = {
+					limit = {
+						OR = {
+							$EXPERIENCE_VARIABLE$ >= 150
+							has_role = character_role_panum_physician
+						}
+					}
+
+					academics_add_doctor_title_effect = yes
+				}
+				else = {
+					random_list = {
+						#Nothing
+						0 = {
+							modifier = {
+								add = {
+									value = 100
+									subtract = {
+										value = {
+											value = $EXPERIENCE_VARIABLE$
+											add = $BASE_CHANCE_DOCTOR$
+											multiply = 0.3
+										}
+										multiply = academics_traits_for_degree_gain_chance_value
+										min = 1
+										max = 100
+									}
+								}
+							}
+						}
+						#Gain Degree
+						0 = {
+							academics_add_doctor_title_effect = yes
+
+							modifier = {
+								add = {
 									value = {
 										value = $EXPERIENCE_VARIABLE$
 										add = $BASE_CHANCE_DOCTOR$
@@ -4806,45 +4825,45 @@ academics_character_add_title_from_experience_gain_effect = {
 							}
 						}
 					}
-					#Gain Degree
-					0 = {
-						academics_add_doctor_title_effect = yes
-
-						modifier = {
-							add = {
-								value = {
-									value = $EXPERIENCE_VARIABLE$
-									add = $BASE_CHANCE_DOCTOR$
-									multiply = 0.3
-								}
-								multiply = academics_traits_for_degree_gain_chance_value
-								min = 1
-								max = 100
-							}
-						}
-					}
 				}
 			}
-		}
-		#Professor
-		else_if = {
-			limit = {
-				NOT = { has_modifier = academics_character_is_professor_modifier }
-			}
+			#Professor
+			else_if = {
+				limit = {
+					NOT = { has_modifier = academics_character_is_professor_modifier }
+				}
 
-			if = {
-				limit = { $EXPERIENCE_VARIABLE$ >= 300 }
+				if = {
+					limit = { $EXPERIENCE_VARIABLE$ >= 300 }
 
-				academics_add_professor_title_effect = yes
-			}
-			else = {
-				random_list = {
-					#Nothing
-					0 = {
-						modifier = {
-							add = {
-								value = 100
-								subtract = {
+					academics_add_professor_title_effect = yes
+				}
+				else = {
+					random_list = {
+						#Nothing
+						0 = {
+							modifier = {
+								add = {
+									value = 100
+									subtract = {
+										value = {
+											value = $EXPERIENCE_VARIABLE$
+											add = $BASE_CHANCE_PROFESSOR$
+											multiply = 0.3
+										}
+										multiply = academics_traits_for_degree_gain_chance_value
+										min = 1
+										max = 100
+									}
+								}
+							}
+						}
+						#Gain Degree
+						0 = {
+							academics_add_professor_title_effect = yes
+
+							modifier = {
+								add = {
 									value = {
 										value = $EXPERIENCE_VARIABLE$
 										add = $BASE_CHANCE_PROFESSOR$
@@ -4854,23 +4873,6 @@ academics_character_add_title_from_experience_gain_effect = {
 									min = 1
 									max = 100
 								}
-							}
-						}
-					}
-					#Gain Degree
-					0 = {
-						academics_add_professor_title_effect = yes
-
-						modifier = {
-							add = {
-								value = {
-									value = $EXPERIENCE_VARIABLE$
-									add = $BASE_CHANCE_PROFESSOR$
-									multiply = 0.3
-								}
-								multiply = academics_traits_for_degree_gain_chance_value
-								min = 1
-								max = 100
 							}
 						}
 					}
