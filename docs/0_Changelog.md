@@ -8,6 +8,9 @@ Fixes:
 - Countries that didn't win any medals will no longer be displayed in the ending event of the Olympic Games.
 - Fixed the localizations for the Challenger Deep and Wallace Line Notifications.
 - The Pacific Expedition Name should now work properly even if the variable is not set correctly.
+- The Anthropologist values should now be correctly displayed.
+- The Mechanic should now wear proper clothes again.
+- Various small localization fixes.
 
 Changes:
 - Reworked the Musical, Literary and Painting tradition effects.
