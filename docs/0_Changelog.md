@@ -12,11 +12,15 @@ Characters:
 - Alfred Romer (American Paleontologist)
 - Sophus Müller (Danish Archaeologist)
 - Marcellin Boule (French Anthropologist and Paleontologist)
+- Murshed Khater (Lebanese Physician)
+- Munif al-Aidi (Syrian Physician)
+- Rida al-Sa'id (Syrian Physician)
 - Taha Hussein (Egyptian Writer)
 - Hafez Ibrahim (Egyptian Writer)
 - Ahmed Shawqi (Egyptian Writer)
 - Aisha Taymur (Egyptian Writer)
 - May Ziadeh (Palestinian Writer)
+- Abu Saud Abd al-Wahab (Syrian Painter)
 
 Fixes:
 - Fixed a tooltip that tells you whether a character will step down.
@@ -26,8 +30,11 @@ Fixes:
 - Wergeland is no longer killed but instead we inject the traits, etc. into the vanilla template.
 - Added a clothes definition for racers.
 - Travelling Composers should no longer accidentally be busy and therefore never retire.
+- The Aida event should no longer fire before the Suez Canal is finished.
 
 Changes:
+- Painters can now change their Art Style for the low price of 100 Renown.
+- Historical Painters now start with their Painter trait even if they are not yet 40 years old.
 - Reworked the add x medicinal plants effect to use better localizations.
 - Improved Vouris' DNA.
 - Reduced the amount of Events you get from Paleontological Expeditions.
@@ -35,6 +42,7 @@ Changes:
 Quality of Life:
 - You now get a warning, if a character is already employed by you in another position.
 - Removed the tooltip which displays the chances for a character to gain a doctorate or professorship.
+- The Painter Traits now have a modifier that shows you that the Painter can now create Masterworks.
 
 Graphics:
 - Added a sunglasses variant for glasses_02.
