@@ -9,153 +9,56 @@
 
 ######ADD PAINTING TRADITION######
 
-#Effect to add $AMOUNT$ Painting Tradition
+#Effect to add scaled $AMOUNT$ Painting Tradition
 klimt_add_x_painting_tradition_effect = {
-	# Amount = amount of Painting tradition to add
-	if = { #This changes the Amount depending on the power rank.
-		limit = { country_rank = rank_value:great_power }
+	# Amount = amount of painting tradition to add
+	custom_description = {
+		text = "klimt_add_x_painting_tradition_effect_loc"
+		subject = this
+		value = scope:painting_tradition_amount
+
 		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
 			name = painting_tradition_amount
 			value = { #This is the way to calculate with temporary_scope_values. It is quite useful
 				value = $AMOUNT$
-				multiply = 0.5
-				round = yes
-			}
-		}
-	}
-	else_if = {
-		limit = { country_rank = rank_value:major_power }
-		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-			name = painting_tradition_amount
-			value = { #This is the way to calculate with temporary_scope_values. It is quite useful
-				value = $AMOUNT$
-				multiply = 0.75
-				round = yes
-			}
-		}
-	}
-	else = { #In case that you are below major power you get all of the paintingal tradition
-		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-			name = painting_tradition_amount
-			value = $AMOUNT$
-		}
-	}
-
-	#This part is used to display an accurate tooltip (Gain, loss, etc.)
-	if = { #Negative Plural Tooltip if local_var is negative
-		limit = { $AMOUNT$ < 0 }
-		custom_tooltip = klimt_add_x_painting_tradition_minus_x_tt
-	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = klimt_add_x_painting_tradition_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 0 }
-		custom_tooltip = klimt_add_x_painting_tradition_plus_x_tt
-	}
-
-	#This part adds the AMOUNT of Painting Tradition
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = klimt_painting_tradition_var
-			}
-		}
-		set_variable = {
-			name = klimt_painting_tradition_var
-			value = 0
-		}
-	}
-	change_variable = {
-		name = klimt_painting_tradition_var
-		add = scope:painting_tradition_amount
-	}
-
-	#klimt_painter_total_painting_tradition_var is used to keep track of all the Painting Tradition that a specific Painter created.
-	#It is used to show how successful the Painter is.
-	#Every time a normal Painting Tradition Point is added, the same number gets added here.
-	if = {
-		limit = { #Only works if there actually is a Painter
-			has_variable = klimt_painter_var
-		}
-		var:klimt_painter_var = {
-			if = { #Fallback if the variable does not exist yet
-				limit = {
-					NOT = {
-						has_variable = klimt_painter_total_painting_tradition_var
+				if = {
+					limit = {
+						country_rank = rank_value:great_power
 					}
+					multiply = 0.5
 				}
-				set_variable = {
-					name = klimt_painter_total_painting_tradition_var
-					value = 0
+				else_if = {
+					limit = {
+						country_rank = rank_value:major_power
+					}
+					multiply = 0.75
 				}
+				round = yes
 			}
-			change_variable = { #The amount of Painting Tradition that this Painter created
-				name = klimt_painter_total_painting_tradition_var
-				add = scope:painting_tradition_amount
-			}
+		}
+
+		#This part adds the AMOUNT of Painting Tradition
+		mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = scope:painting_tradition_amount NAME = klimt_painting_tradition_var ADDITIONAL_SCRIPT_MATH = "min = 0" }
+		#This part adds the AMOUNT of Total Painting Tradition for the Painter
+		var:klimt_painter_var ?= {
+			mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = scope:painting_tradition_amount NAME = klimt_painter_total_painting_tradition_var ADDITIONAL_SCRIPT_MATH = "min = 0" }
 		}
 	}
 }
 
 #Effect to add unscaled $AMOUNT$ Painting Tradition
 klimt_add_x_painting_tradition_unscaled_effect = {
-	# Amount = amount of Painting tradition to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = painting_tradition_amount
+	# Amount = amount of music tradition to add
+	custom_description = {
+		text = "klimt_add_x_painting_tradition_effect_loc"
+		subject = this
 		value = $AMOUNT$
-	}
 
-	#This part is used to display an accurate tooltip (Gain, loss, etc.)
-	if = { #Negative Plural Tooltip if local_var is negative
-		limit = { $AMOUNT$ < 0 }
-		custom_tooltip = klimt_add_x_painting_tradition_minus_x_tt
-	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = klimt_add_x_painting_tradition_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 0 }
-		custom_tooltip = klimt_add_x_painting_tradition_plus_x_tt
-	}
-
-	#This part adds the AMOUNT of Painting Tradition
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = klimt_painting_tradition_var
-			}
-		}
-		set_variable = {
-			name = klimt_painting_tradition_var
-			value = 0
-		}
-	}
-	change_variable = {
-		name = klimt_painting_tradition_var
-		add = scope:painting_tradition_amount
-	}
-
-	#klimt_painter_total_painting_tradition_var is used to keep track of all the Painting Tradition that a specific Painter created.
-	#It is used to show how successful the Painter is.
-	#Every time a normal Painting Tradition Point is added, the same number gets added here.
-	var:klimt_painter_var ?= {
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = klimt_painter_total_painting_tradition_var
-				}
-			}
-			set_variable = {
-				name = klimt_painter_total_painting_tradition_var
-				value = 0
-			}
-		}
-		change_variable = { #The amount of paintingal Tradition that this Painter discovered
-			name = klimt_painter_total_painting_tradition_var
-			add = scope:painting_tradition_amount
+		#This part adds the AMOUNT of Painting Tradition
+		mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = $AMOUNT$ NAME = klimt_painting_tradition_var ADDITIONAL_SCRIPT_MATH = "min = 0" }
+		#This part adds the AMOUNT of Total Painting Tradition for the Painter
+		var:klimt_painter_var ?= {
+			mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = $AMOUNT$ NAME = klimt_painter_total_painting_tradition_var ADDITIONAL_SCRIPT_MATH = "min = 0" }
 		}
 	}
 }
