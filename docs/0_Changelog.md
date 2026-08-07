@@ -6,6 +6,7 @@ Characters:
 - George Darwin (British Astronomer and Geologist)
 - David Gill (Scottish Astronomer)
 - Fatin Gökmen (Turkish Astronomer)
+- Édouard Lartet (French Paleontologist, Geologist and Anthropologist)
 - Ernst Stromer (German Paleontologist)
 
 Fixes:
