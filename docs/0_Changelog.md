@@ -6,6 +6,7 @@ Characters:
 - George Darwin (British Astronomer and Geologist)
 - David Gill (Scottish Astronomer)
 - Fatin Gökmen (Turkish Astronomer)
+- Ernst Stromer (German Paleontologist)
 
 Fixes:
 - The Mountain Troop Regiment event should now set the scope properly.
