@@ -2,6 +2,7 @@ Changelog for 2.8.3c "Mitsopoulos"
 
 Characters:
 - Hasan Tahsini (Albanian Astronomer)
+- Camille Flammarion (French Astronomer and Writer)
 - Fatin Gökmen (Turkish Astronomer)
 
 Fixes:
