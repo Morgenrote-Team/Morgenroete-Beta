@@ -3,6 +3,7 @@ Changelog for 2.8.3c "Mitsopoulos"
 Characters:
 - Hasan Tahsini (Albanian Astronomer)
 - Camille Flammarion (French Astronomer and Writer)
+- George Darwin (British Astronomer and Geologist)
 - David Gill (Scottish Astronomer)
 - Fatin Gökmen (Turkish Astronomer)
 
