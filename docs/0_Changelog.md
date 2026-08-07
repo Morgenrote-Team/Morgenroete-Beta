@@ -1,7 +1,10 @@
 Changelog for 2.8.3c "Mitsopoulos"
 
 Characters:
--
+- Hasan Tahsini (Albanian Astronomer)
+- Camille Flammarion (French Astronomer and Writer)
+- David Gill (Scottish Astronomer)
+- Fatin Gökmen (Turkish Astronomer)
 
 Fixes:
 - The Mountain Troop Regiment event should now set the scope properly.
@@ -11,6 +14,8 @@ Fixes:
 - The Anthropologist values should now be correctly displayed.
 - The Mechanic should now wear proper clothes again.
 - Various small localization fixes.
+- Removed special characters from Vietnamese character names as they caused some issues.
 
 Changes:
 - Reworked the Musical, Literary and Painting tradition effects.
+- Reduced the bonuses from the philosopher trait.
