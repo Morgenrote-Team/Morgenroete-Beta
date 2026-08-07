@@ -9,6 +9,7 @@ Characters:
 - Santiago Roth (Argentinian Paleontologist)
 - Édouard Lartet (French Paleontologist, Geologist and Anthropologist)
 - Ernst Stromer (German Paleontologist)
+- Alexander Karpinsky (Russian Paleontologist and Geologist)
 - François-Jules Pictet (Swiss Paleontologist and Naturalist)
 
 Fixes:
