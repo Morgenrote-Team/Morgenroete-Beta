@@ -8,6 +8,7 @@ Characters:
 - Fatin Gökmen (Turkish Astronomer)
 - Édouard Lartet (French Paleontologist, Geologist and Anthropologist)
 - Ernst Stromer (German Paleontologist)
+- François-Jules Pictet (Swiss Paleontologist and Naturalist)
 
 Fixes:
 - The Mountain Troop Regiment event should now set the scope properly.
