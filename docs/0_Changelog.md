@@ -11,6 +11,7 @@ Characters:
 - Ernst Stromer (German Paleontologist)
 - Alexander Karpinsky (Russian Paleontologist and Geologist)
 - François-Jules Pictet (Swiss Paleontologist and Naturalist)
+- Maria Gortynskaia (Ukrainian Paleontologist)
 
 Fixes:
 - The Mountain Troop Regiment event should now set the scope properly.
