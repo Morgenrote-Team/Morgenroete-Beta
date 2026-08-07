@@ -1,7 +1,7 @@
 Changelog for 2.8.3c "Mitsopoulos"
 
 Characters:
--
+- Hasan Tahsini (Albanian Astronomer)
 
 Fixes:
 - The Mountain Troop Regiment event should now set the scope properly.
