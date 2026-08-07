@@ -12,6 +12,7 @@ Fixes:
 - The Anthropologist values should now be correctly displayed.
 - The Mechanic should now wear proper clothes again.
 - Various small localization fixes.
+- Removed special characters from Vietnamese character names as they caused some issues.
 
 Changes:
 - Reworked the Musical, Literary and Painting tradition effects.
