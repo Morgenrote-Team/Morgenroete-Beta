@@ -14,3 +14,4 @@ Fixes:
 
 Changes:
 - Reworked the Musical, Literary and Painting tradition effects.
+- Reduced the modifiers from the philosopher trait.
