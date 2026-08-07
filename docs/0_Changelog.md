@@ -15,6 +15,9 @@ Fixes:
 - The Mechanic should now wear proper clothes again.
 - Various small localization fixes.
 - Removed special characters from Vietnamese character names as they caused some issues.
+- Winlock should now show up as a historical character again.
+- Fixed an error on the Medical Faculty button.
+- The "Leave Red Cross" Button should no longer try to leave the screen.
 
 Changes:
 - Reworked the Musical, Literary and Painting tradition effects.
