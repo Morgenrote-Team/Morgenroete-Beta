@@ -6,6 +6,7 @@ Characters:
 - George Darwin (British Astronomer and Geologist)
 - David Gill (Scottish Astronomer)
 - Fatin Gökmen (Turkish Astronomer)
+- Santiago Roth (Argentinian Paleontologist)
 - Édouard Lartet (French Paleontologist, Geologist and Anthropologist)
 - Ernst Stromer (German Paleontologist)
 - François-Jules Pictet (Swiss Paleontologist and Naturalist)
