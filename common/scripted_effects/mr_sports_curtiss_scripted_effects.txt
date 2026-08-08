@@ -287,40 +287,14 @@ curtiss_update_airline_effect = {
 #Effect to add $AMOUNT$ Flight Routes
 curtiss_add_x_flight_route_effect = {
 	# Amount = amount of artifacts to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = flight_route_amount
+	custom_description = {
+		text = "curtiss_add_x_flight_route_effect_loc"
+		subject = this
 		value = $AMOUNT$
-	}
 
-	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ < 0 }
-		custom_tooltip = curtiss_add_x_flight_route_minus_x_tt
+		#This part adds the AMOUNT of Flight Routes
+		mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = $AMOUNT$ NAME = curtiss_flight_route ADDITIONAL_SCRIPT_MATH = "min = 0" }
 	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = curtiss_add_x_flight_route_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 0 }
-		custom_tooltip = curtiss_add_x_flight_route_x_tt
-	}
-
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = curtiss_flight_route
-			}
-		}
-		set_variable = {
-			name = curtiss_flight_route
-			value = 0
-		}
-	}
-	change_variable = {
-		name = curtiss_flight_route
-		add = $AMOUNT$
-	}
-
 	curtiss_update_airline_effect = yes
 }
 

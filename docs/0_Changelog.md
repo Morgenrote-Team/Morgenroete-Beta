@@ -1,48 +1,42 @@
-Changelog for 2.8.3b "Mitsopoulos"
+Changelog for 2.8.3c "Mitsopoulos"
 
 Characters:
-- Ifikratis Kokkidis (Greek Engineer)
-- Mehmet Refik Fenmen (Turkish Engineer)
-- Ziya Songülen (Turkish Engineer)
-- Georgios Matthaiopoulos (Greek Chemist)
-- Athanasios Sofianopoulos (Greek Chemist)
-- Demetrios Eginitis (Greek Astronomer and Physicist)
-- Demetrios Kokkidis (Greek Astronomer and Physicist)
-- Dimitrios Stroumpos (Greek Physicist and Astronomer)
-- Alfred Romer (American Paleontologist)
-- Sophus Müller (Danish Archaeologist)
-- Marcellin Boule (French Anthropologist and Paleontologist)
-- Murshed Khater (Lebanese Physician)
-- Munif al-Aidi (Syrian Physician)
-- Rida al-Sa'id (Syrian Physician)
-- Taha Hussein (Egyptian Writer)
-- Hafez Ibrahim (Egyptian Writer)
-- Ahmed Shawqi (Egyptian Writer)
-- Aisha Taymur (Egyptian Writer)
-- May Ziadeh (Palestinian Writer)
-- Abu Saud Abd al-Wahab (Syrian Painter)
+- Hasan Tahsini (Albanian Astronomer)
+- Camille Flammarion (French Astronomer and Writer)
+- George Darwin (British Astronomer and Geologist)
+- David Gill (Scottish Astronomer)
+- Fatin Gökmen (Turkish Astronomer)
+- Santiago Roth (Argentinian Paleontologist)
+- Joachim Barrande (Bohemian Paleontologist and Geologist)
+- Georgi Zlatarski (Bulgarian Paleontologist and Geologist)
+- Édouard Lartet (French Paleontologist, Geologist and Anthropologist)
+- Pierre Teilhard de Chardin (French Paleontologist, Geologist and Anthropologist)
+- Ernst Stromer (German Paleontologist)
+- Kálmán Lambrecht (Hungarian Paleontologist)
+- Marian Łomnicki (Polish Paleontologist, Geologist and Naturalist)
+- Marian Łomnicki (Romanian Paleontologist and Geologist)
+- Grigoriu Ștefănescu (Romanian Paleontologist and Geologist)
+- Nicolai Andrusov (Russian Paleontologist and Geologist)
+- Alexander Karpinsky (Russian Paleontologist and Geologist)
+- Aleksey Pavlov (Russian Paleontologist and Geologist)
+- François-Jules Pictet (Swiss Paleontologist and Naturalist)
+- Maria Gortynskaia (Ukrainian Paleontologist)
 
 Fixes:
-- Fixed a tooltip that tells you whether a character will step down.
-- Your official writer will no longer accidentally appear as a local writer.
-- The experienced and famous physician event now use the correct icon.
-- Adventurers now wear expedition clothes instead of rags.
-- Wergeland is no longer killed but instead we inject the traits, etc. into the vanilla template.
-- Added a clothes definition for racers.
-- Travelling Composers should no longer accidentally be busy and therefore never retire.
-- The Aida event should no longer fire before the Suez Canal is finished.
+- The Mountain Troop Regiment event should now set the scope properly.
+- Countries that didn't win any medals will no longer be displayed in the ending event of the Olympic Games.
+- Fixed the localizations for the Challenger Deep and Wallace Line Notifications.
+- The Pacific Expedition Name should now work properly even if the variable is not set correctly.
+- The Anthropologist values should now be correctly displayed.
+- The Mechanic should now wear proper clothes again.
+- Various small localization fixes.
+- Removed special characters from Vietnamese Academy of Science name as some letters are not properly working in the font.
+- Winlock should now show up as a historical character again.
+- Fixed an error on the Medical Faculty button.
+- The "Leave Red Cross" Button should no longer try to leave the screen.
+- Fixed the character roles of de Lacerda.
+- Fixed Marcellin Boule not spawning correctly.
 
 Changes:
-- Painters can now change their Art Style for the low price of 100 Renown.
-- Historical Painters now start with their Painter trait even if they are not yet 40 years old.
-- Reworked the add x medicinal plants effect to use better localizations.
-- Improved Vouris' DNA.
-- Reduced the amount of Events you get from Paleontological Expeditions.
-
-Quality of Life:
-- You now get a warning, if a character is already employed by you in another position.
-- Removed the tooltip which displays the chances for a character to gain a doctorate or professorship.
-- The Painter Traits now have a modifier that shows you that the Painter can now create Masterworks.
-
-Graphics:
-- Added a sunglasses variant for glasses_02.
+- Reworked the Musical, Literary and Painting tradition effects.
+- Reduced the bonuses from the philosopher trait.
