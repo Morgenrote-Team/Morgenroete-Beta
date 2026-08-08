@@ -12,6 +12,7 @@ Characters:
 - Ernst Stromer (German Paleontologist)
 - Kálmán Lambrecht (Hungarian Paleontologist)
 - Marian Łomnicki (Polish Paleontologist, Geologist and Naturalist)
+- Marian Łomnicki (Romanian Paleontologist and Geologist)
 - Grigoriu Ștefănescu (Romanian Paleontologist and Geologist)
 - Nicolai Andrusov (Russian Paleontologist and Geologist)
 - Alexander Karpinsky (Russian Paleontologist and Geologist)
