@@ -10,6 +10,7 @@ Characters:
 - Édouard Lartet (French Paleontologist, Geologist and Anthropologist)
 - Ernst Stromer (German Paleontologist)
 - Alexander Karpinsky (Russian Paleontologist and Geologist)
+- Aleksey Pavlov (Russian Paleontologist and Geologist)
 - François-Jules Pictet (Swiss Paleontologist and Naturalist)
 - Maria Gortynskaia (Ukrainian Paleontologist)
 
