@@ -7,6 +7,7 @@ Characters:
 - David Gill (Scottish Astronomer)
 - Fatin Gökmen (Turkish Astronomer)
 - Santiago Roth (Argentinian Paleontologist)
+- Joachim Barrande (Bohemian Paleontologist and Geologist)
 - Édouard Lartet (French Paleontologist, Geologist and Anthropologist)
 - Ernst Stromer (German Paleontologist)
 - Nicolai Andrusov (Russian Paleontologist and Geologist)
