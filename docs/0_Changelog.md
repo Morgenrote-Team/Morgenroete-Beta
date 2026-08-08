@@ -26,7 +26,6 @@ Fixes:
 - The Anthropologist values should now be correctly displayed.
 - The Mechanic should now wear proper clothes again.
 - Various small localization fixes.
-- Removed special characters from Vietnamese character names as they caused some issues.
 - Removed special characters from Vietnamese Academy of Science name as some letters are not properly working in the font.
 - Winlock should now show up as a historical character again.
 - Fixed an error on the Medical Faculty button.
