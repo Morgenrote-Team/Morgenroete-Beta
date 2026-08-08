@@ -8,6 +8,7 @@ Characters:
 - Fatin Gökmen (Turkish Astronomer)
 - Santiago Roth (Argentinian Paleontologist)
 - Joachim Barrande (Bohemian Paleontologist and Geologist)
+- Georgi Zlatarski (Bulgarian Paleontologist and Geologist)
 - Édouard Lartet (French Paleontologist, Geologist and Anthropologist)
 - Ernst Stromer (German Paleontologist)
 - Kálmán Lambrecht (Hungarian Paleontologist)
@@ -32,6 +33,7 @@ Fixes:
 - Winlock should now show up as a historical character again.
 - Fixed an error on the Medical Faculty button.
 - The "Leave Red Cross" Button should no longer try to leave the screen.
+- Fixed the character roles of de Lacerda
 
 Changes:
 - Reworked the Musical, Literary and Painting tradition effects.
