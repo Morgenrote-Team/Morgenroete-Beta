@@ -10,6 +10,7 @@ Characters:
 - Joachim Barrande (Bohemian Paleontologist and Geologist)
 - Édouard Lartet (French Paleontologist, Geologist and Anthropologist)
 - Ernst Stromer (German Paleontologist)
+- Kálmán Lambrecht (Hungarian Paleontologist)
 - Nicolai Andrusov (Russian Paleontologist and Geologist)
 - Alexander Karpinsky (Russian Paleontologist and Geologist)
 - Aleksey Pavlov (Russian Paleontologist and Geologist)
