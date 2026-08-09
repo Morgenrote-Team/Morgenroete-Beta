@@ -6,7 +6,7 @@ Characters:
 - Jovan Žujović (Serbian Paleontologist, Geologist and Anthropologist)
 
 Fixes:
--
+- Fixed some icons for the experienced/famous events.
 
 Changes:
 -
