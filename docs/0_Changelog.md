@@ -12,3 +12,7 @@ Fixes:
 
 Changes:
 - Added a University to Moldavia and an event at game start, that explains it and gives you the option to get Asachi.
+- Improved Curie DNA.
+- Improved Tesla DNA.
+- Improved Mendeleev DNA.
+- Improved Agassiz DNA.
