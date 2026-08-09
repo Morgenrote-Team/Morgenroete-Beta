@@ -16,3 +16,6 @@ Changes:
 - Improved Tesla DNA.
 - Improved Mendeleev DNA.
 - Improved Agassiz DNA.
+- Improved Drinker Cope DNA.
+- Improved Zhan DNA.
+- Improved Pasteur DNA.
