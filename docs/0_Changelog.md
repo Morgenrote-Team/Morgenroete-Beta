@@ -19,3 +19,5 @@ Changes:
 - Improved Drinker Cope DNA.
 - Improved Zhan DNA.
 - Improved Pasteur DNA.
+- Improved Andersson DNA.
+- Improved Gaudi DNA.
