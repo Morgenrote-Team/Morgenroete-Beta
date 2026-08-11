@@ -22,3 +22,4 @@ Changes:
 - Improved Pasteur DNA.
 - Improved Andersson DNA.
 - Improved Gaudi DNA.
+- Improved Einstein DNA.
