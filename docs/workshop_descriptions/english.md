@@ -104,7 +104,6 @@ Thanks to: aek.aykut1
 
 [b] Others: [/b]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2880069248] Chinese Translation (for more mods) [/url]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3280289116] Korean Translation [/url]
 
 [img]https://i.imgur.com/C43o6qA.png[/img]
 [h1]Credits[/h1]
