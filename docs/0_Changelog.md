@@ -9,6 +9,7 @@ Characters:
 
 Fixes:
 - Fixed some icons for the experienced/famous events.
+- Fixed Habitat Endangerment from split states.
 
 Changes:
 - Added a University to Moldavia and an event at game start, that explains it and gives you the option to get Asachi.
