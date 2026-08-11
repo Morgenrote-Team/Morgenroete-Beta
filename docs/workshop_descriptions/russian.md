@@ -5,7 +5,7 @@
 
 Morgenröte — Dawn of Flavor — мод, наполняющий Victoria 3 культурой, красотой и образом жизни. Он углубляет культурные и научные аспекты викторианской эпохи, слабо представленные в базовой игре: научные экспедиции, культурный престиж, деятели искусства и учёные.
 
-[img]https://i.imgur.com/rkNmG4P.png[/img]
+[img]https://i.imgur.com/CXUoO5I.png[/img]
 [h1] Проект [/h1]
  [list]
     [*]Учёные: археологи, антропологи, натуралисты, палеонтологи, астрономы и инженеры, а также научное общество. Их особые навыки развивают науку XIX века, а конференции меняют научное мировоззрение.
@@ -13,7 +13,7 @@ Morgenröte — Dawn of Flavor — мод, наполняющий Victoria 3 к�
     [*]Другие деятели общества и спорта: воздухоплаватели, пилоты и спортсмены с мировой известностью. Добавлены Олимпийские игры и расширенная авиация: аэропорты, новые варианты мобилизации, гигантские дирижабли и Кубок Шнейдера.
 [/list]
 
-[img]https://i.imgur.com/QIGpZ2U.png[/img]
+[img]https://i.imgur.com/lOSHTb7.png[/img]
 [h1] Содержание [/h1]
  [list]
     [*]Инженерное дело
@@ -34,21 +34,21 @@ Morgenröte — Dawn of Flavor — мод, наполняющий Victoria 3 к�
     [*]Спорт
 [/list]
 
-[img]https://i.imgur.com/kmsIvg5.png[/img]
+[img]https://i.imgur.com/plUkU02.png[/img]
 [h1] Совместимость [/h1]
 Мы стараемся менять минимум файлов базовой игры, но некоторые всё же приходится перезаписывать. Это касается технологий, зданий, потребностей населения и наборов покупок. Модам, меняющим те же файлы, может понадобиться патч совместимости.
 
 [b] Morgenröte нельзя добавить в начатую игру. Необходимо начать новую. [/b]
 
-[img]https://i.imgur.com/BjjffNY.png[/img]
+[img]https://i.imgur.com/otJPctW.png[/img]
 [h1] Версия [/h1]
 Текущая версия — 2.8.3 «Mitsopoulos». Morgenröte совместим с версией 1.13; по ссылкам также доступны версии до 1.7.
 
-[img]https://i.imgur.com/FhcWzov.png[/img]
+[img]https://i.imgur.com/09F7UbK.png[/img]
 [h1] Для авторов [/h1]
 Музыка Morgenröte находится в общественном достоянии в Европе, но в других странах правила могут отличаться. Для монетизации видео рекомендуем отключить музыку Morgenröte.
 
-[img]https://i.imgur.com/Ol2WGGt.png[/img]
+[img]https://i.imgur.com/VYuLUJk.png[/img]
 [h1] Статус перевода [/h1]
 Эти переводы уже встроены в мод и не требуют отдельной загрузки. Помощь с переводом приветствуется.
 
@@ -104,9 +104,8 @@ https://paratranz.cn/projects/15153
 
 [b] Другие: [/b]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2880069248] Китайский перевод (для нескольких модов) [/url]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3280289116] Корейский перевод [/url]
 
-[img]https://i.imgur.com/C43o6qA.png[/img]
+[img]https://i.imgur.com/2oTtNUY.png[/img]
 [h1]Благодарности[/h1]
 Благодарим...
 [list]
@@ -124,18 +123,7 @@ https://paratranz.cn/projects/15153
     [*]PPSyrius — за персонажей, списки имён и многое другое.
 [/list]
 
-[img]https://i.imgur.com/D91Y6Qn.png[/img]
-[h1] Патчи совместимости [/h1]
-Некоторые патчи устарели или больше не нужны. Проверьте дату последнего обновления.
-[list]
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3248164466] Патч совместимости для Basileia Romaion [/url]
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3146386373] Патч совместимости для Economic and Financial Mod [/url]
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3124672961] Патч совместимости для LLWA + Morgenröte [/url]
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3174785745] Патч совместимости для Make My Railways Profitable Again [/url]
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3543693439] Патч совместимости для Morgenrote + I.R.O.N. [/url]
-[/list]
-
-[img]https://i.imgur.com/lyEXcxo.png[/img]
+[img]https://i.imgur.com/wWx1cDD.png[/img]
 [h1] Другие ссылки [/h1]
 [list]
     [*][url=https://discord.gg/yJdwH3sqvN] Discord [/url]
