@@ -1,7 +1,10 @@
+[img]https://i.imgur.com/Xu1Pvl6.png[/img]
+
 　　如果你喜欢玩《赤色晨曦》，不妨点个赞支持一下吧，非常感谢！
 [img]https://i.imgur.com/aWY4lUH.gif[/img]
 　　《赤色晨曦》（Morgenröte - Dawn of Flavor）是一款旨在通过文化、美学与生活方式丰富《维多利亚3》游戏世界的模组。在原有游戏中，维多利亚时代的文化与科学元素往往显得单薄且略显表面化。我们希望深化并丰富这一时代的体验，核心内容包括：身临其境的科学考察、通过文化建设提升国家威望，以及培养杰出的艺术家与科学家。
 
+[img]https://i.imgur.com/Icm4Hl1.png[/img]
 [h1]模组特色[/h1]
 [list]
 　[*]学者与科学：引入了考古学家、人类学家、博物学家、古生物学家、天文学家和工程师等各领域学者（科学家），并加入了科学学会机制。这些学者不仅具备推动 19 世纪科学革新的专业技能，还能在学术会议上重塑整个学术界的世界观。
@@ -9,6 +12,7 @@
 　[*]社会名流与体育赛事：新增了热气球飞行员、飞行员和运动员等知名角色，为国家赢得国际声誉与荣誉。模组不仅添加了奥林匹克运动会，还大幅拓展了航空业内容——无论是机场建设、全新的军队动员选项，还是巨型飞艇与传奇的“施耐德杯”飞行大赛，应有尽有。
 [/list]
 
+[img]https://i.imgur.com/eIbDT8b.png[/img]
 [h1]内容[/h1]
 [list]
 [*]工程学
@@ -29,17 +33,21 @@
 [*]体育运动
 [/list]
 
+[img]https://i.imgur.com/FopaRc3.png[/img]
 [h1]兼容性与存档要求[/h1]
 　　虽然我们已尽力减少对原版文件的修改，但仍需对部分文件进行覆盖或注入。这主要涉及各类科技、建筑、人群需求以及消费包。若其他模组同样修改了这些文件，可能需要搭配兼容补丁使用。
 
 　　[b]《赤色晨曦》无法中途加入已有存档。您必须重新开局才能加载并体验本模组。[/b]
 
+[img]https://i.imgur.com/W7Zvt4d.png[/img]
 [h1]版本说明[/h1]
 　　当前模组版本为 2.8.3 “Mitsopoulos”。兼容游戏 1.13 版本，同时最多兼容至 1.7 版本。
 
+[img]https://i.imgur.com/Mn078vX.png[/img]
 [h1]创作者须知[/h1]
 　　《赤色晨曦》模组中加入的音乐在欧洲均属于公有领域（Public Domain）。但很遗憾，部分国家和地区的版权规则并不如此。所以，如果您打算对制作的视频进行收益变现，建议关闭《赤色晨曦》的背景音乐。
 
+[img]https://i.imgur.com/xCT9WcY.png[/img]
 [h1]本地化[/h1]
 　　下述语言翻译已直接内置于本模组中，您无需另外订阅。我们一直非常欢迎大家提供更多的翻译协助！
 
@@ -85,8 +93,8 @@ https://paratranz.cn/projects/15153
 
 其他相关：
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2880069248]牛奶汉化（模组汉化合集）[/url]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3280289116]韩语翻译[/url]
 
+[img]https://i.imgur.com/cwsouCx.png[/img]
 [h1]致谢[/h1]
 感谢以下贡献者：
 [list]
@@ -104,6 +112,7 @@ https://paratranz.cn/projects/15153
 [*]PPSyrius：制作了多位角色、姓名列表及其他内容。
 [/list]
 
+[img]https://i.imgur.com/KdtCHEf.png[/img]
 [h1]兼容补丁[/h1]
 　　部分兼容补丁可能已停止更新或不再需要，请注意核对其最后更新的日期。
 [list]
@@ -114,6 +123,7 @@ https://paratranz.cn/projects/15153
 [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3543693439]Morgenrote + I.R.O.N. 兼容补丁[/url]
 [/list]
 
+[img]https://i.imgur.com/sJR6wMO.png[/img]
 [h1]其他链接[/h1]
 [list]
 [*][url=https://discord.com/channels/1128404644457107597/1142044865778163792]Discord[/url]
