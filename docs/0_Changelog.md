@@ -2,6 +2,7 @@ Changelog for 2.8.3c "Mitsopoulos"
 
 Characters:
 - Gheorghe Asachi (Event spawned Romanian Engineer, Writer and Painter)
+- Petrache Poenaru (Romanian Engineer, Physicist and Naturalist)
 - Petar Bakalov (Bulgarian Paleontologist)
 - V.K. Ting (Chinese Paleontologist and Geologist)
 - Johan Kiær (Norwegian Paleontologist and Geologist)
