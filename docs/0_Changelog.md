@@ -7,6 +7,7 @@ Characters:
 - Ștefan Protopopescu (Romanian Engineer and Pilot)
 - Nicolae Vasilescu-Karpen (Romanian Engineer)
 - Aurel Vlaicu (Romanian Engineer and Pilot)
+- Elisa Leonida Zamfirescu (Romanian Engineer and Geologist)
 - Petar Bakalov (Bulgarian Paleontologist)
 - V.K. Ting (Chinese Paleontologist and Geologist)
 - Johan Kiær (Norwegian Paleontologist and Geologist)
