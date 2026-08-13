@@ -13,6 +13,7 @@ Characters:
 - Victor Anestin (Romanian Astronomer and Writer)
 - Constantin Căpităneanu (Romanian Astronomer)
 - Nicolae Culianu (Romanian Astronomer)
+- Nicolae Donici (Romanian Astronomer)
 - August Treboniu Laurian (Romanian Astronomer)
 - Petar Bakalov (Bulgarian Paleontologist)
 - V.K. Ting (Chinese Paleontologist and Geologist)
