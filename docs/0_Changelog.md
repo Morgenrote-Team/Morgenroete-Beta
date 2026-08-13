@@ -10,6 +10,7 @@ Characters:
 - Nicolae Vasilescu-Karpen (Romanian Engineer)
 - Aurel Vlaicu (Romanian Engineer and Pilot)
 - Elisa Leonida Zamfirescu (Romanian Engineer and Geologist)
+- Nicolae Culianu (Romanian Astronomer)
 - August Treboniu Laurian (Romanian Astronomer)
 - Petar Bakalov (Bulgarian Paleontologist)
 - V.K. Ting (Chinese Paleontologist and Geologist)
