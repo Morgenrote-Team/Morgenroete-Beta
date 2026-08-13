@@ -10,6 +10,7 @@ Characters:
 - Nicolae Vasilescu-Karpen (Romanian Engineer)
 - Aurel Vlaicu (Romanian Engineer and Pilot)
 - Elisa Leonida Zamfirescu (Romanian Engineer and Geologist)
+- Victor Anestin (Romanian Astronomer and Writer)
 - Constantin Căpităneanu (Romanian Astronomer)
 - Nicolae Culianu (Romanian Astronomer)
 - August Treboniu Laurian (Romanian Astronomer)
