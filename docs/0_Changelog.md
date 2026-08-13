@@ -17,6 +17,7 @@ Characters:
 - Nicolae Donici (Romanian Astronomer)
 - Spiru Haret (Romanian Astronomer and Physicist)
 - August Treboniu Laurian (Romanian Astronomer)
+- Emanoil Bacaloglu (Romanian Chemist and Physicist)
 - Alexe Marin (Romanian Chemist and Physicist)
 - Ștefan Micle (Romanian Chemist and Physicist)
 - Petar Bakalov (Bulgarian Paleontologist)
