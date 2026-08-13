@@ -14,6 +14,7 @@ Characters:
 - Constantin Căpităneanu (Romanian Astronomer)
 - Nicolae Culianu (Romanian Astronomer)
 - Nicolae Donici (Romanian Astronomer)
+- Spiru Haret (Romanian Astronomer and Physicist)
 - August Treboniu Laurian (Romanian Astronomer)
 - Petar Bakalov (Bulgarian Paleontologist)
 - V.K. Ting (Chinese Paleontologist and Geologist)
