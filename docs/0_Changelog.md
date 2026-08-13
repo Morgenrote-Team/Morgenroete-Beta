@@ -3,6 +3,7 @@ Changelog for 2.8.3c "Mitsopoulos"
 Characters:
 - Gheorghe Asachi (Event spawned Romanian Engineer, Writer and Painter)
 - Anton Berindei (Romanian Engineer)
+- Constantin Hârjeu (Romanian Engineer)
 - Dimitrie Leonida (Romanian Engineer)
 - Petrache Poenaru (Romanian Engineer, Physicist and Naturalist)
 - Ștefan Protopopescu (Romanian Engineer and Pilot)
