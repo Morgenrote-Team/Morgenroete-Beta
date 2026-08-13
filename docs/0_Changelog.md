@@ -18,6 +18,7 @@ Characters:
 - Spiru Haret (Romanian Astronomer and Physicist)
 - August Treboniu Laurian (Romanian Astronomer)
 - Alexe Marin (Romanian Chemist and Physicist)
+- Ștefan Micle (Romanian Chemist and Physicist)
 - Petar Bakalov (Bulgarian Paleontologist)
 - V.K. Ting (Chinese Paleontologist and Geologist)
 - Johan Kiær (Norwegian Paleontologist and Geologist)
