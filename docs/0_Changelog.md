@@ -11,6 +11,7 @@ Characters:
 - Raluca Ripan (Romanian Chemist)
 - Sabba Ștefănescu (Romanian Paleontologist and Geologist)
 - Albert Grisar (Belgian Composer)
+- Jean-Pierre Cluysenaar (Belgian Architect)
 
 Fixes:
 - Small loc and error fixes.
