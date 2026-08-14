@@ -1,6 +1,7 @@
 Changelog for 2.8.3e "Mitsopoulos"
 
 Characters:
+- Germinal Pierre Dandelin (Belgian Engineer and Physicist)
 - Jean-Baptiste Masui (Belgian Engineer)
 - Henri Maus (Belgian Engineer)
 - Petru Bogdan (Romanian Chemist)
