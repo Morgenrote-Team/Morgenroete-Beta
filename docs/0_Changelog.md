@@ -1,6 +1,7 @@
 Changelog for 2.8.3e "Mitsopoulos"
 
 Characters:
+- Jean-Baptiste Masui (Belgian Engineer)
 - Petru Bogdan (Romanian Chemist)
 - Neculai Costăchescu (Romanian Chemist)
 - Costin Nenițescu (Romanian Chemist)
