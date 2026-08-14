@@ -15,6 +15,7 @@ Characters:
 
 Fixes:
 - Small loc and error fixes.
+- Fixed the Physician Alert appearing when it shouldn't.
 
 Changes:
 -
