@@ -10,9 +10,10 @@ Characters:
 - Petru Poni (Romanian Chemist and Geologist)
 - Raluca Ripan (Romanian Chemist)
 - Sabba Ștefănescu (Romanian Paleontologist and Geologist)
+- Albert Grisar (Belgian Composer)
 
 Fixes:
--
+- Small loc and error fixes.
 
 Changes:
 -
