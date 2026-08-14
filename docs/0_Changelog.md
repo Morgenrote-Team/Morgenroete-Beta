@@ -4,6 +4,7 @@ Characters:
 - Neculai Costăchescu (Romanian Chemist)
 - Costin Nenițescu (Romanian Chemist)
 - Petru Poni (Romanian Chemist and Geologist)
+- Raluca Ripan (Romanian Chemist)
 
 Fixes:
 -
