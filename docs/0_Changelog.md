@@ -6,6 +6,7 @@ Characters:
 - Costin Nenițescu (Romanian Chemist)
 - Petru Poni (Romanian Chemist and Geologist)
 - Raluca Ripan (Romanian Chemist)
+- Sabba Ștefănescu (Romanian Paleontologist and Geologist)
 
 Fixes:
 -
