@@ -98,9 +98,9 @@ https://paratranz.cn/projects/15114
 Thanks to: tremblejj, VWM26 and Nickbonham22
 
 [b] Turkish: [/b]
-65% complete
+100% complete
 https://paratranz.cn/projects/15153
-Thanks to: aek.aykut1
+Thanks to: aek.aykut1 and t2lha
 
 [b] Others: [/b]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2880069248] Chinese Translation (for more mods) [/url]

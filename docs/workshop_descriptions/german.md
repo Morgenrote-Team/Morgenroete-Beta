@@ -55,17 +55,17 @@ Diese Übersetzungen sind bereits in den Mod integriert. Du musst sie nicht heru
 [b] Brasilianisches Portugiesisch: [/b]
 72% vollständig
 https://paratranz.cn/projects/15095
-Danke: rifa-456 and koyomim
+Danke: rifa-456 und koyomim
 
 [b] Französisch: [/b]
 69% vollständig
 https://paratranz.cn/projects/15098
-Danke: Shamalau12, Aurcan (Aurélien), SirYusblack (Sir Yusbalck) and Luffy0810 (lopotitchaton)
+Danke: Shamalau12, Aurcan (Aurélien), SirYusblack (Sir Yusbalck) und Luffy0810 (lopotitchaton)
 
 [b] Deutsch: [/b]
 100% vollständig
 https://paratranz.cn/projects/15094
-Danke: kindum553, Speckschicht, Cr41gy, Temp3r-79 and OttovonBismarckderErste
+Danke: kindum553, Speckschicht, Cr41gy, Temp3r-79 und OttovonBismarckderErste
 
 [b] Japanisch: [/b]
 16% vollständig
@@ -80,7 +80,7 @@ Danke: MOLRAYO (이슬람 [Islamic])
 [b] Polnisch: [/b]
 19% vollständig
 https://paratranz.cn/projects/15118
-Danke: ArmagedonYT, Anscylla, JaCKoP619 (W0lsZcZ@n), GeneralPaczek and PiotrPilip
+Danke: ArmagedonYT, Anscylla, JaCKoP619 (W0lsZcZ@n), GeneralPaczek uand PiotrPilip
 
 [b] Russisch: [/b]
 100% vollständig
@@ -90,17 +90,17 @@ Danke: Hass, BEDTRIP, Sinusis, kotelnikov-andrey
 [b] Chinesisch: [/b]
 100% vollständig
 https://paratranz.cn/projects/15113
-Danke: Dieses Team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王) and nyr102498 (伊恩)
+Danke: Dieses Team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王) und nyr102498 (伊恩)
 
 [b] Spanisch: [/b]
 65% vollständig
 https://paratranz.cn/projects/15114
-Danke: tremblejj, VWM26 and Nickbonham22
+Danke: tremblejj, VWM26 und Nickbonham22
 
 [b] Türkisch: [/b]
-65% vollständig
+100% vollständig
 https://paratranz.cn/projects/15153
-Danke: aek.aykut1
+Danke: aek.aykut1 und t2lha
 
 [b] Andere: [/b]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2880069248] Chinesische Übersetzungen (für andere Mods) [/url]
