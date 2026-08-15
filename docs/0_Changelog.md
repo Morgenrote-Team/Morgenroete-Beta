@@ -14,6 +14,7 @@ Characters:
 - Jean-Pierre Cluysenaar (Belgian Architect)
 - Joseph Poelaert (Belgian Architect)
 - Henry van de Velde (Belgian Architect and Painter)
+- Octave van Rysselberghe (Belgian Architect)
 
 Fixes:
 - Small loc and error fixes.
