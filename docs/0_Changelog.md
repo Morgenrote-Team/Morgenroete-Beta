@@ -18,4 +18,4 @@ Fixes:
 - Fixed the Physician Alert appearing when it shouldn't.
 
 Changes:
--
+- Updated Turkish Translation with a 100% translated version (thanks aek.aykut1!).
