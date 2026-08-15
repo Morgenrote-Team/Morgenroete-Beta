@@ -12,6 +12,7 @@ Characters:
 - Sabba Ștefănescu (Romanian Paleontologist and Geologist)
 - Albert Grisar (Belgian Composer)
 - Jean-Pierre Cluysenaar (Belgian Architect)
+- Joseph Poelaert (Belgian Architect)
 - Henry van de Velde (Belgian Architect and Painter)
 
 Fixes:
