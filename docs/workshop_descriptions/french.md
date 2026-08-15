@@ -55,22 +55,22 @@ Ces traductions sont déjà intégrées au mod. Vous n'avez pas besoin de les t�
 [b] Brésilien-Portugais: [/b]
 72% complet
 https://paratranz.cn/projects/15095
-Merci à: rifa-456 and koyomim
+Merci à: rifa-456 et koyomim
 
 [b] Français: [/b]
 69% complet
 https://paratranz.cn/projects/15098
-Merci à: Shamalau12, Aurcan (Aurélien), SirYusblack (Sir Yusbalck) and Luffy0810 (lopotitchaton)
+Merci à: Shamalau12, Aurcan (Aurélien), SirYusblack (Sir Yusbalck) et Luffy0810 (lopotitchaton)
 
 [b] Allemand: [/b]
 100% complet
 https://paratranz.cn/projects/15094
-Merci à: kindum553, Speckschicht, Cr41gy, Temp3r-79 and OttovonBismarckderErste
+Merci à: kindum553, Speckschicht, Cr41gy, Temp3r-79 et OttovonBismarckderErste
 
 [b] Japonais: [/b]
 16% complet
 https://paratranz.cn/projects/15115
-Merci à: Nostromo, flowlanss and dokusai226
+Merci à: Nostromo, flowlanss et dokusai226
 
 [b] Coréen: [/b]
 91% complet
@@ -80,7 +80,7 @@ Merci à: MOLRAYO (이슬람 [Islamic])
 [b] Polonais: [/b]
 19% complet
 https://paratranz.cn/projects/15118
-Merci à: ArmagedonYT, Anscylla, JaCKoP619 (W0lsZcZ@n), GeneralPaczek and PiotrPilip
+Merci à: ArmagedonYT, Anscylla, JaCKoP619 (W0lsZcZ@n), GeneralPaczek et PiotrPilip
 
 [b] Russe: [/b]
 100% complet
@@ -90,17 +90,17 @@ https://paratranz.cn/projects/15120
 [b] Chinois Simplifié: [/b]
 100% complet
 https://paratranz.cn/projects/15113
-Merci à: Cette team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王) and nyr102498 (伊恩)
+Merci à: Cette team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王) et nyr102498 (伊恩)
 
 [b] Espagnol: [/b]
 65% complet
 https://paratranz.cn/projects/15114
-Merci à: tremblejj, VWM26 and Nickbonham22
+Merci à: tremblejj, VWM26 et Nickbonham22
 
 [b] Turc: [/b]
-65% complet
+100% complet
 https://paratranz.cn/projects/15153
-Merci à: aek.aykut1
+Merci à: aek.aykut1 et t2lha
 
 [b] Autres: [/b]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2880069248] Traduction en chinois (pour d'autres mods) [/url]

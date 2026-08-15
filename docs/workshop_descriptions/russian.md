@@ -98,9 +98,9 @@ https://paratranz.cn/projects/15114
 Благодарим: tremblejj, VWM26 и Nickbonham22
 
 [b] Турецкий: [/b]
-Готово на 65%
+Готово на 100%
 https://paratranz.cn/projects/15153
-Благодарим: aek.aykut1
+Благодарим: aek.aykut1 и t2lha
 
 [b] Другие: [/b]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2880069248] Китайский перевод (для нескольких модов) [/url]
