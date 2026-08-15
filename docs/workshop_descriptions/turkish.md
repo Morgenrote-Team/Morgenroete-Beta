@@ -5,7 +5,7 @@ Morgenröte'den keyif alıyor musunuz? O hâlde modumuzu beğenmeyi düşünün.
 
 Morgenröte – Dawn of Flavor, Victoria 3 dünyasını kültür, güzellik ve yaşam tarzıyla zenginleştiren bir moddur. Daha önce steril kalan oyun dünyasında yalnızca kısa bir süre görünen Viktorya Çağı'nın kültürel ve bilimsel yönlerini geliştirmeyi amaçlıyoruz. Bunlar arasında sürükleyici bilimsel keşif gezileri, kültür yoluyla prestij kazanma ve sanatçılar ile bilim insanlarının yetiştirilmesi yer alıyor.
 
-[img]https://i.imgur.com/rkNmG4P.png[/img]
+[img]https://i.imgur.com/qDRL4Ax.png[/img]
 [h1] Proje [/h1]
  [list]
     [*]Arkeologlar, antropologlar, doğa bilimciler, paleontologlar, astronomlar ve mühendisler gibi bilim insanları ("akademisyenler") ve bunları bünyesinde barındıran bir bilim topluluğu. Bu akademisyenler yalnızca 19. yüzyıl biliminde devrim yaratabilecek özel yeteneklere sahip olmakla kalmaz, aynı zamanda bilimsel konferanslarda akademik dünya görüşünü de değiştirebilirler.
@@ -13,7 +13,7 @@ Morgenröte – Dawn of Flavor, Victoria 3 dünyasını kültür, güzellik ve y
     [*]Baloncular, pilotlar veya sporcular gibi toplumdan ve spor dünyasından uluslararası ün kazanan diğer önemli şahsiyetler. Olimpiyat Oyunları eklendi ve havacılık; havaalanları, yeni ulaşım olanakları, dev hava gemileri veya efsanevi Schneider Kupası gibi unsurlarla büyük ölçüde geliştirildi.
 [/list]
 
-[img]https://i.imgur.com/QIGpZ2U.png[/img]
+[img]https://i.imgur.com/agD7kX9.png[/img]
 [h1] İçerik [/h1]
  [list]
     [*]Mühendislik
@@ -34,21 +34,21 @@ Morgenröte – Dawn of Flavor, Victoria 3 dünyasını kültür, güzellik ve y
 	[*]Spor
 [/list]
 
-[img]https://i.imgur.com/kmsIvg5.png[/img]
+[img]https://i.imgur.com/kePQSV4.png[/img]
 [h1] Uyumluluk [/h1]
 Vanilla dosyalarına mümkün olduğunca az müdahale etmeye çalışsak da bazı dosyaların üzerine yazmamız veya bunlara eklemeler yapmamız gerekiyor. Bu durum özellikle çeşitli teknolojiler, binalar, pop ihtiyaçları ve satın alma paketleri için geçerlidir. Bu dosyaları değiştiren diğer modların da bir uyumluluk yamasına (compatch) ihtiyacı olabilir.
 
 [b] Morgenröte, hâlihazırda başlamış bir oyuna eklenemez. Mod ile yeni bir oyuna başlamanız gerekir. [/b]
 
-[img]https://i.imgur.com/BjjffNY.png[/img]
+[img]https://i.imgur.com/TfiKms3.png[/img]
 [h1] Sürüm [/h1]
 Mevcut sürüm 2.8.3 "Mitsopoulos". Morgenröte, 1.13 sürümüyle uyumludur ve 1.7'ye kadar bağlantılı sürümleri bulunmaktadır.
 
-[img]https://i.imgur.com/FhcWzov.png[/img]
+[img]https://i.imgur.com/Js8q5gp.png[/img]
 [h1] İçerik Üreticileri İçin Bilgiler [/h1]
 Morgenröte'nin eklediği müzikler Avrupa'da kamu malıdır. Ne yazık ki bazı ülkeler aynı kuralları uygulamıyor gibi görünüyor. Bu nedenle videonuzdan gelir elde etmek istiyorsanız Morgenröte Müziğini kapatmanızı öneriyoruz.
 
-[img]https://i.imgur.com/Ol2WGGt.png[/img]
+[img]https://i.imgur.com/eZstAzt.png[/img]
 [h1] Çeviri Durumu [/h1]
 Bu çeviriler zaten modun içinde yer alıyor. Bunları ayrıca indirmenize gerek yok. Ancak çevirilere yardımcı olmak isteyen herkese her zaman açığız.
 
@@ -105,7 +105,7 @@ Teşekkürler: aek.aykut1 ve t2lha
 [b] Diğerleri: [/b]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2880069248] Çince Çeviri (daha fazla mod için) [/url]
 
-[img]https://i.imgur.com/C43o6qA.png[/img]
+[img]https://i.imgur.com/t6mT1FK.png[/img]
 [h1]Katkıda Bulunanlar[/h1]
 Teşekkürler ...
 [list]
@@ -123,7 +123,7 @@ Teşekkürler ...
     [*]PPSyrius; Çeşitli karakterler, isim listeleri ve diğer katkıları için.
 [/list]
 
-[img]https://i.imgur.com/D91Y6Qn.png[/img]
+[img]https://i.imgur.com/8p5VokT.png[/img]
 [h1] Uyumluluk Yamaları [/h1]
 Bazı uyumluluk yamaları güncel değildir veya artık gerekli değildir. Lütfen son güncellenme tarihlerini kontrol edin.
 [list]
@@ -134,7 +134,7 @@ Bazı uyumluluk yamaları güncel değildir veya artık gerekli değildir. Lütf
     [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3543693439] Morgenrote + I.R.O.N. Compatch [/url]
 [/list]
 
-[img]https://i.imgur.com/lyEXcxo.png[/img]
+[img]https://i.imgur.com/qJQGUVJ.png[/img]
 [h1] Diğer Linkler [/h1]
 [list]
     [*][url=https://discord.gg/yJdwH3sqvN] Discord [/url]
