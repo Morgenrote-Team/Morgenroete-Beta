@@ -90,9 +90,9 @@ https://paratranz.cn/projects/15114
 도움을 주신 분: tremblejj, VWM26, Nickbonham22
 
 [b] 튀르키예어: [/b]
-65% 완료
+100% 완료
 https://paratranz.cn/projects/15153
-도움을 주신 분: aek.aykut1
+도움을 주신 분: aek.aykut1, t2lha
 
 [b] 그 외: [/b]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2880069248] 중국어 번역 (일부 모드 추가) [/url]

@@ -12,10 +12,14 @@ Characters:
 - Sabba Ștefănescu (Romanian Paleontologist and Geologist)
 - Albert Grisar (Belgian Composer)
 - Jean-Pierre Cluysenaar (Belgian Architect)
+- Joseph Poelaert (Belgian Architect)
+- Leon Stynen (Belgian Architect)
+- Henry van de Velde (Belgian Architect and Painter)
+- Octave van Rysselberghe (Belgian Architect)
 
 Fixes:
 - Small loc and error fixes.
 - Fixed the Physician Alert appearing when it shouldn't.
 
 Changes:
--
+- Updated Turkish Translation with a 100% translated version (thanks aek.aykut1!).
