@@ -7,7 +7,7 @@ Morgenröte – Dawn of Flavor ist ein Mod, der die Welt von Victoria 3 um Kultu
 
 [img]https://i.imgur.com/4uVkSIO.png[/img]
 [h1] Das Projekt [/h1]
- [list]
+[list]
     [*]Wissenschaftler („Akademiker“) wie Archäologen, Anthropologen, Naturforscher, Paläontologen, Astronomen und Ingenieure sind Teil der Akademie der Wissenschaften. Diese Akademiker verfügen nicht nur über besondere Fähigkeiten, die die Wissenschaft des 19. Jahrhunderts revolutionieren, sondern können auf wissenschaftlichen Konferenzen auch das akademische Weltbild verändern.
     [*]Künstler wie Komponisten, Maler und Schriftsteller, die selbst kleine Länder zu kulturellen Zentren machen können. Die Länder übernehmen bestimmte kulturelle Traditionen, errichten Galerien oder fördern die Verlagsbranche und bemühen sich um internationale Auszeichnungen.
     [*]Weitere Persönlichkeiten aus Gesellschaft und Sport, wie Ballonfahrer, Piloten oder Sportler, die internationale Bekanntheit erlangten. Die Olympischen Spiele wurden hinzugefügt, die Luftfahrt wurde erheblich ausgebaut, sei es durch Flughäfen, neue Mobilisierungsmöglichkeiten, riesige Luftschiffe oder die legendäre Schneider-Trophäe.
@@ -15,7 +15,7 @@ Morgenröte – Dawn of Flavor ist ein Mod, der die Welt von Victoria 3 um Kultu
 
 [img]https://i.imgur.com/gJV8Crl.png[/img]
 [h1] Inhalt [/h1]
- [list]
+[list]
     [*]Ingenieurswesen
     [*]Chemie
     [*]Astronomie
