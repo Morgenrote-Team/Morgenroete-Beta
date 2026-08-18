@@ -1,7 +1,7 @@
 Changelog for 2.8.3f "Mitsopoulos"
 
 Characters:
--
+- José Guadalupe Posada (Mexican Painter)
 
 Fixes:
 - Animal Transport variables will get deleted when they are no longer necessary.
