@@ -3,6 +3,7 @@ Changelog for 2.8.3f "Mitsopoulos"
 Characters:
 - Gerardo "Dr. Atl" Coronado (Mexican Painter)
 - José Guadalupe Posada (Mexican Painter)
+- Diego Rivera (Mexican Painter)
 
 Fixes:
 - Animal Transport variables will get deleted when they are no longer necessary.
