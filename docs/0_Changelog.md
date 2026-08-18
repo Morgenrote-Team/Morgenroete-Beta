@@ -1,6 +1,7 @@
 Changelog for 2.8.3f "Mitsopoulos"
 
 Characters:
+- Kwasi Boakye (Ashanti Engineer who can spawn in an event)
 - Jan Anne Beijerinck (Dutch Engineer)
 - Julian Ochorowicz (Polish Engineer)
 - Eduardo Urzaiz Rodríguez (Mexican Physician and Writer)
