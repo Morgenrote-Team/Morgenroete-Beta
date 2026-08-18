@@ -7,6 +7,7 @@ Characters:
 - José Guadalupe Posada (Mexican Painter)
 - Diego Rivera (Mexican Painter)
 - Włodzimierz Mazurkiewicz (Polish Pilot and Engineer)
+- Jan Nagórski (Polish Pilot and Engineer)
 
 Fixes:
 - Animal Transport variables will get deleted when they are no longer necessary.
