@@ -1,6 +1,7 @@
 Changelog for 2.8.3f "Mitsopoulos"
 
 Characters:
+- Julian Ochorowicz (Polish Engineer)
 - Eduardo Urzaiz Rodríguez (Mexican Physician and Writer)
 - Gerardo "Dr. Atl" Coronado (Mexican Painter)
 - Frida Kahlo (Mexican Painter)
