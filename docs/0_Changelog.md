@@ -6,6 +6,7 @@ Characters:
 - Julian Ochorowicz (Polish Engineer)
 - Eduardo Urzaiz Rodríguez (Mexican Physician and Writer)
 - Bolesław Prus (Polish Writer)
+- Władysław Reymont (Polish Writer)
 - Gerardo "Dr. Atl" Coronado (Mexican Painter)
 - Frida Kahlo (Mexican Painter)
 - José Guadalupe Posada (Mexican Painter)
