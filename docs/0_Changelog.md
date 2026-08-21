@@ -5,6 +5,7 @@ Characters:
 - Jan Anne Beijerinck (Dutch Engineer)
 - Julian Ochorowicz (Polish Engineer)
 - Eduardo Urzaiz Rodríguez (Mexican Physician and Writer)
+- Aleksander Fredro (Polish Writer)
 - Eliza Orzeszkowa (Polish Writer)
 - Bolesław Prus (Polish Writer)
 - Władysław Reymont (Polish Writer)
