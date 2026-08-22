@@ -7,6 +7,7 @@ Characters:
 - Eduardo Urzaiz Rodríguez (Mexican Physician and Writer)
 - Piotr Ignacy Bieńkowski (Polish Archaeologist)
 - Leon Kozłowski (Polish Archaeologist)
+- Antoni Śmieszek (Polish Archaeologist)
 - Aleksander Fredro (Polish Writer)
 - Cyprian Norwid (Polish Writer)
 - Eliza Orzeszkowa (Polish Writer)
