@@ -5,6 +5,7 @@ Characters:
 - Jan Anne Beijerinck (Dutch Engineer)
 - Julian Ochorowicz (Polish Engineer)
 - Eduardo Urzaiz Rodríguez (Mexican Physician and Writer)
+- Piotr Ignacy Bieńkowski (Polish Archaeologist)
 - Leon Kozłowski (Polish Archaeologist)
 - Aleksander Fredro (Polish Writer)
 - Cyprian Norwid (Polish Writer)
