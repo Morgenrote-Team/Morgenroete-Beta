@@ -27,6 +27,7 @@ Fixes:
 - The AI should hopefully no longer build Nature Preserves without having access to them.
 - The local Poet event now sets the local poet to have the writer role.
 - Fixed Kang Yun's home state.
+- The Saxon Palace is no longer possible for a subject (as that doesn't really make sense).
 
 Changes:
 - Added starting compositions to Mercadante.
