@@ -14,6 +14,7 @@ Characters:
 - Eliza Orzeszkowa (Polish Writer)
 - Bolesław Prus (Polish Writer)
 - Władysław Reymont (Polish Writer)
+- Jerzy Żuławski (Polish Writer)
 - Gerardo "Dr. Atl" Coronado (Mexican Painter)
 - Frida Kahlo (Mexican Painter)
 - José Guadalupe Posada (Mexican Painter)
