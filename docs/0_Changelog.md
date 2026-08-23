@@ -16,6 +16,7 @@ Characters:
 - Władysław Reymont (Polish Writer)
 - Henryk Sienkiewicz (Polish Writer)
 - Jerzy Żuławski (Polish Writer)
+- Nicolae Bălcescu (Romanian Writer)
 - Gerardo "Dr. Atl" Coronado (Mexican Painter)
 - Frida Kahlo (Mexican Painter)
 - José Guadalupe Posada (Mexican Painter)
