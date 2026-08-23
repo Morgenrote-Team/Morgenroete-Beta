@@ -9,6 +9,7 @@ Characters:
 - Leon Kozłowski (Polish Archaeologist)
 - Erazm Majewski (Polish Archaeologist and Ethnologist)
 - Antoni Śmieszek (Polish Archaeologist)
+- Andreas Kalvos (Greek Writer)
 - Aleksander Fredro (Polish Writer)
 - Cyprian Norwid (Polish Writer)
 - Eliza Orzeszkowa (Polish Writer)
