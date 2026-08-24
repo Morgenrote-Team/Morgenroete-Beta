@@ -10,6 +10,7 @@ Characters:
 - Erazm Majewski (Polish Archaeologist and Ethnologist)
 - Antoni Śmieszek (Polish Archaeologist)
 - Dionysios Solomos (Starting Writer of Greece)
+- Gregorios Xenopoulos (GReek Writer)
 - Andreas Kalvos (Starting Writer of Ionian Islands)
 - Aleksander Fredro (Polish Writer)
 - Cyprian Norwid (Polish Writer)
