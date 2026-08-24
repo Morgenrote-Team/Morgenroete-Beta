@@ -40,3 +40,4 @@ Changes:
 
 Internal Changes:
 - Reworked the verrier_add_x_astronomical_objects_effect to use localized effects.
+- Reworked the effect to add Moon Photos to use localized effects.
