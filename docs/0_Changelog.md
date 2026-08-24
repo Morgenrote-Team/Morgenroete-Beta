@@ -9,6 +9,7 @@ Characters:
 - Leon Kozłowski (Polish Archaeologist)
 - Erazm Majewski (Polish Archaeologist and Ethnologist)
 - Antoni Śmieszek (Polish Archaeologist)
+- Alexandru Odobescu (Romanian Writer and Archaeologist)
 - Alexandros Papadiamntis (Greek Writer)
 - Dionysios Solomos (Starting Writer of Greece)
 - Gregorios Xenopoulos (Greek Writer)
