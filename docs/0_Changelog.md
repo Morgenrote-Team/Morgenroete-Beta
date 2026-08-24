@@ -37,3 +37,6 @@ Fixes:
 
 Changes:
 - Added starting compositions to Mercadante.
+
+Internal Changes:
+- Reworked the verrier_add_x_astronomical_objects_effect to use localized effects.
