@@ -13,6 +13,7 @@ Characters:
 - Detlef Lienau (German Architect)
 - Friedrich August Stüler (German Architect)
 - Ludwig Zanth (German Architect)
+- Louis Visconti (French-Italian Architect)
 - August Šenoa (Croatian Writer)
 - Gaston Leroux (French Writer)
 - Na Hyesŏk (Korean Writer and Painter)
