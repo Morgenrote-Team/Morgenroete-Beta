@@ -12,6 +12,7 @@ Characters:
 - Friedrich Gärtner (German Architect)
 - Detlef Lienau (German Architect)
 - Friedrich August Stüler (German Architect)
+- Ludwig Zanth (German Architect)
 - August Šenoa (Croatian Writer)
 - Gaston Leroux (French Writer)
 - Na Hyesŏk (Korean Writer and Painter)
