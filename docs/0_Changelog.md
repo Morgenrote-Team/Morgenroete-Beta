@@ -9,6 +9,14 @@ Characters:
 - Leon Kozłowski (Polish Archaeologist)
 - Erazm Majewski (Polish Archaeologist and Ethnologist)
 - Antoni Śmieszek (Polish Archaeologist)
+- August Šenoa (Croatian Writer)
+- Gaston Leroux (French Writer)
+- Na Hyesŏk (Korean Writer and Painter)
+- Alexandru Odobescu (Romanian Writer and Archaeologist)
+- Alexandros Papadiamntis (Greek Writer)
+- Dionysios Solomos (Starting Writer of Greece)
+- Gregorios Xenopoulos (Greek Writer)
+- Andreas Kalvos (Starting Writer of Ionian Islands)
 - Aleksander Fredro (Polish Writer)
 - Cyprian Norwid (Polish Writer)
 - Eliza Orzeszkowa (Polish Writer)
@@ -31,6 +39,11 @@ Fixes:
 - The local Poet event now sets the local poet to have the writer role.
 - Fixed Kang Yun's home state.
 - The Saxon Palace is no longer possible for a subject (as that doesn't really make sense).
+- Fixed James Joyce's home state.
 
 Changes:
 - Added starting compositions to Mercadante.
+
+Internal Changes:
+- Reworked the verrier_add_x_astronomical_objects_effect to use localized effects.
+- Reworked the effect to add Moon Photos to use localized effects.

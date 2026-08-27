@@ -10,145 +10,30 @@
 
 #Effect to add $AMOUNT$ Astronomical Objects
 verrier_add_x_astronomical_objects_effect = {
-	# Amount = amount of artifacts to add
+	# Amount = amount of Astronomical Objects to add
 	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = astronomical_objects_amount
+		name = amount
 		value = $AMOUNT$
 	}
 
-	#This part is used to display an accurate tooltip (Gain, loss, etc.)
-	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ < -1 }
-		custom_tooltip = verrier_add_x_astronomical_objects_minus_x_tt
-	}
-	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
-		limit = { $AMOUNT$ = -1 }
-		custom_tooltip = verrier_add_x_astronomical_objects_minus_1_tt
-	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = verrier_add_x_astronomical_objects_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ = 1 }
-		custom_tooltip = verrier_add_x_astronomical_objects_plus_1_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 1 }
-		custom_tooltip = verrier_add_x_astronomical_objects_plus_x_tt
-	}
+	custom_description = {
+		text = "verrier_add_x_astronomical_objects_effect_loc"
+		subject = this
+		value = scope:amount
 
-	#Yearly Astronomical Objects are used for the astronomical report, they are added with each normal astronomical object
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = verrier_yearly_astronomical_objects_var
-			}
-		}
-		set_variable = {
-			name = verrier_yearly_astronomical_objects_var
-			value = 0
-		}
-	}
-	change_variable = {
-		name = verrier_yearly_astronomical_objects_var
-		add = $AMOUNT$
-	}
+		#This part adds the AMOUNT of yearly Astronomical Objects
+		mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = scope:amount NAME = verrier_yearly_astronomical_objects_var ADDITIONAL_SCRIPT_MATH = "" }
 
-	#This part adds the AMOUNT of Astronomical Objects
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = verrier_astronomical_objects
-			}
-		}
-		set_variable = {
-			name = verrier_astronomical_objects
-			value = 0
-		}
-	}
-	change_variable = {
-		name = verrier_astronomical_objects
-		add = $AMOUNT$
-	}
+		#This part adds the AMOUNT of Astronomical Objects
+		mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = scope:amount NAME = verrier_astronomical_objects ADDITIONAL_SCRIPT_MATH = "min = 0" }
 
-	#This part adds the AMOUNT to the global variable, that keeps track of the total amount of astronomical objects
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_global_variable = verrier_total_astronomical_objects
-			}
-		}
-		set_global_variable = {
-			name = verrier_total_astronomical_objects
-			value = 0
-		}
-	}
-	change_global_variable = {
-		name = verrier_total_astronomical_objects
-		add = $AMOUNT$
-	}
+		mr_change_global_variable_min_0_effect = { AMOUNT = scope:amount NAME = verrier_total_astronomical_objects }
 
-	#verrier_astronomer_total_objects_var is used to keep track of all the astronomical objects that a specific Astronomer found.
-	#It is used to show how successful the astronomer is.
-	#Every time a normal astronomical object is added, the same number gets added here.
-	var:verrier_astronomer_var ?= {
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = verrier_astronomer_total_objects_var
-				}
-			}
-			set_variable = {
-				name = verrier_astronomer_total_objects_var
-				value = 0
-			}
-		}
-		change_variable = { #The amount of Astronomical Objects that this Astronomer discovered
-			name = verrier_astronomer_total_objects_var
-			add = $AMOUNT$
-		}
-	}
-}
-
-
-#Effect to add a specific amount of astronomical objects to the astronomer and the the yearly discovered objects
-#NUMBER = How many astronomical objects will be added
-verrier_set_objects_astronomer_yearly = {
-	if = {
-		limit = {
-			NOT = {
-				has_variable = verrier_yearly_astronomical_objects_var
-			}
-		}
-		set_variable = {
-			name = verrier_yearly_astronomical_objects_var
-			value = 0
-		}
-	}
-	if = {
-		limit = {
-			NOT = {
-				var:verrier_astronomer_var ?= {
-					has_variable = verrier_astronomer_total_objects_var
-				}
-			}
-		}
-		var:verrier_astronomer_var = {
-			set_variable = {
-				name = verrier_astronomer_total_objects_var
-				value = 0
-			}
-		}
-	}
-	change_variable = {
-		name = verrier_yearly_astronomical_objects_var
-		add = $NUMBER$
-	}
-	var:verrier_astronomer_var ?= {
-		change_variable = {
-			name = verrier_astronomer_total_objects_var
-			add = $NUMBER$
+		#verrier_astronomer_total_objects_var is used to keep track of all the Astronomical Objects that a specific astronomer created.
+		#It is used to show how successful the astronomer is.
+		#Every time Astronomical Objects are added, the same number gets added here.
+		var:verrier_astronomer_var ?= {
+			mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = scope:amount NAME = verrier_astronomer_total_objects_var ADDITIONAL_SCRIPT_MATH = "min = 0" }
 		}
 	}
 }
@@ -157,34 +42,22 @@ verrier_set_objects_astronomer_yearly = {
 
 ###MOON PHOTOS###
 
-#1 moon photo
-
-verrier_add_1_moon_photo = {
-	change_variable = {
- 		name = verrier_moon_photo
- 		add = 1
+#Effect to add $AMOUNT$ Moon Photos
+verrier_add_x_moon_photos_effect = {
+	# Amount = amount of Moon Photos to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = amount
+		value = $AMOUNT$
 	}
-	custom_tooltip = verrier_add_1_moon_photo_tt
-}
 
-#2 moon photos
+	custom_description = {
+		text = "verrier_add_x_moon_photos_effect_loc"
+		subject = this
+		value = scope:amount
 
-verrier_add_2_moon_photo = {
-	change_variable = {
- 		name = verrier_moon_photo
- 		add = 2
+		#This part adds the AMOUNT of Moon Photos
+		mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = scope:amount NAME = verrier_moon_photo ADDITIONAL_SCRIPT_MATH = "" }
 	}
-	custom_tooltip = verrier_add_2_moon_photo_tt
-}
-
-#3 moon photos
-
-verrier_add_3_moon_photo = {
-	change_variable = {
- 		name = verrier_moon_photo
- 		add = 3
-	}
-	custom_tooltip = verrier_add_3_moon_photo_tt
 }
 
 #############################
