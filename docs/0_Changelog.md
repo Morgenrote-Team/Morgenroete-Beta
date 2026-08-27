@@ -9,6 +9,7 @@ Characters:
 - Leon Kozłowski (Polish Archaeologist)
 - Erazm Majewski (Polish Archaeologist and Ethnologist)
 - Antoni Śmieszek (Polish Archaeologist)
+- Friedrich August Stüler (German Architect)
 - August Šenoa (Croatian Writer)
 - Gaston Leroux (French Writer)
 - Na Hyesŏk (Korean Writer and Painter)
