@@ -48,6 +48,7 @@ Fixes:
 - AI and Player automation should now work properly for Biology again.
 
 Graphics:
+- Added a Loading Screen depicting the discovery of the 1847 Comet by Maria Mitchell CC BY-NC 4.0 by Angel.
 - All Academics and the Architect now have a nice background created by Angel (will add more in the future).
 
 Changes:
