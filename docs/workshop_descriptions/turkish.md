@@ -127,11 +127,7 @@ Teşekkürler ...
 [h1] Uyumluluk Yamaları [/h1]
 Bazı uyumluluk yamaları güncel değildir veya artık gerekli değildir. Lütfen son güncellenme tarihlerini kontrol edin.
 [list]
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3248164466] Basileia Romaion Compatch [/url]
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3146386373] Economic and Financial Mod Compatch [/url]
     [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3124672961] LLWA + Morgenröte Compatch [/url]
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3174785745] Make My Railways Profitable Again Compatch [/url]
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3543693439] Morgenrote + I.R.O.N. Compatch [/url]
 [/list]
 
 [img]https://i.imgur.com/qJQGUVJ.png[/img]

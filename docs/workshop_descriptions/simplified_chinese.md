@@ -116,11 +116,7 @@ https://paratranz.cn/projects/15153
 [h1]兼容补丁[/h1]
 　　部分兼容补丁可能已停止更新或不再需要，请注意核对其最后更新的日期。
 [list]
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3248164466]Basileia Romaion 兼容补丁[/url]
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3146386373]Economic and Financial Mod 兼容补丁[/url]
 [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3124672961]LLWA + Morgenröte 兼容补丁[/url]
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3174785745]让我的铁路再次盈利！兼容补丁[/url]
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3543693439]Morgenrote + I.R.O.N. 兼容补丁[/url]
 [/list]
 
 [img]https://i.imgur.com/sJR6wMO.png[/img]

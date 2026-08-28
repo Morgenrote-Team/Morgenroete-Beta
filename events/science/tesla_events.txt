@@ -13,11 +13,23 @@ namespace = tesla
 ###### Historical Engineering Events ######
 
 #Tesla 101: Peytier's return to France
+#Tesla 102: Return of a Prince!
 
 ###### Mechanical Engineer Projects ######
 
 #Tesla 223: A First Prototype
 #Tesla 224: Feature Creep
+#Tesla 225: Fire damages Mechanical Computer
+
+######TRANSATLANTIC CABLE EXPEDITION######
+
+#Tesla 3001: Telegraph Company
+#Tesla 3002: Enthusiastic Investors
+#Tesla 3003: A Political Cable?
+#Tesla 3004: Reluctant Investors
+#Tesla 3005: Industrialists Give Their Backing
+#Tesla 3006: Nervous Shareholders
+#Tesla 3007: Engineering Breakthrough
 
 #################################################################################
 
@@ -100,6 +112,238 @@ tesla.101 = {
 				}
 			}
 		}
+	}
+}
+
+#Tesla 102: Return of a Prince!
+tesla.102 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = tesla.102.t
+    desc = tesla.102.d
+	flavor = tesla.102.f
+
+    gui_window = event_window_1char_tabloid
+
+	left_icon = scope:tesla_new_engineer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+		year >= 1847
+		NOT = { has_global_variable = mr_boakye_kwasi_created_global_var }
+		c:ASH ?= this
+	}
+
+	immediate = {
+		create_character = {
+			template = mr_ash_boakye_kwasi_character_template
+			save_scope_as = tesla_new_engineer_scope
+		}
+		scope:tesla_new_engineer_scope = {
+			save_scope_as = agassiz_new_geologist_scope
+		}
+		set_variable = {
+			name = tesla_new_engineer_var
+			value = scope:tesla_new_engineer_scope
+		}
+		set_variable = {
+			name = agassiz_new_geologist_var
+			value = scope:tesla_new_engineer_scope
+		}
+	}
+
+	option = { #He is the rightful heir!
+		name = tesla.102.g
+		default_option = yes
+		highlighted_option = yes
+
+		show_as_unavailable = {
+			always = yes
+		}
+
+		trigger = {
+			ruler ?= {
+				has_template = ASH_kwaku_dua_bretuo
+			}
+		}
+
+		scope:tesla_new_engineer_scope ?= {
+			add_character_role = heir
+			remove_character_role = character_role_tesla_engineer
+			remove_character_role = character_role_agassiz_geologist
+		}
+
+		ig:ig_landowners ?= {
+			add_modifier = {
+				name = tesla_western_influence_modifier
+				multiplier = 4
+				is_decaying = yes
+				years = 5
+			}
+		}
+		if = {
+			limit = {
+				NOT = { country_has_state_religion = rel:protestant }
+			}
+			ig:ig_devout ?= {
+				add_modifier = {
+					name = tesla_western_influence_modifier
+					multiplier = 4
+					is_decaying = yes
+					years = 5
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = { #He is a noble afterall...
+		name = tesla.102.h
+
+		scope:tesla_new_engineer_scope ?= {
+			add_character_role = character_role_magnate
+			remove_character_role = character_role_tesla_engineer
+			remove_character_role = character_role_agassiz_geologist
+		}
+
+		ig:ig_landowners ?= {
+			add_modifier = {
+				name = tesla_western_influence_modifier
+				multiplier = 2
+				is_decaying = yes
+				years = 5
+			}
+		}
+		if = {
+			limit = {
+				NOT = { country_has_state_religion = rel:protestant }
+			}
+			ig:ig_devout ?= {
+				add_modifier = {
+					name = tesla_western_influence_modifier
+					multiplier = 2
+					is_decaying = yes
+					years = 5
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = { #I heard he became an Engineer.
+		name = tesla.102.i
+
+		tesla_set_new_engineer_as_engineer_effect = yes
+
+		ig:ig_landowners ?= {
+			add_modifier = {
+				name = tesla_western_influence_modifier
+				multiplier = 1
+				is_decaying = yes
+				years = 2
+			}
+		}
+		if = {
+			limit = {
+				NOT = { country_has_state_religion = rel:protestant }
+			}
+			ig:ig_devout ?= {
+				add_modifier = {
+					name = tesla_western_influence_modifier
+					multiplier = 1
+					is_decaying = yes
+					years = 2
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = { #I heard he became a Mining Engineer.
+		name = tesla.102.j
+
+		agassiz_set_new_geologist_as_geologist_effect = yes
+
+		ig:ig_landowners ?= {
+			add_modifier = {
+				name = tesla_western_influence_modifier
+				multiplier = 1
+				is_decaying = yes
+				years = 2
+			}
+		}
+		if = {
+			limit = {
+				NOT = { country_has_state_religion = rel:protestant }
+			}
+			ig:ig_devout ?= {
+				add_modifier = {
+					name = tesla_western_influence_modifier
+					multiplier = 1
+					is_decaying = yes
+					years = 2
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = { #But he never returned...
+		name = tesla.102.k
+
+		scope:tesla_new_engineer_scope ?= {
+			if = {
+				limit = { exists = c:DEI }
+				c:DEI = {
+					save_scope_as = new_country
+				}
+			}
+			else_if = {
+				limit = { exists = c:NET }
+				c:NET = {
+					save_scope_as = new_country
+				}
+			}
+			else = {
+				s:STATE_STATE_HOLLAND = {
+					random_scope_state = {
+						owner = {
+							save_scope_as = new_country
+						}
+					}
+				}
+			}
+			set_home_country = scope:new_country
+			transfer_character = scope:new_country
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+		remove_variable = tesla_new_engineer_var
+		remove_variable = agassiz_new_geologist_var
 	}
 }
 
