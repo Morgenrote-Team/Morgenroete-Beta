@@ -5,3 +5,6 @@ Characters:
 
 Fixes:
 -
+
+Graphics:
+- Improved Koldewey DNA.
