@@ -45,6 +45,7 @@ Fixes:
 - Fixed Kang Yun's home state.
 - The Saxon Palace is no longer possible for a subject (as that doesn't really make sense).
 - Fixed James Joyce's home state.
+- AI and Player automation should now work properly for Biology again.
 
 Graphics:
 - All Academics and the Architect now have a nice background created by Angel (will add more in the future).
