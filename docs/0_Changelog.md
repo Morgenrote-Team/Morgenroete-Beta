@@ -1,60 +1,7 @@
-Changelog for 2.8.3f "Mitsopoulos"
+Changelog for 2.8.3g "Mitsopoulos"
 
 Characters:
-- Kwasi Boakye (Ashanti Engineer who can spawn in an event)
-- Jan Anne Beijerinck (Dutch Engineer)
-- Julian Ochorowicz (Polish Engineer)
-- Eduardo Urzaiz Rodríguez (Mexican Physician and Writer)
-- Piotr Ignacy Bieńkowski (Polish Archaeologist)
-- Leon Kozłowski (Polish Archaeologist)
-- Erazm Majewski (Polish Archaeologist and Ethnologist)
-- Antoni Śmieszek (Polish Archaeologist)
-- Friedrich Gärtner (German Architect)
-- Detlef Lienau (German Architect)
-- Friedrich August Stüler (German Architect)
-- Ludwig Zanth (German Architect)
-- Louis Visconti (French-Italian Architect)
-- August Šenoa (Croatian Writer)
-- Gaston Leroux (French Writer)
-- Na Hyesŏk (Korean Writer and Painter)
-- Alexandru Odobescu (Romanian Writer and Archaeologist)
-- Alexandros Papadiamntis (Greek Writer)
-- Dionysios Solomos (Starting Writer of Greece)
-- Gregorios Xenopoulos (Greek Writer)
-- Andreas Kalvos (Starting Writer of Ionian Islands)
-- Aleksander Fredro (Polish Writer)
-- Cyprian Norwid (Polish Writer)
-- Eliza Orzeszkowa (Polish Writer)
-- Bolesław Prus (Polish Writer)
-- Władysław Reymont (Polish Writer)
-- Henryk Sienkiewicz (Polish Writer)
-- Jerzy Żuławski (Polish Writer)
-- Nicolae Bălcescu (Romanian Writer)
-- Gerardo "Dr. Atl" Coronado (Mexican Painter)
-- Frida Kahlo (Mexican Painter)
-- José Guadalupe Posada (Mexican Painter)
-- Diego Rivera (Mexican Painter)
-- Włodzimierz Mazurkiewicz (Polish Pilot and Engineer)
-- Jan Nagórski (Polish Pilot and Engineer)
+-
 
 Fixes:
-- Animal Transport variables will get deleted when they are no longer necessary.
-- Actually fixed the Nature Reserves being built when they shouldn't.
-- The AI should hopefully no longer build Nature Preserves without having access to them.
-- The local Poet event now sets the local poet to have the writer role.
-- Fixed Kang Yun's home state.
-- The Saxon Palace is no longer possible for a subject (as that doesn't really make sense).
-- Fixed James Joyce's home state.
-- AI and Player automation should now work properly for Biology again.
-- The Coach ranking now shows the World Cup Victories instead of Grand Priz Victories.
-
-Graphics:
-- Added a Loading Screen depicting the discovery of the 1847 Comet by Maria Mitchell CC BY-NC 4.0 by Angel.
-- All Academics and the Architect now have a nice background created by Angel (will add more in the future).
-
-Changes:
-- Added starting compositions to Mercadante.
-
-Internal Changes:
-- Reworked the verrier_add_x_astronomical_objects_effect to use localized effects.
-- Reworked the effect to add Moon Photos to use localized effects.
+-
