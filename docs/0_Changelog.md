@@ -46,6 +46,7 @@ Fixes:
 - The Saxon Palace is no longer possible for a subject (as that doesn't really make sense).
 - Fixed James Joyce's home state.
 - AI and Player automation should now work properly for Biology again.
+- The Coach ranking now shows the World Cup Victories instead of Grand Priz Victories.
 
 Graphics:
 - Added a Loading Screen depicting the discovery of the 1847 Comet by Maria Mitchell CC BY-NC 4.0 by Angel.
