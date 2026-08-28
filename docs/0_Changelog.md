@@ -46,6 +46,9 @@ Fixes:
 - The Saxon Palace is no longer possible for a subject (as that doesn't really make sense).
 - Fixed James Joyce's home state.
 
+Graphics:
+- All Academics and the Architect now have a nice background created by Angel (will add more in the future).
+
 Changes:
 - Added starting compositions to Mercadante.
 
