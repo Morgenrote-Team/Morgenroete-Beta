@@ -5,6 +5,7 @@ Characters:
 - Athanasios Rhousopoulos (Greek Archaeologist)
 - Hormuzd Rassam (Iraqi Archaeologist)
 - Luigi Vassalli (Italian Archaeologist)
+- José Leite de Vasconcelos (Portuguese Archaeologist)
 
 Fixes:
 -
