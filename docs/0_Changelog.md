@@ -12,4 +12,8 @@ Fixes:
 -
 
 Graphics:
-- Improved Koldewey DNA.
+- Improved DNA of:
+- Darwin
+- Koldewey
+- Möbius
+- Thomsen
