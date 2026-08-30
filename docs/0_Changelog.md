@@ -4,6 +4,7 @@ Characters:
 - Alexander Cunningham (British India Company Archaeologist)
 - Ahmed Fakhry (Egyptian Archaeologist)
 - Athanasios Rhousopoulos (Greek Archaeologist)
+- Andreas Skias (Greek Archaeologist)
 - Christos Tsountas (Greek Archaeologist)
 - R. D. Banerji (Indian Archaeologist)
 - D. R. Bhandarkar (Indian Archaeologist)
@@ -13,6 +14,7 @@ Characters:
 - Luigi Vassalli (Italian Archaeologist)
 - José Leite de Vasconcelos (Portuguese Archaeologist)
 - Rafael Monleón (Spanish Archaeologist)
+- Hiram Bingham III (American Archaeologist)
 
 Fixes:
 -
