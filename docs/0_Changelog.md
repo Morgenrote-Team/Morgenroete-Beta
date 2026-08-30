@@ -12,6 +12,7 @@ Characters:
 - Hormuzd Rassam (Iraqi Archaeologist)
 - Ippolito Rosellini (Italian Archaeologist)
 - Luigi Vassalli (Italian Archaeologist)
+- Julio C. Tello (Peruvian Archaeologist)
 - José Leite de Vasconcelos (Portuguese Archaeologist)
 - Rafael Monleón (Spanish Archaeologist)
 - Hiram Bingham III (American Archaeologist)
