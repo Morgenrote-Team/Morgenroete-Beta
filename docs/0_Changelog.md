@@ -3,6 +3,7 @@ Changelog for 2.8.3g "Mitsopoulos"
 Characters:
 - Alexander Cunningham (British India Company Archaeologist)
 - Ahmed Fakhry (Egyptian Archaeologist)
+- Max Uhle (German Archaeologist)
 - Athanasios Rhousopoulos (Greek Archaeologist)
 - Andreas Skias (Greek Archaeologist)
 - Christos Tsountas (Greek Archaeologist)
