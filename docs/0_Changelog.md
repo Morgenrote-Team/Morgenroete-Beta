@@ -15,6 +15,7 @@ Characters:
 - José Leite de Vasconcelos (Portuguese Archaeologist)
 - Rafael Monleón (Spanish Archaeologist)
 - Hiram Bingham III (American Archaeologist)
+- Frank Hamilton Cushing (American Archaeologist and Ethnologist)
 - George Andrew Reisner (American Archaeologist)
 
 Fixes:
