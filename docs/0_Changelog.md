@@ -4,6 +4,7 @@ Characters:
 - Alexander Cunningham (British India Company Archaeologist)
 - Athanasios Rhousopoulos (Greek Archaeologist)
 - R. D. Banerji (Indian Archaeologist)
+- D. R. Bhandarkar (Indian Archaeologist)
 - Hormuzd Rassam (Iraqi Archaeologist)
 - Ippolito Rosellini (Italian Archaeologist)
 - Luigi Vassalli (Italian Archaeologist)
