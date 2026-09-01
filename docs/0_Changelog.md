@@ -18,6 +18,7 @@ Characters:
 - Julio C. Tello (Peruvian Archaeologist)
 - Józef Kostrzewski (Polish Archaeologist)
 - José Leite de Vasconcelos (Portuguese Archaeologist)
+- Vasile Pârvan (Romanian Archaeologist)
 - Grigore Tocilescu (Romanian Archaeologist)
 - Rafael Monleón (Spanish Archaeologist)
 - Halil Edhem Eldem (Turkish Archaeologist)
