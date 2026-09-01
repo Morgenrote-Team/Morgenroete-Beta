@@ -16,6 +16,7 @@ Characters:
 - Julio C. Tello (Peruvian Archaeologist)
 - José Leite de Vasconcelos (Portuguese Archaeologist)
 - Rafael Monleón (Spanish Archaeologist)
+- Halil Edhem Eldem (Turkish Archaeologist)
 - Osman Hamdi (Turkish Archaeologist and Painter)
 - Hiram Bingham III (American Archaeologist)
 - Frank Hamilton Cushing (American Archaeologist and Ethnologist)
