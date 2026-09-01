@@ -2,6 +2,7 @@ Changelog for 2.8.3g "Mitsopoulos"
 
 Characters:
 - Juan Bautista Ambrosetti (Argentine Archaeologist)
+- Paulo Duarte (Brazilian Archaeologist)
 - Alexander Cunningham (British India Company Archaeologist)
 - Ahmed Fakhry (Egyptian Archaeologist)
 - Max Uhle (German Archaeologist)
