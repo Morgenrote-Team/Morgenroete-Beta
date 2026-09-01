@@ -28,6 +28,7 @@ Fixes:
 -
 
 Graphics:
+- Added more Character Backgrounds.
 - Improved DNA of:
 - Darwin
 - Koldewey
