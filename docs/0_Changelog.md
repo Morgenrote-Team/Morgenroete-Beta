@@ -16,6 +16,7 @@ Characters:
 - Ippolito Rosellini (Italian Archaeologist)
 - Luigi Vassalli (Italian Archaeologist)
 - Julio C. Tello (Peruvian Archaeologist)
+- Józef Kostrzewski (Polish Archaeologist)
 - José Leite de Vasconcelos (Portuguese Archaeologist)
 - Rafael Monleón (Spanish Archaeologist)
 - Halil Edhem Eldem (Turkish Archaeologist)
