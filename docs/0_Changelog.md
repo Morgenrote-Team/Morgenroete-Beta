@@ -1,15 +1,18 @@
 Changelog for 2.8.3g "Mitsopoulos"
 
 Characters:
+- William Henry Sykes (British India Company Naturalist)
 - Juan Bautista Ambrosetti (Argentine Archaeologist)
 - Paulo Duarte (Brazilian Archaeologist)
 - Arthur Evans (British Archaeologist)
+- Mortimer Wheeler (British Archaeologist)
 - Alexander Cunningham (British India Company Archaeologist)
 - Ahmed Fakhry (Egyptian Archaeologist)
 - Max Uhle (German Archaeologist)
 - Athanasios Rhousopoulos (Greek Archaeologist)
 - Andreas Skias (Greek Archaeologist)
 - Christos Tsountas (Greek Archaeologist)
+- Aurel Stein (Hungarian Archaeologist)
 - R. D. Banerji (Indian Archaeologist)
 - D. R. Bhandarkar (Indian Archaeologist)
 - R. G. Bhandarkar (Indian Archaeologist)
@@ -27,6 +30,7 @@ Characters:
 - Hiram Bingham III (American Archaeologist)
 - Frank Hamilton Cushing (American Archaeologist and Ethnologist)
 - George Andrew Reisner (American Archaeologist)
+- Alfred William Howitt (Australian Ethnologist and Geologist)
 
 Fixes:
 -
