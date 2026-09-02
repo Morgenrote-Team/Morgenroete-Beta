@@ -42,3 +42,6 @@ Graphics:
 - Koldewey
 - Möbius
 - Thomsen
+
+Changes:
+- Tweaked the spawn chances of many of the archaeologists.
