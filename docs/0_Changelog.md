@@ -33,7 +33,7 @@ Characters:
 - Alfred William Howitt (Australian Ethnologist and Geologist)
 
 Fixes:
--
+- Fixed a small error with the AI's University choice (which caused a while loop to get repeated too many times).
 
 Graphics:
 - Added more Character Backgrounds.
