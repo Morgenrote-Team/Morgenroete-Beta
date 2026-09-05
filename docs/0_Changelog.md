@@ -6,6 +6,8 @@ Characters:
 
 Fixes:
 - Josef Rank should no longer spawn until age 155.
+- Alojzy Alth should no longer spawn until he is 155 years old.
+- Changed Rassam Hormuzd to be Assyrian.
 
 Graphics:
 -
