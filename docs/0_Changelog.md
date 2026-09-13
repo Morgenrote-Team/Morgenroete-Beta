@@ -19,6 +19,7 @@ Characters:
 
 Fixes:
 - Beno Gutenberg should no longer use the same variable as Wegener to keep him from spawning.
+- Fixed the name of Symphonies producing an error.
 
 Graphics:
 - Johann Lukas Schönlein DNA improved.
