@@ -8,31 +8,33 @@
 
 #Schneider Trophy possible
 
+curtiss_schneider_trophy_active_trigger = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_je_schneider_trophy_active_trigger = yes
+	}
+}
+
+curtiss_je_schneider_trophy_active_trigger = {
+	has_variable = curtiss_schneider_trophy_race_active_var
+}
+
 curtiss_schneider_trophy_possible = {
 	has_technology_researched = curtiss_seaplanes_tech
 	OR = {
 		AND = {
-			any_scope_building = {
-				is_building_type = building_port
-				count >= 3
-			}
 			country_rank >= rank_value:major_power
+			country_has_building_type_levels = {
+				target = bt:building_port
+				value >= 10
+			}
 		}
 		AND = {
-			exists = c:SWI
-			c:SWI = ROOT
+			c:SWI ?= ROOT
 			any_scope_building = {
 				is_building_type = building_urban_center
 				level >= 10
 			}
 		}
-	}
-}
-
-curtiss_schneider_trophy_member = {
-	OR = {
-		has_variable = curtiss_schneider_trophy_member
-		has_variable = curtiss_schneider_trophy_host
 	}
 }
 
@@ -44,12 +46,10 @@ curtiss_schneider_trophy_winner = {
 }
 
 curtiss_schneider_can_be_sabotaged = {
-	OR = {
-		has_variable = curtiss_schneider_trophy_member
-		has_variable = curtiss_schneider_trophy_host
-	}
-	NOT = {
-		this = ROOT
+	je:je_curtiss_schneider_trophy_race_contextless = {
+		any_scope_je_involved = {
+			NOT = { this = root }
+		}
 	}
 }
 

@@ -267,9 +267,20 @@ verrier_on_yearly_pulse = {
 
 			#Collection for American Observatory
 			c:USA ?= {
-				trigger_event = {
-					id = verrier.1060
-					days = { 40 45 } #Beginning of February
+				if = {
+					limit = {
+						c:USA ?= {
+							NOT = {
+								any_scope_building = {
+									is_building_type = building_verrier_observatory
+								}
+							}
+						}
+					}
+					trigger_event = {
+						id = verrier.1060
+						days = { 40 45 } #Beginning of February
+					}
 				}
 			}
 		}
@@ -576,6 +587,9 @@ verrier_on_yearly_pulse = {
 		if = {
 			limit = {
 				year >= 1890
+				NOT = {
+					has_global_variable = verrier_moon_origin_capture_global_var
+				}
 				has_global_variable = verrier_moon_origin_fission_global_var
 				any_country = {
 					verrier_has_astronomer = yes
@@ -610,6 +624,9 @@ verrier_on_yearly_pulse = {
 		if = {
 			limit = {
 				year >= 1910
+				NOT = {
+					has_global_variable = verrier_moon_origin_impact_global_var
+				}
 				has_global_variable = verrier_moon_origin_capture_global_var
 				has_global_variable = agassiz_plate_tectonics_yes
 				any_country = {
@@ -617,7 +634,7 @@ verrier_on_yearly_pulse = {
 				}
 			}
 
-			set_global_variable = verrier_moon_origin_capture_global_var
+			set_global_variable = verrier_moon_origin_impact_global_var
 			ordered_country = {
 				limit = {
 					has_variable = agassiz_geologist_var
@@ -670,20 +687,6 @@ verrier_on_building_built = {
 					id = verrier.5 #Verrier 5: Observatory inauguration
 					popup = yes
 				}
-			}
-		}
-		if = {
-			limit = {
-				NOT = {
-					has_global_variable = asterosokopio_athinon_global_var
-				}
-				is_building_type = building_verrier_observatory
-				owner = {
-					c:GRE ?= this
-				}
-			}
-			owner = {
-				trigger_event = verrier.1012 #verrier 1012: Construction of the Ethniko Asterosokopio Athinon finished (Greece)
 			}
 		}
 	}
