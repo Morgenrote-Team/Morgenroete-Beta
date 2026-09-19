@@ -7,7 +7,7 @@ Fixes:
 -
 
 Graphics:
--
+- Improved Josef Leu DNA
 
 Changes:
 - Slightly raised the SoL modifiers of the Nature Reserve Production Methods.
