@@ -31,8 +31,8 @@ Biology & Chemistry
 - A Chemist can invent DDT like Synthetic Rubber or Synthetic Oil. DDT gives agriculture bonuses and prevention against boll weevil, codling moth, locust swarms. potato beetles and tea mosquito.
 
 Engineering
-- Electrical Engineer available with Electric Telegraph (instead of Physics)
-- Telegraph Offices and Radio Stations PM can be activated manually
+- Electrical Engineer available with Electrical Engineering (instead of Physics).
+- Telegraph Offices and Radio Stations PM can be activated manually.
 
 Music
 - Added JE and event for the Rediscovery of Vivaldi's works.
@@ -62,3 +62,12 @@ Technologies
 
 Changes
 - Added Great Terroir (Wine bonus) to Aquitaine and Piedmont (Paradox, you added the best wine grounds in Europe and forgot about Bordeaux and Barolo?).
+
+####################
+
+### TO DO ###
+
+- Electrical Engineer should add Military Mobilization (Communication): Telegraph Troops, Signal Corps
+- Remove old Telegraph System JE.
+- Finish Work on Research License/Treaty
+- Origin of Man Congress
