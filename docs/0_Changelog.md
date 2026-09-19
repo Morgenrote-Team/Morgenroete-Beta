@@ -6,7 +6,7 @@ Physics
 Academics
 - To promote an Engineer, you need the technology Atmospheric Engine.
 - To promote an Archaeologist, you need the technology Antiquarianism.
-- All academics can spawn randomly if no special acadmeic is promoted, except for these: Anthropologist (needs Early Archaeology Tech), Biologist (needs Vaccination Tech), Physicist (needs Dirrential Geometry Tech)
+- All academics can spawn randomly if no special acadmeic is promoted, except for these: Anthropologist (needs Early Archaeology Tech), Biologist (needs Vaccination Tech), Physicist (needs Dirrential Geometry Tech).
 
 Archaeology
 - Added 4 Events to the Maurya Empire Archaeological Region.
@@ -28,14 +28,15 @@ Biology & Chemistry
 - A Biologist will find a solution to combat the pests, giving you a prevention for future pest infestations.
 - If the pest is active in your country for which you have a solution for, a JE triggers which will remove this pest from each state in a month. Caution: The New World Screwworm Fly is very resistent and takes a year.
 - You can share your pesticide knowledge with your subjects through a subject interaction (Biological Team). This will also lower liberty desire a little bit.
-- A Chemist can invent DDT like Synthetic Rubber or Synthetic Oil. DDT gives agriculture bonuses and prevention against boll weevil, codling moth, locust swarms. potato beetles and tea mosquito.
+- A Chemist can invent DDT like Synthetic Rubber or Synthetic Oil. DDT gives agriculture bonuses and prevention against boll weevil, codling moth, locust swarms, potato beetles and tea mosquito.
 
 Engineering
 - Electrical Engineer available with Electrical Engineering (instead of Physics).
-- Telegraph Offices and Radio Stations PM can be activated manually.
+- Telegraph Offices and Radio Stations PM can be activated manually; no Electrical Engineer needed.
+- The electrical engineer can unlock two new mobilization options in the new Communication mobilization group: Telegraph Troops (Electric Telegraph) and Signal Corps (Radios).
 
 Music
-- Added JE and event for the Rediscovery of Vivaldi's works.
+- Added JE and event for the rediscovery of Vivaldi's works.
 
 Research License
 - Archaeological, Botanical, Mountaineering and Paleontological Licenses are now one diplomatic action: Research License.

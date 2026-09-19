@@ -3163,6 +3163,125 @@ je_tesla_improve_power_plants_project = {
 	weight = 30
 }
 
+je_tesla_battlefield_communication_project = {
+	icon = "gfx/interface/icons/event_icons/event_electricity.dds"
+
+	scripted_button = gaudi_stop_engineering_project_button
+	scripted_button = gaudi_additional_support_for_civil_engineer_button
+	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
+
+	group = je_group_tesla_engineers
+
+	on_monthly_pulse = {
+		effect = {
+			#Calculates the Progress added (see gaudi_scripted_effects for calculation)
+			tesla_electrical_engineering_progress = yes
+			#Adds the monthly progress to the variable
+			change_variable = {
+				name = tesla_electrical_engineering_progress_var
+				add = var:gaudi_monthly_electrical_engineering_progress_var
+			}
+		}
+	}
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = tesla_medium_engineering_project_cost_modifier
+				multiplier = root.mr_local_project_cost_medium_value
+			}
+		}
+		set_variable = gaudi_can_stop_active_engineering_project_var #This is used to check if the country has a project already
+		#Sets the Civil Engineering Progress at the beginning
+		set_variable = {
+			name = tesla_electrical_engineering_progress_var
+			value = 0
+		}
+		tesla_electrical_engineering_progress = yes #Determines how much Engineering Progress will be added next month
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		show_as_tooltip = {
+			scope:journal_entry = {
+				remove_modifier = tesla_medium_engineering_project_cost_modifier
+			}
+		}
+		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+		tesla_remove_je_cost_modifiers_effect = yes
+
+		#Those should be removed in every electrical engineering je
+		remove_variable = tesla_electrical_engineering_progress_var
+		remove_variable = gaudi_monthly_electrical_engineering_progress_var
+
+		var:tesla_engineer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		trigger_event = {
+			id = tesla.4100
+			popup = yes
+		}
+
+		#Starts new project for AI
+		ai_start_engineering_project_for_ai_effect = yes
+	}
+
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:tesla_electrical_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = tesla_battlefield_communication_progress_cost
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = gaudi_stop_engineering_project_tt
+			OR = {
+				trigger_if = {
+					limit = { is_ai = yes }
+					tesla_has_engineer = yes
+					tesla_has_no_electrical_engineer_trigger = yes
+				}
+				has_variable = gaudi_stop_engineering_project_var
+			}
+		}
+	}
+
+	on_invalid = {
+		show_as_tooltip = {
+			scope:journal_entry = {
+				remove_modifier = tesla_medium_engineering_project_cost_modifier
+			}
+		}
+		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+		tesla_remove_je_cost_modifiers_effect = yes
+		remove_variable = gaudi_stop_engineering_project_var
+
+		#Those should be removed in every electrical engineering je
+		remove_variable = tesla_electrical_engineering_progress_var
+		remove_variable = gaudi_monthly_electrical_engineering_progress_var
+
+		var:tesla_engineer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+
+		#Starts new project for AI
+		ai_start_engineering_project_for_ai_effect = yes
+	}
+
+	progressbar = yes
+
+	weight = 30
+}
+
 ###################
 
 ######AERONAUTICAL ENGINEER PROJECTS######
