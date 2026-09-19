@@ -34,6 +34,7 @@ Engineering
 - Electrical Engineer available with Electrical Engineering (instead of Physics).
 - Telegraph Offices and Radio Stations PM can be activated manually; no Electrical Engineer needed.
 - The electrical engineer can unlock two new mobilization options in the new Communication mobilization group: Telegraph Troops (Electric Telegraph) and Signal Corps (Radios).
+- Telegraphy Network and Radio Network are now Journal Entries which are triggered and completed automatically; the buttons for the electrical engineer were removed.
 
 Music
 - Added JE and event for the rediscovery of Vivaldi's works.
@@ -68,7 +69,5 @@ Changes
 
 ### TO DO ###
 
-- Electrical Engineer should add Military Mobilization (Communication): Telegraph Troops, Signal Corps
-- Remove old Telegraph System JE.
 - Finish Work on Research License/Treaty
 - Origin of Man Congress
