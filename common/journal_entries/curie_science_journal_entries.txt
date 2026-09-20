@@ -1,0 +1,140 @@
+﻿###############################
+# CURIE JOURNAL ENTRIES  #
+###############################
+
+#by Marco Dandolo
+
+############################
+
+###Discovery of a New Formula###
+je_curie_formula_discovery = {
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	group = je_group_curie_physics
+
+	immediate = {
+		set_variable = {
+			name = curie_formula_discovery_progress_var
+			value = 0
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = {
+				name = curie_formula_discovery_progress_var
+				add = {
+					value = curie_formula_discovery_progress_value
+				}
+			}
+		}
+		random_events = {
+			700 = 0
+
+			#10 = mendelejew.211 #Mendelejew 211: A new Laboratory
+			#10 = mendelejew.212 #Mendelejew 212: Unknown Chemical Compound
+			#10 = mendelejew.213 #Mendelejew 213: Chemical Assistant
+			#10 = mendelejew.214 #Mendelejew 214: Bad samples
+			#10 = mendelejew.215 #Mendelejew 215: GEOLOGIST helps
+
+			#20 = mendelejew.401 #Mendelejew 401: A Chemical Experiment
+		}
+	}
+
+	current_value = {
+		value = var:curie_formula_discovery_progress_var
+	}
+
+	goal_add_value = {
+		#Nuclear Physics
+		if = {
+			limit = {
+				has_variable = curie_je_formula_very_long_duration_var
+			}
+			add = 240
+		}
+		#Modern Physics
+		else_if = {
+			limit = {
+				has_variable = curie_je_formula_long_duration_var
+			}
+			add = 120
+		}
+		#Electromagnetism
+		else_if = {
+			limit = {
+				has_variable = curie_je_formula_medium_duration_var
+			}
+			add = 90
+		}
+		#Differential Geometry
+		else_if = {
+			limit = {
+				has_variable = curie_je_formula_short_duration_var
+			}
+			add = 60
+		}
+		#Classical Physics
+		else = {
+			add = 36
+		}
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = curie.201
+		}
+		curie_set_physicist_unbusy_effect = yes
+		remove_variable = curie_formula_discovery_progress_var
+		curie_remove_je_duration = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_physicist_dies_tt
+			NOT = {
+				has_variable = curie_physicist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = curie_searched_variable
+		remove_variable = curie_formula_discovery_progress_var
+		curie_remove_je_duration = yes
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_curie_formula_discovery_failed_tt
+			save_temporary_scope_value_as = {
+				name = arg
+				value = var:curie_searched_variable
+			}
+			any_in_global_list = {
+				variable = curie_discovered_formulas_global_list
+				save_temporary_scope_as = val
+				scope:val = scope:arg
+			}
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = curie.203
+		}
+		curie_set_physicist_unbusy_effect = yes
+		remove_variable = curie_formula_discovery_progress_var
+		curie_remove_je_duration = yes
+	}
+
+	progressbar = yes
+
+	weight = 50
+}
