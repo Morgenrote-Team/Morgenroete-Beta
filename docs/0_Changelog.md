@@ -46,7 +46,8 @@ Research License
 - Normally, Great Powers will not give research licenses. However, they will be more open to your question if you are an ally.
 
 Technologies
-- Technology Differential Geometry. This Technology is needed for the Mathematics Specialization.
+- Added Mathematics. This is the first technology in the Physics/Mathematics tree (even before Classical Physics).
+- Added Differential Geometry. This Technology is needed for the Mathematics Specialization.
 - Differential Geometry is needed for Astronomy, not Mechanical Tools.
 - Differential Geometry gives +1 Yearly Astronomical Objects.
 - Mathematical-Technical Faculty needs Differential Geometry, not Athmospheric Engine.
