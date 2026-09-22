@@ -3,6 +3,7 @@ Changelog for 2.8.3i "Mitsopoulos"
 Characters:
 - Erich Tschermak (Austrian Biologist)
 - Nettie Stevens (American Biologist)
+- Edmund Beecher Wilson (American Biologist)
 
 Fixes:
 -
