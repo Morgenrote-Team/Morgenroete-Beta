@@ -6,7 +6,7 @@ Characters:
 - Edmund Beecher Wilson (American Biologist)
 
 Fixes:
--
+- There should no longer be any ghost composers travelling the world.
 
 Graphics:
 - Improved Josef Leu DNA.
