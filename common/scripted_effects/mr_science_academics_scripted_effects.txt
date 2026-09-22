@@ -1160,7 +1160,7 @@ retire_chemist_effect = {
 mendelejew_remove_official_chemist_effect = {
 	if = {
 		limit = { has_variable = mendelejew_chemist_var }
-		
+
 		custom_description = {
 			text = "mendelejew_remove_official_chemist_effect_loc"
 			subject = this
@@ -1684,9 +1684,9 @@ agassiz_remove_official_modifiers_from_geologist_effect = {
 }
 
 # Set new Geologist as official Geologist
-dubois_set_new_geologist_as_geologist_effect = {
+agassiz_set_new_geologist_as_geologist_effect = {
 	custom_description = {
-		text = "dubois_set_new_geologist_as_geologist_effect_loc"
+		text = "agassiz_set_new_geologist_as_geologist_effect_loc"
 		subject = this
 		object = scope:agassiz_new_geologist_scope
 
@@ -1929,17 +1929,17 @@ ito_remove_official_modifiers_from_naturalist_effect = {
 }
 
 # Set new Naturalist as official Naturalist
-dubois_set_new_naturalist_as_naturalist_effect = {
+ito_set_new_naturalist_as_naturalist_effect = {
 	custom_description = {
-		text = "dubois_set_new_naturalist_as_naturalist_effect_loc"
+		text = "ito_set_new_naturalist_as_naturalist_effect_loc"
 		subject = this
-		object = scope:dubois_new_naturalist_scope
+		object = scope:ito_new_naturalist_scope
 
 		ito_remove_official_naturalist_effect = yes
 
 		set_variable = {
 			name = ito_naturalist_var
-			value = scope:dubois_new_naturalist_scope
+			value = scope:ito_new_naturalist_scope
 		}
 
 		#Sets Naturalist busy if there is an ongoing project
@@ -1970,7 +1970,7 @@ dubois_set_new_naturalist_as_naturalist_effect = {
 		#TODO
 
 		#Removes variable
-		remove_variable = dubois_new_naturalist_var
+		remove_variable = ito_new_naturalist_var
 	}
 }
 
@@ -1978,7 +1978,7 @@ dubois_set_new_naturalist_as_naturalist_effect = {
 dubois_remove_new_naturalist_effect = {
 	custom_tooltip = ito_naturalist_will_become_part_of_academia_tt
 
-	remove_variable = dubois_new_naturalist_var
+	remove_variable = ito_new_naturalist_var
 }
 
 #Set Naturalist unbusy
@@ -2461,6 +2461,9 @@ theiler_set_new_biologist_as_biologist_effect = {
 			add_journal_entry = {
 				type = je_theiler_microorganism_research
 			}
+		}
+		else = {
+			mr_journal_entry_set_variable_character_for_widget_effect = { CHARACTER_VARIABLE = theiler_biologist_var JOURNAL_ENTRY_SCOPE = je:je_theiler_microorganism_research }
 		}
 
 		#Starts Project for new Biologist if automation is active
@@ -4760,37 +4763,56 @@ academics_ethnologist_add_academic_title_effect = {
 # BASE_CHANCE_DOCTOR = Base chance for the specific role
 # BASE_CHANCE_PROFESSOR = Base chance for Professor
 academics_character_add_title_from_experience_gain_effect = {
-	if = {
-		limit = {
-			owner = {
-				has_technology_researched = academia
-			}
-		}
-
-		#Doctor's degree
+	hidden_effect = {
 		if = {
 			limit = {
-				NOT = { has_modifier = academics_character_is_doctor_modifier }
+				owner = {
+					has_technology_researched = academia
+				}
 			}
 
+			#Doctor's degree
 			if = {
 				limit = {
-					OR = {
-						$EXPERIENCE_VARIABLE$ >= 150
-						has_role = character_role_panum_physician
-					}
+					NOT = { has_modifier = academics_character_is_doctor_modifier }
 				}
 
-				academics_add_doctor_title_effect = yes
-			}
-			else = {
-				random_list = {
-					#Nothing
-					0 = {
-						modifier = {
-							add = {
-								value = 100
-								subtract = {
+				if = {
+					limit = {
+						OR = {
+							$EXPERIENCE_VARIABLE$ >= 150
+							has_role = character_role_panum_physician
+						}
+					}
+
+					academics_add_doctor_title_effect = yes
+				}
+				else = {
+					random_list = {
+						#Nothing
+						0 = {
+							modifier = {
+								add = {
+									value = 100
+									subtract = {
+										value = {
+											value = $EXPERIENCE_VARIABLE$
+											add = $BASE_CHANCE_DOCTOR$
+											multiply = 0.3
+										}
+										multiply = academics_traits_for_degree_gain_chance_value
+										min = 1
+										max = 100
+									}
+								}
+							}
+						}
+						#Gain Degree
+						0 = {
+							academics_add_doctor_title_effect = yes
+
+							modifier = {
+								add = {
 									value = {
 										value = $EXPERIENCE_VARIABLE$
 										add = $BASE_CHANCE_DOCTOR$
@@ -4803,45 +4825,45 @@ academics_character_add_title_from_experience_gain_effect = {
 							}
 						}
 					}
-					#Gain Degree
-					0 = {
-						academics_add_doctor_title_effect = yes
-
-						modifier = {
-							add = {
-								value = {
-									value = $EXPERIENCE_VARIABLE$
-									add = $BASE_CHANCE_DOCTOR$
-									multiply = 0.3
-								}
-								multiply = academics_traits_for_degree_gain_chance_value
-								min = 1
-								max = 100
-							}
-						}
-					}
 				}
 			}
-		}
-		#Professor
-		else_if = {
-			limit = {
-				NOT = { has_modifier = academics_character_is_professor_modifier }
-			}
+			#Professor
+			else_if = {
+				limit = {
+					NOT = { has_modifier = academics_character_is_professor_modifier }
+				}
 
-			if = {
-				limit = { $EXPERIENCE_VARIABLE$ >= 300 }
+				if = {
+					limit = { $EXPERIENCE_VARIABLE$ >= 300 }
 
-				academics_add_professor_title_effect = yes
-			}
-			else = {
-				random_list = {
-					#Nothing
-					0 = {
-						modifier = {
-							add = {
-								value = 100
-								subtract = {
+					academics_add_professor_title_effect = yes
+				}
+				else = {
+					random_list = {
+						#Nothing
+						0 = {
+							modifier = {
+								add = {
+									value = 100
+									subtract = {
+										value = {
+											value = $EXPERIENCE_VARIABLE$
+											add = $BASE_CHANCE_PROFESSOR$
+											multiply = 0.3
+										}
+										multiply = academics_traits_for_degree_gain_chance_value
+										min = 1
+										max = 100
+									}
+								}
+							}
+						}
+						#Gain Degree
+						0 = {
+							academics_add_professor_title_effect = yes
+
+							modifier = {
+								add = {
 									value = {
 										value = $EXPERIENCE_VARIABLE$
 										add = $BASE_CHANCE_PROFESSOR$
@@ -4851,23 +4873,6 @@ academics_character_add_title_from_experience_gain_effect = {
 									min = 1
 									max = 100
 								}
-							}
-						}
-					}
-					#Gain Degree
-					0 = {
-						academics_add_professor_title_effect = yes
-
-						modifier = {
-							add = {
-								value = {
-									value = $EXPERIENCE_VARIABLE$
-									add = $BASE_CHANCE_PROFESSOR$
-									multiply = 0.3
-								}
-								multiply = academics_traits_for_degree_gain_chance_value
-								min = 1
-								max = 100
 							}
 						}
 					}

@@ -1,4 +1,13 @@
-Changelog fot 2.8.1g "Haeckel"
+Changelog for 2.8.3i "Mitsopoulos"
+
+Characters:
+- Erich Tschermak (Austrian Biologist)
 
 Fixes:
-- Architectural Splendour and Generic Minerals should get added properly again.
+-
+
+Graphics:
+-
+
+Changes:
+-

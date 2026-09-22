@@ -92,7 +92,7 @@ artists_monthly_artistic_progress_effect = {
 						}
 						modifier = {
 							if = {
-								limit = { manzoni_has_writer_no_tooltip = yes }
+								limit = { manzoni_has_writer_no_tooltip_trigger = yes }
 								add = -7
 							}
 						}
@@ -197,14 +197,12 @@ artists_set_up_travelling_composer_list_effect = {
 #This effect is used to set up the list of local writers
 artists_set_up_local_writer_list_effect = {
 	clear_variable_list = mr_local_writers_list
-	ordered_scope_character = {
+	ordered_character_is_local_writer = {
 		order_by = var:manzoni_writer_experience
 		check_range_bounds = no
 
 		limit = {
-			has_role = character_role_manzoni_writer
 			has_variable = manzoni_writer_experience
-			NOT = { owner.var:manzoni_writer_var ?= this }
 		}
 		root = {
 			add_to_variable_list = {
@@ -247,7 +245,10 @@ kill_composer_effect = {
 	remove_variable = elgar_composer_var
 	hidden_effect = {
 		elgar_remove_composer_modifier_effect = yes
-		remove_modifier = elgar_conductor_exhausted_modifier
+		if = {
+			limit = { has_modifier = elgar_conductor_exhausted_modifier }
+			remove_modifier = elgar_conductor_exhausted_modifier
+		}
 	}
 }
 #This Effect retires the current Composer
@@ -263,7 +264,10 @@ retire_composer_effect = {
 
 	remove_variable = elgar_composer_var
 	elgar_remove_composer_modifier_effect = yes
-	remove_modifier = elgar_conductor_exhausted_modifier
+	if = {
+		limit = { has_modifier = elgar_conductor_exhausted_modifier }
+		remove_modifier = elgar_conductor_exhausted_modifier
+	}
 }
 
 #This effect makes the current composer a travelling Composer
@@ -309,7 +313,10 @@ elgar_set_new_composer_as_composer_effect = {
 			name = elgar_stopped_composing_remover_var
 			days = 5
 		}
-		remove_modifier = elgar_conductor_exhausted_modifier
+		if = {
+			limit = { has_modifier = elgar_conductor_exhausted_modifier }
+			remove_modifier = elgar_conductor_exhausted_modifier
+		}
 
 		remove_variable = elgar_new_composer_var
 
@@ -760,7 +767,6 @@ set_writer_local_writer_effect = {
 			}
 
 			remove_variable = manzoni_writer_var
-			artists_set_up_local_writer_list_effect = yes
 		}
 	}
 }
@@ -911,10 +917,6 @@ set_character_as_local_writer_character_scope_effect = {
 		add_character_role = character_role_manzoni_writer
 
 		writer_experience_set_up_effect = yes
-
-		owner = {
-			artists_set_up_local_writer_list_effect = yes
-		}
 	}
 }
 
@@ -943,7 +945,14 @@ manzoni_set_new_writer_as_writer_effect = {
 			value = scope:manzoni_new_writer_scope
 		}
 
+		var:manzoni_writer_var ?= {
+			add_modifier = {
+				name = artists_character_is_official_writer_modifier
+			}
+		}
+
 		remove_variable = manzoni_new_writer_var
+		artists_set_up_local_writer_list_effect = yes
 	}
 }
 
@@ -961,14 +970,7 @@ manzoni_set_new_writer_local_writer_effect = {
 	custom_tooltip = {
 		text = manzoni_set_new_writer_local_writer_tt
 
-		scope:manzoni_new_writer_scope = {
-			add_modifier = {
-				name = artists_character_is_official_writer_modifier
-			}
-		}
-
 		remove_variable = manzoni_new_writer_var
-		artists_set_up_local_writer_list_effect = yes
 	}
 }
 
@@ -1017,9 +1019,6 @@ manzoni_set_new_writer_local_writer_other_country_effect = {
 			}
 
 			remove_modifier = artists_character_is_official_writer_modifier
-			scope:manzoni_new_country_scope = {
-				artists_set_up_local_writer_list_effect = yes
-			}
 		}
 
 		remove_variable = manzoni_new_writer_var
@@ -1281,14 +1280,8 @@ klimt_set_new_painter_as_painter_effect = {
 	custom_tooltip = {
 		text = klimt_replace_painter_with_new_painter_tt
 
-		if = {
-			limit = {
-				has_variable = klimt_painter_var
-			}
-
-			var:klimt_painter_var = {
-				klimt_set_painter_independent_painter_character_scope_effect = yes
-			}
+		var:klimt_painter_var ?= {
+			klimt_set_painter_independent_painter_character_scope_effect = yes
 		}
 
 		set_variable = {
@@ -1296,8 +1289,10 @@ klimt_set_new_painter_as_painter_effect = {
 			value = scope:klimt_new_painter_scope
 		}
 
-		add_modifier = {
-			name = artists_character_is_official_painter_modifier
+		var:klimt_painter_var ?= {
+			add_modifier = {
+				name = artists_character_is_official_painter_modifier
+			}
 		}
 
 		remove_variable = klimt_new_painter_var
@@ -1513,7 +1508,7 @@ kill_architect_effect = {
 }
 
 #This effect makes the current Architect an independent Architect
-set_architect_independent_architect_effect = {
+gaudi_country_set_architect_independent_architect_effect = {
 	if = {
 		limit = { has_variable = gaudi_architect_var }
 
@@ -1579,6 +1574,11 @@ gaudi_set_new_architect_as_architect_effect = {
 
 		remove_variable = gaudi_new_architect_var
 
+		var:gaudi_architect_var ?= {
+			add_modifier = {
+				name = artists_character_is_official_architect_modifier
+			}
+		}
 		if = {
 			limit = { gaudi_has_active_architecture_project_trigger = yes }
 			var:gaudi_architect_var = {

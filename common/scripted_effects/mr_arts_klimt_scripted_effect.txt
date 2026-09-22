@@ -9,153 +9,61 @@
 
 ######ADD PAINTING TRADITION######
 
-#Effect to add $AMOUNT$ Painting Tradition
+#Effect to add scaled $AMOUNT$ Painting Tradition
 klimt_add_x_painting_tradition_effect = {
-	# Amount = amount of Painting tradition to add
-	if = { #This changes the Amount depending on the power rank.
-		limit = { country_rank = rank_value:great_power }
+	# Amount = amount of painting tradition to add
+	custom_description = {
+		text = "klimt_add_x_painting_tradition_effect_loc"
+		subject = this
+		value = scope:painting_tradition_amount
+
 		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
 			name = painting_tradition_amount
 			value = { #This is the way to calculate with temporary_scope_values. It is quite useful
 				value = $AMOUNT$
-				multiply = 0.5
-				round = yes
-			}
-		}
-	}
-	else_if = {
-		limit = { country_rank = rank_value:major_power }
-		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-			name = painting_tradition_amount
-			value = { #This is the way to calculate with temporary_scope_values. It is quite useful
-				value = $AMOUNT$
-				multiply = 0.75
-				round = yes
-			}
-		}
-	}
-	else = { #In case that you are below major power you get all of the paintingal tradition
-		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-			name = painting_tradition_amount
-			value = $AMOUNT$
-		}
-	}
-
-	#This part is used to display an accurate tooltip (Gain, loss, etc.)
-	if = { #Negative Plural Tooltip if local_var is negative
-		limit = { $AMOUNT$ < 0 }
-		custom_tooltip = klimt_add_x_painting_tradition_minus_x_tt
-	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = klimt_add_x_painting_tradition_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 0 }
-		custom_tooltip = klimt_add_x_painting_tradition_plus_x_tt
-	}
-
-	#This part adds the AMOUNT of Painting Tradition
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = klimt_painting_tradition_var
-			}
-		}
-		set_variable = {
-			name = klimt_painting_tradition_var
-			value = 0
-		}
-	}
-	change_variable = {
-		name = klimt_painting_tradition_var
-		add = scope:painting_tradition_amount
-	}
-
-	#klimt_painter_total_painting_tradition_var is used to keep track of all the Painting Tradition that a specific Painter created.
-	#It is used to show how successful the Painter is.
-	#Every time a normal Painting Tradition Point is added, the same number gets added here.
-	if = {
-		limit = { #Only works if there actually is a Painter
-			has_variable = klimt_painter_var
-		}
-		var:klimt_painter_var = {
-			if = { #Fallback if the variable does not exist yet
-				limit = {
-					NOT = {
-						has_variable = klimt_painter_total_painting_tradition_var
+				if = {
+					limit = {
+						country_rank = rank_value:great_power
 					}
+					multiply = 0.5
 				}
-				set_variable = {
-					name = klimt_painter_total_painting_tradition_var
-					value = 0
+				else_if = {
+					limit = {
+						country_rank = rank_value:major_power
+					}
+					multiply = 0.75
 				}
+				round = yes
 			}
-			change_variable = { #The amount of Painting Tradition that this Painter created
-				name = klimt_painter_total_painting_tradition_var
-				add = scope:painting_tradition_amount
-			}
+		}
+
+		#This part adds the AMOUNT of Painting Tradition
+		mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = scope:painting_tradition_amount NAME = klimt_painting_tradition_var ADDITIONAL_SCRIPT_MATH = "min = 0" }
+		#This part adds the AMOUNT of Total Painting Tradition for the Painter
+		var:klimt_painter_var ?= {
+			mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = scope:painting_tradition_amount NAME = klimt_painter_total_painting_tradition_var ADDITIONAL_SCRIPT_MATH = "min = 0" }
 		}
 	}
 }
 
 #Effect to add unscaled $AMOUNT$ Painting Tradition
 klimt_add_x_painting_tradition_unscaled_effect = {
-	# Amount = amount of Painting tradition to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = painting_tradition_amount
+	# Amount = amount of music tradition to add
+	custom_description = {
+		text = "klimt_add_x_painting_tradition_effect_loc"
+		subject = this
 		value = $AMOUNT$
-	}
 
-	#This part is used to display an accurate tooltip (Gain, loss, etc.)
-	if = { #Negative Plural Tooltip if local_var is negative
-		limit = { $AMOUNT$ < 0 }
-		custom_tooltip = klimt_add_x_painting_tradition_minus_x_tt
-	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = klimt_add_x_painting_tradition_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 0 }
-		custom_tooltip = klimt_add_x_painting_tradition_plus_x_tt
-	}
+		save_temporary_scope_value_as = {
+			name = painting_tradition_amount
+			value = $AMOUNT$
+		}
 
-	#This part adds the AMOUNT of Painting Tradition
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = klimt_painting_tradition_var
-			}
-		}
-		set_variable = {
-			name = klimt_painting_tradition_var
-			value = 0
-		}
-	}
-	change_variable = {
-		name = klimt_painting_tradition_var
-		add = scope:painting_tradition_amount
-	}
-
-	#klimt_painter_total_painting_tradition_var is used to keep track of all the Painting Tradition that a specific Painter created.
-	#It is used to show how successful the Painter is.
-	#Every time a normal Painting Tradition Point is added, the same number gets added here.
-	var:klimt_painter_var ?= {
-		if = { #Fallback if the variable does not exist yet
-			limit = {
-				NOT = {
-					has_variable = klimt_painter_total_painting_tradition_var
-				}
-			}
-			set_variable = {
-				name = klimt_painter_total_painting_tradition_var
-				value = 0
-			}
-		}
-		change_variable = { #The amount of paintingal Tradition that this Painter discovered
-			name = klimt_painter_total_painting_tradition_var
-			add = scope:painting_tradition_amount
+		#This part adds the AMOUNT of Painting Tradition
+		mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = scope:painting_tradition_amount NAME = klimt_painting_tradition_var ADDITIONAL_SCRIPT_MATH = "min = 0" }
+		#This part adds the AMOUNT of Total Painting Tradition for the Painter
+		var:klimt_painter_var ?= {
+			mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = scope:painting_tradition_amount NAME = klimt_painter_total_painting_tradition_var ADDITIONAL_SCRIPT_MATH = "min = 0" }
 		}
 	}
 }
@@ -311,6 +219,36 @@ set_klimt_center_of_art_scope = {
 
 ###Painter Specialization###
 
+klimt_character_add_classic_specialization_effect = {
+	add_trait = klimt_classic_painter
+	set_com_character_background = { background = character_background_mr_char_role_painter_classic }
+}
+
+klimt_character_add_romantic_specialization_effect = {
+	add_trait = klimt_romantic_painter
+	set_com_character_background = { background = character_background_mr_char_role_painter_romantic }
+}
+
+klimt_character_add_realistic_specialization_effect = {
+	add_trait = klimt_realistic_painter
+	set_com_character_background = { background = character_background_mr_char_role_painter_realistic }
+}
+
+klimt_character_add_impressionistic_specialization_effect = {
+	add_trait = klimt_impressionistic_painter
+	set_com_character_background = { background = character_background_mr_char_role_painter_impressionistic }
+}
+
+klimt_character_add_expressionistic_specialization_effect = {
+	add_trait = klimt_expressionistic_painter
+	set_com_character_background = { background = character_background_mr_char_role_painter_expressionistic }
+}
+
+klimt_character_add_art_nouveau_specialization_effect = {
+	add_trait = klimt_art_nouveau_painter
+	set_com_character_background = { background = character_background_mr_char_role_painter_art_nouveau }
+}
+
 klimt_add_painter_specialization_effect = {
 	if = {
 		limit = {
@@ -319,7 +257,7 @@ klimt_add_painter_specialization_effect = {
 			}
 		}
 		var:klimt_painter_var = {
-			add_trait = klimt_art_nouveau_painter #Painter will always become Art Nouveau Painter when he has studied this school. This is considered the latest one.
+			klimt_character_add_art_nouveau_specialization_effect = yes #Painter will always become Art Nouveau Painter when he has studied this school. This is considered the latest one.
 		}
 	}
 	else_if = {
@@ -332,7 +270,7 @@ klimt_add_painter_specialization_effect = {
 			}
 		}
 		var:klimt_painter_var = {
-			add_trait = klimt_expressionistic_painter #Painter will become Expressionist if he did neither study Impressionism or Art Noveau.
+			klimt_character_add_expressionistic_specialization_effect = yes #Painter will become Expressionist if he did neither study Impressionism or Art Noveau.
 		}
 	}
 	else_if = {
@@ -345,7 +283,7 @@ klimt_add_painter_specialization_effect = {
 			}
 		}
 		var:klimt_painter_var = {
-			add_trait = klimt_impressionistic_painter #Vice-versa, Painter will become Impressionist if he did neither study Expressionism or Art Noveau.
+			klimt_character_add_impressionistic_specialization_effect = yes #Vice-versa, Painter will become Impressionist if he did neither study Expressionism or Art Noveau.
 		}
 	}
 	else_if = {
@@ -360,7 +298,7 @@ klimt_add_painter_specialization_effect = {
 			}
 		}
 		var:klimt_painter_var = {
-			add_trait = klimt_realistic_painter #Painter will become Realist if he did neither study Impressionism, Expressionism or Art Noveau.
+			klimt_character_add_realistic_specialization_effect = yes #Painter will become Realist if he did neither study Impressionism, Expressionism or Art Noveau.
 		}
 	}
 	else_if = {
@@ -370,12 +308,12 @@ klimt_add_painter_specialization_effect = {
 			}
 		}
 		var:klimt_painter_var = {
-			add_trait = klimt_romantic_painter #Painter will become Romantic if he did not study anything above this.
+			klimt_character_add_romantic_specialization_effect = yes #Painter will become Romantic if he did not study anything above this.
 		}
 	}
 	else = {
 		var:klimt_painter_var = {
-			add_trait = klimt_classic_painter #Classic Painter as fallback.
+			klimt_character_add_classic_specialization_effect = yes #Classic Painter as fallback.
 		}
 	}
 }
@@ -1246,6 +1184,37 @@ klimt_add_variables = {
         value = 0
 	}
 	set_variable = klimt_variables_var
+}
+
+##############################
+
+###Effects for Choose Art Style###
+
+klimt_painter_character_remove_all_art_style_painter_traits_effect = {
+	if = {
+		limit = { has_trait = klimt_classic_painter }
+		remove_trait = klimt_classic_painter
+	}
+	if = {
+		limit = { has_trait = klimt_romantic_painter }
+		remove_trait = klimt_romantic_painter
+	}
+	if = {
+		limit = { has_trait = klimt_realistic_painter }
+		remove_trait = klimt_realistic_painter
+	}
+	if = {
+		limit = { has_trait = klimt_impressionistic_painter }
+		remove_trait = klimt_impressionistic_painter
+	}
+	if = {
+		limit = { has_trait = klimt_expressionistic_painter }
+		remove_trait = klimt_expressionistic_painter
+	}
+	if = {
+		limit = { has_trait = klimt_art_nouveau_painter }
+		remove_trait = klimt_art_nouveau_painter
+	}
 }
 
 ##############################

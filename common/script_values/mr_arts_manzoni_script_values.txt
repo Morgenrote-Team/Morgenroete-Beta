@@ -820,10 +820,12 @@ manzoni_yearly_literary_tradition_value = {
 	}
 
 	#Local Writers
-	if = {
-		limit = { has_variable_list = mr_local_writers_list }
-		every_in_list = {
-			variable = mr_local_writers_list
+	every_scope_character = {
+		limit = {
+			has_role = character_role_manzoni_writer
+			NOT = { owner.var:manzoni_writer_var ?= this }
+		}
+		add = {
 			if = {
 				limit = {
 					NOT = {
@@ -836,6 +838,7 @@ manzoni_yearly_literary_tradition_value = {
 				limit = { manzoni_local_writer_meets_taste_character_scope_trigger = yes }
 				add = 1
 			}
+			max = 3
 		}
 	}
 
@@ -963,16 +966,24 @@ manzoni_yearly_literary_tradition_value = {
 
 manzoni_local_writer_literary_tradition_value = {
 	#Local Writers
-	if = {
-		limit = { has_variable_list = mr_local_writers_list }
-		every_in_list = {
-			variable = mr_local_writers_list
+	every_scope_character = {
+		limit = {
+			has_role = character_role_manzoni_writer
+			NOT = { owner.var:manzoni_writer_var ?= this }
+		}
+		if = {
 			limit = {
-				manzoni_local_writer_meets_taste_character_scope_trigger = yes
+				NOT = {
+					has_trait = manzoni_writer_fiction
+				}
 			}
 			add = 1
-			max = 3
 		}
+		else_if = {
+			limit = { manzoni_local_writer_meets_taste_character_scope_trigger = yes }
+			add = 1
+		}
+		max = 3
 	}
 }
 
