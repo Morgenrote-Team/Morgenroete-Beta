@@ -7,6 +7,7 @@ Characters:
 
 Fixes:
 - There should no longer be any ghost composers travelling the world.
+- Fixed a loc issue with the advanced medical support mobilization options.
 
 Graphics:
 - Improved Josef Leu DNA.
