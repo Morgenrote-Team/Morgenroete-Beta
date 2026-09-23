@@ -23,40 +23,30 @@ mr_set_conference_icon_and_illustration_effect = {
 
 mr_update_conference_participant_list_effect = {
 	# Call this from scope:journal_entry
+	# Journal entry scope is saved for ease of iteration
 	clear_variable_list = mr_conference_participants_list
-	if = {
-		limit = {
-			has_global_variable = $type$
-			exists = global_var:$type$
-		}
-		every_country = {
+	scope:journal_entry = {
+		save_scope_as = mr_conference_journal_scope
+	}
+	every_scope_je_involved = {
+		every_scope_character = {
 			limit = {
-				is_involved_in_journal_entry = $type$
+				has_role = $role$
 			}
-			every_scope_character = {
-				limit = {
-					has_role = $role$
-				}
-				global_var:$type$ = {
-					add_to_variable_list = {
-						name = mr_conference_participants_list
-						target = prev
-					}
-				}
-			}
-		}
-		global_var:$type$ = {
-			every_in_list = {
-				variable = mr_conference_participants_list
-				set_variable = {
-					name = mr_scientist_votes_var
-					value = mr_scientist_votes_value
+			scope:mr_conference_journal_scope = {
+				add_to_variable_list = {
+					name = mr_conference_participants_list
+					target = prev
 				}
 			}
 		}
 	}
-	else = {
-		error_log = "mr_update_conference_participant_list_effect was called, but the specified global variable is either not set or its scope does not exist."
+	every_in_list = {
+		variable = mr_conference_participants_list
+		set_variable = {
+			name = mr_scientist_votes_var
+			value = mr_scientist_votes_value
+		}
 	}
 }
 
@@ -65,27 +55,18 @@ mr_update_leading_scientist_list_effect = {
 	# This is a truncated variant of mr_update_conference_participant_list_effect
 	# Use this for non-voting conferences, when the leading scientist is only needed for cosmetic purposes
 	clear_variable_list = mr_conference_participants_list
-	if = {
-		limit = {
-			has_global_variable = $type$
-			exists = global_var:$type$
-		}
-		every_country = {
-			limit = {
-				is_involved_in_journal_entry = $type$
-			}
-			var:$scientist$ = {
-				global_var:$type$ = {
-					add_to_variable_list = {
-						name = mr_conference_participants_list
-						target = prev
-					}
+	scope:journal_entry = {
+		save_scope_as = mr_conference_journal_scope
+	}
+	every_scope_je_involved = {
+		var:$scientist$ = {
+			scope:mr_conference_journal_scope = {
+				add_to_variable_list = {
+					name = mr_conference_participants_list
+					target = prev
 				}
 			}
 		}
-	}
-	else = {
-		error_log = "mr_update_leading_scientist_list_effect was called, but the specified global variable is either not set or its scope does not exist."
 	}
 }
 
