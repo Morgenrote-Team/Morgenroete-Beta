@@ -4,6 +4,7 @@ Characters:
 - Theodor Boveri (German Biologist)
 - Erich Tschermak (Austrian Biologist)
 - Nettie Stevens (American Biologist)
+- Walter Sutton (American Biologist, Physician and Engineer)
 - Edmund Beecher Wilson (American Biologist)
 
 Fixes:
