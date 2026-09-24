@@ -1,6 +1,7 @@
 Changelog for 2.8.3i "Mitsopoulos"
 
 Characters:
+- Theodor Boveri (German Biologist)
 - Erich Tschermak (Austrian Biologist)
 - Nettie Stevens (American Biologist)
 - Edmund Beecher Wilson (American Biologist)
