@@ -1,33 +1,20 @@
 Changelog for 2.8.3i "Mitsopoulos"
 
 Characters:
-- Paul Camille Denis (German Engineer)
-- Joseph Scherer (German Chemist and Physician)
-- Gustav Bischof (German Geologist and Chemist)
-- Franz von Kobell (German Geologist and Writer)
-- Ernst von Bibra (German Chemist and Naturalist)
-- Carl Friedrich Philipp von Martius (German Naturalist and Ethnologist)
-- Andreas Wagner (German Paleontologist)
-- Gregor Mendel (Austrian Biologist and Physicist)
-- Pierre-Marie Alexis Millardet (French Biologist)
-- Hugo de Vries (Dutch Biologist)
-- Carl Correns (German Biologist)
-- Carl Fraas (German Biologist)
-- Liberty Hyde Bailey (American Biologist)
-- Luther Burbank (American Biologist)
-- Joseph Anselm Feuerbach (German Archaeologist)
+- Theodor Boveri (German Biologist)
+- Erich Tschermak (Austrian Biologist)
+- Nettie Stevens (American Biologist)
+- Walter Sutton (American Biologist, Physician and Engineer)
+- Edmund Beecher Wilson (American Biologist)
 
 Fixes:
-- Beno Gutenberg should no longer use the same variable as Wegener to keep him from spawning.
-- Fixed the name of Symphonies producing an error.
+- There should no longer be any ghost composers travelling the world.
+- Fixed a loc issue with the advanced medical support mobilization options.
+- Fixed the Pathogen of the Pandemic not having the right event window and showing big smiley.
 
 Graphics:
-- Johann Lukas Schönlein DNA improved.
-- Gustave Eiffel DNA improved.
-- Richthofen DNA improved.
-- Fogg DNA improved.
-- Wolf DNA improved.
-- Vouris DNA improved.
+- Improved Josef Leu DNA.
+- Improved Friedrich Ludwig Keller DNA.
 
 Changes:
--
+- Slightly raised the SoL modifiers of the Nature Reserve Production Methods.
