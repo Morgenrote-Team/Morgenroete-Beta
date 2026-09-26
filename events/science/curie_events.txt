@@ -12,6 +12,15 @@ namespace = curie
 
 #Curie 12: Joachimsthal
 
+###### GEOMAGNETICS ######
+
+#Curie 101: Admission to the Göttingen Magnetic Association
+#Curie 102: First records of the earth's magnetic field in $COUNTRY$
+#Curie 103: International Magnetic Data Collection
+#Curie 104: Nautical Interest
+#Curie 105: An Anomaly
+#Curie 106: Astronomer consults Geomagnetic Observatory
+
 #################################################################################
 
 curie.1 = {
@@ -79,6 +88,344 @@ curie.12 = {
 }
 
 #################################################################################
+
+###### GEOMAGNETICS ######
+
+#Gaudí 1401: Admission to the Göttingen Magnetic Association
+gaudi.1401 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = gaudi.1401.t
+	desc = gaudi.1401.d
+	flavor = gaudi.1401.f
+
+	placement = scope:gaudi_association_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:tesla_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_HANNOVER
+			}
+			save_scope_as = gaudi_association_state
+			owner = {
+				save_scope_as = gaudi_goettingen_owner
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.1401.g #We should build a measuring station immediately.
+		default_option = yes
+		scope:gaudi_engineer_scope = {
+			set_character_busy_and_immortal = yes
+		}
+		electrical_engineer_experience_gain_effect = { AMOUNT = 15 }
+		curie_add_magnetic_association_member = yes
+		tesla_electrical_engineering_small_add_technology = yes
+		every_country = {
+			limit = {
+				has_variable = curie_magnetic_association_member_var
+				NOT = {
+					ROOT = THIS
+				}
+			}
+			change_relations = {
+				country = ROOT
+				value = 2
+			}
+		}
+	}
+}
+
+#Gaudí 1402: First records of the earth's magnetic field in $COUNTRY$
+gaudi.1402 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = gaudi.1402.t
+	desc = gaudi.1402.d
+	flavor = gaudi.1402.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:tesla_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_HANNOVER
+			}
+			owner = {
+				save_scope_as = gaudi_goettingen_owner
+			}
+		}
+		if = {
+			limit = { has_variable = tesla_engineer_var }
+			var:tesla_engineer_var = {
+				set_variable = {
+					name = tesla_engineer_achievements_finished_geomagnetic_observartory_project_var
+					value = flag:tesla_engineer_achievements_finished_geomagnetic_observartory_project_loc
+				}
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.1402.g #We should build a measuring station immediately.
+		default_option = yes
+		electrical_engineer_experience_gain_effect = { AMOUNT = 30 }
+		scope:gaudi_engineer_scope = {
+			set_character_busy_and_immortal = no
+		}
+		curie_add_x_magnetic_data = {
+			AMOUNT = 5
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_verrier_observatory
+			}
+			activate_production_method = {
+				building_type = building_verrier_observatory
+				production_method = pm_curie_magnetic_observatory
+			}
+		}
+	}
+}
+
+#Gaudí 1403: International Magnetic Data Collection
+gaudi.1403 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = gaudi.1403.t
+	desc = gaudi.1403.d
+	flavor = gaudi.1403.f
+
+	event_image = {
+		texture = "gfx/event_pictures/academics_pictures/academics_royal_society.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				state_region = s:STATE_HANNOVER
+			}
+			owner = {
+				save_scope_as = gaudi_goettingen_owner
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.1403.g #An impressive achievement.
+		default_option = yes
+		tesla_electrical_engineering_large_add_technology = yes
+		dubois_add_x_academy_progress = {
+			AMOUNT = 90
+		}
+		if = {
+			limit = {
+				tesla_has_electrical_engineer_trigger = yes
+			}
+			electrical_engineer_experience_gain_effect = {
+				AMOUNT = 30
+			}
+		}
+	}
+}
+
+#Gaudí 1404: Nautical Interest
+gaudi.1404 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = gaudi.1404.t
+	desc = gaudi.1404.d
+	flavor = gaudi.1404.f
+
+	gui_window = event_window_2char
+
+	left_icon = scope:gaudi_engineer_scope
+	right_icon = scope:gaudi_admiral_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+		any_scope_character = {
+			has_role_of_type = admiral
+			is_busy = no
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_role_of_type = admiral
+				is_busy = no
+			}
+			save_scope_as = gaudi_admiral_scope
+		}
+		var:tesla_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {
+		name = gaudi.1404.g #The new knowledge should be useful to him.
+		default_option = yes
+		scope:gaudi_admiral_scope = {
+			add_modifier = {
+				name = gaudi_geomagnetical_knowledge_modifier
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.1404.h #This knowledge should benefit everyone.
+		tesla_electrical_engineering_small_add_technology = yes
+		curie_add_x_magnetic_data = {
+			AMOUNT = 1
+		}
+	}
+}
+
+#Gaudí 1405: An Anomaly
+gaudi.1405 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = gaudi.1405.t
+	desc = gaudi.1405.d
+	flavor = gaudi.1405.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		var:tesla_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {
+		name = gaudi.1405.g #Interesting.
+		default_option = yes
+		curie_add_x_magnetic_data = {
+			AMOUNT = 1
+		}
+	}
+}
+
+#Gaudí 1406: Astronomer consults Geomagnetic Observatory
+gaudi.1406 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = gaudi.1406.t
+	desc = gaudi.1406.d
+	flavor = gaudi.1406.f
+
+	gui_window = event_window_2char
+
+	left_icon = scope:gaudi_engineer_scope
+	right_icon = scope:verrier_astronomer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+		has_variable = verrier_astronomer_var
+		var:verrier_astronomer_var = {
+			is_busy = no
+		}
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+		var:tesla_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {
+		name = gaudi.1406.g #This will help him in his practical research.
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 2
+		}
+		astronomer_experience_gain_effect = {
+			AMOUNT = 15
+		}
+	}
+
+	option = {
+		name = gaudi.1406.h #This will help him in his theoretical research.
+		verrier_small_add_technology = yes
+	}
+}
 
 ###### MATHEMATICS ######
 
