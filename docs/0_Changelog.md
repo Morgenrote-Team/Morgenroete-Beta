@@ -6,7 +6,7 @@ Characters:
 - Thomas Hunt Morgan (American Biologist)
 
 Fixes:
--
+- Added a tooltip for the finishing condition of the Improve Medical Techniques JE.
 
 Graphics:
 -
