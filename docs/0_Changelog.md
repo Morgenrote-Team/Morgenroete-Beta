@@ -9,6 +9,7 @@ Characters:
 
 Fixes:
 - Added a tooltip for the finishing condition of the Improve Medical Techniques JE.
+- The Naturalist Projects now get the correct progress from Natural History Universities again and the tooltip is displayed on the Progress Bar.
 
 Graphics:
 -
