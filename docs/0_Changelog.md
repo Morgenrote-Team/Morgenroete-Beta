@@ -2,6 +2,7 @@ Changelog fot 2.9.0 "Curie"
 
 Physics
 - Added a new Academic: Physicist.
+- Wilhelm Eduard Weber is now a Physicist (instead of an Engineer) at game start for Hanover.
 
 Academics
 - To promote an Engineer, you need the technology Atmospheric Engine.

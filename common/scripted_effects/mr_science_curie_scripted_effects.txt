@@ -361,16 +361,16 @@ curie_add_x_magnetic_data = {
 	if = { #Fallback if the variable does not exist yet
 		limit = {
 			NOT = {
-				has_variable = curie_magnetic_data
+				has_variable = curie_magnetic_data_var
 			}
 		}
 		set_variable = {
-			name = curie_magnetic_data
+			name = curie_magnetic_data_var
 			value = 0
 		}
 	}
 	change_variable = {
-		name = curie_magnetic_data
+		name = curie_magnetic_data_var
 		add = $AMOUNT$
 	}
 
@@ -378,46 +378,124 @@ curie_add_x_magnetic_data = {
 	if = { #Fallback if the variable does not exist yet
 		limit = {
 			NOT = {
-				has_global_variable = curie_total_magnetic_data
+				has_global_variable = curie_total_magnetic_data_global_var
 			}
 		}
 		set_global_variable = {
-			name = curie_total_magnetic_data
+			name = curie_total_magnetic_data_global_var
 			value = 0
 		}
 	}
 	change_global_variable = {
-		name = curie_total_magnetic_data
+		name = curie_total_magnetic_data_global_var
 		add = $AMOUNT$
 	}
 }
 
-curie_set_magnetic_association = {
-	set_global_variable = {
-		name = curie_magnetic_association_members
-		value = 1
-	}
-	set_variable = {
-		name = curie_magnetic_data
-		value = 0
-	}
-	set_global_variable = {
-		name = curie_total_magnetic_data
-		value = 0
-	}
-	set_variable = curie_magnetic_association_member_var
+curie_set_magnetic_association_effect = {
+	curie_add_magnetic_association_member = yes
+	set_variable = curie_magnetic_station_var
 
-	custom_tooltip = curie_set_magnetic_association_tt
+	country_definition = {
+		set_global_variable = {
+			name =  curie_magnetic_association_global_var
+			value = THIS
+		}
+	}
+
+	random_scope_state = {
+		limit = {
+			has_building = building_verrier_observatory
+		}
+		state_region = {
+			set_global_variable = { #This is used in the GUI to display the state
+            	name = curie_magnetic_association_city_global_var
+           		value = this
+        	}
+		}
+	}
+
+	custom_tooltip = curie_set_magnetic_association_effect_tt
 }
 
 curie_add_magnetic_association_member = {
 	change_global_variable = {
-		name = curie_magnetic_association_members
+		name = curie_magnetic_association_members_global_var
 		add = 1
 	}
 	set_variable = curie_magnetic_association_member_var
 
 	custom_tooltip = curie_add_magnetic_association_member_tt
+}
+
+curie_magnetic_progress_gain_effect = {
+	if = {
+		limit = {
+			NOT = { 
+				has_global_variable = curie_total_magnetic_data_global_var
+			}
+		}
+		set_global_variable = {
+			name = curie_total_magnetic_data_global_var
+			value = 0
+		}
+	}
+	change_global_variable = {
+		name = curie_total_magnetic_data_global_var
+		add = {
+			value = global_var:curie_magnetic_association_members_global_var
+		}
+	}
+	if = {
+		limit = {
+			var:curie_total_magnetic_data_global_var >= curie_magnetic_progress_goal
+		}
+		curie_magnetic_research_effect = yes
+	}
+}
+
+curie_magnetic_research_effect = {
+	change_global_variable = {
+		name = curie_total_magnetic_data_global_var
+		subtract = curie_magnetic_progress_goal
+	}
+	change_global_variable = {
+		name = curie_magnetic_research_global_var
+		add = 1
+	}
+
+	agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+
+	every_country = {
+		limit = {
+			has_variable = curie_magnetic_association_member_var
+		}
+		trigger_event = {
+			id = curie.103
+		}
+	}
+}
+
+#Button Effect
+curie_magnetic_research_station_button_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = curie_magnetic_association_member_var
+			}
+		}
+		curie_add_magnetic_association_member = yes
+		trigger_event = {
+			id = curie.101
+			popup = yes
+		}
+	}
+	var:curie_physicist_var ?= {
+		set_character_busy_and_immortal = yes
+	}
+	add_journal_entry = {
+		type = je_curie_magnetic_station
+	}
 }
 
 ### MATHEMATICS ###

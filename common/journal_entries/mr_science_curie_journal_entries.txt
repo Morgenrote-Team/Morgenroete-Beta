@@ -20,76 +20,7 @@ je_curie_experiments_project = {
 
 }
 
-je_curie_magnetic_observation = {
-	icon = "gfx/interface/icons/event_icons/event_physics.dds"
-
-	group = je_group_curie_physics
-
-	on_yearly_pulse = {
-		effect = {
-			change_global_variable = {
-				name = curie_total_magnetic_data
-				add = global_var:curie_magnetic_association_members
-			}
-			every_country = {
-				limit = {
-					has_variable = curie_magnetic_association_members
-				}
-				change_variable = {
-					name = curie_magnetic_data
-					add = 1
-				}
-			}
-		}
-	}
-
-	immediate = {
-	}
-
-	complete = {
-		any_country = {
-			any_scope_building = {
-				is_building_type = building_verrier_observatory
-				has_active_production_method = pm_curie_magnetic_observatory
-			}
-			count >= 10
-		}
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
-
-	on_complete = {
-		every_country = {
-			limit = {
-				has_variable = curie_magnetic_association_member_var
-			}
-			trigger_event = {
-				id = curie.103
-			}
-		}
-	}
-
-	current_value = {
-		value = global_var:curie_total_magnetic_data
-	}
-
-	goal_add_value = {
-		value = 100
-	}
-
-	invalid = {
-	}
-
-	on_invalid = {
-	}
-
-	progressbar = yes
-
-	weight = 30
-
-	should_be_pinned_by_default_uninvolved_or_context = yes
-}
+###Magnetic Association###
 
 je_curie_magnetic_station = {
 	icon = "gfx/interface/icons/event_icons/event_physics.dds"
@@ -126,7 +57,67 @@ je_curie_magnetic_station = {
 		}
 
 		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
+		ai_start_physics_project_for_ai_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_physicist_dies_tt
+			NOT = {
+				has_variable = curie_physicist_var
+			}
+		}
+	}
+
+	on_invalid = {
+	}
+
+	weight = 30
+
+	should_be_pinned_by_default_uninvolved_or_context = yes
+}
+
+###Magnetic Atlas###
+
+je_curie_magnetic_atlas = {
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	group = je_group_curie_physics
+
+	scripted_progress_bar = curie_magnetic_atlas_progress_bar
+
+	immediate = {
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_curie_magnetic_atlas_progress_complete_tt
+			scope:journal_entry = {
+				"scripted_bar_progress(curie_magnetic_atlas_progress_bar)" >= 24
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = curie.107
+			popup = yes
+		}
+
+		#Starts new project for AI
+		ai_start_physics_project_for_ai_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_physicist_dies_tt
+			NOT = {
+				has_variable = curie_physicist_var
+			}
+		}
+	}
+
+	on_invalid = {
 	}
 
 	weight = 30

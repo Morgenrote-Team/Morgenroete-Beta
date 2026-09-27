@@ -91,6 +91,78 @@ curie.12 = {
 
 ###### GEOMAGNETICS ######
 
+#Curie 100: The Magnetic Association
+curie.100 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.100.t
+	desc = curie.100.d
+	flavor = curie.100.f
+
+	placement = scope:curie_association_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curie_physicist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		if = {
+			limit = { has_variable = curie_physicist_var }
+			var:curie_physicist_var = {
+				set_variable = {
+					name = curie_physicist_achievements_foundes_magnetic_association_var
+					value = flag:curie_physicist_achievements_founded_geomagnetic_association_loc
+				}
+			}
+		}
+	}
+
+	option = {
+		name = curie.102.g #We should build a measuring station immediately.
+		default_option = yes
+		if = {
+			limit = {
+				curie_has_mathematical_physicist_trigger = yes
+			}
+			mathematical_physicist_experience_gain_effect = {
+				AMOUNT = 30
+			}
+		}
+		if = {
+			limit = {
+				curie_has_meteorological_physicist_trigger = yes
+			}
+			mathematical_physicist_experience_gain_effect = {
+				AMOUNT = 30
+			}
+		}
+		curie_add_x_magnetic_data = {
+			AMOUNT = 5
+		}
+		curie_add_x_physical_data_effect = {
+			AMOUNT = 2
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_verrier_observatory
+			}
+			activate_production_method = {
+				building_type = building_verrier_observatory
+				production_method = pm_curie_magnetic_observatory
+			}
+		}
+	}
+}
+
 #Curie 101: Admission to the Göttingen Magnetic Association
 curie.101 = {
 	dlc = dlc_morgenrote
@@ -100,8 +172,6 @@ curie.101 = {
 	title = curie.101.t
 	desc = curie.101.d
 	flavor = curie.101.f
-
-	placement = scope:curie_association_state
 
 	gui_window = event_window_1char_tabloid
 
@@ -118,15 +188,6 @@ curie.101 = {
 		var:curie_physicist_var = {
 			save_scope_as = curie_physicist_scope
 		}
-		random_state = {
-			limit = {
-				state_region = s:STATE_HANNOVER
-			}
-			save_scope_as = curie_association_state
-			owner = {
-				save_scope_as = curie_goettingen_owner
-			}
-		}
 	}
 
 	option = {
@@ -135,8 +196,22 @@ curie.101 = {
 		scope:curie_physicist_scope = {
 			set_character_busy_and_immortal = yes
 		}
-		mathematical_physicist_experience_gain_effect = { AMOUNT = 15 }
-		curie_add_magnetic_association_member = yes
+		if = {
+			limit = {
+				curie_has_mathematical_physicist_trigger = yes
+			}
+			mathematical_physicist_experience_gain_effect = {
+				AMOUNT = 15
+			}
+		}
+		if = {
+			limit = {
+				curie_has_meteorological_physicist_trigger = yes
+			}
+			mathematical_physicist_experience_gain_effect = {
+				AMOUNT = 15
+			}
+		}
 		every_country = {
 			limit = {
 				has_variable = curie_magnetic_association_member_var
@@ -177,14 +252,6 @@ curie.102 = {
 		var:curie_physicist_var = {
 			save_scope_as = curie_physicist_scope
 		}
-		random_state = {
-			limit = {
-				state_region = s:STATE_HANNOVER
-			}
-			owner = {
-				save_scope_as = curie_goettingen_owner
-			}
-		}
 		if = {
 			limit = { has_variable = curie_physicist_var }
 			var:curie_physicist_var = {
@@ -199,10 +266,24 @@ curie.102 = {
 	option = {
 		name = curie.102.g #We should build a measuring station immediately.
 		default_option = yes
-		mathematical_physicist_experience_gain_effect = { AMOUNT = 30 }
-		scope:curie_physicist_scope = {
-			set_character_busy_and_immortal = no
+		set_variable = curie_magnetic_station_var
+		if = {
+			limit = {
+				curie_has_mathematical_physicist_trigger = yes
+			}
+			mathematical_physicist_experience_gain_effect = {
+				AMOUNT = 30
+			}
 		}
+		if = {
+			limit = {
+				curie_has_meteorological_physicist_trigger = yes
+			}
+			mathematical_physicist_experience_gain_effect = {
+				AMOUNT = 30
+			}
+		}
+		curie_set_physicist_unbusy_effect = yes
 		curie_add_x_magnetic_data = {
 			AMOUNT = 5
 		}
@@ -232,7 +313,7 @@ curie.103 = {
 	flavor = curie.103.f
 
 	event_image = {
-		texture = "gfx/event_pictures/academics_pictures/academics_royal_society.dds"
+		video = "europenorthamerica_gold_prospectors"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -243,24 +324,16 @@ curie.103 = {
 	}
 
 	immediate = {
-		random_state = {
-			limit = {
-				state_region = s:STATE_HANNOVER
-			}
-			owner = {
-				save_scope_as = curie_goettingen_owner
-			}
-		}
 	}
 
 	option = {
-		name = curie.103.g #An impressive achievement.
+		name = curie.103.g #We need more scientific data.
 		default_option = yes
 		curie_add_x_physical_data_effect = {
 			AMOUNT = 5
 		}
 		dubois_add_x_academy_progress = {
-			AMOUNT = 90
+			AMOUNT = 30
 		}
 		if = {
 			limit = {
@@ -269,6 +342,74 @@ curie.103 = {
 			mathematical_physicist_experience_gain_effect = {
 				AMOUNT = 30
 			}
+		}
+		if = {
+			limit = {
+				curie_has_meteorological_physicist_trigger = yes
+			}
+			mathematical_physicist_experience_gain_effect = {
+				AMOUNT = 30
+			}
+		}
+	}
+
+	option = {
+		name = curie.103.h #This will help in the search for iron deposits.
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_iron_mine
+			}
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_iron_mine
+				}
+			}
+			change_resource_potential = {
+        		type = building_iron_mine
+        		amount = 2
+    		}
+		}
+	}
+
+	option = {
+		name = curie.103.i #This will help in the search for lead deposits.
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_lead_mine
+			}
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_lead_mine
+				}
+			}
+			change_resource_potential = {
+        		type = building_lead_mine
+        		amount = 2
+    		}
+		}
+	}
+
+	option = {
+		name = curie.103.j #This will help in the search for lead deposits.
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_oil_rig
+			}
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_oil_rig
+				}
+			}
+			change_resource_potential = {
+        		type = building_oil_rig
+        		amount = 2
+    		}
 		}
 	}
 }
@@ -430,6 +571,69 @@ curie.106 = {
 	option = {
 		name = curie.106.h #This will help him in his theoretical research.
 		verrier_small_add_technology = yes
+	}
+}
+
+#Curie 107: The Magnetic Atlas
+curie.107 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.107.t
+	desc = curie.107.d
+	flavor = curie.107.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curie_physicist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = curie_magnetic_atlas_var
+		var:curie_physicist_var = {
+			save_scope_as = curie_physicist_scope
+		}
+	}
+
+	option = {
+		name = curie.107.g #The knowledge should be applied in a theoretical context.
+		default_option = yes
+		curie_add_x_physical_data_effect = {
+			AMOUNT = 5
+		}
+		curie_add_x_magnetic_data_effect = {
+			AMOUNT = 10
+		}
+		if = {
+			limit = {
+				curie_has_mathematical_physicist_trigger = yes
+			}
+			mathematical_physicist_experience_gain_effect = {
+				AMOUNT = 30
+			}
+		}
+		if = {
+			limit = {
+				curie_has_meteorological_physicist_trigger = yes
+			}
+			mathematical_physicist_experience_gain_effect = {
+				AMOUNT = 30
+			}
+		}
+		curie_set_physicist_unbusy_effect = yes
+	}
+
+	option = {
+		name = curie.107.h #This knowledge should be put into practice.
+		tesla_electrical_engineering_medium_add_technology = yes
+		curie_set_physicist_unbusy_effect = yes
 	}
 }
 
