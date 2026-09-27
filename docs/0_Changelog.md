@@ -1,20 +1,18 @@
-Changelog for 2.8.3j "Mitsopoulos"
+Changelog for 2.8.3k "Mitsopoulos"
 
 Characters:
-- Theodor Boveri (German Biologist)
-- Erich Tschermak (Austrian Biologist)
-- Nettie Stevens (American Biologist)
-- Walter Sutton (American Biologist, Physician and Engineer)
-- Edmund Beecher Wilson (American Biologist)
+- Jakob Steiner (Swiss Physicist)
+- Wilhelm Hofmeister (German Biologist)
+- Eduard Strasburger (German Biologist)
+- August Weismann (German Biologist)
+- Thomas Hunt Morgan (American Biologist)
 
 Fixes:
-- There should no longer be any ghost composers travelling the world.
-- Fixed a loc issue with the advanced medical support mobilization options.
-- Fixed the Pathogen of the Pandemic not having the right event window and showing big smiley.
+- Added a tooltip for the finishing condition of the Improve Medical Techniques JE.
+- The Naturalist Projects now get the correct progress from Natural History Universities again and the tooltip is displayed on the Progress Bar.
 
 Graphics:
-- Improved Josef Leu DNA.
-- Improved Friedrich Ludwig Keller DNA.
+-
 
 Changes:
-- Slightly raised the SoL modifiers of the Nature Reserve Production Methods.
+-
