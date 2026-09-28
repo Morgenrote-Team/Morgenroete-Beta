@@ -1,7 +1,7 @@
-Changelog for 2.8.3i "Mitsopoulos"
+Changelog for 2.8.3k "Mitsopoulos"
 
 Characters:
-- Erich Tschermak (Austrian Biologist)
+- Asa Gray (American Biologist and Naturalist)
 
 Fixes:
 -
@@ -10,4 +10,4 @@ Graphics:
 -
 
 Changes:
-- Slightly raised the SoL modifiers of the Nature Reserve Production Methods.
+-
