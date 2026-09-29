@@ -13,6 +13,9 @@ Physics - Geomagnetism
 - The various buttons on the Engineer's interface that allowed players to unlock raw material deposits using magnetic data have been removed.
 - Instead, every time enough magnetic data has been collected worldwide, an event is unlocked for all members of the Magnetic Association that unlocks either physics experience and physical data, or a small deposit of raw materials (+2 for iron and lead, +1 for copper and oil); however, this also requires certain technological prerequisites. Each time a progress bar is completed, meeting the requirements the next time becomes more difficult.
 
+Physics - The Göttingen Seven
+- Hanover begins with a physicist and mathematician: Wilhelm Eduard Weber. During the “Göttingen Seven” event, Weber may lose his position. He may subsequently resurface in a German state that has criticized the behavior of the King of Hanover and does not have a mathematician of its own.
+
 Academics
 - To promote an Engineer, you need the technology Atmospheric Engine.
 - To promote an Archaeologist, you need the technology Antiquarianism.
@@ -41,10 +44,10 @@ Biology & Chemistry
 - A Chemist can invent DDT like Synthetic Rubber or Synthetic Oil. DDT gives agriculture bonuses and prevention against boll weevil, codling moth, locust swarms, potato beetles and tea mosquito.
 
 Engineering
-- Electrical Engineer available with Electrical Engineering (instead of Physics).
+- Electrical Engineer available with Electrical Generation (instead of Physics).
 - Telegraph Offices and Radio Stations PM can be activated manually; no Electrical Engineer needed.
-- The electrical engineer can unlock two new mobilization options in the new Communication mobilization group: Telegraph Troops (Electric Telegraph) and Signal Corps (Radios).
-- Telegraphy Network and Radio Network are now Journal Entries which are triggered and completed automatically; the buttons for the electrical engineer were removed.
+- The Electrical Engineer can unlock two new mobilization options in the new Communication mobilization group: Telegraph Troops (Electric Telegraph) and Signal Corps (Radios).
+- Telegraphy Network and Radio Network are now Journal Entries which are triggered and completed automatically; the buttons for the Electrical Engineer were removed.
 
 Music
 - Added JE and event for the rediscovery of Vivaldi's works.
