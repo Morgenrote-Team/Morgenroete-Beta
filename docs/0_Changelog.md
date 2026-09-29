@@ -1,8 +1,17 @@
 Changelog fot 2.9.0 "Curie"
 
-Physics
+Physics - General
 - Added a new Academic: Physicist.
 - Wilhelm Eduard Weber is now a Physicist (instead of an Engineer) at game start for Hanover.
+
+Physics - Geomagnetism
+- All content related to geomagnetism has been moved to and centralized in the “Mathematics” GUI (previously located under “Engineering”).
+- It is now possible to found the Geomagnetic Association via an action in a modded game set before 1836.
+- New action: Geomagnetic Atlas.
+- All journal entries related to geomagnetism now have their own scripted progress bar.
+- The Geomagnetic Institute generates both magnetic data AND physical data.
+- The various buttons on the Engineer's interface that allowed players to unlock raw material deposits using magnetic data have been removed.
+- Instead, every time enough magnetic data has been collected worldwide, an event is unlocked for all members of the Magnetic Association that unlocks either physics experience and physical data, or a small deposit of raw materials (+2 for iron and lead, +1 for copper and oil); however, this also requires certain technological prerequisites. Each time a progress bar is completed, meeting the requirements the next time becomes more difficult.
 
 Academics
 - To promote an Engineer, you need the technology Atmospheric Engine.
