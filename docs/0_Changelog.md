@@ -15,6 +15,8 @@ Physics - Geomagnetism
 
 Physics - The Göttingen Seven
 - Hanover begins with a physicist and mathematician: Wilhelm Eduard Weber. During the “Göttingen Seven” event, Weber may lose his position. He may subsequently resurface in a German state that has criticized the behavior of the King of Hanover and does not have a mathematician of its own.
+- Jacob Grimm, who starts as an agitator for Hannover, will be purged, too, and appears under similar circumstances as an agitator in a German state. VotP is needed for this, as Jacob Grimm is used as a character in this DLC.
+- Grimm may trigger the "Deutsches Wörterbuch" (German Dictionary) event after many years in the country which welcomed him.
 
 Academics
 - To promote an Engineer, you need the technology Atmospheric Engine.

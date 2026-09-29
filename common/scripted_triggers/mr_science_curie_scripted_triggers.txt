@@ -52,6 +52,68 @@ curie_is_physics_automated_trigger = {
 
 #Technologies needed for formula discovery
 
+curie_formula_can_discover_trigger = {
+	hidden_trigger = {
+		OR = {
+			AND = {
+				curie_discovery_nuclear_physics_formula_trigger = yes
+				OR = {
+					###PRE-GAME ELEMENTS###
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 45 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 44 }
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 43 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 42 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 41 } 
+				}
+			}
+			AND = {
+				curie_discovery_modern_physics_formula_trigger = yes
+				OR = {
+					###LATE GAME###
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 35 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 34 }
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 33 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 32 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 31 } 
+				}
+			}
+			AND = {
+				curie_discovery_electromagnetism_formula_trigger = yes
+				OR = {
+					###MID GAME###
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 25 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 24 }
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 23 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 22 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 21 } 
+				}
+			}
+			AND = {
+				curie_discovery_differential_geometry_formula_trigger = yes
+				OR = {
+					###EARLY GAME###
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 15 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 14 }
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 13 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 12 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 11 } 
+				}
+			}
+			AND = {
+				curie_discovery_classical_physics_formula_trigger = yes
+				OR = {
+					###PRE GAME###
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 5 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 4 }
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 3 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 2 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 1 } 
+				}
+			}
+		}
+	}
+}
+
 curie_discovery_nuclear_physics_formula_trigger = {
 	has_technology_researched = verrier_nuclear_physics_tech
 }
@@ -72,6 +134,29 @@ curie_discovery_classical_physics_formula_trigger = {
 	has_technology_researched = verrier_physics_tech
 }
 
+#Trigger to check if a specific formula was not discovered
+curie_formula_x_is_not_discovered_trigger = {
+	#NUMBER --> Number of the Element in the Formula List
+#	hidden_trigger = {
+		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+			name = value
+			value = $NUMBER$
+		}
+#	}
+
+	custom_tooltip = {
+		text = curie_formula_x_is_not_discovered_tt
+		NOT = {
+			curie_formula_x_is_discovered_no_tooltip_trigger = { NUMBER = $NUMBER$ }
+		}
+	}
+}
+curie_formula_x_is_not_discovered_no_tooltip_trigger = {
+	NOT = {
+		curie_formula_x_is_discovered_no_tooltip_trigger = { NUMBER = $NUMBER$ }
+	}
+}
+
 #Check if the formula in question is discovered or not
 
 curie_formula_x_is_not_discovered_no_tooltip_trigger = {
@@ -87,6 +172,18 @@ curie_formula_x_is_discovered_no_tooltip_trigger = {
 
 		var:curie_formula_number_var ?= $NUMBER$
 		has_variable = curie_formula_discovered_var
+	}
+}
+
+curie_formula_x_is_discovered_no_tooltip_trigger = {
+	save_temporary_scope_value_as = {
+		name = arg
+		value = $NUMBER$
+	}
+	any_in_global_list = {
+		variable = curie_formulas_global_list
+		save_temporary_scope_as = val
+		scope:val = scope:arg
 	}
 }
 
