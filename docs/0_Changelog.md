@@ -4,6 +4,7 @@ Characters:
 - Wilhelm Roux (German Biologist)
 - Asa Gray (American Biologist and Naturalist)
 - Ross Granville Harrison (American Biologist)
+- Theobald Smith (American Biologist)
 
 Fixes:
 -
