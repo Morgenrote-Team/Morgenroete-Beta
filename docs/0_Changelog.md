@@ -2,7 +2,6 @@ Changelog fot 2.9.0 "Curie"
 
 Physics - General
 - Added a new Academic: Physicist.
-- Wilhelm Eduard Weber is now a Physicist (instead of an Engineer) at game start for Hanover.
 
 Physics - Geomagnetism
 - All content related to geomagnetism has been moved to and centralized in the “Mathematics” GUI (previously located under “Engineering”).
@@ -15,13 +14,13 @@ Physics - Geomagnetism
 
 Physics - The Göttingen Seven
 - Hanover begins with a physicist and mathematician: Wilhelm Eduard Weber. During the “Göttingen Seven” event, Weber may lose his position. He may subsequently resurface in a German state that has criticized the behavior of the King of Hanover and does not have a mathematician of its own.
-- Jacob Grimm, who starts as an agitator for Hannover, will be purged, too, and appears under similar circumstances as an agitator in a German state. VotP is needed for this, as Jacob Grimm is used as a character in this DLC.
+- Jacob Grimm, who starts as an agitator for Hanover, will be purged, too, and appears under similar circumstances as an agitator in a German state. VotP is needed for this, as Jacob Grimm is used as a character in this DLC.
 - Grimm may trigger the "Deutsches Wörterbuch" (German Dictionary) event after many years in the country which welcomed him.
 
 Academics
 - To promote an Engineer, you need the technology Atmospheric Engine.
 - To promote an Archaeologist, you need the technology Antiquarianism.
-- All academics can spawn randomly if no special acadmeic is promoted, except for these: Anthropologist (needs Early Archaeology Tech), Biologist (needs Vaccination Tech), Physicist (needs Dirrential Geometry Tech).
+- All academics can spawn randomly if no special academic is promoted, except for these: Anthropologist (needs Early Archaeology Tech), Biologist (needs Vaccination Tech), Physicist (needs Differential Geometry Tech).
 
 Archaeology
 - Added 4 Events to the Maurya Empire Archaeological Region.

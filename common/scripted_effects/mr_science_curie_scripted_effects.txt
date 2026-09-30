@@ -591,9 +591,104 @@ curie_add_x_physical_data_effect = {
 	}
 }
 
+curie_sub_x_physical_data_effect = {
+	# Amount = amount of physical_data to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = physical_data_amount
+		value = $AMOUNT$
+	}
+
+	custom_tooltip = curie_add_x_physical_data_minus_1_tt
+
+	#This part adds the AMOUNT of physical_data
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = curie_physical_data_var
+			}
+		}
+		set_variable = {
+			name = curie_physical_data_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = curie_physical_data_var
+		subtract = scope:physical_data_amount
+	}
+}
+
+#Effect to add $AMOUNT$ Mathematical Innovation
+curie_add_x_mathematical_innovation_effect = {
+	# Amount = amount of Magnetic Data to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = mathematical_innovation_amount
+		value = $AMOUNT$
+	}
+
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = curie_add_x_mathematical_innovation_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = curie_add_x_mathematical_innovation_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = curie_add_x_mathematical_innovation_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = curie_add_x_mathematical_innovation_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = curie_add_x_mathematical_innovation_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of National Magnetic Data
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = curie_national_mathematical_innovation_var
+			}
+		}
+		set_variable = {
+			name = curie_national_mathematical_innovation_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = curie_national_mathematical_innovation_var
+		add = $AMOUNT$
+	}
+
+	#This part adds the AMOUNT of Global Magnetic Data
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_global_variable = curie_international_mathematical_innovation_global_var
+			}
+		}
+		set_global_variable = {
+			name = curie_international_mathematical_innovation_global_var
+			value = 0
+		}
+	}
+	change_global_variable = {
+		name = curie_international_mathematical_innovation_global_var
+		add = 1
+	}
+}
+
 ### Formula Discovery ###
 #Button Effect
 curie_formula_discovery_button_effect = {
+	curie_sub_x_physical_data_effect = {
+		AMOUNT = curie_formula_cost_value
+	}
 	hidden_effect = {
 		curie_add_searched_formula_from_list_effect = yes
 	}
@@ -752,6 +847,7 @@ curie_add_discovered_formula_effect = {
 		}
 		set_variable = curie_formula_discovered_var
 	}
+	curie_add_x_mathematical_innovation_effect = { AMOUNT = 4 }
 	change_global_variable = {
 		name = curie_discovered_formulas_global_number_var
 		add = 1
