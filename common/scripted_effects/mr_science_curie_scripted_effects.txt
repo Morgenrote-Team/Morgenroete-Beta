@@ -857,3 +857,58 @@ curie_add_discovered_formula_effect = {
 		mr_change_variable_min_0_effect = { AMOUNT = 1 NAME = curie_discovered_formulas_character_number_var }
 	}
 }
+
+### Mathematical Introduction ###
+
+#Button Effect
+curie_physicist_improve_mathematics_effect = {
+	if = {
+		limit = {
+			curie_is_physicist_automated_trigger = yes
+		}
+		clear_variable_list = curie_improve_mathematics_buildings_chosen_variable_list
+		ordered_scope_building = {
+			position = 0 #We only want the first one here
+			limit = {
+				curie_building_valid_for_mathematics_project_no_tooltip_trigger = yes
+			}
+			order_by = level
+			root = {
+				add_to_variable_list = {
+					name = curie_improve_mathematics_buildings_chosen_variable_list
+					target = prev
+				}
+			}
+		}
+		add_journal_entry = {
+			type = je_curie_improve_mathematics_project
+		}
+		var:ito_naturalist_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	}
+	else = {
+		clear_variable_list = curie_improve_mathematics_buildings_chosen_variable_list
+		ordered_scope_building = {
+			limit = {
+				curie_building_valid_for_mathematics_project_no_tooltip_trigger = yes
+			}
+			order_by = level
+			check_range_bounds = no
+
+			root = {
+				add_to_variable_list = {
+					name = curie_improve_mathematics_buildings_chosen_variable_list
+					target = prev
+				}
+			}
+		}
+		set_variable = curie_improve_mathematics_project_building_choser_var
+		show_as_tooltip = {
+			add_modifier = {
+				name = curie_physicist_mathematics_cost_modifier
+				multiplier = mr_local_project_cost_very_small_value
+			}
+		}
+	}
+}
