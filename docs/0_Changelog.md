@@ -8,7 +8,7 @@ Characters:
 - Theobald Smith (American Biologist)
 
 Fixes:
--
+- Fixed an error related to Naturalist project progress.
 
 Graphics:
 -
