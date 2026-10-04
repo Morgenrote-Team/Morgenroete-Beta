@@ -316,3 +316,105 @@ flowcontainer = {
 		expand = {}
 	}
 }
+
+flowcontainer = {
+	name = "widget_curtiss_schneider_trophy_event_list_widget"
+	ignoreinvisible = yes
+
+	#visible = "[GetScriptedGui('curtiss_schneider_trophy_race_active_sgui').IsShown(GuiScope.SetRoot(JournalEntry.MakeScope).End)]"
+
+	flowcontainer = {
+		direction = vertical
+
+		section_header_button = {
+			blockoverride "layout" {
+				size = { 520 38 }
+			}
+			blockoverride "left_text" {
+				text = "CURTISS_RACE_EVENTS_HEADER"
+			}
+			blockoverride "onclick" {
+				onclick = "[GetVariableSystem.Toggle('event_list_toggle')]"
+			}
+			blockoverride "onclick_showmore" {
+				visible = "[Not(GetVariableSystem.Exists('event_list_toggle'))]"
+			}
+			blockoverride "onclick_showless" {
+				visible = "[GetVariableSystem.Exists('event_list_toggle')]"
+			}
+		}
+
+		flowcontainer = {
+			visible = "[GetVariableSystem.Exists('event_list_toggle')]"
+			datamodel = "[JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')]"
+			minimumsize = { 520 -1 }
+			direction = vertical
+
+			background = {
+				texture = "gfx/interface/tooltip/tooltip_title_bg.dds"
+				color = { 0.69 0.47 0.33 1 }
+				alpha = 0.4
+
+				modify_texture = {
+					using = texture_velvet
+				}
+			}
+
+			item = {
+				curtiss_event_list_entry_widget = {}
+			}
+		}
+		expand = {}
+	}
+}
+
+types curtiss_types
+{
+	type curtiss_event_list_entry_widget = flowcontainer {
+		direction = vertical
+
+		divider_clean = {
+			parentanchor = top
+		}
+
+		widget = {
+			parentanchor = hcenter
+			size = { 500 35 }
+			maximumsize = { 500 35 }
+			datacontext = "[Scope.GetScriptContainer]"
+			visible = "[Scope.GetScriptContainer.IsValid]"
+
+			vbox = {
+				layoutpolicy_vertical = expanding
+				layoutpolicy_horizontal = expanding
+
+				hbox = {
+					layoutpolicy_vertical = expanding
+					layoutpolicy_horizontal = expanding
+
+					textbox = {
+						text = "MR_EVENT_ENTRY_ICON"
+						size = { 30 100% }
+						elide = right
+						align = left|nobaseline
+						alwaystransparent = yes
+					}
+
+					textbox = {
+						size = { 40 100% }
+						text = "MR_EVENT_ENTRY_DATE"
+						elide = right
+						align = left|nobaseline
+					}
+
+					textbox = {
+						size = { 355 100% }
+						text = "MR_EVENT_ENTRY_LOC"
+						elide = right
+						align = left|nobaseline
+					}
+				}
+			}
+		}
+	}
+}
