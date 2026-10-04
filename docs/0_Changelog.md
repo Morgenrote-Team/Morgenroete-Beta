@@ -4,6 +4,7 @@ Characters:
 - Oswald Avery (Canadian Biologist)
 - Frederick Griffith (British Biologist and Physician)
 - William Boog Leishman (British Biologist and Physician)
+- George Nuttall (American Biologist)
 
 Fixes:
 -
