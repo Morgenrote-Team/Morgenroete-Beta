@@ -1,6 +1,7 @@
 Changelog for 2.8.3m "Mitsopoulos"
 
 Characters:
+- Oswald Avery (Canadian Biologist)
 - William Boog Leishman (British Biologist and Physician)
 
 Fixes:
