@@ -1,15 +1,14 @@
 Changelog for 2.8.3k "Mitsopoulos"
 
 Characters:
-- Jakob Steiner (Swiss Physicist)
-- Wilhelm Hofmeister (German Biologist)
-- Eduard Strasburger (German Biologist)
-- August Weismann (German Biologist)
-- Thomas Hunt Morgan (American Biologist)
+- Wilhelm Roux (German Biologist)
+- David Bruce (British Biologist)
+- Asa Gray (American Biologist and Naturalist)
+- Ross Granville Harrison (American Biologist)
+- Theobald Smith (American Biologist)
 
 Fixes:
-- Added a tooltip for the finishing condition of the Improve Medical Techniques JE.
-- The Naturalist Projects now get the correct progress from Natural History Universities again and the tooltip is displayed on the Progress Bar.
+-
 
 Graphics:
 -
