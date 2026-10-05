@@ -912,3 +912,57 @@ curie_physicist_improve_mathematics_effect = {
 		}
 	}
 }
+
+### Physics Experiments ###
+
+#Effect to add the specific experiment which a physicist searched as a discovered experiment
+curie_add_discovered_experiment_effect = {
+	#NUMBER --> Number of the experiment
+
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = value
+		value = $NUMBER$
+	}
+
+	random_in_global_list = {
+		variable = curie_experiments_global_list
+
+		limit = {
+			var:curie_experiment_number_var ?= $NUMBER$
+		}
+
+
+		set_variable = {
+			name = year
+			value = year
+		}
+		set_variable = {
+			name = discovering_country
+			value = prev.country_definition
+		}
+		if = {
+			limit = {
+				prev.var:curie_physicist_var ?= {
+					has_variable = com_name_full_no_formatting
+				}
+			}
+			set_variable = {
+				name = discoverer
+				value = prev.var:curie_physicist_var.var:com_name_full_no_formatting
+			}
+			set_variable = {
+				name = name
+				value = prev.var:curie_physicist_var.var:com_name_last_no_formatting
+			}
+		}
+		set_variable = curie_experiment_discovered_var
+	}
+	change_global_variable = {
+		name = curie_discovered_experiments_global_number_var
+		add = 1
+	}
+	mr_change_variable_min_0_effect = { AMOUNT = 1 NAME = curie_discovered_experiments_country_number_var }
+	var:curie_physicist_var ?= {
+		mr_change_variable_min_0_effect = { AMOUNT = 1 NAME = curie_discovered_experiments_character_number_var }
+	}
+}
