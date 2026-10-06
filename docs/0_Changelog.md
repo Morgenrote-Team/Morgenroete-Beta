@@ -1,14 +1,19 @@
-Changelog for 2.8.3k "Mitsopoulos"
+Changelog for 2.8.3m "Mitsopoulos"
 
 Characters:
-- Wilhelm Roux (German Biologist)
-- David Bruce (British Biologist)
-- Asa Gray (American Biologist and Naturalist)
-- Ross Granville Harrison (American Biologist)
-- Theobald Smith (American Biologist)
+- Oswald Avery (Canadian Biologist)
+- Émile Duclaux (French Biologist)
+- Edmond Nocard (French Biologist)
+- Georg Fresenius (German Biologist)
+- Archibald Garrod (British Biologist and Physician)
+- Frederick Griffith (British Biologist and Physician)
+- John Bennet Lawes (British Biologist)
+- William Boog Leishman (British Biologist and Physician)
+- Filippo Pacini (Italian Biologist and Physician)
+- George Nuttall (American Biologist)
 
 Fixes:
-- Fixed an error related to Naturalist project progress.
+-
 
 Graphics:
 -
