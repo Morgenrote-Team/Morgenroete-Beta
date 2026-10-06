@@ -6,6 +6,7 @@ Characters:
 - Edmond Nocard (French Biologist)
 - Archibald Garrod (British Biologist and Physician)
 - Frederick Griffith (British Biologist and Physician)
+- John Bennet Lawes (British Biologist)
 - William Boog Leishman (British Biologist and Physician)
 - George Nuttall (American Biologist)
 
