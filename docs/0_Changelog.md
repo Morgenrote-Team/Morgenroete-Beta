@@ -9,6 +9,7 @@ Characters:
 - Frederick Griffith (British Biologist and Physician)
 - John Bennet Lawes (British Biologist)
 - William Boog Leishman (British Biologist and Physician)
+- Filippo Pacini (Italian Biologist and Physician)
 - George Nuttall (American Biologist)
 
 Fixes:
