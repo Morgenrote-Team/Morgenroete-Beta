@@ -1,16 +1,7 @@
-Changelog for 2.8.3n "Mitsopoulos"
+Changelog for 2.8.3o "Mitsopoulos"
 
 Characters:
-- Giuseppe Bastianelli (Italian Biologist and Physician)
-- Amico Bignami (Italian Biologist and Physician)
-- Angelo Celli (Italian Biologist and Physician)
-- Giovanni Battista Grassi (Italian Biologist)
-- Edoardo Maragliano (Italian Biologist and Physician)
-- Ettore Marchiafava (Italian Biologist and Physician)
-- Agostino Bertani (Italian Physician)
-- Filippo De Filippi (Italian Physician and Naturalist)
-- Leopoldo Pilla (Italian Physician and Geologist)
-- Pietro Ramaglia (Italian Physician)
+-
 
 Fixes:
 -
