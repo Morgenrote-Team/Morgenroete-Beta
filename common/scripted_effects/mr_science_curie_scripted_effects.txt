@@ -914,6 +914,107 @@ curie_physicist_improve_mathematics_effect = {
 }
 
 ### Physics Experiments ###
+#Button Effect
+curie_physics_experiment_button_effect = {
+	#hidden_effect = {
+	#	curie_add_searched_experiment_from_list_effect = yes
+	#}
+	var:curie_physicist_var ?= {
+		set_character_busy_and_immortal = yes
+	}
+	add_journal_entry = {
+		type = je_curie_physics_experiment
+	}
+	trigger_event = {
+		id = curie.401
+		popup = yes
+	}
+}
+
+#Effect to add a searched experiment from List
+curie_add_searched_experiment_from_list_effect = {
+	random_list = {
+		###CLASSICAL PHYSICS (before 1836)###
+		1 = { curie_add_searched_experiment_effect = { NUMBER = 1 } trigger = { curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 1 } curie_discovery_classical_physics_formula_trigger = yes } } ###1, Young Experiment###
+		1 = { curie_add_searched_experiment_effect = { NUMBER = 2 } trigger = { curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 2 } curie_discovery_classical_physics_formula_trigger = yes } } ###2, Orsted Experiment###
+		###DIFFERENTIAL GEOMETRY###
+		1 = { curie_add_searched_experiment_effect = { NUMBER = 3 } trigger = { curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 3 } curie_discovery_differential_geometry_formula_trigger = yes } } ###3, Joules Experiment###
+		1 = { curie_add_searched_experiment_effect = { NUMBER = 4 } trigger = { curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 4 } curie_discovery_differential_geometry_formula_trigger = yes } } ###4, Doppler Experiment###
+		###MODERN ASTRONOMY###
+		1 = { curie_add_searched_experiment_effect = { NUMBER = 5 } trigger = { curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 5 } has_technology_researched = verrier_astronomy_tech } } ###5, Foucault Experiment###
+		1 = { curie_add_searched_experiment_effect = { NUMBER = 6 } trigger = { curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 6 } has_technology_researched = verrier_astronomy_tech } } ###6, Fizeau Experiment###
+		###ELECTROMAGNETISM###
+		1 = { curie_add_searched_experiment_effect = { NUMBER = 7 } trigger = { curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 7 } has_technology_researched = verrier_electromagnetism_tech } } ###7, Weber Experiment###
+		###SPECTROSCOPY###
+		1 = { curie_add_searched_experiment_effect = { NUMBER = 8 } trigger = { curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 8 } has_technology_researched = verrier_spectroscopy_tech } } ###8, Michelson Experiment###
+		1 = { curie_add_searched_experiment_effect = { NUMBER = 9 } trigger = { curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 9 } has_technology_researched = verrier_spectroscopy_tech } } ###9, Hertz Experiment###
+		###MODERN PHYSICS###
+		1 = { curie_add_searched_experiment_effect = { NUMBER = 10 } trigger = { curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 10 } has_technology_researched = verrier_modern_physics_tech } } ###10, Thomson Experiment###
+		1 = { curie_add_searched_experiment_effect = { NUMBER = 11 } trigger = { curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 11 } has_technology_researched = verrier_modern_physics_tech } } ###11, Milikan Experiment###
+		###RADIOACTIVITY###
+		1 = { curie_add_searched_experiment_effect = { NUMBER = 12 } trigger = { curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 12 } has_technology_researched = verrier_radioactivity_tech } } ###12, Rutherford Experiment###
+		1 = { curie_add_searched_experiment_effect = { NUMBER = 13 } trigger = { curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 13 } has_technology_researched = verrier_radioactivity_tech } } ###13, Franck Experiment###
+		###NUCLEAR PHYSICS###
+		1 = { curie_add_searched_experiment_effect = { NUMBER = 14 } trigger = { curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 14 } has_technology_researched = verrier_nuclear_physics_tech } } ###14, Eddington Experiment###
+		1 = { curie_add_searched_experiment_effect = { NUMBER = 15 } trigger = { curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 15 } has_technology_researched = verrier_nuclear_physics_tech } } ###15, Stern Experiment###
+	}
+}
+
+#Effect to add a specific searched experiment
+curie_add_searched_experiment_effect = {
+	#NUMBER --> Number of the experiment in the List
+
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = value
+		value = $NUMBER$
+	}
+
+	#Actual Effect
+	if = {
+		limit = {
+			NOT = {
+				any_in_global_list = {
+					variable = curie_experiments_global_list
+					var:curie_experiment_number_var ?= $NUMBER$
+					has_variable = curie_experiment_discovered_var
+				}
+			}
+		}
+		set_variable = {
+			name = curie_searched_experiment
+			value = $NUMBER$
+		}
+	}
+}
+
+#Effect to add a discovered experiment from List
+curie_add_discovered_experiment_from_list_effect = {
+	random_list = {
+		###CLASSICAL PHYSICS###
+		1 = { curie_add_discovered_formula_effect = { NUMBER = 1 } trigger = { var:curie_searched_experiment = 1 } } ###1, Young Experiment###
+		1 = { curie_add_discovered_formula_effect = { NUMBER = 2 } trigger = { var:curie_searched_experiment = 2 } } ###2, Orsted Experiment###
+		###DIFFERENTIAL GEOMETRY###
+		1 = { curie_add_discovered_formula_effect = { NUMBER = 3 } trigger = { var:curie_searched_experiment = 3 } } ###3, Joules Experiment###
+		1 = { curie_add_discovered_formula_effect = { NUMBER = 4 } trigger = { var:curie_searched_experiment = 4 } } ###4, Doppler Experiment###
+		###MODERN ASTRONOMY###
+		1 = { curie_add_discovered_formula_effect = { NUMBER = 5 } trigger = { var:curie_searched_experiment = 5 } } ###5, Foucault Experiment###
+		1 = { curie_add_discovered_formula_effect = { NUMBER = 6 } trigger = { var:curie_searched_experiment = 6 } } ###6, Fizeau Experiment###
+		###ELECTROMAGNETISM###
+		1 = { curie_add_discovered_formula_effect = { NUMBER = 7 } trigger = { var:curie_searched_experiment = 7 } } ###7, Weber Experiment###
+		###SPECTROSCOPY###
+		1 = { curie_add_discovered_formula_effect = { NUMBER = 8 } trigger = { var:curie_searched_experiment = 8 } } ###8, Michelson Experiment###
+		1 = { curie_add_discovered_formula_effect = { NUMBER = 9 } trigger = { var:curie_searched_experiment = 9 } } ###9, Hertz Experiment###
+		###MODERN PHYSICS###
+		1 = { curie_add_discovered_formula_effect = { NUMBER = 10 } trigger = { var:curie_searched_experiment = 10 } } ###10, Thomson Experiment###
+		1 = { curie_add_discovered_formula_effect = { NUMBER = 11 } trigger = { var:curie_searched_experiment = 11 } } ###11, Milikan Experiment###
+		###RADIOACTIVITY###
+		1 = { curie_add_discovered_formula_effect = { NUMBER = 12 } trigger = { var:curie_searched_experiment = 12 } } ###12, Rutherford Experiment###
+		1 = { curie_add_discovered_formula_effect = { NUMBER = 13 } trigger = { var:curie_searched_experiment = 13 } } ###13, Franck Experiment###
+		###NUCLEAR PHYSICS###
+		1 = { curie_add_discovered_formula_effect = { NUMBER = 14 } trigger = { var:curie_searched_experiment = 14 } } ###14, Eddington Experiment###
+		1 = { curie_add_discovered_formula_effect = { NUMBER = 15 } trigger = { var:curie_searched_experiment = 15 } } ###15, Stern Experiment###
+	}
+}
 
 #Effect to add the specific experiment which a physicist searched as a discovered experiment
 curie_add_discovered_experiment_effect = {
