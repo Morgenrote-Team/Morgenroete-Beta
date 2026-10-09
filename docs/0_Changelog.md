@@ -10,4 +10,4 @@ Graphics:
 -
 
 Changes:
--
+- William H. Welch can now also spawn as a Biologist.
