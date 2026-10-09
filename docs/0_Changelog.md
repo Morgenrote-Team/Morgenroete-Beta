@@ -1,16 +1,16 @@
-Changelog for 2.8.3m "Mitsopoulos"
+Changelog for 2.8.3n "Mitsopoulos"
 
 Characters:
-- Oswald Avery (Canadian Biologist)
-- Émile Duclaux (French Biologist)
-- Edmond Nocard (French Biologist)
-- Georg Fresenius (German Biologist)
-- Archibald Garrod (British Biologist and Physician)
-- Frederick Griffith (British Biologist and Physician)
-- John Bennet Lawes (British Biologist)
-- William Boog Leishman (British Biologist and Physician)
-- Filippo Pacini (Italian Biologist and Physician)
-- George Nuttall (American Biologist)
+- Giuseppe Bastianelli (Italian Biologist and Physician)
+- Amico Bignami (Italian Biologist and Physician)
+- Angelo Celli (Italian Biologist and Physician)
+- Giovanni Battista Grassi (Italian Biologist)
+- Edoardo Maragliano (Italian Biologist and Physician)
+- Ettore Marchiafava (Italian Biologist and Physician)
+- Agostino Bertani (Italian Physician)
+- Filippo De Filippi (Italian Physician and Naturalist)
+- Leopoldo Pilla (Italian Physician and Geologist)
+- Pietro Ramaglia (Italian Physician)
 
 Fixes:
 -
