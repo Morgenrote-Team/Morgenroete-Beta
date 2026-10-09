@@ -5,8 +5,9 @@ Characters:
 - Amico Bignami (Italian Biologist and Physician)
 - Angelo Celli (Italian Biologist and Physician)
 - Giovanni Battista Grassi (Italian Biologist)
-- Edward Maragliano (Italian Biologist and Physician)
+- Edoardo Maragliano (Italian Biologist and Physician)
 - Ettore Marchiafava (Italian Biologist and Physician)
+- Agostino Bertani (Italian Physician)
 
 Fixes:
 -
