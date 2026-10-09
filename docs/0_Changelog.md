@@ -9,6 +9,7 @@ Characters:
 - Ettore Marchiafava (Italian Biologist and Physician)
 - Agostino Bertani (Italian Physician)
 - Filippo De Filippi (Italian Physician and Naturalist)
+- Leopoldo Pilla (Italian Physician and Geologist)
 - Pietro Ramaglia (Italian Physician)
 
 Fixes:
