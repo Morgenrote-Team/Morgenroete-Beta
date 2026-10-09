@@ -8,6 +8,7 @@ Characters:
 - Edoardo Maragliano (Italian Biologist and Physician)
 - Ettore Marchiafava (Italian Biologist and Physician)
 - Agostino Bertani (Italian Physician)
+- Pietro Ramaglia (Italian Physician)
 
 Fixes:
 -
