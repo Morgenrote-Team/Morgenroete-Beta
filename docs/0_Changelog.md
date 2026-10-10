@@ -34,9 +34,9 @@ Archaeology
 
 Aviation
 - Airspace Convention needs Airlines, not Modern Aviation.
-- Dreadnought does not need aviation, but does also not unlock the Seaplane Tender.
+- Dreadnought does not need Aviation, but does also not unlock the Seaplane Tender.
 - Modern Aviation needs Air War Doctrine and Airlines.
-- Seaplanes needs dreadnought and unlock the Seaplane Tender; it also unlocks a new modification for Seaplane Tenders and Super Dreadnoughts: Scout Seaplane (only one allowed).
+- Seaplanes needs Dreadnought and unlocks the Seaplane Tender; it also unlocks a new modification for Seaplane Tenders and Super Dreadnoughts: Scout Seaplane (only one allowed).
 - Seaplanes are no longer needed for Modern Aviation and Air War Doctrin, it does also no longer give additional modifiers.
 
 Biology & Chemistry
