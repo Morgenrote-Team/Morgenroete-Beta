@@ -58,6 +58,8 @@ Electrical Engineering
 Military Engineering
 - Advanced Weapons Tier 2 needs Bolt Action Rifles, Advanced Weapons 3 needs Automatic Machine Guns.
 - Advanced Defence Tier 2 needs Defense in Depth, Advanced Defence 3 needs Concrete Fortifications.
+
+Aeronautical Engineering
 - Advanced Aircraft Tier 3 needs Modern Aviation.
 
 Music
