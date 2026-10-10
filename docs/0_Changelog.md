@@ -21,6 +21,7 @@ Academics
 - To promote an Engineer, you need the technology Atmospheric Engine.
 - To promote an Archaeologist, you need the technology Antiquarianism.
 - All academics can spawn randomly if no special academic is promoted, except for these: Anthropologist (needs Early Archaeology Tech), Biologist (needs Vaccination Tech), Physicist (needs Differential Geometry Tech).
+- Technologies in the tech tree now indicate when they unlock an academic or artistic promotion.
 
 Archaeology
 - Added 4 Events to the Maurya Empire Archaeological Region.
@@ -44,7 +45,7 @@ Biology & Chemistry
 - You can share your pesticide knowledge with your subjects through a subject interaction (Biological Team). This will also lower liberty desire a little bit.
 - A Chemist can invent DDT like Synthetic Rubber or Synthetic Oil. DDT gives agriculture bonuses and prevention against boll weevil, codling moth, locust swarms, potato beetles and tea mosquito.
 
-Engineering
+Electrical Engineering
 - Electrical Engineer available with Electrical Generation (instead of Physics).
 - Telegraph Offices and Radio Stations PM can be activated manually; no Electrical Engineer needed.
 - The Electrical Engineer can unlock two new mobilization options in the new Communication mobilization group: Telegraph Troops (Electric Telegraph) and Signal Corps (Radios).
