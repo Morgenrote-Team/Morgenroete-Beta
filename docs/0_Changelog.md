@@ -35,6 +35,7 @@ Archaeology
 Aviation
 - Airspace Convention needs Airlines, not Modern Aviation.
 - Dreadnought does not need aviation, but does also not unlock the Seaplane Tender.
+- Modern Aviation needs Air War Doctrine and Airlines.
 - Seaplanes needs dreadnought and unlock the Seaplane Tender; it also unlocks a new modification for Seaplane Tenders and Super Dreadnoughts: Scout Seaplane (only one allowed).
 - Seaplanes are no longer needed for Modern Aviation and Air War Doctrin, it does also no longer give additional modifiers.
 
@@ -58,11 +59,11 @@ Electrical Engineering
 - Telegraphy Network and Radio Network are now Journal Entries which are triggered and completed automatically; the buttons for the Electrical Engineer were removed.
 
 Military Engineering
-- Advanced Weapons Tier 2 needs Bolt Action Rifles, Advanced Weapons 3 needs Automatic Machine Guns.
-- Advanced Defence Tier 2 needs Defense in Depth, Advanced Defence 3 needs Concrete Fortifications.
+- Advanced Weapons Tier 2 needs Bolt Action Rifles, Advanced Weapons Tier 3 needs Automatic Machine Guns.
+- Advanced Defence Tier 2 needs Defense in Depth, Advanced Defence Tier 3 needs Concrete Fortifications.
 
 Aeronautical Engineering
-- Advanced Aircraft Tier 3 needs Modern Aviation.
+- Advanced Aircraft Tier 2 needs Air War Doctrine, Advanced Aircraft Tier 3 needs Modern Aviation.
 
 Music
 - Added JE and event for the rediscovery of Vivaldi's works.
