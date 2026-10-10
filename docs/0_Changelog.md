@@ -1,7 +1,7 @@
 Changelog for 2.8.3o "Mitsopoulos"
 
 Characters:
--
+- Walter Reed (American Biologist and Physician)
 
 Fixes:
 -
