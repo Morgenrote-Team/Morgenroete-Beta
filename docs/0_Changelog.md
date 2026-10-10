@@ -34,7 +34,9 @@ Archaeology
 
 Aviation
 - Airspace Convention needs Airlines, not Modern Aviation.
-- Seaplanes are no longer needed to research Carrier.
+- Dreadnought does not need aviation, but does also not unlock the Seaplane Tender.
+- Seaplanes needs dreadnought and unlock the Seaplane Tender; it also unlocks a new modification for Seaplane Tenders and Super Dreadnoughts: Scout Seaplane (only one allowed).
+- Seaplanes are no longer needed for Modern Aviation and Air War Doctrin, it does also no longer give additional modifiers.
 
 Biology & Chemistry
 - Removed Cydia and Cochliomyia State Traits.
