@@ -32,6 +32,10 @@ Archaeology
 - Major artifacts belonging to AI countries are now displayed correctly.
 - Major Artifacts are now truly unique - any potential duplicates where two nations could possess the same Major Artifact should be fixed.
 
+Aviation
+- Airspace Convention needs Airlines, not Modern Aviation.
+- Seaplanes are no longer needed to research Carrier.
+
 Biology & Chemistry
 - Removed Cydia and Cochliomyia State Traits.
 - Codling Moth (Cydia) and New World Screwworm Fly (Cochliomyia) are now Harvest Conditions.
@@ -50,6 +54,11 @@ Electrical Engineering
 - Telegraph Offices and Radio Stations PM can be activated manually; no Electrical Engineer needed.
 - The Electrical Engineer can unlock two new mobilization options in the new Communication mobilization group: Telegraph Troops (Electric Telegraph) and Signal Corps (Radios).
 - Telegraphy Network and Radio Network are now Journal Entries which are triggered and completed automatically; the buttons for the Electrical Engineer were removed.
+
+Military Engineering
+- Advanced Weapons Tier 2 needs Bolt Action Rifles, Advanced Weapons 3 needs Automatic Machine Guns.
+- Advanced Defence Tier 2 needs Defense in Depth, Advanced Defence 3 needs Concrete Fortifications.
+- Advanced Aircraft Tier 3 needs Modern Aviation.
 
 Music
 - Added JE and event for the rediscovery of Vivaldi's works.
