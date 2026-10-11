@@ -56,6 +56,7 @@ Electrical Engineering
 - Electrical Engineer available with Electrical Generation (instead of Physics).
 - Telegraph Offices and Radio Stations PM can be activated manually; no Electrical Engineer needed.
 - The Electrical Engineer can unlock two new mobilization options in the new Communication mobilization group: Telegraph Troops (Electric Telegraph) and Signal Corps (Radios).
+- An Electrical Engineer can modernize logging camps using the electric sawmill production method.
 - Telegraphy Network and Radio Network are now Journal Entries which are triggered and completed automatically; the buttons for the Electrical Engineer were removed.
 
 Military Engineering
