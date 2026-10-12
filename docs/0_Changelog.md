@@ -54,10 +54,12 @@ Biology & Chemistry
 
 Electrical Engineering
 - Electrical Engineer available with Electrical Generation (instead of Physics).
-- Telegraph Offices and Radio Stations PM can be activated manually; no Electrical Engineer needed.
-- The Electrical Engineer can unlock two new mobilization options in the new Communication mobilization group: Telegraph Troops (Electric Telegraph) and Signal Corps (Radios).
-- An Electrical Engineer can modernize logging camps using the electric sawmill production method.
+- Added new building: Utility Pole. Telegraph Offices (now: Telegraph Pole) and Radio Stations can be activated manually in here, no Engineer needed. It also has a PM to get an Elctricity Bonus, if there is a Power Plant in the same state (Power Line). Copper is an important good for this building.
+- Electrical Engineer can unlock two new mobilization options in the new Communication mobilization group: Telegraph Troops (Electric Telegraph) and Signal Corps (Radios).
+- Electrical Engineer can modernize logging camps using the electric sawmill production method.
+- Electrical Engineer can modernize Utility Poles.
 - Telegraphy Network and Radio Network are now Journal Entries which are triggered and completed automatically; the buttons for the Electrical Engineer were removed.
+- Telegraph Companies need a 65% of the country to be connected with Utility Poles before founded.
 
 Military Engineering
 - Advanced Weapons Tier 2 needs Bolt Action Rifles, Advanced Weapons Tier 3 needs Automatic Machine Guns.
@@ -91,8 +93,13 @@ Technologies
 - Added Early Pesticides. This lowers the impact of pests.
 - Added Modern Pesticides. This lowers the impact of pests.
 - Chemistry and Malaria Prevention also lowers the impact of pests. Flamethrowers help a little bit again locusts.
-- Added DDT. This is a hidden technology which will be activated by vour Chemist.
+- Added DDT. This is a hidden technology which will be activated by your Chemist.
 - Mass Propaganda no longer needs mass culture.
+
+Copper
+- Additional (very small) Copper potentials for Tyrol, Lorraine, Provence, Sardinia and Rio Grande do Sul.
+- Event for STATE_KUOPIO, when its owner has researched Pneumatic Tools and a Geologist: Outokumpu. This will give Kuopio +5 potential for copper mines (historically, this copper company was quite important between the World Wars).
+- New Company: Outokumpu Oyj.
 
 Changes
 - Added Great Terroir (Wine bonus) to Aquitaine and Piedmont (Paradox, you added the best wine grounds in Europe and forgot about Bordeaux and Barolo?).
