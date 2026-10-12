@@ -1,6 +1,7 @@
 Changelog for 2.8.3o "Mitsopoulos"
 
 Characters:
+- Ludwik Hirszfeld (Polish Biologist)
 - Walter Reed (American Biologist and Physician)
 - George M. Sternberg (American Biologist and Physician)
 - Jesse William Lazear (American Physician)
