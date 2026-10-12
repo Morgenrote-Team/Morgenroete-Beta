@@ -56,8 +56,8 @@ Electrical Engineering
 - Electrical Engineer available with Electrical Generation (instead of Physics).
 - Added new building: Utility Pole. Telegraph Offices (now: Telegraph Pole) and Radio Stations can be activated manually in here, no Engineer needed. It also has a PM to get an Elctricity Bonus, if there is a Power Plant in the same state (Power Line). Copper is an important good for this building.
 - Electrical Engineer can unlock two new mobilization options in the new Communication mobilization group: Telegraph Troops (Electric Telegraph) and Signal Corps (Radios).
-- Electrical Engineer can modernize logging camps using the electric sawmill production method.
-- Electrical Engineer can modernize Utility Poles.
+- Electrical Engineer can modernize Logging Camps using the electric sawmill production method.
+- Electrical Engineer can modernize Utility Poles using the power line production method.
 - Telegraphy Network and Radio Network are now Journal Entries which are triggered and completed automatically; the buttons for the Electrical Engineer were removed.
 - Telegraph Companies need a 65% of the country to be connected with Utility Poles before founded.
 
