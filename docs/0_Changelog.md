@@ -1,16 +1,16 @@
-Changelog for 2.8.3n "Mitsopoulos"
+Changelog for 2.8.3o "Mitsopoulos"
 
 Characters:
-- Giuseppe Bastianelli (Italian Biologist and Physician)
-- Amico Bignami (Italian Biologist and Physician)
-- Angelo Celli (Italian Biologist and Physician)
-- Giovanni Battista Grassi (Italian Biologist)
-- Edoardo Maragliano (Italian Biologist and Physician)
-- Ettore Marchiafava (Italian Biologist and Physician)
-- Agostino Bertani (Italian Physician)
-- Filippo De Filippi (Italian Physician and Naturalist)
-- Leopoldo Pilla (Italian Physician and Geologist)
-- Pietro Ramaglia (Italian Physician)
+- Anton Ghon (Austrian Biologist and Physician)
+- Karl Landsteiner (Austrian Biologist)
+- Julius Wagner (Austrian Biologist and Physician)
+- Anton Weichselbaum (Austrian Biologist and Physician)
+- Ludwik Hirszfeld (Polish Biologist)
+- Ludwik Witold Rajchman (Polish Biologist)
+- Walter Reed (American Biologist and Physician)
+- George M. Sternberg (American Biologist and Physician)
+- Carl Ludwig Sigmund (Austrian Physician)
+- Jesse William Lazear (American Physician)
 
 Fixes:
 -
@@ -19,4 +19,5 @@ Graphics:
 -
 
 Changes:
--
+- William H. Welch can now also spawn as a Biologist.
+- Ignaz Semmelweis can now also spawn in Austria
