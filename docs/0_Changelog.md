@@ -3,10 +3,12 @@ Changelog for 2.8.3o "Mitsopoulos"
 Characters:
 - Karl Landsteiner (Austrian Biologist)
 - Julius Wagner (Austrian Biologist and Physician)
+- Anton Weichselbaum (Austrian Biologist and Physician)
 - Ludwik Hirszfeld (Polish Biologist)
 - Ludwik Witold Rajchman (Polish Biologist)
 - Walter Reed (American Biologist and Physician)
 - George M. Sternberg (American Biologist and Physician)
+- Carl Ludwig Sigmund (Austrian Physician)
 - Jesse William Lazear (American Physician)
 
 Fixes:
