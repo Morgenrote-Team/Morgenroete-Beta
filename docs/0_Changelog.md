@@ -4,6 +4,7 @@ Characters:
 - Theodor Escherich (Austrian/German Biologist and Physician)
 - Friedrich J. Haberlandt (Austrian Biologist)
 - Odo Bujwid (Polish Biologist and Physician)
+- Severo Ochoa (Spanish Biologist)
 
 Fixes:
 -
