@@ -21,3 +21,4 @@ Graphics:
 Changes:
 - William H. Welch can now also spawn as a Biologist.
 - Ignaz Semmelweis can now also spawn in Austria
+- Franz Unger can now also spawn as a Biologist
