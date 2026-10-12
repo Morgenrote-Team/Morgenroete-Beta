@@ -1,6 +1,7 @@
 Changelog for 2.8.3o "Mitsopoulos"
 
 Characters:
+- Anton Ghon (Austrian Biologist and Physician)
 - Karl Landsteiner (Austrian Biologist)
 - Julius Wagner (Austrian Biologist and Physician)
 - Anton Weichselbaum (Austrian Biologist and Physician)
