@@ -1,6 +1,7 @@
 Changelog for 2.8.3o "Mitsopoulos"
 
 Characters:
+- Karl Landsteiner (Austrian Biologist)
 - Ludwik Hirszfeld (Polish Biologist)
 - Ludwik Witold Rajchman (Polish Biologist)
 - Walter Reed (American Biologist and Physician)
