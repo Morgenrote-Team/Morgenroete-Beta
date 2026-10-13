@@ -6,6 +6,7 @@ Characters:
 - Odo Bujwid (Polish Biologist and Physician)
 - Jaume Ferran i Clua (Spanish Biologist and Physician)
 - Severo Ochoa (Spanish Biologist)
+- Braulio Antón Ramírez (Spanish Biologist)
 
 Fixes:
 -
