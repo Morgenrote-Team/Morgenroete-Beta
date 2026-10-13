@@ -8,6 +8,7 @@ Characters:
 - Josep Mestres i Miquel (Spanish Biologist and Physician)
 - Severo Ochoa (Spanish Biologist)
 - Braulio Antón Ramírez (Spanish Biologist)
+- José Arechavaleta (Uruguayan Biologist, Naturalist and Geologist)
 
 Fixes:
 -
