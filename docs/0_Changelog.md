@@ -12,6 +12,11 @@ Physics - Geomagnetism
 - The various buttons on the Engineer's interface that allowed players to unlock raw material deposits using magnetic data have been removed.
 - Instead, every time enough magnetic data has been collected worldwide, an event is unlocked for all members of the Magnetic Association that unlocks either physics experience and physical data, or a small deposit of raw materials (+2 for iron and lead, +1 for copper and oil); however, this also requires certain technological prerequisites. Each time a progress bar is completed, meeting the requirements the next time becomes more difficult.
 
+Physics - Meteorology
+- Added Meteorological Physicist (Metereologist)
+- Meteorological PMs in the Observatory are no longer manually available; they will be updated by a Meteorologist.
+- Changed Meteorological PMs: They no longer give agricultural bonus; however, all the modifiers against harvest conditions are stronger. The last PM needs more and different input goods.
+
 Physics - The Göttingen Seven
 - Hanover begins with a physicist and mathematician: Wilhelm Eduard Weber. During the “Göttingen Seven” event, Weber may lose his position. He may subsequently resurface in a German state that has criticized the behavior of the King of Hanover and does not have a mathematician of its own.
 - Jacob Grimm, who starts as an agitator for Hanover, will be purged, too, and appears under similar circumstances as an agitator in a German state. VotP is needed for this, as Jacob Grimm is used as a character in this DLC.
@@ -77,6 +82,7 @@ Research License
 - You can ask a research license from anyone, even those who don't have something to research (yet).
 - You need to be recognized and at least a minor power to ask for a research license (yes, that also counts for archaeology).
 - Normally, Great Powers will not give research licenses. However, they will be more open to your question if you are an ally.
+- Hopefully we will have Treaties with Research Licenses in the future.
 
 Technologies
 - Added Mathematics. This is the first technology in the Physics/Mathematics tree (even before Classical Physics).
@@ -109,5 +115,4 @@ Changes
 
 ### TO DO ###
 
-- Finish Work on Research License/Treaty
 - Origin of Man Congress
