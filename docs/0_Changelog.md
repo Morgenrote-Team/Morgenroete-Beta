@@ -3,6 +3,7 @@ Changelog for 2.8.3o "Mitsopoulos"
 Characters:
 - Theodor Escherich (Austrian/German Biologist and Physician)
 - Friedrich J. Haberlandt (Austrian Biologist)
+- Marianne Angermann (German Biologist and Chemist)
 - Odo Bujwid (Polish Biologist and Physician)
 - José de Hidalgo Tablada (Spanish Biologist)
 - Jaume Ferran i Clua (Spanish Biologist and Physician)
