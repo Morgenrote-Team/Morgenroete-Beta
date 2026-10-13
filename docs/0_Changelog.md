@@ -1,24 +1,22 @@
 Changelog for 2.8.3o "Mitsopoulos"
 
 Characters:
-- Anton Ghon (Austrian Biologist and Physician)
-- Karl Landsteiner (Austrian Biologist)
-- Julius Wagner (Austrian Biologist and Physician)
-- Anton Weichselbaum (Austrian Biologist and Physician)
-- Ludwik Hirszfeld (Polish Biologist)
-- Ludwik Witold Rajchman (Polish Biologist)
-- Walter Reed (American Biologist and Physician)
-- George M. Sternberg (American Biologist and Physician)
-- Carl Ludwig Sigmund (Austrian Physician)
-- Jesse William Lazear (American Physician)
+- Theodor Escherich (Austrian/German Biologist and Physician)
+- Friedrich J. Haberlandt (Austrian Biologist)
+- Marianne Angermann (German Biologist and Chemist)
+- Odo Bujwid (Polish Biologist and Physician)
+- José de Hidalgo Tablada (Spanish Biologist)
+- Jaume Ferran i Clua (Spanish Biologist and Physician)
+- Josep Mestres i Miquel (Spanish Biologist and Physician)
+- Severo Ochoa (Spanish Biologist)
+- Braulio Antón Ramírez (Spanish Biologist)
+- José Arechavaleta (Uruguayan Biologist, Naturalist and Geologist)
 
 Fixes:
 -
 
 Graphics:
--
+- Added DNA for all Siamese characters (Thanks PPsyrius)
 
 Changes:
-- William H. Welch can now also spawn as a Biologist.
-- Ignaz Semmelweis can now also spawn in Austria
-- Franz Unger can now also spawn as a Biologist
+-
