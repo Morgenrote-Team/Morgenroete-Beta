@@ -45,6 +45,32 @@ curie_yearly_physical_data_value = {
 			}
 			add = 1
 		}
+		###University with Mathematics Focus###
+		if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_university
+					has_active_production_method = pm_dubois_university_mathematics
+				}
+			}
+			add = 2
+		}
+		###Physicist###
+		if = {
+			limit = {
+				curie_has_physicist = yes
+			}
+			add = 3
+		}
+		#Meteorological Observation###
+		if = {
+			limit = {
+				has_journal_entry = je_curie_meteorological_observation
+				curie_has_meteorological_physicist_trigger = yes
+				curie_has_active_physicist_no_tooltip_trigger = yes
+			}
+			add = curie_meteorological_observation_yearly_physical_data_value
+		}
 	}
 }
 
@@ -91,7 +117,7 @@ curie_magnetic_progress_add_value = {
 curie_formula_cost_value = {
 	value = global_var:curie_discovered_formulas_global_number_var
 
-	multiply = 4
+	multiply = 10
 }
 
 curie_mathematical_innovation_value = {
@@ -145,9 +171,63 @@ curie_physicist_experience_current_specialization_character_scope_value = {
 	}
 }
 
-#Value of Experiments (depends on Experience and traits)
-curie_physicist_experiments_value = {
+#Value used to determine how many specimen the Specimen Collection will produce per month
+curie_meteorological_observation_yearly_physical_data_value = {
+	#Base Physical Data
+	value = 1
 
+	#Observatory with Early Meteorology
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_curtiss_early_weather_observation
+			}
+		}
+		add = 1
+	}
+
+	#Observatory with Standard Meteorology
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_curtiss_weather_station
+			}
+		}
+		add = 2
+	}
+
+	#Observatory with Modern Meteorology
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_curtiss_modern_weather_station
+			}
+		}
+		add = 3
+	}
+
+	#Experience of Meteorologist
+	if = {
+		limit = {
+			curie_has_meteorological_physicist_trigger = yes
+		}
+		add = {
+			value = var:curie_physicist_var.var:curie_meteorological_physicist_experience_var
+			divide = 50
+		}
+	}
+
+	round = yes
+}
+
+curie_meteorological_observation_yearly_physical_data_rounded_value = {
+	value = curie_meteorological_observation_yearly_physical_data_value
+	divide = 10
+	round = yes
+	multiply = 10
 }
 
 #This Script value defines the progress when a physicist searches a new formula
