@@ -5,6 +5,7 @@ Characters:
 - Friedrich J. Haberlandt (Austrian Biologist)
 - Odo Bujwid (Polish Biologist and Physician)
 - Jaume Ferran i Clua (Spanish Biologist and Physician)
+- Josep Mestres i Miquel (Spanish Biologist and Physician)
 - Severo Ochoa (Spanish Biologist)
 - Braulio Antón Ramírez (Spanish Biologist)
 
