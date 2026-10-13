@@ -16,7 +16,7 @@ Fixes:
 -
 
 Graphics:
--
+- Added DNA for all Siamese characters (Thanks PPsyrius)
 
 Changes:
 -
