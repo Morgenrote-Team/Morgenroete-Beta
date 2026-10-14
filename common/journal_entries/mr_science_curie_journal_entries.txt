@@ -8,7 +8,7 @@
 
 ######MAGNETISM#####
 
-###Magnetic Association###
+###Magnetic Station###
 je_curie_magnetic_station = {
 	icon = "gfx/interface/icons/event_icons/event_physics.dds"
 
@@ -300,7 +300,7 @@ je_curie_formula_discovery = {
 
 	complete = {
 		custom_tooltip = {
-			text = je_curie_magnetic_atlas_progress_complete_tt
+			text = je_curie_formula_discovery_progress_complete_tt
 			scope:journal_entry = {
 				"scripted_bar_progress(curie_formula_discovery_progress_bar)" >= 60
 			}
@@ -512,6 +512,80 @@ je_curie_meteorological_observation = {
 
 	on_invalid = {
 		remove_variable = curie_estimated_physical_data_on_meteorological_observation_var
+	}
+
+	weight = 50
+}
+
+###Weather Station Expansion###
+je_curie_weather_station_expansion = {
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	scripted_button = curie_stop_physicist_project_button
+
+	group = je_group_curie_physics
+
+	scripted_progress_bar = curie_weather_station_expansion_progress_bar
+
+	immediate = {
+		scope:journal_entry = {
+			add_modifier = {
+				name = curie_weather_station_expansion_cost_modifier
+				multiplier = root.mr_local_project_cost_very_small_value
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		random_events = {
+			700 = 0
+
+			#10 = mendelejew.211 #Mendelejew 211: A new Laboratory
+			#10 = mendelejew.212 #Mendelejew 212: Unknown Chemical Compound
+			#10 = mendelejew.213 #Mendelejew 213: Chemical Assistant
+			#10 = mendelejew.214 #Mendelejew 214: Bad samples
+			#10 = mendelejew.215 #Mendelejew 215: GEOLOGIST helps
+
+			#20 = mendelejew.401 #Mendelejew 401: A Chemical Experiment
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_curie_weather_station_expansion_progress_complete_tt
+			scope:journal_entry = {
+				"scripted_bar_progress(curie_weather_station_expansion_progress_bar)" >= 36
+			}
+		}
+	}
+
+	on_complete = {
+		show_as_tooltip = {
+			scope:journal_entry = {
+				remove_modifier = curie_weather_station_expansion_cost_modifier
+			}
+		}
+		trigger_event = {
+			id = curie.502
+		}
+		curie_set_physicist_unbusy_effect = yes
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = curie_stop_physicist_project_tt
+			OR = {
+				has_variable = curie_stop_physics_project_var
+				curie_has_physicist_no_tooltip_trigger = no
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = curie_stop_physics_project_var
+		scope:journal_entry = {
+			remove_modifier = curie_weather_station_expansion_cost_modifier
+		}
 	}
 
 	weight = 50

@@ -1592,3 +1592,120 @@ curie.501 = {
 		}
 	}
 }
+
+#Curie 502: Weather Station Expansion
+curie.502 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.502.t
+
+	desc = curie.502.d
+
+	flavor = curie.502.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/curie_pictures/curie_meteorology.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#Triggered by JE
+	}
+
+	immediate = {
+		var:curie_physicist_var ?= {
+			set_variable = {
+				name = curie_physicist_achievement_weather_station_expansion_var
+				value = flag:curie_physicist_achievement_weather_station_expansion_loc
+			}
+			save_scope_as = curie_physicist_scope
+		}
+	}
+
+	option = {	#
+		name = curie.502.g
+		default_option = yes
+		#Upgrade to Modern Weather Station
+		if = {
+			limit = {
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_verrier_observatory
+						production_method = pm_curtiss_weather_station
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					has_building = building_verrier_observatory
+				}
+				activate_production_method = {
+					building_type = building_verrier_observatory
+					production_method = pm_curtiss_modern_weather_station
+				}
+			}
+		}
+		#Upgrade to Weather Station
+		else_if = {
+			limit = {
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_verrier_observatory
+						production_method = pm_curtiss_early_weather_observation
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					has_building = building_verrier_observatory
+				}
+				activate_production_method = {
+					building_type = building_verrier_observatory
+					production_method = pm_curtiss_weather_station
+				}
+			}
+		}
+		#Upgrade to Early Weather Station
+		else_if = {
+			limit = {
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_verrier_observatory
+						production_method = pm_curtiss_no_meteorology
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					has_building = building_verrier_observatory
+				}
+				activate_production_method = {
+					building_type = building_verrier_observatory
+					production_method = pm_curtiss_early_weather_observation
+				}
+			}
+		}
+
+		hidden_effect = {
+			ai_physics_automation_effect = yes
+		}
+	}
+}
+
+
+random_scope_state = {
+			limit = {
+				has_building = building_verrier_observatory
+			}
+			activate_production_method = {
+				building_type = building_verrier_observatory
+				production_method = pm_curie_magnetic_observatory
+			}
+		}
