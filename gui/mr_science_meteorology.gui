@@ -1,0 +1,747 @@
+types mr_main_science_panel_types {
+
+	type mr_science_meteorology_panel = fullscreen_block_window {
+		name = "mr_science_meteorology_panel"
+		datacontext = "[GetMetaPlayer.GetPlayedOrObservedCountry]"
+
+		visible = "[GetVariableSystem.HasValue('com_open_window', 'mr_academic_meteorology')]"
+
+		blockoverride "animation_state_block" {
+			state = {
+				name = _show
+				# Close open panel before showing this one
+				on_start = "[InformationPanelBar.ClosePanel]"
+				on_start = "[MapListPanelManager.CloseCurrentPanel]"
+				# Fullscreen panels hide topbar
+				on_finish = "[GetVariableSystem.Set('com_fullscreen', 'com_fullscreen')]"
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/markets"
+				}
+				start_sound = {
+					soundeffect = "snapshot:/Dynamic/mute_world_80"
+				}
+				start_sound = {
+					soundeffect = "snapshot:/Dynamic/mute_vfx_war_100"
+				}
+			}
+
+			state = {
+				name = _hide
+				on_start = "[GetVariableSystem.Clear('com_fullscreen')]"
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/markets_stop"
+				}
+			}
+		}
+
+		blockoverride "window_header_name" {
+			text = MR_METEOROLOGY
+			default_format = "#bold"
+		}
+
+		blockoverride "back_button_fullscreen" {
+			back_button_large = {
+				position = { 11 15 }
+				parentanchor = top|left
+                onclick = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_science_sgui')]"
+				onclick = "[GetVariableSystem.Set('mr_science_tab', 'mathematics')]"
+				tooltip = "MR_RETURN_ACADEMY_OF_SCIENCE_TT"
+				input_action = "back"
+			}
+		}
+
+		close_button_large = {
+			name = "tutorial_highlight_close_button"
+			parentanchor = top|right
+			onclick = "[GetVariableSystem.Clear('com_open_window')]"
+			onclick = "[GetVariableSystem.Clear('com_alert_action')]"
+			onclick = "[GetVariableSystem.Clear('com_fullscreen')]"
+			shortcut = "close_window"
+			position = { -56 115 }
+		}
+
+		blockoverride "close_button_position" {
+			visible = no
+		}
+
+		blockoverride "fixed_top" {
+			flowcontainer = {
+				minimumsize = { 100% -1 }
+				margin_top = 20
+
+				button = {
+					#Button to get back to the Academy of Science
+					using = default_button_primary_big_action
+					size = { 250 40 }
+					raw_text = "MR_RETURN_ACADEMY_OF_SCIENCE"
+					using = fontsize_medium
+					onclick = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_science_sgui')]"
+					onclick = "[GetVariableSystem.Set('mr_science_tab', 'mathematics')]"
+					tooltip = "MR_RETURN_ACADEMY_OF_SCIENCE_TT"
+				}
+			}
+		}
+
+		blockoverride "scrollarea_content" {
+			flowcontainer = {
+				minimumsize = { 100% -1 }
+				margin = { 0 20 }
+				margin_left = 20
+				spacing = 10
+
+				#Cloud Atlas
+				widget = {
+					size = { 910 720 }
+					parentanchor = left
+
+					background = {
+						using = entry_bg_simple
+					}
+
+					default_header_clean = {
+						size = { 910 50 }
+						position = { 1 -3 }
+						blockoverride "text" {
+						}
+						textbox = {
+							text = "CLOUD_ATLAS_HEADER_TEXT"
+							parentanchor = center
+							position = { 0 0 }
+							autoresize = yes
+							max_width = 190
+							elide = right
+							using = fontsize_xxl
+						}
+					}
+
+					widget = {
+						size = { 570 660 }
+						position = { 10 50 }
+						background = {
+							using = entry_bg_simple
+						}
+						#Altocumulus
+						academics_cloud_atlas_overview = {
+							blockoverride "main_visibility" {
+								visible = "[GetScriptedGui('mr_physicist_altocumulus_atlas_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							}
+							blockoverride "cloud_name" {
+								text = "MR_ALTOCUMULUS_CATALOGUE_BUTTON"
+							}
+							blockoverride "cloud_description" {
+								text = "MR_ALTOCUMULUS_DESCRIPTION_LOC"
+							}
+							blockoverride "cloud_technology" {
+								text = "MR_ALTOCUMULUS_REQUIRED_TECHNOLOGY_LOC"
+							}
+							blockoverride "cloud_condition" {
+								text = "MR_ALTOCUMULUS_REQUIRED_CONDITION_LOC"
+							}
+							blockoverride "cloud_bonus" {
+								text = "MR_ALTOCUMULUS_BONUS_LOC"
+							}
+							blockoverride "cloud_description_global" {
+								text = "MR_ALTOCUMULUS_FIRST_DESCRIPTION_LOC"
+							}
+							
+							widget = {
+								size = { 525 350 }
+
+								icon = {
+									visible = "[GetScriptedGui('mr_meteorology_altocumulus_icon_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = center
+									tooltip = "MR_ALTOCUMULUS_ICON_TT"
+									size = { 525 350 }
+									position = { 0 0 }
+									texture = "gfx/interface/icons/GUI_icons/clouds/GUI_curie_cloud_altocumulus_active.dds"
+								}
+
+								icon = {
+									visible = "[GetScriptedGui('mr_meteorology_altocumulus_icon_inactive_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = center
+									tooltip = "MR_CLOUD_ICON_INACTIVE_TT"
+									size = { 525 350 }
+									position = { 0 0 }
+									texture = "gfx/interface/icons/GUI_icons/clouds/GUI_curie_cloud_altocumulus_inactive.dds"
+								}
+							}
+						}
+						#Altostratus
+						academics_cloud_atlas_overview = {
+							blockoverride "main_visibility" {
+								visible = "[GetScriptedGui('mr_physicist_altostratus_atlas_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+							}
+							blockoverride "cloud_name" {
+								text = "MR_ALTOSTRATUS_CATALOGUE_BUTTON"
+							}
+							blockoverride "cloud_description" {
+								text = "MR_ALTOSTRATUS_DESCRIPTION_LOC"
+							}
+							blockoverride "cloud_technology" {
+								text = "MR_ALTOSTRATUS_REQUIRED_TECHNOLOGY_LOC"
+							}
+							blockoverride "cloud_condition" {
+								text = "MR_ALTOSTRATUS_REQUIRED_CONDITION_LOC"
+							}
+							blockoverride "cloud_bonus" {
+								text = "MR_ALTOSTRATUS_BONUS_LOC"
+							}
+							blockoverride "cloud_description_global" {
+								text = "MR_ALTOSTRATUS_FIRST_DESCRIPTION_LOC"
+							}
+							
+							widget = {
+								size = { 525 350 }
+
+								icon = {
+									visible = "[GetScriptedGui('mr_meteorology_altostratus_icon_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = center
+									tooltip = "MR_ALTOSTRATUS_ICON_TT"
+									size = { 525 350 }
+									position = { 0 0 }
+									texture = "gfx/interface/icons/GUI_icons/clouds/GUI_curie_cloud_altostratus_active.dds"
+								}
+
+								icon = {
+									visible = "[GetScriptedGui('mr_meteorology_altostratus_icon_inactive_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = center
+									tooltip = "MR_CLOUD_ICON_INACTIVE_TT"
+									size = { 525 350 }
+									position = { 0 0 }
+									texture = "gfx/interface/icons/GUI_icons/clouds/GUI_curie_cloud_altostratus_inactive.dds"
+								}
+							}
+						}
+					}
+
+					widget = {
+						size = { 310 660 }
+						position = { 590 50 }
+
+						background = {
+							using = entry_bg_simple
+						}
+
+						vbox = {
+							max_width = 290
+							layoutpolicy_vertical = expanding
+							spacing = 5
+							margin = { 10 10 }
+
+							#Altocumulus
+							academics_cloud_atlas_catalogue_button = {
+								blockoverride "datacontext_arrow" {
+									datacontext = "[GetScriptedGui('mr_physicist_altocumulus_atlas_active_sgui')]"
+								}
+								blockoverride "text_button" {
+									raw_text = "MR_ALTOCUMULUS_CATALOGUE_BUTTON"
+								}
+								blockoverride "datacontext_button" {
+									datacontext = "[GetScriptedGui('mr_physicist_altocumulus_atlas_button_sgui')]"
+								}
+								blockoverride "tooltip_button" {
+									tooltip = "MR_ALTOCUMULUS_CATALOGUE_BUTTON_TT"
+								}
+							}
+
+							#Altostratus
+							academics_cloud_atlas_catalogue_button = {
+								blockoverride "datacontext_arrow" {
+									datacontext = "[GetScriptedGui('mr_physicist_altostratus_atlas_active_sgui')]"
+								}
+								blockoverride "text_button" {
+									raw_text = "MR_ALTOSTRATUS_CATALOGUE_BUTTON"
+								}
+								blockoverride "datacontext_button" {
+									datacontext = "[GetScriptedGui('mr_physicist_altostratus_atlas_button_sgui')]"
+								}
+								blockoverride "tooltip_button" {
+									tooltip = "MR_ALTOSTRATUS_CATALOGUE_BUTTON_TT"
+								}
+							}
+
+							#Cumulonimbus
+							academics_cloud_atlas_catalogue_button = {
+								blockoverride "datacontext_arrow" {
+									datacontext = "[GetScriptedGui('mr_physicist_altostratus_atlas_active_sgui')]"
+								}
+								blockoverride "text_button" {
+									raw_text = "MR_CUMULONIMBUS_CATALOGUE_BUTTON"
+								}
+								blockoverride "datacontext_button" {
+									datacontext = "[GetScriptedGui('mr_physicist_altostratus_atlas_button_sgui')]"
+								}
+								blockoverride "tooltip_button" {
+									tooltip = "MR_CUMULONIMBUS_CATALOGUE_BUTTON_TT"
+								}
+							}
+
+							#Nimbostratus
+							academics_cloud_atlas_catalogue_button = {
+								blockoverride "datacontext_arrow" {
+									datacontext = "[GetScriptedGui('mr_physicist_altostratus_atlas_active_sgui')]"
+								}
+								blockoverride "text_button" {
+									raw_text = "MR_NIMBOSTRATUS_CATALOGUE_BUTTON"
+								}
+								blockoverride "datacontext_button" {
+									datacontext = "[GetScriptedGui('mr_physicist_altostratus_atlas_button_sgui')]"
+								}
+								blockoverride "tooltip_button" {
+									tooltip = "MR_NIMBOSTRATUS_CATALOGUE_BUTTON_TT"
+								}
+							}
+
+							#Stratocumulus
+							academics_cloud_atlas_catalogue_button = {
+								blockoverride "datacontext_arrow" {
+									datacontext = "[GetScriptedGui('mr_physicist_altostratus_atlas_active_sgui')]"
+								}
+								blockoverride "text_button" {
+									raw_text = "MR_STRATOCUMULUS_CATALOGUE_BUTTON"
+								}
+								blockoverride "datacontext_button" {
+									datacontext = "[GetScriptedGui('mr_physicist_altostratus_atlas_button_sgui')]"
+								}
+								blockoverride "tooltip_button" {
+									tooltip = "MR_STRATOCUMULUS_CATALOGUE_BUTTON_TT"
+								}
+							}
+
+							expand = {}
+						}
+
+
+					}
+				}
+
+				#Magnetic Association
+				flowcontainer = {
+					direction = vertical
+					ignoreinvisible = yes
+					spacing = 10
+
+					#Red Cross
+					widget = {
+						size = { 880 300 }
+						parentanchor = left
+
+						background = {
+							using = entry_bg_simple
+						}
+
+						default_header_clean = {
+							size = { 880 50 }
+							position = { 1 -3 }
+							blockoverride "text" {
+							}
+							textbox = {
+								text = "MAGNETIC_ASSOCIATION_HEADER_TEXT"
+								parentanchor = center
+								position = { 0 0 }
+								autoresize = yes
+								#max_width = 190
+								elide = right
+								using = fontsize_xxl
+							}
+						}
+
+						flowcontainer = {
+							direction = vertical
+							ignoreinvisible = yes
+							spacing = 10
+
+							widget = {
+								size = { 880 40 }
+							}
+
+							flowcontainer = {
+								direction = horizontal
+								parentanchor = top|hcenter
+								ignoreinvisible = yes
+								spacing = 30
+
+								widget = {
+									size = { 190 190 }
+
+									icon = {
+										visible = "[GetScriptedGui('mr_mathematics_magnetic_atlas_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+										parentanchor = center
+										size = { 190 190 }
+										position = { -140 0 }
+										texture = "gfx/interface/icons/GUI_icons/GUI_curie_magnetic_association_logo.dds"
+									}
+
+									icon = {
+										visible = "[GetScriptedGui('mr_mathematics_magnetic_atlas_inactive_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+										parentanchor = center
+										size = { 190 190 }
+										position = { -140 0 }
+										texture = "gfx/interface/icons/GUI_icons/GUI_curie_magnetic_association_logo_inactive.dds"
+									}
+								}
+
+								widget = {
+									size = { 250 170 }
+
+									green_progressbar_horizontal = {
+										layoutpolicy_horizontal = expanding
+										size = { 500 35 }
+										position = { -100 10 }
+										blockoverride "values" {
+											min = 0
+											max = 100
+											value = "[FixedPointToFloat(Country.MakeScope.Var('dubois_academy_progress').GetValue)]"
+										}
+										textbox = {
+											#max_update_rate = 100
+											text = "MR_MAGNETIC_PROGRESS_VALUES"
+											tooltip = "MR_MAGNETIC_PROGRESS_TOOLTIP"
+											size = { 100% 100% }
+											using = fontsize_xl
+											align = center
+										}
+									}
+
+									textbox = {
+										text = "MR_MAGNETIC_ASSOCIATION_FOUNDER"
+										position = { -100 55 }
+										max_width = 250
+										autoresize = yes
+										elide = right
+										using = fontsize_large
+									}
+
+									textbox = {
+										text = "MR_MAGNETIC_ASSOCIATION_SEAT"
+										position = { 175 55 }
+										max_width = 250
+										autoresize = yes
+										elide = left
+										using = fontsize_large
+									}
+
+									textbox = {
+										text = "MR_MAGNETIC_ASSOCIATION_DATA"
+										position = { -100 95 }
+										max_width = 250
+										autoresize = yes
+										elide = right
+										using = fontsize_large
+										tooltip = GEOMAGNETIC_RESEARCH_VAR_TT
+									}
+
+									textbox = {
+										text = "MR_MAGNETIC_ASSOCIATION_MEMBERS"
+										position = { 175 95 }
+										max_width = 250
+										autoresize = yes
+										elide = left
+										using = fontsize_large
+									}
+								}
+							}
+
+							#Magnetism Buttons
+							flowcontainer = {
+								direction = horizontal
+								ignoreinvisible = yes
+								parentanchor = hcenter
+								spacing = 30
+
+								#Magnetic Association
+								button = {
+									using = default_button_primary_big_action
+									size = { 250 40 }
+									raw_text = "MR_PHYSICIST_FOUND_MAGNETIC_ASSOCIATION_BUTTON"
+									using = fontsize_medium
+
+									datacontext = "[GetScriptedGui('mr_physicist_found_magnetic_association_button')]"
+									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									tooltip = "MR_PHYSICIST_FOUND_MAGNETIC_ASSOCIATION_BUTTON_TT"
+								}
+
+								#Magnetic Station
+								button = {
+									using = default_button_primary_big_action
+									size = { 250 40 }
+									raw_text = "MR_PHYSICIST_MAGNETIC_RESEARCH_STATION_BUTTON"
+									using = fontsize_medium
+
+									datacontext = "[GetScriptedGui('mr_physicist_magnetic_research_station_button')]"
+									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									tooltip = "MR_PHYSICIST_MAGNETIC_RESEARCH_STATION_BUTTON_TT"
+								}
+
+
+								#Magnetic Atlas
+								button = {
+									using = default_button_primary_big_action
+									size = { 250 40 }
+									raw_text = "MR_PHYSICIST_MAGNETIC_ATLAS_BUTTON"
+									using = fontsize_medium
+
+									datacontext = "[GetScriptedGui('mr_physicist_magnetic_atlas_button')]"
+									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									tooltip = "MR_PHYSICIST_MAGNETIC_ATLAS_BUTTON_TT"
+								}
+
+							}
+						}
+					}
+
+					#Physics Experiments
+					widget = {
+						size = { 880 200 }
+						parentanchor = left
+
+						background = {
+							using = entry_bg_simple
+						}
+
+						default_header_clean = {
+							size = { 880 50 }
+							position = { 1 -3 }
+							blockoverride "text" {
+							}
+							textbox = {
+								text = "MR_HEADER_PHYSICS_EXPERIMENTS"
+								parentanchor = center
+								position = { 0 0 }
+								autoresize = yes
+								max_width = 300
+								elide = right
+								using = fontsize_xxl
+							}
+						}
+
+						flowcontainer = {
+							ignoreinvisible = yes
+							spacing = 50
+							margin_left = 25
+							position = { 80 50 }
+
+							textbox = {
+								text = "MR_PHYSICS_EXPERIMENT_NAME"
+								parentanchor = top|left
+								size = { 250 25 }
+								elide = right
+								using = fontsize_xl
+							}
+
+							textbox = {
+								text = "MR_PHYSICS_EXPERIMENT_COUNTRY"
+								parentanchor = top|left
+								size = { 250 25 }
+								elide = right
+								using = fontsize_xl
+							}
+
+							textbox = {
+								text = "MR_PHYSICS_EXPERIMENT_YEAR"
+								parentanchor = top|left
+								size = { 250 25 }
+								elide = right
+								using = fontsize_xl
+							}
+						}
+
+						scrollbox = {
+							size = { 760 119 }
+							position = { 50 80 }
+
+							scrollbarpolicy_horizontal = always_off
+							scrollbarpolicy_vertical = as_needed
+
+							scrollbar_vertical = {
+								using = Scrollbar_Vertical
+							}
+
+							blockoverride "scrollbox_content" {
+								flowcontainer = {
+									margin_top = -8
+									margin_bottom = -8
+
+									margin_left = 10
+									direction = vertical
+									ignoreinvisible = yes
+									spacing = 2
+
+									datamodel = "[GetGlobalList('curie_experiments_global_list')]"
+
+									item = {
+										datacontext = "[Scope.GetScriptContainer]"
+
+										flowcontainer = {
+											ignoreinvisible = no
+											spacing = 50
+
+											textbox = {
+												text = "CURIE_EXPERIMENT_ITEM_NAME"
+												tooltip = "CURIE_EXPERIMENT_ITEM_TOOLTIP"
+												visible = "[Scope.Var('discovering_country').IsSet]"
+												parentanchor = top|left
+												size = { 250 25 }
+												elide = right
+												using = fontsize_large
+											}
+
+											textbox = {
+												text = "CURIE_EXPERIMENT_ITEM_COUNTRY"
+												visible = "[Scope.Var('discovering_country').IsSet]"
+												parentanchor = top|left
+												size = { 250 25 }
+												elide = right
+												using = fontsize_large
+											}
+
+											textbox = {
+												text = "CURIE_EXPERIMENT_ITEM_YEAR"
+												visible = "[Scope.Var('year').IsSet]"
+												parentanchor = top|left
+												size = { 50 25 }
+												elide = right
+												using = fontsize_large
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	type academics_cloud_atlas_overview = flowcontainer {
+		block "main_visibility" {
+			visible = "[GetScriptedGui('mr_physicist_altostratus_atlas_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+		}
+		ignoreinvisible  = yes
+		direction = vertical
+		maximumsize = { 551 640 }
+		spacing = 8
+		margin = { 20 10 }
+
+		#Name
+		textbox = {
+			block "cloud_name" {
+				text = "MR_CLOUD_ALTOSTRATUS_BUTTON"
+			}
+			parentanchor = top|left
+			max_width = 550
+			autoresize = yes
+			elide = right
+			using = fontsize_mega
+			margin_bottom = 5
+		}
+		#Description
+		textbox = {
+			block "cloud_description" {
+				text = "MR_ALTOSTRATUS_DESCRIPTION_LOC"
+			}
+			parentanchor = top|left
+			maximumsize = { 550 310 }
+			autoresize = yes
+			multiline = yes
+			using = fontsize_large
+			margin_bottom = 20
+		}
+		#Required Technology
+		textbox = {
+			block "cloud_technology" {
+				text = "MR_ALTOSTRATUS_REQUIRED_TECHNOLOGY_LOC"
+			}
+			parentanchor = top|left
+			maximumsize = { 550 310 }
+			autoresize = yes
+			multiline = yes
+			using = fontsize_large
+		}
+		#Required Condition
+		textbox = {
+			block "cloud_condition" {
+				text = "MR_ALTOSTRATUS_REQUIRED_CONDITION_LOC"
+			}
+			parentanchor = top|left
+			maximumsize = { 550 310 }
+			autoresize = yes
+			multiline = yes
+			using = fontsize_large
+		}
+		#Bonus
+		textbox = {
+			block "cloud_bonus" {
+				text = "MR_ALTOSTRATUS_BONUS_LOC"
+			}
+			parentanchor = top|left
+			maximumsize = { 550 310 }
+			autoresize = yes
+			multiline = yes
+			using = fontsize_large
+		}
+		#First Global Description
+		textbox = {
+			block "cloud_description_global" {
+				text = "MR_ALTOSTRATUS_FIRST_DESCRIPTION_LOC"
+			}
+			parentanchor = top|left
+			max_width = 550
+			autoresize = yes
+			elide = right
+			using = fontsize_large
+		}
+		#First National Description
+		textbox = {
+			block "cloud_description_national" {
+				text = "MR_ALTOSTRATUS_FIRST_DESCRIPTION_NATIONAL_LOC"
+				visible = "[GetScriptedGui('mr_physician_cholera_first_treatment_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+			}
+			parentanchor = top|left
+			max_width = 550
+			autoresize = yes
+			elide = right
+			using = fontsize_xl
+		}
+	}
+
+	type academics_cloud_atlas_catalogue_button =	hbox {
+		block "visible" {}
+		widget = {
+			size = { 18 50 }
+
+			icon = {
+				block "datacontext_arrow" {
+					datacontext = "[GetScriptedGui('mr_physician_yellow_fever_catalogue_active_sgui')]"
+				}
+				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+				size = { 100% 100% }
+				texture = "gfx/interface/icons/generic_icons/arrow_left.dds"
+			}
+		}
+		button = {
+			using = default_button_primary_big_action
+			size = { 270 50 }
+			block "text_button" {
+				raw_text = "MR_YELLOW_FEVER_CATALOGUE_BUTTON"
+			}
+			using = fontsize_xxl
+
+			block "datacontext_button" {
+				datacontext = "[GetScriptedGui('mr_physician_yellow_fever_catalogue_button_sgui')]"
+			}
+			onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+			enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+			block "tooltip_button" {
+				tooltip = "MR_YELLOW_FEVER_CATALOGUE_BUTTON_TT"
+			}
+		}
+	}
+}
