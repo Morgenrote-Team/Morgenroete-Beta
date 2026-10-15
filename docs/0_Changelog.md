@@ -4,6 +4,7 @@ Characters:
 - Edward Jełowicki (Polish Engineer)
 - Kazimierz Gzowski (Polish Engineer)
 - Franciszek Armiński (Polish Astronomer)
+- Ludwik Birkenmajer (Polish Astronomer and Physicist)
 
 Fixes:
 -
