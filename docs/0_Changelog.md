@@ -10,6 +10,7 @@ Characters:
 - Bronisław Radziszewski (Polish Chemist)
 - Zygmunt Florenty Wróblewski (Polish Chemist and Physicist)
 - Józef Łukaszewicz (Polish Physicist and Geologist)
+- August Witkowski (Polish Physicist)
 
 Fixes:
 - The Public Construction modifier gets correctly applied again.
