@@ -9,6 +9,7 @@ Characters:
 - Ivan Yarkovsky (Polish Astronomer, Physicist and Engineer)
 - Bronisław Radziszewski (Polish Chemist)
 - Zygmunt Florenty Wróblewski (Polish Chemist and Physicist)
+- Józef Łukaszewicz (Polish Physicist and Geologist)
 
 Fixes:
 -
