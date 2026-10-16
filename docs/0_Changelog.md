@@ -7,6 +7,7 @@ Characters:
 - Ludwik Birkenmajer (Polish Astronomer and Physicist)
 - Adam Prażmowski (Polish Astronomer and Physicist)
 - Ivan Yarkovsky (Polish Astronomer, Physicist and Engineer)
+- Bronisław Radziszewski (Polish Chemist)
 - Zygmunt Florenty Wróblewski (Polish Chemist and Physicist)
 
 Fixes:
