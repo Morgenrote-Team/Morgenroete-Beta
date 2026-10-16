@@ -11,7 +11,7 @@ Fixes:
 -
 
 Graphics:
--
+- Improved Pushkin's DNA.
 
 Changes:
 -
