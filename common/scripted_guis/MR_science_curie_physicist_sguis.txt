@@ -235,7 +235,7 @@ mr_stop_physics_project_button_sgui = {
 	is_valid = {
 		custom_tooltip = {
 			text = MR_STOP_PHYSICS_PROJECT_POSSIBLE
-			has_variable = curie_can_stop_active_physics_project_var
+			#has_variable = curie_can_stop_active_physics_project_var
 		}
 		NOT = { has_variable = curie_stop_physics_project_var }
 	}
@@ -274,10 +274,303 @@ mr_stop_physicist_automation_gui = {
 	}
 }
 
+mr_visit_physics_gui = {
+	scope = country
+
+	is_valid = {
+		always = yes
+	}
+}
+
+###########################################################
+
+### Experiment - for all Physicists ###
+
+#MR_PHYSICIST_EXPERIMENT_BUTTON
+mr_physicist_experiment_button = {
+	scope = country
+	is_valid = {
+		curie_has_active_physicist_trigger = yes
+		NOT = {
+			has_journal_entry = je_curie_physics_experiment
+		}
+		custom_tooltip = {
+			text = MR_PHYSICIST_EXPERIMENT_POSSIBLE_TRIGGER_TT
+			NOR = {
+				has_modifier = curie_physics_experiment_successful_modifier
+				has_modifier = curie_physics_experiment_failure_modifier
+			}
+		}
+	}
+	effect = {
+		curie_physics_experiment_button_effect = yes
+	}
+}
+#Active
+mr_physicist_experiment_active = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_curie_physics_experiment
+	}
+}
+
 ###########################################################
 
 ### Mathematician ###
 
-mr_physicist_experiment_button = {}
+#MR_PHYSICIST_MATHEMATICAL_INNOVATION_BUTTON
+mr_physicist_mathematical_innovation_button = {
+	scope = country
+	is_valid = {
+		curie_has_mathematical_physicist_trigger = yes
+		curie_has_physicist = yes
+		NOT = {
+			has_journal_entry = je_curie_mathematical_innovation
+		}
+	}
+	effect = {
+		add_journal_entry = { type = je_curie_mathematical_innovation }
+	}
+}
+#Active
+mr_physicist_mathematical_innovation_active = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_curie_mathematical_innovation
+		curie_has_active_physicist_no_tooltip_trigger = yes
+	}
+}
 
-mr_physicist_experiment_active = {}
+#MR_PHYSICIST_FORMULA_DISCOVERY_BUTTON
+mr_physicist_formula_discovery_button = {
+	scope = country
+	is_valid = {
+		curie_has_mathematical_physicist_trigger = yes
+		curie_has_active_physicist_trigger = yes
+		custom_tooltip = {
+			text = MR_PHYSICIST_FORMULA_POSSIBLE_TRIGGER_TT
+			curie_formula_can_discover_trigger = yes
+		}
+		custom_tooltip = {
+			text = MR_PHYSICIST_FORMULA_PHYSICAL_DATA_TRIGGER_TT
+			var:curie_physical_data_var >= curie_formula_cost_value
+		}
+	}
+	effect = {
+		curie_formula_discovery_button_effect = yes
+	}
+}
+#Active
+mr_physicist_formula_discovery_active = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_curie_formula_discovery
+	}
+}
+
+#MR_PHYSICIST_IMPROVE_MATHEMATICS_BUTTON
+mr_physicist_improve_mathematics_button = {
+	scope = country
+
+	is_valid = {
+		curie_has_mathematical_physicist_trigger = yes
+		curie_has_active_physicist_trigger = yes
+		custom_tooltip = {
+			text = MR_PROJECT_ALREADY_ACTIVE_TRIGGER_TT
+			NOT = { has_journal_entry = je_curie_improve_mathematics_project }
+		}
+		custom_tooltip = {
+			text = MR_ALREADY_CHOOSING_BUILDING_TRIGGER_TT
+			NOT = {
+				has_variable = curie_improve_mathematics_project_building_choser_var
+			}
+		}
+		curie_country_has_building_valid_for_mathematics_project_trigger = yes
+	}
+	effect = {
+		curie_physicist_improve_mathematics_effect = yes
+	}
+}
+#Active
+mr_physicist_improve_mathematics_active = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_curie_improve_mathematics_project
+	}
+}
+mr_physicist_improve_mathematics_window_active_sgui = {
+	scope = country
+	is_shown = {
+		has_variable = curie_improve_mathematics_project_building_choser_var
+		OR = {
+			var:curie_physicist_var ?= {
+				is_busy = no
+			}
+			has_journal_entry = je_curie_improve_mathematics_project
+		}
+	}
+}
+
+###########################################################
+
+### Meteorologist ###
+
+#MR_PHYSICIST_METEOROLOGICAL_OBSERVATION_BUTTON
+mr_physicist_meteorological_observation_button = {
+	scope = country
+	is_valid = {
+		curie_has_meteorological_physicist_trigger = yes
+		curie_has_physicist = yes
+		NOT = {
+			has_journal_entry = je_curie_meteorological_observation
+		}
+	}
+	effect = {
+		add_journal_entry = { type = je_curie_meteorological_observation }
+	}
+}
+#Active
+mr_physicist_meteorological_observation_active = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_curie_meteorological_observation
+		curie_has_meteorological_physicist_trigger = yes
+		curie_has_active_physicist_no_tooltip_trigger = yes
+	}
+}
+
+#MR_PHYSICIST_WEATHER_STATION_EXPANSION_BUTTON
+mr_physicist_weather_station_expansion_button = {
+	scope = country
+	is_shown = {
+		trigger_if = {
+			NOT = {
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					has_active_production_method = pm_curtiss_modern_weather_station
+				}
+			}
+		}
+	}
+	is_valid = {
+		curie_has_meteorological_physicist_trigger = yes
+		curie_has_active_physicist_trigger = yes
+		#Upgrade to Early Weather Station
+		trigger_if = {
+			mr_gui_has_montgolfier_balloon_tech_trigger = yes
+			custom_tooltip = {
+				text = PHYSICIST_HAS_NO_WEATHER_STATION_PM_TT
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					has_active_production_method = pm_curtiss_no_weather_station
+				}
+			}
+		}
+		#Upgrade to Weather Station
+		trigger_if = {
+			mr_gui_has_reconnaissance_balloon_tech_trigger = yes
+			custom_tooltip = {
+				text = PHYSICIST_HAS_EARLY_WEATHER_STATION_PM_TT
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					has_active_production_method = pm_curtiss_early_weather_station
+				}
+			}
+		}
+		#Upgrade to Modern Weather Station
+		trigger_if = {
+			mr_gui_has_rocket_science_tech_trigger = yes
+			custom_tooltip = {
+				text = PHYSICIST_HAS_WEATHER_STATION_PM_TT
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					has_active_production_method = pm_curtiss_weather_station
+				}
+			}
+		}
+	}
+	effect = {
+		curie_weather_station_expansion_button_effect = yes
+	}
+}
+#Active
+mr_physicist_weather_station_expansion_active = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_curie_weather_station_expansion
+	}
+}
+
+#MR_PHYSICIST_AGRICULTURAL_WEATHER_SERVICE_BUTTON
+mr_physicist_agricultural_weather_service_button = {
+	scope = country
+	is_valid = {
+		curie_has_meteorological_physicist_trigger = yes
+		curie_has_active_physicist_trigger = yes
+		custom_tooltip = {
+			text = MR_PHYSICIST_ADVANCED_WEATHER_STATION_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				OR = {
+					has_active_production_method = pm_curtiss_weather_station
+					has_active_production_method = pm_curtiss_modern_weather_station
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_PHYSICIST_50_OR_MORE_EXPERIENCE_TRIGGER_TT
+			var:curie_physicist_var ?= {
+				var:curie_meteorological_physicist_experience_var >= 50
+			}
+		}
+	}
+	effect = {
+		curie_agricultural_weather_service_button_effect = yes
+	}
+}
+#Active
+mr_physicist_agricultural_weather_service_active = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_curie_agricultural_weather_service
+	}
+}
+
+#MR_PHYSICIST_MARINE_WEATHER_SERVICE_BUTTON
+mr_physicist_marine_weather_service_button = {
+	scope = country
+	is_valid = {
+		curie_has_meteorological_physicist_trigger = yes
+		curie_has_active_physicist_trigger = yes
+		custom_tooltip = {
+			text = MR_PHYSICIST_ADVANCED_WEATHER_STATION_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				OR = {
+					has_active_production_method = pm_curtiss_weather_station
+					has_active_production_method = pm_curtiss_modern_weather_station
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_PHYSICIST_50_OR_MORE_EXPERIENCE_TRIGGER_TT
+			var:curie_physicist_var ?= {
+				var:curie_meteorological_physicist_experience_var >= 50
+			}
+		}
+		custom_tooltip = {
+			text = MR_PHYSICIST_5_FLOTILLAS_TRIGGER_TT
+			navy_size >= 5
+		}
+	}
+	effect = {
+		curie_marine_weather_service_button_effect = yes
+	}
+}
+#Active
+mr_physicist_marine_weather_service_active = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_curie_marine_weather_service
+	}
+}

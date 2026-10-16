@@ -10,17 +10,61 @@ namespace = curie
 
 ###################
 
+#Curie 1: Yearly Physical Data
+
 #Curie 12: Joachimsthal
+
+###### GEOMAGNETICS ######
+
+#Curie 101: Admission to the Göttingen Magnetic Association
+#Curie 102: First records of the earth's magnetic field in $COUNTRY$
+#Curie 103: International Magnetic Data Collection
+#Curie 104: Nautical Interest
+#Curie 105: An Anomaly
+#Curie 106: Astronomer consults Geomagnetic Observatory
 
 #################################################################################
 
+#Curie 1: Yearly Physical Data
 curie.1 = {
 	dlc = dlc_morgenrote
 
+	type = country_event
+
 	hidden = yes
 
+	trigger = {
+		NOT = {
+			has_variable = curie_physical_data_cooldown_var
+		}
+		has_technology_researched = curie_mathematics_tech
+	}
+
 	immediate = {
-		curie_formula_discovery_button_effect = yes
+		curie_add_discovered_cloud_country_effect = { NUMBER = 4 }
+		set_variable = {
+			name = curie_physical_data_cooldown_var
+			days = 365
+		}
+
+		curie_add_x_physical_data_effect = {
+			AMOUNT = curie_yearly_physical_data_value
+		}
+
+		if = {
+			limit = {
+				has_variable = curie_yearly_physical_data_var
+			}
+			set_variable = {
+				name = curie_physical_data_notification_var
+				value = var:curie_yearly_physical_data_var
+			}
+			set_variable = {
+				name = curie_yearly_physical_data_var
+				value = 0
+			}
+		}
+		post_notification = curie_yearly_physical_data_notification
 	}
 }
 
@@ -78,6 +122,571 @@ curie.12 = {
 	}
 }
 
+#Curie 13: Outokumpu
+curie.13 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.13.t
+
+	desc = curie.13.d
+
+	flavor = curie.13.f
+	
+	duration = 3
+
+	event_image = {
+		video = "europenorthamerica_gold_prospectors"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_global_variable = curie_outokumpu_global_var
+		}
+		has_technology_researched = pneumatic_tools
+		has_variable = agassiz_geologist_var
+		any_scope_state = {
+			state_region = s:STATE_KUOPIO
+		}
+	}
+
+	immediate = {
+		set_global_variable = curie_outokumpu_global_var
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_KUOPIO
+			}
+			save_scope_as = curie_copper_state_scope
+		}
+	}
+
+	option = {	#Build a copper mine right there!
+		name = curie.13.g
+		default_option = yes
+		#scope:curie_copper_state_scope = {
+		#	create_building = {
+		#		building = building_copper_mine
+		#		level = 1
+		#	}
+		#}
+		#s:STATE_KUOPIO = { #Outokumpu 4
+		#	change_resource_potential = {
+		#		type = building_copper_mine
+		#		amount = 4
+		#	}
+		#}
+	}
+}
+
+#################################################################################
+
+###### GEOMAGNETICS ######
+
+#Curie 100: The Magnetic Association
+curie.100 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.100.t
+	desc = curie.100.d
+	flavor = curie.100.f
+
+	placement = scope:curie_association_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curie_physicist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		if = {
+			limit = { has_variable = curie_physicist_var }
+			var:curie_physicist_var = {
+				set_variable = {
+					name = curie_physicist_achievement_founded_magnetic_association_var
+					value = flag:curie_physicist_achievement_founded_magnetic_association_loc
+				}
+			}
+		}
+	}
+
+	option = {
+		name = curie.102.g #We should build a measuring station immediately.
+		default_option = yes
+		tesla_electrical_engineering_medium_add_technology = yes
+		physicist_experience_gain_effect = { AMOUNT = 30 }
+		curie_add_x_magnetic_data_effect = {
+			AMOUNT = 5
+		}
+		curie_add_x_physical_data_effect = {
+			AMOUNT = 2
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_verrier_observatory
+			}
+			activate_production_method = {
+				building_type = building_verrier_observatory
+				production_method = pm_curie_magnetic_observatory
+			}
+		}
+	}
+}
+
+#Curie 101: Admission to the Göttingen Magnetic Association
+curie.101 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.101.t
+	desc = curie.101.d
+	flavor = curie.101.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curie_physicist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curie_physicist_var = {
+			save_scope_as = curie_physicist_scope
+		}
+	}
+
+	option = {
+		name = curie.101.g #We should build a measuring station immediately.
+		default_option = yes
+		scope:curie_physicist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+		physicist_experience_gain_effect = { AMOUNT = 15 }
+		every_country = {
+			limit = {
+				has_variable = curie_magnetic_association_member_var
+				NOT = {
+					ROOT = THIS
+				}
+			}
+			change_relations = {
+				country = ROOT
+				value = 2
+			}
+		}
+	}
+}
+
+#Curie 102: First records of the earth's magnetic field in $COUNTRY$
+curie.102 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.102.t
+	desc = curie.102.d
+	flavor = curie.102.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curie_physicist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curie_physicist_var = {
+			save_scope_as = curie_physicist_scope
+		}
+		if = {
+			limit = { has_variable = curie_physicist_var }
+			var:curie_physicist_var = {
+				set_variable = {
+					name = curie_physicist_achievements_finished_geomagnetic_observatory_project_var
+					value = flag:curie_physicist_achievements_finished_geomagnetic_observatory_project_loc
+				}
+			}
+		}
+	}
+
+	option = {
+		name = curie.102.g #We should build a measuring station immediately.
+		default_option = yes
+		set_variable = curie_magnetic_station_var
+		physicist_experience_gain_effect = { AMOUNT = 30 }
+		curie_set_physicist_unbusy_effect = yes
+		curie_add_x_magnetic_data_effect = {
+			AMOUNT = 5
+		}
+		curie_add_x_physical_data_effect = {
+			AMOUNT = 2
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_verrier_observatory
+			}
+			activate_production_method = {
+				building_type = building_verrier_observatory
+				production_method = pm_curie_magnetic_observatory
+			}
+		}
+	}
+}
+
+#Curie 103: International Magnetic Data Collection
+curie.103 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.103.t
+	desc = curie.103.d
+	flavor = curie.103.f
+
+	event_image = {
+		video = "europenorthamerica_gold_prospectors"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = curie.103.g #We need more scientific data.
+		default_option = yes
+		curie_add_x_physical_data_effect = {
+			AMOUNT = 5
+		}
+		dubois_add_x_academy_progress = {
+			AMOUNT = 30
+		}
+		physicist_experience_gain_effect = { AMOUNT = 30 }
+	}
+
+	option = {
+		name = curie.103.h #This will help in the search for iron deposits.
+		trigger = {
+			has_technology_researched = agassiz_geology_tech
+			any_scope_building = {
+				is_building_type = building_iron_mine
+			}
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_iron_mine
+				}
+			}
+			change_resource_potential = {
+        		type = building_iron_mine
+        		amount = 2
+    		}
+		}
+	}
+
+	option = {
+		name = curie.103.i #This will help in the search for lead deposits.
+		trigger = {
+			has_technology_researched = verrier_electromagnetism_tech
+			any_scope_building = {
+				is_building_type = building_lead_mine
+			}
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_lead_mine
+				}
+			}
+			change_resource_potential = {
+        		type = building_lead_mine
+        		amount = 2
+    		}
+		}
+	}
+
+	#option = {
+	#	name = curie.103.j #This will help in the search for copper deposits.
+	#	trigger = {
+	#		has_technology_researched = verrier_electromagnetism_tech
+	#		any_scope_building = {
+	#			is_building_type = building_copper_mine
+	#		}
+	#	}
+	#	random_scope_state = {
+	#		limit = {
+	#			any_scope_building = {
+	#				is_building_type = building_copper_mine
+	#			}
+	#		}
+	#		change_resource_potential = {
+    #    		type = building_copper_mine
+    #	  		amount = 1
+    #		}
+	#	}
+	#}
+
+	option = {
+		name = curie.103.k #This will help in the search for oil deposits.
+		trigger = {
+			has_technology_researched = agassiz_seismology_tech
+			any_scope_building = {
+				is_building_type = building_oil_rig
+			}
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_oil_rig
+				}
+			}
+			change_resource_potential = {
+        		type = building_oil_rig
+        		amount = 1
+    		}
+		}
+	}
+}
+
+#Curie 104: Nautical Interest
+curie.104 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.104.t
+	desc = curie.104.d
+	flavor = curie.104.f
+
+	gui_window = event_window_2char
+
+	left_icon = scope:curie_physicist_scope
+	right_icon = scope:gaudi_admiral_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+		any_scope_character = {
+			has_role_of_type = admiral
+			is_busy = no
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_role_of_type = admiral
+				is_busy = no
+			}
+			save_scope_as = curie_admiral_scope
+		}
+		var:curie_physicist_var = {
+			save_scope_as = curie_physicist_scope
+		}
+	}
+
+	option = {
+		name = curie.104.g #The new knowledge should be useful to him.
+		default_option = yes
+		scope:curie_admiral_scope = {
+			add_modifier = {
+				name = curie_geomagnetical_knowledge_modifier
+			}
+		}
+	}
+
+	option = {
+		name = curie.104.h #This knowledge should benefit everyone.
+		curie_add_x_physical_data_effect = {
+			AMOUNT = 2
+		}
+		curie_add_x_magnetic_data_effect = {
+			AMOUNT = 1
+		}
+	}
+}
+
+#Curie 105: An Anomaly
+curie.105 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.105.t
+	desc = curie.105.d
+	flavor = curie.105.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curie_physicist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curie_physicist_var = {
+			save_scope_as = curie_physicist_scope
+		}
+	}
+
+	option = {
+		name = curie.105.g #Interesting.
+		default_option = yes
+		curie_add_x_magnetic_data_effect = {
+			AMOUNT = 1
+		}
+	}
+}
+
+#Curie 106: Astronomer consults Geomagnetic Observatory
+curie.106 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.106.t
+	desc = curie.106.d
+	flavor = curie.106.f
+
+	gui_window = event_window_2char
+
+	left_icon = scope:curie_physicist_scope
+	right_icon = scope:verrier_astronomer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+		has_variable = verrier_astronomer_var
+		var:verrier_astronomer_var = {
+			is_busy = no
+		}
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+		var:curie_physicist_var = {
+			save_scope_as = curie_physicist_scope
+		}
+	}
+
+	option = {
+		name = curie.106.g #This will help him in his practical research.
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 2
+		}
+		astronomer_experience_gain_effect = {
+			AMOUNT = 15
+		}
+	}
+
+	option = {
+		name = curie.106.h #This will help him in his theoretical research.
+		verrier_small_add_technology = yes
+	}
+}
+
+#Curie 107: The Magnetic Atlas
+curie.107 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.107.t
+	desc = curie.107.d
+	flavor = curie.107.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curie_physicist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = curie_magnetic_atlas_var
+		var:curie_physicist_var ?= {
+			set_variable = {
+				name = curie_physicist_achievement_magnetic_atlas_var
+				value = flag:curie_physicist_achievement_magnetic_atlas_loc
+			}
+			save_scope_as = curie_physicist_scope
+		}
+	}
+
+	option = {
+		name = curie.107.g #The knowledge should be applied in a theoretical context.
+		default_option = yes
+		curie_add_x_physical_data_effect = {
+			AMOUNT = 10
+		}
+		curie_add_x_magnetic_data_effect = {
+			AMOUNT = 10
+		}
+		physicist_experience_gain_effect = { AMOUNT = 30 }
+		curie_set_physicist_unbusy_effect = yes
+	}
+
+	option = {
+		name = curie.107.h #This knowledge should be put into practice.
+		tesla_electrical_engineering_medium_add_technology = yes
+		curie_set_physicist_unbusy_effect = yes
+	}
+}
+
 #################################################################################
 
 ###### MATHEMATICS ######
@@ -125,7 +734,7 @@ curie.201 = {
 		}
 		hidden_effect = {
 			remove_variable = curie_searched_variable
-			#ai_physics_automation_effect = yes
+			ai_physics_automation_effect = yes
 		}
 	}
 }
@@ -210,7 +819,883 @@ curie.203 = {
 		}
 		hidden_effect = {
 			remove_variable = curie_searched_variable
-			#ai_physics_automation_effect = yes
+			ai_physics_automation_effect = yes
+		}
+	}
+}
+
+#Curie 301: Mathematical Improvement
+curie.301 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.301.t
+	desc = curie.301.d
+	flavor = curie.301.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curie_physicist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/goods_icons/wood.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curie_physicist_var ?= {
+			set_variable = {
+				name = curie_physicist_achievement_mathematics_improvement_finished_var
+				value = flag:curie_physicist_achievement_mathematics_improvement_finished_loc
+			}
+			save_scope_as = curie_physicist_scope
+		}
+	}
+
+	option = {
+		name = curie.301.g #More wood for everyone!
+		default_option = yes
+	}
+}
+
+#################################################################################
+
+###### PHYSICS EXPERIMENT ######
+
+#Curie 401: Physics Experiment
+curie.401 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.401.t
+
+	desc = curie.401.d
+
+	flavor = curie.401.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/curie_pictures/curie_experiment.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curie_physicist_var ?= {
+			save_scope_as = curie_physicist_scope
+		}
+	}
+
+	option = {	#
+		name = curie.401.g
+		default_option = yes
+		random_list = {
+			2 = {
+				modifier = {
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = meticulous
+							}
+						}
+						add = 3
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = cautious
+							}
+						}
+						add = 3
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = erudite
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = innovative
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = persistent
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = tactful
+							}
+						}
+						add = 1
+					}
+				}
+				add_modifier = {
+					name = curie_physicist_experiment_progress_modifier
+					days = 730
+				}
+			}
+			2 = {
+				modifier = {
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = meticulous
+							}
+						}
+						multiply = 0
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = reckless
+							}
+						}
+						add = 3
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = wrathful
+							}
+						}
+						add = 3
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = senile
+							}
+						}
+						add = 3
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = arrogant
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = ambitious
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = brave
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = direct
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								OR = {
+									has_trait = alcoholic
+									has_trait = cocaine_addiction
+									has_trait = opium_addiction
+								}
+							}
+						}
+						add = 1
+					}
+				}
+				add_modifier = {
+					name = curie_physicist_experiment_accident_modifier
+					days = 365
+				}
+			}
+			1 = {
+			}
+		}
+	}
+
+	option = {	#
+		name = curie.401.h
+		trigger = { is_player = yes }
+		random_list = {
+			2 = {
+				modifier = {
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = meticulous
+							}
+						}
+						add = 3
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = cautious
+							}
+						}
+						add = 3
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = erudite
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = innovative
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = persistent
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = tactful
+							}
+						}
+						add = 1
+					}
+				}
+				add_modifier = {
+					name = curie_physicist_experiment_progress_modifier
+					days = 730
+				}
+			}
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = cautious
+							}
+						}
+						multiply = 0
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = reckless
+							}
+						}
+						add = 3
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = wrathful
+							}
+						}
+						add = 3
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = senile
+							}
+						}
+						add = 3
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = arrogant
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = ambitious
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = brave
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								has_trait = direct
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:curie_physicist_var ?= {
+								OR = {
+									has_trait = alcoholic
+									has_trait = cocaine_addiction
+									has_trait = opium_addiction
+								}
+							}
+						}
+						add = 1
+					}
+				}
+				add_modifier = {
+					name = curie_physicist_experiment_disaster_modifier
+					years = 2
+				}
+			}
+		}
+	}
+}
+
+#Curie 402: Special Physics Experiment
+curie.402 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.402.t
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 1
+			}
+			desc = curie.402.d_1
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 2
+			}
+			desc = curie.402.d_2
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 3
+			}
+			desc = curie.402.d_3
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 4
+			}
+			desc = curie.402.d_4
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 5
+			}
+			desc = curie.402.d_5
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 6
+			}
+			desc = curie.402.d_6
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 7
+			}
+			desc = curie.402.d_7
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 8
+			}
+			desc = curie.402.d_8
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 9
+			}
+			desc = curie.402.d_9
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 10
+			}
+			desc = curie.402.d_10
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 11
+			}
+			desc = curie.402.d_11
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 12
+			}
+			desc = curie.402.d_12
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 13
+			}
+			desc = curie.402.d_13
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 14
+			}
+			desc = curie.402.d_14
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 15
+			}
+			desc = curie.402.d_15
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 1
+			}
+			desc = curie.402.f_1
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 2
+			}
+			desc = curie.402.f_2
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 3
+			}
+			desc = curie.402.f_3
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 4
+			}
+			desc = curie.402.f_4
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 5
+			}
+			desc = curie.402.f_5
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 6
+			}
+			desc = curie.402.f_6
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 7
+			}
+			desc = curie.402.f_7
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 8
+			}
+			desc = curie.402.f_8
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 9
+			}
+			desc = curie.402.f_9
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 10
+			}
+			desc = curie.402.f_10
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 11
+			}
+			desc = curie.402.f_11
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 12
+			}
+			desc = curie.402.f_12
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 13
+			}
+			desc = curie.402.f_13
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 14
+			}
+			desc = curie.402.f_14
+		}
+		triggered_desc = {
+			trigger = {
+				var:curie_searched_experiment = 15
+			}
+			desc = curie.402.f_15
+		}
+	}
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curie_physicist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = curie_heureka_achievement
+		curie_add_discovered_experiment_from_list_effect = yes
+		var:curie_physicist_var ?= {
+			set_variable = {
+				name = curie_physicist_achievement_historical_physics_experiment_var
+				value = flag:curie_physicist_achievement_historical_physics_experiment_loc
+			}
+			save_scope_as = curie_physicist_scope
+		}
+	}
+
+	option = {	#
+		name = curie.402.g
+		default_option = yes
+		custom_tooltip = curie_add_discovered_experiment_effect_tt
+		curie_add_x_physical_data_effect = { AMOUNT = 10 }
+		physicist_experience_gain_effect = { AMOUNT = 30 }
+		verrier_medium_add_technology = yes
+		add_modifier = {
+			name = curie_physics_experiment_successful_modifier
+			years = 3
+		}
+		show_as_tooltip = {
+			var:curie_physicist_var = {
+				set_character_busy_and_immortal = no
+			}
+		}
+		hidden_effect = {
+			remove_variable = curie_searched_variable
+			ai_physics_automation_effect = yes
+		}
+	}
+}
+
+#Curie 403: Generic Physics Experiment
+curie.403 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.403.t
+
+	desc = curie.403.d
+
+	flavor = curie.403.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/curie_pictures/curie_thomson.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curie_physicist_var ?= {
+			save_scope_as = curie_physicist_scope
+		}
+	}
+
+	option = {	#
+		name = curie.403.g
+		default_option = yes
+		random_list = {
+			5 = { curie_add_x_physical_data_effect = { AMOUNT = 5 } }
+			3 = { curie_add_x_magnetic_data_effect = { AMOUNT = 3 } }
+			2 = {}
+		}
+		physicist_experience_gain_effect = { AMOUNT = 10 }
+		verrier_small_add_technology = yes
+		show_as_tooltip = {
+			var:curie_physicist_var = {
+				set_character_busy_and_immortal = no
+			}
+		}
+	}
+}
+
+#Curie 404: Physics Experiment failed!
+curie.404 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.404.t
+
+	desc = curie.404.d
+
+	flavor = curie.404.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/curie_pictures/curie_edison.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curie_physicist_var ?= {
+			save_scope_as = curie_physicist_scope
+		}
+	}
+
+	option = {	#
+		name = curie.404.g
+		default_option = yes
+		physicist_experience_gain_effect = { AMOUNT = 5 }
+		add_modifier = {
+			name = curie_physics_experiment_failure_modifier
+			years = 2
+		}
+		show_as_tooltip = {
+			var:curie_physicist_var = {
+				set_character_busy_and_immortal = no
+			}
+		}
+	}
+}
+
+#################################################################################
+
+###### WEATHER SERVICE ######
+
+#Curie 501: Weather Service ends
+curie.501 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.501.t
+
+	desc = curie.501.d
+
+	flavor = curie.501.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/curie_pictures/curie_meteorology.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#Triggered by JE
+	}
+
+	immediate = {
+		var:curie_physicist_var ?= {
+			set_variable = {
+				name = curie_physicist_achievement_weather_service_var
+				value = flag:curie_physicist_achievement_weather_service_loc
+			}
+			save_scope_as = curie_physicist_scope
+		}
+	}
+
+	option = {	#
+		name = curie.501.a
+		trigger = {
+			var:curie_physicist_var ?= {
+				is_female = no
+			}
+		}
+		default_option = yes
+		hidden_effect = {
+			ai_physics_automation_effect = yes
+		}
+	}
+
+	option = {	#
+		name = curie.501.b
+		trigger = {
+			var:curie_physicist_var ?= {
+				is_female = yes
+			}
+		}
+		default_option = yes
+		hidden_effect = {
+			ai_physics_automation_effect = yes
+		}
+	}
+}
+
+#Curie 502: Weather Station Expansion
+curie.502 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.502.t
+
+	desc = curie.502.d
+
+	flavor = curie.502.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/curie_pictures/curie_meteorology.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#Triggered by JE
+	}
+
+	immediate = {
+		var:curie_physicist_var ?= {
+			set_variable = {
+				name = curie_physicist_achievement_weather_station_expansion_var
+				value = flag:curie_physicist_achievement_weather_station_expansion_loc
+			}
+			save_scope_as = curie_physicist_scope
+		}
+	}
+
+	option = {	#
+		name = curie.502.g
+		default_option = yes
+		#Upgrade to Modern Weather Station
+		if = {
+			limit = {
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_verrier_observatory
+						production_method = pm_curtiss_weather_station
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					has_building = building_verrier_observatory
+				}
+				activate_production_method = {
+					building_type = building_verrier_observatory
+					production_method = pm_curtiss_modern_weather_station
+				}
+			}
+		}
+		#Upgrade to Weather Station
+		else_if = {
+			limit = {
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_verrier_observatory
+						production_method = pm_curtiss_early_weather_station
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					has_building = building_verrier_observatory
+				}
+				activate_production_method = {
+					building_type = building_verrier_observatory
+					production_method = pm_curtiss_weather_station
+				}
+			}
+		}
+		#Upgrade to Early Weather Station
+		else_if = {
+			limit = {
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_verrier_observatory
+						production_method = pm_curtiss_no_weather_station
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					has_building = building_verrier_observatory
+				}
+				activate_production_method = {
+					building_type = building_verrier_observatory
+					production_method = pm_curtiss_early_weather_station
+				}
+			}
+		}
+
+		hidden_effect = {
+			ai_physics_automation_effect = yes
 		}
 	}
 }

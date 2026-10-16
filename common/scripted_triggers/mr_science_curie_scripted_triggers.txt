@@ -18,9 +18,9 @@ curie_has_physicist_no_tooltip_trigger = {
 	has_variable = curie_physicist_var
 }
 
-curie_has_active_physicist = {
+curie_has_active_physicist_trigger = {
 	custom_tooltip = {
-		text = curie_has_active_physicist_tt
+		text = curie_has_active_physicist_trigger_tt
 		curie_has_active_physicist_no_tooltip_trigger = yes
 	}
 }
@@ -39,18 +39,74 @@ curie_is_uranium_state = {
 	}
 }
 
-curie_is_physics_automated_trigger = {
-	OR = {
-		is_ai = yes
-		has_variable = curie_physics_automation_var
-	}
-}
-
 ###################################################
 
 ### MATHEMATICS ###
 
+### Mathematics Formula ###
+
 #Technologies needed for formula discovery
+curie_formula_can_discover_trigger = {
+	hidden_trigger = {
+		OR = {
+			AND = {
+				curie_discovery_nuclear_physics_formula_trigger = yes
+				OR = {
+					###PRE-GAME ELEMENTS###
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 45 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 44 }
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 43 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 42 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 41 } 
+				}
+			}
+			AND = {
+				curie_discovery_modern_physics_formula_trigger = yes
+				OR = {
+					###LATE GAME###
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 35 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 34 }
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 33 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 32 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 31 } 
+				}
+			}
+			AND = {
+				curie_discovery_electromagnetism_formula_trigger = yes
+				OR = {
+					###MID GAME###
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 25 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 24 }
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 23 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 22 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 21 } 
+				}
+			}
+			AND = {
+				curie_discovery_differential_geometry_formula_trigger = yes
+				OR = {
+					###EARLY GAME###
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 15 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 14 }
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 13 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 12 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 11 } 
+				}
+			}
+			AND = {
+				curie_discovery_classical_physics_formula_trigger = yes
+				OR = {
+					###PRE GAME###
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 5 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 4 }
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 3 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 2 } 
+					curie_formula_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 1 } 
+				}
+			}
+		}
+	}
+}
 
 curie_discovery_nuclear_physics_formula_trigger = {
 	has_technology_researched = verrier_nuclear_physics_tech
@@ -72,6 +128,24 @@ curie_discovery_classical_physics_formula_trigger = {
 	has_technology_researched = verrier_physics_tech
 }
 
+#Trigger to check if a specific formula was not discovered
+curie_formula_x_is_not_discovered_trigger = {
+	#NUMBER --> Number of the Element in the Formula List
+#	hidden_trigger = {
+		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+			name = value
+			value = $NUMBER$
+		}
+#	}
+
+	custom_tooltip = {
+		text = curie_formula_x_is_not_discovered_tt
+		NOT = {
+			curie_formula_x_is_discovered_no_tooltip_trigger = { NUMBER = $NUMBER$ }
+		}
+	}
+}
+
 #Check if the formula in question is discovered or not
 
 curie_formula_x_is_not_discovered_no_tooltip_trigger = {
@@ -88,6 +162,152 @@ curie_formula_x_is_discovered_no_tooltip_trigger = {
 		var:curie_formula_number_var ?= $NUMBER$
 		has_variable = curie_formula_discovered_var
 	}
+}
+
+############################
+
+### Triggers for Physicist Automation ###
+
+#Does this country use Physicist Automation?
+curie_is_physicist_automated_trigger = {
+	OR = {
+		is_ai = yes
+	#	has_variable = curie_physicist_automation_var
+	}
+}
+
+### Improve Mathematics ###
+
+curie_country_has_building_valid_for_mathematics_project_trigger = {
+	custom_tooltip = {
+		text = MR_PHYSICIST_IMPROVE_MATHEMATICS_TRIGGER_TT
+		any_scope_building = {
+			curie_building_valid_for_mathematics_project_no_tooltip_trigger = yes
+		}
+	}
+}
+
+curie_building_valid_for_mathematics_project_no_tooltip_trigger = {
+	level > 0
+	is_building_type = building_university
+	has_active_production_method = pm_dubois_university_mathematics
+	NAND = { 
+		has_modifier = curie_building_throughput_add_modifier
+		has_modifier = curie_building_production_mult_modifier 
+		has_modifier = curie_building_goods_input_mult_modifier 
+	}
+}
+
+### Physics Experiment ###
+
+curie_experiment_can_discover_trigger = {
+	var:curie_physicist_var ?= {
+		NOT = {
+			has_variable = curie_physicist_achievement_historical_physics_experiment_var
+		}
+	}
+	hidden_trigger = {
+		OR = {
+			AND = {
+				has_technology_researched = verrier_physics_tech
+				OR = {
+					curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 1 } 
+					curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 2 }
+				}
+			}
+			AND = {
+				has_technology_researched = curie_differential_geometry_tech
+				OR = {
+					curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 3 } 
+					curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 4 }
+				}
+			}
+			AND = {
+				has_technology_researched = verrier_astronomy_tech
+				OR = {
+					curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 5 } 
+					curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 6 }
+				}
+			}
+			AND = {
+				has_technology_researched = verrier_electromagnetism_tech
+				curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 7 }
+			}
+			AND = {
+				has_technology_researched = verrier_spectroscopy_tech
+				OR = {
+					curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 8 } 
+					curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 9 }
+				}
+			}
+			AND = {
+				has_technology_researched = verrier_modern_physics_tech
+				OR = {
+					curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 10 } 
+					curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 11 }
+				}
+			}
+			AND = {
+				has_technology_researched = verrier_radioactivity_tech
+				OR = {
+					curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 12 } 
+					curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 13 }
+				}
+			}
+			AND = {
+				has_technology_researched = verrier_nuclear_physics_tech
+				OR = {
+					curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 14 } 
+					curie_experiment_x_is_not_discovered_no_tooltip_trigger = { NUMBER = 15 }
+				}
+			}
+		}
+	}
+}
+
+#Check if the experiment in question is discovered or not
+
+curie_experiment_x_is_not_discovered_no_tooltip_trigger = {
+	#NUMBER --> Number of the Element in the Periodic Table
+	NOT = {
+		curie_experiment_x_is_discovered_no_tooltip_trigger = { NUMBER = $NUMBER$ }
+	}
+}
+
+curie_experiment_x_is_discovered_no_tooltip_trigger = {
+	any_in_global_list = {
+		variable = curie_experiments_global_list
+
+		var:curie_experiment_number_var ?= $NUMBER$
+		has_variable = curie_experiment_discovered_var
+	}
+}
+
+### AI ###
+
+#Does this country use Engineering Automation?
+curie_is_physics_automated_trigger = {
+	OR = {
+		is_ai = yes
+		has_variable = curie_physics_automation_var
+	}
+}
+
+###############################################################################
+
+### Meteorology ###
+
+curie_cloud_x_is_discovered_no_tooltip_trigger = {
+	any_in_global_list = {
+		variable = curie_clouds_global_list
+
+		var:curie_cloud_number_var ?= $NUMBER$
+		has_variable = curie_cloud_discovered_var
+	}
+}
+
+curie_cloud_x_is_discovered_country_no_tooltip_trigger = {
+	has_variable = curie_cloud_$NUMBER$_discovered_country_var
 }
 
 ############################

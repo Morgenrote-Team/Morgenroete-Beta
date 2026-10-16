@@ -1,12 +1,32 @@
 Changelog fot 2.9.0 "Curie"
 
-Physics
+Physics - General
 - Added a new Academic: Physicist.
+
+Physics - Geomagnetism
+- All content related to geomagnetism has been moved to and centralized in the “Mathematics” GUI (previously located under “Engineering”).
+- It is now possible to found the Geomagnetic Association via an action in a modded game set before 1836.
+- New action: Geomagnetic Atlas.
+- All journal entries related to geomagnetism now have their own scripted progress bar.
+- The Geomagnetic Institute generates both magnetic data AND physical data.
+- The various buttons on the Engineer's interface that allowed players to unlock raw material deposits using magnetic data have been removed.
+- Instead, every time enough magnetic data has been collected worldwide, an event is unlocked for all members of the Magnetic Association that unlocks either physics experience and physical data, or a small deposit of raw materials (+2 for iron and lead, +1 for copper and oil); however, this also requires certain technological prerequisites. Each time a progress bar is completed, meeting the requirements the next time becomes more difficult.
+
+Physics - Meteorology
+- Added Meteorological Physicist (Metereologist)
+- Meteorological PMs in the Observatory are no longer manually available; they will be updated by a Meteorologist.
+- Changed Meteorological PMs: They no longer give agricultural bonus; however, all the modifiers against harvest conditions are stronger. The last PM needs more and different input goods.
+
+Physics - The Göttingen Seven
+- Hanover begins with a physicist and mathematician: Wilhelm Eduard Weber. During the “Göttingen Seven” event, Weber may lose his position. He may subsequently resurface in a German state that has criticized the behavior of the King of Hanover and does not have a mathematician of its own.
+- Jacob Grimm, who starts as an agitator for Hanover, will be purged, too, and appears under similar circumstances as an agitator in a German state. VotP is needed for this, as Jacob Grimm is used as a character in this DLC.
+- Grimm may trigger the "Deutsches Wörterbuch" (German Dictionary) event after many years in the country which welcomed him.
 
 Academics
 - To promote an Engineer, you need the technology Atmospheric Engine.
 - To promote an Archaeologist, you need the technology Antiquarianism.
-- All academics can spawn randomly if no special acadmeic is promoted, except for these: Anthropologist (needs Early Archaeology Tech), Biologist (needs Vaccination Tech), Physicist (needs Dirrential Geometry Tech).
+- All academics can spawn randomly if no special academic is promoted, except for these: Anthropologist (needs Early Archaeology Tech), Biologist (needs Vaccination Tech), Physicist (needs Differential Geometry Tech).
+- Technologies in the tech tree now indicate when they unlock an academic or artistic promotion.
 
 Archaeology
 - Added 4 Events to the Maurya Empire Archaeological Region.
@@ -16,6 +36,14 @@ Archaeology
 - Added 4 events to the Pueblo Archaeological Region.
 - Major artifacts belonging to AI countries are now displayed correctly.
 - Major Artifacts are now truly unique - any potential duplicates where two nations could possess the same Major Artifact should be fixed.
+
+Aviation & Ships
+- Airspace Convention needs Airlines, not Modern Aviation.
+- Dreadnought does not need Aviation, but does also not unlock the Seaplane Tender.
+- Modern Aviation needs Air War Doctrine and Airlines.
+- Seaplanes needs Dreadnought and unlocks the Seaplane Tender; it also unlocks a new modification for Seaplane Tenders and Super Dreadnoughts: Scout Seaplane (only one allowed).
+- Seaplanes are no longer needed for Modern Aviation and Air War Doctrin, it does also no longer give additional modifiers.
+- Echo Sounding Tech allows Sonar Modification on Submarines and Destroyers.
 
 Biology & Chemistry
 - Removed Cydia and Cochliomyia State Traits.
@@ -30,11 +58,21 @@ Biology & Chemistry
 - You can share your pesticide knowledge with your subjects through a subject interaction (Biological Team). This will also lower liberty desire a little bit.
 - A Chemist can invent DDT like Synthetic Rubber or Synthetic Oil. DDT gives agriculture bonuses and prevention against boll weevil, codling moth, locust swarms, potato beetles and tea mosquito.
 
-Engineering
-- Electrical Engineer available with Electrical Engineering (instead of Physics).
-- Telegraph Offices and Radio Stations PM can be activated manually; no Electrical Engineer needed.
-- The electrical engineer can unlock two new mobilization options in the new Communication mobilization group: Telegraph Troops (Electric Telegraph) and Signal Corps (Radios).
-- Telegraphy Network and Radio Network are now Journal Entries which are triggered and completed automatically; the buttons for the electrical engineer were removed.
+Electrical Engineering
+- Electrical Engineer available with Electrical Generation (instead of Physics).
+- Added new building: Utility Pole. Telegraph Offices (now: Telegraph Pole) and Radio Stations can be activated manually in here, no Engineer needed. It also has a PM to get an Elctricity Bonus, if there is a Power Plant in the same state (Power Line). Copper is an important good for this building.
+- Electrical Engineer can unlock two new mobilization options in the new Communication mobilization group: Telegraph Troops (Electric Telegraph) and Signal Corps (Radios).
+- Electrical Engineer can modernize Logging Camps using the electric sawmill production method.
+- Electrical Engineer can modernize Utility Poles using the power line production method.
+- Telegraphy Network and Radio Network are now Journal Entries which are triggered and completed automatically; the buttons for the Electrical Engineer were removed.
+- Telegraph Companies need a 65% of the country to be connected with Utility Poles before founded.
+
+Military Engineering
+- Advanced Weapons Tier 2 needs Bolt Action Rifles, Advanced Weapons Tier 3 needs Automatic Machine Guns.
+- Advanced Defence Tier 2 needs Defense in Depth, Advanced Defence Tier 3 needs Concrete Fortifications.
+
+Aeronautical Engineering
+- Advanced Aircraft Tier 2 needs Air War Doctrine, Advanced Aircraft Tier 3 needs Modern Aviation.
 
 Music
 - Added JE and event for the rediscovery of Vivaldi's works.
@@ -44,6 +82,7 @@ Research License
 - You can ask a research license from anyone, even those who don't have something to research (yet).
 - You need to be recognized and at least a minor power to ask for a research license (yes, that also counts for archaeology).
 - Normally, Great Powers will not give research licenses. However, they will be more open to your question if you are an ally.
+- Hopefully we will have Treaties with Research Licenses in the future.
 
 Technologies
 - Added Mathematics. This is the first technology in the Physics/Mathematics tree (even before Classical Physics).
@@ -61,7 +100,13 @@ Technologies
 - Added Early Pesticides. This lowers the impact of pests.
 - Added Modern Pesticides. This lowers the impact of pests.
 - Chemistry and Malaria Prevention also lowers the impact of pests. Flamethrowers help a little bit again locusts.
-- Added DDT. This is a hidden technology which will be activated by vour Chemist.
+- Added DDT. This is a hidden technology which will be activated by your Chemist.
+- Mass Propaganda no longer needs mass culture.
+
+Copper
+- Additional (very small) Copper potentials for Tyrol, Lorraine, Provence, Sardinia and Rio Grande do Sul.
+- Event for STATE_KUOPIO, when its owner has researched Pneumatic Tools and a Geologist: Outokumpu. This will give Kuopio +5 potential for copper mines (historically, this copper company was quite important between the World Wars).
+- New Company: Outokumpu Oyj.
 
 Changes
 - Added Great Terroir (Wine bonus) to Aquitaine and Piedmont (Paradox, you added the best wine grounds in Europe and forgot about Bordeaux and Barolo?).
@@ -70,5 +115,4 @@ Changes
 
 ### TO DO ###
 
-- Finish Work on Research License/Treaty
 - Origin of Man Congress
