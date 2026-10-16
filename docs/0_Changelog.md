@@ -1,22 +1,22 @@
-Changelog for 2.8.3o "Mitsopoulos"
+Changelog for 2.8.3q "Mitsopoulos"
 
 Characters:
-- Theodor Escherich (Austrian/German Biologist and Physician)
-- Friedrich J. Haberlandt (Austrian Biologist)
-- Marianne Angermann (German Biologist and Chemist)
-- Odo Bujwid (Polish Biologist and Physician)
-- José de Hidalgo Tablada (Spanish Biologist)
-- Jaume Ferran i Clua (Spanish Biologist and Physician)
-- Josep Mestres i Miquel (Spanish Biologist and Physician)
-- Severo Ochoa (Spanish Biologist)
-- Braulio Antón Ramírez (Spanish Biologist)
-- José Arechavaleta (Uruguayan Biologist, Naturalist and Geologist)
+- Edward Jełowicki (Polish Engineer)
+- Kazimierz Gzowski (Polish Engineer)
+- Franciszek Armiński (Polish Astronomer)
+- Ludwik Birkenmajer (Polish Astronomer and Physicist)
+- Adam Prażmowski (Polish Astronomer and Physicist)
+- Ivan Yarkovsky (Polish Astronomer, Physicist and Engineer)
+- Bronisław Radziszewski (Polish Chemist)
+- Zygmunt Florenty Wróblewski (Polish Chemist and Physicist)
+- Józef Łukaszewicz (Polish Physicist and Geologist)
+- August Witkowski (Polish Physicist)
 
 Fixes:
--
+- The Public Construction modifier gets correctly applied again.
 
 Graphics:
-- Added DNA for all Siamese characters (Thanks PPsyrius)
+- Improved Pushkin's DNA.
 
 Changes:
 -
