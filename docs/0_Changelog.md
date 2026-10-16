@@ -14,6 +14,7 @@ Characters:
 
 Fixes:
 - The Public Construction modifier gets correctly applied again.
+- Fixed Josef Rank not having a Role.
 
 Graphics:
 - Improved Pushkin's DNA.
