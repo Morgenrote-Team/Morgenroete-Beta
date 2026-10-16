@@ -12,7 +12,7 @@ Characters:
 - Józef Łukaszewicz (Polish Physicist and Geologist)
 
 Fixes:
--
+- The Public Construction modifier gets correctly applied again.
 
 Graphics:
 - Improved Pushkin's DNA.
