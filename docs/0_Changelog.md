@@ -1,7 +1,7 @@
-Changelog for 2.8.3i "Mitsopoulos"
+Changelog for 2.8.3q "Mitsopoulos"
 
 Characters:
-- Erich Tschermak (Austrian Biologist)
+-
 
 Fixes:
 -
