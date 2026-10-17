@@ -1104,6 +1104,87 @@ curie_marine_weather_service_button_effect = {
 
 ### Effect to remove all cloud variables ###
 curie_remove_all_cloud_atlas_variables_effect = {
+	remove_variable = GUI_curie_cirrus_information_display_visible_var
+	remove_variable = GUI_curie_cirrocumulus_information_display_visible_var
+	remove_variable = GUI_curie_cirrostratus_information_display_visible_var
 	remove_variable = GUI_curie_altocumulus_information_display_visible_var
 	remove_variable = GUI_curie_altostratus_information_display_visible_var
+	remove_variable = GUI_curie_nimbostratus_information_display_visible_var
+	remove_variable = GUI_curie_stratocumulus_information_display_visible_var
+	remove_variable = GUI_curie_stratus_information_display_visible_var
+	remove_variable = GUI_curie_cumulus_information_display_visible_var
+	remove_variable = GUI_curie_cumulonimbus_information_display_visible_var
+}
+
+#Effect to add the specific cloud which a physicist searched as a discovered cloud
+curie_add_discovered_cloud_effect = {
+	#NUMBER --> Number of the cloud
+
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = value
+		value = $NUMBER$
+	}
+
+	random_in_global_list = {
+		variable = curie_clouds_global_list
+
+		limit = {
+			var:curie_cloud_number_var ?= $NUMBER$
+		}
+
+		set_variable = {
+			name = history
+			value = flag:curie_cloud_history_flag_loc
+		}
+		set_variable = {
+			name = year
+			value = year
+		}
+		set_variable = {
+			name = discovering_country
+			value = prev.country_definition
+		}
+		if = {
+			limit = {
+				prev.var:curie_physicist_var ?= {
+					has_variable = com_name_full_no_formatting
+				}
+			}
+			set_variable = {
+				name = discoverer
+				value = prev.var:curie_physicist_var.var:com_name_full_no_formatting
+			}
+		}
+		set_variable = curie_cloud_discovered_var
+	}
+	var:curie_physicist_var ?= {
+		set_variable = {
+			name = curie_physicist_achievement_first_cloud_describer_var
+			value = flag:curie_physicist_achievement_first_cloud_describer_loc
+		}
+	}
+	change_global_variable = {
+		name = curie_discovered_clouds_global_number_var
+		add = 1
+	}
+}
+
+#Effect to add the specific cloud which a physicist searched as a discovered cloud
+curie_add_discovered_cloud_country_effect = {
+	#NUMBER --> Number of the cloud
+
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = value
+		value = $NUMBER$
+	}
+
+	set_variable = {
+		name = curie_cloud_$NUMBER$_discovered_country_var
+		value = year
+	}
+
+	mr_change_variable_min_0_effect = { AMOUNT = 1 NAME = curie_discovered_clouds_country_number_var }
+	var:curie_physicist_var ?= {
+		mr_change_variable_min_0_effect = { AMOUNT = 1 NAME = curie_discovered_clouds_character_number_var }
+	}
 }

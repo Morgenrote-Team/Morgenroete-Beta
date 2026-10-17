@@ -91,17 +91,19 @@ Technologies
 - Differential Geometry gives +1 Yearly Astronomical Objects.
 - Mathematical-Technical Faculty needs Differential Geometry, not Athmospheric Engine.
 - Tier 1&2 Countries start with Differential Geometry.
-- Added Rocket Science. This Technology is needed für the Rocket Scientist Specialization.
-- Added Modern Rockets.
-- Added Nuclear Fission.
-- Added Nuclear Reactor and The Bomb. These are hidden technologies which will be activated by a JE (like Astro Physics).
-- Reconaissance Ballons unlocks Meteorologist Specialization.
-- Nuclear Physics unlocks Nuclear Physicist Specialization.
+- Added Meteorology. This unlocks Early Weather Station (not Montgolfier Balloon). Only the UK starts with Meteorology. It unlocks Meteorologist Specialization.
 - Added Early Pesticides. This lowers the impact of pests.
 - Added Modern Pesticides. This lowers the impact of pests.
 - Chemistry and Malaria Prevention also lowers the impact of pests. Flamethrowers help a little bit again locusts.
 - Added DDT. This is a hidden technology which will be activated by your Chemist.
 - Mass Propaganda no longer needs mass culture.
+
+Technologies (No Effect yet)
+- Nuclear Physics unlocks Nuclear Physicist Specialization.
+- Added Rocket Science. This Technology is needed für the Rocket Scientist Specialization.
+- Added Modern Rockets.
+- Added Nuclear Fission.
+- Added Nuclear Reactor and The Bomb. These are hidden technologies which will be activated by a JE (like Astro Physics).
 
 Copper
 - Additional (very small) Copper potentials for Tyrol, Lorraine, Provence, Sardinia and Rio Grande do Sul.
