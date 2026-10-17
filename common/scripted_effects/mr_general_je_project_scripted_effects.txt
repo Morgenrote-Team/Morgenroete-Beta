@@ -343,3 +343,114 @@ mr_journal_entry_save_remaining_list_entries_as_variable_effect = {
 		}
 	}
 }
+
+#This was needed because harvest conditions will only have an effect in the state, not the building, so this adds the modifier to the state, too
+mr_journal_entry_building_3_modifier_project_weather_station_monthly_effect = {
+	scope:journal_entry = {
+		#Executed if Progress is high enough
+		if = {
+			limit = {
+				scripted_bar_progress = {
+					name = $PROGRESS_BAR_NAME$
+					value >= $PROGRESS_COST$
+				}
+			}
+			#Removes Progress
+			set_bar_progress = {
+				name = $PROGRESS_BAR_NAME$
+				value = 0
+			}
+			#Adds first Modifier
+			if = {
+				limit = {
+					var:mr_target_building_var ?= {
+						NOT = { has_modifier = $MODIFIER_1$ }
+					}
+				}
+				var:mr_target_building_var ?= {
+					add_modifier = {
+						name = $MODIFIER_1$
+					}
+				}
+				var:mr_target_building_var ?= {
+					state = {
+						add_modifier = {
+							name = $MODIFIER_1$
+						}
+					}
+				}
+			}
+			#Adds second Modifier
+			else_if = {
+				limit = {
+					var:mr_target_building_var ?= {
+						NOT = { has_modifier = $MODIFIER_2$ }
+					}
+				}
+				var:mr_target_building_var ?= {
+					add_modifier = {
+						name = $MODIFIER_2$
+					}
+				}
+				var:mr_target_building_var ?= {
+					state = {
+						add_modifier = {
+							name = $MODIFIER_2$
+						}
+					}
+				}
+			}
+			#Adds third Modifier, Experience and chooses new building if possible
+			else = {
+				var:mr_target_building_var ?= {
+					add_modifier = {
+						name = $MODIFIER_3$
+					}
+				}
+				var:mr_target_building_var ?= {
+					state = {
+						add_modifier = {
+							name = $MODIFIER_3$
+						}
+					}
+				}
+
+				root = {
+					$ADDITIONAL_EFFECTS_BEFORE_BUILDING_REMOVAL_FROM_LIST$
+				}
+
+				root = {
+					#Removes old building from List
+					mr_remove_element_from_list = {
+						LIST = $BUILDING_LIST_NAME$
+						SCOPE = scope:journal_entry.var:mr_target_building_var
+					}
+					#Adds new building if possible
+					if = {
+						limit = { has_variable_list = $BUILDING_LIST_NAME$ }
+						ordered_in_list = {
+							variable = $BUILDING_LIST_NAME$
+							position = 0
+
+							scope:journal_entry = {
+								set_variable = {
+									name = mr_target_building_var
+									value = prev
+								}
+							}
+						}
+					}
+					mr_$ROLE_TYPE$_small_experience_gain_effect = { ROLE = $ROLE$ }
+				}
+
+				change_variable = {
+					name = mr_num_improved_buildings_var
+					add = 1
+				}
+			}
+		}
+	}
+	scope:journal_entry = {
+		mr_journal_entry_save_remaining_list_entries_as_variable_effect = { LIST_NAME = $BUILDING_LIST_NAME$ }
+	}
+}
