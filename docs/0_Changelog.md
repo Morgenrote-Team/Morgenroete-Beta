@@ -77,13 +77,12 @@ Aeronautical Engineering
 Music
 - Added JE and event for the rediscovery of Vivaldi's works.
 
-Research License
-- Archaeological, Botanical, Mountaineering and Paleontological Licenses are now one diplomatic action: Research License.
-- You can ask a research license from anyone, even those who don't have something to research (yet).
-- You need to be recognized and at least a minor power to ask for a research license (yes, that also counts for archaeology).
-- Normally, Great Powers will not give research licenses. However, they will be more open to your question if you are an ally.
-- Hopefully we will have Treaties with Research Licenses in the future.
-- Research charter is associated with a diplomatic catalyst - countries may be a bit friendlier (or more hostile, if they denied the charter)
+Research Charter
+- Archaeological, Botanical, Mountaineering and Paleontological Licenses are now one treaty article: Research Charter.
+- You can ask a research charter only from countries which have something to research (remember, for example, that many excavation sites will spawn later!).
+- You need to be recognized and at least a minor power to ask for a research charter.
+- Research charter is associated with a diplomatic catalyst - countries may be a bit friendlier (or more hostile, if they denied the charter) after the treaty.
+- Countries with a higher rank will be VERY reluctant to give you a Research charter.
 
 Technologies
 - Added Mathematics. This is the first technology in the Physics/Mathematics tree (even before Classical Physics). Countries which start with manufacturies also start with mathematics.
