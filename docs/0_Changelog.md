@@ -83,25 +83,28 @@ Research License
 - You need to be recognized and at least a minor power to ask for a research license (yes, that also counts for archaeology).
 - Normally, Great Powers will not give research licenses. However, they will be more open to your question if you are an ally.
 - Hopefully we will have Treaties with Research Licenses in the future.
+- Research charter is associated with a diplomatic catalyst - countries may be a bit friendlier (or more hostile, if they denied the charter)
 
 Technologies
-- Added Mathematics. This is the first technology in the Physics/Mathematics tree (even before Classical Physics).
+- Added Mathematics. This is the first technology in the Physics/Mathematics tree (even before Classical Physics). Countries which start with manufacturies also start with mathematics.
 - Added Differential Geometry. This Technology is needed for the Mathematics Specialization.
 - Differential Geometry is needed for Astronomy, not Mechanical Tools.
 - Differential Geometry gives +1 Yearly Astronomical Objects.
 - Mathematical-Technical Faculty needs Differential Geometry, not Athmospheric Engine.
 - Tier 1&2 Countries start with Differential Geometry.
-- Added Meteorology. This unlocks Early Weather Station (not Montgolfier Balloon). Only the UK starts with Meteorology. It unlocks Meteorologist Specialization.
+- Added Meteorology. This unlocks Early Weather Station. Only the UK starts with Meteorology. It unlocks Meteorologist Specialization.
+- Added High Altitude Ballons. This unlocks Modern Weather Station. Needed for Stratospheric Balloon Flight.
 - Added Early Pesticides. This lowers the impact of pests.
 - Added Modern Pesticides. This lowers the impact of pests.
 - Chemistry and Malaria Prevention also lowers the impact of pests. Flamethrowers help a little bit again locusts.
 - Added DDT. This is a hidden technology which will be activated by your Chemist.
 - Mass Propaganda no longer needs mass culture.
+- Recognized countries which start with medical degrees also start with vaccination.
 
-Technologies (No Effect yet)
-- Nuclear Physics unlocks Nuclear Physicist Specialization.
-- Added Rocket Science. This Technology is needed für the Rocket Scientist Specialization.
+Technologies (WIP)
+- Added Rocket Science. This Technology is needed for the Rocket Scientist Specialization.
 - Added Modern Rockets.
+- Added Nuclear Physics. This Technology is needed for the Nuclear Physicist Specialization.
 - Added Nuclear Fission.
 - Added Nuclear Reactor and The Bomb. These are hidden technologies which will be activated by a JE (like Astro Physics).
 
