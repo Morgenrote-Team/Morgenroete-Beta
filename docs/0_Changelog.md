@@ -8,7 +8,8 @@ Fixes:
 -
 
 Graphics:
--
+- Updated Fangio DNA.
+- Updated Holmberg DNA.
 
 Changes:
 -
