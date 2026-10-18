@@ -20,13 +20,14 @@ ai_start_physics_project_for_ai_effect = {
 #Handles Physics for the AI and player automation
 ai_physics_automation_effect = {
 	hidden_effect = {
+		#Mathematician
 		if = {
 			limit = {
 				curie_is_physics_automated_trigger = yes
-				curie_has_active_physicist_no_tooltip_trigger = yes
+				curie_has_active_mathematical_physicist_trigger = yes
 			}
 
-			### Physics Experiment ###
+			### Mathematics ###
 
 			#Uses a random list to decide which project to do.
 			# This allows for weighting using various factors.
@@ -77,7 +78,6 @@ ai_physics_automation_effect = {
 				200 = { #High Mathematical Priority
 					#Triggers
 					trigger = {
-						curie_has_mathematical_physicist_trigger = yes
 						NOT = {
 							has_journal_entry = je_curie_formula_discovery
 						}
@@ -112,7 +112,6 @@ ai_physics_automation_effect = {
 				100 = { #Mid Mathematical Priority
 					#Triggers
 					trigger = {
-						curie_has_mathematical_physicist_trigger = yes
 						NOT = {
 							has_journal_entry = je_curie_improve_mathematics_project
 						}
@@ -144,6 +143,206 @@ ai_physics_automation_effect = {
 
 					#Effect
 					curie_physicist_improve_mathematics_effect = yes
+				}
+			}
+		}
+		#Meteorologist
+		if = {
+			limit = {
+				curie_is_physics_automated_trigger = yes
+				curie_has_active_meteorological_physicist_trigger = yes
+			}
+
+			### Meteorology ###
+
+			#Uses a random list to decide which project to do.
+			# This allows for weighting using various factors.
+			random_list = {
+				### Physics Experiment ###
+				0 = { #Very low Priority - Default Action is better
+					#Triggers
+					trigger = {
+						NOT = {
+							has_journal_entry = je_curie_physics_experiment
+						}
+						NOR = {
+							has_modifier = curie_physics_experiment_successful_modifier
+							has_modifier = curie_physics_experiment_failure_modifier
+						}
+					}
+
+					#Modifiers / Weighting
+					modifier = {
+						if = {
+							limit = {
+								curie_experiment_can_discover_trigger = yes #If a Physicist can do a historical experiment, this has a higher priority
+							}
+							add = 200
+						}
+					}
+
+					#Effect
+					curie_physics_experiment_button_effect = yes
+				}
+				### Weather Station Expansion ###
+				500 = { #Highest Meteorological Priority
+					#Triggers
+					trigger = {
+						NOT = {
+							any_scope_building = {
+								is_building_type = building_verrier_observatory
+								has_active_production_method = pm_curtiss_modern_weather_station
+							}
+						}
+						trigger_if = {
+							mr_gui_has_meteorology_tech_trigger = yes
+							custom_tooltip = {
+								text = PHYSICIST_HAS_NO_WEATHER_STATION_PM_TT
+								any_scope_building = {
+									is_building_type = building_verrier_observatory
+									has_active_production_method = pm_curtiss_no_weather_station
+								}
+							}
+						}
+						#Upgrade to Weather Station
+						trigger_if = {
+							mr_gui_has_reconnaissance_balloon_tech_trigger = yes
+							custom_tooltip = {
+								text = PHYSICIST_HAS_EARLY_WEATHER_STATION_PM_TT
+								any_scope_building = {
+									is_building_type = building_verrier_observatory
+									has_active_production_method = pm_curtiss_early_weather_station
+								}
+							}
+						}
+						#Upgrade to Modern Weather Station
+						trigger_if = {
+							mr_gui_has_high_altitude_balloon_tech_trigger = yes
+							custom_tooltip = {
+								text = PHYSICIST_HAS_WEATHER_STATION_PM_TT
+								any_scope_building = {
+									is_building_type = building_verrier_observatory
+									has_active_production_method = pm_curtiss_weather_station
+								}
+							}
+						}
+					}
+
+					#Modifiers / Weighting
+					modifier = {
+						if = {
+							limit = {
+								var:curie_physicist_var ?= {
+									has_trait = innovative
+								}
+							}
+							add = 100
+						}
+						if = {
+							limit = {
+								var:curie_physicist_var ?= {
+									has_trait = erudite
+								}
+							}
+							add = 50
+						}
+					}
+
+					#Effect
+					curie_weather_station_expansion_button_effect = yes
+				}
+				### Improve Meteorology ###
+				200 = { #Mid Meteorological Priority - Do this, but only after you have done the important stuff
+					#Triggers
+					trigger = {
+						mr_gui_has_meteorology_tech_trigger = yes
+						mr_gui_has_electric_telegraph_tech_trigger = yes
+						NOT = {
+							has_journal_entry = je_curie_improve_mathematics_project
+						}
+						NOT = {
+							has_variable = curie_improve_mathematics_project_building_choser_var
+						}
+						curie_country_has_building_valid_for_meteorology_project_trigger = yes
+					}
+
+					#Modifiers / Weighting
+					modifier = {
+						if = {
+							limit = {
+								curie_cloud_can_discover_trigger = yes #If the Meteorologist can discover new clouds, he should do this
+							}
+							add = -200
+						}
+					}
+
+					#Effect
+					curie_physicist_improve_meteorology_effect = yes
+				}
+				### Agricultural Weather Service ###
+				100 = { #Low Meteorological Priority - Do this, but only after you have done the important stuff
+					#Triggers
+					trigger = {
+						any_scope_building = {
+							is_building_type = building_verrier_observatory
+							OR = {
+								has_active_production_method = pm_curtiss_weather_station
+								has_active_production_method = pm_curtiss_modern_weather_station
+							}
+						}
+						var:curie_physicist_var ?= {
+							var:curie_meteorological_physicist_experience_var >= 50
+						}
+					}
+
+					#Modifiers / Weighting
+					modifier = {
+						if = {
+							limit = {
+								curie_cloud_can_discover_trigger = yes #If the Meteorologist can discover new clouds, he should do this
+							}
+							add = -100
+						}
+					}
+
+					#Effect
+					curie_agricultural_weather_service_button_effect = yes
+				}
+				### Shipping Weather Service ###
+				100 = { #Low Meteorological Priority - Do this, but only after you have done the important stuff
+					#Triggers
+					trigger = {
+						any_scope_building = {
+							is_building_type = building_verrier_observatory
+							OR = {
+								has_active_production_method = pm_curtiss_weather_station
+								has_active_production_method = pm_curtiss_modern_weather_station
+							}
+						}
+						var:curie_physicist_var ?= {
+							var:curie_meteorological_physicist_experience_var >= 50
+						}
+						navy_size >= 5
+					}
+
+					#Modifiers / Weighting
+					modifier = {
+						if = {
+							limit = {
+								curie_cloud_can_discover_trigger = yes #If the Meteorologist can discover new clouds, he should do this
+							}
+							add = -100
+						}
+						if = {
+							limit = {
+								is_at_war = yes #Would be useful for the navy
+							}
+							add = 100
+						}
+					}
+
+					#Effect
+					curie_marine_weather_service_button_effect = yes
 				}
 			}
 		}
