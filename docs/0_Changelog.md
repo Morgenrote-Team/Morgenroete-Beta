@@ -83,7 +83,7 @@ Research Charter
 - You need to be recognized and at least a minor power to ask for a research charter.
 - Research charter is associated with a diplomatic catalyst - countries may be a bit friendlier (or more hostile, if they denied the charter) after the treaty.
 - Countries with a higher rank will be VERY reluctant to give you a Research charter.
-- AI will only request Research Charters and mostly do this with other AI nations. 
+- AI will only request Research Charters and mostly does this with other AI nations (player shouldn't be bothered too much). 
 
 Technologies
 - Added Mathematics. This is the first technology in the Physics/Mathematics tree (even before Classical Physics). Countries which start with manufacturies also start with mathematics.
