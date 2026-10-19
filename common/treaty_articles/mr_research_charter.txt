@@ -42,7 +42,10 @@
 
 	possible = {
 		mr_can_have_research_charter_trigger = yes
-		scope:other_country = {
+		NOT = {
+			has_war_with = scope:other_country
+		}
+		scope:other_country ?= {
 			NOT = {
 				is_country_type = unrecognized
 			}
@@ -52,8 +55,23 @@
 
 	requirement_to_maintain = {
 		trigger = {
-			scope:source_country = {
+			scope:source_country ?= {
 				mr_can_have_research_charter_trigger = yes
+			}
+		}
+	}
+
+	non_fulfillment = {
+		consequences = freeze
+		max_consecutive_contraventions = 1
+
+		conditions = {
+			weekly = {
+				scope:article = {
+					source_country = {
+						has_war_with = scope:article.target_country
+					}
+				}
 			}
 		}
 	}
@@ -111,22 +129,76 @@
 		}
 
 		evaluation_chance = {
-			value = 0.25
+        value = 0.0
 
-			if = {
-				limit = {
-					country_rank = rank_value:major_power
-				}
-				add = 0.15
-			}
+        # Only encourage AI-to-AI requests
+        if = {
+            limit = {
+                scope:other_country = {
+                    is_ai = yes
+                }
 
-			if = {
-				limit = {
-					country_rank = rank_value:great_power
-				}
-				add = 0.25
-			}
-		}
+                mr_research_charter_ai_matching_opportunity_trigger = yes
+            }
+
+            # Baseline for a useful matching charter
+            add = 0.05
+
+            # More relevant personnel -> more motivation to request
+            if = {
+                limit = {
+                    has_variable = lepsius_archaeologist_var
+                    scope:other_country = {
+                        lepsius_has_excavation_site_for_licence_trigger = yes
+                    }
+                }
+                add = 0.15
+            }
+
+            if = {
+                limit = {
+                    has_variable = ito_naturalist_var
+                    scope:other_country = {
+                        ito_country_has_medicinal_plants_no_tooltip_trigger = yes
+                    }
+                }
+                add = 0.15
+            }
+
+            if = {
+                limit = {
+                    has_variable = dubois_paleontologist_var
+                    scope:other_country = {
+                        dubois_has_great_formation = yes
+                    }
+                }
+                add = 0.15
+            }
+
+            if = {
+                limit = {
+                    has_variable = douglas_mountaineer_var
+                    scope:other_country = {
+                        douglas_has_conquerable_summit_trigger = yes
+                    }
+                }
+                add = 0.15
+            }
+
+            # Great Powers should pursue useful charters more aggressively
+            if = {
+                limit = {
+                    country_rank >= rank_value:great_power
+                }
+                add = 0.20
+            }
+            else_if = {
+                limit = {
+                    country_rank >= rank_value:major_power
+                }
+                add = 0.10
+            }
+        }
 
 		article_ai_usage = {
 			request
@@ -151,6 +223,46 @@
 				add = {
 					desc = "DIPLOMATIC_ACCEPTANCE_BASE_ADDITIONAL"
 					value = -10
+				}
+
+				if = {
+					limit = {
+						scope:target_country = { is_ai = yes }
+						OR = {
+							AND = {
+								scope:target_country = {
+									has_variable = lepsius_archaeologist_var
+								}
+								lepsius_has_excavation_site_for_licence_trigger = yes
+							}
+
+							AND = {
+								scope:target_country = {
+									has_variable = ito_naturalist_var
+								}
+								ito_country_has_medicinal_plants_no_tooltip_trigger = yes
+							}
+
+							AND = {
+								scope:target_country = {
+									has_variable = dubois_paleontologist_var
+								}
+								dubois_has_great_formation = yes
+							}
+
+							AND = {
+								scope:target_country = {
+									has_variable = douglas_mountaineer_var
+								}
+								douglas_has_conquerable_summit_trigger = yes
+							}
+						}
+					}
+
+					add = {
+						desc = "MR_RESEARCH_CHARTER_MATCHING_EXPERT"
+						value = 15
+					}
 				}
 
 				if = {
@@ -309,6 +421,61 @@
 				add = {
 					desc = "DIPLOMATIC_ACCEPTANCE_BASE_ADDITIONAL"
 					value = 15
+				}
+
+				# Discourage player-given Research Charters
+				# if the AI cannot use the charter for any expedition type.
+				if = {
+					limit = {
+						scope:source_country = {
+							is_player = yes
+						}
+
+						scope:target_country = {
+							is_ai = yes
+						}
+
+						NOT = {
+							OR = {
+								# Archaeologist + excavation site
+								AND = {
+									has_variable = lepsius_archaeologist_var
+									scope:source_country = {
+										lepsius_has_excavation_site_for_licence_trigger = yes
+									}
+								}
+
+								# Naturalist + suitable medicinal plants
+								AND = {
+									has_variable = ito_naturalist_var
+									scope:source_country = {
+										ito_country_is_potential_botanical_expedition_target_no_tooltip_trigger = yes
+									}
+								}
+
+								# Paleontologist + geological formation
+								AND = {
+									has_variable = dubois_paleontologist_var
+									scope:source_country = {
+										dubois_has_great_formation = yes
+									}
+								}
+
+								# Mountaineer + conquerable summit
+								AND = {
+									has_variable = douglas_mountaineer_var
+									scope:source_country = {
+										douglas_has_conquerable_summit_trigger = yes
+									}
+								}
+							}
+						}
+					}
+
+					add = {
+						desc = "MR_RESEARCH_CHARTER_NO_USABLE_EXPERT"
+						value = -40
+					}
 				}
 
 				if = {
