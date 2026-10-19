@@ -83,7 +83,7 @@ Research Charter
 - You need to be recognized and at least a minor power to ask for a research charter.
 - Research charter is associated with a diplomatic catalyst - countries may be a bit friendlier (or more hostile, if they denied the charter) after the treaty.
 - Countries with a higher rank will be VERY reluctant to give you a Research charter.
-- AI will only request Research Charters and mostly does this with other AI nations (player shouldn't be bothered too much). 
+- AI will only request Research Charters and mostly does this with other AI nations (player shouldn't be bothered too much).
 
 Technologies
 - Added Mathematics. This is the first technology in the Physics/Mathematics tree (even before Classical Physics). Countries which start with manufacturies also start with mathematics.
@@ -94,6 +94,7 @@ Technologies
 - Tier 1&2 Countries start with Differential Geometry.
 - Added Meteorology. This unlocks Early Weather Station. Only the UK starts with Meteorology. It unlocks Meteorologist Specialization.
 - Added High Altitude Ballons. This unlocks Modern Weather Station. Needed for Stratospheric Balloon Flight.
+- Added Research Charter Tech. This unlocks the Research Charter Treaty Article. This was done to keep AI nations to a minimum doing this article. Non-Great Powers without an archaeologist, paleontologist, naturalist or mountaineer ar enot interested to research this tech.
 - Added Early Pesticides. This lowers the impact of pests.
 - Added Modern Pesticides. This lowers the impact of pests.
 - Chemistry and Malaria Prevention also lowers the impact of pests. Flamethrowers help a little bit again locusts.
