@@ -14,6 +14,7 @@ Fixes:
 Graphics:
 - Updated Fangio DNA.
 - Updated Holmberg DNA.
+- Updated the rating icons (thanks Bahmut | Chris)
 
 Changes:
 -
