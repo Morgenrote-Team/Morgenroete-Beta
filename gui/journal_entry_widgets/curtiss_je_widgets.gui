@@ -341,10 +341,12 @@ types curtiss_types
 		oncreate = "[BindFoldOutContext]"
 
 		@log_entry_width = 500
-		@log_entry_height = 60
-		@log_entry_icon_width = 60
+		@log_entry_height = 40
+		@log_entry_icon_width = 40
+		@log_entry_icon_header_width = @[log_entry_icon_width + 40]
+		@log_entry_country_header_width = 80
 		@log_entry_date_width = 120
-		@log_entry_info_width = @[log_entry_width - log_entry_icon_width - log_entry_date_width]
+		@log_entry_title_width = @[log_entry_width - log_entry_icon_width - log_entry_date_width]
 
 		section_header_button = {
 			parentanchor = hcenter
@@ -382,8 +384,19 @@ types curtiss_types
 						using = sort_button_bg
 						enabled = no
 						text = CURTISS_RACE_EVENTS_HEADER_TYPE
-						minimumsize = { @log_entry_icon_width 30 }
-						maximumsize = { @log_entry_icon_width 30 }
+						minimumsize = { @log_entry_icon_header_width 30 }
+						maximumsize = { @log_entry_icon_header_width 30 }
+						align = hcenter|nobaseline
+						margin_left = 10
+						margin_right = 10
+						elide = right
+					}
+					button = {
+						using = sort_button_bg
+						enabled = no
+						text = CURTISS_RACE_EVENTS_HEADER_COUNTRY
+						minimumsize = { @log_entry_country_header_width 30 }
+						maximumsize = { @log_entry_country_header_width 30 }
 						align = hcenter|nobaseline
 						margin_left = 10
 						margin_right = 10
@@ -415,43 +428,12 @@ types curtiss_types
 				}
 			}
 
-			# Over 10 items
-			flowcontainer = {
-				using = default_list_position
-				visible = "[And3(
-					PdxGuiFoldOut.IsUnfolded,
-					DataModelHasItems(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')),
-					GreaterThan_int32(GetDataModelSize(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')), '(int32)10')
-				)]"
-				margin_top = 5
-				direction = vertical
-				datamodel = "[DataModelLast(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list'), '(int32)10')]"
-				spacing = 5
-				bottomtotop = yes
-
-				item = {
-					curtiss_event_list_entry_widget = {}
-				}
-			}
-			textbox = {
-				visible = "[And3(
-					PdxGuiFoldOut.IsUnfolded,
-					DataModelHasItems(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')),
-					GreaterThan_int32(GetDataModelSize(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')), '(int32)10')
-				)]"
-				margin_top = 10
-				size = { @log_entry_width 20 }
-				text = CURTISS_RACE_EVENTS_ENTRIES_LIMIT
-				align = center
-			}
-
 			# Under 10 items
 			flowcontainer = {
 				using = default_list_position
-				visible = "[And3(
+				visible = "[And(
 					PdxGuiFoldOut.IsUnfolded,
 					DataModelHasItems(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')),
-					Not(GreaterThan_int32(GetDataModelSize(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')), '(int32)10'))
 				)]"
 				margin_top = 5
 				direction = vertical
@@ -509,49 +491,31 @@ types curtiss_types
 					texture = "gfx/interface/backgrounds/round_button_bg.dds"
 				}
 			}
+			# Flag
 			widget = {
-				size = { @log_entry_info_width @log_entry_height }
-				# Event Title
-				textbox = {
-					size = { @[log_entry_info_width - 10] @[log_entry_height / 2] }
-					margin_bottom = 4
-					parentanchor = right|top
-					raw_text = "[Scope.Var('event_container_title_loc').GetFlagName]"
-					default_format = "#header"
-					align = center
-					background = {
-						using = default_header_bg_faded
-						margin_top = 2
-					}
+				size = { 45 @log_entry_height }
+
+				tiny_flag = {
+					parentanchor = center
+					datacontext = "[Scope.Var('event_container_primary_country').GetCountry]"
 				}
-				# Result: text only
-				textbox = {
-					visible = "[Not(Scope.Var('event_container_outcome_var').IsSet)]"
-					size = { @[log_entry_info_width - 10] @[log_entry_height / 2] }
-					position = { 0 -2 }
-					parentanchor = right|bottom
-					raw_text = "[Scope.Var('event_container_loc').GetFlagName]"
-					align = center
+			}
+			# Event Title
+			textbox = {
+				size = { @[log_entry_title_width - 100] @log_entry_height }
+				raw_text = "[Scope.Var('event_container_title_loc').GetFlagName]"
+				default_format = "#header"
+				align = left
+				background = {
+					using = default_header_bg_faded
+					margin_top = 2
 				}
-				# Result: text + value
-				widget = {
-					visible = "[Scope.Var('event_container_outcome_var').IsSet]"
-					size = { @[log_entry_info_width - 10] @[log_entry_height / 2] }
-					position = { 0 -2 }
-					parentanchor = right|bottom
-					flowcontainer = {
-						parentanchor = center
-						spacing = 5
-						textbox = {
-							autoresize = yes
-							raw_text = "[Scope.Var('event_container_loc').GetFlagName]"
-						}
-						textbox = {
-							autoresize = yes
-							raw_text = "[Scope.Var('event_container_outcome_var').GetValue|0+] @curtiss_schneider_point!"
-						}
-					}
-				}
+			}
+			textbox = {
+				size = { 50 @log_entry_height }
+				align = right
+				margin_left = 10
+				raw_text = "[Scope.Var('event_container_outcome_var').GetValue|0+] @curtiss_schneider_point!"
 			}
 			widget = {
 				size = { @log_entry_date_width @log_entry_height }
