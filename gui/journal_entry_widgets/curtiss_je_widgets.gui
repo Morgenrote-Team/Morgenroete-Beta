@@ -3,6 +3,8 @@
 @panel_width_minus_30 = 510
 @panel_width = 540  				# used to be 460
 
+@layer_width = 500
+@layer_height = 52
 
 ### Schneider Trophy Races ###
 
@@ -323,6 +325,7 @@ flowcontainer = {
 	direction = vertical
 	spacing = 12
 	#visible = "[GetScriptedGui('curtiss_schneider_trophy_race_active_sgui').IsShown(GuiScope.SetRoot(JournalEntry.MakeScope).End)]"
+	datacontext = "[JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')]"
 
 	curtiss_event_list_widget = {}
 }
@@ -330,7 +333,8 @@ flowcontainer = {
 types curtiss_types
 {
 	### Event List ###
-	# Stolen from Manaflow and adapted
+	# Stolen from Manaflow and adapted.
+	# Thanks Bahmut | Chris
 	type curtiss_event_list_widget = flowcontainer {
 		parentanchor = hcenter
 		direction = vertical
@@ -377,7 +381,7 @@ types curtiss_types
 					button = {
 						using = sort_button_bg
 						enabled = no
-						text = je_gate_expedition_dungeon_log_entries_header_type
+						text = CURTISS_RACE_EVENTS_HEADER_TYPE
 						minimumsize = { @log_entry_icon_width 30 }
 						maximumsize = { @log_entry_icon_width 30 }
 						align = hcenter|nobaseline
@@ -389,7 +393,7 @@ types curtiss_types
 						using = sort_button_bg
 						layoutpolicy_horizontal = expanding
 						enabled = no
-						text = je_gate_expedition_dungeon_log_entries_header_event
+						text = CURTISS_RACE_EVENTS_HEADER_EVENT
 						minimumsize = { -1 30 }
 						maximumsize = { -1 30 }
 						align = hcenter|nobaseline
@@ -400,7 +404,7 @@ types curtiss_types
 					button = {
 						using = sort_button_bg
 						enabled = no
-						text = je_gate_expedition_dungeon_log_entries_header_date
+						text = CURTISS_RACE_EVENTS_HEADER_DATE
 						minimumsize = { @log_entry_date_width 30 }
 						maximumsize = { @log_entry_date_width 30 }
 						align = hcenter|nobaseline
@@ -416,28 +420,28 @@ types curtiss_types
 				using = default_list_position
 				visible = "[And3(
 					PdxGuiFoldOut.IsUnfolded,
-					DataModelHasItems(ScriptContainer.MakeScope.GetList('curtiss_schneider_trophy_events_list')),
-					GreaterThan_int32(GetDataModelSize(ScriptContainer.MakeScope.GetList('curtiss_schneider_trophy_events_list')), '(int32)10')
+					DataModelHasItems(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')),
+					GreaterThan_int32(GetDataModelSize(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')), '(int32)10')
 				)]"
 				margin_top = 5
 				direction = vertical
-				datamodel = "[DataModelLast(ScriptContainer.MakeScope.GetList('curtiss_schneider_trophy_events_list'), '(int32)10')]"
+				datamodel = "[DataModelLast(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list'), '(int32)10')]"
 				spacing = 5
 				bottomtotop = yes
 
 				item = {
-					gate_journal_dungeon_log_entry = {}
+					curtiss_event_list_entry_widget = {}
 				}
 			}
 			textbox = {
 				visible = "[And3(
 					PdxGuiFoldOut.IsUnfolded,
-					DataModelHasItems(ScriptContainer.MakeScope.GetList('curtiss_schneider_trophy_events_list')),
-					GreaterThan_int32(GetDataModelSize(ScriptContainer.MakeScope.GetList('curtiss_schneider_trophy_events_list')), '(int32)10')
+					DataModelHasItems(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')),
+					GreaterThan_int32(GetDataModelSize(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')), '(int32)10')
 				)]"
 				margin_top = 10
 				size = { @log_entry_width 20 }
-				text = je_gate_expedition_dungeon_log_entries_limit
+				text = CURTISS_RACE_EVENTS_ENTRIES_LIMIT
 				align = center
 			}
 
@@ -446,12 +450,12 @@ types curtiss_types
 				using = default_list_position
 				visible = "[And3(
 					PdxGuiFoldOut.IsUnfolded,
-					DataModelHasItems(ScriptContainer.MakeScope.GetList('curtiss_schneider_trophy_events_list')),
-					Not(GreaterThan_int32(GetDataModelSize(ScriptContainer.MakeScope.GetList('curtiss_schneider_trophy_events_list')), '(int32)10'))
+					DataModelHasItems(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')),
+					Not(GreaterThan_int32(GetDataModelSize(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')), '(int32)10'))
 				)]"
 				margin_top = 5
 				direction = vertical
-				datamodel = "[ScriptContainer.MakeScope.GetList('curtiss_schneider_trophy_events_list')]"
+				datamodel = "[JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')]"
 				spacing = 5
 				bottomtotop = yes
 
@@ -464,13 +468,13 @@ types curtiss_types
 				using = default_list_position
 				visible = "[And(
 					PdxGuiFoldOut.IsUnfolded,
-					Not(DataModelHasItems(ScriptContainer.MakeScope.GetList('curtiss_schneider_trophy_events_list')))
+					Not(DataModelHasItems(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')))
 				)]"
 				direction = vertical
 
 				textbox = {
 					size = { @log_entry_width 80 }
-					text = je_gate_expedition_dungeon_log_entries_empty
+					text = CURTISS_RACE_EVENTS_ENTRIES_EMPTY
 					align = center
 				}
 			}
@@ -512,7 +516,7 @@ types curtiss_types
 					size = { @[log_entry_info_width - 10] @[log_entry_height / 2] }
 					margin_bottom = 4
 					parentanchor = right|top
-					raw_text = "[AddTextIf( Scope.Var('event_container_primary_country').IsSet , '[Scope.Var('event_container_primary_country').GetCountry.GetFlagTextIcon] '][Scope.Var('event_container_title_loc').GetFlagName]"
+					raw_text = "[Scope.Var('event_container_title_loc').GetFlagName]"
 					default_format = "#header"
 					align = center
 					background = {
@@ -522,7 +526,7 @@ types curtiss_types
 				}
 				# Result: text only
 				textbox = {
-					visible = "[Not(Scope.Var('event_container_outcome_flag').IsSet)]"
+					visible = "[Not(Scope.Var('event_container_outcome_var').IsSet)]"
 					size = { @[log_entry_info_width - 10] @[log_entry_height / 2] }
 					position = { 0 -2 }
 					parentanchor = right|bottom
@@ -531,7 +535,7 @@ types curtiss_types
 				}
 				# Result: text + value
 				widget = {
-					visible = "[Scope.Var('event_container_outcome_flag').IsSet]"
+					visible = "[Scope.Var('event_container_outcome_var').IsSet]"
 					size = { @[log_entry_info_width - 10] @[log_entry_height / 2] }
 					position = { 0 -2 }
 					parentanchor = right|bottom
@@ -544,7 +548,7 @@ types curtiss_types
 						}
 						textbox = {
 							autoresize = yes
-							raw_text = "[Scope.Var('event_container_outcome_flag').GetValue|0+] @curtiss_schneider_point!"
+							raw_text = "[Scope.Var('event_container_outcome_var').GetValue|0+] @curtiss_schneider_point!"
 						}
 					}
 				}
