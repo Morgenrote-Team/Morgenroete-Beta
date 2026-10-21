@@ -7,6 +7,7 @@ Characters:
 - Aleksander Czekanowski (Polish Geologist and Paleontologist)
 - Ignacy Domeyko (Polish Geologist, Physicist and Ethnologist)
 - Leonard Jaczewski (Polish Geologist)
+- Józef Morozewicz (Polish Geologist)
 - Paweł Strzelecki (Polish Geologist and Mountaineer)
 - Wawrzyniec Teisseyre (Polish Geologist)
 
