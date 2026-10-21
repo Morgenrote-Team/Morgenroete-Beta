@@ -8,6 +8,7 @@ Characters:
 - Ignacy Domeyko (Polish Geologist, Physicist and Ethnologist)
 - Leonard Jaczewski (Polish Geologist)
 - Paweł Strzelecki (Polish Geologist and Mountaineer)
+- Wawrzyniec Teisseyre (Polish Geologist)
 
 Fixes:
 -
