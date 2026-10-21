@@ -10,6 +10,7 @@ Characters:
 - Józef Morozewicz (Polish Geologist)
 - Paweł Strzelecki (Polish Geologist and Mountaineer)
 - Wawrzyniec Teisseyre (Polish Geologist)
+- Napoleon Cybulski (Polish Physician and Biologist)
 
 Fixes:
 -
