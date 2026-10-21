@@ -6,6 +6,7 @@ Characters:
 - Karol Bohdanowicz (Polish Geologist)
 - Aleksander Czekanowski (Polish Geologist and Paleontologist)
 - Ignacy Domeyko (Polish Geologist, Physicist and Ethnologist)
+- Leonard Jaczewski (Polish Geologist)
 - Paweł Strzelecki (Polish Geologist and Mountaineer)
 
 Fixes:
