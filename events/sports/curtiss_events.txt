@@ -2490,8 +2490,9 @@ curtiss.121 = {
 
 	option = { #Bunglers!
 		name = curtiss.121.g
-		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -2 }
 		default_option = yes
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -2 }
+		curtiss_schneider_trophy_log_mechanical_problems_event_effect = yes
 	}
 }
 
@@ -2540,8 +2541,9 @@ curtiss.122 = {
 
 	option = { #Yikes
 		name = curtiss.122.g
-		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -3 }
 		default_option = yes
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -3 }
+		curtiss_schneider_trophy_log_crash_event_effect = yes
 	}
 }
 
@@ -2588,6 +2590,7 @@ curtiss.123 = {
 	option = { #Yikes
 		name = curtiss.123.g
 		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -1 }
+		curtiss_schneider_trophy_log_buoy_event_effect = yes
 	}
 
 	option = { #Try to bribe a referee
@@ -2598,6 +2601,7 @@ curtiss.123 = {
 			65 = { }
 			35 = {
 				curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -1 }
+				curtiss_schneider_trophy_log_buoy_event_effect = yes
 				change_infamy = 3
 			}
 		}
@@ -2645,71 +2649,69 @@ curtiss.124 = {
 		var:curtiss_pilot_var ?= {
 			save_scope_as = curtiss_pilot_scope
 		}
+		#Determines the amount of Schneider Trophy Points
+		save_scope_value_as = {
+			name = curtiss_schneider_trophy_points_scope_value
+			value = {
+				value = 2
+				if = {
+					limit = { has_technology_researched = curtiss_modern_aviation_tech }
+					add = 2
+				}
+				if = {
+					limit = {
+						scope:curtiss_pilot_scope ?= {
+							has_trait = curtiss_pilot_ace
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						scope:curtiss_pilot_scope ?= {
+							has_trait = curtiss_schneider_veteran
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						scope:curtiss_pilot_scope ?= {
+							OR = {
+								has_trait = brave
+								has_trait = reckless
+								has_trait = innovative
+								has_trait = ambitious
+								has_trait = direct
+							}
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = { has_modifier = curtiss_airplane_focus_modifier }
+					add = 1
+				}
+				if = {
+					limit = { has_modifier = curtiss_schneider_trophy_support_modifier }
+					add = 1
+				}
+				if = {
+					limit = { tesla_has_engineer_no_tooltip_trigger = yes }
+					add = 1
+				}
+				if = {
+					limit = { tesla_has_aeronautical_engineer_trigger = yes }
+					add = 1
+				}
+			}
+		}
 	}
 
 	option = { #Full Power!
 		name = curtiss.124.g
-		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 2 }
-		if = {
-			limit = {
-				has_technology_researched = curtiss_modern_aviation_tech
-			}
-			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 2 }
-		}
-		if = {
-			limit = {
-				scope:curtiss_pilot_scope ?= {
-					has_trait = curtiss_pilot_ace
-				}
-			}
-			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
-		}
-		if = {
-			limit = {
-				scope:curtiss_pilot_scope ?= {
-					has_trait = curtiss_schneider_veteran
-				}
-			}
-			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
-		}
-		if = {
-			limit = {
-				scope:curtiss_pilot_scope ?= {
-					OR = {
-						has_trait = brave
-						has_trait = reckless
-						has_trait = innovative
-						has_trait = ambitious
-						has_trait = direct
-					}
-				}
-			}
-			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
-		}
-		if = {
-			limit = {
-				has_modifier = curtiss_airplane_focus_modifier
-			}
-			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
-		}
-		if = {
-			limit = {
-				has_modifier = curtiss_schneider_trophy_support_modifier
-			}
-			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
-		}
-		if = {
-			limit = {
-				has_variable = tesla_engineer_var
-			}
-			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
-		}
-		if = {
-			limit = {
-				tesla_has_aeronautical_engineer_trigger = yes
-			}
-			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
-		}
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = scope:curtiss_schneider_trophy_points_scope_value }
+		curtiss_schneider_trophy_log_maximum_speed_event_effect = yes
 	}
 }
 
@@ -2754,45 +2756,51 @@ curtiss.125 = {
 		var:curtiss_pilot_var ?= {
 			save_scope_as = curtiss_pilot_scope
 		}
+		#Determines the amount of Schneider Trophy Points
+		save_scope_value_as = {
+			name = curtiss_schneider_trophy_points_scope_value
+			value = {
+				value = 1
+				if = {
+					limit = {
+						scope:curtiss_pilot_scope ?= {
+							has_trait = curtiss_pilot_ace
+						}
+					}
+					add = 3
+				}
+				if = {
+					limit = {
+						scope:curtiss_pilot_scope ?= {
+							has_trait = curtiss_schneider_veteran
+						}
+					}
+					add = 2
+				}
+				if = {
+					limit = {
+						scope:curtiss_pilot_scope ?= {
+							OR = {
+								has_trait = tactful
+								has_trait = meticulous
+								has_trait = cautious
+							}
+						}
+					}
+					add = 2
+				}
+				if = {
+					limit = { has_modifier = curtiss_pilot_school_modifier }
+					add = 1
+				}
+			}
+		}
 	}
 
 	option = { #Fly with elegance
 		name = curtiss.126.g
-		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
-		if = {
-			limit = {
-				scope:curtiss_pilot_scope ?= {
-					has_trait = curtiss_pilot_ace
-				}
-			}
-			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 3 }
-		}
-		if = {
-			limit = {
-				scope:curtiss_pilot_scope ?= {
-					has_trait = curtiss_schneider_veteran
-				}
-			}
-			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 2 }
-		}
-		if = {
-			limit = {
-				scope:curtiss_pilot_scope ?= {
-					OR = {
-						has_trait = tactful
-						has_trait = meticulous
-						has_trait = cautious
-					}
-				}
-			}
-			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 2 }
-		}
-		if = {
-			limit = {
-				has_modifier = curtiss_pilot_school_modifier
-			}
-			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
-		}
+		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = scope:curtiss_schneider_trophy_points_scope_value }
+		curtiss_schneider_trophy_log_slalom_event_effect = yes
 	}
 }
 
@@ -2837,47 +2845,59 @@ curtiss.126 = {
 		var:curtiss_pilot_var ?= {
 			save_scope_as = curtiss_pilot_scope
 		}
+		#Determines the amount of Schneider Trophy Points
+		save_scope_value_as = {
+			name = curtiss_schneider_trophy_points_scope_value
+			value = {
+				value = 1
+				if = {
+					limit = {
+						scope:curtiss_pilot_scope ?= {
+							has_trait = curtiss_pilot_ace
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						scope:curtiss_pilot_scope ?= {
+							has_trait = curtiss_schneider_veteran
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						scope:curtiss_pilot_scope ?= {
+							OR = {
+								has_trait = innovative
+								has_trait = persistent
+								has_trait = tactful
+								has_trait = meticulous
+								has_trait = cautious
+								has_trait = brave
+							}
+						}
+					}
+					add = 2
+				}
+				if = {
+					limit = { has_modifier = curtiss_pilot_school_modifier }
+					add = 1
+				}
+			}
+		}
 	}
 
 	option = { #Our pilot will find his way
 		name = curtiss.126.g
 		if = {
 			limit = {
-				scope:curtiss_pilot_scope ?= {
-					has_trait = curtiss_pilot_ace
-				}
+				scope:curtiss_schneider_trophy_points_scope_value >= 0
 			}
-			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
+			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = scope:curtiss_schneider_trophy_points_scope_value }
 		}
-		if = {
-			limit = {
-				scope:curtiss_pilot_scope ?= {
-					has_trait = curtiss_schneider_veteran
-				}
-			}
-			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
-		}
-		if = {
-			limit = {
-				scope:curtiss_pilot_scope ?= {
-					OR = {
-						has_trait = innovative
-						has_trait = persistent
-						has_trait = tactful
-						has_trait = meticulous
-						has_trait = cautious
-						has_trait = brave
-					}
-				}
-			}
-			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 2 }
-		}
-		if = {
-			limit = {
-				has_modifier = curtiss_pilot_school_modifier
-			}
-			curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
-		}
+		curtiss_schneider_trophy_log_fog_event_effect = yes
 	}
 }
 
@@ -2943,6 +2963,7 @@ curtiss.127 = {
 	option = { #Excellent!
 		name = curtiss.127.g
 		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 4 }
+		curtiss_schneider_trophy_log_superior_flight_performance_event_effect = yes
 	}
 }
 
@@ -3118,6 +3139,7 @@ curtiss.128 = {
 					}
 				}
 				curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 5 }
+				curtiss_schneider_trophy_log_duel_event_positive_effect = yes
 			}
 			50 = {
 				modifier = {
@@ -3235,6 +3257,7 @@ curtiss.128 = {
 					}
 				}
 				curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -1 }
+				curtiss_schneider_trophy_log_duel_event_negative_effect = yes
 				scope:duel_participant_2 = {
 					owner = {
 						trigger_event = {
@@ -3307,6 +3330,7 @@ curtiss.129 = {
 		pilot_experience_gain_effect = {
 			AMOUNT = 25
 		}
+		curtiss_schneider_trophy_log_duel_event_positive_opponent_effect = yes
 	}
 }
 
@@ -3499,6 +3523,7 @@ curtiss.130 = {
 				}
 
 				curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 6 }
+				curtiss_schneider_trophy_log_rivalry_event_positive_effect = yes
 				add_modifier = {
 					name = curtiss_schneider_disgraced_rival_modifier
 					years = 2
@@ -3621,6 +3646,7 @@ curtiss.130 = {
 				}
 
 				curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -2 }
+				curtiss_schneider_trophy_log_rivalry_event_negative_effect = yes
 				set_variable = {
 					name = curtiss_schneider_failed_rival
 					days = 35
@@ -3644,6 +3670,7 @@ curtiss.130 = {
 	option = { #Fly ahead
 		name = curtiss.128.h
 		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 1 }
+		curtiss_schneider_trophy_log_rivalry_event_fly_ahead_effect = yes
 	}
 
 	after = {
@@ -3704,6 +3731,7 @@ curtiss.131 = {
 	option = { #Excellent!
 		name = curtiss.127.g
 		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 5 }
+		curtiss_schneider_trophy_log_rivalry_event_positive_opponent_effect = yes
 		add_modifier = {
 			name = curtiss_schneider_disgraced_rival_modifier
 			years = 2
@@ -3757,6 +3785,7 @@ curtiss.132 = {
 	option = { #The Weather is on our side
 		name = curtiss.132.g
 		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = 3 }
+		curtiss_schneider_trophy_log_favorable_conditions_effect = yes
 	}
 }
 
@@ -3798,6 +3827,7 @@ curtiss.133 = {
 	immediate = {
 		#Sets host state scope
 		curtiss_schneider_trophy_set_host_state_scope_effect = yes
+		curtiss_schneider_trophy_log_team_member_ill_effect = yes
 	}
 
 	option = { #A bad omen
@@ -4315,6 +4345,7 @@ curtiss.136 = {
 	option = { #Smells like sabotage ...
 		name = curtiss.136.g
 		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -5 }
+		curtiss_schneider_trophy_log_strange_engine_failure_effect = yes
 	}
 }
 
@@ -4393,6 +4424,7 @@ curtiss.138 = {
 	immediate = {
 		#Sets host state scope
 		curtiss_schneider_trophy_set_host_state_scope_effect = yes
+		curtiss_schneider_trophy_log_sabotage_prevented_effect = yes
 	}
 
 	option = { #Good
@@ -4439,6 +4471,7 @@ curtiss.139 = {
 	option = { #Bad
 		name = curtiss.139.g
 		curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = -5 }
+		curtiss_schneider_trophy_log_sabotage_discovered_effect = yes
 		every_country = {
 			limit = {
 				curtiss_schneider_can_be_sabotaged = yes
