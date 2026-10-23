@@ -93,7 +93,7 @@ Technologies
 - Mathematical-Technical Faculty needs Differential Geometry, not Athmospheric Engine.
 - Tier 1&2 Countries start with Differential Geometry.
 - Added Meteorology. This unlocks Early Weather Station. Only the UK starts with Meteorology. It unlocks Meteorologist Specialization.
-- Added High Altitude Ballons. This unlocks Modern Weather Station. Needed for Stratospheric Balloon Flight.
+- Added High Altitude Balloons. This unlocks Modern Weather Station. Needed for Stratospheric Balloon Flight.
 - Added Research Charter Tech. This unlocks the Research Charter Treaty Article. This was done to keep AI nations to a minimum doing this article. Non-Great Powers without an archaeologist, paleontologist, naturalist or mountaineer ar enot interested to research this tech.
 - Added Early Pesticides. This lowers the impact of pests.
 - Added Modern Pesticides. This lowers the impact of pests.

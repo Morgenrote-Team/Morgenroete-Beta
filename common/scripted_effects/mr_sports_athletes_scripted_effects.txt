@@ -4,6 +4,330 @@
 
 ############################################################################
 
+###Kill balloonist###
+kill_balloonist_effect = {
+	if = {
+		limit = {
+			has_variable = santos_balloonist_var
+		}
+		var:santos_balloonist_var ?= {
+			if = {
+				limit = { is_character_alive = yes }
+				kill_character = yes
+			}
+		}
+
+		remove_variable = santos_balloonist_var
+
+		if = {
+			limit = {
+				has_modifier = santos_sponsoring_balloonist_modifier
+			}
+			remove_modifier = santos_sponsoring_balloonist_modifier
+		}
+	}
+}
+
+###Create Balloonist###
+create_balloonist_effect = {
+	random_list = {
+#		1 = {
+#			trigger = {
+#				c:GBR ?= this
+#				NOT = { has_global_variable = curtiss_fogg_created_global_var }
+#			}
+#
+#			create_character = {
+#				age = { 20 30 }
+#				template = mr_gbr_fogg_phileas_character_template
+#
+#				save_scope_as = santos_balloonist_scope
+#			}
+#
+#			hidden_effect = {
+#				var:santos_balloonist_var ?= {
+#					if = {
+#						limit = { is_historical = no }
+#						free_character_from_void = no
+#					}
+#				}
+#			}
+#			scope:santos_balloonist_scope = {
+#				add_trait = santos_balloonist
+#				set_variable = {
+#					name = santos_balloonist_experience_var
+#					value = 0
+#				}
+#				set_variable = mr_is_mr_character
+#				academics_character_set_role_retirement_effect = {
+#					ROLE = character_role_santos_balloonist
+#					AGE_LEVEL = 2
+#				}
+#			}
+#			set_variable = {
+#				name = santos_balloonist_var
+#				value = scope:santos_balloonist_scope
+#			}
+#
+#			set_global_variable = curtiss_fogg_created_global_var
+#		}
+		25 = { #Random Balloonist (fallback and to make it uncertain for historical once to appear)
+			random_list = {
+				5 = {
+					create_character = {
+						age = { 20 30 }
+						female = yes
+						trait_generation = {}
+						save_scope_as = santos_balloonist_scope
+						role = character_role_santos_balloonist
+					}
+					scope:santos_balloonist_scope = {
+						add_trait = santos_balloonist
+						set_variable = {
+							name = santos_balloonist_experience_var
+							value = 0
+						}
+						set_variable = mr_is_mr_character
+						mr_trait_generation_balloonist_effect = yes
+						academics_character_set_role_retirement_effect = {
+							ROLE = character_role_santos_balloonist
+							AGE_LEVEL = 2
+						}
+					}
+					set_variable = {
+						name = santos_balloonist_var
+						value = scope:santos_balloonist_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 5
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 15
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 25
+						}
+					}
+				}
+				95 = {
+					create_character = {
+						age = { 20 30 }
+						trait_generation = {}
+						save_scope_as = santos_balloonist_scope
+						role = character_role_santos_balloonist
+					}
+					scope:santos_balloonist_scope = {
+						add_trait = santos_balloonist
+						set_variable = {
+							name = santos_balloonist_experience_var
+							value = 0
+						}
+						set_variable = mr_is_mr_character
+						mr_trait_generation_balloonist_effect = yes
+						academics_character_set_role_retirement_effect = {
+							ROLE = character_role_santos_balloonist
+							AGE_LEVEL = 2
+						}
+					}
+					set_variable = {
+						name = santos_balloonist_var
+						value = scope:santos_balloonist_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -5
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -15
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -25
+						}
+					}
+				}
+			}
+		}
+	}
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_gaudi_sports
+			}
+		}
+		change_variable = {
+			name = santos_balloonist_experience_var
+			add = 75
+		}
+	}
+
+	set_variable = {
+		name = santos_balloon_name_randomizer_var
+		value = { 1 25 }
+	}
+	round_variable = {
+		name = santos_balloon_name_randomizer_var
+		nearest = 1
+	}
+
+	var:santos_balloonist_var ?= {
+		###Other important stuff###
+		set_variable = {
+			name = santos_balloon_year_var
+			value = year
+		}
+		set_variable = {
+			name = santos_balloon_altitude_record_personal_var
+			value = 0
+		}
+		set_variable = {
+			name = santos_balloon_distance_record_personal_var
+			value = 0
+		}
+		set_variable = {
+			name = santos_balloon_time_record_personal_var
+			value = 0
+		}
+		set_variable = {
+			name = santos_balloon_type_var
+			value = flag:santos_balloon_type_allround_flag
+		}
+		set_variable = {
+			name = santos_balloon_fuel_var
+			value = flag:santos_balloon_fuel_coal_gas_flag
+		}
+	}
+
+	balloonist_cost_effect = yes
+}
+
+###Adds the right cost modifier to the country###
+balloonist_cost_effect = {
+	add_modifier = {
+		name = santos_sponsoring_balloonist_modifier
+	}
+}
+
+#Balloonist Experience gain
+balloonist_experience_gain_effect = { #adds XP to the balloonist
+	# Amount = amountof XP to add
+	if = {
+		limit = {
+			has_variable = santos_balloonist_var
+		}
+		var:santos_balloonist_var ?= {
+			change_variable = {
+				name = santos_balloonist_experience_var
+				add = $AMOUNT$
+			}
+			clamp_variable = {
+				name = santos_balloonist_experience_var
+				min = 0
+				max = 300
+			}
+		}
+		if = {
+			limit = {
+				var:santos_balloonist_var ?= {
+					var:santos_balloonist_experience_var >= 100
+					NOR = {
+						has_trait = santos_balloonist_experienced
+						has_trait = santos_balloonist_famous
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_variable = santos_no_balloonist_death_events }
+				}
+				trigger_event = {
+					id = santos.671
+					popup = yes
+				}
+			}
+			hidden_effect = {
+				var:santos_balloonist_var ?= {
+					remove_trait = santos_balloonist
+					add_trait = santos_balloonist_experienced
+				}
+			}
+		}
+		if = {
+			limit = {
+				var:santos_balloonist_var ?= {
+					var:santos_balloonist_experience_var >= 300
+					NOT = {
+						has_trait = santos_balloonist_famous
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_variable = santos_no_balloonist_death_events }
+				}
+				trigger_event = {
+					id = santos.672
+					popup = yes
+				}
+			}
+			hidden_effect = {
+				var:santos_balloonist_var = {
+					remove_trait = santos_balloonist
+					remove_trait = santos_balloonist_experienced
+					add_trait = santos_balloonist_famous
+				}
+			}
+		}
+	}
+}
+
+#level up for balloonist
+balloonist_level_up_effect = {
+	if = {
+		limit = {
+			has_variable = santos_balloonist_var
+		}
+		if = {
+			limit = {
+				var:santos_balloonist_var ?= {
+					NOT = {
+						has_trait = santos_balloonist_famous
+					}
+					var:santos_balloonist_experience_var >= 300
+				}
+			}
+			var:santos_balloonist_var ?= {
+				remove_trait = santos_balloonist
+				remove_trait = santos_balloonist_experienced
+				add_trait = santos_balloonist_famous
+			}
+		}
+		else_if = {
+			limit = {
+				var:santos_balloonist_var ?= {
+					NOR = {
+						has_trait = santos_balloonist_experienced
+						has_trait = santos_balloonist_famous
+					}
+					var:santos_balloonist_experience_var >= 100
+				}
+			}
+			var:santos_balloonist_var ?= {
+				remove_trait = santos_balloonist
+				add_trait = santos_balloonist_experienced
+			}
+		}
+	}
+}
+
 ######PILOT######
 
 #This effect kills the current pilot

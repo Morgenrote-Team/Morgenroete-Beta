@@ -1,0 +1,1072 @@
+﻿##################
+# SANTOS EVENTS  #
+##################
+
+#by Lord R & Marco Dandolo
+
+###################
+
+namespace = santos
+
+###################
+
+#################################################################################
+
+#Santos 601: Balloonist tries to set new Altitude record (hidden)
+santos.601 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	hidden = yes
+
+	cooldown = {
+		days = 365 #Should not do two attempts in a row
+	}
+
+	trigger = {
+		#triggered by on_action in journal entry
+		has_variable = santos_balloonist_var
+	}
+
+	immediate = {
+		santos_new_balloon_altitude_effect = yes
+
+		if = {
+			limit = {
+				santos_altitude_record_global_broken_trigger = yes
+			}
+			medium_santos_ballooning_research_effect = yes
+			santos_balloon_country_altitude_record_effect = yes
+		}
+		else_if = {
+			limit = {
+				santos_altitude_record_country_broken_trigger = yes
+				santos_altitude_record_global_broken_trigger = no
+			}
+			small_santos_ballooning_research_effect = yes
+			santos_balloon_country_altitude_record_effect = yes
+		}
+		else = {
+			santos_balloon_country_altitude_record_effect = yes
+		}
+
+		balloonist_level_up_effect = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:santos_balloonist_var ?= {
+				var:santos_balloon_type_var ?= flag:santos_balloon_type_altitude_flag
+			}
+			factor = 1.5 #Altitude Balloons will try to do altitude record
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = innovative
+			}
+		  	factor = 1.5 #Innovative balloonist will try to get high (because he's a space cowboy and tries to get by)
+		}
+	}
+}
+
+#Santos 602: Balloonist tries to set new Distance record (hidden)
+santos.602 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	hidden = yes
+
+	trigger = {
+		#triggered by on_action in journal entry
+		has_variable = santos_balloonist_var
+	}
+
+	immediate = {
+		santos_new_balloon_distance_effect = yes
+
+		if = {
+			limit = {
+				santos_distance_record_global_broken_trigger = yes
+			}
+			medium_santos_ballooning_research_effect = yes
+			santos_balloon_country_distance_record_effect = yes
+		}
+		else_if = {
+			limit = {
+				santos_distance_record_country_broken_trigger = yes
+				santos_distance_record_global_broken_trigger = no
+			}
+			small_santos_ballooning_research_effect = yes
+			santos_balloon_country_distance_record_effect = yes
+		}
+		else = {
+			santos_balloon_country_distance_record_effect = yes
+		}
+
+		balloonist_level_up_effect = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:santos_balloonist_var ?= {
+				var:santos_balloon_type_var ?= flag:santos_balloon_type_distance_flag
+			}
+			factor = 1.5 #Distance Balloons will try to do distance record
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = meticulous
+			}
+		  	factor = 1.5 #Meticulous balloonist will try to get by
+		}
+	}
+}
+
+#Santos 603: Balloonist tries to set new Time record (hidden)
+santos.603 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	hidden = yes
+
+	trigger = {
+		#triggered by on_action in journal entry
+		has_variable = santos_balloonist_var
+	}
+
+	immediate = {
+		santos_new_balloon_time_effect = yes
+
+		if = {
+			limit = {
+				santos_time_record_global_broken_trigger = yes
+			}
+			medium_santos_ballooning_research_effect = yes
+			santos_balloon_country_time_record_effect = yes
+		}
+		else_if = {
+			limit = {
+				santos_time_record_country_broken_trigger = yes
+				santos_time_record_global_broken_trigger = no
+			}
+			small_santos_ballooning_research_effect = yes
+			santos_balloon_country_time_record_effect = yes
+		}
+		else = {
+			santos_balloon_country_time_record_effect = yes
+		}
+
+		balloonist_level_up_effect = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:santos_balloonist_var ?= {
+				var:santos_balloon_type_var ?= flag:santos_balloon_type_time_flag
+			}
+			factor = 1.5 #Time Balloons will try to do time record
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = persistent
+			}
+		  	factor = 1.5 #Persistent balloonist will try to get ... whatever
+		}
+	}
+}
+
+#Santos 650: Introducing our new balloonist
+santos.650 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = santos.650.t
+
+	desc = santos.650.d
+
+	flavor = santos.650.f
+
+	duration = 2
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:santos_balloonist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#triggered by decision
+	}
+
+	immediate = {
+		create_balloonist_effect = yes
+
+		var:santos_balloonist_var = {
+			save_scope_as = santos_balloonist_scope
+		}
+	}
+
+	option = {	#Good Luck!
+		name = santos.650.h
+		default_option = yes
+
+		hidden_effect = {
+			random_list = { #random afraid of heights event
+				999 = {
+					trigger_event = {
+						id = santos.652 #Balloonist's first flight
+						popup = yes
+						days = { 1 7 }
+					}
+					trigger_event = {
+						id = santos.657 #Balloonist's first flight (hidden)
+						popup = yes
+						days = { 1 7 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = santos.656
+						popup = yes
+						days = 3
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 1000
+		}
+	}
+}
+
+#Santos 652: Balloonist's first flight
+santos.652 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = santos.652.t
+
+	desc = santos.652.d
+
+	flavor = santos.652.f
+
+	duration = 2
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:santos_balloonist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		has_variable = santos_balloonist_var
+		OR = {
+			trigger_if = {
+				limit = { has_variable = santos_balloon_altitude_record_var }
+				var:santos_balloon_altitude_record_var = 0
+			}
+			trigger_if = {
+				limit = { has_variable = santos_balloon_distance_record_var }
+				var:santos_balloon_distance_record_var = 0
+			}
+			trigger_if = {
+				limit = { has_variable = santos_balloon_time_record_var }
+				var:santos_balloon_time_record_var = 0
+			}
+		}
+		NOT = { #only happens if player wants to see results.
+			has_variable = santos_no_balloonist_flight_events
+		}
+	}
+
+	cancellation_trigger = {
+		NOR = {
+			has_variable = santos_balloonist_var
+			exists = var:santos_balloonist_var
+		}
+	}
+
+
+	immediate = {
+		var:santos_balloonist_var = {
+			save_scope_as = santos_balloonist_scope
+		}
+
+		santos_new_balloon_altitude_effect = yes
+		santos_new_balloon_distance_effect = yes
+		santos_new_balloon_time_effect = yes
+	}
+
+	option = {	#That's a good start!
+		name = santos.652.g
+		default_option = yes
+
+		santos_balloon_country_altitude_experience_only_world_record_effect = yes
+		santos_balloon_country_distance_record_experience_only_world_record_effect = yes
+		santos_balloon_country_time_record_experience_only_world_record_effect = yes
+
+		santos_ballooning_research_if_record_all_effect = yes
+
+		balloonist_level_up_effect = yes
+	}
+
+	option = {	#I don't want to hear about the flights of my balloonist anymore!
+		name = santos.651.w
+
+		trigger = {
+			is_player = yes
+		}
+
+		custom_tooltip = santos.651.w.tt
+
+		set_variable = santos_no_balloonist_flight_events
+
+		santos_balloon_country_altitude_experience_only_world_record_effect = yes
+		santos_balloon_country_distance_record_experience_only_world_record_effect = yes
+		santos_balloon_country_time_record_experience_only_world_record_effect = yes
+
+		santos_ballooning_research_if_record_all_effect = yes
+
+		balloonist_level_up_effect = yes
+
+	}
+}
+
+#Santos 656: Balloonist is afraid of heights and gives up ballooning
+santos.656 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = santos.656.t
+
+	desc = santos.656.d
+
+	flavor = santos.656.f
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:santos_balloonist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/destruction"
+
+	trigger = {
+		has_variable = santos_balloonist_var
+	}
+
+	immediate = {
+		var:santos_balloonist_var = {
+			save_scope_as = santos_balloonist_scope
+		}
+	}
+
+	option = {	#How unfortunate...
+		name = santos.656.g
+		default_option = yes
+
+		kill_balloonist_effect = yes
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {	#Argh! Is there another balloonist we could sponsor?
+		name = santos.656.h
+
+		kill_balloonist_effect = yes
+
+		create_balloonist_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Santos 657: Balloonist's first flight (hidden)
+santos.657 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	hidden = yes
+
+	trigger = {
+		has_variable = santos_balloonist_var
+		OR = {
+			var:santos_balloon_altitude_record_var = 0
+			var:santos_balloon_distance_record_var = 0
+			var:santos_balloon_time_record_var = 0
+		}
+		has_variable = santos_no_balloonist_flight_events
+	}
+
+	immediate = {
+		santos_new_balloon_altitude_effect = yes
+		santos_new_balloon_distance_effect = yes
+		santos_new_balloon_time_effect = yes
+
+		santos_balloon_country_altitude_experience_only_world_record_effect = yes
+		santos_balloon_country_distance_record_experience_only_world_record_effect = yes
+		santos_balloon_country_time_record_experience_only_world_record_effect = yes
+
+		santos_ballooning_research_if_record_all_effect = yes
+
+		balloonist_level_up_effect = yes
+	}
+}
+
+#Santos 660: Balloonist recruited (hidden)
+santos.660 = {
+	hidden = yes
+
+	trigger = {
+		is_ai = yes
+	}
+
+	immediate = {
+		if = {
+			limit = { is_ai = yes }
+			ai_balloonist_recruitment_effect = yes
+		}
+	}
+}
+
+#santos 670: Balloonist died in accident
+santos.670 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = santos.670.t
+
+	desc = santos.670.d
+
+	flavor = santos.670.f
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:santos_balloonist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/destruction"
+
+	trigger = { #triggered by journal entry
+		has_variable = santos_balloonist_var
+		NOT = { #prevents event from firing when player doesn't want to see it
+			has_variable = santos_no_balloonist_death_events
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = santos_balloonist_experienced
+			}
+			factor = 0.85
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = santos_balloonist_famous
+			}
+			factor = 0.75
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = meticulous
+			}
+			factor = 0.9
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = innovative
+			}
+			factor = 0.9
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = opium_addiction
+			}
+			factor = 2
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = alcoholic
+			}
+			factor = 2
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = cocaine_addiction
+			}
+			factor = 2
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = senile
+			}
+			factor = 4
+		}
+	}
+
+	immediate = {
+		var:santos_balloonist_var = {
+			save_scope_as = santos_balloonist_scope
+		}
+	}
+
+	option = {	#How horrible!
+		name = santos.670.g
+		default_option = yes
+
+		set_variable = {
+			name = mr_no_death_event_var
+			days = 1
+		}
+		kill_balloonist_effect = yes
+		remove_variable = mr_no_death_event_var
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {	#Terrible! Is there another balloonist we could sponsor?
+		name = santos.670.h
+
+		set_variable = {
+			name = mr_no_death_event_var
+			days = 1
+		}
+		kill_balloonist_effect = yes
+		remove_variable = mr_no_death_event_var
+
+		create_balloonist_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Santos 671: Experienced Balloonist
+santos.671 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = santos.671.t
+
+	desc = santos.671.d
+
+	flavor = santos.671.f
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:santos_balloonist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/engineer_blueprint"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:santos_balloonist_var = {
+			save_scope_as = santos_balloonist_scope
+		}
+	}
+
+	option = {	#Good to hear
+		name = santos.671.g
+		default_option = yes
+
+		show_as_tooltip = {
+			var:santos_balloonist_var = {
+				remove_trait = santos_balloonist
+				add_trait = santos_balloonist_experienced
+			}
+		}
+	}
+}
+
+#Santos 672: Famous Balloonist
+santos.672 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = santos.672.t
+
+	desc = santos.672.d
+
+	flavor = santos.672.f
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:santos_balloonist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/engineer_blueprint"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:santos_balloonist_var = {
+			save_scope_as = santos_balloonist_scope
+		}
+	}
+
+	option = {	#Wonderful
+		name = santos.672.g
+		default_option = yes
+
+		show_as_tooltip = {
+			var:santos_balloonist_var = {
+				remove_trait = santos_balloonist
+				remove_trait = santos_balloonist_experienced
+				add_trait = santos_balloonist_famous
+			}
+		}
+	}
+}
+
+#Santos 673: Balloonist killed by comet
+santos.673 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = santos.673.t
+
+	desc = santos.673.d
+
+	flavor = santos.673.f
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:santos_balloonist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/destruction"
+
+	trigger = { #triggered by journal entry
+		has_variable = santos_balloonist_var
+		NOT = { #prevents event from firing when player doesn't want to see it
+			has_variable = santos_no_balloonist_death_events
+		}
+	}
+
+	weight_multiplier = {
+		base = 0.1
+	}
+
+	immediate = {
+		var:santos_balloonist_var = {
+			save_scope_as = santos_balloonist_scope
+		}
+	}
+
+	option = {	#If he only had comet sense!
+		name = santos.673.g
+		default_option = yes
+
+		set_variable = {
+			name = mr_no_death_event_var
+			days = 1
+		}
+		kill_balloonist_effect = yes
+		remove_variable = mr_no_death_event_var
+
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 5
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {	#Oh Comet, devil's kith and kin... Is there another balloonist we could sponsor?
+		name = santos.673.h
+
+		set_variable = {
+			name = mr_no_death_event_var
+			days = 1
+		}
+		kill_balloonist_effect = yes
+		remove_variable = mr_no_death_event_var
+
+		create_balloonist_effect = yes
+
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 5
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#santos 674: Death by Whale
+santos.674 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = santos.674.t
+
+	desc = santos.674.d
+
+	flavor = santos.674.f
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:santos_balloonist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/destruction"
+
+	trigger = { #triggered by journal entry
+		has_variable = santos_balloonist_var
+		NOT = { #prevents event from firing when player doesn't want to see it
+			has_variable = santos_no_balloonist_death_events
+		}
+	}
+
+	weight_multiplier = {
+		base = 0.1
+	}
+
+	immediate = {
+		var:santos_balloonist_var = {
+			save_scope_as = santos_balloonist_scope
+		}
+	}
+
+	option = {	#How horrible!
+		name = santos.674.g
+		default_option = yes
+
+		set_variable = {
+			name = mr_no_death_event_var
+			days = 1
+		}
+		kill_balloonist_effect = yes
+		remove_variable = mr_no_death_event_var
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {	#Terrible! Is there another balloonist we could sponsor?
+		name = santos.674.h
+
+		set_variable = {
+			name = mr_no_death_event_var
+			days = 1
+		}
+		kill_balloonist_effect = yes
+		remove_variable = mr_no_death_event_var
+
+		create_balloonist_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#santos 675: Balloonist died in accident (hidden)
+santos.675 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	hidden = yes
+
+	trigger = {
+		has_variable = santos_balloonist_var
+		has_variable = santos_no_balloonist_death_events
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = santos_balloonist_experienced
+			}
+			factor = 0.85
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = santos_balloonist_famous
+			}
+			factor = 0.75
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = meticulous
+			}
+			factor = 0.9
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = innovative
+			}
+			factor = 0.9
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = opium_addiction
+			}
+			factor = 2
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = alcoholic
+			}
+			factor = 2
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = cocaine_addiction
+			}
+			factor = 2
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = senile
+			}
+			factor = 4
+		}
+	}
+
+	immediate = {
+		kill_balloonist_effect = yes
+
+		create_balloonist_effect = yes
+	}
+}
+
+#santos 676: Our Balloonist died
+santos.676 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = santos.676.t
+
+	desc = santos.676.d
+
+#	flavor = santos.676.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/academics_pictures/academics_academic_funeral.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#How horrible!
+		name = santos.674.g
+		default_option = yes
+
+		custom_tooltip = academics.21_tt
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {	#Terrible! Is there another balloonist we could sponsor?
+		name = santos.674.h
+
+		create_balloonist_effect = yes
+
+		custom_tooltip = academics.21_tt
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Santos 681: Gordon Bennett Cup
+santos.681 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = santos.681.t
+
+	desc = santos.681.d
+
+	flavor = santos.681.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_gordon_bennett.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		add_modifier = {
+			name = santos_gordon_bennett_cup_modifier
+		}
+	}
+
+	option = {	#Wonderful
+		name = santos.681.g
+		tesla_aeronautical_engineering_small_add_technology = yes
+		balloonist_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	after = {
+		hidden_effect = {
+			santos_gordon_bennett_cup_effect = yes
+		}
+	}
+}
+
+#Santos 691: Change Type
+santos.691 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = santos.691.t
+
+	desc = santos.691.d
+
+	flavor = santos.691.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/santos_pictures/santos_balloon_type.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = santos_balloon_type_event_active_var
+	}
+
+	option = {	#Altitude
+		name = santos.691.g
+		trigger = {
+			NOT = {
+				var:santos_balloonist_var ?= {
+					var:santos_balloon_type_var ?= flag:santos_balloon_type_altitude_flag
+				}
+			}
+		}
+		santos_set_balloon_type_altitude_effect = yes
+	}
+
+	option = {	#Distance
+		name = santos.691.h
+		trigger = {
+			NOT = {
+				var:santos_balloonist_var ?= {
+					var:santos_balloon_type_var ?= flag:santos_balloon_type_distance_flag
+				}
+			}
+		}
+		santos_set_balloon_type_distance_effect = yes
+	}
+
+	option = {	#Time
+		name = santos.691.i
+		trigger = {
+			NOT = {
+				var:santos_balloonist_var ?= {
+					var:santos_balloon_type_var ?= flag:santos_balloon_type_time_flag
+				}
+			}
+		}
+		santos_set_balloon_type_time_effect = yes
+	}
+
+	option = {	#All-round
+		name = santos.691.j
+		trigger = {
+			NOT = {
+				var:santos_balloonist_var ?= {
+					var:santos_balloon_type_var ?= flag:santos_balloon_type_allround_flag
+				}
+			}
+		}
+		santos_set_balloon_type_allround_effect = yes
+	}
+
+	option = {	#None
+		name = santos.691.k
+		default_option = yes
+	}
+
+	after = {
+		remove_variable = santos_balloon_type_event_active_var
+	}
+}
