@@ -84,6 +84,16 @@ je_douglas_mountaineering_equipment = {
 
 	group = je_group_vikelas_sports
 
+	current_value = {
+		value = var:douglas_mountaineering_equipment_progress
+	}
+
+	goal_add_value = {
+		add = 12
+	}
+
+	progressbar = yes
+
 	on_monthly_pulse = {
 		effect = {
 			change_variable = {
@@ -106,44 +116,50 @@ je_douglas_mountaineering_equipment = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_douglas_mountaineering_equipment_success
-			has_variable = douglas_mountaineering_equipment_complete_var
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		douglas_mountaineering_equipment_event_effect = yes
-		var:douglas_mountaineer_var ?= {
-			set_character_busy_and_immortal = no
+		trigger = {
+			custom_tooltip = {
+				text = je_douglas_mountaineering_equipment_success
+				has_variable = douglas_mountaineering_equipment_complete_var
+			}
 		}
-	}
 
-	fail = {
-		custom_tooltip = {
-			text = je_mountaineer_dies_tt
-			NOT = {
-				has_variable = douglas_mountaineer_var
+		effect = {
+			douglas_mountaineering_equipment_event_effect = yes
+			var:douglas_mountaineer_var ?= {
+				set_character_busy_and_immortal = no
 			}
 		}
 	}
 
-	on_fail = {
-		var:douglas_mountaineer_var ?= {
-			set_character_busy_and_immortal = no
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_mountaineer_dies_tt
+				NOT = {
+					has_variable = douglas_mountaineer_var
+				}
+			}
 		}
-	}
 
-	current_value = {
-		value = var:douglas_mountaineering_equipment_progress
+        effect = {
+			var:douglas_mountaineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+        }
 	}
-
-	goal_add_value = {
-		add = 12
-	}
-
-	progressbar = yes
 
 	weight = 25
 }
@@ -225,77 +241,101 @@ je_douglas_mountaineering_expedition = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = douglas_mountain_expedition_progress_bar_at_full_tt
-			je:je_douglas_mountaineering_expedition = {
-				"scripted_bar_progress(douglas_mountain_expedition_progress_bar)" >= 10
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = douglas_mountain_expedition_progress_bar_at_full_tt
+				je:je_douglas_mountaineering_expedition = {
+					"scripted_bar_progress(douglas_mountain_expedition_progress_bar)" >= 10
+				}
+			}
+		}
+
+		effect = {
+			trigger_event = douglas.211
+			var:douglas_mountaineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			add_modifier = {
+				name = douglas_mountaineering_success_modifier
+				years = 3
 			}
 		}
 	}
 
-	on_complete = {
-		trigger_event = {
-			id = douglas.211
-		}
-		var:douglas_mountaineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		add_modifier = {
-			name = douglas_mountaineering_success_modifier
-			years = 3
-		}
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = je_mountaineer_dies_tt
-			NOT = {
-				has_variable = douglas_mountaineer_var
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_mountaineer_dies_tt
+				NOT = {
+					has_variable = douglas_mountaineer_var
+				}
 			}
 		}
+
+        effect = {
+			remove_variable = douglas_mountain_expedition_var
+        }
 	}
 
-	on_invalid = {
-		remove_variable = douglas_mountain_expedition_var
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
+			custom_tooltip = {
+				text = douglas_mountain_danger_progress_bar_at_full_tt
+				je:je_douglas_mountaineering_expedition = {
+					"scripted_bar_progress(douglas_mountain_danger_progress_bar)" >= 5
+				}
+			}
+		}
+
+        effect = {
+			trigger_event = douglas.213
+			var:douglas_mountaineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			add_modifier = {
+				name = douglas_mountaineering_disaster_modifier
+				years = 3
+			}
+        }
+	}
+
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = douglas.212
+			}
+			var:douglas_mountaineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			add_modifier = {
+				name = douglas_mountaineering_disappointment_modifier
+				years = 2
+			}
+		}
 	}
 
 	timeout = douglas_mountain_motivation_value
-
-	on_timeout = {
-		trigger_event = {
-			id = douglas.212
-		}
-		var:douglas_mountaineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		add_modifier = {
-			name = douglas_mountaineering_disappointment_modifier
-			years = 2
-		}
-	}
-
-	fail = {
-		custom_tooltip = {
-			text = douglas_mountain_danger_progress_bar_at_full_tt
-			je:je_douglas_mountaineering_expedition = {
-				"scripted_bar_progress(douglas_mountain_danger_progress_bar)" >= 5
-			}
-		}
-	}
-
-	on_fail = {
-		trigger_event = {
-			id = douglas.213
-		}
-		var:douglas_mountaineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		add_modifier = {
-			name = douglas_mountaineering_disaster_modifier
-			years = 3
-		}
-	}
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
@@ -311,51 +351,43 @@ je_douglas_international_mountaineering_expedition = {
 
 	scripted_progress_bar = douglas_international_mountain_expedition_progress_bar
 
-	immediate = {
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	complete = {
-		custom_tooltip = {
-			text = douglas_international_mountain_expedition_progress_bar_at_full_tt
-			je:je_douglas_international_mountaineering_expedition = {
-				"scripted_bar_progress(douglas_international_mountain_expedition_progress_bar)" >= 60
-			}
-		}
-	}
-
-	on_complete = {
-		every_country = {
-			limit = {
-				OR = {
-					has_variable = douglas_alpine_club_founding_country_var
-					has_variable = douglas_alpine_club_board_member_var
+		trigger = {
+			custom_tooltip = {
+				text = douglas_international_mountain_expedition_progress_bar_at_full_tt
+				je:je_douglas_international_mountaineering_expedition = {
+					"scripted_bar_progress(douglas_international_mountain_expedition_progress_bar)" >= 60
 				}
 			}
-			trigger_event = {
-				id = douglas.351
-			}
-			var:douglas_mountaineer_var ?= {
-				set_character_busy_and_immortal = no
-			}
 		}
-		if = {
-			limit = { has_global_variable = douglas_ongoing_international_mountain_expedition }
+
+		effect = {
+			every_country = {
+				limit = {
+					OR = {
+						has_variable = douglas_alpine_club_founding_country_var
+						has_variable = douglas_alpine_club_board_member_var
+					}
+				}
+				trigger_event = {
+					id = douglas.351
+				}
+				var:douglas_mountaineer_var ?= {
+					set_character_busy_and_immortal = no
+				}
+			}
+			if = {
+				limit = { has_global_variable = douglas_ongoing_international_mountain_expedition }
+			}
+			remove_global_variable = douglas_ongoing_international_mountain_expedition
 		}
-		remove_global_variable = douglas_ongoing_international_mountain_expedition
 	}
-
-	#invalid = {
-	#	custom_tooltip = {
-	#		text = je_mountaineer_dies_tt
-	#		NOT = {
-	#			has_variable = douglas_mountaineer_var
-	#		}
-	#	}
-	#}
-
-	#on_invalid = {
-	#	remove_variable = douglas_mountain_expedition_var
-	#}
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
@@ -367,19 +399,26 @@ je_douglas_international_mountaineering_expedition_preparation = {
 
 	group = je_group_vikelas_sports
 
-	timeout = 365
-
-	on_timeout = {
-		if = {
-			limit = {
-				has_variable = douglas_alpine_club_founding_country_var
-			}
-			trigger_event = {
-				id = douglas.341
-				popup = yes
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			if = {
+				limit = {
+					has_variable = douglas_alpine_club_founding_country_var
+				}
+				trigger_event = {
+					id = douglas.341
+					popup = yes
+				}
 			}
 		}
 	}
+
+	timeout = 365
 
 	weight = 25
 }
@@ -413,77 +452,100 @@ je_douglas_mount_everest_expedition = {
 		}
 	}
 
-	immediate = {
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	complete = {
-		custom_tooltip = {
-			text = douglas_mountain_expedition_progress_bar_at_full_tt
-			je:je_douglas_mount_everest_expedition = {
-				"scripted_bar_progress(douglas_everest_expedition_progress_bar)" >= 10
+		trigger = {
+			custom_tooltip = {
+				text = douglas_mountain_expedition_progress_bar_at_full_tt
+				je:je_douglas_mount_everest_expedition = {
+					"scripted_bar_progress(douglas_everest_expedition_progress_bar)" >= 10
+				}
 			}
 		}
+
+		effect = {
+			trigger_event = {
+				id = douglas.431
+				days = 7
+			}
+			var:douglas_mountaineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			remove_variable = douglas_mount_everest_north_route_var
+			remove_variable = douglas_mount_everest_south_route_var
+		}
 	}
 
-	on_complete = {
-		trigger_event = {
-			id = douglas.431
-			days = 7
-		}
-		var:douglas_mountaineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		remove_variable = douglas_mount_everest_north_route_var
-		remove_variable = douglas_mount_everest_south_route_var
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = je_mountaineer_dies_tt
-			NOT = {
-				has_variable = douglas_mountaineer_var
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_mountaineer_dies_tt
+				NOT = {
+					has_variable = douglas_mountaineer_var
+				}
 			}
 		}
+
+        effect = {
+			remove_variable = douglas_mountain_expedition_var
+			remove_variable = douglas_mount_everest_north_route_var
+			remove_variable = douglas_mount_everest_south_route_var
+        }
 	}
 
-	on_invalid = {
-		remove_variable = douglas_mountain_expedition_var
-		remove_variable = douglas_mount_everest_north_route_var
-		remove_variable = douglas_mount_everest_south_route_var
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
+			custom_tooltip = {
+				text = douglas_mountain_danger_progress_bar_at_full_tt
+				je:je_douglas_mount_everest_expedition  = {
+					"scripted_bar_progress(douglas_mountain_danger_progress_bar)" >= 5
+				}
+			}
+		}
+
+        effect = {
+			trigger_event = {
+				id = douglas.433
+			}
+			var:douglas_mountaineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			remove_variable = douglas_mount_everest_north_route_var
+			remove_variable = douglas_mount_everest_south_route_var
+        }
+	}
+
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = douglas.432
+			var:douglas_mountaineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			remove_variable = douglas_mount_everest_north_route_var
+			remove_variable = douglas_mount_everest_south_route_var
+		}
 	}
 
 	timeout = douglas_mountain_motivation_value
-
-	on_timeout = {
-		trigger_event = {
-			id = douglas.432
-		}
-		var:douglas_mountaineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		remove_variable = douglas_mount_everest_north_route_var
-		remove_variable = douglas_mount_everest_south_route_var
-	}
-
-	fail = {
-		custom_tooltip = {
-			text = douglas_mountain_danger_progress_bar_at_full_tt
-			je:je_douglas_mount_everest_expedition  = {
-				"scripted_bar_progress(douglas_mountain_danger_progress_bar)" >= 5
-			}
-		}
-	}
-
-	on_fail = {
-		trigger_event = {
-			id = douglas.433
-		}
-		var:douglas_mountaineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		remove_variable = douglas_mount_everest_north_route_var
-		remove_variable = douglas_mount_everest_south_route_var
-	}
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
@@ -501,14 +563,21 @@ je_douglas_mount_everest_expedition_preparation = {
 	scripted_button = douglas_mount_everest_ethnologist_button
 	scripted_button = douglas_mount_everest_geologist_button
 
-	timeout = 365
-
-	on_timeout = {
-		trigger_event = {
-			id = douglas.401
-			popup = yes
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = douglas.401
+				popup = yes
+			}
 		}
 	}
+
+	timeout = 365
 
 	weight = 25
 }
