@@ -1,0 +1,98 @@
+﻿###########################
+# SANTOS JOURNAL ENTRIES  #
+###########################
+
+#by Marco Dandolo
+
+############################
+
+######MORGENRÖTE INTRODUCTION######
+
+### Medical Research ###
+je_santos_balloon_ride = {
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	group = je_group_curtiss_aviation
+
+	scripted_progress_bar = santos_balloon_ride_progress_bar
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, the PM will be unlocked in a state
+				limit = {
+					je:je_santos_balloon_ride = {
+						"scripted_bar_progress(santos_balloon_ride_progress_bar)" >= 24
+					}
+				}
+				#Ballonist gets experience
+				small_santos_ballooning_research_effect = yes
+				balloonist_experience_gain_effect = { AMOUNT = 10 }
+				post_notification = santos_technology_boost_from_balloonist_notification
+				#AI will automatically check after 36 months if there is something better to do
+				if = {
+					limit = {
+						is_ai = yes
+					}
+					set_variable = santos_stop_balloonist_project_var
+				}
+				#Special Event occurs when Germ Theory isn't researched yet
+				if = {
+					limit = {
+						any_scope_building = {
+							OR = {
+								is_building_group = bg_monuments
+								is_building_type = building_gaudi_luna
+								is_building_type = building_gaudi_park
+							}
+							level > 0
+							NOT = {
+								has_modifier = santos_building_production_mult_modifier
+							}
+						}
+					}
+					random_scope_building = {
+						limit = {
+							OR = {
+								is_building_group = bg_monuments
+								is_building_type = building_gaudi_luna
+								is_building_type = building_gaudi_park
+							}
+							level > 0
+							NOT = {
+								has_modifier = santos_building_production_mult_modifier
+							}
+						}
+						add_modifier = {
+							name = santos_building_production_mult_modifier
+						}
+					}
+				}
+				#The cost will be subtracted from the current progress
+				je:je_santos_balloon_ride = {
+					add_progress = {
+						name = santos_balloon_ride_progress_bar
+						value = -24
+					}
+				}
+			}
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_balloonist_dies_tt
+			NOT = {
+				has_variable = santos_balloonist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		var:santos_balloonist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 30
+}
