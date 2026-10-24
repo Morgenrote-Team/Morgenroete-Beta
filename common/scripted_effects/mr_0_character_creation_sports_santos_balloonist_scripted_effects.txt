@@ -1,0 +1,125 @@
+﻿##################################################
+# SANTOS NEW CHARACTER CREATION SCRPITED EFFECTS #
+##################################################
+
+############################################################################
+
+# Creates a new balloonist without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
+mr_create_historical_balloonist_for_character_creation_effect = {
+	random_list = {
+		1 = { #Phileas Fogg, United Kongdom
+			trigger = {
+				c:GBR ?= this
+				NOT = { has_global_variable = santos_fogg_created_global_var }
+				has_state_in_state_region = STATE_HOME_COUNTIES
+				year >= 1870 #Age 38
+				year <= 1880 #Age 48
+			}
+			create_character = {
+				age = { 38 42 } #Fogg was around 40 in 1872
+				template = mr_gbr_fogg_phileas_character_template
+
+				save_scope_as = santos_balloonist_scope
+			}
+			set_variable = {
+				name = santos_balloonist_var
+				value = scope:santos_balloonist_scope
+			}
+
+			set_global_variable = santos_fogg_created_global_var
+
+			modifier = {
+				add = {
+					value = year
+					subtract = 1850
+					subtract = 20
+					min = 0
+					multiply = 2
+					multiply = -0.25
+				}
+			}
+		}
+	}
+}
+
+mr_create_random_balloonist_for_character_creation_effect = {
+	random_list = {
+		5 = {
+			create_character = {
+				age = { 20 30 }
+				female = yes
+				trait_generation = {}
+				save_scope_as = santos_new_balloonist_scope
+				role = character_role_santos_balloonist
+			}
+			scope:santos_new_balloonist_scope = {
+				add_trait = santos_balloonist
+				mr_trait_generation_balloonist_effect = yes
+				mr_make_character_balloonist_effect = yes
+			}
+			set_variable = {
+				name = santos_new_balloonist_var
+				value = scope:santos_new_balloonist_scope
+			}
+
+			modifier = {
+				if = {
+					limit = { has_law = law_type:law_women_own_property }
+					add = 4
+				}
+				if = {
+					limit = { has_law = law_type:law_women_in_the_workplace }
+					add = 9
+				}
+				if = {
+					limit = { has_law = law_type:law_womens_suffrage }
+					add = 19
+				}
+			}
+		}
+		95 = {
+			create_character = {
+				age = { 20 30 }
+				trait_generation = {}
+				save_scope_as = santos_new_balloonist_scope
+				role = character_role_santos_balloonist
+			}
+			scope:santos_new_balloonist_scope = {
+				add_trait = santos_balloonist
+				mr_trait_generation_balloonist_effect = yes
+				mr_make_character_balloonist_effect = yes
+			}
+			set_variable = {
+				name = santos_new_balloonist_var
+				value = scope:santos_new_balloonist_scope
+			}
+
+			modifier = {
+				if = {
+					limit = { has_law = law_type:law_women_own_property }
+					add = -4
+				}
+				if = {
+					limit = { has_law = law_type:law_women_in_the_workplace }
+					add = -9
+				}
+				if = {
+					limit = { has_law = law_type:law_womens_suffrage }
+					add = -19
+				}
+			}
+		}
+	}
+}
+
+mr_make_character_balloonist_effect = {
+	balloonist_experience_set_up_effect = yes
+	set_variable = mr_is_mr_character
+	academics_character_set_role_retirement_effect = {
+		ROLE = character_role_santos_balloonist
+		AGE_LEVEL = 2
+	}
+}
+

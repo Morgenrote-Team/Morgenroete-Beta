@@ -28,144 +28,74 @@ kill_balloonist_effect = {
 	}
 }
 
-###Create Balloonist###
-create_balloonist_effect = {
-	random_list = {
-#		1 = {
-#			trigger = {
-#				c:GBR ?= this
-#				NOT = { has_global_variable = curtiss_fogg_created_global_var }
-#			}
-#
-#			create_character = {
-#				age = { 20 30 }
-#				template = mr_gbr_fogg_phileas_character_template
-#
-#				save_scope_as = santos_balloonist_scope
-#			}
-#
-#			hidden_effect = {
-#				var:santos_balloonist_var ?= {
-#					if = {
-#						limit = { is_historical = no }
-#						free_character_from_void = no
-#					}
-#				}
-#			}
-#			scope:santos_balloonist_scope = {
-#				add_trait = santos_balloonist
-#				set_variable = {
-#					name = santos_balloonist_experience_var
-#					value = 0
-#				}
-#				set_variable = mr_is_mr_character
-#				academics_character_set_role_retirement_effect = {
-#					ROLE = character_role_santos_balloonist
-#					AGE_LEVEL = 2
-#				}
-#			}
-#			set_variable = {
-#				name = santos_balloonist_var
-#				value = scope:santos_balloonist_scope
-#			}
-#
-#			set_global_variable = curtiss_fogg_created_global_var
-#		}
-		25 = { #Random Balloonist (fallback and to make it uncertain for historical once to appear)
-			random_list = {
-				5 = {
-					create_character = {
-						age = { 20 30 }
-						female = yes
-						trait_generation = {}
-						save_scope_as = santos_balloonist_scope
-						role = character_role_santos_balloonist
-					}
-					scope:santos_balloonist_scope = {
-						add_trait = santos_balloonist
-						set_variable = {
-							name = santos_balloonist_experience_var
-							value = 0
-						}
-						set_variable = mr_is_mr_character
-						mr_trait_generation_balloonist_effect = yes
-						academics_character_set_role_retirement_effect = {
-							ROLE = character_role_santos_balloonist
-							AGE_LEVEL = 2
-						}
-					}
-					set_variable = {
-						name = santos_balloonist_var
-						value = scope:santos_balloonist_scope
-					}
+#This effect kills the current balloonist and creates a new one
+kill_and_replace_balloonist_effect = {
+	kill_balloonist_effect = yes
+	create_new_character_base_effect = { CHARACTER = balloonist PROJECT = santos }
+	santos_set_new_balloonist_as_balloonist_effect = yes
+}
 
-					modifier = {
-						if = {
-							limit = { has_law = law_type:law_women_own_property }
-							add = 5
-						}
-						if = {
-							limit = { has_law = law_type:law_women_in_the_workplace }
-							add = 15
-						}
-						if = {
-							limit = { has_law = law_type:law_womens_suffrage }
-							add = 25
-						}
-					}
-				}
-				95 = {
-					create_character = {
-						age = { 20 30 }
-						trait_generation = {}
-						save_scope_as = santos_balloonist_scope
-						role = character_role_santos_balloonist
-					}
-					scope:santos_balloonist_scope = {
-						add_trait = santos_balloonist
-						set_variable = {
-							name = santos_balloonist_experience_var
-							value = 0
-						}
-						set_variable = mr_is_mr_character
-						mr_trait_generation_balloonist_effect = yes
-						academics_character_set_role_retirement_effect = {
-							ROLE = character_role_santos_balloonist
-							AGE_LEVEL = 2
-						}
-					}
-					set_variable = {
-						name = santos_balloonist_var
-						value = scope:santos_balloonist_scope
-					}
+#This Effect retires the current Balloonist
+# Use "set_retirement_variable_effect" in the immediate effect when using this effect.
+retire_balloonist_effect = {
+	custom_tooltip = {
+		text = retire_balloonist_effect_tt
 
-					modifier = {
-						if = {
-							limit = { has_law = law_type:law_women_own_property }
-							add = -5
-						}
-						if = {
-							limit = { has_law = law_type:law_women_in_the_workplace }
-							add = -15
-						}
-						if = {
-							limit = { has_law = law_type:law_womens_suffrage }
-							add = -25
-						}
-					}
-				}
-			}
+		var:santos_balloonist_var = {
+			kill_character = yes
 		}
 	}
-	if = {
-		limit = {
-			any_scope_building = {
-				is_building_type = building_gaudi_sports
+
+	remove_variable = santos_balloonist_var
+}
+
+# Set new Balloonist as official Balloonist
+santos_set_new_balloonist_as_balloonist_effect = {
+	custom_tooltip = {
+		text = santos_replace_balloonist_with_new_balloonist_tt
+
+		if = {
+			limit = {
+				has_variable = santos_balloonist_var
+			}
+			var:santos_balloonist_var = {
+				set_character_busy_and_immortal = no
 			}
 		}
-		change_variable = {
+
+		set_variable = {
+			name = santos_balloonist_var
+			value = scope:santos_new_balloonist_scope
+		}
+
+		remove_variable = santos_new_balloonist_var
+	}
+}
+
+# Used to set up the Experience of a character
+balloonist_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = santos_balloonist_experience_var
+			}
+		}
+		set_variable = {
 			name = santos_balloonist_experience_var
-			add = 75
+			value = { 0 50 }
+		}
+		if = {
+			limit = {
+				owner = {
+					any_scope_building = {
+						is_building_type = building_gaudi_sports
+					}
+				}
+			}
+			change_variable = {
+				name = santos_balloonist_experience_var
+				add = 75
+			}
 		}
 	}
 
@@ -178,42 +108,32 @@ create_balloonist_effect = {
 		nearest = 1
 	}
 
-	var:santos_balloonist_var ?= {
-		###Other important stuff###
-		set_variable = {
-			name = santos_balloon_year_var
-			value = year
-		}
-		set_variable = {
-			name = santos_balloon_altitude_record_personal_var
-			value = 0
-		}
-		set_variable = {
-			name = santos_balloon_distance_record_personal_var
-			value = 0
-		}
-		set_variable = {
-			name = santos_balloon_time_record_personal_var
-			value = 0
-		}
-		set_variable = {
-			name = santos_balloon_type_var
-			value = flag:santos_balloon_type_allround_flag
-		}
-		set_variable = {
-			name = santos_balloon_fuel_var
-			value = flag:santos_balloon_fuel_coal_gas_flag
-		}
+	set_variable = {
+		name = santos_balloon_year_var
+		value = year
+	}
+	set_variable = {
+		name = santos_balloon_altitude_record_personal_var
+		value = 0
+	}
+	set_variable = {
+		name = santos_balloon_distance_record_personal_var
+		value = 0
+	}
+	set_variable = {
+		name = santos_balloon_time_record_personal_var
+		value = 0
+	}
+	set_variable = {
+		name = santos_balloon_type_var
+		value = flag:santos_balloon_type_allround_flag
+	}
+	set_variable = {
+		name = santos_balloon_fuel_var
+		value = flag:santos_balloon_fuel_coal_gas_flag
 	}
 
 	balloonist_cost_effect = yes
-}
-
-###Adds the right cost modifier to the country###
-balloonist_cost_effect = {
-	add_modifier = {
-		name = santos_sponsoring_balloonist_modifier
-	}
 }
 
 #Balloonist Experience gain
@@ -325,6 +245,13 @@ balloonist_level_up_effect = {
 				add_trait = santos_balloonist_experienced
 			}
 		}
+	}
+}
+
+###Adds the right cost modifier to the country###
+balloonist_cost_effect = {
+	add_modifier = {
+		name = santos_sponsoring_balloonist_modifier
 	}
 }
 
