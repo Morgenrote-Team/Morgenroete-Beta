@@ -6,9 +6,9 @@
 
 ############################
 
-######MORGENRÖTE INTRODUCTION######
+######BALLOONIST ACTIONS######
 
-### Medical Research ###
+### Balloon Ride ###
 je_santos_balloon_ride = {
 	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
 
@@ -26,16 +26,9 @@ je_santos_balloon_ride = {
 					}
 				}
 				#Ballonist gets experience
-				small_santos_ballooning_research_effect = yes
 				balloonist_experience_gain_effect = { AMOUNT = 10 }
+				small_santos_ballooning_research_effect = yes
 				post_notification = santos_technology_boost_from_balloonist_notification
-				#AI will automatically check after 36 months if there is something better to do
-				if = {
-					limit = {
-						is_ai = yes
-					}
-					set_variable = santos_stop_balloonist_project_var
-				}
 				#Special Event occurs when Germ Theory isn't researched yet
 				if = {
 					limit = {
@@ -92,6 +85,80 @@ je_santos_balloon_ride = {
 		var:santos_balloonist_var ?= {
 			set_character_busy_and_immortal = no
 		}
+	}
+
+	weight = 30
+}
+
+### Balloon Adventure ###
+je_santos_balloon_adventure = {
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	scripted_button = santos_stop_ballonist_project_button
+
+	group = je_group_curtiss_aviation
+
+	scripted_progress_bar = santos_balloon_adventure_progress_bar
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, the PM will be unlocked in a state
+				limit = {
+					je:je_santos_balloon_adventure = {
+						"scripted_bar_progress(santos_balloon_adventure_progress_bar)" >= 36
+					}
+				}
+				#Ballonist gets experience
+				post_notification = santos_balloon_adventure_notification
+				#AI will automatically check after 36 months if there is something better to do
+				if = {
+					limit = {
+						is_ai = yes
+					}
+					set_variable = santos_stop_balloonist_project_var
+				}
+				if = {
+					limit = {
+						has_variable = santos_no_balloonist_flight_events_var
+					}
+					trigger_event = {
+						id = santos.601
+					}
+				}
+				else = { #You only get the animals if you are a nice person and let the balloons tell his adventures, you rude, balloonist event hating person!
+					random_list = {
+						1 = { trigger_event = { id = santos.602 } } #Normal event
+						1 = { trigger_event = { id = santos.603 } } #Squirrel Monkey
+						1 = { trigger_event = { id = santos.604 } } #Stoat
+						1 = { trigger_event = { id = santos.605 } } #Naked Mole-Rat
+					}
+				}
+				
+				#The cost will be subtracted from the current progress
+				je:je_santos_balloon_adventure = {
+					add_progress = {
+						name = santos_balloon_adventure_progress_bar
+						value = -36
+					}
+				}
+			}
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = santos_stop_balloonist_project_tt
+			OR = {
+				has_variable = santos_stop_balloonist_project_var
+				santos_has_balloonist_no_tooltip_trigger = no
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = santos_stop_balloonist_project_var
+		santos_set_ballonist_unbusy_effect = yes
 	}
 
 	weight = 30

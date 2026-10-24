@@ -48,6 +48,8 @@ Aviation & Ships
 Ballooning
 - The balloonist has been adjusted to better align with how other Morgenröte characters function.
 - A custom Balloon Society GUI that displays the balloon, modifications, balloon crossings, and many other important details. This makes it much clearer why and how a balloonist breaks a record.
+- Added Balloon Ride (Default ACtion). This is an entire safe option for your balloonist, researching technologies and giving certain buildings a modifier.
+- Added Balloon Adventure. A balloonist can bring items from abroad (minerals, specimen, artifacts etc.) depending on his profession. Small risk to die.
 
 Biology & Chemistry
 - Removed Cydia and Cochliomyia State Traits.
