@@ -22,6 +22,11 @@ Physics - The Göttingen Seven
 - Jacob Grimm, who starts as an agitator for Hanover, will be purged, too, and appears under similar circumstances as an agitator in a German state. VotP is needed for this, as Jacob Grimm is used as a character in this DLC.
 - Grimm may trigger the "Deutsches Wörterbuch" (German Dictionary) event after many years in the country which welcomed him.
 
+Schneider Trophy:
+- Reworked the Schneider Trophy into a contextless journal entry.
+- You can now see the progress of each nation in the race.
+- Added an event log for the Schneider Trophy.
+
 Academics
 - To promote an Engineer, you need the technology Atmospheric Engine.
 - To promote an Archaeologist, you need the technology Antiquarianism.
@@ -116,6 +121,7 @@ Copper
 
 Changes
 - Added Great Terroir (Wine bonus) to Aquitaine and Piedmont (Paradox, you added the best wine grounds in Europe and forgot about Bordeaux and Barolo?).
+- Removed old find x journal entries as they are no longer necessary (have been replaced for a few updates now).
 
 ####################
 
