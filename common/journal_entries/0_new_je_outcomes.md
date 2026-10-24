@@ -59,3 +59,48 @@ outcome = {
     # root = owning country or no scope
     event_outcome_effect_desc = {}
 }
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+
+		}
+
+		effect = {
+
+		}
+	}
+
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+
+		}
+
+        effect = {
+
+        }
+	}
+
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
+
+		}
+
+        effect = {
+
+        }
+	}
