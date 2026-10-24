@@ -53,12 +53,12 @@ Die von Morgenröte hinzugefügte Musik ist in Europa gemeinfrei. Leider scheine
 Diese Übersetzungen sind bereits in den Mod integriert. Du musst sie nicht herunterladen. Weitere Unterstützung bei der Übersetzung ist jedoch jederzeit willkommen.
 
 [b] Brasilianisches Portugiesisch: [/b]
-72% vollständig
+73% vollständig
 https://paratranz.cn/projects/15095
 Danke: rifa-456 und koyomim
 
 [b] Französisch: [/b]
-69% vollständig
+70% vollständig
 https://paratranz.cn/projects/15098
 Danke: Shamalau12, Aurcan (Aurélien), SirYusblack (Sir Yusbalck) und Luffy0810 (lopotitchaton)
 
@@ -68,7 +68,7 @@ https://paratranz.cn/projects/15094
 Danke: kindum553, Speckschicht, Cr41gy, Temp3r-79 und OttovonBismarckderErste
 
 [b] Japanisch: [/b]
-16% vollständig
+17% vollständig
 https://paratranz.cn/projects/15115
 Danke: Nostromo, flowlanss and dokusai226
 
@@ -78,7 +78,7 @@ https://paratranz.cn/projects/15116
 Danke: MOLRAYO (이슬람 [Islamic])
 
 [b] Polnisch: [/b]
-19% vollständig
+64% vollständig
 https://paratranz.cn/projects/15118
 Danke: ArmagedonYT, Anscylla, JaCKoP619 (W0lsZcZ@n), GeneralPaczek uand PiotrPilip
 
