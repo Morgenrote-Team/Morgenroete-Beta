@@ -14,6 +14,16 @@ je_dubois_native_animal = {
 
 	group = je_group_dubois_nature
 
+	current_value = {
+		value = var:naturalist_native_animal_progress_var
+	}
+
+	goal_add_value = {
+		value = 50
+	}
+
+	progressbar = yes
+
 	immediate = {
 		set_variable = {
 			name = naturalist_native_animal_progress_var
@@ -32,40 +42,41 @@ je_dubois_native_animal = {
 		}
 	}
 
-	current_value = {
-		value = var:naturalist_native_animal_progress_var
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	goal_add_value = {
-		value = 50
-	}
-
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
-
-	on_complete = {
-		trigger_event = {
-			id = dubois.22
-		}
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = je_naturalist_dies_tt
-			NOT = {
-				has_variable = ito_naturalist_var
+		trigger = {
+			scope:journal_entry = {
+				is_goal_complete = yes
 			}
 		}
+
+		effect = {
+			trigger_event = { id = dubois.22 }
+		}
 	}
 
-	on_invalid = {
-		remove_ongoing_animal_documentation_effect = yes
-	}
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_naturalist_dies_tt
+				NOT = {
+					has_variable = ito_naturalist_var
+				}
+			}
+		}
 
-	progressbar = yes
+        effect = {
+			remove_ongoing_animal_documentation_effect = yes
+        }
+	}
 
 	weight = 50
 }
@@ -75,6 +86,26 @@ je_dubois_native_animal = {
 je_animal_breeding = {
 
 	group = je_group_dubois_nature
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:dubois_breeding_animal_amount_var #value or variable you use to meassure progress
+		}
+	}
+
+	goal_add_value = {
+		value = 4000
+	}
+
+	progressbar = yes
 
 	on_yearly_pulse = {
 		effect = {
@@ -109,56 +140,46 @@ je_animal_breeding = {
 		}
 	}
 
-    fail = {
-		custom_tooltip = {
-			text = je_breeding_programm_failed_tt
-			var:dubois_breeding_animal_amount_var <= 1
-		}
-    }
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_fail = {
-		trigger_event = {
-			id = dubois.1322
-			popup = yes
-		}
-	}
-
-	complete = {
-		custom_tooltip = {
-			text = je_breeding_programm_succesfull_tt
-			scope:journal_entry = {
-				is_goal_complete = yes
-			}
-		}
-	}
-
-	on_complete = {
-			trigger_event = {
-				id = dubois.1321
-				popup = yes
-			}
-		remove_variable = dubois_breeding_animal_amount_var
-	}
-
-	current_value = {
-		if = {
-			limit = {
+		trigger = {
+			custom_tooltip = {
+				text = je_breeding_programm_succesfull_tt
 				scope:journal_entry = {
-					goal_value = 0
+					is_goal_complete = yes
 				}
 			}
-			value = 0
 		}
-		else = {
-			value = var:dubois_breeding_animal_amount_var #value or variable you use to meassure progress
+
+		effect = {
+			trigger_event = { id = dubois.1321 }
+			remove_variable = dubois_breeding_animal_amount_var
 		}
 	}
 
-	goal_add_value = {
-		value = 4000
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	progressbar = yes
+		trigger = {
+			custom_tooltip = {
+				text = je_breeding_programm_failed_tt
+				var:dubois_breeding_animal_amount_var <= 1
+			}
+		}
+
+        effect = {
+			trigger_event = {id = dubois.1322}
+        }
+	}
 
     weight = 200
 }
@@ -170,13 +191,6 @@ je_ito_specimen_collection = {
 
 	group = je_group_dubois_nature
 
-	immediate = {
-		set_variable = {
-			name = ito_estimated_specimen_on_specimen_collection_var
-			value = ito_specimen_collection_monthly_specimen_rounded_value
-		}
-	}
-
 	on_monthly_pulse = {
 		effect = {
 			#Adds Specimens each month
@@ -186,24 +200,20 @@ je_ito_specimen_collection = {
 				}
 
 				dubois_add_x_specimen_effect = { AMOUNT = ito_specimen_collection_monthly_specimen_value }
-				#Estimated yield
-				set_variable = {
-					name = ito_estimated_specimen_on_specimen_collection_var
-					value = ito_specimen_collection_monthly_specimen_rounded_value
-				}
 			}
 		}
 	}
 
-	invalid = {
-		custom_tooltip = {
-			text = ito_naturalist_is_dead_tt
-			dubois_has_naturalist = no
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = ito_naturalist_is_dead_tt
+				dubois_has_naturalist = no
+			}
 		}
-	}
-
-	on_invalid = {
-		remove_variable = ito_estimated_specimen_on_specimen_collection_var
 	}
 
 	weight = 50
@@ -229,10 +239,6 @@ je_ito_botanical_expedition = {
 		set_variable = {
 			name = ito_total_specimen_current_botanical_expedition_var
 			value = 0
-		}
-		set_variable = {
-			name = ito_estimated_specimen_on_botanical_expedition_var
-			value = ito_botanical_expedition_monthly_specimen_rounded_value
 		}
 
 		scope:journal_entry = {
@@ -263,11 +269,6 @@ je_ito_botanical_expedition = {
 				name = ito_total_specimen_current_botanical_expedition_var
 				add = ito_botanical_expedition_monthly_specimen_value
 			}
-			#Estimated yield
-			set_variable = {
-				name = ito_estimated_specimen_on_botanical_expedition_var
-				value = ito_botanical_expedition_monthly_specimen_rounded_value
-			}
 		}
 
 		#Monthly Events
@@ -286,54 +287,64 @@ je_ito_botanical_expedition = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_ito_botanical_expedition_goal_tt
-			scope:journal_entry = {
-				"scripted_bar_progress(ito_botanical_expedition_progress_bar)" >= 12
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_ito_botanical_expedition_goal_tt
+				scope:journal_entry = {
+					"scripted_bar_progress(ito_botanical_expedition_progress_bar)" >= 12
+				}
 			}
+		}
+
+		effect = {
+			var:ito_naturalist_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = dubois_botanical_expedition_cost_modifier
+				}
+			}
+			save_scope_value_as = {
+				name = medicinal_herbs_scope_value
+				value = {
+					value = "je:je_ito_botanical_expedition.scripted_bar_progress(ito_botanical_expedition_medicinal_plants_progress_bar)"
+					ceiling = yes
+				}
+			}
+
+			trigger_event = dubois.390
 		}
 	}
 
-	on_complete = {
-		var:ito_naturalist_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = dubois_botanical_expedition_cost_modifier
-			}
-		}
-		save_scope_value_as = {
-			name = medicinal_herbs_scope_value
-			value = {
-				value = "je:je_ito_botanical_expedition.scripted_bar_progress(ito_botanical_expedition_medicinal_plants_progress_bar)"
-				ceiling = yes
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = ito_naturalist_is_dead_tt
+				NOT = {
+					has_variable = ito_naturalist_var
+				}
 			}
 		}
 
-		trigger_event = dubois.390
-
-		remove_variable = ito_estimated_specimen_on_botanical_expedition_var
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = ito_naturalist_is_dead_tt
-			NOT = {
-				has_variable = ito_naturalist_var
+        effect = {
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = dubois_botanical_expedition_cost_modifier
+				}
 			}
-		}
-	}
-
-	on_invalid = {
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = dubois_botanical_expedition_cost_modifier
-			}
-		}
-		remove_variable = ito_total_specimen_current_botanical_expedition_var
-		remove_variable = ito_estimated_specimen_on_botanical_expedition_var
+			remove_variable = ito_total_specimen_current_botanical_expedition_var
+        }
 	}
 
 	weight = 50
@@ -393,57 +404,70 @@ je_ito_improve_forestry_project = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_improve_building_project_complete_tt
-			NOT = {
-				has_variable_list = ito_improve_forestry_buildings_chosen_variable_list
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_improve_building_project_complete_tt
+				NOT = {
+					has_variable_list = ito_improve_forestry_buildings_chosen_variable_list
+				}
+			}
+		}
+
+		effect = {
+			remove_variable = dubois_stop_naturalist_improvement_project_var
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = dubois_naturalist_forestry_cost_modifier
+				}
+			}
+			clear_variable_list = ito_improve_forestry_buildings_chosen_variable_list
+
+			ito_set_naturalist_unbusy_effect = yes
+			if = {
+				limit = { ito_is_naturalist_automated_trigger = no }
+				trigger_event = {
+					id = dubois.52
+					popup = yes
+				}
+			}
+			set_variable = {
+				name = mr_num_improved_forestry_buildings_var
+				value = scope:journal_entry.var:mr_num_improved_buildings_var
 			}
 		}
 	}
 
-	on_complete = {
-		remove_variable = dubois_stop_naturalist_improvement_project_var
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = dubois_naturalist_forestry_cost_modifier
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = dubois_stop_naturalist_improvement_project_tt
+				OR = {
+					has_variable = dubois_stop_naturalist_improvement_project_var
+					ito_has_naturalist_no_tooltip_trigger = no
+				}
 			}
 		}
-		clear_variable_list = ito_improve_forestry_buildings_chosen_variable_list
 
-		ito_set_naturalist_unbusy_effect = yes
-		if = {
-			limit = { ito_is_naturalist_automated_trigger = no }
-			trigger_event = {
-				id = dubois.52
-				popup = yes
+        effect = {
+			remove_variable = dubois_stop_naturalist_improvement_project_var
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = dubois_naturalist_forestry_cost_modifier
+				}
 			}
-		}
-		set_variable = {
-			name = mr_num_improved_forestry_buildings_var
-			value = scope:journal_entry.var:mr_num_improved_buildings_var
-		}
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = dubois_stop_naturalist_improvement_project_tt
-			OR = {
-				has_variable = dubois_stop_naturalist_improvement_project_var
-				ito_has_naturalist_no_tooltip_trigger = no
-			}
-		}
-	}
-
-	on_invalid = {
-		remove_variable = dubois_stop_naturalist_improvement_project_var
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = dubois_naturalist_forestry_cost_modifier
-			}
-		}
-		clear_variable_list = ito_improve_forestry_buildings_chosen_variable_list
-		ito_set_naturalist_unbusy_effect = yes
+			clear_variable_list = ito_improve_forestry_buildings_chosen_variable_list
+			ito_set_naturalist_unbusy_effect = yes
+        }
 	}
 
 	weight = 30
@@ -503,60 +527,73 @@ je_ito_improve_rubber_project = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_improve_building_project_complete_tt
-			NOT = {
-				has_variable_list = ito_improve_rubber_buildings_chosen_variable_list
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_improve_building_project_complete_tt
+				NOT = {
+					has_variable_list = ito_improve_rubber_buildings_chosen_variable_list
+				}
+			}
+		}
+
+		effect = {
+			remove_variable = dubois_stop_naturalist_improvement_project_var
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = dubois_naturalist_rubber_cost_modifier
+				}
+			}
+			clear_variable_list = ito_improve_rubber_buildings_chosen_variable_list
+
+			ito_set_naturalist_unbusy_effect = yes
+			if = {
+				limit = { ito_is_naturalist_automated_trigger = no }
+				trigger_event = {
+					id = dubois.53
+					popup = yes
+				}
+			}
+			else = {
+				dubois_add_x_specimen_effect = { AMOUNT = 500 }
+			}
+			set_variable = {
+				name = mr_num_improved_rubber_buildings_var
+				value = scope:journal_entry.var:mr_num_improved_buildings_var
 			}
 		}
 	}
 
-	on_complete = {
-		remove_variable = dubois_stop_naturalist_improvement_project_var
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = dubois_naturalist_rubber_cost_modifier
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = dubois_stop_naturalist_improvement_project_tt
+				OR = {
+					has_variable = dubois_stop_naturalist_improvement_project_var
+					ito_has_naturalist_no_tooltip_trigger = no
+				}
 			}
 		}
-		clear_variable_list = ito_improve_rubber_buildings_chosen_variable_list
 
-		ito_set_naturalist_unbusy_effect = yes
-		if = {
-			limit = { ito_is_naturalist_automated_trigger = no }
-			trigger_event = {
-				id = dubois.53
-				popup = yes
+        effect = {
+			remove_variable = dubois_stop_naturalist_improvement_project_var
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = dubois_naturalist_rubber_cost_modifier
+				}
 			}
-		}
-		else = {
-			dubois_add_x_specimen_effect = { AMOUNT = 500 }
-		}
-		set_variable = {
-			name = mr_num_improved_rubber_buildings_var
-			value = scope:journal_entry.var:mr_num_improved_buildings_var
-		}
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = dubois_stop_naturalist_improvement_project_tt
-			OR = {
-				has_variable = dubois_stop_naturalist_improvement_project_var
-				ito_has_naturalist_no_tooltip_trigger = no
-			}
-		}
-	}
-
-	on_invalid = {
-		remove_variable = dubois_stop_naturalist_improvement_project_var
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = dubois_naturalist_rubber_cost_modifier
-			}
-		}
-		clear_variable_list = ito_improve_rubber_buildings_chosen_variable_list
-		ito_set_naturalist_unbusy_effect = yes
+			clear_variable_list = ito_improve_rubber_buildings_chosen_variable_list
+			ito_set_naturalist_unbusy_effect = yes
+        }
 	}
 
 	weight = 30
@@ -592,83 +629,109 @@ je_dubois_safari_hippopotamus = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_dubois_safari_3_traps_tt
-			je:je_dubois_safari_hippopotamus = {
-				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 3
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_dubois_safari_3_traps_tt
+				je:je_dubois_safari_hippopotamus = {
+					"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 3
+				}
+			}
+			custom_tooltip = {
+				text = je_dubois_safari_1_track_tt
+				je:je_dubois_safari_hippopotamus = {
+					"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 1
+				}
 			}
 		}
-		custom_tooltip = {
-			text = je_dubois_safari_1_track_tt
-			je:je_dubois_safari_hippopotamus = {
-				"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 1
+
+		effect = {
+			trigger_event = {
+				id = dubois.39
+				popup = yes
 			}
 		}
 	}
 
-	on_complete = {
-		trigger_event = {
-			id = dubois.39
-			popup = yes
-		}
-	}
-
-	fail = {
-		custom_tooltip = {
-			text = je_dubois_safari_fail_tt
-			has_variable = dubois_safari_accident_var
-		}
-	}
-
-	on_fail = {
-		trigger_event = {
-			id = dubois.37
-		}
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = je_naturalist_dies_tt
-			NOT = {
-				has_variable = ito_naturalist_var
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_dubois_safari_fail_tt
+				has_variable = dubois_safari_accident_var
 			}
 		}
-		has_zoo_animal_hippopotamus_trigger = yes
+
+        effect = {
+			trigger_event = { id = dubois.37 }
+        }
 	}
 
-	on_invalid = {
-		custom_tooltip = {
-			text = je_dubois_safari_invalid_tt
-			remove_modifier = dubois_on_safari_modifier
-			add_modifier = {
-				name = dubois_had_safari_modifier
-				years = 3
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_naturalist_dies_tt
+				NOT = {
+					has_variable = ito_naturalist_var
+				}
 			}
-			dubois_remove_safari_effect = yes
+			has_zoo_animal_hippopotamus_trigger = yes
 		}
-		if = {
-			limit = { ito_has_naturalist_no_tooltip_trigger = yes }
-			var:ito_naturalist_var = {
-				set_character_busy_and_immortal = no
-				remove_variable = dubois_naturalist_on_safari_var
-				remove_modifier = dubois_animal_hunter_modifier
+
+        effect = {
+			custom_tooltip = {
+				text = je_dubois_safari_invalid_tt
+				remove_modifier = dubois_on_safari_modifier
+				add_modifier = {
+					name = dubois_had_safari_modifier
+					years = 3
+				}
+				dubois_remove_safari_effect = yes
+			}
+			if = {
+				limit = { ito_has_naturalist_no_tooltip_trigger = yes }
+				var:ito_naturalist_var = {
+					set_character_busy_and_immortal = no
+					remove_variable = dubois_naturalist_on_safari_var
+					remove_modifier = dubois_animal_hunter_modifier
+				}
+			}
+        }
+	}
+
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = dubois.40
+				popup = yes
 			}
 		}
 	}
+
+	timeout = 300
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
 	weight = 35
-
-	timeout = 300
-
-	on_timeout = {
-		trigger_event = {
-			id = dubois.40
-			popup = yes
-		}
-	}
 }
 
 je_dubois_safari_lion = {
@@ -697,83 +760,109 @@ je_dubois_safari_lion = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_dubois_safari_2_traps_tt
-			je:je_dubois_safari_lion = {
-				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 2
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_dubois_safari_2_traps_tt
+				je:je_dubois_safari_lion = {
+					"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 2
+				}
+			}
+			custom_tooltip = {
+				text = je_dubois_safari_2_track_tt
+				je:je_dubois_safari_lion = {
+					"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 2
+				}
 			}
 		}
-		custom_tooltip = {
-			text = je_dubois_safari_2_track_tt
-			je:je_dubois_safari_lion = {
-				"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 2
+
+		effect = {
+			trigger_event = {
+				id = dubois.39
+				popup = yes
 			}
 		}
 	}
 
-	on_complete = {
-		trigger_event = {
-			id = dubois.39
-			popup = yes
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_naturalist_dies_tt
+				NOT = {
+					has_variable = ito_naturalist_var
+				}
+			}
+			has_zoo_animal_lion_trigger = yes
 		}
+
+        effect = {
+			custom_tooltip = {
+				text = je_dubois_safari_invalid_tt
+				remove_modifier = dubois_on_safari_modifier
+				add_modifier = {
+					name = dubois_had_safari_modifier
+					years = 3
+				}
+				dubois_remove_safari_effect = yes
+			}
+			if = {
+				limit = { ito_has_naturalist_no_tooltip_trigger = yes }
+				var:ito_naturalist_var = {
+					set_character_busy_and_immortal = no
+					remove_variable = dubois_naturalist_on_safari_var
+					remove_modifier = dubois_animal_hunter_modifier
+				}
+			}
+        }
 	}
 
-	fail = {
-		custom_tooltip = {
-			text = je_dubois_safari_fail_tt
-			has_variable = dubois_safari_accident_var
-		}
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	on_fail = {
-		trigger_event = {
-			id = dubois.37
-		}
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = je_naturalist_dies_tt
-			NOT = {
-				has_variable = ito_naturalist_var
+		trigger = {
+			custom_tooltip = {
+				text = je_dubois_safari_fail_tt
+				has_variable = dubois_safari_accident_var
 			}
 		}
-		has_zoo_animal_lion_trigger = yes
+
+        effect = {
+			trigger_event = dubois.37
+        }
 	}
 
-	on_invalid = {
-		custom_tooltip = {
-			text = je_dubois_safari_invalid_tt
-			remove_modifier = dubois_on_safari_modifier
-			add_modifier = {
-				name = dubois_had_safari_modifier
-				years = 3
-			}
-			dubois_remove_safari_effect = yes
-		}
-		if = {
-			limit = { ito_has_naturalist_no_tooltip_trigger = yes }
-			var:ito_naturalist_var = {
-				set_character_busy_and_immortal = no
-				remove_variable = dubois_naturalist_on_safari_var
-				remove_modifier = dubois_animal_hunter_modifier
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = dubois.40
+				popup = yes
 			}
 		}
 	}
+
+	timeout = 300
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
 	weight = 35
-
-	timeout = 300
-
-	on_timeout = {
-		trigger_event = {
-			id = dubois.40
-			popup = yes
-		}
-	}
 }
 
 je_dubois_safari_elephant = {
@@ -802,77 +891,103 @@ je_dubois_safari_elephant = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_dubois_safari_4_traps_tt
-			je:je_dubois_safari_elephant = {
-				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 4
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_dubois_safari_4_traps_tt
+				je:je_dubois_safari_elephant = {
+					"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 4
+				}
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = dubois.39
+				popup = yes
 			}
 		}
 	}
 
-	on_complete = {
-		trigger_event = {
-			id = dubois.39
-			popup = yes
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_naturalist_dies_tt
+				NOT = {
+					has_variable = ito_naturalist_var
+				}
+			}
+			has_zoo_animal_elephant_trigger = yes
 		}
+
+        effect = {
+			custom_tooltip = {
+				text = je_dubois_safari_invalid_tt
+				remove_modifier = dubois_on_safari_modifier
+				add_modifier = {
+					name = dubois_had_safari_modifier
+					years = 3
+				}
+				dubois_remove_safari_effect = yes
+			}
+			if = {
+				limit = { ito_has_naturalist_no_tooltip_trigger = yes }
+				var:ito_naturalist_var = {
+					set_character_busy_and_immortal = no
+					remove_variable = dubois_naturalist_on_safari_var
+					remove_modifier = dubois_animal_hunter_modifier
+				}
+			}
+        }
 	}
 
-	fail = {
-		custom_tooltip = {
-			text = je_dubois_safari_fail_tt
-			has_variable = dubois_safari_accident_var
-		}
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	on_fail = {
-		trigger_event = {
-			id = dubois.37
-		}
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = je_naturalist_dies_tt
-			NOT = {
-				has_variable = ito_naturalist_var
+		trigger = {
+			custom_tooltip = {
+				text = je_dubois_safari_fail_tt
+				has_variable = dubois_safari_accident_var
 			}
 		}
-		has_zoo_animal_elephant_trigger = yes
+
+        effect = {
+			trigger_event = dubois.37
+        }
 	}
 
-	on_invalid = {
-		custom_tooltip = {
-			text = je_dubois_safari_invalid_tt
-			remove_modifier = dubois_on_safari_modifier
-			add_modifier = {
-				name = dubois_had_safari_modifier
-				years = 3
-			}
-			dubois_remove_safari_effect = yes
-		}
-		if = {
-			limit = { ito_has_naturalist_no_tooltip_trigger = yes }
-			var:ito_naturalist_var = {
-				set_character_busy_and_immortal = no
-				remove_variable = dubois_naturalist_on_safari_var
-				remove_modifier = dubois_animal_hunter_modifier
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = dubois.40
+				popup = yes
 			}
 		}
 	}
+
+	timeout = 300
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
 	weight = 35
-
-	timeout = 300
-
-	on_timeout = {
-		trigger_event = {
-			id = dubois.40
-			popup = yes
-		}
-	}
 }
 
 je_dubois_safari_giraffe = {
@@ -901,83 +1016,109 @@ je_dubois_safari_giraffe = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_dubois_safari_2_traps_tt
-			je:je_dubois_safari_giraffe = {
-				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 2
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_dubois_safari_2_traps_tt
+				je:je_dubois_safari_giraffe = {
+					"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 2
+				}
+			}
+			custom_tooltip = {
+				text = je_dubois_safari_2_track_tt
+				je:je_dubois_safari_giraffe = {
+					"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 2
+				}
 			}
 		}
-		custom_tooltip = {
-			text = je_dubois_safari_2_track_tt
-			je:je_dubois_safari_giraffe = {
-				"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 2
+
+		effect = {
+			trigger_event = {
+				id = dubois.39
+				popup = yes
 			}
 		}
 	}
 
-	on_complete = {
-		trigger_event = {
-			id = dubois.39
-			popup = yes
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_naturalist_dies_tt
+				NOT = {
+					has_variable = ito_naturalist_var
+				}
+			}
+			has_zoo_animal_giraffe_trigger = yes
 		}
+
+        effect = {
+			custom_tooltip = {
+				text = je_dubois_safari_invalid_tt
+				remove_modifier = dubois_on_safari_modifier
+				add_modifier = {
+					name = dubois_had_safari_modifier
+					years = 3
+				}
+				dubois_remove_safari_effect = yes
+			}
+			if = {
+				limit = { ito_has_naturalist_no_tooltip_trigger = yes }
+				var:ito_naturalist_var = {
+					set_character_busy_and_immortal = no
+					remove_variable = dubois_naturalist_on_safari_var
+					remove_modifier = dubois_animal_hunter_modifier
+				}
+			}
+        }
 	}
 
-	fail = {
-		custom_tooltip = {
-			text = je_dubois_safari_fail_tt
-			has_variable = dubois_safari_accident_var
-		}
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	on_fail = {
-		trigger_event = {
-			id = dubois.37
-		}
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = je_naturalist_dies_tt
-			NOT = {
-				has_variable = ito_naturalist_var
+		trigger = {
+			custom_tooltip = {
+				text = je_dubois_safari_fail_tt
+				has_variable = dubois_safari_accident_var
 			}
 		}
-		has_zoo_animal_giraffe_trigger = yes
+
+        effect = {
+			trigger_event =  dubois.37
+        }
 	}
 
-	on_invalid = {
-		custom_tooltip = {
-			text = je_dubois_safari_invalid_tt
-			remove_modifier = dubois_on_safari_modifier
-			add_modifier = {
-				name = dubois_had_safari_modifier
-				years = 3
-			}
-			dubois_remove_safari_effect = yes
-		}
-		if = {
-			limit = { ito_has_naturalist_no_tooltip_trigger = yes }
-			var:ito_naturalist_var = {
-				set_character_busy_and_immortal = no
-				remove_variable = dubois_naturalist_on_safari_var
-				remove_modifier = dubois_animal_hunter_modifier
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = dubois.40
+				popup = yes
 			}
 		}
 	}
+
+	timeout = 300
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
 	weight = 35
-
-	timeout = 300
-
-	on_timeout = {
-		trigger_event = {
-			id = dubois.40
-			popup = yes
-		}
-	}
 }
 
 je_dubois_safari_zebra = {
@@ -1006,83 +1147,109 @@ je_dubois_safari_zebra = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_dubois_safari_1_traps_tt
-			je:je_dubois_safari_zebra = {
-				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 1
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_dubois_safari_1_traps_tt
+				je:je_dubois_safari_zebra = {
+					"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 1
+				}
+			}
+			custom_tooltip = {
+				text = je_dubois_safari_3_track_tt
+				je:je_dubois_safari_zebra = {
+					"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 3
+				}
 			}
 		}
-		custom_tooltip = {
-			text = je_dubois_safari_3_track_tt
-			je:je_dubois_safari_zebra = {
-				"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 3
+
+		effect = {
+			trigger_event = {
+				id = dubois.39
+				popup = yes
 			}
 		}
 	}
 
-	on_complete = {
-		trigger_event = {
-			id = dubois.39
-			popup = yes
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_naturalist_dies_tt
+				NOT = {
+					has_variable = ito_naturalist_var
+				}
+			}
+			has_zoo_animal_zebra_trigger = yes
 		}
+
+        effect = {
+			custom_tooltip = {
+				text = je_dubois_safari_invalid_tt
+				remove_modifier = dubois_on_safari_modifier
+				add_modifier = {
+					name = dubois_had_safari_modifier
+					years = 3
+				}
+				dubois_remove_safari_effect = yes
+			}
+			if = {
+				limit = { ito_has_naturalist_no_tooltip_trigger = yes }
+				var:ito_naturalist_var = {
+					set_character_busy_and_immortal = no
+					remove_variable = dubois_naturalist_on_safari_var
+					remove_modifier = dubois_animal_hunter_modifier
+				}
+			}
+        }
 	}
 
-	fail = {
-		custom_tooltip = {
-			text = je_dubois_safari_fail_tt
-			has_variable = dubois_safari_accident_var
-		}
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	on_fail = {
-		trigger_event = {
-			id = dubois.37
-		}
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = je_naturalist_dies_tt
-			NOT = {
-				has_variable = ito_naturalist_var
+		trigger = {
+			custom_tooltip = {
+				text = je_dubois_safari_fail_tt
+				has_variable = dubois_safari_accident_var
 			}
 		}
-		has_zoo_animal_zebra_trigger = yes
+
+        effect = {
+			trigger_event = dubois.37
+        }
 	}
 
-	on_invalid = {
-		custom_tooltip = {
-			text = je_dubois_safari_invalid_tt
-			remove_modifier = dubois_on_safari_modifier
-			add_modifier = {
-				name = dubois_had_safari_modifier
-				years = 3
-			}
-			dubois_remove_safari_effect = yes
-		}
-		if = {
-			limit = { ito_has_naturalist_no_tooltip_trigger = yes }
-			var:ito_naturalist_var = {
-				set_character_busy_and_immortal = no
-				remove_variable = dubois_naturalist_on_safari_var
-				remove_modifier = dubois_animal_hunter_modifier
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = dubois.40
+				popup = yes
 			}
 		}
 	}
+
+	timeout = 300
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
 	weight = 35
-
-	timeout = 300
-
-	on_timeout = {
-		trigger_event = {
-			id = dubois.40
-			popup = yes
-		}
-	}
 }
 
 je_dubois_safari_gorilla = {
@@ -1111,81 +1278,107 @@ je_dubois_safari_gorilla = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_dubois_safari_3_traps_tt
-			je:je_dubois_safari_gorilla = {
-				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 3
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_dubois_safari_3_traps_tt
+				je:je_dubois_safari_gorilla = {
+					"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 3
+				}
+			}
+			custom_tooltip = {
+				text = je_dubois_safari_1_track_tt
+				je:je_dubois_safari_gorilla = {
+					"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 1
+				}
 			}
 		}
-		custom_tooltip = {
-			text = je_dubois_safari_1_track_tt
-			je:je_dubois_safari_gorilla = {
-				"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 1
+
+		effect = {
+			trigger_event = {
+				id = dubois.39
+				popup = yes
 			}
 		}
 	}
 
-	on_complete = {
-		trigger_event = {
-			id = dubois.39
-			popup = yes
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_naturalist_dies_tt
+				NOT = {
+					has_variable = ito_naturalist_var
+				}
+			}
+			has_zoo_animal_gorilla_trigger = yes
 		}
+
+        effect = {
+			custom_tooltip = {
+				text = je_dubois_safari_invalid_tt
+				remove_modifier = dubois_on_safari_modifier
+				add_modifier = {
+					name = dubois_had_safari_modifier
+					years = 3
+				}
+				dubois_remove_safari_effect = yes
+			}
+			if = {
+				limit = { ito_has_naturalist_no_tooltip_trigger = yes }
+				var:ito_naturalist_var = {
+					set_character_busy_and_immortal = no
+					remove_variable = dubois_naturalist_on_safari_var
+					remove_modifier = dubois_animal_hunter_modifier
+				}
+			}
+        }
 	}
 
-	fail = {
-		custom_tooltip = {
-			text = je_dubois_safari_fail_tt
-			has_variable = dubois_safari_accident_var
-		}
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	on_fail = {
-		trigger_event = {
-			id = dubois.37
-		}
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = je_naturalist_dies_tt
-			NOT = {
-				has_variable = ito_naturalist_var
+		trigger = {
+			custom_tooltip = {
+				text = je_dubois_safari_fail_tt
+				has_variable = dubois_safari_accident_var
 			}
 		}
-		has_zoo_animal_gorilla_trigger = yes
+
+        effect = {
+			trigger_event = dubois.37
+        }
 	}
 
-	on_invalid = {
-		custom_tooltip = {
-			text = je_dubois_safari_invalid_tt
-			remove_modifier = dubois_on_safari_modifier
-			add_modifier = {
-				name = dubois_had_safari_modifier
-				years = 3
-			}
-			dubois_remove_safari_effect = yes
-		}
-		if = {
-			limit = { ito_has_naturalist_no_tooltip_trigger = yes }
-			var:ito_naturalist_var = {
-				set_character_busy_and_immortal = no
-				remove_variable = dubois_naturalist_on_safari_var
-				remove_modifier = dubois_animal_hunter_modifier
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = dubois.40
+				popup = yes
 			}
 		}
 	}
+
+	timeout = 300
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
 	weight = 35
-
-	timeout = 300
-
-	on_timeout = {
-		trigger_event = {
-			id = dubois.40
-			popup = yes
-		}
-	}
 }
