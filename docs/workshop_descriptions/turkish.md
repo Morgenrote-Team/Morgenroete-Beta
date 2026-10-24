@@ -53,12 +53,12 @@ Morgenröte'nin eklediği müzikler Avrupa'da kamu malıdır. Ne yazık ki bazı
 Bu çeviriler zaten modun içinde yer alıyor. Bunları ayrıca indirmenize gerek yok. Ancak çevirilere yardımcı olmak isteyen herkese her zaman açığız.
 
 [b] Brezilya Portekizcesi: [/b]
-72% tamamlandı
+73% tamamlandı
 https://paratranz.cn/projects/15095
 Teşekkürler: rifa-456 ve koyomim
 
 [b] Fransızca: [/b]
-69% tamamlandı
+70% tamamlandı
 https://paratranz.cn/projects/15098
 Teşekkürler: Shamalau12, Aurcan (Aurélien), SirYusblack (Sir Yusbalck) ve Luffy0810 (lopotitchaton)
 
@@ -68,7 +68,7 @@ https://paratranz.cn/projects/15094
 Teşekkürler: kindum553, Speckschicht, Cr41gy, Temp3r-79 ve OttovonBismarckderErste
 
 [b] Japonca: [/b]
-16% tamamlandı
+17% tamamlandı
 https://paratranz.cn/projects/15115
 Teşekkürler: Nostromo, flowlanss ve dokusai226
 
@@ -78,7 +78,7 @@ https://paratranz.cn/projects/15116
 Teşekkürler: MOLRAYO (이슬람 [Islamic])
 
 [b] Lehçe: [/b]
-19% tamamlandı
+64% tamamlandı
 https://paratranz.cn/projects/15118
 Teşekkürler: ArmagedonYT, Anscylla, JaCKoP619 (W0lsZcZ@n), GeneralPaczek ve PiotrPilip
 

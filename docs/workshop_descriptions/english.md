@@ -53,12 +53,12 @@ The music Morgenröte adds is in the public domain in Europe. Sadly some other c
 These translations are already implemented in the mod. You don't need to download them. Additional help with translating is always welcome though.
 
 [b] Brazilian-Portuguese: [/b]
-72% complete
+73% complete
 https://paratranz.cn/projects/15095
 Thanks to: rifa-456 and koyomim
 
 [b] French: [/b]
-69% complete
+70% complete
 https://paratranz.cn/projects/15098
 Thanks to: Shamalau12, Aurcan (Aurélien), SirYusblack (Sir Yusbalck) and Luffy0810 (lopotitchaton)
 
@@ -68,7 +68,7 @@ https://paratranz.cn/projects/15094
 Thanks to: kindum553, Speckschicht, Cr41gy, Temp3r-79 and OttovonBismarckderErste
 
 [b] Japanese: [/b]
-16% complete
+17% complete
 https://paratranz.cn/projects/15115
 Thanks to: Nostromo, flowlanss and dokusai226
 
@@ -78,7 +78,7 @@ https://paratranz.cn/projects/15116
 Thanks to: MOLRAYO (이슬람 [Islamic])
 
 [b] Polish: [/b]
-19% complete
+64% complete
 https://paratranz.cn/projects/15118
 Thanks to: ArmagedonYT, Anscylla, JaCKoP619 (W0lsZcZ@n), GeneralPaczek and PiotrPilip
 
@@ -104,6 +104,7 @@ Thanks to: aek.aykut1 and t2lha
 
 [b] Others: [/b]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2880069248] Chinese Translation (for more mods) [/url]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3823398753] Italian Translation by Darmac [/url]
 
 [img]https://i.imgur.com/C43o6qA.png[/img]
 [h1]Credits[/h1]

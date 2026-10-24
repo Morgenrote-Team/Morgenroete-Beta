@@ -53,12 +53,12 @@ Morgenröte에 내장된 음악은 유럽에서 퍼블릭 도메인으로 저작
 아래의 번역은 이미 모드에 함께 들어가기 때문에 따로 다운로드할 필요는 없습니다. 번역 작업에 도움을 주신다면 언제든 환영하겠습니다.
 
 [b]브라질 포르투갈어:[/b]
-72% 완료
+73% 완료
 https://paratranz.cn/projects/15095
 도움을 주신 분: rifa-456, koyomim
 
 [b]프랑스어:[/b]
-69% 완료
+70% 완료
 https://paratranz.cn/projects/15098
 도움을 주신 분: Shamalau12, Aurcan (Aurélien), SirYusblack (Sir Yusbalck), Luffy0810 (lopotitchaton)
 
@@ -68,7 +68,7 @@ https://paratranz.cn/projects/15094
 도움을 주신 분: kindum553, Speckschicht, Cr41gy, Temp3r-79, OttovonBismarckderErste
 
 [b]일본어:[/b]
-16% 완료
+17% 완료
 https://paratranz.cn/projects/15115
 도움을 주신 분: Nostromo, flowlanss, dokusai226
 
@@ -78,7 +78,7 @@ https://paratranz.cn/projects/15116
 도움을 주신 분: MOLRAYO (이슬람 [Islamic])
 
 [b]폴란드어:[/b]
-19% 완료
+64% 완료
 https://paratranz.cn/projects/15118
 도움을 주신 분: ArmagedonYT, Anscylla, JaCKoP619 (W0lsZcZ@n), GeneralPaczek, PiotrPilip
 

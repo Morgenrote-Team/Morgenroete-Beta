@@ -53,12 +53,12 @@ La musique ajoutée par Morgenröte relève du domaine public en Europe. Malheur
 Ces traductions sont déjà intégrées au mod. Vous n'avez pas besoin de les télécharger. Cela dit, toute aide supplémentaire pour la traduction est toujours la bienvenue.
 
 [b] Brésilien-Portugais: [/b]
-72% complet
+73% complet
 https://paratranz.cn/projects/15095
 Merci à: rifa-456 et koyomim
 
 [b] Français: [/b]
-69% complet
+70% complet
 https://paratranz.cn/projects/15098
 Merci à: Shamalau12, Aurcan (Aurélien), SirYusblack (Sir Yusbalck) et Luffy0810 (lopotitchaton)
 
@@ -68,7 +68,7 @@ https://paratranz.cn/projects/15094
 Merci à: kindum553, Speckschicht, Cr41gy, Temp3r-79 et OttovonBismarckderErste
 
 [b] Japonais: [/b]
-16% complet
+17% complet
 https://paratranz.cn/projects/15115
 Merci à: Nostromo, flowlanss et dokusai226
 
@@ -78,7 +78,7 @@ https://paratranz.cn/projects/15116
 Merci à: MOLRAYO (이슬람 [Islamic])
 
 [b] Polonais: [/b]
-19% complet
+64% complet
 https://paratranz.cn/projects/15118
 Merci à: ArmagedonYT, Anscylla, JaCKoP619 (W0lsZcZ@n), GeneralPaczek et PiotrPilip
 

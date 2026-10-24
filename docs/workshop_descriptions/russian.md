@@ -53,12 +53,12 @@ Morgenröte — Dawn of Flavor — мод, наполняющий Victoria 3 к�
 Эти переводы уже встроены в мод и не требуют отдельной загрузки. Помощь с переводом приветствуется.
 
 [b] Бразильский португальский: [/b]
-Готово на 72%
+Готово на 73%
 https://paratranz.cn/projects/15095
 Благодарим: rifa-456 и koyomim
 
 [b] Французский: [/b]
-Готово на 69%
+Готово на 70%
 https://paratranz.cn/projects/15098
 Благодарим: Shamalau12, Aurcan (Aurélien), SirYusblack (Sir Yusbalck) и Luffy0810 (lopotitchaton)
 
@@ -68,7 +68,7 @@ https://paratranz.cn/projects/15094
 Благодарим: kindum553, Speckschicht, Cr41gy, Temp3r-79 и OttovonBismarckderErste
 
 [b] Японский: [/b]
-Готово на 16%
+Готово на 17%
 https://paratranz.cn/projects/15115
 Благодарим: Nostromo, flowlanss и dokusai226
 
@@ -78,7 +78,7 @@ https://paratranz.cn/projects/15116
 Благодарим: MOLRAYO (이슬람 [Islamic])
 
 [b] Польский: [/b]
-Готово на 19%
+Готово на 64%
 https://paratranz.cn/projects/15118
 Благодарим: ArmagedonYT, Anscylla, JaCKoP619 (W0lsZcZ@n), GeneralPaczek и PiotrPilip
 

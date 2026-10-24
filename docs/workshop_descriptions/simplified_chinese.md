@@ -51,11 +51,11 @@
 [h1]本地化[/h1]
 　　下述语言翻译已直接内置于本模组中，您无需另外订阅。我们一直非常欢迎大家提供更多的翻译协助！
 
-巴西葡萄牙语：完成度 80%
+巴西葡萄牙语：完成度 73%
 https://paratranz.cn/projects/15095
 特别鸣谢：rifa-456、koyomim
 
-法语：完成度 73%
+法语：完成度 70%
 https://paratranz.cn/projects/15098
 特别鸣谢：Shamalau12、Aurcan (Aurélien)、SirYusblack (Sir Yusbalck)、Luffy0810 (lopotitchaton)
 
@@ -63,15 +63,15 @@ https://paratranz.cn/projects/15098
 https://paratranz.cn/projects/15094
 特别鸣谢：kindum553、Speckschicht、Cr41gy、Temp3r-79、OttovonBismarckderErste
 
-日语：完成度 16%
+日语：完成度 17%
 https://paratranz.cn/projects/15115
 特别鸣谢：Nostromo、flowlanss、dokusai226
 
-韩语：完成度 4%
+韩语：完成度 91%
 https://paratranz.cn/projects/15116
 特别鸣谢：MOLRAYO (이슬람 [Islamic])
 
-波兰语：完成度 19%
+波兰语：完成度 64%
 https://paratranz.cn/projects/15118
 特别鸣谢：ArmagedonYT、Anscylla、JaCKoP619 (W0lsZcZ@n)、GeneralPaczek、PiotrPilip
 
@@ -83,7 +83,7 @@ https://paratranz.cn/projects/15120
 https://paratranz.cn/projects/15113
 特别鸣谢：[url=https://paratranz.cn/projects/5488]牛奶汉化[/url]提供的文本、nicocorey (Ford)、9Milk (牛奶大魔王)、nyr102498 (伊恩)
 
-西班牙语：完成度 71%
+西班牙语：完成度 65%
 https://paratranz.cn/projects/15114
 特别鸣谢：tremblejj、VWM26、Nickbonham22
 
