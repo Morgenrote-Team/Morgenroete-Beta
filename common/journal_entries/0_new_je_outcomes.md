@@ -104,3 +104,14 @@ outcome = {
 
         }
 	}
+
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+
+		}
+	}

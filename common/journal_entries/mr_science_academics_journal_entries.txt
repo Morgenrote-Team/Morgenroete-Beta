@@ -28,55 +28,40 @@ je_goettinger_seven_monument = {
 		}
 	}
 
-	on_monthly_pulse = {
-	}
-	
-	immediate = {
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-    fail = {
-    }
-
-	on_fail = {
-	}
-
-	complete = {
-		ig:ig_intelligentsia = {
-			is_in_government = yes
-		}
-		has_law = law_type:law_protected_speech
-		OR = {
-			has_law = law_type:law_wealth_voting
-			has_law = law_type:law_census_voting
-			has_law = law_type:law_universal_suffrage
-		}
-	}
-
-	on_complete = {
-		add_loyalists = {
-			value = 0.15
-			pop_type = academics
-		}
-		random_state = {
-			limit = {
-				state_region = s:STATE_HANNOVER
+		trigger = {
+			ig:ig_intelligentsia = {
+				is_in_government = yes
 			}
-			add_modifier = {
-				name = academics_goettinger_seven_monument_modifier
+			has_law = law_type:law_protected_speech
+			OR = {
+				has_law = law_type:law_wealth_voting
+				has_law = law_type:law_census_voting
+				has_law = law_type:law_universal_suffrage
+			}
+		}
+
+		effect = {
+			add_loyalists = {
+				value = 0.15
+				pop_type = academics
+			}
+			random_state = {
+				limit = {
+					state_region = s:STATE_HANNOVER
+				}
+				add_modifier = {
+					name = academics_goettinger_seven_monument_modifier
+				}
 			}
 		}
 	}
-
-	invalid = {
-	}
-
-	current_value = {
-	}
-
-	goal_add_value = {
-	}
-
-	progressbar = no
 
 	weight = 35
 }
@@ -100,41 +85,56 @@ je_academics_find_more_stars = {
 		value = 75
 	}
 
-	complete = {
-		verrier_has_astronomer = yes
+	progressbar = yes
 
-		custom_tooltip = {
-			text = je_academics_find_more_stars_success
-			scope:journal_entry = {
-				is_goal_complete = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			verrier_has_astronomer = yes
+
+			custom_tooltip = {
+				text = je_academics_find_more_stars_success
+				scope:journal_entry = {
+					is_goal_complete = yes
+				}
 			}
+		}
+
+		effect = {
+			custom_tooltip = {
+				text = je_academics_find_more_stars_event_tt
+				trigger_event = {
+					id = academics.2002
+					popup = yes
+				}
+			}
+
+			academics_remove_astronomical_mission = yes
 		}
 	}
 
-	on_complete = {
-		custom_tooltip = {
-			text = je_academics_find_more_stars_event_tt
-			trigger_event = { 
-				id = academics.2002
-				popup = yes 
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2003
+				popup = yes
 			}
-		}
 
-		academics_remove_astronomical_mission = yes
+			academics_remove_astronomical_mission = yes
+		}
 	}
 
 	timeout = 3600
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2003
-			popup = yes 
-		}
-
-		academics_remove_astronomical_mission = yes
-	}
-
-	progressbar = yes
 
 	weight = 50
 }
@@ -156,70 +156,85 @@ je_academics_create_star_chart = {
 		value = 100
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_academics_create_star_chart_success
-			scope:journal_entry = {
-				is_goal_complete = yes
+	progressbar = yes
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_academics_create_star_chart_success
+				scope:journal_entry = {
+					is_goal_complete = yes
+				}
 			}
+		}
+
+		effect = {
+			if = {
+				limit = {
+					has_variable = verrier_astronomer_var
+				}
+				custom_tooltip = {
+					text = je_academics_create_star_chart_event_tt
+					trigger_event = {
+						id = academics.2005
+						popup = yes
+					}
+				}
+			}
+			else = {
+				custom_tooltip = {
+					text = je_academics_create_star_chart_event_without_astronomer_tt
+					trigger_event = {
+						id = academics.2007
+						popup = yes
+					}
+				}
+			}
+
+			academics_remove_astronomical_mission = yes
 		}
 	}
 
-	on_complete = {
-		if = {
-			limit = {
-				has_variable = verrier_astronomer_var
-			}
-			custom_tooltip = {
-				text = je_academics_create_star_chart_event_tt
-				trigger_event = { 
-					id = academics.2005
-					popup = yes 
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			if = {
+				limit = {
+					has_variable = verrier_astronomer_var
+				}
+				custom_tooltip = {
+					text = je_academics_create_star_chart_failed_event_tt
+					trigger_event = {
+						id = academics.2006
+						popup = yes
+					}
 				}
 			}
-		}
-		else = {
-			custom_tooltip = {
-				text = je_academics_create_star_chart_event_without_astronomer_tt
-				trigger_event = { 
-					id = academics.2007
-					popup = yes 
+			else = {
+				custom_tooltip = {
+					text = je_academics_create_star_chart_failed_event_without_astronomer_tt
+					trigger_event = {
+						id = academics.2008
+						popup = yes
+					}
 				}
 			}
-		}
 
-		academics_remove_astronomical_mission = yes
+			academics_remove_astronomical_mission = yes
+		}
 	}
 
 	timeout = 3600
-
-	on_timeout = {
-		if = {
-			limit = {
-				has_variable = verrier_astronomer_var
-			}
-			custom_tooltip = {
-				text = je_academics_create_star_chart_failed_event_tt
-				trigger_event = { 
-					id = academics.2006
-					popup = yes 
-				}
-			}
-		}
-		else = {
-			custom_tooltip = {
-				text = je_academics_create_star_chart_failed_event_without_astronomer_tt
-				trigger_event = { 
-					id = academics.2008
-					popup = yes 
-				}
-			}
-		}
-
-		academics_remove_astronomical_mission = yes
-	}
-
-	progressbar = yes
 
 	weight = 50
 }
@@ -233,37 +248,52 @@ je_academics_rivalry_for_stars = {
 		academics_add_astronomical_mission = yes
 	}
 
-	complete = {
-		OR = {
-			custom_tooltip = {
-				text = je_academics_rivalry_for_stars_success
-				var:verrier_astronomical_objects > scope:target.var:verrier_astronomical_objects
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			OR = {
+				custom_tooltip = {
+					text = je_academics_rivalry_for_stars_success
+					var:verrier_astronomical_objects > scope:target.var:verrier_astronomical_objects
+				}
+				var:je_rival_nation_var = {
+					is_country_alive = no
+				}
 			}
-			var:je_rival_nation_var = {
-				is_country_alive = no
+		}
+
+		effect = {
+			trigger_event = {
+				id = academics.2010
+				popup = yes
 			}
+
+			academics_remove_astronomical_mission = yes
 		}
 	}
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2010
-			popup = yes 
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2011
+				popup = yes
+			}
+
+			academics_remove_astronomical_mission = yes
 		}
-			
-		academics_remove_astronomical_mission = yes
 	}
 
 	timeout = 3600
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2011
-			popup = yes 
-		}
-
-		academics_remove_astronomical_mission = yes
-	}
 
 	weight = 50
 }
@@ -277,32 +307,47 @@ je_academics_build_observatory = {
 		academics_add_astronomical_mission = yes
 	}
 
-	complete = {
-		any_scope_building = {
-			is_building_type = building_verrier_observatory
-			level >= 1
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level >= 1
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = academics.2013
+				popup = yes
+			}
+
+			academics_remove_astronomical_mission = yes
 		}
 	}
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2013
-			popup = yes 
-		}
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2014
+				popup = yes
+			}
 
-		academics_remove_astronomical_mission = yes
+			academics_remove_astronomical_mission = yes
+		}
 	}
 
 	timeout = 3600
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2014
-			popup = yes 
-		}
-
-		academics_remove_astronomical_mission = yes
-	}
 
 	weight = 50
 }
@@ -316,41 +361,57 @@ je_academics_find_planet_x = {
 		academics_add_astronomical_mission = yes
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_academics_find_planet_x_complete_tt
-			has_variable = verrier_discovered_pluto_variable
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2016
-			popup = yes 
-		}
-
-		academics_remove_astronomical_mission = yes
-	}
-
-	fail = {
-		custom_tooltip = {
-			text = je_academics_find_planet_x_fail_tt
-			any_country = {
-				NOT = {
-					this = root
-				}
+		trigger = {
+			custom_tooltip = {
+				text = je_academics_find_planet_x_complete_tt
 				has_variable = verrier_discovered_pluto_variable
 			}
 		}
+
+		effect = {
+			trigger_event = {
+				id = academics.2016
+				popup = yes
+			}
+
+			academics_remove_astronomical_mission = yes
+		}
 	}
 
-	on_fail = {
-		trigger_event = { 
-			id = academics.2017
-			popup = yes 
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_academics_find_planet_x_fail_tt
+				any_country = {
+					NOT = {
+						this = root
+					}
+					has_variable = verrier_discovered_pluto_variable
+				}
+			}
 		}
 
-		academics_remove_astronomical_mission = yes
+        effect = {
+			trigger_event = {
+				id = academics.2017
+				popup = yes
+			}
+
+			academics_remove_astronomical_mission = yes
+        }
 	}
 
 	weight = 50
@@ -367,32 +428,47 @@ je_academics_found_archaeological_museum = {
 		academics_add_archaeological_mission = yes
 	}
 
-	complete = {
-		any_scope_building = {
-			is_building_type = building_lepsius_archaeological_museum
-			level >= 1
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_lepsius_archaeological_museum
+				level >= 1
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = academics.2102
+				popup = yes
+			}
+
+			academics_remove_archaeological_mission = yes
 		}
 	}
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2102
-			popup = yes 
-		}
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2103
+				popup = yes
+			}
 
-		academics_remove_archaeological_mission = yes
+			academics_remove_archaeological_mission = yes
+		}
 	}
 
 	timeout = 3600
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2103
-			popup = yes 
-		}
-
-		academics_remove_archaeological_mission = yes
-	}
 
 	weight = 50
 }
@@ -414,39 +490,54 @@ je_academics_egyptian_artifacts = {
 		value = 25
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_academics_egyptian_artifacts_success
-			scope:journal_entry = {
-				is_goal_complete = yes
+	progressbar = yes
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_academics_egyptian_artifacts_success
+				scope:journal_entry = {
+					is_goal_complete = yes
+				}
 			}
+		}
+
+		effect = {
+			custom_tooltip = {
+				text = je_academics_artifacts_event_tt
+				trigger_event = {
+					id = academics.2108
+					popup = yes
+				}
+			}
+
+			academics_remove_archaeological_mission = yes
 		}
 	}
 
-	on_complete = {
-		custom_tooltip = {
-			text = je_academics_artifacts_event_tt
-			trigger_event = { 
-				id = academics.2108
-				popup = yes 
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+				trigger_event = {
+				id = academics.2109
+				popup = yes
 			}
-		}
 
-		academics_remove_archaeological_mission = yes
+			academics_remove_archaeological_mission = yes
+		}
 	}
 
 	timeout = 5500
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2109
-			popup = yes 
-		}
-
-		academics_remove_archaeological_mission = yes
-	}
-
-	progressbar = yes
 
 	weight = 50
 }
@@ -468,39 +559,54 @@ je_academics_mesopotamian_artifacts = {
 		value = 25
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_academics_mesopotamian_artifacts_success
-			scope:journal_entry = {
-				is_goal_complete = yes
+	progressbar = yes
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_academics_mesopotamian_artifacts_success
+				scope:journal_entry = {
+					is_goal_complete = yes
+				}
 			}
+		}
+
+		effect = {
+			custom_tooltip = {
+				text = je_academics_artifacts_event_tt
+				trigger_event = {
+					id = academics.2108
+					popup = yes
+				}
+			}
+
+			academics_remove_archaeological_mission = yes
 		}
 	}
 
-	on_complete = {
-		custom_tooltip = {
-			text = je_academics_artifacts_event_tt
-			trigger_event = { 
-				id = academics.2108
-				popup = yes 
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2109
+				popup = yes
 			}
-		}
 
-		academics_remove_archaeological_mission = yes
+			academics_remove_archaeological_mission = yes
+		}
 	}
 
 	timeout = 5500
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2109
-			popup = yes 
-		}
-
-		academics_remove_archaeological_mission = yes
-	}
-
-	progressbar = yes
 
 	weight = 50
 }
@@ -522,39 +628,54 @@ je_academics_aegean_artifacts = {
 		value = 25
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_academics_aegean_artifacts_success
-			scope:journal_entry = {
-				is_goal_complete = yes
+	progressbar = yes
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_academics_aegean_artifacts_success
+				scope:journal_entry = {
+					is_goal_complete = yes
+				}
 			}
+		}
+
+		effect = {
+			custom_tooltip = {
+				text = je_academics_artifacts_event_tt
+				trigger_event = {
+					id = academics.2108
+					popup = yes
+				}
+			}
+
+			academics_remove_archaeological_mission = yes
 		}
 	}
 
-	on_complete = {
-		custom_tooltip = {
-			text = je_academics_artifacts_event_tt
-			trigger_event = { 
-				id = academics.2108
-				popup = yes 
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2109
+				popup = yes
 			}
-		}
 
-		academics_remove_archaeological_mission = yes
+			academics_remove_archaeological_mission = yes
+		}
 	}
 
 	timeout = 5500
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2109
-			popup = yes 
-		}
-
-		academics_remove_archaeological_mission = yes
-	}
-
-	progressbar = yes
 
 	weight = 50
 }
@@ -576,39 +697,54 @@ je_academics_precolumbian_artifacts = {
 		value = 25
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_academics_precolumbian_artifacts_success
-			scope:journal_entry = {
-				is_goal_complete = yes
+	progressbar = yes
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_academics_precolumbian_artifacts_success
+				scope:journal_entry = {
+					is_goal_complete = yes
+				}
 			}
+		}
+
+		effect = {
+			custom_tooltip = {
+				text = je_academics_artifacts_event_tt
+				trigger_event = {
+					id = academics.2108
+					popup = yes
+				}
+			}
+
+			academics_remove_archaeological_mission = yes
 		}
 	}
 
-	on_complete = {
-		custom_tooltip = {
-			text = je_academics_artifacts_event_tt
-			trigger_event = { 
-				id = academics.2108
-				popup = yes 
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2109
+				popup = yes
 			}
-		}
 
-		academics_remove_archaeological_mission = yes
+			academics_remove_archaeological_mission = yes
+		}
 	}
 
 	timeout = 5500
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2109
-			popup = yes 
-		}
-
-		academics_remove_archaeological_mission = yes
-	}
-
-	progressbar = yes
 
 	weight = 50
 }
@@ -622,6 +758,30 @@ je_academics_major_artifact = {
 		academics_add_archaeological_mission = yes
 	}
 
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_academics_major_artifact_success
+				lepsius_has_major_artifacts = yes
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = academics.2111
+				popup = yes
+			}
+
+			academics_remove_archaeological_mission = yes
+		}
+	}
+
 	complete = {
 		custom_tooltip = {
 			text = je_academics_major_artifact_success
@@ -629,25 +789,23 @@ je_academics_major_artifact = {
 		}
 	}
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2111
-			popup = yes 
-		}
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2112
+				popup = yes
+			}
 
-		academics_remove_archaeological_mission = yes
+			academics_remove_archaeological_mission = yes
+		}
 	}
 
 	timeout = 5400
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2112
-			popup = yes 
-		}
-
-		academics_remove_archaeological_mission = yes
-	}
 
 	weight = 50
 }
@@ -661,49 +819,63 @@ je_academics_excellent_collection = {
 		academics_add_archaeological_mission = yes
 	}
 
-	complete = {
-		any_scope_state = {
-			is_capital = yes
-			OR = {
-				is_production_method_active = {
-					building_type = building_lepsius_archaeological_museum
-					production_method = pm_lepsius_excellent_egyptian_exhibition
-				}
-				is_production_method_active = {
-					building_type = building_lepsius_archaeological_museum
-					production_method = pm_lepsius_excellent_mesopotamian_exhibition
-				}
-				is_production_method_active = {
-					building_type = building_lepsius_archaeological_museum
-					production_method = pm_lepsius_excellent_aegean_exhibition
-				}
-				is_production_method_active = {
-					building_type = building_lepsius_archaeological_museum
-					production_method = pm_lepsius_excellent_precolumbian_exhibition
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			capital = {
+				OR = {
+					is_production_method_active = {
+						building_type = building_lepsius_archaeological_museum
+						production_method = pm_lepsius_excellent_egyptian_exhibition
+					}
+					is_production_method_active = {
+						building_type = building_lepsius_archaeological_museum
+						production_method = pm_lepsius_excellent_mesopotamian_exhibition
+					}
+					is_production_method_active = {
+						building_type = building_lepsius_archaeological_museum
+						production_method = pm_lepsius_excellent_aegean_exhibition
+					}
+					is_production_method_active = {
+						building_type = building_lepsius_archaeological_museum
+						production_method = pm_lepsius_excellent_precolumbian_exhibition
+					}
 				}
 			}
 		}
+
+		effect = {
+			trigger_event = {
+				id = academics.2114
+				popup = yes
+			}
+
+			academics_remove_archaeological_mission = yes
+		}
 	}
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2114
-			popup = yes 
-		}
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2115
+				popup = yes
+			}
 
-		academics_remove_archaeological_mission = yes
+			academics_remove_archaeological_mission = yes
+		}
 	}
 
 	timeout = 7200
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2115
-			popup = yes 
-		}
-
-		academics_remove_archaeological_mission = yes
-	}
 
 	weight = 50
 }
@@ -717,37 +889,52 @@ je_academics_rivalry_for_artifacts = {
 		academics_add_archaeological_mission = yes
 	}
 
-	complete = {
-		OR = {
-			custom_tooltip = {
-				text = je_academics_rivalry_for_artifacts_success
-				var:lepsius_total_artifacts > scope:target.var:lepsius_total_artifacts
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			OR = {
+				custom_tooltip = {
+					text = je_academics_rivalry_for_artifacts_success
+					var:lepsius_total_artifacts > scope:target.var:lepsius_total_artifacts
+				}
+				var:je_artifacts_rival_nation_var = {
+					is_country_alive = no
+				}
 			}
-			var:je_artifacts_rival_nation_var = {
-				is_country_alive = no
+		}
+
+		effect = {
+			trigger_event = {
+				id = academics.2117
+				popup = yes
 			}
+
+			academics_remove_archaeological_mission = yes
 		}
 	}
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2117
-			popup = yes 
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2118
+				popup = yes
+			}
+
+			academics_remove_archaeological_mission = yes
 		}
-			
-		academics_remove_archaeological_mission = yes
 	}
 
 	timeout = 3600
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2118
-			popup = yes 
-		}
-
-		academics_remove_archaeological_mission = yes
-	}
 
 	weight = 50
 }
@@ -763,38 +950,53 @@ je_academics_rivalry_for_specimen = {
 		academics_add_naturalist_mission = yes
 	}
 
-	complete = {
-		OR = {
-			custom_tooltip = {
-				text = je_academics_rivalry_for_specimen_success
-				var:dubois_specimen > scope:target.var:dubois_specimen
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			OR = {
+				custom_tooltip = {
+					text = je_academics_rivalry_for_specimen_success
+					var:dubois_specimen > scope:target.var:dubois_specimen
+				}
+				var:je_specimen_rival_nation_var = {
+					is_country_alive = no
+				}
+
 			}
-			var:je_specimen_rival_nation_var = {
-				is_country_alive = no
+		}
+
+		effect = {
+			trigger_event = {
+				id = academics.2201
+				popup = yes
 			}
-			
+
+			academics_remove_naturalist_mission = yes
 		}
 	}
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2201
-			popup = yes 
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2202
+				popup = yes
+			}
+
+			academics_remove_naturalist_mission = yes
 		}
-			
-		academics_remove_naturalist_mission = yes
 	}
 
 	timeout = 3600
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2202
-			popup = yes 
-		}
-
-		academics_remove_naturalist_mission = yes
-	}
 
 	weight = 50
 }
@@ -808,29 +1010,44 @@ je_academics_get_exotic_animal = {
 		academics_add_naturalist_mission = yes
 	}
 
-	complete = {
-		je_academics_get_exotic_animal_complete_trigger = yes
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2204
-			popup = yes 
+		trigger = {
+			je_academics_get_exotic_animal_complete_trigger = yes
 		}
 
-		academics_remove_naturalist_mission = yes
+		effect = {
+			trigger_event = {
+				id = academics.2204
+				popup = yes
+			}
+
+			academics_remove_naturalist_mission = yes
+		}
+	}
+
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2205
+				popup = yes
+			}
+
+			academics_remove_naturalist_mission = yes
+		}
 	}
 
 	timeout = 3600
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2205
-			popup = yes 
-		}
-
-		academics_remove_naturalist_mission = yes
-	}
 
 	weight = 50
 }
@@ -844,32 +1061,47 @@ je_academics_found_zoo = {
 		academics_add_naturalist_mission = yes
 	}
 
-	complete = {
-		any_scope_building = {
-			is_building_type = building_dubois_zoo
-			level >= 1
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level >= 1
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = academics.2207
+				popup = yes
+			}
+
+			academics_remove_naturalist_mission = yes
 		}
 	}
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2207
-			popup = yes 
-		}
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2208
+				popup = yes
+			}
 
-		academics_remove_naturalist_mission = yes
+			academics_remove_naturalist_mission = yes
+		}
 	}
 
 	timeout = 1800
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2208
-			popup = yes 
-		}
-
-		academics_remove_naturalist_mission = yes
-	}
 
 	weight = 50
 }
@@ -883,35 +1115,50 @@ je_academics_medium_zoo = {
 		academics_add_naturalist_mission = yes
 	}
 
-	complete = {
-		any_scope_state = {
-			is_capital = yes
-			is_production_method_active = {
-				building_type = building_dubois_zoo
-				production_method = pm_zoo_level_3
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			any_scope_state = {
+				is_capital = yes
+				is_production_method_active = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_3
+				}
 			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = academics.2211
+				popup = yes
+			}
+
+			academics_remove_naturalist_mission = yes
 		}
 	}
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2211
-			popup = yes 
-		}
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2212
+				popup = yes
+			}
 
-		academics_remove_naturalist_mission = yes
+			academics_remove_naturalist_mission = yes
+		}
 	}
 
 	timeout = 3600
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2212
-			popup = yes 
-		}
-
-		academics_remove_naturalist_mission = yes
-	}
 
 	weight = 50
 }
@@ -925,35 +1172,50 @@ je_academics_large_zoo = {
 		academics_add_naturalist_mission = yes
 	}
 
-	complete = {
-		any_scope_state = {
-			is_capital = yes
-			is_production_method_active = {
-				building_type = building_dubois_zoo
-				production_method = pm_zoo_level_4
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			any_scope_state = {
+				is_capital = yes
+				is_production_method_active = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_4
+				}
 			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = academics.2211
+				popup = yes
+			}
+
+			academics_remove_naturalist_mission = yes
 		}
 	}
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2211
-			popup = yes 
-		}
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2212
+				popup = yes
+			}
 
-		academics_remove_naturalist_mission = yes
+			academics_remove_naturalist_mission = yes
+		}
 	}
 
 	timeout = 3600
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2212
-			popup = yes 
-		}
-
-		academics_remove_naturalist_mission = yes
-	}
 
 	weight = 50
 }
@@ -969,38 +1231,52 @@ je_academics_rivalry_for_fossils = {
 		academics_add_paleontologist_mission = yes
 	}
 
-	complete = {
-		OR = {
-			custom_tooltip = {
-				text = je_academics_rivalry_for_fossils_success
-				var:dubois_fossil > scope:target.var:dubois_fossil
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			OR = {
+				custom_tooltip = {
+					text = je_academics_rivalry_for_fossils_success
+					var:dubois_fossil > scope:target.var:dubois_fossil
+				}
+				var:je_fossil_rival_nation_var = {
+					is_country_alive = no
+				}
 			}
-			var:je_fossil_rival_nation_var = {
-				is_country_alive = no
+		}
+
+		effect = {
+			trigger_event = {
+				id = academics.2301
+				popup = yes
 			}
-			
+
+			academics_remove_paleontologist_mission = yes
 		}
 	}
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2301
-			popup = yes 
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2302
+				popup = yes
+			}
+
+			academics_remove_paleontologist_mission = yes
 		}
-			
-		academics_remove_paleontologist_mission = yes
 	}
 
 	timeout = 3600
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2302
-			popup = yes 
-		}
-
-		academics_remove_paleontologist_mission = yes
-	}
 
 	weight = 50
 }
@@ -1014,29 +1290,44 @@ je_academics_giant_of_the_past = {
 		academics_add_paleontologist_mission = yes
 	}
 
-	complete = {
-		dubois_has_dinosaur_skeleton = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			dubois_has_dinosaur_skeleton = yes
+		}
+
+		effect = {
+			trigger_event = {
+				id = academics.2304
+				popup = yes
+			}
+
+			academics_remove_paleontologist_mission = yes
+		}
 	}
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2304
-			popup = yes 
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2305
+				popup = yes
+			}
+
+			academics_remove_paleontologist_mission = yes
 		}
-			
-		academics_remove_paleontologist_mission = yes
 	}
 
 	timeout = 5475
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2305
-			popup = yes 
-		}
-
-		academics_remove_paleontologist_mission = yes
-	}
 
 	weight = 50
 }
@@ -1050,32 +1341,47 @@ je_academics_special_fossils = {
 		academics_add_paleontologist_mission = yes
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_academics_special_fossils_success
-			var:dubois_special_fossil >= 3
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_academics_special_fossils_success
+				var:dubois_special_fossil >= 3
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = academics.2307
+				popup = yes
+			}
+
+			academics_remove_paleontologist_mission = yes
 		}
 	}
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2307
-			popup = yes 
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2308
+				popup = yes
+			}
+
+			academics_remove_paleontologist_mission = yes
 		}
-			
-		academics_remove_paleontologist_mission = yes
 	}
 
-	timeout = 5475 #This can be tricky, 
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2308
-			popup = yes 
-		}
-
-		academics_remove_paleontologist_mission = yes
-	}
+	timeout = 5475 #This can be tricky,
 
 	weight = 50
 }
@@ -1089,44 +1395,67 @@ je_academics_famous_paleontologist = {
 		academics_add_paleontologist_mission = yes
 	}
 
-	complete = {
-		var:dubois_paleontologist_var = {
-			has_trait = dubois_paleontologist_famous
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			var:dubois_paleontologist_var = {
+				has_trait = dubois_paleontologist_famous
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = academics.2310
+				popup = yes
+			}
+
+			academics_remove_paleontologist_mission = yes
 		}
 	}
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2310
-			popup = yes 
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
+			dubois_has_paleontologist = no
 		}
-			
-		academics_remove_paleontologist_mission = yes
+
+        effect = {
+			trigger_event = {
+				id = academics.2311
+				popup = yes
+			}
+
+			academics_remove_paleontologist_mission = yes
+        }
+	}
+
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2311
+				popup = yes
+			}
+
+			academics_remove_paleontologist_mission = yes
+		}
 	}
 
 	timeout = 5475
-
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2311
-			popup = yes 
-		}
-
-		academics_remove_paleontologist_mission = yes
-	}
-
-	fail = {
-		dubois_has_paleontologist = no
-	}
-
-	on_fail = {
-		trigger_event = { 
-			id = academics.2311
-			popup = yes 
-		}
-
-		academics_remove_paleontologist_mission = yes
-	}
 
 	weight = 50
 }
@@ -1140,20 +1469,28 @@ je_academics_dinosaur_rating = {
 		academics_add_paleontologist_mission = yes
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_academics_dinosaur_rating_success
-			var:dubois_dinosaur_rating >= 5
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		trigger_event = { 
-			id = academics.2313
-			popup = yes 
+		trigger = {
+			custom_tooltip = {
+				text = je_academics_dinosaur_rating_success
+				var:dubois_dinosaur_rating >= 5
+			}
 		}
-			
-		academics_remove_paleontologist_mission = yes
+
+		effect = {
+			trigger_event = {
+				id = academics.2313
+				popup = yes
+			}
+
+			academics_remove_paleontologist_mission = yes
+		}
 	}
 
 	#No timeout, no fail
@@ -1192,13 +1529,6 @@ je_academics_first_railway = {
 		}
 	}
 
-	complete = {
-		any_scope_building = {
-			is_building_type = building_railway
-			level > 0
-		}
-	}
-
 	immediate = {
 		trigger_event = academics.2400
 
@@ -1224,18 +1554,41 @@ je_academics_first_railway = {
 		}
 	}
 
-	on_complete = {
-		trigger_event = academics.2401
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_railway
+				level > 0
+			}
+		}
+
+		effect = {
+			trigger_event = academics.2401
+		}
+	}
+
+	#Timeout
+	outcome = {
+		header = TODO_add_header
+		effect_header = TODO_effect_header
+		flags = { timeout }
+		conclusion_desc = TODO_add_conclusion_desc
+		effect = {
+			trigger_event = {
+				id = academics.2402
+				popup = yes
+			}
+		}
 	}
 
 	timeout = 1800
 
-	on_timeout = {
-		trigger_event = { 
-			id = academics.2402
-			popup = yes 
-		}
-	}
 	weight = 50
 }
 
