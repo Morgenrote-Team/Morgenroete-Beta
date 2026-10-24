@@ -25,7 +25,7 @@ je_klimt_painter_trip = {
 								klimt_painter_trip_classic = yes
 								NOT = {
 									this = ROOT
-								} 
+								}
 							}
 						}
 						AND = {
@@ -34,7 +34,7 @@ je_klimt_painter_trip = {
 								klimt_painter_trip_romantic = yes
 								NOT = {
 									this = ROOT
-								} 
+								}
 							}
 						}
 						AND = {
@@ -43,7 +43,7 @@ je_klimt_painter_trip = {
 								klimt_painter_trip_realistic = yes
 								NOT = {
 									this = ROOT
-								} 
+								}
 							}
 						}
 						AND = {
@@ -52,7 +52,7 @@ je_klimt_painter_trip = {
 								klimt_painter_trip_impressionistic = yes
 								NOT = {
 									this = ROOT
-								} 
+								}
 							}
 						}
 						AND = {
@@ -61,7 +61,7 @@ je_klimt_painter_trip = {
 								klimt_painter_trip_expressionistic = yes
 								NOT = {
 									this = ROOT
-								} 
+								}
 							}
 						}
 						AND = {
@@ -70,7 +70,7 @@ je_klimt_painter_trip = {
 								klimt_painter_trip_art_nouveau = yes
 								NOT = {
 									this = ROOT
-								} 
+								}
 							}
 						}
 					}
@@ -82,7 +82,7 @@ je_klimt_painter_trip = {
 		}
 		random_events = {
 			600 = 0
-			
+
 			#Trait Events
 			10 = klimt.421 #Klimt 421: In the Footsteps of Giants (Ambitious)
 			10 = klimt.422 #Klimt 422: Spirit of the Romantics (Romantic)
@@ -109,48 +109,64 @@ je_klimt_painter_trip = {
 		add = 12
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+
+		effect = {
+			#AI and Automation
+			if = {
+				limit = { klimt_is_painter_automated_trigger = yes }
+
+				painter_experience_gain_effect = {
+					AMOUNT = 30
+				}
+				klimt_set_art_school_trait_effect = yes
+				var:klimt_painter_var = {
+					set_character_busy_and_immortal = no
+				}
+				remove_klimt_painter_trip_variables = yes
+			}
+			#Player
+			else = {
+				trigger_event = {
+					id = klimt.403
+					popup = yes
+				}
+			}
+
+			#Starts next project if possible
+			ai_painter_automation_effect = yes
 		}
 	}
 
-	on_complete = {
-		#AI and Automation
-		if = {
-			limit = { klimt_is_painter_automated_trigger = yes }
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-			painter_experience_gain_effect = {
-				AMOUNT = 30
-			}
-			klimt_set_art_school_trait_effect = yes
-			var:klimt_painter_var = {
-				set_character_busy_and_immortal = no
-			}
-			remove_klimt_painter_trip_variables = yes
-		}
-		#Player
-		else = {
-			trigger_event = {
-				id = klimt.403
-				popup = yes
-			}
-		}
-
-		#Starts next project if possible
-		ai_painter_automation_effect = yes
-	}
-
-	fail = {
-		custom_tooltip = {
-			text = je_klimt_painter_trip_fail
-			NOR = {
-				klimt_painter_trip_classic = yes
-				klimt_painter_trip_romantic = yes
-				klimt_painter_trip_realistic = yes
-				klimt_painter_trip_impressionistic = yes
-				klimt_painter_trip_expressionistic = yes
-				klimt_painter_trip_art_nouveau = yes
+		trigger = {
+			custom_tooltip = {
+				text = je_klimt_painter_trip_fail
+				NOR = {
+					klimt_painter_trip_classic = yes
+					klimt_painter_trip_romantic = yes
+					klimt_painter_trip_realistic = yes
+					klimt_painter_trip_impressionistic = yes
+					klimt_painter_trip_expressionistic = yes
+					klimt_painter_trip_art_nouveau = yes
+				}
 			}
 		}
 	}
@@ -176,6 +192,7 @@ je_klimt_secession = {
 			has_technology_researched = elgar_mass_culture_tech
 		}
     }
+
     possible = {
         has_technology_researched = elgar_art_nouveau_tech
 		hidden_trigger = {
@@ -187,70 +204,90 @@ je_klimt_secession = {
 			has_building = building_art_academy
 		}
     }
+
 	immediate = {
 		set_variable = {
 			name = klimt_secession_var
 			days = 1
 		}
 	}
-	complete = {
-		leading_producer_of = g:fine_art
-		any_scope_state = {
-			any_scope_building = {
-				is_building_type = building_art_academy
-				level >= 15
-			}
-			any_scope_building = {
-				is_building_type = building_urban_center
-				level >= 25	
-			}
-		}
-		hidden_trigger = {
-			NOT = {
-				has_variable = klimt_secession_var
-			}
-		}
-	}
-	on_complete = {
-		set_global_variable = klimt_secession_var
-		set_variable = klimt_var
-		random_scope_state = {
-			limit = {
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			leading_producer_of = g:fine_art
+			any_scope_state = {
 				any_scope_building = {
 					is_building_type = building_art_academy
 					level >= 15
 				}
 				any_scope_building = {
 					is_building_type = building_urban_center
-					level >= 25	
+					level >= 25
 				}
 			}
-			add_modifier = {
-				name = gaudi_first_secession_state_modifier
+			hidden_trigger = {
+				NOT = {
+					has_variable = klimt_secession_var
+				}
 			}
 		}
-		custom_tooltip = {
-			text = klimt.30_tt
-			trigger_event = { 
-				id = klimt.30
-				popup = yes
+
+		effect = {
+			set_global_variable = klimt_secession_var
+			set_variable = klimt_var
+			random_scope_state = {
+				limit = {
+					any_scope_building = {
+						is_building_type = building_art_academy
+						level >= 15
+					}
+					any_scope_building = {
+						is_building_type = building_urban_center
+						level >= 25
+					}
+				}
+				add_modifier = {
+					name = gaudi_first_secession_state_modifier
+				}
+			}
+			custom_tooltip = {
+				text = klimt.30_tt
+				trigger_event = {
+					id = klimt.30
+					popup = yes
+				}
 			}
 		}
 	}
-	fail = {
-		OR = {
-			custom_tooltip = {
-				text = je_klimt_secession_fail
-				has_global_variable = klimt_secession_var
+
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
+			OR = {
+				custom_tooltip = {
+					text = je_klimt_secession_fail
+					has_global_variable = klimt_secession_var
+				}
+				has_technology_researched = elgar_mass_culture_tech
 			}
-			has_technology_researched = elgar_mass_culture_tech
 		}
 	}
 }
 
 ######HISTORICAL JEs######
 
-je_klimt_rossetti = { 
+je_klimt_rossetti = {
 	icon = "gfx/interface/icons/event_icons/event_painting.dds"
 
 	group = je_group_elgar_culture
@@ -264,36 +301,49 @@ je_klimt_rossetti = {
 		has_technology_researched = romanticism
 	}
 
-	complete = {
-		klimt_has_gallery = yes
-		has_technology_researched = elgar_irrationalism_tech
-		klimt_has_painter = yes
-		any_scope_state = {
-			any_scope_building = {
-				has_active_production_method = pm_artists_arts_academy_studio
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			klimt_has_gallery = yes
+			has_technology_researched = elgar_irrationalism_tech
+			klimt_has_painter = yes
+			any_scope_state = {
+				any_scope_building = {
+					has_active_production_method = pm_artists_arts_academy_studio
+				}
+			}
+			ig:ig_intelligentsia = {
+				ig_approval >= 5
 			}
 		}
-		ig:ig_intelligentsia = {
-			ig_approval >= 5
-	    }
-	}
 
-	on_complete = {
-		trigger_event = {
-			id = klimt.501 
+		effect = {
+			trigger_event = {
+				id = klimt.501
+			}
 		}
 	}
 
-	invalid = {
-		any_country = {
-			has_technology_researched = elgar_impressionism_tech
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			any_country = {
+				has_technology_researched = elgar_impressionism_tech
+			}
 		}
 	}
 
 	weight = 10
 }
 
-je_klimt_fattori = { 
+je_klimt_fattori = {
 	icon = "gfx/interface/icons/event_icons/event_painting.dds"
 
 	group = je_group_elgar_culture
@@ -313,36 +363,49 @@ je_klimt_fattori = {
 		}
 	}
 
-	complete = {
-		klimt_has_gallery = yes
-		has_technology_researched = elgar_irrationalism_tech
-		klimt_has_painter = yes
-		any_scope_state = {
-			any_scope_building = {
-				has_active_production_method = pm_artists_arts_academy_studio
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			klimt_has_gallery = yes
+			has_technology_researched = elgar_irrationalism_tech
+			klimt_has_painter = yes
+			any_scope_state = {
+				any_scope_building = {
+					has_active_production_method = pm_artists_arts_academy_studio
+				}
+			}
+			ig:ig_intelligentsia = {
+				ig_approval >= 5
 			}
 		}
-		ig:ig_intelligentsia = {
-			ig_approval >= 5
-	    }
-	}
 
-	on_complete = {
-		trigger_event = {
-			id = klimt.502
+		effect = {
+			trigger_event = {
+				id = klimt.502
+			}
 		}
 	}
 
-	invalid = {
-		any_country = {
-			has_technology_researched = elgar_impressionism_tech
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			any_country = {
+				has_technology_researched = elgar_impressionism_tech
+			}
 		}
 	}
 
 	weight = 10
 }
 
-je_klimt_barbizon = { 
+je_klimt_barbizon = {
 	icon = "gfx/interface/icons/event_icons/event_painting.dds"
 
 	group = je_group_elgar_culture
@@ -358,28 +421,41 @@ je_klimt_barbizon = {
 		has_technology_researched = romanticism
 	}
 
-	complete = {
-		klimt_has_gallery = yes
-		klimt_has_painter = yes
-		any_scope_state = {
-			any_scope_building = {
-				has_active_production_method = pm_artists_arts_academy_studio
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			klimt_has_gallery = yes
+			klimt_has_painter = yes
+			any_scope_state = {
+				any_scope_building = {
+					has_active_production_method = pm_artists_arts_academy_studio
+				}
+			}
+			ig:ig_intelligentsia = {
+				ig_approval >= 5
 			}
 		}
-		ig:ig_intelligentsia = {
-			ig_approval >= 5
-	    }
-	}
 
-	on_complete = {
-		trigger_event = {
-			id = klimt.503
+		effect = {
+			trigger_event = {
+				id = klimt.503
+			}
 		}
 	}
 
-	invalid = {
-		any_country = {
-			has_technology_researched = elgar_impressionism_tech
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			any_country = {
+				has_technology_researched = elgar_impressionism_tech
+			}
 		}
 	}
 
