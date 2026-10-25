@@ -1286,3 +1286,176 @@ santos_gordon_bennett_cup_score = {
 	###WEATHER (LUCK)###
 	add = { 1 30 }
 }
+
+#####################################################
+
+### Balloonist Death Chance ###
+
+santos_balloon_accident_adventure_value = {
+	value = santos_balloonist_risk_multiplier
+    #subtract = 1
+    multiply = 5 #Accident Chance for Adventures
+}
+
+santos_balloon_accident_record_value = {
+    value = santos_balloonist_risk_multiplier
+    #subtract = 1
+    multiply = 15 #Accident Chance for Records
+}
+
+santos_balloon_accident_crossing_value = {
+    value = santos_balloonist_risk_multiplier
+    #subtract = 1
+    multiply = 30 #Accident Chance for Crossings
+}
+
+santos_balloonist_risk_multiplier = {
+    value = 1
+    add = {
+        value = santos_balloonist_accident_points
+        subtract = santos_balloonist_safety_points
+        divide = 100
+    }
+    min = 0.25
+    max = 2.5
+}
+
+santos_balloonist_safety_points = {
+    value = 0
+
+    # Erfahrung (max. 30)
+    if = {
+        limit = {
+            var:santos_balloonist_var ?= {
+                has_variable = santos_balloonist_experience_var
+            }
+        }
+        add = {
+            value = var:santos_balloonist_var.var:santos_balloonist_experience_var
+            divide = 10
+            max = 30
+        }
+    }
+    # Cautious - Cautious will prevent most accidents (Max 20)
+    if = {
+        limit = {
+            var:santos_balloonist_var ?= { has_trait = cautious }
+        }
+        add = 20
+    }
+    # Meteorologist: Bad wetter can be better predicted (10)
+    if = {
+        limit = {
+            OR = {
+                curie_has_meteorological_physicist_no_tooltip_trigger = yes
+                var:santos_balloonist_var ?= {
+                    has_trait = curie_meteorological_physicist
+                }
+            }
+        }
+        add = 10
+    }
+    # Meticulous - Good to prevent accidents in Advance (Max 5)
+    if = {
+        limit = {
+            var:santos_balloonist_var ?= { has_trait = meticulous }
+        }
+        add = 5
+    }
+    # Rip Panel: Very important for Safety (Max 10)
+    if = {
+        limit = { has_technology_researched = logistics }
+        add = 10
+    }
+    # Oxygen Cylinders: Very important for Safety (Max 10)
+    if = {
+        limit = { has_technology_researched = electric_arc_process }
+        add = 10
+    }
+    # Trail Rope: Very important for Safety
+    if = {
+        limit = { has_technology_researched = mechanical_tools }
+        add = 10
+    }
+    # Vulcanized Fabric: Important for Safety
+    if = {
+        limit = { has_technology_researched = vulcanization }
+        add = 5
+    }
+    # Silk Fabric: Important for Safety
+    if = {
+        limit = { has_technology_researched = art_silk }
+        add = 5
+    }
+}
+
+santos_balloonist_accident_points = {
+    value = 0
+
+    # Age - More accidents with an old Balloonist (max. 15)
+    if = {
+        limit = {
+            var:santos_balloonist_var ?= {
+                has_variable = santos_balloon_year_var
+            }
+        }
+        add = {
+            value = year
+            subtract = var:santos_balloonist_var.var:santos_balloon_year_var
+            min = 0
+            max = 15
+        }
+    }
+    # Balloon Age - This is not made forever (max 15)
+    add = {
+        value = var:santos_balloonist_var.age
+        subtract = 40
+        divide = 2
+        min = 0
+        max = 15
+    }
+    # Reckless - Cautious will cause most accidents (Max 20)
+    if = {
+        limit = {
+            var:santos_balloonist_var ?= { has_trait = reckless }
+        }
+        add = 20
+    }
+	# Diseases and Addicitions will cause most accidents (Max 20)
+	if = {
+        limit = {
+            var:santos_balloonist_var ?= { mr_character_has_negative_trait = yes }
+        }
+        add = 20
+    }
+    # Wrathful - Wrathful will cause accidents (Max 10)
+    if = {
+        limit = {
+            var:santos_balloonist_var ?= { has_trait = wrathful }
+        }
+        add = 10
+    }
+    # Arrogant - Arrogant will cause accidents (Max 10)
+    if = {
+        limit = {
+            var:santos_balloonist_var ?= { has_trait = arrogant }
+        }
+        add = 10
+    }
+    # Ambitious - Ambitious may cause accidents (Max 5)
+    if = {
+        limit = {
+            var:santos_balloonist_var ?= { has_trait = ambitious }
+        }
+        add = 5
+    }
+    # Hydrogen - Hydrogen is more dangerous than coal gas or Helium (Max 10)
+    if = {
+        limit = {
+            var:santos_balloonist_var ?= {
+                var:santos_balloon_fuel_var ?= flag:santos_balloon_fuel_hydrogen_flag
+            }
+        }
+        add = 10
+    }
+}
