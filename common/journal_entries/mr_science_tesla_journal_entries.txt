@@ -44,8 +44,13 @@ je_gaudi_civil_research_project = {
 		}
 	}
 
-	invalid = {
-		tesla_has_civil_engineer_no_tooltip_trigger = no
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			tesla_has_civil_engineer_no_tooltip_trigger = no
+		}
 	}
 
 	weight = 30
@@ -57,6 +62,18 @@ je_gaudi_road_project = {
 	scripted_button = gaudi_stop_engineering_project_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_button
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
+
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:tesla_civil_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = tesla_road_progress_cost
+	}
+
+	progressbar = yes
 
 	group = je_group_tesla_engineers
 
@@ -148,79 +165,80 @@ je_gaudi_road_project = {
 		tesla_civil_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
 
-	complete = {
-		custom_tooltip = { #All States need to have a roads modifier to end this journal entry
-			text = gaudi_states_with_roads_tt
-			var:gaudi_num_states_roads_var = var:tesla_num_states_var
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
-		remove_variable = tesla_num_states_var
-		remove_variable = gaudi_num_states_roads_var
-
-		#Those should be removed in every civil engineering je
-		remove_variable = tesla_civil_engineering_progress_var
-		remove_variable = gaudi_monthly_civil_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		trigger_event = {
-			id = gaudi.1101
-			popup = yes
-		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
-
-	current_value = {
-		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:tesla_civil_engineering_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in gaudi_script_values
-		value = tesla_road_progress_cost
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_civil_engineer_trigger = yes
-				}
-				has_variable = gaudi_stop_engineering_project_var
+		trigger = {
+			custom_tooltip = { #All States need to have a roads modifier to end this journal entry
+				text = gaudi_states_with_roads_tt
+				var:gaudi_num_states_roads_var = var:tesla_num_states_var
 			}
 		}
+
+		effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+			remove_variable = tesla_num_states_var
+			remove_variable = gaudi_num_states_roads_var
+
+			#Those should be removed in every civil engineering je
+			remove_variable = tesla_civil_engineering_progress_var
+			remove_variable = gaudi_monthly_civil_engineering_progress_var
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			trigger_event = {
+				id = gaudi.1101
+				popup = yes
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+		}
 	}
 
-	on_invalid = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
-		remove_variable = tesla_num_states_var
-		remove_variable = gaudi_num_states_roads_var
-		remove_variable = gaudi_stop_engineering_project_var
-
-		#Those should be removed in every civil engineering je
-		remove_variable = tesla_civil_engineering_progress_var
-		remove_variable = gaudi_monthly_civil_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_civil_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
+			}
 		}
 
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
+        effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+			remove_variable = tesla_num_states_var
+			remove_variable = gaudi_num_states_roads_var
+			remove_variable = gaudi_stop_engineering_project_var
 
-	progressbar = yes
+			#Those should be removed in every civil engineering je
+			remove_variable = tesla_civil_engineering_progress_var
+			remove_variable = gaudi_monthly_civil_engineering_progress_var
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+        }
+	}
 
 	weight = 30
 }
@@ -234,6 +252,18 @@ je_tesla_irrigation_project = {
 	scripted_button = tesla_irrigation_project_new_priority_button
 
 	group = je_group_tesla_engineers
+
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:tesla_civil_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = tesla_irrigation_progress_cost
+	}
+
+	progressbar = yes
 
 	immediate = {
 		scope:journal_entry = {
@@ -367,95 +397,96 @@ je_tesla_irrigation_project = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = { #All States need to have a canals modifier to end this journal entry
-			text = tesla_states_with_irrigation_tt
-			var:tesla_num_states_irrigation_var = var:tesla_num_states_var
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
+		trigger = {
+			custom_tooltip = { #All States need to have a canals modifier to end this journal entry
+				text = tesla_states_with_irrigation_tt
+				var:tesla_num_states_irrigation_var = var:tesla_num_states_var
 			}
 		}
-		remove_variable = tesla_num_states_var
-		remove_variable = tesla_num_states_irrigation_var
 
-		#Those should be removed in every civil engineering je
-		remove_variable = tesla_civil_engineering_progress_var
-		remove_variable = gaudi_monthly_civil_engineering_progress_var
-
-		#Should clean the lists
-		clear_variable_list = prioritized_states_for_irrigation_improvement_variable_list
-		clear_variable_list = states_for_irrigation_improvement_variable_list
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		trigger_event = {
-			id = gaudi.1111
-			popup = yes
-		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
-
-	current_value = {
-		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:tesla_civil_engineering_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in gaudi_script_values
-		value = tesla_irrigation_progress_cost
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_civil_engineer_trigger = yes
+		effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
 				}
-				has_variable = gaudi_stop_engineering_project_var
 			}
+			remove_variable = tesla_num_states_var
+			remove_variable = tesla_num_states_irrigation_var
+
+			#Those should be removed in every civil engineering je
+			remove_variable = tesla_civil_engineering_progress_var
+			remove_variable = gaudi_monthly_civil_engineering_progress_var
+
+			#Should clean the lists
+			clear_variable_list = prioritized_states_for_irrigation_improvement_variable_list
+			clear_variable_list = states_for_irrigation_improvement_variable_list
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			trigger_event = {
+				id = gaudi.1111
+				popup = yes
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
 		}
 	}
 
-	on_invalid = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_civil_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
 			}
 		}
-		remove_variable = tesla_num_states_var
-		remove_variable = tesla_num_states_irrigation_var
-		remove_variable = gaudi_stop_engineering_project_var
 
-		#Those should be removed in every civil engineering je
-		remove_variable = tesla_civil_engineering_progress_var
-		remove_variable = gaudi_monthly_civil_engineering_progress_var
+        effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
+				}
+			}
+			remove_variable = tesla_num_states_var
+			remove_variable = tesla_num_states_irrigation_var
+			remove_variable = gaudi_stop_engineering_project_var
 
-		#Should clean the lists
-		clear_variable_list = prioritized_states_for_irrigation_improvement_variable_list
-		clear_variable_list = states_for_irrigation_improvement_variable_list
+			#Those should be removed in every civil engineering je
+			remove_variable = tesla_civil_engineering_progress_var
+			remove_variable = gaudi_monthly_civil_engineering_progress_var
 
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
+			#Should clean the lists
+			clear_variable_list = prioritized_states_for_irrigation_improvement_variable_list
+			clear_variable_list = states_for_irrigation_improvement_variable_list
 
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+        }
 	}
-
-	progressbar = yes
 
 	weight = 30
 }
@@ -468,6 +499,18 @@ je_gaudi_bridge_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
 	group = je_group_tesla_engineers
+
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:tesla_civil_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = tesla_bridge_progress_cost
+	}
+
+	progressbar = yes
 
 	on_monthly_pulse = {
 		effect = {
@@ -557,79 +600,80 @@ je_gaudi_bridge_project = {
 		tesla_civil_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
 
-	complete = {
-		custom_tooltip = { #All States need to have a bridge modifier to end this journal entry
-			text = gaudi_states_with_bridges_tt
-			var:gaudi_num_states_bridge_var = var:tesla_num_states_var
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
-		remove_variable = tesla_num_states_var
-		remove_variable = gaudi_num_states_bridge_var
-
-		#Those should be removed in every civil engineering je
-		remove_variable = tesla_civil_engineering_progress_var
-		remove_variable = gaudi_monthly_civil_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		trigger_event = {
-			id = gaudi.1121
-			popup = yes
-		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
-
-	current_value = {
-		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:tesla_civil_engineering_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in gaudi_script_values
-		value = tesla_bridge_progress_cost
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_civil_engineer_trigger = yes
-				}
-				has_variable = gaudi_stop_engineering_project_var
+		trigger = {
+			custom_tooltip = { #All States need to have a bridge modifier to end this journal entry
+				text = gaudi_states_with_bridges_tt
+				var:gaudi_num_states_bridge_var = var:tesla_num_states_var
 			}
 		}
+
+		effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+			remove_variable = tesla_num_states_var
+			remove_variable = gaudi_num_states_bridge_var
+
+			#Those should be removed in every civil engineering je
+			remove_variable = tesla_civil_engineering_progress_var
+			remove_variable = gaudi_monthly_civil_engineering_progress_var
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			trigger_event = {
+				id = gaudi.1121
+				popup = yes
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+		}
 	}
 
-	on_invalid = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
-		remove_variable = tesla_num_states_var
-		remove_variable = gaudi_num_states_bridge_var
-		remove_variable = gaudi_stop_engineering_project_var
-
-		#Those should be removed in every civil engineering je
-		remove_variable = tesla_civil_engineering_progress_var
-		remove_variable = gaudi_monthly_civil_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_civil_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
+			}
 		}
 
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
+        effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+			remove_variable = tesla_num_states_var
+			remove_variable = gaudi_num_states_bridge_var
+			remove_variable = gaudi_stop_engineering_project_var
 
-	progressbar = yes
+			#Those should be removed in every civil engineering je
+			remove_variable = tesla_civil_engineering_progress_var
+			remove_variable = gaudi_monthly_civil_engineering_progress_var
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+        }
+	}
 
 	weight = 30
 }
@@ -642,6 +686,18 @@ je_gaudi_tunnel_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
 	group = je_group_tesla_engineers
+
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:tesla_civil_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = tesla_tunnel_progress_cost
+	}
+
+	progressbar = yes
 
 	on_monthly_pulse = {
 		effect = {
@@ -731,79 +787,80 @@ je_gaudi_tunnel_project = {
 		tesla_civil_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
 
-	complete = {
-		custom_tooltip = { #All States need to have a bridge modifier to end this journal entry
-			text = gaudi_states_with_tunnels_tt
-			var:gaudi_num_states_tunnel_var = var:tesla_num_states_var
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
-		remove_variable = tesla_num_states_var
-		remove_variable = gaudi_num_states_tunnel_var
-
-		#Those should be removed in every civil engineering je
-		remove_variable = tesla_civil_engineering_progress_var
-		remove_variable = gaudi_monthly_civil_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		trigger_event = {
-			id = gaudi.1131
-			popup = yes
-		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
-
-	current_value = {
-		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:tesla_civil_engineering_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in gaudi_script_values
-		value = tesla_tunnel_progress_cost
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_civil_engineer_trigger = yes
-				}
-				has_variable = gaudi_stop_engineering_project_var
+		trigger = {
+			custom_tooltip = { #All States need to have a bridge modifier to end this journal entry
+				text = gaudi_states_with_tunnels_tt
+				var:gaudi_num_states_tunnel_var = var:tesla_num_states_var
 			}
 		}
+
+		effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+			remove_variable = tesla_num_states_var
+			remove_variable = gaudi_num_states_tunnel_var
+
+			#Those should be removed in every civil engineering je
+			remove_variable = tesla_civil_engineering_progress_var
+			remove_variable = gaudi_monthly_civil_engineering_progress_var
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			trigger_event = {
+				id = gaudi.1131
+				popup = yes
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+		}
 	}
 
-	on_invalid = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
-		remove_variable = tesla_num_states_var
-		remove_variable = gaudi_num_states_tunnel_var
-		remove_variable = gaudi_stop_engineering_project_var
-
-		#Those should be removed in every civil engineering je
-		remove_variable = tesla_civil_engineering_progress_var
-		remove_variable = gaudi_monthly_civil_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_civil_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
+			}
 		}
 
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
+        effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+			remove_variable = tesla_num_states_var
+			remove_variable = gaudi_num_states_tunnel_var
+			remove_variable = gaudi_stop_engineering_project_var
 
-	progressbar = yes
+			#Those should be removed in every civil engineering je
+			remove_variable = tesla_civil_engineering_progress_var
+			remove_variable = gaudi_monthly_civil_engineering_progress_var
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+        }
+	}
 
 	weight = 30
 }
@@ -817,6 +874,18 @@ je_gaudi_railway_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
 	group = je_group_tesla_engineers
+
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:tesla_civil_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = tesla_railway_progress_cost
+	}
+
+	progressbar = yes
 
 	on_monthly_pulse = {
 		effect = {
@@ -979,81 +1048,82 @@ je_gaudi_railway_project = {
 		tesla_civil_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
 
-	complete = {
-		custom_tooltip = { #All States need to have a Modernized Railway Lines modifier to end this journal entry
-			text = gaudi_states_with_modernized_railway_tt
-			var:gaudi_num_states_modernized_railway_var = var:tesla_num_states_var
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		show_as_tooltip = {
-			remove_modifier = tesla_medium_engineering_project_cost_modifier
-		}
-		remove_variable = tesla_num_states_var
-		remove_variable = gaudi_num_states_modernized_railway_var
-
-		#Those should be removed in every civil engineering je
-		remove_variable = tesla_civil_engineering_progress_var
-		remove_variable = gaudi_monthly_civil_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		trigger_event = {
-			id = gaudi.1141
-			popup = yes
-		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
-
-	current_value = {
-		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:tesla_civil_engineering_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in gaudi_script_values
-		value = tesla_railway_progress_cost
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_civil_engineer_trigger = yes
-				}
-				has_variable = gaudi_stop_engineering_project_var
+		trigger = {
+			custom_tooltip = { #All States need to have a Modernized Railway Lines modifier to end this journal entry
+				text = gaudi_states_with_modernized_railway_tt
+				var:gaudi_num_states_modernized_railway_var = var:tesla_num_states_var
 			}
 		}
+
+		effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			show_as_tooltip = {
+				remove_modifier = tesla_medium_engineering_project_cost_modifier
+			}
+			remove_variable = tesla_num_states_var
+			remove_variable = gaudi_num_states_modernized_railway_var
+
+			#Those should be removed in every civil engineering je
+			remove_variable = tesla_civil_engineering_progress_var
+			remove_variable = gaudi_monthly_civil_engineering_progress_var
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			trigger_event = {
+				id = gaudi.1141
+				popup = yes
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+		}
 	}
 
-	on_invalid = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		remove_modifier = tesla_medium_engineering_project_cost_modifier
-		remove_variable = tesla_num_states_var
-		remove_variable = gaudi_num_states_modernized_railway_var
-		remove_variable = gaudi_stop_engineering_project_var
-
-		#Those should be removed in every civil engineering je
-		remove_variable = tesla_civil_engineering_progress_var
-		remove_variable = gaudi_monthly_civil_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_civil_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
+			}
 		}
 
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
+        effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			remove_modifier = tesla_medium_engineering_project_cost_modifier
+			remove_variable = tesla_num_states_var
+			remove_variable = gaudi_num_states_modernized_railway_var
+			remove_variable = gaudi_stop_engineering_project_var
 
-	progressbar = yes
+			#Those should be removed in every civil engineering je
+			remove_variable = tesla_civil_engineering_progress_var
+			remove_variable = gaudi_monthly_civil_engineering_progress_var
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+        }
+	}
 
 	weight = 30
 }
@@ -1114,71 +1184,84 @@ je_gaudi_construction_sector_project = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_improve_building_project_complete_tt
-			NOT = {
-				has_variable_list = tesla_improve_construction_buildings_chosen_variable_list
-			}
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var
-		remove_variable = gaudi_stop_engineering_project_var
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_small_engineering_project_cost_modifier
-			}
-		}
-		clear_variable_list = tesla_improve_construction_buildings_chosen_variable_list
-
-		tesla_set_engineer_unbusy_effect = yes
-		var:tesla_engineer_var ?= {
-			set_variable = {
-				name = tesla_engineer_achievements_finished_construction_project_var
-				value = flag:tesla_engineer_achievements_finished_construction_project_loc
-			}
-		}
-		if = {
-			limit = { tesla_is_engineering_automated_trigger = no }
-			trigger_event = {
-				id = gaudi.1151
-				popup = yes
-			}
-		}
-		set_variable = {
-			name = mr_num_improved_construction_buildings_var
-			value = scope:journal_entry.var:mr_num_improved_buildings_var
-		}
-		tesla_remove_je_cost_modifiers_effect = yes
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_civil_engineer_trigger = yes
+		trigger = {
+			custom_tooltip = {
+				text = je_improve_building_project_complete_tt
+				NOT = {
+					has_variable_list = tesla_improve_construction_buildings_chosen_variable_list
 				}
-				has_variable = gaudi_stop_engineering_project_var
 			}
+		}
+
+		effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var
+			remove_variable = gaudi_stop_engineering_project_var
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_small_engineering_project_cost_modifier
+				}
+			}
+			clear_variable_list = tesla_improve_construction_buildings_chosen_variable_list
+
+			tesla_set_engineer_unbusy_effect = yes
+			var:tesla_engineer_var ?= {
+				set_variable = {
+					name = tesla_engineer_achievements_finished_construction_project_var
+					value = flag:tesla_engineer_achievements_finished_construction_project_loc
+				}
+			}
+			if = {
+				limit = { tesla_is_engineering_automated_trigger = no }
+				trigger_event = {
+					id = gaudi.1151
+					popup = yes
+				}
+			}
+			set_variable = {
+				name = mr_num_improved_construction_buildings_var
+				value = scope:journal_entry.var:mr_num_improved_buildings_var
+			}
+			tesla_remove_je_cost_modifiers_effect = yes
 		}
 	}
 
-	on_invalid = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var
-		remove_variable = gaudi_stop_engineering_project_var
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_small_engineering_project_cost_modifier
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_civil_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
 			}
 		}
-		clear_variable_list = ito_improve_rubber_buildings_chosen_variable_list
-		tesla_set_engineer_unbusy_effect = yes
-		tesla_remove_je_cost_modifiers_effect = yes
+
+        effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var
+			remove_variable = gaudi_stop_engineering_project_var
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_small_engineering_project_cost_modifier
+				}
+			}
+			clear_variable_list = ito_improve_rubber_buildings_chosen_variable_list
+			tesla_set_engineer_unbusy_effect = yes
+			tesla_remove_je_cost_modifiers_effect = yes
+        }
 	}
 
 	weight = 30
@@ -1193,6 +1276,18 @@ je_gaudi_topographic_map_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
 	group = je_group_tesla_engineers
+
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:tesla_civil_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = tesla_topographic_map_progress_cost
+	}
+
+	progressbar = yes
 
 	immediate = {
 		scope:journal_entry = {
@@ -1325,95 +1420,96 @@ je_gaudi_topographic_map_project = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = { #All States need to have a topographic map modifier to end this journal entry
-			text = gaudi_states_with_topographic_maps_tt
-			var:gaudi_states_with_topographic_map_var = var:tesla_num_states_var
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_small_engineering_project_cost_modifier
+		trigger = {
+			custom_tooltip = { #All States need to have a topographic map modifier to end this journal entry
+				text = gaudi_states_with_topographic_maps_tt
+				var:gaudi_states_with_topographic_map_var = var:tesla_num_states_var
 			}
 		}
-		remove_variable = tesla_num_states_var
-		remove_variable = gaudi_states_with_topographic_map_var
 
-		#Those should be removed in every civil engineering je
-		remove_variable = tesla_civil_engineering_progress_var
-		remove_variable = gaudi_monthly_civil_engineering_progress_var
-
-		#Should clean the lists
-		clear_variable_list = prioritized_states_for_topographic_improvement_variable_list
-		clear_variable_list = states_for_topographic_improvement_variable_list
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		trigger_event = {
-			id = gaudi.1161
-			popup = yes
-		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
-
-	current_value = {
-		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:tesla_civil_engineering_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in gaudi_script_values
-		value = tesla_topographic_map_progress_cost
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_civil_engineer_trigger = yes
+		effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_small_engineering_project_cost_modifier
 				}
-				has_variable = gaudi_stop_engineering_project_var
 			}
+			remove_variable = tesla_num_states_var
+			remove_variable = gaudi_states_with_topographic_map_var
+
+			#Those should be removed in every civil engineering je
+			remove_variable = tesla_civil_engineering_progress_var
+			remove_variable = gaudi_monthly_civil_engineering_progress_var
+
+			#Should clean the lists
+			clear_variable_list = prioritized_states_for_topographic_improvement_variable_list
+			clear_variable_list = states_for_topographic_improvement_variable_list
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			trigger_event = {
+				id = gaudi.1161
+				popup = yes
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
 		}
 	}
 
-	on_invalid = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_small_engineering_project_cost_modifier
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_civil_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
 			}
 		}
-		remove_variable = tesla_num_states_var
-		remove_variable = gaudi_states_with_topographic_map_var
-		remove_variable = gaudi_stop_engineering_project_var
 
-		#Those should be removed in every civil engineering je
-		remove_variable = tesla_civil_engineering_progress_var
-		remove_variable = gaudi_monthly_civil_engineering_progress_var
+        effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_small_engineering_project_cost_modifier
+				}
+			}
+			remove_variable = tesla_num_states_var
+			remove_variable = gaudi_states_with_topographic_map_var
+			remove_variable = gaudi_stop_engineering_project_var
 
-		#Should clean the lists
-		clear_variable_list = prioritized_states_for_topographic_improvement_variable_list
-		clear_variable_list = states_for_topographic_improvement_variable_list
+			#Those should be removed in every civil engineering je
+			remove_variable = tesla_civil_engineering_progress_var
+			remove_variable = gaudi_monthly_civil_engineering_progress_var
 
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
+			#Should clean the lists
+			clear_variable_list = prioritized_states_for_topographic_improvement_variable_list
+			clear_variable_list = states_for_topographic_improvement_variable_list
 
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+        }
 	}
-
-	progressbar = yes
 
 	weight = 30
 }
@@ -1458,8 +1554,13 @@ je_gaudi_mechanical_research_project = {
 		}
 	}
 
-	invalid = {
-		tesla_has_mechanical_engineer_no_tooltip_trigger = no
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			tesla_has_mechanical_engineer_no_tooltip_trigger = no
+		}
 	}
 
 	weight = 30
@@ -1473,6 +1574,18 @@ je_gaudi_new_locomotives_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
 	group = je_group_tesla_engineers
+
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:tesla_mechanical_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = tesla_locomotives_progress_cost
+	}
+
+	progressbar = yes
 
 	immediate = {
 		scope:journal_entry = {
@@ -1729,97 +1842,98 @@ je_gaudi_new_locomotives_project = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = { #All railways need to have the modifiers to end this journal entry
-			text = gaudi_railways_with_new_locomotives_tt
-			var:gaudi_num_railway_buildings_with_modifiers_var = var:gaudi_num_railway_buildings_var
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
+		trigger = {
+			custom_tooltip = { #All railways need to have the modifiers to end this journal entry
+				text = gaudi_railways_with_new_locomotives_tt
+				var:gaudi_num_railway_buildings_with_modifiers_var = var:gaudi_num_railway_buildings_var
 			}
 		}
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_num_railway_buildings_var
-		remove_variable = gaudi_num_railway_buildings_with_first_modifier_var
-		remove_variable = gaudi_num_railway_buildings_with_second_modifier_var
-		remove_variable = gaudi_num_railway_buildings_with_third_modifier_var
-		remove_variable = gaudi_num_railway_buildings_with_fourth_modifier_var
-		remove_variable = gaudi_num_railway_buildings_with_modifiers_var
 
-		#Those should be removed in every mechanical engineering je
-		remove_variable = tesla_mechanical_engineering_progress_var
-		remove_variable = gaudi_monthly_mechanical_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		trigger_event = {
-			id = gaudi.1201
-			popup = yes
-		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
-
-	current_value = {
-		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:tesla_mechanical_engineering_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in gaudi_script_values
-		value = tesla_locomotives_progress_cost
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_mechanical_engineer_trigger = yes
+		effect = {
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
 				}
-				has_variable = gaudi_stop_engineering_project_var
 			}
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+			remove_variable = gaudi_num_railway_buildings_var
+			remove_variable = gaudi_num_railway_buildings_with_first_modifier_var
+			remove_variable = gaudi_num_railway_buildings_with_second_modifier_var
+			remove_variable = gaudi_num_railway_buildings_with_third_modifier_var
+			remove_variable = gaudi_num_railway_buildings_with_fourth_modifier_var
+			remove_variable = gaudi_num_railway_buildings_with_modifiers_var
+
+			#Those should be removed in every mechanical engineering je
+			remove_variable = tesla_mechanical_engineering_progress_var
+			remove_variable = gaudi_monthly_mechanical_engineering_progress_var
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			trigger_event = {
+				id = gaudi.1201
+				popup = yes
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
 		}
 	}
 
-	on_invalid = {
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_mechanical_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
 			}
 		}
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_num_railway_buildings_var
-		remove_variable = gaudi_num_railway_buildings_with_first_modifier_var
-		remove_variable = gaudi_num_railway_buildings_with_second_modifier_var
-		remove_variable = gaudi_num_railway_buildings_with_third_modifier_var
-		remove_variable = gaudi_num_railway_buildings_with_fourth_modifier_var
-		remove_variable = gaudi_num_railway_buildings_with_modifiers_var
-		remove_variable = gaudi_stop_engineering_project_var
 
-		#Those should be removed in every mechanical engineering je
-		remove_variable = tesla_mechanical_engineering_progress_var
-		remove_variable = gaudi_monthly_mechanical_engineering_progress_var
+        effect = {
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
+				}
+			}
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+			remove_variable = gaudi_num_railway_buildings_var
+			remove_variable = gaudi_num_railway_buildings_with_first_modifier_var
+			remove_variable = gaudi_num_railway_buildings_with_second_modifier_var
+			remove_variable = gaudi_num_railway_buildings_with_third_modifier_var
+			remove_variable = gaudi_num_railway_buildings_with_fourth_modifier_var
+			remove_variable = gaudi_num_railway_buildings_with_modifiers_var
+			remove_variable = gaudi_stop_engineering_project_var
 
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
+			#Those should be removed in every mechanical engineering je
+			remove_variable = tesla_mechanical_engineering_progress_var
+			remove_variable = gaudi_monthly_mechanical_engineering_progress_var
 
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+        }
 	}
-
-	progressbar = yes
 
 	weight = 30
 }
@@ -1880,76 +1994,89 @@ je_gaudi_modernizing_industries_project = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_improve_building_project_complete_tt
-			NOT = {
-				has_variable_list = tesla_improve_industries_buildings_chosen_variable_list
-			}
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
-			}
-		}
-		remove_variable = gaudi_can_stop_active_engineering_project_var
-		remove_variable = gaudi_stop_engineering_project_var
-		clear_variable_list = tesla_improve_industries_buildings_chosen_variable_list
-
-		tesla_set_engineer_unbusy_effect = yes
-		var:tesla_engineer_var = {
-			set_variable = {
-				name = tesla_engineer_achievements_finished_production_methods_project_var
-				value = flag:tesla_engineer_achievements_finished_production_methods_project_loc
-			}
-		}
-		if = {
-			limit = { tesla_is_engineering_automated_trigger = no }
-			trigger_event = {
-				id = gaudi.1211
-				popup = yes
-			}
-		}
-		set_variable = {
-			name = mr_num_improved_industries_buildings_var
-			value = scope:journal_entry.var:mr_num_improved_buildings_var
-		}
-		tesla_remove_je_cost_modifiers_effect = yes
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_mechanical_engineer_trigger = yes
+		trigger = {
+			custom_tooltip = {
+				text = je_improve_building_project_complete_tt
+				NOT = {
+					has_variable_list = tesla_improve_industries_buildings_chosen_variable_list
 				}
-				has_variable = gaudi_stop_engineering_project_var
 			}
+		}
+
+		effect = {
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
+				}
+			}
+			remove_variable = gaudi_can_stop_active_engineering_project_var
+			remove_variable = gaudi_stop_engineering_project_var
+			clear_variable_list = tesla_improve_industries_buildings_chosen_variable_list
+
+			tesla_set_engineer_unbusy_effect = yes
+			var:tesla_engineer_var = {
+				set_variable = {
+					name = tesla_engineer_achievements_finished_production_methods_project_var
+					value = flag:tesla_engineer_achievements_finished_production_methods_project_loc
+				}
+			}
+			if = {
+				limit = { tesla_is_engineering_automated_trigger = no }
+				trigger_event = {
+					id = gaudi.1211
+					popup = yes
+				}
+			}
+			set_variable = {
+				name = mr_num_improved_industries_buildings_var
+				value = scope:journal_entry.var:mr_num_improved_buildings_var
+			}
+			tesla_remove_je_cost_modifiers_effect = yes
 		}
 	}
 
-	on_invalid = {
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_mechanical_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
 			}
 		}
-		remove_variable = gaudi_can_stop_active_engineering_project_var
-		remove_variable = gaudi_stop_engineering_project_var
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
+
+        effect = {
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
+				}
 			}
-		}
-		clear_variable_list = tesla_improve_industries_buildings_chosen_variable_list
-		tesla_set_engineer_unbusy_effect = yes
-		tesla_remove_je_cost_modifiers_effect = yes
+			remove_variable = gaudi_can_stop_active_engineering_project_var
+			remove_variable = gaudi_stop_engineering_project_var
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
+				}
+			}
+			clear_variable_list = tesla_improve_industries_buildings_chosen_variable_list
+			tesla_set_engineer_unbusy_effect = yes
+			tesla_remove_je_cost_modifiers_effect = yes
+        }
 	}
 
 	weight = 30
@@ -2013,63 +2140,76 @@ je_gaudi_mechanical_computer_project = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_gaudi_mechanical_computer_progress_complete_tt
-			je:je_gaudi_mechanical_computer_project = {
-				"scripted_bar_progress(tesla_mechanical_computer_project_progress_bar)" >= 2000
-			}
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		trigger_event = gaudi.1221
-		add_technology_researched = verrier_mechanical_computer_tech
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-
-		remove_variable = gaudi_mechanical_computer_progress_save_var #As it is only completeable once, this will remove the variable
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		remove_variable = gaudi_num_tooling_workshop_levels_var
-		remove_variable = gaudi_mechanical_computer_monthly_progress_var
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_mechanical_engineer_trigger = yes
+		trigger = {
+			custom_tooltip = {
+				text = je_gaudi_mechanical_computer_progress_complete_tt
+				je:je_gaudi_mechanical_computer_project = {
+					"scripted_bar_progress(tesla_mechanical_computer_project_progress_bar)" >= 2000
 				}
-				has_variable = gaudi_stop_engineering_project_var
 			}
+		}
+
+		effect = {
+			trigger_event = gaudi.1221
+			add_technology_researched = verrier_mechanical_computer_tech
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+
+			remove_variable = gaudi_mechanical_computer_progress_save_var #As it is only completeable once, this will remove the variable
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			remove_variable = gaudi_num_tooling_workshop_levels_var
+			remove_variable = gaudi_mechanical_computer_monthly_progress_var
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
 		}
 	}
 
-	on_invalid = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
-
-		set_variable = {
-			name = gaudi_mechanical_computer_progress_save_var
-			value = tesla_mechanical_computer_progress_percentage_value
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_mechanical_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
+			}
 		}
 
-		remove_variable = gaudi_stop_engineering_project_var
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		remove_variable = gaudi_num_tooling_workshop_levels_var
-		remove_variable = gaudi_mechanical_computer_monthly_progress_var
+        effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
 
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
+			set_variable = {
+				name = gaudi_mechanical_computer_progress_save_var
+				value = tesla_mechanical_computer_progress_percentage_value
+			}
+
+			remove_variable = gaudi_stop_engineering_project_var
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			remove_variable = gaudi_num_tooling_workshop_levels_var
+			remove_variable = gaudi_mechanical_computer_monthly_progress_var
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+        }
 	}
 
 	weight = 30
@@ -2134,38 +2274,12 @@ je_gaudi_military_research_project = {
 		}
 	}
 
-	invalid = {
-		tesla_has_military_engineer_no_tooltip_trigger = no
-	}
-
-	weight = 30
-}
-
-#TODO: Remove this JE at some point in the future
-je_gaudi_naval_research_project = {
-	icon = "gfx/interface/icons/event_icons/dreadnought.dds"
-
-	group = je_group_tesla_engineers
-
-	on_monthly_pulse = {
-	}
-
-	immediate = {
-	}
-
-	complete = {
-	}
-
-	on_complete = {
-	}
-
-	invalid = {
-		always = yes
-	}
-
-	on_invalid = {
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			tesla_has_military_engineer_no_tooltip_trigger = no
 		}
 	}
 
@@ -2181,6 +2295,18 @@ je_gaudi_advanced_weapons_project = {
 
 	group = je_group_tesla_engineers
 
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:tesla_military_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = tesla_advanced_weapons_progress_cost
+	}
+
+	progressbar = yes
+
 	on_monthly_pulse = {
 		effect = {
 			#Calculates the Progress added (see gaudi_scripted_effects for calculation)
@@ -2209,84 +2335,85 @@ je_gaudi_advanced_weapons_project = {
 		tesla_military_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		show_as_tooltip = {
+		trigger = {
 			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
+				is_goal_complete = yes
 			}
 		}
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
 
-		#Those should be removed in every military engineering je
-		remove_variable = tesla_military_engineering_progress_var
-		remove_variable = gaudi_monthly_military_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		trigger_event = {
-			id = gaudi.1301
-			popup = yes
-		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
-
-	current_value = {
-		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:tesla_military_engineering_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in gaudi_script_values
-		value = tesla_advanced_weapons_progress_cost
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_military_engineer_trigger = yes
+		effect = {
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
 				}
-				has_variable = gaudi_stop_engineering_project_var
 			}
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+
+			#Those should be removed in every military engineering je
+			remove_variable = tesla_military_engineering_progress_var
+			remove_variable = gaudi_monthly_military_engineering_progress_var
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			trigger_event = {
+				id = gaudi.1301
+				popup = yes
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
 		}
 	}
 
-	on_invalid = {
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_military_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
 			}
 		}
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_stop_engineering_project_var
 
-		#Those should be removed in every military engineering je
-		remove_variable = tesla_military_engineering_progress_var
-		remove_variable = gaudi_monthly_military_engineering_progress_var
+        effect = {
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
+				}
+			}
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+			remove_variable = gaudi_stop_engineering_project_var
 
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
+			#Those should be removed in every military engineering je
+			remove_variable = tesla_military_engineering_progress_var
+			remove_variable = gaudi_monthly_military_engineering_progress_var
 
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+        }
 	}
-
-	progressbar = yes
 
 	weight = 30
 }
@@ -2300,6 +2427,18 @@ je_gaudi_advanced_tanks_project = {
 
 	group = je_group_tesla_engineers
 
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:tesla_military_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = tesla_advanced_tanks_progress_cost
+	}
+
+	progressbar = yes
+
 	on_monthly_pulse = {
 		effect = {
 			#Calculates the Progress added (see gaudi_scripted_effects for calculation)
@@ -2328,84 +2467,85 @@ je_gaudi_advanced_tanks_project = {
 		tesla_military_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		show_as_tooltip = {
+		trigger = {
 			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
+				is_goal_complete = yes
 			}
 		}
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
 
-		#Those should be removed in every military engineering je
-		remove_variable = tesla_military_engineering_progress_var
-		remove_variable = gaudi_monthly_military_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		trigger_event = {
-			id = gaudi.1311
-			popup = yes
-		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
-
-	current_value = {
-		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:tesla_military_engineering_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in gaudi_script_values
-		value = tesla_advanced_tanks_progress_cost
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_military_engineer_trigger = yes
+		effect = {
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
 				}
-				has_variable = gaudi_stop_engineering_project_var
 			}
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+
+			#Those should be removed in every military engineering je
+			remove_variable = tesla_military_engineering_progress_var
+			remove_variable = gaudi_monthly_military_engineering_progress_var
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			trigger_event = {
+				id = gaudi.1311
+				popup = yes
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
 		}
 	}
 
-	on_invalid = {
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_military_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
 			}
 		}
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_stop_engineering_project_var
 
-		#Those should be removed in every military engineering je
-		remove_variable = tesla_military_engineering_progress_var
-		remove_variable = gaudi_monthly_military_engineering_progress_var
+        effect = {
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
+				}
+			}
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+			remove_variable = gaudi_stop_engineering_project_var
 
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
+			#Those should be removed in every military engineering je
+			remove_variable = tesla_military_engineering_progress_var
+			remove_variable = gaudi_monthly_military_engineering_progress_var
 
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+        }
 	}
-
-	progressbar = yes
 
 	weight = 30
 }
@@ -2418,6 +2558,18 @@ je_gaudi_advanced_defence_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
 	group = je_group_tesla_engineers
+
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:tesla_military_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = tesla_advanced_defence_progress_cost
+	}
+
+	progressbar = yes
 
 	immediate = {
 		scope:journal_entry = {
@@ -2447,74 +2599,75 @@ je_gaudi_advanced_defence_project = {
 		}
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
-
-		#Those should be removed in every military engineering je
-		remove_variable = tesla_military_engineering_progress_var
-		remove_variable = gaudi_monthly_military_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		trigger_event = {
-			id = gaudi.1321
-			popup = yes
-		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
-
-	current_value = {
-		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:tesla_military_engineering_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in gaudi_script_values
-		value = tesla_advanced_defence_progress_cost
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_military_engineer_trigger = yes
-				}
-				has_variable = gaudi_stop_engineering_project_var
+		trigger = {
+			scope:journal_entry = {
+				is_goal_complete = yes
 			}
 		}
+
+		effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+
+			#Those should be removed in every military engineering je
+			remove_variable = tesla_military_engineering_progress_var
+			remove_variable = gaudi_monthly_military_engineering_progress_var
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			trigger_event = {
+				id = gaudi.1321
+				popup = yes
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+		}
 	}
 
-	on_invalid = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_stop_engineering_project_var
-
-		#Those should be removed in every military engineering je
-		remove_variable = tesla_military_engineering_progress_var
-		remove_variable = gaudi_monthly_military_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_military_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
+			}
 		}
 
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
+        effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+			remove_variable = gaudi_stop_engineering_project_var
 
-	progressbar = yes
+			#Those should be removed in every military engineering je
+			remove_variable = tesla_military_engineering_progress_var
+			remove_variable = gaudi_monthly_military_engineering_progress_var
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+        }
+	}
 
 	weight = 30
 }
@@ -2559,8 +2712,13 @@ je_gaudi_electrical_research_project = {
 		}
 	}
 
-	invalid = {
-		tesla_has_electrical_engineer_no_tooltip_trigger = no
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			tesla_has_electrical_engineer_no_tooltip_trigger = no
+		}
 	}
 
 	weight = 30
@@ -2596,60 +2754,57 @@ je_gaudi_transatlantic_radio = {
 		}
 	}
 
-	immediate = {
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	complete = {
-		tesla_has_electrical_engineer_trigger = yes
-		any_state = {
-			state_region = s:STATE_NEWFOUNDLAND
-			any_scope_building = {
-				is_building_type = building_tesla_telegraph
-				has_active_production_method = pm_tesla_radio_station
-			}
-		}
-		any_state = {
-			state_region = s:STATE_WEST_COUNTRY
-			any_scope_building = {
-				is_building_type = building_tesla_telegraph
-				has_active_production_method = pm_tesla_radio_station
-			}
-		}
-	}
-
-	on_complete = {
-		every_country = {
-			limit = {
-				OR = {
-					any_scope_state = {
-						state_region = s:STATE_NEWFOUNDLAND
-					}
-					any_scope_state = {
-						state_region = s:STATE_WEST_COUNTRY
-					}
+		trigger = {
+			tesla_has_electrical_engineer_trigger = yes
+			any_state = {
+				state_region = s:STATE_NEWFOUNDLAND
+				any_scope_building = {
+					is_building_type = building_tesla_telegraph
+					has_active_production_method = pm_tesla_radio_station
 				}
 			}
-			trigger_event = {
-				id = gaudi.1430
+			any_state = {
+				state_region = s:STATE_WEST_COUNTRY
+				any_scope_building = {
+					is_building_type = building_tesla_telegraph
+					has_active_production_method = pm_tesla_radio_station
+				}
 			}
 		}
-		set_global_variable = gaudi_transatlantic_radio_var
+
+		effect = {
+			every_country = {
+				limit = {
+					OR = {
+						any_scope_state = {
+							state_region = s:STATE_NEWFOUNDLAND
+						}
+						any_scope_state = {
+							state_region = s:STATE_WEST_COUNTRY
+						}
+					}
+				}
+				trigger_event = gaudi.1430
+			}
+			set_global_variable = gaudi_transatlantic_radio_var
+		}
 	}
 
-	current_value = {
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			has_global_variable = gaudi_transatlantic_radio_var
+		}
 	}
-
-	goal_add_value = {
-	}
-
-	invalid = {
-		has_global_variable = gaudi_transatlantic_radio_var
-	}
-
-	on_invalid = {
-	}
-
-	progressbar = no
 
 	weight = 30
 
@@ -2712,71 +2867,84 @@ je_tesla_improve_power_plants_project = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_improve_building_project_complete_tt
-			NOT = {
-				has_variable_list = tesla_improve_power_plant_buildings_chosen_variable_list
-			}
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var
-		remove_variable = gaudi_stop_engineering_project_var
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
-			}
-		}
-		clear_variable_list = tesla_improve_power_plant_buildings_chosen_variable_list
-
-		tesla_set_engineer_unbusy_effect = yes
-#		var:tesla_engineer_var ?= {
-#			set_variable = {
-#				name = tesla_engineer_achievements_finished_airport_project_var
-#				value = flag:tesla_engineer_achievements_finished_airport_project_loc
-#			}
-#		}
-		if = {
-			limit = { tesla_is_engineering_automated_trigger = no }
-			trigger_event = {
-				id = gaudi.1441
-				popup = yes
-			}
-		}
-		set_variable = {
-			name = mr_num_improved_power_plants_buildings_var
-			value = scope:journal_entry.var:mr_num_improved_buildings_var
-		}
-		tesla_remove_je_cost_modifiers_effect = yes
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_electrical_engineer_trigger = yes
+		trigger = {
+			custom_tooltip = {
+				text = je_improve_building_project_complete_tt
+				NOT = {
+					has_variable_list = tesla_improve_power_plant_buildings_chosen_variable_list
 				}
-				has_variable = gaudi_stop_engineering_project_var
 			}
+		}
+
+		effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var
+			remove_variable = gaudi_stop_engineering_project_var
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
+				}
+			}
+			clear_variable_list = tesla_improve_power_plant_buildings_chosen_variable_list
+
+			tesla_set_engineer_unbusy_effect = yes
+#			var:tesla_engineer_var ?= {
+#				set_variable = {
+#					name = tesla_engineer_achievements_finished_airport_project_var
+#					value = flag:tesla_engineer_achievements_finished_airport_project_loc
+#				}
+#			}
+			if = {
+				limit = { tesla_is_engineering_automated_trigger = no }
+				trigger_event = {
+					id = gaudi.1441
+					popup = yes
+				}
+			}
+			set_variable = {
+				name = mr_num_improved_power_plants_buildings_var
+				value = scope:journal_entry.var:mr_num_improved_buildings_var
+			}
+			tesla_remove_je_cost_modifiers_effect = yes
 		}
 	}
 
-	on_invalid = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var
-		remove_variable = gaudi_stop_engineering_project_var
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_small_engineering_project_cost_modifier
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_electrical_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
 			}
 		}
-		clear_variable_list = tesla_improve_power_plant_buildings_chosen_variable_list
-		tesla_set_engineer_unbusy_effect = yes
-		tesla_remove_je_cost_modifiers_effect = yes
+
+        effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var
+			remove_variable = gaudi_stop_engineering_project_var
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_small_engineering_project_cost_modifier
+				}
+			}
+			clear_variable_list = tesla_improve_power_plant_buildings_chosen_variable_list
+			tesla_set_engineer_unbusy_effect = yes
+			tesla_remove_je_cost_modifiers_effect = yes
+        }
 	}
 
 	weight = 30
@@ -2835,71 +3003,84 @@ je_tesla_improve_saw_mills_project = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_improve_building_project_complete_tt
-			NOT = {
-				has_variable_list = tesla_improve_saw_mills_buildings_chosen_variable_list
-			}
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var
-		remove_variable = gaudi_stop_engineering_project_var
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
-			}
-		}
-		clear_variable_list = tesla_improve_saw_mills_buildings_chosen_variable_list
-
-		tesla_set_engineer_unbusy_effect = yes
-#		var:tesla_engineer_var ?= {
-#			set_variable = {
-#				name = tesla_engineer_achievements_finished_airport_project_var
-#				value = flag:tesla_engineer_achievements_finished_airport_project_loc
-#			}
-#		}
-		if = {
-			limit = { tesla_is_engineering_automated_trigger = no }
-			trigger_event = {
-				id = gaudi.1451
-				popup = yes
-			}
-		}
-		set_variable = {
-			name = mr_num_improved_saw_mills_buildings_var
-			value = scope:journal_entry.var:mr_num_improved_buildings_var
-		}
-		tesla_remove_je_cost_modifiers_effect = yes
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_electrical_engineer_trigger = yes
+		trigger = {
+			custom_tooltip = {
+				text = je_improve_building_project_complete_tt
+				NOT = {
+					has_variable_list = tesla_improve_saw_mills_buildings_chosen_variable_list
 				}
-				has_variable = gaudi_stop_engineering_project_var
 			}
+		}
+
+		effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var
+			remove_variable = gaudi_stop_engineering_project_var
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
+				}
+			}
+			clear_variable_list = tesla_improve_saw_mills_buildings_chosen_variable_list
+
+		tesla_set_engineer_unbusy_effect = yes
+#			var:tesla_engineer_var ?= {
+#				set_variable = {
+#					name = tesla_engineer_achievements_finished_airport_project_var
+#					value = flag:tesla_engineer_achievements_finished_airport_project_loc
+#				}
+#			}
+			if = {
+				limit = { tesla_is_engineering_automated_trigger = no }
+				trigger_event = {
+					id = gaudi.1451
+					popup = yes
+				}
+			}
+			set_variable = {
+				name = mr_num_improved_saw_mills_buildings_var
+				value = scope:journal_entry.var:mr_num_improved_buildings_var
+			}
+			tesla_remove_je_cost_modifiers_effect = yes
 		}
 	}
 
-	on_invalid = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var
-		remove_variable = gaudi_stop_engineering_project_var
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_small_engineering_project_cost_modifier
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_electrical_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
 			}
 		}
-		clear_variable_list = tesla_improve_saw_mills_buildings_chosen_variable_list
-		tesla_set_engineer_unbusy_effect = yes
-		tesla_remove_je_cost_modifiers_effect = yes
+
+        effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var
+			remove_variable = gaudi_stop_engineering_project_var
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_small_engineering_project_cost_modifier
+				}
+			}
+			clear_variable_list = tesla_improve_saw_mills_buildings_chosen_variable_list
+			tesla_set_engineer_unbusy_effect = yes
+			tesla_remove_je_cost_modifiers_effect = yes
+        }
 	}
 
 	weight = 30
@@ -2958,71 +3139,84 @@ je_tesla_improve_power_grid_project = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_improve_building_project_complete_tt
-			NOT = {
-				has_variable_list = tesla_improve_power_grid_buildings_chosen_variable_list
-			}
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var
-		remove_variable = gaudi_stop_engineering_project_var
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
-			}
-		}
-		clear_variable_list = tesla_improve_power_grid_buildings_chosen_variable_list
-
-		tesla_set_engineer_unbusy_effect = yes
-#		var:tesla_engineer_var ?= {
-#			set_variable = {
-#				name = tesla_engineer_achievements_finished_airport_project_var
-#				value = flag:tesla_engineer_achievements_finished_airport_project_loc
-#			}
-#		}
-		if = {
-			limit = { tesla_is_engineering_automated_trigger = no }
-			trigger_event = {
-				id = gaudi.1461
-				popup = yes
-			}
-		}
-		set_variable = {
-			name = mr_num_improved_power_grid_buildings_var
-			value = scope:journal_entry.var:mr_num_improved_buildings_var
-		}
-		tesla_remove_je_cost_modifiers_effect = yes
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_electrical_engineer_trigger = yes
+		trigger = {
+			custom_tooltip = {
+				text = je_improve_building_project_complete_tt
+				NOT = {
+					has_variable_list = tesla_improve_power_grid_buildings_chosen_variable_list
 				}
-				has_variable = gaudi_stop_engineering_project_var
 			}
+		}
+
+		effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var
+			remove_variable = gaudi_stop_engineering_project_var
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
+				}
+			}
+			clear_variable_list = tesla_improve_power_grid_buildings_chosen_variable_list
+
+			tesla_set_engineer_unbusy_effect = yes
+#			var:tesla_engineer_var ?= {
+#				set_variable = {
+#					name = tesla_engineer_achievements_finished_airport_project_var
+#					value = flag:tesla_engineer_achievements_finished_airport_project_loc
+#				}
+#			}
+			if = {
+				limit = { tesla_is_engineering_automated_trigger = no }
+				trigger_event = {
+					id = gaudi.1461
+					popup = yes
+				}
+			}
+			set_variable = {
+				name = mr_num_improved_power_grid_buildings_var
+				value = scope:journal_entry.var:mr_num_improved_buildings_var
+			}
+			tesla_remove_je_cost_modifiers_effect = yes
 		}
 	}
 
-	on_invalid = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var
-		remove_variable = gaudi_stop_engineering_project_var
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_small_engineering_project_cost_modifier
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_electrical_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
 			}
 		}
-		clear_variable_list = tesla_improve_power_grid_buildings_chosen_variable_list
-		tesla_set_engineer_unbusy_effect = yes
-		tesla_remove_je_cost_modifiers_effect = yes
+
+        effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var
+			remove_variable = gaudi_stop_engineering_project_var
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_small_engineering_project_cost_modifier
+				}
+			}
+			clear_variable_list = tesla_improve_power_grid_buildings_chosen_variable_list
+			tesla_set_engineer_unbusy_effect = yes
+			tesla_remove_je_cost_modifiers_effect = yes
+        }
 	}
 
 	weight = 30
@@ -3036,6 +3230,18 @@ je_tesla_battlefield_communication_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
 	group = je_group_tesla_engineers
+
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:tesla_electrical_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = tesla_battlefield_communication_progress_cost
+	}
+
+	progressbar = yes
 
 	on_monthly_pulse = {
 		effect = {
@@ -3065,84 +3271,85 @@ je_tesla_battlefield_communication_project = {
 		tesla_electrical_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		show_as_tooltip = {
+		trigger = {
 			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
+				is_goal_complete = yes
 			}
 		}
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
 
-		#Those should be removed in every electrical engineering je
-		remove_variable = tesla_electrical_engineering_progress_var
-		remove_variable = gaudi_monthly_electrical_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		trigger_event = {
-			id = tesla.4100
-			popup = yes
-		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
-
-	current_value = {
-		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:tesla_electrical_engineering_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in gaudi_script_values
-		value = tesla_battlefield_communication_progress_cost
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_electrical_engineer_trigger = yes
+		effect = {
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
 				}
-				has_variable = gaudi_stop_engineering_project_var
 			}
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+
+			#Those should be removed in every electrical engineering je
+			remove_variable = tesla_electrical_engineering_progress_var
+			remove_variable = gaudi_monthly_electrical_engineering_progress_var
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			trigger_event = {
+				id = tesla.4100
+				popup = yes
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
 		}
 	}
 
-	on_invalid = {
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_electrical_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
 			}
 		}
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_stop_engineering_project_var
 
-		#Those should be removed in every electrical engineering je
-		remove_variable = tesla_electrical_engineering_progress_var
-		remove_variable = gaudi_monthly_electrical_engineering_progress_var
+        effect = {
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
+				}
+			}
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+			remove_variable = gaudi_stop_engineering_project_var
 
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
+			#Those should be removed in every electrical engineering je
+			remove_variable = tesla_electrical_engineering_progress_var
+			remove_variable = gaudi_monthly_electrical_engineering_progress_var
 
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+        }
 	}
-
-	progressbar = yes
 
 	weight = 30
 }
@@ -3162,9 +3369,6 @@ je_tesla_telegraphy_network = {
 		}
 	}
 
-	immediate = {
-	}
-
 	on_monthly_pulse = {
 		random_events = {
 			15 = 0
@@ -3173,29 +3377,45 @@ je_tesla_telegraphy_network = {
 		}
 	}
 
-	complete = {
-		any_scope_state = {
-			filter = {
-				is_incorporated = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			any_scope_state = {
+				filter = {
+					is_incorporated = yes
+				}
+				percent >= 1
+				any_scope_building = {
+					is_building_type = building_tesla_telegraph
+					level > 0
+				}
 			}
-			percent >= 1
-			any_scope_building = {
-				is_building_type = building_tesla_telegraph
-				level > 0
+		}
+
+		effect = {
+			tesla_electrical_engineering_medium_add_technology = yes
+			add_modifier = {
+				name = gaudi_telegraphy_network_modifier
+				years = 25
 			}
 		}
 	}
 
-	on_complete = {
-		tesla_electrical_engineering_medium_add_technology = yes
-		add_modifier = {
-			name = gaudi_telegraphy_network_modifier
-			years = 25
-		}
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	fail = {
-		has_technology_researched = radio
+		trigger = {
+			has_technology_researched = radio
+		}
 	}
 
 	weight = 30
@@ -3227,22 +3447,30 @@ je_tesla_radio_network = {
 		}
 	}
 
-	complete = {
-		any_scope_building = {
-			filter = {
-				is_building_type = building_tesla_telegraph
-				level > 0
-			}
-			has_active_production_method = pm_tesla_radio_station
-			percent >= 1
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		tesla_electrical_engineering_medium_add_technology = yes
-		add_modifier = {
-			name = gaudi_radio_network_modifier
-			years = 25
+		trigger = {
+			any_scope_building = {
+				filter = {
+					is_building_type = building_tesla_telegraph
+					level > 0
+				}
+				has_active_production_method = pm_tesla_radio_station
+				percent >= 1
+			}
+		}
+
+		effect = {
+			tesla_electrical_engineering_medium_add_technology = yes
+			add_modifier = {
+				name = gaudi_radio_network_modifier
+				years = 25
+			}
 		}
 	}
 
@@ -3289,8 +3517,13 @@ je_gaudi_aviation_research_project = {
 		}
 	}
 
-	invalid = {
-		tesla_has_aeronautical_engineer_no_tooltip_trigger = no
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			tesla_has_aeronautical_engineer_no_tooltip_trigger = no
+		}
 	}
 
 	weight = 30
@@ -3352,71 +3585,84 @@ je_gaudi_civil_airports_project = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_improve_building_project_complete_tt
-			NOT = {
-				has_variable_list = tesla_improve_airport_buildings_chosen_variable_list
-			}
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var
-		remove_variable = gaudi_stop_engineering_project_var
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
-			}
-		}
-		clear_variable_list = tesla_improve_airport_buildings_chosen_variable_list
-
-		tesla_set_engineer_unbusy_effect = yes
-		var:tesla_engineer_var ?= {
-			set_variable = {
-				name = tesla_engineer_achievements_finished_airport_project_var
-				value = flag:tesla_engineer_achievements_finished_airport_project_loc
-			}
-		}
-		if = {
-			limit = { tesla_is_engineering_automated_trigger = no }
-			trigger_event = {
-				id = gaudi.1501
-				popup = yes
-			}
-		}
-		set_variable = {
-			name = mr_num_improved_airport_buildings_var
-			value = scope:journal_entry.var:mr_num_improved_buildings_var
-		}
-		tesla_remove_je_cost_modifiers_effect = yes
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_aeronautical_engineer_trigger = yes
+		trigger = {
+			custom_tooltip = {
+				text = je_improve_building_project_complete_tt
+				NOT = {
+					has_variable_list = tesla_improve_airport_buildings_chosen_variable_list
 				}
-				has_variable = gaudi_stop_engineering_project_var
 			}
+		}
+
+		effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var
+			remove_variable = gaudi_stop_engineering_project_var
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
+				}
+			}
+			clear_variable_list = tesla_improve_airport_buildings_chosen_variable_list
+
+			tesla_set_engineer_unbusy_effect = yes
+			var:tesla_engineer_var ?= {
+				set_variable = {
+					name = tesla_engineer_achievements_finished_airport_project_var
+					value = flag:tesla_engineer_achievements_finished_airport_project_loc
+				}
+			}
+			if = {
+				limit = { tesla_is_engineering_automated_trigger = no }
+				trigger_event = {
+					id = gaudi.1501
+					popup = yes
+				}
+			}
+			set_variable = {
+				name = mr_num_improved_airport_buildings_var
+				value = scope:journal_entry.var:mr_num_improved_buildings_var
+			}
+			tesla_remove_je_cost_modifiers_effect = yes
 		}
 	}
 
-	on_invalid = {
-		remove_variable = gaudi_can_stop_active_engineering_project_var
-		remove_variable = gaudi_stop_engineering_project_var
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_small_engineering_project_cost_modifier
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_aeronautical_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
 			}
 		}
-		clear_variable_list = tesla_improve_airport_buildings_chosen_variable_list
-		tesla_set_engineer_unbusy_effect = yes
-		tesla_remove_je_cost_modifiers_effect = yes
+
+        effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var
+			remove_variable = gaudi_stop_engineering_project_var
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_small_engineering_project_cost_modifier
+				}
+			}
+			clear_variable_list = tesla_improve_airport_buildings_chosen_variable_list
+			tesla_set_engineer_unbusy_effect = yes
+			tesla_remove_je_cost_modifiers_effect = yes
+        }
 	}
 
 	weight = 30
@@ -3430,6 +3676,18 @@ je_gaudi_advanced_airplanes_project = {
 	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
 
 	group = je_group_tesla_engineers
+
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:tesla_aeronautical_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = tesla_advanced_aircraft_progress_cost
+	}
+
+	progressbar = yes
 
 	immediate = {
 		scope:journal_entry = {
@@ -3459,84 +3717,85 @@ je_gaudi_advanced_airplanes_project = {
 		}
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		show_as_tooltip = {
+		trigger = {
 			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
+				is_goal_complete = yes
 			}
 		}
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
 
-		#Those should be removed in every aeronautical engineering je
-		remove_variable = tesla_aeronautical_engineering_progress_var
-		remove_variable = gaudi_monthly_aeronautical_engineering_progress_var
-
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		trigger_event = {
-			id = gaudi.1511
-			popup = yes
-		}
-
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
-	}
-
-	current_value = {
-		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
-		value = var:tesla_aeronautical_engineering_progress_var
-	}
-
-	goal_add_value = {
-		#You can change this in gaudi_script_values
-		value = tesla_advanced_aircraft_progress_cost
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = gaudi_stop_engineering_project_tt
-			OR = {
-				trigger_if = {
-					limit = { is_ai = yes }
-					tesla_has_engineer = yes
-					tesla_has_no_aeronautical_engineer_trigger = yes
+		effect = {
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
 				}
-				has_variable = gaudi_stop_engineering_project_var
 			}
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+
+			#Those should be removed in every aeronautical engineering je
+			remove_variable = tesla_aeronautical_engineering_progress_var
+			remove_variable = gaudi_monthly_aeronautical_engineering_progress_var
+
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			trigger_event = {
+				id = gaudi.1511
+				popup = yes
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
 		}
 	}
 
-	on_invalid = {
-		show_as_tooltip = {
-			scope:journal_entry = {
-				remove_modifier = tesla_medium_engineering_project_cost_modifier
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_aeronautical_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
 			}
 		}
-		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-		tesla_remove_je_cost_modifiers_effect = yes
-		remove_variable = gaudi_stop_engineering_project_var
 
-		#Those should be removed in every aeronautical engineering je
-		remove_variable = tesla_aeronautical_engineering_progress_var
-		remove_variable = gaudi_monthly_aeronautical_engineering_progress_var
+        effect = {
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = tesla_medium_engineering_project_cost_modifier
+				}
+			}
+			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+			tesla_remove_je_cost_modifiers_effect = yes
+			remove_variable = gaudi_stop_engineering_project_var
 
-		var:tesla_engineer_var ?= {
-			set_character_busy_and_immortal = no
-		}
+			#Those should be removed in every aeronautical engineering je
+			remove_variable = tesla_aeronautical_engineering_progress_var
+			remove_variable = gaudi_monthly_aeronautical_engineering_progress_var
 
-		#Starts new project for AI
-		ai_start_engineering_project_for_ai_effect = yes
+			var:tesla_engineer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+
+			#Starts new project for AI
+			ai_start_engineering_project_for_ai_effect = yes
+        }
 	}
-
-	progressbar = yes
 
 	weight = 30
 }
@@ -3590,89 +3849,110 @@ je_tesla_transatlantic_cable = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = tesla_submarine_cable_atlantic_progress_bar_at_full_tt
-			je:je_tesla_transatlantic_cable = {
-				"scripted_bar_progress(tesla_submarine_cable_atlantic_progress_bar)" >= 24
-			}
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		remove_submarine_cable_variables_effect = yes
-		set_global_variable = {
-			name = tesla_transatlantic_cable_year_global_var
-			value = year
+		trigger = {
+			custom_tooltip = {
+				text = tesla_submarine_cable_atlantic_progress_bar_at_full_tt
+				je:je_tesla_transatlantic_cable = {
+					"scripted_bar_progress(tesla_submarine_cable_atlantic_progress_bar)" >= 24
+				}
+			}
 		}
-		country_definition = {
+
+		effect = {
+			remove_submarine_cable_variables_effect = yes
 			set_global_variable = {
-				name = tesla_transatlantic_cable_country_global_var
-				value = this
+				name = tesla_transatlantic_cable_year_global_var
+				value = year
 			}
-		}
-		trigger_event = {
-			id = tesla.3051 #First Words across the Atlantic
-		}
-		add_investment_pool = 5000000
-		add_modifier = {
-			name = tesla_transatlantic_cable_modifier
-			years = 25
-		}
-		if = {
-			limit = {
-				is_player = yes
+			country_definition = {
+				set_global_variable = {
+					name = tesla_transatlantic_cable_country_global_var
+					value = this
+				}
 			}
-			var:tesla_engineer_var = {
-				set_character_busy_and_immortal = no
-				set_variable = {
-					name = tesla_engineer_achievement_transatlantic_cable_var
-					value = flag:tesla_engineer_achievement_transatlantic_cable_loc
+			trigger_event = {
+				id = tesla.3051 #First Words across the Atlantic
+			}
+			add_investment_pool = 5000000
+			add_modifier = {
+				name = tesla_transatlantic_cable_modifier
+				years = 25
+			}
+			if = {
+				limit = {
+					is_player = yes
+				}
+				var:tesla_engineer_var = {
+					set_character_busy_and_immortal = no
+					set_variable = {
+						name = tesla_engineer_achievement_transatlantic_cable_var
+						value = flag:tesla_engineer_achievement_transatlantic_cable_loc
+					}
 				}
 			}
 		}
 	}
 
-	invalid = {
-		custom_tooltip = {
-			text = je_engineer_dies_tt
-			NOT = {
-				has_variable = tesla_engineer_var
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_engineer_dies_tt
+				NOT = {
+					has_variable = tesla_engineer_var
+				}
 			}
 		}
+
+        effect = {
+			remove_submarine_cable_variables_effect = yes
+        }
 	}
 
-	on_invalid = {
-		remove_submarine_cable_variables_effect = yes
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	fail = {
-		custom_tooltip = {
-			text = tesla_submarine_cable_shareholder_confidence_bar_at_zero_tt
-			je:je_tesla_transatlantic_cable  = {
-				"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" = 0
+		trigger = {
+			custom_tooltip = {
+				text = tesla_submarine_cable_shareholder_confidence_bar_at_zero_tt
+				je:je_tesla_transatlantic_cable  = {
+					"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" = 0
+				}
 			}
 		}
-	}
 
-	on_fail = {
-		remove_submarine_cable_variables_effect = yes
-		trigger_event = {
-			id = tesla.3053 #Stock Market Crash
-		}
-		add_investment_pool = -5000000
-		add_modifier = {
-			name = tesla_transatlantic_cable_expedition_failed_modifier
-			years = 5
-		}
-		if = {
-			limit = {
-				is_player = yes
+        effect = {
+			remove_submarine_cable_variables_effect = yes
+			trigger_event = {
+				id = tesla.3053 #Stock Market Crash
 			}
-			var:tesla_engineer_var = {
-				set_character_busy_and_immortal = no
+			add_investment_pool = -5000000
+			add_modifier = {
+				name = tesla_transatlantic_cable_expedition_failed_modifier
+				years = 5
 			}
-		}
+			if = {
+				limit = {
+					is_player = yes
+				}
+				var:tesla_engineer_var = {
+					set_character_busy_and_immortal = no
+				}
+			}
+        }
 	}
 
 	weight = 500
@@ -3723,89 +4003,110 @@ je_tesla_suez_india_cable = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = tesla_submarine_cable_indian_progress_bar_at_full_tt
-			je:je_tesla_suez_india_cable = {
-				"scripted_bar_progress(tesla_submarine_cable_indian_progress_bar)" >= 36
-			}
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		remove_submarine_cable_variables_effect = yes
-		set_global_variable = {
-			name = tesla_suez_india_cable_year_global_var
-			value = year
+		trigger = {
+			custom_tooltip = {
+				text = tesla_submarine_cable_indian_progress_bar_at_full_tt
+				je:je_tesla_suez_india_cable = {
+					"scripted_bar_progress(tesla_submarine_cable_indian_progress_bar)" >= 36
+				}
+			}
 		}
-		country_definition = {
+
+		effect = {
+			remove_submarine_cable_variables_effect = yes
 			set_global_variable = {
-				name = tesla_suez_india_cable_country_global_var
-				value = this
+				name = tesla_suez_india_cable_year_global_var
+				value = year
 			}
-		}
-		trigger_event = {
-			id = tesla.3061 #The Eastern Telegraph Completed
-		}
-		add_investment_pool = 10000000
-		add_modifier = {
-			name = tesla_suez_india_cable_modifier
-			years = 25
-		}
-		if = {
-			limit = {
-				is_player = yes
+			country_definition = {
+				set_global_variable = {
+					name = tesla_suez_india_cable_country_global_var
+					value = this
+				}
 			}
-			var:tesla_engineer_var = {
-				set_character_busy_and_immortal = no
-				set_variable = {
-					name = tesla_engineer_achievement_suez_india_cable_var
-					value = flag:tesla_engineer_achievement_suez_india_cable_loc
+			trigger_event = {
+				id = tesla.3061 #The Eastern Telegraph Completed
+			}
+			add_investment_pool = 10000000
+			add_modifier = {
+				name = tesla_suez_india_cable_modifier
+				years = 25
+			}
+			if = {
+				limit = {
+					is_player = yes
+				}
+				var:tesla_engineer_var = {
+					set_character_busy_and_immortal = no
+					set_variable = {
+						name = tesla_engineer_achievement_suez_india_cable_var
+						value = flag:tesla_engineer_achievement_suez_india_cable_loc
+					}
 				}
 			}
 		}
 	}
 
-	invalid = {
-		custom_tooltip = {
-			text = je_engineer_dies_tt
-			NOT = {
-				has_variable = tesla_engineer_var
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_engineer_dies_tt
+				NOT = {
+					has_variable = tesla_engineer_var
+				}
 			}
 		}
+
+        effect = {
+			remove_submarine_cable_variables_effect = yes
+        }
 	}
 
-	on_invalid = {
-		remove_submarine_cable_variables_effect = yes
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	fail = {
-		custom_tooltip = {
-			text = tesla_submarine_cable_shareholder_confidence_bar_at_zero_tt
-			je:je_tesla_suez_india_cable  = {
-				"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" = 0
+		trigger = {
+			custom_tooltip = {
+				text = tesla_submarine_cable_shareholder_confidence_bar_at_zero_tt
+				je:je_tesla_suez_india_cable  = {
+					"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" = 0
+				}
 			}
 		}
-	}
 
-	on_fail = {
-		remove_submarine_cable_variables_effect = yes
-		trigger_event = {
-			id = tesla.3053 #Stock Market Crash
-		}
-		add_investment_pool = -10000000
-		add_modifier = {
-			name = tesla_suez_india_cable_expedition_failed_modifier
-			years = 5
-		}
-		if = {
-			limit = {
-				is_player = yes
+        effect = {
+			remove_submarine_cable_variables_effect = yes
+			trigger_event = {
+				id = tesla.3053 #Stock Market Crash
 			}
-			var:tesla_engineer_var = {
-				set_character_busy_and_immortal = no
+			add_investment_pool = -10000000
+			add_modifier = {
+				name = tesla_suez_india_cable_expedition_failed_modifier
+				years = 5
 			}
-		}
+			if = {
+				limit = {
+					is_player = yes
+				}
+				var:tesla_engineer_var = {
+					set_character_busy_and_immortal = no
+				}
+			}
+        }
 	}
 
 	weight = 500
@@ -3854,89 +4155,110 @@ je_tesla_transpacific_cable = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = tesla_submarine_cable_pacific_progress_bar_at_full_tt
-			je:je_tesla_transpacific_cable = {
-				"scripted_bar_progress(tesla_submarine_cable_pacific_progress_bar)" >= 48
-			}
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		remove_submarine_cable_variables_effect = yes
-		set_global_variable = {
-			name = tesla_transpacific_cable_year_global_var
-			value = year
+		trigger = {
+			custom_tooltip = {
+				text = tesla_submarine_cable_pacific_progress_bar_at_full_tt
+				je:je_tesla_transpacific_cable = {
+					"scripted_bar_progress(tesla_submarine_cable_pacific_progress_bar)" >= 48
+				}
+			}
 		}
-		country_definition = {
+
+		effect = {
+			remove_submarine_cable_variables_effect = yes
 			set_global_variable = {
-				name = tesla_transpacific_cable_country_global_var
-				value = this
+				name = tesla_transpacific_cable_year_global_var
+				value = year
 			}
-		}
-		trigger_event = {
-			id = tesla.3071 #The First Message Across the Pacific
-		}
-		add_investment_pool = 20000000
-		add_modifier = {
-			name = tesla_transpacific_cable_modifier
-			years = 25
-		}
-		if = {
-			limit = {
-				is_player = yes
+			country_definition = {
+				set_global_variable = {
+					name = tesla_transpacific_cable_country_global_var
+					value = this
+				}
 			}
-			var:tesla_engineer_var = {
-				set_character_busy_and_immortal = no
-				set_variable = {
-					name = tesla_engineer_achievement_transpacific_cable_var
-					value = flag:tesla_engineer_achievement_transpacific_cable_loc
+			trigger_event = {
+				id = tesla.3071 #The First Message Across the Pacific
+			}
+			add_investment_pool = 20000000
+			add_modifier = {
+				name = tesla_transpacific_cable_modifier
+				years = 25
+			}
+			if = {
+				limit = {
+					is_player = yes
+				}
+				var:tesla_engineer_var = {
+					set_character_busy_and_immortal = no
+					set_variable = {
+						name = tesla_engineer_achievement_transpacific_cable_var
+						value = flag:tesla_engineer_achievement_transpacific_cable_loc
+					}
 				}
 			}
 		}
 	}
 
-	invalid = {
-		custom_tooltip = {
-			text = je_engineer_dies_tt
-			NOT = {
-				has_variable = tesla_engineer_var
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_engineer_dies_tt
+				NOT = {
+					has_variable = tesla_engineer_var
+				}
 			}
 		}
+
+        effect = {
+			remove_submarine_cable_variables_effect = yes
+        }
 	}
 
-	on_invalid = {
-		remove_submarine_cable_variables_effect = yes
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	fail = {
-		custom_tooltip = {
-			text = tesla_submarine_cable_shareholder_confidence_bar_at_zero_tt
-			je:je_tesla_transpacific_cable  = {
-				"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" = 0
+		trigger = {
+			custom_tooltip = {
+				text = tesla_submarine_cable_shareholder_confidence_bar_at_zero_tt
+				je:je_tesla_transpacific_cable  = {
+					"scripted_bar_progress(tesla_submarine_cable_shareholder_confidence_bar)" = 0
+				}
 			}
 		}
-	}
 
-	on_fail = {
-		remove_submarine_cable_variables_effect = yes
-		trigger_event = {
-			id = tesla.3053 #Stock Market Crash
-		}
-		add_investment_pool = -20000000
-		add_modifier = {
-			name = tesla_transpacific_cable_expedition_failed_modifier
-			years = 5
-		}
-		if = {
-			limit = {
-				is_player = yes
+        effect = {
+			remove_submarine_cable_variables_effect = yes
+			trigger_event = {
+				id = tesla.3053 #Stock Market Crash
 			}
-			var:tesla_engineer_var = {
-				set_character_busy_and_immortal = no
+			add_investment_pool = -20000000
+			add_modifier = {
+				name = tesla_transpacific_cable_expedition_failed_modifier
+				years = 5
 			}
-		}
+			if = {
+				limit = {
+					is_player = yes
+				}
+				var:tesla_engineer_var = {
+					set_character_busy_and_immortal = no
+				}
+			}
+        }
 	}
 
 	weight = 500

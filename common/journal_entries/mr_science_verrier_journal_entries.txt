@@ -13,6 +13,30 @@ je_verrier_uranus = {
 
 	group = je_group_verrier_astronomy
 
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:verrier_astronomical_objects #value or variable you use to meassure progress
+		}
+	}
+
+	goal_add_value = {
+		# Basically takes the amount of years before 1836 and multiplies it by 2 (average objects per year),
+		# then adds the base value of 100
+		value = 1781
+		subtract = global_var:start_year_global_var
+		multiply = 2 #Assuming about 2 astronomical objects get discovered each year on average.
+		add = 100 #Base value
+	}
+	progressbar = yes
+
 	is_shown_when_inactive = {
 		NOT = { has_global_variable = verrier_uranus_year_global_var }
 		trigger_if = {
@@ -41,29 +65,6 @@ je_verrier_uranus = {
 		}
 	}
 
-	current_value = {
-		if = {
-			limit = {
-				scope:journal_entry = {
-					goal_value = 0
-				}
-			}
-			value = 0
-		}
-		else = {
-			value = var:verrier_astronomical_objects #value or variable you use to meassure progress
-		}
-	}
-
-	goal_add_value = {
-		# Basically takes the amount of years before 1836 and multiplies it by 2 (average objects per year),
-		# then adds the base value of 100
-		value = 1781
-		subtract = global_var:start_year_global_var
-		multiply = 2 #Assuming about 2 astronomical objects get discovered each year on average.
-		add = 100 #Base value
-	}
-
 	immediate = {
 		set_variable = {
 			name = je_verrier_uranus_var
@@ -71,48 +72,62 @@ je_verrier_uranus = {
 		}
 	}
 
-	complete = {
-		country_has_building_type_levels = {
-			target = bt:building_university
-			value  >= 1
-		}
-		any_scope_building = {
-			is_building_type = building_verrier_observatory
-		}
-		OR = {
-			any_scope_character = {
-				OR = {
-					has_trait = innovative
-					has_trait = meticulous
-					has_trait = ambitious
-					has_trait = persistent
-				}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			country_has_building_type_levels = {
+				target = bt:building_university
+				value  >= 1
 			}
-			verrier_has_astronomer = yes
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+			}
+			OR = {
+				any_scope_character = {
+					OR = {
+						has_trait = innovative
+						has_trait = meticulous
+						has_trait = ambitious
+						has_trait = persistent
+					}
+				}
+				verrier_has_astronomer = yes
+			}
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+			hidden_trigger = {
+				NOT = { has_variable = je_verrier_uranus_var }
+			}
 		}
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-		hidden_trigger = {
-			NOT = { has_variable = je_verrier_uranus_var }
+
+		effect = {
+			trigger_event = {
+				id = verrier.12
+				popup = yes
+			}
 		}
 	}
 
-	on_complete = {
-		trigger_event = {
-			id = verrier.12
-			popup = yes
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_verrier_uranus_fail
+				has_global_variable = verrier_uranus_year_global_var
+			}
 		}
 	}
-
-	fail = {
-		custom_tooltip = {
-			text = je_verrier_uranus_fail
-			has_global_variable = verrier_uranus_year_global_var
-		}
-    }
-
-	progressbar = yes
 
 	weight = 50
 }
@@ -121,6 +136,17 @@ je_verrier_dwarf_planets = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	group = je_group_verrier_astronomy
+
+	current_value = {
+		value = var:verrier_astronomical_objects #value or variable you use to meassure progress
+	}
+
+	goal_add_value = {
+		# About 20 years between Uranus and dwarf planets multiplied by 2 = 40
+		value = 40
+	}
+
+	progressbar = yes
 
 	is_shown_when_inactive = {
 		NAND = {
@@ -148,89 +174,85 @@ je_verrier_dwarf_planets = {
 		}
 	}
 
-	current_value = {
-		value = var:verrier_astronomical_objects #value or variable you use to meassure progress
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	goal_add_value = {
-		# About 20 years between Uranus and dwarf planets multiplied by 2 = 40
-		value = 40
-	}
-
-	immediate = {
-	}
-
-	complete = {
-		country_has_building_type_levels = {
-			target = bt:building_university
-			value  >= 1
-		}
-		any_scope_building = {
-			is_building_type = building_verrier_observatory
-		}
-		OR = {
-			any_scope_character = {
-				OR = {
-					has_trait = innovative
-					has_trait = meticulous
-					has_trait = ambitious
-					has_trait = persistent
-				}
+		trigger = {
+			country_has_building_type_levels = {
+				target = bt:building_university
+				value  >= 1
 			}
-			verrier_has_astronomer = yes
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+			}
+			OR = {
+				any_scope_character = {
+					OR = {
+						has_trait = innovative
+						has_trait = meticulous
+						has_trait = ambitious
+						has_trait = persistent
+					}
+				}
+				verrier_has_astronomer = yes
+			}
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
 		}
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
 
-	on_complete = {
-		if = {
+		effect = {
+			if = {
 			limit = { has_global_variable = verrier_ceres_year_global_var }
 
-			random_list = {
-				1 = {
-					trigger = { NOT = { has_global_variable = verrier_pallas_year_global_var } }
-					trigger_event = {
-						id = verrier.15 #Verrier 15: Pallas discovered
-						popup = yes
+				random_list = {
+					1 = {
+						trigger = { NOT = { has_global_variable = verrier_pallas_year_global_var } }
+						trigger_event = {
+							id = verrier.15 #Verrier 15: Pallas discovered
+							popup = yes
+						}
 					}
-				}
-				1 = {
-					trigger = { NOT = { has_global_variable = verrier_vesta_year_global_var } }
-					trigger_event = {
-						id = verrier.16 #Verrier 16: Vesta discovered
-						popup = yes
+					1 = {
+						trigger = { NOT = { has_global_variable = verrier_vesta_year_global_var } }
+						trigger_event = {
+							id = verrier.16 #Verrier 16: Vesta discovered
+							popup = yes
+						}
 					}
-				}
-				1 = {
-					trigger = { NOT = { has_global_variable = verrier_juno_year_global_var } }
-					trigger_event = {
-						id = verrier.17 #Verrier 17: Juno discovered
-						popup = yes
+					1 = {
+						trigger = { NOT = { has_global_variable = verrier_juno_year_global_var } }
+						trigger_event = {
+							id = verrier.17 #Verrier 17: Juno discovered
+							popup = yes
+						}
 					}
 				}
 			}
-		}
-		else = {
-			trigger_event = {
-				id = verrier.14 #Verrier 14: Ceres discovered
-				popup = yes
+			else = {
+				trigger_event = {
+					id = verrier.14 #Verrier 14: Ceres discovered
+					popup = yes
+				}
 			}
 		}
 	}
 
-	invalid = {
-		has_global_variable = verrier_uranus_year_global_var
-		has_global_variable = verrier_pallas_year_global_var
-		has_global_variable = verrier_vesta_year_global_var
-		has_global_variable = verrier_juno_year_global_var
-    }
-
-	on_invalid = {
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			has_global_variable = verrier_uranus_year_global_var
+			has_global_variable = verrier_pallas_year_global_var
+			has_global_variable = verrier_vesta_year_global_var
+			has_global_variable = verrier_juno_year_global_var
+		}
 	}
-
-	progressbar = yes
 
 	weight = 50
 }
@@ -239,6 +261,42 @@ je_verrier_neptune = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	group = je_group_verrier_astronomy
+
+	scripted_button = verrier_neptune_buy_additional_instruments_button
+	scripted_button = verrier_neptune_star_chart_button
+	scripted_button = verrier_neptune_modern_telescope_button
+	scripted_button = verrier_neptune_academic_synergies_button
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:verrier_astronomical_objects #value or variable you use to meassure progress
+		}
+	}
+
+	goal_add_value = {
+		if = { #If start date is 1836
+			limit = { global_var:start_year_global_var >= 1836 }
+			value = 100
+		}
+		else = { #Before 1836
+		# Basically takes the amount of years before 1836 and multiplies it by 2 (average objects per year),
+		# then adds the base value of 100
+			value = 1836
+			subtract = global_var:start_year_global_var
+			multiply = 2 #Assuming about 2 astronomical objects get discovered each year on average.
+			add = 100 #Base value
+		}
+	}
+
+	progressbar = yes
 
 	is_shown_when_inactive = {
 		has_global_variable = verrier_uranus_year_global_var
@@ -272,6 +330,100 @@ je_verrier_neptune = {
 		}
 	}
 
+	immediate = {
+		set_variable = {
+			name = je_verrier_neptune_var
+			days = 1
+		}
+	}
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			has_technology_researched = verrier_astronomy_tech
+			country_has_building_type_levels = {
+				target = bt:building_university
+				value  >= 5
+			}
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+			}
+			OR = {
+				any_scope_character = {
+					OR = {
+						has_trait = innovative
+						has_trait = meticulous
+						has_trait = ambitious
+						has_trait = persistent
+					}
+				}
+				verrier_has_astronomer = yes
+			}
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+			hidden_trigger = {
+				NOT = { has_variable = je_verrier_neptune_var }
+			}
+		}
+
+		effect = {
+			trigger_event = {
+			id = verrier.10
+			popup = yes
+		}
+
+		# The Consolation Prize (Triton)
+		ordered_country = {
+			position = 0 #We only want the first one here
+				limit = {
+					NOT = { this = ROOT }
+					verrier_has_astronomer = yes
+					has_variable = verrier_astronomical_objects
+				}
+				order_by = var:verrier_astronomical_objects
+
+				set_global_variable = {
+					name = verrier_triton_about_to_be_discovered_global_var
+					days = 20
+				}
+				trigger_event = {
+					id = verrier.551
+					popup = yes
+					days = { 3 15 }
+				}
+			}
+		}
+	}
+
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_verrier_neptune_fail
+				has_global_variable = verrier_neptune_year_global_var
+			}
+		}
+	}
+
+	weight = 50
+}
+
+je_verrier_pluto = {
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	group = je_group_verrier_astronomy
+
 	current_value = {
 		if = {
 			limit = {
@@ -289,102 +441,19 @@ je_verrier_neptune = {
 	goal_add_value = {
 		if = { #If start date is 1836
 			limit = { global_var:start_year_global_var >= 1836 }
-			value = 100
+			value = 1500
 		}
 		else = { #Before 1836
 		# Basically takes the amount of years before 1836 and multiplies it by 2 (average objects per year),
-		# then adds the base value of 100
+		# then adds the base value of 1500
 			value = 1836
 			subtract = global_var:start_year_global_var
 			multiply = 2 #Assuming about 2 astronomical objects get discovered each year on average.
-			add = 100 #Base value
+			add = 1500 #Base value
 		}
 	}
-
-	immediate = {
-		set_variable = {
-			name = je_verrier_neptune_var
-			days = 1
-		}
-	}
-
-	complete = {
-		has_technology_researched = verrier_astronomy_tech
-		country_has_building_type_levels = {
-			target = bt:building_university
-			value  >= 5
-		}
-		any_scope_building = {
-			is_building_type = building_verrier_observatory
-		}
-		OR = {
-			any_scope_character = {
-				OR = {
-					has_trait = innovative
-					has_trait = meticulous
-					has_trait = ambitious
-					has_trait = persistent
-				}
-			}
-			verrier_has_astronomer = yes
-		}
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-		hidden_trigger = {
-			NOT = { has_variable = je_verrier_neptune_var }
-		}
-	}
-
-	on_complete = {
-		trigger_event = {
-			id = verrier.10
-			popup = yes
-		}
-
-		# The Consolation Prize (Triton)
-		ordered_country = {
-			position = 0 #We only want the first one here
-			limit = {
-				NOT = { this = ROOT }
-				verrier_has_astronomer = yes
-				has_variable = verrier_astronomical_objects
-			}
-			order_by = var:verrier_astronomical_objects
-
-			set_global_variable = {
-				name = verrier_triton_about_to_be_discovered_global_var
-				days = 20
-			}
-			trigger_event = {
-				id = verrier.551
-				popup = yes
-				days = { 3 15 }
-			}
-		}
-	}
-
-	fail = {
-		custom_tooltip = {
-			text = je_verrier_neptune_fail
-			has_global_variable = verrier_neptune_year_global_var
-		}
-    }
-
-	scripted_button = verrier_neptune_buy_additional_instruments_button
-	scripted_button = verrier_neptune_star_chart_button
-	scripted_button = verrier_neptune_modern_telescope_button
-	scripted_button = verrier_neptune_academic_synergies_button
 
 	progressbar = yes
-
-	weight = 50
-}
-
-je_verrier_pluto = {
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
-
-	group = je_group_verrier_astronomy
 
 	on_monthly_pulse = {
 		effect = {
@@ -442,66 +511,51 @@ je_verrier_pluto = {
 		}
 	}
 
-	current_value = {
-		if = {
-			limit = {
-				scope:journal_entry = {
-					goal_value = 0
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+			}
+			verrier_has_astronomer = yes
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+			hidden_trigger = {
+				NOT = { has_variable = je_verrier_pluto_var }
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = verrier.20
+				popup = yes
+			}
+		}
+	}
+
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_verrier_pluto_fail
+				any_country = {
+					NOT = { this = ROOT }
+					has_variable = verrier_discovered_pluto_variable
 				}
 			}
-			value = 0
-		}
-		else = {
-			value = var:verrier_astronomical_objects #value or variable you use to meassure progress
 		}
 	}
-
-	goal_add_value = {
-		if = { #If start date is 1836
-			limit = { global_var:start_year_global_var >= 1836 }
-			value = 1500
-		}
-		else = { #Before 1836
-		# Basically takes the amount of years before 1836 and multiplies it by 2 (average objects per year),
-		# then adds the base value of 1500
-			value = 1836
-			subtract = global_var:start_year_global_var
-			multiply = 2 #Assuming about 2 astronomical objects get discovered each year on average.
-			add = 1500 #Base value
-		}
-	}
-
-	complete = {
-		any_scope_building = {
-			is_building_type = building_verrier_observatory
-		}
-		verrier_has_astronomer = yes
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-		hidden_trigger = {
-			NOT = { has_variable = je_verrier_pluto_var }
-		}
-	}
-
-	on_complete = {
-		trigger_event = {
-			id = verrier.20
-			popup = yes
-		}
-	}
-
-	fail = {
-		custom_tooltip = {
-			text = je_verrier_pluto_fail
-			any_country = {
-				NOT = { this = ROOT }
-				has_variable = verrier_discovered_pluto_variable
-			}
-		}
-    }
-
-	progressbar = yes
 
 	weight = 50
 }
@@ -520,83 +574,99 @@ je_verrier_mars_satellites = {
 
 	group = je_group_verrier_astronomy
 
-	immediate = {
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	complete = {
-		custom_tooltip = {
-			text = verrier_satellite_discovery_progress_bar_at_full_tt
-			je:je_verrier_mars_satellites = {
-				"scripted_bar_progress(verrier_satellite_discovery_progress_bar)" >= 48
+		trigger = {
+			custom_tooltip = {
+				text = verrier_satellite_discovery_progress_bar_at_full_tt
+				je:je_verrier_mars_satellites = {
+					"scripted_bar_progress(verrier_satellite_discovery_progress_bar)" >= 48
+				}
 			}
 		}
-	}
 
-	on_complete = {
-		custom_tooltip = {
-			text = je_verrier_satellites_success
-			random_list = {
-				1 = {
-					trigger = { verrier_can_discover_deimos_trigger = yes }
-					trigger_event = {
-						id = verrier.511 #Verrier 511: Deimos discovered
-						popup = yes
+		effect = {
+			custom_tooltip = {
+				text = je_verrier_satellites_success
+				random_list = {
+					1 = {
+						trigger = { verrier_can_discover_deimos_trigger = yes }
+						trigger_event = {
+							id = verrier.511 #Verrier 511: Deimos discovered
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = { verrier_can_discover_phobos_trigger = yes }
+						trigger_event = {
+							id = verrier.512 #Verrier 512: Phobos discovered
+							popup = yes
+						}
 					}
 				}
-				1 = {
-					trigger = { verrier_can_discover_phobos_trigger = yes }
-					trigger_event = {
-						id = verrier.512 #Verrier 512: Phobos discovered
-						popup = yes
+			}
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			ai_astronomy_automation_effect = yes
+		}
+	}
+
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			OR = {
+				custom_tooltip = {
+					text = je_astronomer_dies_tt
+					NOT = {
+						has_variable = verrier_astronomer_var
 					}
 				}
-			}
-		}
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
-	}
-
-	invalid = {
-		OR = {
-			custom_tooltip = {
-				text = je_astronomer_dies_tt
-				NOT = {
-					has_variable = verrier_astronomer_var
+				custom_tooltip = {
+					text = verrier_stop_astronomer_project_tt
+					has_variable = verrier_stop_astronomer_project_var
 				}
 			}
+		}
+
+        effect = {
+			remove_variable = verrier_can_stop_active_project_var #Needs to be removed, when the JE is removed
+			remove_variable = verrier_stop_astronomer_project_var
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			ai_astronomy_automation_effect = yes
+        }
+	}
+
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
 			custom_tooltip = {
-				text = verrier_stop_astronomer_project_tt
-				has_variable = verrier_stop_astronomer_project_var
+				text = je_satellite_discovery_failed_tt
+				verrier_can_discover_mars_satellite_trigger = no
 			}
 		}
-	}
 
-	on_invalid = {
-		remove_variable = verrier_can_stop_active_project_var #Needs to be removed, when the JE is removed
-		remove_variable = verrier_stop_astronomer_project_var
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
-	}
-
-	fail = {
-		custom_tooltip = {
-			text = je_satellite_discovery_failed_tt
-			verrier_can_discover_mars_satellite_trigger = no
-		}
-	}
-
-	on_fail = {
-		trigger_event = {
-			id = verrier.501
-		}
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
+        effect = {
+			trigger_event = verrier.501
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			ai_astronomy_automation_effect = yes
+        }
 	}
 
 	weight = 25
@@ -612,118 +682,134 @@ je_verrier_jupiter_satellites = {
 
 	group = je_group_verrier_astronomy
 
-	immediate = {
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	complete = {
-		custom_tooltip = {
-			text = verrier_satellite_discovery_progress_bar_at_full_tt
-			je:je_verrier_jupiter_satellites = {
-				"scripted_bar_progress(verrier_satellite_discovery_progress_bar)" >= 48
+		trigger = {
+			custom_tooltip = {
+				text = verrier_satellite_discovery_progress_bar_at_full_tt
+				je:je_verrier_jupiter_satellites = {
+					"scripted_bar_progress(verrier_satellite_discovery_progress_bar)" >= 48
+				}
 			}
 		}
-	}
 
-	on_complete = {
-		custom_tooltip = {
+		effect = {
+			custom_tooltip = {
 			text = je_verrier_satellites_success
-			random_list = {
-				1 = {
-					trigger = { verrier_can_discover_amalthea_trigger = yes }
-					trigger_event = {
-						id = verrier.521 #Verrier 521: Amalthea discovered
-						popup = yes
+				random_list = {
+					1 = {
+						trigger = { verrier_can_discover_amalthea_trigger = yes }
+						trigger_event = {
+							id = verrier.521 #Verrier 521: Amalthea discovered
+							popup = yes
+						}
 					}
-				}
-				1 = {
-					trigger = { verrier_can_discover_himalia_trigger = yes }
-					trigger_event = {
-						id = verrier.522 #Verrier 522: Himalia discovered
-						popup = yes
+					1 = {
+						trigger = { verrier_can_discover_himalia_trigger = yes }
+						trigger_event = {
+							id = verrier.522 #Verrier 522: Himalia discovered
+							popup = yes
+						}
 					}
-				}
-				1 = {
-					trigger = { verrier_can_discover_elara_trigger = yes }
-					trigger_event = {
-						id = verrier.523 #Verrier 523: Elara discovered
-						popup = yes
+					1 = {
+						trigger = { verrier_can_discover_elara_trigger = yes }
+						trigger_event = {
+							id = verrier.523 #Verrier 523: Elara discovered
+							popup = yes
+						}
 					}
-				}
-				1 = {
-					trigger = { verrier_can_discover_pasiphae_trigger = yes }
-					trigger_event = {
-						id = verrier.524 #Verrier 524: Pasiphae discovered
-						popup = yes
+					1 = {
+						trigger = { verrier_can_discover_pasiphae_trigger = yes }
+						trigger_event = {
+							id = verrier.524 #Verrier 524: Pasiphae discovered
+							popup = yes
+						}
 					}
-				}
-				1 = {
-					trigger = { verrier_can_discover_sinope_trigger = yes }
-					trigger_event = {
-						id = verrier.525 #Verrier 525: Sinope discovered
-						popup = yes
+					1 = {
+						trigger = { verrier_can_discover_sinope_trigger = yes }
+						trigger_event = {
+							id = verrier.525 #Verrier 525: Sinope discovered
+							popup = yes
+						}
 					}
-				}
-				1 = {
-					trigger = { verrier_can_discover_lysithea_trigger = yes }
-					trigger_event = {
-						id = verrier.526 #Verrier 526: Lysithea discovered
-						popup = yes
+					1 = {
+						trigger = { verrier_can_discover_lysithea_trigger = yes }
+						trigger_event = {
+							id = verrier.526 #Verrier 526: Lysithea discovered
+							popup = yes
+						}
 					}
-				}
-				1 = {
-					trigger = { verrier_can_discover_carme_trigger = yes }
-					trigger_event = {
-						id = verrier.527 #Verrier 527: Carme discovered
-						popup = yes
+					1 = {
+						trigger = { verrier_can_discover_carme_trigger = yes }
+						trigger_event = {
+							id = verrier.527 #Verrier 527: Carme discovered
+							popup = yes
+						}
 					}
 				}
 			}
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			ai_astronomy_automation_effect = yes
 		}
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
 	}
 
-	invalid = {
-		OR = {
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			OR = {
+				custom_tooltip = {
+					text = je_astronomer_dies_tt
+					NOT = {
+						has_variable = verrier_astronomer_var
+					}
+				}
+				custom_tooltip = {
+					text = verrier_stop_astronomer_project_tt
+					has_variable = verrier_stop_astronomer_project_var
+				}
+			}
+		}
+
+        effect = {
+			remove_variable = verrier_can_stop_active_project_var #Needs to be removed, when the JE is removed
+			remove_variable = verrier_stop_astronomer_project_var
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			ai_astronomy_automation_effect = yes
+        }
+	}
+
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
 			custom_tooltip = {
-				text = je_astronomer_dies_tt
-				NOT = {
-					has_variable = verrier_astronomer_var
-				}
-			}
-			custom_tooltip = {
-				text = verrier_stop_astronomer_project_tt
-				has_variable = verrier_stop_astronomer_project_var
+				text = je_satellite_discovery_failed_tt
+				verrier_can_discover_jupiter_satellite_trigger = no
 			}
 		}
-	}
 
-	on_invalid = {
-		remove_variable = verrier_can_stop_active_project_var #Needs to be removed, when the JE is removed
-		remove_variable = verrier_stop_astronomer_project_var
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
-	}
-
-	fail = {
-		custom_tooltip = {
-			text = je_satellite_discovery_failed_tt
-			verrier_can_discover_jupiter_satellite_trigger = no
-		}
-	}
-
-	on_fail = {
-		trigger_event = {
-			id = verrier.501
-		}
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
+        effect = {
+			trigger_event = verrier.501
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			ai_astronomy_automation_effect = yes
+        }
 	}
 
 	weight = 25
@@ -739,97 +825,113 @@ je_verrier_saturn_satellites = {
 
 	group = je_group_verrier_astronomy
 
-	immediate = {
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	complete = {
-		custom_tooltip = {
-			text = verrier_satellite_discovery_progress_bar_at_full_tt
-			je:je_verrier_saturn_satellites = {
-				"scripted_bar_progress(verrier_satellite_discovery_progress_bar)" >= 48
-			}
-		}
-	}
-
-	on_complete = {
-		custom_tooltip = {
-			text = je_verrier_satellites_success
-			random_list = {
-				1 = {
-					trigger = { verrier_can_discover_enceladus_trigger = yes }
-					trigger_event = {
-						id = verrier.531 #Verrier 531: Enceladus discovered
-						popup = yes
-					}
-				}
-				1 = {
-					trigger = { verrier_can_discover_mimas_trigger = yes }
-					trigger_event = {
-						id = verrier.532 #Verrier 532: Mimas discovered
-						popup = yes
-					}
-				}
-				1 = {
-					trigger = { verrier_can_discover_hyperion_trigger = yes }
-					trigger_event = {
-						id = verrier.533 #Verrier 533: Hyperion discovered
-						popup = yes
-					}
-				}
-				1 = {
-					trigger = { verrier_can_discover_phoebe_trigger = yes }
-					trigger_event = {
-						id = verrier.534 #Verrier 534: Phoebe discovered
-						popup = yes
-					}
-				}
-			}
-		}
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
-	}
-
-	invalid = {
-		OR = {
+		trigger = {
 			custom_tooltip = {
-				text = je_astronomer_dies_tt
-				NOT = {
-					has_variable = verrier_astronomer_var
+				text = verrier_satellite_discovery_progress_bar_at_full_tt
+				je:je_verrier_saturn_satellites = {
+					"scripted_bar_progress(verrier_satellite_discovery_progress_bar)" >= 48
 				}
 			}
+		}
+
+		effect = {
 			custom_tooltip = {
-				text = verrier_stop_astronomer_project_tt
-				has_variable = verrier_stop_astronomer_project_var
+				text = je_verrier_satellites_success
+				random_list = {
+					1 = {
+						trigger = { verrier_can_discover_enceladus_trigger = yes }
+						trigger_event = {
+							id = verrier.531 #Verrier 531: Enceladus discovered
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = { verrier_can_discover_mimas_trigger = yes }
+						trigger_event = {
+							id = verrier.532 #Verrier 532: Mimas discovered
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = { verrier_can_discover_hyperion_trigger = yes }
+						trigger_event = {
+							id = verrier.533 #Verrier 533: Hyperion discovered
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = { verrier_can_discover_phoebe_trigger = yes }
+						trigger_event = {
+							id = verrier.534 #Verrier 534: Phoebe discovered
+							popup = yes
+						}
+					}
+				}
+			}
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			ai_astronomy_automation_effect = yes
+		}
+	}
+
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			OR = {
+				custom_tooltip = {
+					text = je_astronomer_dies_tt
+					NOT = {
+						has_variable = verrier_astronomer_var
+					}
+				}
+				custom_tooltip = {
+					text = verrier_stop_astronomer_project_tt
+					has_variable = verrier_stop_astronomer_project_var
+				}
 			}
 		}
+
+        effect = {
+			remove_variable = verrier_can_stop_active_project_var #Needs to be removed, when the JE is removed
+			remove_variable = verrier_stop_astronomer_project_var
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			ai_astronomy_automation_effect = yes
+        }
 	}
 
-	on_invalid = {
-		remove_variable = verrier_can_stop_active_project_var #Needs to be removed, when the JE is removed
-		remove_variable = verrier_stop_astronomer_project_var
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	fail = {
-		custom_tooltip = {
-			text = je_satellite_discovery_failed_tt
-			verrier_can_discover_saturn_satellite_trigger = no
+		trigger = {
+			custom_tooltip = {
+				text = je_satellite_discovery_failed_tt
+				verrier_can_discover_saturn_satellite_trigger = no
+			}
 		}
-	}
 
-	on_fail = {
-		trigger_event = {
-			id = verrier.501
-		}
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
+        effect = {
+			trigger_event = verrier.501
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			ai_astronomy_automation_effect = yes
+        }
 	}
 
 	weight = 25
@@ -845,104 +947,120 @@ je_verrier_uranus_satellites = {
 
 	group = je_group_verrier_astronomy
 
-	immediate = {
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	complete = {
-		custom_tooltip = {
-			text = verrier_satellite_discovery_progress_bar_at_full_tt
-			je:je_verrier_uranus_satellites = {
-				"scripted_bar_progress(verrier_satellite_discovery_progress_bar)" >= 48
-			}
-		}
-	}
-
-	on_complete = {
-		custom_tooltip = {
-			text = je_verrier_satellites_success
-			random_list = {
-				1 = {
-					trigger = { verrier_can_discover_titania_trigger = yes }
-					trigger_event = {
-						id = verrier.541 #Verrier 541: Titania discovered
-						popup = yes
-					}
-				}
-				1 = {
-					trigger = { verrier_can_discover_oberon_trigger = yes }
-					trigger_event = {
-						id = verrier.542 #Verrier 542: Oberon discovered
-						popup = yes
-					}
-				}
-				1 = {
-					trigger = { verrier_can_discover_ariel_trigger = yes }
-					trigger_event = {
-						id = verrier.543 #Verrier 543: Ariel discovered
-						popup = yes
-					}
-				}
-				1 = {
-					trigger = { verrier_can_discover_umbriel_trigger = yes }
-					trigger_event = {
-						id = verrier.544 #Verrier 544: Umbriel discovered
-						popup = yes
-					}
-				}
-				1 = {
-					trigger = { verrier_can_discover_miranda_trigger = yes }
-					trigger_event = {
-						id = verrier.545 #Verrier 545: Miranda discovered
-						popup = yes
-					}
-				}
-			}
-		}
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
-	}
-
-	invalid = {
-		OR = {
+		trigger = {
 			custom_tooltip = {
-				text = je_astronomer_dies_tt
-				NOT = {
-					has_variable = verrier_astronomer_var
+				text = verrier_satellite_discovery_progress_bar_at_full_tt
+				je:je_verrier_uranus_satellites = {
+					"scripted_bar_progress(verrier_satellite_discovery_progress_bar)" >= 48
 				}
 			}
+		}
+
+		effect = {
 			custom_tooltip = {
-				text = verrier_stop_astronomer_project_tt
-				has_variable = verrier_stop_astronomer_project_var
+				text = je_verrier_satellites_success
+				random_list = {
+					1 = {
+						trigger = { verrier_can_discover_titania_trigger = yes }
+						trigger_event = {
+							id = verrier.541 #Verrier 541: Titania discovered
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = { verrier_can_discover_oberon_trigger = yes }
+						trigger_event = {
+							id = verrier.542 #Verrier 542: Oberon discovered
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = { verrier_can_discover_ariel_trigger = yes }
+						trigger_event = {
+							id = verrier.543 #Verrier 543: Ariel discovered
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = { verrier_can_discover_umbriel_trigger = yes }
+						trigger_event = {
+							id = verrier.544 #Verrier 544: Umbriel discovered
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = { verrier_can_discover_miranda_trigger = yes }
+						trigger_event = {
+							id = verrier.545 #Verrier 545: Miranda discovered
+							popup = yes
+						}
+					}
+				}
+			}
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			ai_astronomy_automation_effect = yes
+		}
+	}
+
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			OR = {
+				custom_tooltip = {
+					text = je_astronomer_dies_tt
+					NOT = {
+						has_variable = verrier_astronomer_var
+					}
+				}
+				custom_tooltip = {
+					text = verrier_stop_astronomer_project_tt
+					has_variable = verrier_stop_astronomer_project_var
+				}
 			}
 		}
+
+        effect = {
+			remove_variable = verrier_can_stop_active_project_var #Needs to be removed, when the JE is removed
+			remove_variable = verrier_stop_astronomer_project_var
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			ai_astronomy_automation_effect = yes
+        }
 	}
 
-	on_invalid = {
-		remove_variable = verrier_can_stop_active_project_var #Needs to be removed, when the JE is removed
-		remove_variable = verrier_stop_astronomer_project_var
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	fail = {
-		custom_tooltip = {
-			text = je_satellite_discovery_failed_tt
-			verrier_can_discover_uranus_satellite_trigger = no
+		trigger = {
+			custom_tooltip = {
+				text = je_satellite_discovery_failed_tt
+				verrier_can_discover_uranus_satellite_trigger = no
+			}
 		}
-	}
 
-	on_fail = {
-		trigger_event = {
-			id = verrier.501
-		}
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
+        effect = {
+			trigger_event = verrier.501
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			ai_astronomy_automation_effect = yes
+        }
 	}
 
 	weight = 25
@@ -958,84 +1076,100 @@ je_verrier_neptune_satellites = {
 
 	group = je_group_verrier_astronomy
 
-	immediate = {
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	complete = {
-		custom_tooltip = {
-			text = verrier_satellite_discovery_progress_bar_at_full_tt
-			je:je_verrier_neptune_satellites = {
-				"scripted_bar_progress(verrier_satellite_discovery_progress_bar)" >= 48
+		trigger = {
+			custom_tooltip = {
+				text = verrier_satellite_discovery_progress_bar_at_full_tt
+				je:je_verrier_neptune_satellites = {
+					"scripted_bar_progress(verrier_satellite_discovery_progress_bar)" >= 48
+				}
 			}
 		}
-	}
 
-	on_complete = {
-		custom_tooltip = {
-			text = je_verrier_satellites_success
-			random_list = {
-				### Triton is discovered by whoever has the second most astronomical objects when someone finds Neptune (if no country has an astronomer, the normal system applies though.
-				1 = {
-					trigger = { verrier_can_discover_triton_trigger = yes }
-					trigger_event = {
-						id = verrier.551 #Verrier 551: Triton discovered
-						popup = yes
+		effect = {
+			custom_tooltip = {
+				text = je_verrier_satellites_success
+				random_list = {
+					### Triton is discovered by whoever has the second most astronomical objects when someone finds Neptune (if no country has an astronomer, the normal system applies though.
+					1 = {
+						trigger = { verrier_can_discover_triton_trigger = yes }
+						trigger_event = {
+							id = verrier.551 #Verrier 551: Triton discovered
+							popup = yes
+						}
+					}
+					1 = {
+						trigger = { verrier_can_discover_nereid_trigger = yes }
+						trigger_event = {
+							id = verrier.552 #Verrier 552: Nereid discovered
+							popup = yes
+						}
 					}
 				}
-				1 = {
-					trigger = { verrier_can_discover_nereid_trigger = yes }
-					trigger_event = {
-						id = verrier.552 #Verrier 552: Nereid discovered
-						popup = yes
+			}
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			ai_astronomy_automation_effect = yes
+		}
+	}
+
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			OR = {
+				custom_tooltip = {
+					text = je_astronomer_dies_tt
+					NOT = {
+						has_variable = verrier_astronomer_var
 					}
 				}
-			}
-		}
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
-	}
-
-	invalid = {
-		OR = {
-			custom_tooltip = {
-				text = je_astronomer_dies_tt
-				NOT = {
-					has_variable = verrier_astronomer_var
+				custom_tooltip = {
+					text = verrier_stop_astronomer_project_tt
+					has_variable = verrier_stop_astronomer_project_var
 				}
 			}
+		}
+
+        effect = {
+			remove_variable = verrier_can_stop_active_project_var #Needs to be removed, when the JE is removed
+			remove_variable = verrier_stop_astronomer_project_var
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			ai_astronomy_automation_effect = yes
+        }
+	}
+
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
 			custom_tooltip = {
-				text = verrier_stop_astronomer_project_tt
-				has_variable = verrier_stop_astronomer_project_var
+				text = je_satellite_discovery_failed_tt
+				verrier_can_discover_neptune_satellite_trigger = no
 			}
 		}
-	}
 
-	on_invalid = {
-		remove_variable = verrier_can_stop_active_project_var #Needs to be removed, when the JE is removed
-		remove_variable = verrier_stop_astronomer_project_var
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
-	}
-
-	fail = {
-		custom_tooltip = {
-			text = je_satellite_discovery_failed_tt
-			verrier_can_discover_neptune_satellite_trigger = no
-		}
-	}
-
-	on_fail = {
-		trigger_event = {
-			id = verrier.501
-		}
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
+        effect = {
+			trigger_event = verrier.501
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			ai_astronomy_automation_effect = yes
+        }
 	}
 
 	weight = 25
@@ -1051,6 +1185,26 @@ je_verrier_charter_moon = {
 	scripted_button = verrier_stop_astronomer_project_button
 
 	group = je_group_verrier_astronomy
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:verrier_moon_photo #value or variable you use to meassure progress
+		}
+	}
+
+	goal_add_value = {
+		value = 10 #value you want the variable to reach
+	}
+
+	progressbar = yes
 
 	immediate = {
 		set_variable = verrier_can_stop_active_project_var
@@ -1072,73 +1226,65 @@ je_verrier_charter_moon = {
 		}
 	}
 
-	current_value = {
-		if = {
-			limit = {
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_verrier_charter_moon_success
 				scope:journal_entry = {
-					goal_value = 0
+					is_goal_complete = yes
 				}
 			}
-			value = 0
-		}
-		else = {
-			value = var:verrier_moon_photo #value or variable you use to meassure progress
-		}
-	}
-
-	goal_add_value = {
-		value = 10 #value you want the variable to reach
-	}
-
-	complete = {
-		custom_tooltip = {
-			text = je_verrier_charter_moon_success
-			scope:journal_entry = {
-				is_goal_complete = yes
+			hidden_trigger = {
+				NOT = { has_variable = je_verrier_charter_moon_var }
 			}
 		}
-		hidden_trigger = {
-			NOT = { has_variable = je_verrier_charter_moon_var }
+
+		effect = {
+			trigger_event = {
+				id = verrier.50
+				popup = yes
+			}
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			ai_astronomy_automation_effect = yes
 		}
 	}
 
-	on_complete = {
-		trigger_event = {
-			id = verrier.50
-			popup = yes
-		}
-		remove_modifier = verrier_charter_moon_modifier
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
-	}
-
-	invalid = {
-		OR = {
-			custom_tooltip = {
-				text = je_astronomer_dies_tt
-				NOT = {
-					has_variable = verrier_astronomer_var
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			OR = {
+				custom_tooltip = {
+					text = je_astronomer_dies_tt
+					NOT = {
+						has_variable = verrier_astronomer_var
+					}
+				}
+				custom_tooltip = {
+					text = verrier_stop_astronomer_project_tt
+					has_variable = verrier_stop_astronomer_project_var
 				}
 			}
-			custom_tooltip = {
-				text = verrier_stop_astronomer_project_tt
-				has_variable = verrier_stop_astronomer_project_var
+		}
+
+        effect = {
+			remove_variable = verrier_can_stop_active_project_var #Needs to be removed, when the JE is removed
+			remove_variable = verrier_stop_astronomer_project_var
+			var:verrier_astronomer_var ?= {
+				set_character_busy_and_immortal = no
 			}
-		}
+			ai_astronomy_automation_effect = yes
+        }
 	}
-
-	on_invalid = {
-		remove_variable = verrier_can_stop_active_project_var #Needs to be removed, when the JE is removed
-		remove_variable = verrier_stop_astronomer_project_var
-		var:verrier_astronomer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		ai_astronomy_automation_effect = yes
-	}
-
-	progressbar = yes
 
 	weight = 25
 }
@@ -1151,13 +1297,6 @@ je_verrier_meteorites = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	group = je_group_verrier_astronomy
-
-	immediate = {
-		set_variable = {
-			name = je_verrier_charter_moon_var
-			days = 1
-		}
-	}
 
 	current_value = {
 		if = {
@@ -1177,21 +1316,36 @@ je_verrier_meteorites = {
 		value = 10 #value you want the variable to reach
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-		hidden_trigger = {
-			NOT = { has_variable = je_verrier_charter_moon_var }
-		}
-	}
-
-	on_complete = {
-		set_variable = verrier_meteorites_je_done_var
-		verrier_large_add_technology = yes
-	}
-
 	progressbar = yes
+
+	immediate = {
+		set_variable = {
+			name = je_verrier_charter_moon_var
+			days = 1
+		}
+	}
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+			hidden_trigger = {
+				NOT = { has_variable = je_verrier_charter_moon_var }
+			}
+		}
+
+		effect = {
+			set_variable = verrier_meteorites_je_done_var
+			verrier_large_add_technology = yes
+		}
+	}
 
 	weight = 25
 }
@@ -1216,41 +1370,46 @@ je_verrier_venus_transit_1874 = {
 		}
 	}
 
-	complete = {
-		year = 1874
-		custom_tooltip = {
-			text = mr_month_is_december_tt
-			month = 11 # December. The trigger for months is on a 0-11 scale.
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			year = 1874
+			custom_tooltip = {
+				text = mr_month_is_december_tt
+				month = 11 # December. The trigger for months is on a 0-11 scale.
+			}
+		}
+
+		effect = {
+			custom_tooltip = je_verrier_venus_transit_1874_on_complete_tt
+			random_list = {
+				3 = { trigger_event = verrier.351 }
+				1 = { trigger_event = verrier.353 }
+			}
 		}
 	}
 
-	on_complete = {
-		custom_tooltip = je_verrier_venus_transit_1874_on_complete_tt
-		random_list = {
-			3 = {
-				trigger_event = {
-					id = verrier.351
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_astronomer_dies_tt
+				NOT = {
+					has_variable = verrier_astronomer_var
 				}
 			}
-			1 = {
-				trigger_event = {
-					id = verrier.353
-				}
-			}
 		}
-	}
 
-	invalid = {
-		custom_tooltip = {
-			text = je_astronomer_dies_tt
-			NOT = {
-				has_variable = verrier_astronomer_var
-			}
-		}
-	}
-
-	on_invalid = {
-		remove_modifier = verrier_venus_transit_preparation_modifier
+        effect = {
+			remove_modifier = verrier_venus_transit_preparation_modifier
+        }
 	}
 
 	weight = 25
@@ -1272,41 +1431,46 @@ je_verrier_venus_transit_1882 = {
 		}
 	}
 
-	complete = {
-		year = 1882
-		custom_tooltip = {
-			text = mr_month_is_december_tt
-			month = 11 # December. The trigger for months is on a 0-11 scale.
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			year = 1882
+			custom_tooltip = {
+				text = mr_month_is_december_tt
+				month = 11 # December. The trigger for months is on a 0-11 scale.
+			}
+		}
+
+		effect = {
+			custom_tooltip = je_verrier_venus_transit_1874_on_complete_tt
+			random_list = {
+				4 = { trigger_event = verrier.352 }
+				1 = { trigger_event = verrier.353 }
+			}
 		}
 	}
 
-	on_complete = {
-		custom_tooltip = je_verrier_venus_transit_1874_on_complete_tt
-		random_list = {
-			4 = {
-				trigger_event = {
-					id = verrier.352
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_astronomer_dies_tt
+				NOT = {
+					has_variable = verrier_astronomer_var
 				}
 			}
-			1 = {
-				trigger_event = {
-					id = verrier.353
-				}
-			}
 		}
-	}
 
-	invalid = {
-		custom_tooltip = {
-			text = je_astronomer_dies_tt
-			NOT = {
-				has_variable = verrier_astronomer_var
-			}
-		}
-	}
-
-	on_invalid = {
-		remove_modifier = verrier_venus_transit_preparation_modifier
+        effect = {
+			remove_modifier = verrier_venus_transit_preparation_modifier
+        }
 	}
 
 	weight = 25
@@ -1320,21 +1484,6 @@ je_verrier_astro_physics = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	group = je_group_verrier_astronomy
-
-	is_shown_when_inactive = {
-		has_global_variable = verrier_neptune_year_global_var
-	}
-
-	possible = {
-		has_technology_researched = verrier_modern_physics_tech
-	}
-
-	immediate = {
-		set_variable = {
-			name = je_verrier_astro_physics_var
-			days = 1
-		}
-	}
 
 	current_value = {
 		if = {
@@ -1354,24 +1503,47 @@ je_verrier_astro_physics = {
 		value = 1000 #value you want the variable to reach
 	}
 
-	complete = {
+	progressbar = yes
+
+	is_shown_when_inactive = {
+		has_global_variable = verrier_neptune_year_global_var
+	}
+
+	possible = {
 		has_technology_researched = verrier_modern_physics_tech
-		custom_tooltip = {
-			text = je_verrier_astro_physics_success
-			scope:journal_entry = {
-				is_goal_complete = yes
+	}
+
+	immediate = {
+		set_variable = {
+			name = je_verrier_astro_physics_var
+			days = 1
+		}
+	}
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			has_technology_researched = verrier_modern_physics_tech
+			custom_tooltip = {
+				text = je_verrier_astro_physics_success
+				scope:journal_entry = {
+					is_goal_complete = yes
+				}
+			}
+			hidden_trigger = {
+				NOT = { has_variable = je_verrier_astro_physics_var }
 			}
 		}
-		hidden_trigger = {
-			NOT = { has_variable = je_verrier_astro_physics_var }
+
+		effect = {
+			add_technology_researched = verrier_astro_physics_tech
 		}
 	}
-
-	on_complete = {
-		add_technology_researched = verrier_astro_physics_tech
-	}
-
-	progressbar = yes
 
 	weight = 35
 }
@@ -1385,12 +1557,6 @@ je_from_the_earth_to_the_moon = {
 
 	group = je_group_verrier_astronomy
 
-	current_value = {
-	}
-
-	goal_add_value = {
-	}
-
 	immediate = {
 		random_scope_character = {
 			limit = {
@@ -1400,42 +1566,56 @@ je_from_the_earth_to_the_moon = {
 		}
 	}
 
-	complete = {
-		any_scope_state = {
-			state_region = s:STATE_FLORIDA
-			has_building = building_railway
-		}
-		verrier_has_astronomer = yes
-		tesla_has_engineer = yes
-		custom_tooltip = {
-			text = verrier_baltimore_president_alive_tt
-			any_scope_character = {
-				has_variable = verrier_gun_club_president_var
-				is_busy = no
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			any_scope_state = {
+				state_region = s:STATE_FLORIDA
+				has_building = building_railway
+			}
+			verrier_has_astronomer = yes
+			tesla_has_engineer = yes
+			custom_tooltip = {
+				text = verrier_baltimore_president_alive_tt
+				any_scope_character = {
+					has_variable = verrier_gun_club_president_var
+					is_busy = no
+				}
+			}
+			any_scope_building = {
+				is_building_type = building_artillery_foundry
+				level >= 15
+			}
+			any_scope_building = {
+				is_building_type = building_explosives_factory
+				level >= 10
 			}
 		}
-		any_scope_building = {
-			is_building_type = building_artillery_foundry
-			level >= 15
-		}
-		any_scope_building = {
-			is_building_type = building_explosives_factory
-			level >= 10
-		}
-	}
 
-	on_complete = {
-		trigger_event = {
-			id = verrier.132
-			popup = yes
+		effect = {
+			trigger_event = {
+				id = verrier.132
+				popup = yes
+			}
 		}
 	}
 
-	fail = {
-		game_date >= 1869.7.20
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	progressbar = no
+		trigger = {
+			game_date >= 1869.7.20
+		}
+	}
 
 	weight = 15
 }
@@ -1453,6 +1633,26 @@ je_verrier_tara_wali_kothi = {
 	scripted_button = verrier_kothe_pay_workers_extra_button
 	scripted_button = verrier_kothe_employ_physics_teachers_button
 	scripted_button = verrier_kothe_employ_foreign_engineers_button
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:verrier_tara_wali_kothi_progress #value or variable you use to meassure progress
+		}
+	}
+
+	goal_add_value = {
+		value = 100
+	}
+
+	progressbar = yes
 
 	immediate = {
 		set_variable = { #This variable tracks the progress of the construction
@@ -1474,46 +1674,34 @@ je_verrier_tara_wali_kothi = {
 		}
 	}
 
-	current_value = {
-		if = {
-			limit = {
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_verrier_tara_wali_kothi_success
 				scope:journal_entry = {
-					goal_value = 0
+					is_goal_complete = yes
 				}
 			}
-			value = 0
-		}
-		else = {
-			value = var:verrier_tara_wali_kothi_progress #value or variable you use to meassure progress
-		}
-	}
-
-	goal_add_value = {
-		value = 100
-	}
-
-	complete = {
-		custom_tooltip = {
-			text = je_verrier_tara_wali_kothi_success
-			scope:journal_entry = {
-				is_goal_complete = yes
+			hidden_trigger = {
+				NOT = { has_variable = je_verrier_tara_wali_kothi_var }
 			}
 		}
-		hidden_trigger = {
-			NOT = { has_variable = je_verrier_tara_wali_kothi_var }
+
+		effect = {
+			remove_variable = verrier_tara_wali_kothi_progress
+
+			trigger_event = {
+				id = verrier.1002
+				popup = yes
+			}
 		}
 	}
-
-	on_complete = {
-		remove_variable = verrier_tara_wali_kothi_progress
-
-		trigger_event = {
-			id = verrier.1002
-			popup = yes
-		}
-	}
-
-	progressbar = yes
 
 	weight = 15
 }
