@@ -53,14 +53,14 @@ Morgenröte'nin eklediği müzikler Avrupa'da kamu malıdır. Ne yazık ki bazı
 Bu çeviriler zaten modun içinde yer alıyor. Bunları ayrıca indirmenize gerek yok. Ancak çevirilere yardımcı olmak isteyen herkese her zaman açığız.
 
 [b] Brezilya Portekizcesi: [/b]
-72% tamamlandı
+73% tamamlandı
 https://paratranz.cn/projects/15095
 Teşekkürler: rifa-456 ve koyomim
 
 [b] Fransızca: [/b]
-69% tamamlandı
+70% tamamlandı
 https://paratranz.cn/projects/15098
-Teşekkürler: Shamalau12, Aurcan (Aurélien), SirYusblack (Sir Yusbalck) ve Luffy0810 (lopotitchaton)
+Teşekkürler: Aurcan (Aurélien), Shamalau12, SirYusblack (Sir Yusbalck), Luffy0810 (lopotitchaton) ve bneuder
 
 [b] Almanca: [/b]
 100% tamamlandı
@@ -68,34 +68,34 @@ https://paratranz.cn/projects/15094
 Teşekkürler: kindum553, Speckschicht, Cr41gy, Temp3r-79 ve OttovonBismarckderErste
 
 [b] Japonca: [/b]
-16% tamamlandı
+17% tamamlandı
 https://paratranz.cn/projects/15115
-Teşekkürler: Nostromo, flowlanss ve dokusai226
+Teşekkürler: Nostromo, henriot (Henriot), flowlanss, yukinon-o7 (さとうささら(yukinon)), sonobe5963 ve dokusai226
 
 [b] Korece: [/b]
 91% tamamlandı
 https://paratranz.cn/projects/15116
-Teşekkürler: MOLRAYO (이슬람 [Islamic])
+Teşekkürler: hangukhistory3-lgtm (Hansto), MOLRAYO (이슬람 [Islamic]), sanguisetcinis (Sujo) ve U1ster (Yuster)
 
 [b] Lehçe: [/b]
-19% tamamlandı
+64% tamamlandı
 https://paratranz.cn/projects/15118
-Teşekkürler: ArmagedonYT, Anscylla, JaCKoP619 (W0lsZcZ@n), GeneralPaczek ve PiotrPilip
+Teşekkürler: Edfit99 (Edfit), ArmagedonYT, Anscylla, W0lsZcZ4n (W0lsZcZ@n), GeneralPaczek, PiotrPilip, maisik177 ve saperstoer
 
 [b] Rusça: [/b]
 100% tamamlandı
 https://paratranz.cn/projects/15120
-Teşekkürler: Hass, BEDTRIP, Sinusis, kotelnikov-andrey
+Teşekkürler: Hass, BEDTRIP, Sinusis ve kotelnikov-andrey
 
 [b] Basit Çince: [/b]
 100% tamamlandı
 https://paratranz.cn/projects/15113
-Teşekkürler: this team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王) ve nyr102498 (伊恩)
+Teşekkürler: this team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王), nyr102498 (伊恩) ve zjm200410 (MOJUN)
 
 [b] İspanyolca: [/b]
 65% tamamlandı
 https://paratranz.cn/projects/15114
-Teşekkürler: tremblejj, VWM26 ve Nickbonham22
+Teşekkürler: tremblejj, melufacharlo-cmyk, D4nn3rion (Dannerion), VWM26, Drascend ve Nickbonham22
 
 [b] Türkçe: [/b]
 100% tamamlandı

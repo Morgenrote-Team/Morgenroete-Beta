@@ -53,14 +53,14 @@ Morgenröte에 내장된 음악은 유럽에서 퍼블릭 도메인으로 저작
 아래의 번역은 이미 모드에 함께 들어가기 때문에 따로 다운로드할 필요는 없습니다. 번역 작업에 도움을 주신다면 언제든 환영하겠습니다.
 
 [b]브라질 포르투갈어:[/b]
-72% 완료
+73% 완료
 https://paratranz.cn/projects/15095
 도움을 주신 분: rifa-456, koyomim
 
 [b]프랑스어:[/b]
-69% 완료
+70% 완료
 https://paratranz.cn/projects/15098
-도움을 주신 분: Shamalau12, Aurcan (Aurélien), SirYusblack (Sir Yusbalck), Luffy0810 (lopotitchaton)
+도움을 주신 분: Aurcan (Aurélien), Shamalau12, SirYusblack (Sir Yusbalck), Luffy0810 (lopotitchaton), bneuder
 
 [b]독일어:[/b]
 100% 완료
@@ -68,19 +68,19 @@ https://paratranz.cn/projects/15094
 도움을 주신 분: kindum553, Speckschicht, Cr41gy, Temp3r-79, OttovonBismarckderErste
 
 [b]일본어:[/b]
-16% 완료
+17% 완료
 https://paratranz.cn/projects/15115
-도움을 주신 분: Nostromo, flowlanss, dokusai226
+도움을 주신 분: Nostromo, henriot (Henriot), flowlanss, yukinon-o7 (さとうささら(yukinon)), sonobe5963, dokusai226
 
 [b]한국어:[/b]
 91% 완료
 https://paratranz.cn/projects/15116
-도움을 주신 분: MOLRAYO (이슬람 [Islamic])
+도움을 주신 분: hangukhistory3-lgtm (Hansto), MOLRAYO (이슬람 [Islamic]), sanguisetcinis (Sujo), U1ster (Yuster)
 
 [b]폴란드어:[/b]
-19% 완료
+64% 완료
 https://paratranz.cn/projects/15118
-도움을 주신 분: ArmagedonYT, Anscylla, JaCKoP619 (W0lsZcZ@n), GeneralPaczek, PiotrPilip
+도움을 주신 분: Edfit99 (Edfit), ArmagedonYT, Anscylla, W0lsZcZ4n (W0lsZcZ@n), GeneralPaczek, PiotrPilip, maisik177, saperstoer
 
 [b]러시아어:[/b]
 100% 완료
@@ -90,12 +90,12 @@ https://paratranz.cn/projects/15120
 [b]중국어 간체:[/b]
 100% 완료
 https://paratranz.cn/projects/15113
-도움을 주신 분: this team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王), nyr102498 (伊恩)
+도움을 주신 분: this team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王), nyr102498 (伊恩), zjm200410 (MOJUN)
 
 [b]스페인어:[/b]
 65% 완료
 https://paratranz.cn/projects/15114
-도움을 주신 분: tremblejj, VWM26, Nickbonham22
+도움을 주신 분: tremblejj, melufacharlo-cmyk, D4nn3rion (Dannerion), VWM26, Drascend, Nickbonham22
 
 [b]튀르키예어:[/b]
 100% 완료
