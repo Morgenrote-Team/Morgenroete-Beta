@@ -4,6 +4,253 @@
 
 ############################################################################
 
+###Kill balloonist###
+kill_balloonist_effect = {
+	if = {
+		limit = {
+			has_variable = santos_balloonist_var
+		}
+		var:santos_balloonist_var ?= {
+			if = {
+				limit = { is_character_alive = yes }
+				kill_character = yes
+			}
+		}
+
+		remove_variable = santos_balloonist_var
+	}
+}
+
+#This effect kills the current balloonist and creates a new one
+kill_and_replace_balloonist_effect = {
+	kill_balloonist_effect = yes
+	create_new_character_base_effect = { CHARACTER = balloonist PROJECT = santos }
+	santos_set_new_balloonist_as_balloonist_effect = yes
+}
+
+#This Effect retires the current Balloonist
+# Use "set_retirement_variable_effect" in the immediate effect when using this effect.
+retire_balloonist_effect = {
+	custom_tooltip = {
+		text = retire_balloonist_effect_tt
+
+		var:santos_balloonist_var = {
+			kill_character = yes
+		}
+	}
+
+	remove_variable = santos_balloonist_var
+}
+
+# Set new Balloonist as official Balloonist
+santos_set_new_balloonist_as_balloonist_effect = {
+	custom_tooltip = {
+		text = santos_replace_balloonist_with_new_balloonist_tt
+
+		if = {
+			limit = {
+				has_variable = santos_balloonist_var
+			}
+			var:santos_balloonist_var = {
+				set_character_busy_and_immortal = no
+			}
+		}
+
+		set_variable = {
+			name = santos_balloonist_var
+			value = scope:santos_new_balloonist_scope
+		}
+
+		#Adds Default Action
+		if = {
+			limit = {
+				NOT = { has_journal_entry = je_santos_balloon_ride }
+			}
+			add_journal_entry = {
+				type = je_santos_balloon_ride
+			}
+		}
+
+		remove_variable = santos_new_balloonist_var
+	}
+}
+
+# Used to set up the Experience of a character
+balloonist_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = santos_balloonist_experience_var
+			}
+		}
+		set_variable = {
+			name = santos_balloonist_experience_var
+			value = { 0 50 }
+		}
+		if = {
+			limit = {
+				owner = {
+					any_scope_building = {
+						is_building_type = building_gaudi_sports
+					}
+				}
+			}
+			change_variable = {
+				name = santos_balloonist_experience_var
+				add = 75
+			}
+		}
+	}
+
+	owner = {
+		set_variable = {
+			name = santos_balloon_name_randomizer_var
+			value = { 1 25 }
+		}
+		round_variable = {
+			name = santos_balloon_name_randomizer_var
+			nearest = 1
+		}
+	}
+
+	set_variable = {
+		name = santos_balloon_year_var
+		value = year
+	}
+	set_variable = {
+		name = santos_balloon_altitude_record_personal_var
+		value = 0
+	}
+	set_variable = {
+		name = santos_balloon_distance_record_personal_var
+		value = 0
+	}
+	set_variable = {
+		name = santos_balloon_time_record_personal_var
+		value = 0
+	}
+	set_variable = {
+		name = santos_balloon_type_var
+		value = flag:santos_balloon_type_allround_flag
+	}
+	set_variable = {
+		name = santos_balloon_fuel_var
+		value = flag:santos_balloon_fuel_coal_gas_flag
+	}
+}
+
+#Balloonist Experience gain
+balloonist_experience_gain_effect = { #adds XP to the balloonist
+	# Amount = amountof XP to add
+	if = {
+		limit = {
+			has_variable = santos_balloonist_var
+		}
+		var:santos_balloonist_var ?= {
+			change_variable = {
+				name = santos_balloonist_experience_var
+				add = $AMOUNT$
+			}
+			clamp_variable = {
+				name = santos_balloonist_experience_var
+				min = 0
+				max = 300
+			}
+		}
+		if = {
+			limit = {
+				var:santos_balloonist_var ?= {
+					var:santos_balloonist_experience_var >= 100
+					NOR = {
+						has_trait = santos_balloonist_experienced
+						has_trait = santos_balloonist_famous
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_variable = santos_no_balloonist_death_events }
+				}
+				trigger_event = {
+					id = santos.671
+					popup = yes
+				}
+			}
+			hidden_effect = {
+				var:santos_balloonist_var ?= {
+					remove_trait = santos_balloonist
+					add_trait = santos_balloonist_experienced
+				}
+			}
+		}
+		if = {
+			limit = {
+				var:santos_balloonist_var ?= {
+					var:santos_balloonist_experience_var >= 300
+					NOT = {
+						has_trait = santos_balloonist_famous
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_variable = santos_no_balloonist_death_events }
+				}
+				trigger_event = {
+					id = santos.672
+					popup = yes
+				}
+			}
+			hidden_effect = {
+				var:santos_balloonist_var = {
+					remove_trait = santos_balloonist
+					remove_trait = santos_balloonist_experienced
+					add_trait = santos_balloonist_famous
+				}
+			}
+		}
+	}
+}
+
+#level up for balloonist
+balloonist_level_up_effect = {
+	if = {
+		limit = {
+			has_variable = santos_balloonist_var
+		}
+		if = {
+			limit = {
+				var:santos_balloonist_var ?= {
+					NOT = {
+						has_trait = santos_balloonist_famous
+					}
+					var:santos_balloonist_experience_var >= 300
+				}
+			}
+			var:santos_balloonist_var ?= {
+				remove_trait = santos_balloonist
+				remove_trait = santos_balloonist_experienced
+				add_trait = santos_balloonist_famous
+			}
+		}
+		else_if = {
+			limit = {
+				var:santos_balloonist_var ?= {
+					NOR = {
+						has_trait = santos_balloonist_experienced
+						has_trait = santos_balloonist_famous
+					}
+					var:santos_balloonist_experience_var >= 100
+				}
+			}
+			var:santos_balloonist_var ?= {
+				remove_trait = santos_balloonist
+				add_trait = santos_balloonist_experienced
+			}
+		}
+	}
+}
+
 ######PILOT######
 
 #This effect kills the current pilot

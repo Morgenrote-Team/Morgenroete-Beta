@@ -50,6 +50,12 @@ Aviation & Ships
 - Seaplanes are no longer needed for Modern Aviation and Air War Doctrin, it does also no longer give additional modifiers.
 - Echo Sounding Tech allows Sonar Modification on Submarines and Destroyers.
 
+Ballooning
+- The balloonist has been adjusted to better align with how other Morgenröte characters function.
+- A custom Balloon Society GUI that displays the balloon, modifications, balloon crossings, and many other important details. This makes it much clearer why and how a balloonist breaks a record.
+- Added Balloon Ride (Default ACtion). This is an entire safe option for your balloonist, researching technologies and giving certain buildings a modifier.
+- Added Balloon Adventure. A balloonist can bring items from abroad (minerals, specimen, artifacts etc.) depending on his profession. Small risk to die.
+
 Biology & Chemistry
 - Removed Cydia and Cochliomyia State Traits.
 - Codling Moth (Cydia) and New World Screwworm Fly (Cochliomyia) are now Harvest Conditions.
@@ -91,14 +97,17 @@ Research Charter
 - AI will only request Research Charters and mostly does this with other AI nations (player shouldn't be bothered too much).
 
 Technologies
-- Added Mathematics. This is the first technology in the Physics/Mathematics tree (even before Classical Physics). Countries which start with manufacturies also start with mathematics.
+- Added Mathematics. This is the first technology in the Physics/Mathematics tree (before Classical Physics). Countries which start with manufacturies also start with mathematics.
 - Added Differential Geometry. This Technology is needed for the Mathematics Specialization.
 - Differential Geometry is needed for Astronomy, not Mechanical Tools.
 - Differential Geometry gives +1 Yearly Astronomical Objects.
 - Mathematical-Technical Faculty needs Differential Geometry, not Athmospheric Engine.
 - Tier 1&2 Countries start with Differential Geometry.
+- Messenger Pigeons is now a Tier 1 Tech (now it's more like the historic Tech from the Early Modern Era and no longer considered the Tech from the Franco-Prussian War). This is the first technology in the Aviation tree (before Montgolfier Balloon). Countries which start with artillery also start with Messenger Pidgeons.
+- Only recognized countries start with Montgolfier Balloon.
+- Added Military Cartography. It more or less takes the place of the messenger pigeons of the past.
 - Added Meteorology. This unlocks Early Weather Station. Only the UK starts with Meteorology. It unlocks Meteorologist Specialization.
-- Added High Altitude Ballons. This unlocks Modern Weather Station. Needed for Stratospheric Balloon Flight.
+- Added High Altitude Balloons. This unlocks Modern Weather Station. Needed for Stratospheric Balloon Flight.
 - Added Research Charter Tech. This unlocks the Research Charter Treaty Article. This was done to keep AI nations to a minimum doing this article. Non-Great Powers without an archaeologist, paleontologist, naturalist or mountaineer ar enot interested to research this tech.
 - Added Early Pesticides. This lowers the impact of pests.
 - Added Modern Pesticides. This lowers the impact of pests.
