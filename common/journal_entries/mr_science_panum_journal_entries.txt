@@ -14,6 +14,16 @@ je_panum_germ_theory = {
 
 	group = je_group_panum_medicine
 
+	current_value = {
+		value = var:panum_germ_theory_clues_var
+	}
+
+	goal_add_value = {
+		value = 20
+	}
+
+	progressbar = yes
+
 	is_shown_when_inactive = {
 		has_technology_researched = medical_degrees
 	}
@@ -36,32 +46,30 @@ je_panum_germ_theory = {
 		}
 	}
 
-	complete = {
-		panum_has_physician = yes
-		custom_tooltip = {
-			text = je_panum_germ_theory_success
-			scope:journal_entry = {
-				is_goal_complete = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			panum_has_physician = yes
+			custom_tooltip = {
+				text = je_panum_germ_theory_success
+				scope:journal_entry = {
+					is_goal_complete = yes
+				}
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = panum.11
+				popup = yes
 			}
 		}
 	}
-
-	on_complete = {
-		trigger_event = {
-			id = panum.11
-			popup = yes
-		}
-	}
-
-	current_value = {
-		value = var:panum_germ_theory_clues_var
-	}
-
-	goal_add_value = {
-		value = 20
-	}
-
-	progressbar = yes
 
 	weight = 30
 }
@@ -71,6 +79,16 @@ je_panum_vaccine = {
 	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
 
 	group = je_group_panum_medicine
+
+	current_value = {
+		value = var:theiler_smallpox_vaccine_clues_var
+	}
+
+	goal_add_value = {
+		value = 4
+	}
+
+	progressbar = yes
 
 	immediate = {
 		if = { #Fallback if the variable does not exist yet
@@ -86,28 +104,26 @@ je_panum_vaccine = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_panum_vaccine_success
-			scope:journal_entry = {
-				is_goal_complete = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_panum_vaccine_success
+				scope:journal_entry = {
+					is_goal_complete = yes
+				}
 			}
 		}
-	}
 
-	on_complete = {
-		theiler_add_smallpox_vaccine_effect = yes
+		effect = {
+			theiler_add_smallpox_vaccine_effect = yes
+		}
 	}
-
-	current_value = {
-		value = var:theiler_smallpox_vaccine_clues_var
-	}
-
-	goal_add_value = {
-		value = 4
-	}
-
-	progressbar = yes
 
 	weight = 30
 }
@@ -262,73 +278,86 @@ je_panum_medical_system_project = {
 		}
 	}
 
-	complete = {
-		any_scope_state = {
-			OR = {
-				custom_tooltip = {
-					text = je_panum_medical_system_project_success_1
-					any_scope_building = {
-						is_building_type = building_government_administration
-						level >= 20
-						has_active_production_method = pm_panum_hospital
-					}
-				}
-				custom_tooltip = {
-					text = je_panum_medical_system_project_success_2
-					any_scope_building = {
-						is_building_type = building_government_administration
-						level >= 5
-						level < 20
-						OR = {
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			any_scope_state = {
+				OR = {
+					custom_tooltip = {
+						text = je_panum_medical_system_project_success_1
+						any_scope_building = {
+							is_building_type = building_government_administration
+							level >= 20
 							has_active_production_method = pm_panum_hospital
-							has_active_production_method = pm_panum_clinic
 						}
 					}
-				}
-				custom_tooltip = {
-					text = je_panum_medical_system_project_success_3
-					any_scope_building = {
-						is_building_type = building_government_administration
-						level < 5
+					custom_tooltip = {
+						text = je_panum_medical_system_project_success_2
+						any_scope_building = {
+							is_building_type = building_government_administration
+							level >= 5
+							level < 20
+							OR = {
+								has_active_production_method = pm_panum_hospital
+								has_active_production_method = pm_panum_clinic
+							}
+						}
 					}
+					custom_tooltip = {
+						text = je_panum_medical_system_project_success_3
+						any_scope_building = {
+							is_building_type = building_government_administration
+							level < 5
+						}
+					}
+					NOT = { has_building = building_government_administration }
 				}
-				NOT = { has_building = building_government_administration }
+				percent >= 1
 			}
-			percent >= 1
 		}
-	}
 
-	on_complete = {
-		remove_variable = mr_physician_expand_medical_system_var
-		remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
-		trigger_event = {
-			id = panum.2101
-			popup = yes
-		}
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = panum_stop_medical_project_tt
-			OR = {
-				custom_tooltip = {
-					text = je_physician_dies_tt
-					NOT = {
-						has_variable = panum_physician_var
-					}
-				}
-				has_variable = panum_stop_medical_project_var
+		effect = {
+			remove_variable = mr_physician_expand_medical_system_var
+			remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
+			trigger_event = {
+				id = panum.2101
+				popup = yes
 			}
 		}
 	}
 
-	on_invalid = {
-		remove_variable = mr_physician_expand_medical_system_var
-		remove_variable = panum_stop_medical_project_var
-		remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
-		var:panum_physician_var ?= {
-			set_character_busy_and_immortal = no
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = panum_stop_medical_project_tt
+				OR = {
+					custom_tooltip = {
+						text = je_physician_dies_tt
+						NOT = {
+							has_variable = panum_physician_var
+						}
+					}
+					has_variable = panum_stop_medical_project_var
+				}
+			}
 		}
+
+        effect = {
+			remove_variable = mr_physician_expand_medical_system_var
+			remove_variable = panum_stop_medical_project_var
+			remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
+			var:panum_physician_var ?= {
+				set_character_busy_and_immortal = no
+			}
+        }
 	}
 
 	weight = 30
@@ -397,19 +426,24 @@ je_panum_medical_research_project = {
 		}
 	}
 
-	invalid = {
-		custom_tooltip = {
-			text = je_physician_dies_tt
-			NOT = {
-				has_variable = panum_physician_var
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_physician_dies_tt
+				NOT = {
+					has_variable = panum_physician_var
+				}
 			}
 		}
-	}
 
-	on_invalid = {
-		var:panum_physician_var ?= {
-			set_character_busy_and_immortal = no
-		}
+        effect = {
+			var:panum_physician_var ?= {
+				set_character_busy_and_immortal = no
+			}
+        }
 	}
 
 	weight = 30
@@ -482,50 +516,57 @@ je_panum_medical_techniques_project = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = je_panum_medical_techniques_project_complete_tt
-			has_variable = panum_medical_techniques_complete_var
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_panum_medical_techniques_project_complete_tt
+				has_variable = panum_medical_techniques_complete_var
+			}
 		}
-	}
 
-	on_complete = {
-		remove_variable = mr_physician_introduce_medical_techniques_var
-		remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
-		panum_medical_techniques_event_effect = yes
-		var:panum_physician_var = {
-			set_character_busy_and_immortal = no
-		}
-	}
-
-	current_value = {
-	}
-
-	goal_add_value = {
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = panum_stop_medical_project_tt
-			OR = {
-				custom_tooltip = {
-					text = je_physician_dies_tt
-					NOT = {
-						has_variable = panum_physician_var
-					}
-				}
-				has_variable = panum_stop_medical_project_var
+		effect = {
+			remove_variable = mr_physician_introduce_medical_techniques_var
+			remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
+			panum_medical_techniques_event_effect = yes
+			var:panum_physician_var = {
+				set_character_busy_and_immortal = no
 			}
 		}
 	}
 
-	on_invalid = {
-		remove_variable = mr_physician_introduce_medical_techniques_var
-		remove_variable = panum_stop_medical_project_var
-		remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
-		var:panum_physician_var ?= {
-			set_character_busy_and_immortal = no
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = panum_stop_medical_project_tt
+				OR = {
+					custom_tooltip = {
+						text = je_physician_dies_tt
+						NOT = {
+							has_variable = panum_physician_var
+						}
+					}
+					has_variable = panum_stop_medical_project_var
+				}
+			}
 		}
+
+        effect = {
+			remove_variable = mr_physician_introduce_medical_techniques_var
+			remove_variable = panum_stop_medical_project_var
+			remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
+			var:panum_physician_var ?= {
+				set_character_busy_and_immortal = no
+			}
+        }
 	}
 
 	weight = 30
@@ -551,54 +592,61 @@ je_panum_military_medicine_project = {
 		}
 	}
 
-	complete = {
-		custom_tooltip = {
-			text = panum_military_medicine_progress_bar_at_full_tt
-			je:je_panum_military_medicine_project = {
-				"scripted_bar_progress(panum_military_medicine_project_progress_bar)" >= 180
-			}
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
-		var:panum_physician_var = {
-			set_character_busy_and_immortal = no
-		}
-		trigger_event = {
-			id = panum.2500
-			popup = yes
-		}
-	}
-
-	current_value = {
-	}
-
-	goal_add_value = {
-	}
-
-	invalid = {
-		custom_tooltip = {
-			text = panum_stop_medical_project_tt
-			OR = {
-				custom_tooltip = {
-					text = je_physician_dies_tt
-					NOT = {
-						has_variable = panum_physician_var
-					}
+		trigger = {
+			custom_tooltip = {
+				text = panum_military_medicine_progress_bar_at_full_tt
+				je:je_panum_military_medicine_project = {
+					"scripted_bar_progress(panum_military_medicine_project_progress_bar)" >= 180
 				}
-				has_variable = panum_stop_medical_project_var
+			}
+		}
+
+		effect = {
+			remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
+			var:panum_physician_var = {
+				set_character_busy_and_immortal = no
+			}
+			trigger_event = {
+				id = panum.2500
+				popup = yes
 			}
 		}
 	}
 
-	on_invalid = {
-		remove_variable = mr_physician_introduce_medical_techniques_var
-		remove_variable = panum_stop_medical_project_var
-		remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
-		var:panum_physician_var ?= {
-			set_character_busy_and_immortal = no
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = panum_stop_medical_project_tt
+				OR = {
+					custom_tooltip = {
+						text = je_physician_dies_tt
+						NOT = {
+							has_variable = panum_physician_var
+						}
+					}
+					has_variable = panum_stop_medical_project_var
+				}
+			}
 		}
+
+        effect = {
+			remove_variable = mr_physician_introduce_medical_techniques_var
+			remove_variable = panum_stop_medical_project_var
+			remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
+			var:panum_physician_var ?= {
+				set_character_busy_and_immortal = no
+			}
+        }
 	}
 
 	weight = 30
@@ -612,26 +660,25 @@ je_panum_disease_investigation = {
 
 	scripted_progress_bar = panum_disease_investigation_project_progress_bar
 
-	immediate = {
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	complete = {
-		custom_tooltip = {
-			text = panum_disease_investigation_progress_bar_at_full_tt
-			je:je_panum_disease_investigation = {
-				"scripted_bar_progress(panum_disease_investigation_project_progress_bar)" >= 60
+		trigger = {
+			custom_tooltip = {
+				text = panum_disease_investigation_progress_bar_at_full_tt
+				je:je_panum_disease_investigation = {
+					"scripted_bar_progress(panum_disease_investigation_project_progress_bar)" >= 60
+				}
 			}
 		}
-	}
 
-	on_complete = {
-		panum_disease_investigation_event_effect = yes
-	}
-
-	current_value = {
-	}
-
-	goal_add_value = {
+		effect = {
+			panum_disease_investigation_event_effect = yes
+		}
 	}
 
 	weight = 30
@@ -644,6 +691,16 @@ je_panum_overlord_medical_treatment_team = {
 	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
 
 	group = je_group_panum_medicine
+
+	current_value = {
+		value = var:panum_overlord_medical_treatment_team_progress_var
+	}
+
+	goal_add_value = {
+		value = 12
+	}
+
+	progressbar = yes
 
 	on_monthly_pulse = {
 		effect = {
@@ -662,28 +719,26 @@ je_panum_overlord_medical_treatment_team = {
 		}
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = panum.61
+				popup = yes
+			}
 		}
 	}
-
-	on_complete = {
-		trigger_event = {
-			id = panum.61
-			popup = yes
-		}
-	}
-
-	current_value = {
-		value = var:panum_overlord_medical_treatment_team_progress_var
-	}
-
-	goal_add_value = {
-		value = 12
-	}
-
-	progressbar = yes
 
 	weight = 30
 
@@ -695,6 +750,16 @@ je_panum_overlord_medical_vaccination_team = {
 	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
 
 	group = je_group_panum_medicine
+
+	current_value = {
+		value = var:panum_overlord_medical_vaccination_team_progress_var
+	}
+
+	goal_add_value = {
+		value = 12
+	}
+
+	progressbar = yes
 
 	on_monthly_pulse = {
 		effect = {
@@ -713,28 +778,26 @@ je_panum_overlord_medical_vaccination_team = {
 		}
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = panum.62
+				popup = yes
+			}
 		}
 	}
-
-	on_complete = {
-		trigger_event = {
-			id = panum.62
-			popup = yes
-		}
-	}
-
-	current_value = {
-		value = var:panum_overlord_medical_vaccination_team_progress_var
-	}
-
-	goal_add_value = {
-		value = 12
-	}
-
-	progressbar = yes
 
 	weight = 30
 
@@ -771,27 +834,35 @@ je_panum_spanish_flu = {
 		}
 	}
 
-	complete = {
-		NOT = {
-			any_scope_state = {
-				panum_state_has_spanish_flu_trigger = yes
-			}
-		}
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_complete = {
-		panum_remove_spanish_flu_effect = yes
-		trigger_event = {
-			id = panum.1120
-			popup = yes
-		}
-		if = {
-			limit = {
-				NOT = {
-					has_global_variable = panum_spanish_flu_pandemic_over_global_var
+		trigger = {
+			NOT = {
+				any_scope_state = {
+					panum_state_has_spanish_flu_trigger = yes
 				}
 			}
-			set_global_variable = panum_spanish_flu_pandemic_over_global_var
+		}
+
+		effect = {
+			panum_remove_spanish_flu_effect = yes
+			trigger_event = {
+				id = panum.1120
+				popup = yes
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_global_variable = panum_spanish_flu_pandemic_over_global_var
+					}
+				}
+				set_global_variable = panum_spanish_flu_pandemic_over_global_var
+			}
 		}
 	}
 
@@ -805,61 +876,69 @@ je_panum_spanish_flu_research = {
 
 	group = je_group_panum_medicine
 
-	complete = {
-		NOT = {
-			any_scope_state = {
-				panum_state_has_spanish_flu_trigger = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			NOT = {
+				any_scope_state = {
+					panum_state_has_spanish_flu_trigger = yes
+				}
 			}
 		}
-	}
 
-	on_complete = {
-		custom_tooltip = {
-			text = je_panum_spanish_flu_research_complete_tt
-			if = {
-				limit = {
-					has_technology_researched = antibiotics
-					var:panum_physician_var.var:panum_physician_experience_var >= 250
-					theiler_has_microbiologist_trigger = yes
-					panum_has_miasma_theory_trigger = no
+		effect = {
+			custom_tooltip = {
+				text = je_panum_spanish_flu_research_complete_tt
+				if = {
+					limit = {
+						has_technology_researched = antibiotics
+						var:panum_physician_var.var:panum_physician_experience_var >= 250
+						theiler_has_microbiologist_trigger = yes
+						panum_has_miasma_theory_trigger = no
+					}
+					trigger_event = {
+						id = panum.1111 #Pathogen
+						days = { 7 14 }
+					}
 				}
-				trigger_event = {
-					id = panum.1111 #Pathogen
-					days = { 7 14 }
+				else_if = {
+					limit = {
+						has_technology_researched = panum_antitoxins_tech
+						var:panum_physician_var.var:panum_physician_experience_var >= 200
+					}
+					trigger_event = {
+						id = panum.1112 #Origin
+						days = { 7 14 }
+					}
 				}
-			}
-			else_if = {
-				limit = {
-					has_technology_researched = panum_antitoxins_tech
-					var:panum_physician_var.var:panum_physician_experience_var >= 200
+				else_if = {
+					limit = {
+						var:panum_physician_var.var:panum_physician_experience_var >= 150
+					}
+					trigger_event = {
+						id = panum.1113 #Treatment
+						days = { 7 14 }
+					}
 				}
-				trigger_event = {
-					id = panum.1112 #Origin
-					days = { 7 14 }
+				else_if = {
+					limit = {
+						var:panum_physician_var.var:panum_physician_experience_var >= 100
+					}
+					trigger_event = {
+						id = panum.1114 #Description
+						days = { 7 14 }
+					}
 				}
-			}
-			else_if = {
-				limit = {
-					var:panum_physician_var.var:panum_physician_experience_var >= 150
-				}
-				trigger_event = {
-					id = panum.1113 #Treatment
-					days = { 7 14 }
-				}
-			}
-			else_if = {
-				limit = {
-					var:panum_physician_var.var:panum_physician_experience_var >= 100
-				}
-				trigger_event = {
-					id = panum.1114 #Description
-					days = { 7 14 }
-				}
-			}
-			else = {
-				trigger_event = {
-					id = panum.1115 #Nothing
-					days = { 7 14 }
+				else = {
+					trigger_event = {
+						id = panum.1115 #Nothing
+						days = { 7 14 }
+					}
 				}
 			}
 		}
@@ -899,42 +978,33 @@ je_panum_cholera = {
 		panum_general_disease_research_from_je_effect = { DISEASE = cholera }
 	}
 
-    fail = {
-    }
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_fail = {
-	}
+		trigger = {
+			NOT = {
+				any_scope_state = {
+					panum_state_has_cholera_trigger = yes
+				}
+			}
+		}
 
-	complete = {
-		NOT = {
-			any_scope_state = {
-				panum_state_has_cholera_trigger = yes
+		effect = {
+			set_variable = {
+				name = panum_recent_cholera_in_country_var
+				years = 10
+			}
+			panum_remove_disease_effect = yes
+			trigger_event = {
+				id = panum.120
+				popup = yes
 			}
 		}
 	}
-
-	on_complete = {
-		set_variable = {
-			name = panum_recent_cholera_in_country_var
-			years = 10
-		}
-		panum_remove_disease_effect = yes
-		trigger_event = {
-			id = panum.120
-			popup = yes
-		}
-	}
-
-	invalid = {
-	}
-
-	current_value = {
-	}
-
-	goal_add_value = {
-	}
-
-	progressbar = no
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
@@ -965,42 +1035,33 @@ je_panum_tuberculosis = {
 		panum_general_disease_research_from_je_effect = { DISEASE = tuberculosis }
 	}
 
-    fail = {
-    }
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_fail = {
-	}
+		trigger = {
+			NOT = {
+				any_scope_state = {
+					panum_state_has_tuberculosis_trigger = yes
+				}
+			}
+		}
 
-	complete = {
-		NOT = {
-			any_scope_state = {
-				panum_state_has_tuberculosis_trigger = yes
+		effect = {
+			set_variable = {
+				name = panum_recent_tuberculosis_in_country_var
+				years = 5
+			}
+			panum_remove_disease_effect = yes
+			trigger_event = {
+				id = panum.220
+				popup = yes
 			}
 		}
 	}
-
-	on_complete = {
-		set_variable = {
-			name = panum_recent_tuberculosis_in_country_var
-			years = 5
-		}
-		panum_remove_disease_effect = yes
-		trigger_event = {
-			id = panum.220
-			popup = yes
-		}
-	}
-
-	invalid = {
-	}
-
-	current_value = {
-	}
-
-	goal_add_value = {
-	}
-
-	progressbar = no
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
@@ -1025,42 +1086,33 @@ je_panum_smallpox = {
 		panum_general_disease_research_from_je_effect = { DISEASE = smallpox }
 	}
 
-    fail = {
-    }
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_fail = {
-	}
+		trigger = {
+			NOT = {
+				any_scope_state = {
+					panum_state_has_smallpox_trigger = yes
+				}
+			}
+		}
 
-	complete = {
-		NOT = {
-			any_scope_state = {
-				panum_state_has_smallpox_trigger = yes
+		effect = {
+			set_variable = {
+				name = panum_recent_smallpox_in_country_var
+				years = 20
+			}
+			panum_remove_disease_effect = yes
+			trigger_event = {
+				id = panum.320
+				popup = yes
 			}
 		}
 	}
-
-	on_complete = {
-		set_variable = {
-			name = panum_recent_smallpox_in_country_var
-			years = 20
-		}
-		panum_remove_disease_effect = yes
-		trigger_event = {
-			id = panum.320
-			popup = yes
-		}
-	}
-
-	invalid = {
-	}
-
-	current_value = {
-	}
-
-	goal_add_value = {
-	}
-
-	progressbar = no
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
@@ -1090,42 +1142,33 @@ je_panum_typhus = {
 		panum_general_disease_research_from_je_effect = { DISEASE = typhus }
 	}
 
-    fail = {
-    }
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_fail = {
-	}
+		trigger = {
+			NOT = {
+				any_scope_state = {
+					panum_state_has_typhus_trigger = yes
+				}
+			}
+		}
 
-	complete = {
-		NOT = {
-			any_scope_state = {
-				panum_state_has_typhus_trigger = yes
+		effect = {
+			set_variable = {
+				name = panum_recent_typhus_in_country_var
+				years = 5
+			}
+			panum_remove_disease_effect = yes
+			trigger_event = {
+				id = panum.420
+				popup = yes
 			}
 		}
 	}
-
-	on_complete = {
-		set_variable = {
-			name = panum_recent_typhus_in_country_var
-			years = 5
-		}
-		panum_remove_disease_effect = yes
-		trigger_event = {
-			id = panum.420
-			popup = yes
-		}
-	}
-
-	invalid = {
-	}
-
-	current_value = {
-	}
-
-	goal_add_value = {
-	}
-
-	progressbar = no
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
@@ -1154,42 +1197,33 @@ je_panum_yellow_fever = {
 		panum_general_disease_research_from_je_effect = { DISEASE = yellow_fever }
 	}
 
-    fail = {
-    }
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_fail = {
-	}
+		trigger = {
+			NOT = {
+				any_scope_state = {
+					panum_state_has_yellow_fever_trigger = yes
+				}
+			}
+		}
 
-	complete = {
-		NOT = {
-			any_scope_state = {
-				panum_state_has_yellow_fever_trigger = yes
+		effect = {
+			set_variable = {
+				name = panum_recent_yellow_fever_in_country_var
+				years = 10
+			}
+			panum_remove_disease_effect = yes
+			trigger_event = {
+				id = panum.520
+				popup = yes
 			}
 		}
 	}
-
-	on_complete = {
-		set_variable = {
-			name = panum_recent_yellow_fever_in_country_var
-			years = 10
-		}
-		panum_remove_disease_effect = yes
-		trigger_event = {
-			id = panum.520
-			popup = yes
-		}
-	}
-
-	invalid = {
-	}
-
-	current_value = {
-	}
-
-	goal_add_value = {
-	}
-
-	progressbar = no
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
@@ -1217,42 +1251,33 @@ je_panum_measles = {
 		panum_general_disease_research_from_je_effect = { DISEASE = measles }
 	}
 
-    fail = {
-    }
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_fail = {
-	}
+		trigger = {
+			NOT = {
+				any_scope_state = {
+					panum_state_has_measles_trigger = yes
+				}
+			}
+		}
 
-	complete = {
-		NOT = {
-			any_scope_state = {
-				panum_state_has_measles_trigger = yes
+		effect = {
+			set_variable = {
+				name = panum_recent_measles_in_country_var
+				years = 20
+			}
+			panum_remove_disease_effect = yes
+			trigger_event = {
+				id = panum.620
+				popup = yes
 			}
 		}
 	}
-
-	on_complete = {
-		set_variable = {
-			name = panum_recent_measles_in_country_var
-			years = 20
-		}
-		panum_remove_disease_effect = yes
-		trigger_event = {
-			id = panum.620
-			popup = yes
-		}
-	}
-
-	invalid = {
-	}
-
-	current_value = {
-	}
-
-	goal_add_value = {
-	}
-
-	progressbar = no
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
@@ -1275,42 +1300,33 @@ je_panum_scarlet = {
 		panum_general_disease_research_from_je_effect = { DISEASE = scarlet }
 	}
 
-    fail = {
-    }
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_fail = {
-	}
+		trigger = {
+			NOT = {
+				any_scope_state = {
+					panum_state_has_scarlet_trigger = yes
+				}
+			}
+		}
 
-	complete = {
-		NOT = {
-			any_scope_state = {
-				panum_state_has_scarlet_trigger = yes
+		effect = {
+			set_variable = {
+				name = panum_recent_scarlet_in_country_var
+				years = 10
+			}
+			panum_remove_disease_effect = yes
+			trigger_event = {
+				id = panum.720
+				popup = yes
 			}
 		}
 	}
-
-	on_complete = {
-		set_variable = {
-			name = panum_recent_scarlet_in_country_var
-			years = 10
-		}
-		panum_remove_disease_effect = yes
-		trigger_event = {
-			id = panum.720
-			popup = yes
-		}
-	}
-
-	invalid = {
-	}
-
-	current_value = {
-	}
-
-	goal_add_value = {
-	}
-
-	progressbar = no
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
@@ -1344,42 +1360,33 @@ je_panum_plague = {
 		panum_general_disease_research_from_je_effect = { DISEASE = plague }
 	}
 
-    fail = {
-    }
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_fail = {
-	}
+		trigger = {
+			NOT = {
+				any_scope_state = {
+					panum_state_has_plague_trigger = yes
+				}
+			}
+		}
 
-	complete = {
-		NOT = {
-			any_scope_state = {
-				panum_state_has_plague_trigger = yes
+		effect = {
+			set_variable = {
+				name = panum_recent_plague_in_country_var
+				years = 15
+			}
+			panum_remove_disease_effect = yes
+			trigger_event = {
+				id = panum.820
+				popup = yes
 			}
 		}
 	}
-
-	on_complete = {
-		set_variable = {
-			name = panum_recent_plague_in_country_var
-			years = 15
-		}
-		panum_remove_disease_effect = yes
-		trigger_event = {
-			id = panum.820
-			popup = yes
-		}
-	}
-
-	invalid = {
-	}
-
-	current_value = {
-	}
-
-	goal_add_value = {
-	}
-
-	progressbar = no
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
@@ -1402,42 +1409,33 @@ je_panum_diphteria = {
 		panum_general_disease_research_from_je_effect = { DISEASE = diphteria }
 	}
 
-    fail = {
-    }
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_fail = {
-	}
+		trigger = {
+			NOT = {
+				any_scope_state = {
+					panum_state_has_diphteria_trigger = yes
+				}
+			}
+		}
 
-	complete = {
-		NOT = {
-			any_scope_state = {
-				panum_state_has_diphteria_trigger = yes
+		effect = {
+			set_variable = {
+				name = panum_recent_diphteria_in_country_var
+				years = 10
+			}
+			panum_remove_disease_effect = yes
+			trigger_event = {
+				id = panum.920
+				popup = yes
 			}
 		}
 	}
-
-	on_complete = {
-		set_variable = {
-			name = panum_recent_diphteria_in_country_var
-			years = 10
-		}
-		panum_remove_disease_effect = yes
-		trigger_event = {
-			id = panum.920
-			popup = yes
-		}
-	}
-
-	invalid = {
-	}
-
-	current_value = {
-	}
-
-	goal_add_value = {
-	}
-
-	progressbar = no
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 
