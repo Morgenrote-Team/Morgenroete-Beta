@@ -60,7 +60,7 @@ https://paratranz.cn/projects/15095
 [b]프랑스어:[/b]
 70% 완료
 https://paratranz.cn/projects/15098
-도움을 주신 분: Shamalau12, Aurcan (Aurélien), SirYusblack (Sir Yusbalck), Luffy0810 (lopotitchaton)
+도움을 주신 분: Aurcan (Aurélien), Shamalau12, SirYusblack (Sir Yusbalck), Luffy0810 (lopotitchaton), bneuder
 
 [b]독일어:[/b]
 100% 완료
@@ -70,17 +70,17 @@ https://paratranz.cn/projects/15094
 [b]일본어:[/b]
 17% 완료
 https://paratranz.cn/projects/15115
-도움을 주신 분: Nostromo, flowlanss, dokusai226
+도움을 주신 분: Nostromo, henriot (Henriot), flowlanss, yukinon-o7 (さとうささら(yukinon)), sonobe5963, dokusai226
 
 [b]한국어:[/b]
 91% 완료
 https://paratranz.cn/projects/15116
-도움을 주신 분: MOLRAYO (이슬람 [Islamic])
+도움을 주신 분: hangukhistory3-lgtm (Hansto), MOLRAYO (이슬람 [Islamic]), sanguisetcinis (Sujo), U1ster (Yuster)
 
 [b]폴란드어:[/b]
 64% 완료
 https://paratranz.cn/projects/15118
-도움을 주신 분: ArmagedonYT, Anscylla, JaCKoP619 (W0lsZcZ@n), GeneralPaczek, PiotrPilip
+도움을 주신 분: Edfit99 (Edfit), ArmagedonYT, Anscylla, W0lsZcZ4n (W0lsZcZ@n), GeneralPaczek, PiotrPilip, maisik177, saperstoer
 
 [b]러시아어:[/b]
 100% 완료
@@ -90,12 +90,12 @@ https://paratranz.cn/projects/15120
 [b]중국어 간체:[/b]
 100% 완료
 https://paratranz.cn/projects/15113
-도움을 주신 분: this team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王), nyr102498 (伊恩)
+도움을 주신 분: this team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王), nyr102498 (伊恩), zjm200410 (MOJUN)
 
 [b]스페인어:[/b]
 65% 완료
 https://paratranz.cn/projects/15114
-도움을 주신 분: tremblejj, VWM26, Nickbonham22
+도움을 주신 분: tremblejj, melufacharlo-cmyk, D4nn3rion (Dannerion), VWM26, Drascend, Nickbonham22
 
 [b]튀르키예어:[/b]
 100% 완료
