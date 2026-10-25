@@ -2443,7 +2443,6 @@ mr_gbr_wallace_alfred_russel={
  		shirt={ "no_shirts" 0 "all_shirts" 0 }
  		headgear={ "no_headgear" 0 "all_headgear" 0 }
  		gene_shrink_body={ "shrink_all" 0 "" 0 }
- 		decals={ "wounded_1" 0 "wounded_1" 0 }
 	}
 	entity={ 0 0 }
 }
@@ -56659,7 +56658,6 @@ mr_brz_de_assis_machado={
  		eye_accessory={ "normal_eyes" 0 "normal_eyes" 0 }
  		eye_lashes_accessory={ "normal_eyelashes" 0 "normal_eyelashes" 0 }
  		teeth_accessory={ "normal_teeth" 0 "normal_teeth" 0 }
- 		decals={ "wounded_1" 0 "wounded_1" 0 }
 	}
 	entity={ 0 0 }
 }

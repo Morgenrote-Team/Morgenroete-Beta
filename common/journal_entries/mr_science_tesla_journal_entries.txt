@@ -265,6 +265,99 @@ je_tesla_irrigation_project = {
 
 	progressbar = yes
 
+	scaling_modifiers_while_active = {
+		modifier = tesla_small_engineering_project_cost_modifier
+		value = mr_local_project_cost_small_value
+	}
+
+	map_color = {
+		if = {
+			limit = {
+				owner = {
+					has_journal_entry = je_tesla_irrigation_project
+				}
+			}
+			if = {
+				limit = {
+					has_state_trait = tesla_state_trait_irrigation
+				}
+				value = "mr_project_color_finished_color"
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_in_list = {
+							variable = prioritized_states_for_irrigation_improvement_variable_list
+							this = root
+						}
+					}
+				}
+				value = "mr_project_color_prioritized_color"
+			}
+			else = {
+				value = "mr_project_color_not_prioritized_color"
+			}
+		}
+	}
+
+	map_color_second = {
+		if = {
+			limit = {
+				always = no #TODO: figure out how to check for the first entry in the list
+				scope:journal_entry.owner = {
+					has_journal_entry = je_tesla_irrigation_project
+					any_in_list = {
+						variable = prioritized_states_for_irrigation_improvement_variable_list
+						this = root
+					}
+				}
+			}
+			value = "mr_project_color_finished_color"
+		}
+	}
+
+	map_tooltip = {
+		if = {
+			limit = {
+				owner = {
+					has_journal_entry = je_tesla_irrigation_project
+				}
+			}
+			if = {
+				limit = {
+					has_state_trait = tesla_state_trait_irrigation
+				}
+				custom_tooltip_no_bullet = "mr_state_improvement_je_finished_loc"
+			}
+			else_if = {
+				limit = {
+					always = no #TODO: figure out how to check for the first entry in the list
+					owner = {
+						any_in_list = {
+							variable = prioritized_states_for_irrigation_improvement_variable_list
+							this = root
+						}
+					}
+				}
+				custom_tooltip_no_bullet = "mr_state_improvement_je_current_loc"
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_in_list = {
+							variable = prioritized_states_for_irrigation_improvement_variable_list
+							this = root
+						}
+					}
+				}
+				custom_tooltip_no_bullet = "mr_state_improvement_je_prioritized_loc"
+			}
+			else = {
+				custom_tooltip_no_bullet = "mr_state_improvement_je_not_prioritized_loc"
+			}
+		}
+	}
+
 	immediate = {
 		scope:journal_entry = {
 			add_modifier = {
@@ -413,11 +506,6 @@ je_tesla_irrigation_project = {
 
 		effect = {
 			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-			show_as_tooltip = {
-				scope:journal_entry = {
-					remove_modifier = tesla_medium_engineering_project_cost_modifier
-				}
-			}
 			remove_variable = tesla_num_states_var
 			remove_variable = tesla_num_states_irrigation_var
 
@@ -462,11 +550,6 @@ je_tesla_irrigation_project = {
 
         effect = {
 			remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
-			show_as_tooltip = {
-				scope:journal_entry = {
-					remove_modifier = tesla_medium_engineering_project_cost_modifier
-				}
-			}
 			remove_variable = tesla_num_states_var
 			remove_variable = tesla_num_states_irrigation_var
 			remove_variable = gaudi_stop_engineering_project_var
