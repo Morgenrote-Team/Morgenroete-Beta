@@ -60,7 +60,7 @@ https://paratranz.cn/projects/15095
 [b] Французский: [/b]
 Готово на 70%
 https://paratranz.cn/projects/15098
-Благодарим: Shamalau12, Aurcan (Aurélien), SirYusblack (Sir Yusbalck) и Luffy0810 (lopotitchaton)
+Благодарим: Aurcan (Aurélien), Shamalau12, SirYusblack (Sir Yusbalck), Luffy0810 (lopotitchaton) и bneuder
 
 [b] Немецкий: [/b]
 Готово на 100%
@@ -70,32 +70,32 @@ https://paratranz.cn/projects/15094
 [b] Японский: [/b]
 Готово на 17%
 https://paratranz.cn/projects/15115
-Благодарим: Nostromo, flowlanss и dokusai226
+Благодарим: Nostromo, henriot (Henriot), flowlanss, yukinon-o7 (さとうささら(yukinon)), sonobe5963 и dokusai226
 
 [b] Корейский: [/b]
 Готово на 91%
 https://paratranz.cn/projects/15116
-Благодарим: MOLRAYO (이슬람 [Islamic])
+Благодарим: hangukhistory3-lgtm (Hansto), MOLRAYO (이슬람 [Islamic]), sanguisetcinis (Sujo) и U1ster (Yuster)
 
 [b] Польский: [/b]
 Готово на 64%
 https://paratranz.cn/projects/15118
-Благодарим: ArmagedonYT, Anscylla, JaCKoP619 (W0lsZcZ@n), GeneralPaczek и PiotrPilip
+Благодарим: Edfit99 (Edfit), ArmagedonYT, Anscylla, W0lsZcZ4n (W0lsZcZ@n), GeneralPaczek, PiotrPilip, maisik177 и saperstoer
 
 [b] Русский: [/b]
 Готово на 100%
 https://paratranz.cn/projects/15120
-Благодарим: Hass, BEDTRIP, Sinusis, kotelnikov-andrey
+Благодарим: Hass, BEDTRIP, Sinusis и kotelnikov-andrey
 
 [b] Упрощённый китайский: [/b]
 Готово на 100%
 https://paratranz.cn/projects/15113
-Благодарим: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王) и nyr102498 (伊恩)
+Благодарим: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王), nyr102498 (伊恩) и zjm200410 (MOJUN)
 
 [b] Испанский: [/b]
 Готово на 65%
 https://paratranz.cn/projects/15114
-Благодарим: tremblejj, VWM26 и Nickbonham22
+Благодарим: tremblejj, melufacharlo-cmyk, D4nn3rion (Dannerion), VWM26, Drascend и Nickbonham22
 
 [b] Турецкий: [/b]
 Готово на 100%

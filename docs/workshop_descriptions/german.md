@@ -60,7 +60,7 @@ Danke: rifa-456 und koyomim
 [b] Französisch: [/b]
 70% vollständig
 https://paratranz.cn/projects/15098
-Danke: Shamalau12, Aurcan (Aurélien), SirYusblack (Sir Yusbalck) und Luffy0810 (lopotitchaton)
+Danke: Aurcan (Aurélien), Shamalau12, SirYusblack (Sir Yusbalck), Luffy0810 (lopotitchaton) und bneuder
 
 [b] Deutsch: [/b]
 100% vollständig
@@ -70,32 +70,32 @@ Danke: kindum553, Speckschicht, Cr41gy, Temp3r-79 und OttovonBismarckderErste
 [b] Japanisch: [/b]
 17% vollständig
 https://paratranz.cn/projects/15115
-Danke: Nostromo, flowlanss and dokusai226
+Danke: Nostromo, henriot (Henriot), flowlanss, yukinon-o7 (さとうささら(yukinon)), sonobe5963 und dokusai226
 
 [b] Koreanisch: [/b]
 91% vollständig
 https://paratranz.cn/projects/15116
-Danke: MOLRAYO (이슬람 [Islamic])
+Danke: hangukhistory3-lgtm (Hansto), MOLRAYO (이슬람 [Islamic]), sanguisetcinis (Sujo) und U1ster (Yuster)
 
 [b] Polnisch: [/b]
 64% vollständig
 https://paratranz.cn/projects/15118
-Danke: ArmagedonYT, Anscylla, JaCKoP619 (W0lsZcZ@n), GeneralPaczek uand PiotrPilip
+Danke: Edfit99 (Edfit), ArmagedonYT, Anscylla, W0lsZcZ4n (W0lsZcZ@n), GeneralPaczek, PiotrPilip, maisik177 und saperstoer
 
 [b] Russisch: [/b]
 100% vollständig
 https://paratranz.cn/projects/15120
-Danke: Hass, BEDTRIP, Sinusis, kotelnikov-andrey
+Danke: Hass, BEDTRIP, Sinusis und kotelnikov-andrey
 
 [b] Chinesisch: [/b]
 100% vollständig
 https://paratranz.cn/projects/15113
-Danke: Dieses Team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王) und nyr102498 (伊恩)
+Danke: Dieses Team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王), nyr102498 (伊恩) und zjm200410 (MOJUN)
 
 [b] Spanisch: [/b]
 65% vollständig
 https://paratranz.cn/projects/15114
-Danke: tremblejj, VWM26 und Nickbonham22
+Danke: tremblejj, melufacharlo-cmyk, D4nn3rion (Dannerion), VWM26, Drascend und Nickbonham22
 
 [b] Türkisch: [/b]
 100% vollständig

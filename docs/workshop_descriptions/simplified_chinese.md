@@ -57,7 +57,7 @@ https://paratranz.cn/projects/15095
 
 法语：完成度 70%
 https://paratranz.cn/projects/15098
-特别鸣谢：Shamalau12、Aurcan (Aurélien)、SirYusblack (Sir Yusbalck)、Luffy0810 (lopotitchaton)
+特别鸣谢：Aurcan (Aurélien)、Shamalau12、SirYusblack (Sir Yusbalck)、Luffy0810 (lopotitchaton)、bneuder
 
 德语：完成度 100%
 https://paratranz.cn/projects/15094
@@ -65,15 +65,15 @@ https://paratranz.cn/projects/15094
 
 日语：完成度 17%
 https://paratranz.cn/projects/15115
-特别鸣谢：Nostromo、flowlanss、dokusai226
+特别鸣谢：Nostromo、henriot (Henriot)、flowlanss、yukinon-o7 (さとうささら(yukinon))、sonobe5963、dokusai226
 
 韩语：完成度 91%
 https://paratranz.cn/projects/15116
-特别鸣谢：MOLRAYO (이슬람 [Islamic])
+特别鸣谢：hangukhistory3-lgtm (Hansto)、MOLRAYO (이슬람 [Islamic])、sanguisetcinis (Sujo)、U1ster (Yuster)
 
 波兰语：完成度 64%
 https://paratranz.cn/projects/15118
-特别鸣谢：ArmagedonYT、Anscylla、JaCKoP619 (W0lsZcZ@n)、GeneralPaczek、PiotrPilip
+特别鸣谢：Edfit99 (Edfit)、ArmagedonYT、Anscylla、W0lsZcZ4n (W0lsZcZ@n)、GeneralPaczek、PiotrPilip、maisik177、saperstoer
 
 俄语：完成度 100%
 https://paratranz.cn/projects/15120
@@ -81,11 +81,11 @@ https://paratranz.cn/projects/15120
 
 简体中文：完成度 100%
 https://paratranz.cn/projects/15113
-特别鸣谢：[url=https://paratranz.cn/projects/5488]牛奶汉化[/url]提供的文本、nicocorey (Ford)、9Milk (牛奶大魔王)、nyr102498 (伊恩)
+特别鸣谢：[url=https://paratranz.cn/projects/5488]牛奶汉化[/url]提供的文本、nicocorey (Ford)、9Milk (牛奶大魔王)、nyr102498 (伊恩)、zjm200410 (MOJUN)
 
 西班牙语：完成度 65%
 https://paratranz.cn/projects/15114
-特别鸣谢：tremblejj、VWM26、Nickbonham22
+特别鸣谢：tremblejj、melufacharlo-cmyk、D4nn3rion (Dannerion)、VWM26、Drascend、Nickbonham22
 
 土耳其语：完成度 100%
 https://paratranz.cn/projects/15153
@@ -102,7 +102,7 @@ https://paratranz.cn/projects/15153
 [*][url=https://www.fiverr.com/valerie_pl]Valerie P[/url]：受邀为我们绘制了精美的图标。
 [*]Dementive：不仅始终为我们提供协助与建议，还允许我们整合了他的[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2924315345]More Flavor Events (MFE)[/url]模组！
 [*]Kaznoko（[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2908686555]Rise of the Publishing Industry[/url] 模组的作者）：允许我们整合了他的这部杰作。
-[*]DarthYa'll（[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2881345484]Civil Aviation and Airfields[/url] 模组的作者）：允许我们整合其模组，带来了更完善的航空体验。
+[*]DarthYa'll（[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2881345484]Civil Aviation、Airfields[/url] 模组的作者）：允许我们整合其模组，带来了更完善的航空体验。
 [*]Miss Duce：提供了 3D 模型。
 [*]Caekdaemon：提供了关于疾病与医学的文本与构想。
 [*]rinbro（[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2882342752]ECCHI[/url] 模组的作者）：允许我们使用部分角色模型。

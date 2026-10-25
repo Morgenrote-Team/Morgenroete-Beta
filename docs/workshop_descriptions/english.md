@@ -60,7 +60,7 @@ Thanks to: rifa-456 and koyomim
 [b] French: [/b]
 70% complete
 https://paratranz.cn/projects/15098
-Thanks to: Shamalau12, Aurcan (Aurélien), SirYusblack (Sir Yusbalck) and Luffy0810 (lopotitchaton)
+Thanks to: Aurcan (Aurélien), Shamalau12, SirYusblack (Sir Yusbalck), Luffy0810 (lopotitchaton) and bneuder
 
 [b] German: [/b]
 100% complete
@@ -70,32 +70,32 @@ Thanks to: kindum553, Speckschicht, Cr41gy, Temp3r-79 and OttovonBismarckderErst
 [b] Japanese: [/b]
 17% complete
 https://paratranz.cn/projects/15115
-Thanks to: Nostromo, flowlanss and dokusai226
+Thanks to: Nostromo, henriot (Henriot), flowlanss, yukinon-o7 (さとうささら(yukinon)), sonobe5963 and dokusai226
 
 [b] Korean: [/b]
 91% complete
 https://paratranz.cn/projects/15116
-Thanks to: MOLRAYO (이슬람 [Islamic])
+Thanks to: hangukhistory3-lgtm (Hansto), MOLRAYO (이슬람 [Islamic]), sanguisetcinis (Sujo) and U1ster (Yuster)
 
 [b] Polish: [/b]
 64% complete
 https://paratranz.cn/projects/15118
-Thanks to: ArmagedonYT, Anscylla, JaCKoP619 (W0lsZcZ@n), GeneralPaczek and PiotrPilip
+Thanks to: Edfit99 (Edfit), ArmagedonYT, Anscylla, W0lsZcZ4n (W0lsZcZ@n), GeneralPaczek, PiotrPilip, maisik177 and saperstoer
 
 [b] Russian: [/b]
 100% complete
 https://paratranz.cn/projects/15120
-Thanks to: Hass, BEDTRIP, Sinusis, kotelnikov-andrey
+Thanks to: Hass, BEDTRIP, Sinusis and kotelnikov-andrey
 
 [b] Simple Chinese: [/b]
 100% complete
 https://paratranz.cn/projects/15113
-Thanks to: this team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王) and nyr102498 (伊恩)
+Thanks to: this team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王), nyr102498 (伊恩) and zjm200410 (MOJUN)
 
 [b] Spanish: [/b]
 65% complete
 https://paratranz.cn/projects/15114
-Thanks to: tremblejj, VWM26 and Nickbonham22
+Thanks to: tremblejj, melufacharlo-cmyk, D4nn3rion (Dannerion), VWM26, Drascend and Nickbonham22
 
 [b] Turkish: [/b]
 100% complete
