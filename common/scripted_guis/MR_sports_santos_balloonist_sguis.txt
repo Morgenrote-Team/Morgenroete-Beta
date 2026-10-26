@@ -1,6 +1,8 @@
-﻿### BALLOONING BUTTONS ###
+﻿### BALLOONIST BUTTONS ###
 
 #by Lord R & Marco Dandolo
+
+###################################################################
 
 #Does the country have a balloonist
 mr_has_balloonist_sgui = {
@@ -185,6 +187,35 @@ mr_balloonist_balloon_record_active = {
 	}
 }
 
+#MR_BALLOONIST_CROSSING_CROSSING_BUTTON
+mr_balloonist_balloon_crossing_button = {
+	scope = country
+
+	is_shown = {
+		has_variable = santos_balloonist_var
+	}
+
+	is_valid = {
+		santos_has_balloonist_trigger = yes
+		NOT = {
+			has_journal_entry = je_santos_balloon_crossing
+		}
+	}
+	effect = {
+		var:santos_balloonist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		add_journal_entry = { type = je_santos_balloon_crossing }
+	}
+}
+#Active
+mr_balloonist_balloon_crossing_active = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_santos_balloon_crossing
+	}
+}
+
 ######Gordon Bennett Cup######
 mr_gordon_bennett_cup_button_sgui = {
     scope = country
@@ -212,172 +243,6 @@ mr_gordon_bennett_cup_button_sgui = {
 		set_global_variable = santos_gordon_bennett_cup_found_global_var
 		trigger_event = {
 			id = santos.681
-			popup = yes
-		}
-    }
-}
-
-###################################################################################
-
-###### BALLOON GUI ######
-
-#Access to the Ballooning Society
-mr_ballooning_society_button_sgui = {
-	scope = country
-
-	is_shown = {
-		always = yes
-	}
-
-	is_valid = {
-		santos_has_balloonist_trigger = yes
-	}
-
-	effect = {
-
-	}
-}
-
-### Balloon Tiers ###
-
-#Which Balloon Tier is active?
-mr_ballooning_tier_1_balloon_sgui = {
-	scope = country
-	is_shown = {
-		has_technology_researched = curtiss_montgolfier_balloon_tech
-		NOT = {
-			has_technology_researched = curtiss_reconnaissance_balloon_tech
-		}
-	}
-}
-
-#Which Balloon Tier is active?
-mr_ballooning_tier_2_balloon_sgui = {
-	scope = country
-	is_shown = {
-		has_technology_researched = curtiss_reconnaissance_balloon_tech
-		NOT = {
-			has_technology_researched = curtiss_high_altitude_balloon_tech
-		}
-	}
-}
-
-#Which Balloon Tier is active?
-mr_ballooning_tier_3_balloon_sgui = {
-	scope = country
-	is_shown = {
-		has_technology_researched = curtiss_high_altitude_balloon_tech
-	}
-}
-
-### Balloon Fuel ###
-
-#Coal Gas Fuel Bar Active
-mr_ballooning_coal_gas_active_sgui = {
-	scope = country
-	is_shown = {
-		var:santos_balloonist_var ?= {
-			var:santos_balloon_fuel_var ?= flag:santos_balloon_fuel_coal_gas_flag
-		}
-	}
-}
-
-#Hydrogen Fuel Bar Active
-mr_ballooning_hydrogen_active_sgui = {
-	scope = country
-	is_shown = {
-		var:santos_balloonist_var ?= {
-			var:santos_balloon_fuel_var ?= flag:santos_balloon_fuel_hydrogen_flag
-		}
-	}
-}
-
-### Change Fuel ###
-
-#Change to Coal Gas
-mr_balloonist_coal_gas_button = {
-    scope = country
-	
-	is_shown = {
-		var:santos_balloonist_var ?= {
-			var:santos_balloon_fuel_var ?= flag:santos_balloon_fuel_hydrogen_flag
-		}
-	}
-
-    is_valid = {
-		custom_tooltip = {
-			text = MR_BALLOONIST_MODIFICATION_POSSIBLE_TRIGGER_TT
-			NOT = {
-				has_modifier = santos_balloon_modification_modifier
-			}
-		}
-    }
-
-    effect = {
-		santos_set_balloon_fuel_coal_gas_effect = yes
-    }
-}
-
-#Change to Hydrogen
-mr_balloonist_hydrogen_button = {
-    scope = country
-	
-	is_shown = {
-		var:santos_balloonist_var ?= {
-			var:santos_balloon_fuel_var ?= flag:santos_balloon_fuel_coal_gas_flag
-		}
-	}
-
-    is_valid = {
-		custom_tooltip = {
-			text = MR_BALLOONIST_MODIFICATION_POSSIBLE_TRIGGER_TT
-			NOT = {
-				has_modifier = santos_balloon_modification_modifier
-			}
-		}
-		custom_tooltip = {
-			text = MR_BALLOONIST_HYDROGEN_FACTORY_TRIGGER_TT
-			any_scope_state = {
-				any_scope_building = {
-					is_building_type = building_explosives_factory
-					has_active_production_method = pm_brine_electrolysis
-				}
-			}
-		}
-    }
-
-    effect = {
-		santos_set_balloon_fuel_hydrogen_effect = yes
-    }
-}
-
-### Change Type ###
-
-#Change Type
-mr_balloonist_change_type_button = {
-    scope = country
-	
-	is_shown = {
-		always = yes
-	}
-
-    is_valid = {
-		custom_tooltip = {
-			text = MR_BALLOONIST_MODIFICATION_POSSIBLE_TRIGGER_TT
-			NOT = {
-				has_modifier = santos_balloon_modification_modifier
-			}
-		}
-		hidden_trigger = {
-			NOT = {
-				has_variable = santos_balloon_type_event_active_var
-			}
-		}
-    }
-
-    effect = {
-		trigger_event = {
-			id = santos.691
 			popup = yes
 		}
     }
