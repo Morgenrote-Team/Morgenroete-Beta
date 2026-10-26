@@ -13,48 +13,25 @@ je_gaudi_public_construction = {
 
 	group = je_group_gaudi_architecture
 
+	scaling_modifiers_while_active = {
+		modifier = gaudi_architect_public_construction_modifier
+		value = gaudi_architect_public_construction_value #Multiplies the base construction (1) with the public construction value
+	}
+
 	immediate = {
 		scope:journal_entry = {
 			set_variable = {
 				name = gaudi_architect_month_counter_var
 				value = 0
 			}
-			add_modifier = {
-				name = gaudi_architect_public_construction_modifier
-				multiplier = root.gaudi_architect_public_construction_value #Multiplies the base construction (1) with the public construction value
-			}
 		}
 	}
 
 	on_monthly_pulse = {
 		effect = {
-			#Removes the Modifier
-			scope:journal_entry = {
-				if = {
-					limit = {
-						has_modifier = gaudi_architect_public_construction_modifier
-					}
-					remove_modifier = gaudi_architect_public_construction_modifier
-				}
-			}
 			#Only if the Architect is not busy
 			if = {
 				limit = { gaudi_has_active_architect_no_tooltip_trigger = yes }
-
-				#Adds the modifier if the JE doesn't have it yet
-				scope:journal_entry = {
-					if = {
-						limit = {
-							NOT = {
-								has_modifier = gaudi_architect_public_construction_modifier
-							}
-						}
-						add_modifier = {
-							name = gaudi_architect_public_construction_modifier
-							multiplier = root.gaudi_architect_public_construction_value #Multiplies the base construction (1) with the public construction value
-						}
-					}
-				}
 
 				#Changes the counter
 				scope:journal_entry = {
@@ -375,12 +352,13 @@ je_gaudi_urban_planning_project = {
 	scripted_button = gaudi_stop_architectural_project_button
 	scripted_button = je_gaudi_urban_planning_project_change_list_button
 
+	scaling_modifiers_while_active = {
+		modifier = gaudi_urban_planning_cost_modifier
+		value = mr_local_project_cost_very_small_value
+	}
+
 	immediate = {
 		scope:journal_entry = {
-			add_modifier = {
-				name = gaudi_urban_planning_cost_modifier
-				multiplier = root.mr_local_project_cost_very_small_value
-			}
 			set_variable = {
 				name = mr_num_improved_buildings_var
 				value = 0
@@ -436,11 +414,6 @@ je_gaudi_urban_planning_project = {
 
 		effect = {
 			remove_variable = gaudi_stop_architectural_project_var
-			show_as_tooltip = {
-				scope:journal_entry = {
-					remove_modifier = gaudi_urban_planning_cost_modifier
-				}
-			}
 			clear_variable_list = gaudi_architect_urban_planning_buildings_chosen_variable_list
 
 			gaudi_set_architect_unbusy_effect = yes
@@ -486,11 +459,6 @@ je_gaudi_urban_planning_project = {
 		effect = {
 			remove_variable = gaudi_stop_architectural_project_var
 			remove_variable = gaudi_can_stop_active_architectural_project_var
-			show_as_tooltip = {
-				scope:journal_entry = {
-					remove_modifier = gaudi_urban_planning_cost_modifier
-				}
-			}
 			clear_variable_list = gaudi_architect_urban_planning_buildings_chosen_variable_list
 
 			gaudi_set_architect_unbusy_effect = yes
