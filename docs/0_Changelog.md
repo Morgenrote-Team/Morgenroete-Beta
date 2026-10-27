@@ -48,6 +48,7 @@ Aviation & Ships
 Ballooning
 - The balloonist has been adjusted to better align with how other Morgenröte characters function.
 - A custom Balloon Society GUI that displays the balloon, modifications, balloon crossings, and many other important details. This makes it much clearer why and how a balloonist breaks a record.
+- You can fire your Balloonist only after one year of service.
 - Added Balloon Ride (Default ACtion). This is an entire safe option for your balloonist, researching technologies and giving certain buildings a modifier.
 - Added Balloon Adventure. A balloonist can bring items from abroad (minerals, specimen, artifacts etc.) depending on his profession. Small risk to die.
 - Added Balloon Record. This works similar to the old system. Prestige adjusted to records (1 Prestige for every 500m altitude, 1 Prestige for every 100km distance, 1 Prestige for every 3h time). Balloonist will try to breach one of the three records every year. Moderate risko to die.
