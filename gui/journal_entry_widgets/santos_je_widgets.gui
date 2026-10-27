@@ -1,0 +1,219 @@
+#### WIDGETS
+
+@panel_width_minus_30 = 510
+@panel_width = 540  				# used to be 460
+
+@layer_width = 500
+@layer_height = 52
+
+### Balloon Crossing ###
+
+flowcontainer = {
+	name = "widget_balloon_crossing_event_list_widget"
+	parentanchor = hcenter
+	direction = vertical
+	spacing = 12
+	datamodel = "[JournalEntry.MakeScope.GetList('santos_balloon_crossing_events_list')]"
+
+	santos_event_list_widget = {}
+}
+
+types santos_types
+{
+	### Event List ###
+	# Stolen from Manaflow and adapted.
+	# Thanks Bahmut | Chris
+	type santos_event_list_widget = flowcontainer {
+		parentanchor = hcenter
+		direction = vertical
+		oncreate = "[BindFoldOutContext]"
+
+		@log_entry_width = 500
+		@log_entry_height = 40
+		@log_entry_icon_width = 40
+		@log_entry_icon_header_width = @[log_entry_icon_width + 20]
+		@log_entry_country_header_width = 80
+		@log_entry_date_width = 120
+		@log_entry_title_width = @[log_entry_width - log_entry_icon_width - log_entry_date_width]
+
+		section_header_button = {
+			parentanchor = hcenter
+			onclick = "[PdxGuiFoldOut.Toggle]"
+
+			blockoverride "layout" {
+				size = { @[layer_width + 30] 38 }
+			}
+			blockoverride "onclick_showmore" {
+				visible = "[Not(PdxGuiFoldOut.IsUnfolded)]"
+			}
+			blockoverride "onclick_showless" {
+				visible = "[PdxGuiFoldOut.IsUnfolded]"
+			}
+			blockoverride "left_text" {
+				text = SANTOS_CROSSING_EVENTS_HEADER
+			}
+		}
+
+		flowcontainer = {
+			using = default_list_position
+			direction = vertical
+			margin_top = 5
+			margin_bottom = 10
+
+			# Header
+			widget = {
+				parentanchor = hcenter
+				size = { @log_entry_width 30 }
+				visible = "[PdxGuiFoldOut.IsUnfolded]"
+				hbox = {
+					spacing = 2
+					layoutpolicy_horizontal = expanding
+					button = {
+						using = sort_button_bg
+						enabled = no
+						text = SANTOS_CROSSING_EVENTS_HEADER_COUNTRY
+						minimumsize = { @log_entry_country_header_width 30 }
+						maximumsize = { @log_entry_country_header_width 30 }
+						align = hcenter|nobaseline
+						margin_left = 10
+						margin_right = 10
+						elide = right
+					}
+					button = {
+						using = sort_button_bg
+						layoutpolicy_horizontal = expanding
+						enabled = no
+						text = SANTOS_CROSSING_EVENTS_HEADER_EVENT
+						minimumsize = { -1 30 }
+						maximumsize = { -1 30 }
+						align = hcenter|nobaseline
+						margin_left = 10
+						margin_right = 10
+						elide = right
+					}
+					button = {
+						using = sort_button_bg
+						enabled = no
+						text = SANTOS_CROSSING_EVENTS_HEADER_DATE
+						minimumsize = { @log_entry_date_width 30 }
+						maximumsize = { @log_entry_date_width 30 }
+						align = hcenter|nobaseline
+						margin_left = 10
+						margin_right = 10
+						elide = right
+					}
+				}
+			}
+
+			# Under 10 items
+			flowcontainer = {
+				using = default_list_position
+				visible = "[And(
+					PdxGuiFoldOut.IsUnfolded,
+					DataModelHasItems(JournalEntry.MakeScope.GetList('santos_balloon_crossing_events_list')),
+				)]"
+				margin_top = 5
+				direction = vertical
+				datamodel = "[JournalEntry.MakeScope.GetList('santos_balloon_crossing_events_list')]"
+				spacing = 5
+				bottomtotop = yes
+
+				item = {
+					santos_event_list_entry_widget = {}
+				}
+			}
+
+			flowcontainer = {
+				using = default_list_position
+				visible = "[And(
+					PdxGuiFoldOut.IsUnfolded,
+					Not(DataModelHasItems(JournalEntry.MakeScope.GetList('santos_balloon_crossing_events_list')))
+				)]"
+				direction = vertical
+
+				textbox = {
+					size = { @log_entry_width 80 }
+					text = SANTOS_CROSSING_EVENTS_ENTRIES_EMPTY
+					align = center
+				}
+			}
+		}
+	}
+
+	type santos_event_list_entry_widget = widget {
+		size = { @log_entry_width @log_entry_height }
+
+		background = {
+			using = dark_area
+			margin_left = -25
+			alpha = 0.1
+			modify_texture = {
+				using = simple_frame_mask
+			}
+		}
+		background = {
+			using = simple_frame
+			margin_left = -25
+		}
+
+		flowcontainer = {
+			ignoreinvisible = yes
+			# Icon
+			textbox = {
+				size = { @log_entry_icon_width @log_entry_height }
+				align = center
+				raw_text = "[Scope.Var('event_container_icon').GetFlagName]"
+				using = fontsize_xxl
+				background = {
+					margin = { 3 3 }
+					texture = "gfx/interface/backgrounds/round_button_bg.dds"
+				}
+			}
+			# Flag
+			widget = {
+				size = { 45 @log_entry_height }
+
+				tiny_flag = {
+					parentanchor = center
+					datacontext = "[Scope.Var('event_container_primary_country').GetCountry]"
+				}
+			}
+			# Event Title
+			textbox = {
+				size = { @[log_entry_title_width - 100] @log_entry_height }
+				raw_text = "[Scope.Var('event_container_title_loc').GetFlagName]"
+				tooltip = "[Scope.Var('event_container_tt').GetFlagName]"
+				default_format = "#header"
+				align = left
+				background = {
+					using = default_header_bg_faded
+					margin_top = 2
+				}
+			}
+			textbox = {
+				visible = "[Scope.Var('event_container_outcome_var').IsSet]"
+				size = { 50 @log_entry_height }
+				align = right
+				margin_left = 10
+				raw_text = "[Scope.Var('event_container_outcome_var').GetValue|0+] @curtiss_schneider_point!"
+			}
+			widget = {
+				visible = "[Not(Scope.Var('event_container_outcome_var').IsSet)]"
+				size = { 50 @log_entry_height }
+				align = right
+			}
+			#widget = {
+			#	size = { @log_entry_date_width @log_entry_height }
+			#	textbox = {
+			#		autoresize = yes
+			#		parentanchor = center
+			#		raw_text = "#v [TimeKeeper.GetCurrentDateWithDiff(FixedPointToInt(Scope.ScriptValue('curtiss_schneider_trophy_race_event_time_value')))]#!"
+			#		background = {
+			#			using = entry_bg
+			#			margin = { 10 5 }
+			#		}
+			#	}
+			#}
+		}
+	}
+}
