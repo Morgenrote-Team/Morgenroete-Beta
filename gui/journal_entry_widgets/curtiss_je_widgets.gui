@@ -193,6 +193,131 @@ flowcontainer = {
 		expand = {}
 	}
 
+	### Victory Log ###
+	flowcontainer = {
+		direction = vertical
+
+	#	visible = "[GetScriptedGui('curtiss_schneider_trophy_history_log_visible_sgui').IsShown(GuiScope.SetRoot(JournalEntry.MakeScope).End)]"
+		visible = no
+
+		section_header_button = {
+			blockoverride "layout" {
+				size = { 520 38 }
+			}
+			blockoverride "left_text" {
+				text = "CURTISS_SCHNEIDER_TROPHY_HISTORY_LOG_HEADER"
+			}
+			blockoverride "onclick" {
+				onclick = "[GetVariableSystem.Toggle('curtiss_schneider_trophy_history_log_visible')]"
+			}
+			blockoverride "onclick_showmore" {
+				visible = "[Not(GetVariableSystem.Exists('curtiss_schneider_trophy_history_log_visible'))]"
+			}
+			blockoverride "onclick_showless" {
+				visible = "[GetVariableSystem.Exists('curtiss_schneider_trophy_history_log_visible')]"
+			}
+		}
+
+		flowcontainer = {
+			visible = "[GetVariableSystem.Exists('curtiss_schneider_trophy_history_log_visible')]"
+			datamodel = "[GetGlobalList('curtiss_schneider_trophy_history_log_global_list')]"
+			minimumsize = { 520 -1 }
+			direction = vertical
+
+			background = {
+				using = dark_area
+			}
+
+			flowcontainer = {
+				direction = vertical
+
+				widget = {
+					parentanchor = hcenter
+					size = { 500 35 }
+					maximumsize = { 500 35 }
+
+					vbox = {
+						layoutpolicy_vertical = expanding
+						layoutpolicy_horizontal = expanding
+
+						hbox = {
+							layoutpolicy_vertical = expanding
+							layoutpolicy_horizontal = expanding
+
+							margin_left = 10
+
+							textbox = {
+								text = "CURTISS_SCHNEIDER_TROPHY_HISTORY_LOG_YEAR_HEADER"
+								size = { 100 100% }
+								elide = right
+								align = nobaseline
+								alwaystransparent = yes
+								margin_left = 12
+							}
+
+							textbox = {
+								size = { 380 100% }
+								text = "CURTISS_SCHNEIDER_TROPHY_HISTORY_LOG_COUNTRY_DEFINITION_HEADER"
+								elide = right
+								align = nobaseline
+								margin_right = 10
+							}
+						}
+					}
+				}
+			}
+
+			item = {
+				flowcontainer = {
+					direction = vertical
+
+					divider_clean = {
+						parentanchor = top
+					}
+
+					widget = {
+						parentanchor = hcenter
+						size = { 500 35 }
+						maximumsize = { 500 35 }
+						datacontext = "[Scope.GetCountry]"
+						visible = "[Scope.GetCountry.IsValid]"
+
+						vbox = {
+							layoutpolicy_vertical = expanding
+							layoutpolicy_horizontal = expanding
+
+							hbox = {
+								layoutpolicy_vertical = expanding
+								layoutpolicy_horizontal = expanding
+
+								margin_left = 10
+
+								textbox = {
+									size = { 100 100% }
+									raw_text = "[Scope.Var('year').GetValue]"
+									elide = right
+									align = nobaseline
+									parentanchor = vcenter
+									alwaystransparent = yes
+									margin_left = 12
+								}
+
+								textbox = {
+									size = { 380 100% }
+									raw_text = "[Scope.Var('country_definition').GetCountryDefinition.GetName]"
+									elide = right
+									align = nobaseline
+									margin_right = 10
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		expand = {}
+	}
+
 	### Race Ranking ###
 	flowcontainer = {
 		direction = vertical
@@ -417,7 +542,6 @@ types curtiss_types
 				}
 			}
 
-			# Under 10 items
 			flowcontainer = {
 				using = default_list_position
 				visible = "[And(
