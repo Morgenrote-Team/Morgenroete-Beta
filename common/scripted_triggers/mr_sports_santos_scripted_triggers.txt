@@ -51,7 +51,7 @@ santos_has_balloonist_no_tooltip_trigger = {
 santos_no_balloonist_trigger = {
 	custom_tooltip = {
 		text = has_no_balloonist_trigger_tt
-		santosno_balloonist_no_tooltip_trigger = yes
+		santos_no_balloonist_no_tooltip_trigger = yes
 	}
 }
 santos_no_balloonist_no_tooltip_trigger = {
@@ -248,5 +248,104 @@ santos_crossing_x_is_crossed_no_tooltip_trigger = {
 
 		var:santos_crossing_number_var ?= $NUMBER$
 		has_variable = santos_crossing_crossed_var
+	}
+}
+
+##################################################################
+
+### AI ###
+
+Can the Balloonist start a crossing right now?
+# Same conditions as mr_balloonist_balloon_crossing_button
+santos_ai_can_start_balloon_crossing_no_tooltip_trigger = {
+	NOR = {
+		has_variable = santos_crossing_selection_var
+		has_journal_entry = je_santos_balloon_crossing
+	}
+	NOT = {
+		var:santos_balloonist_var ?= {
+			has_modifier = santos_balloon_demoralized_modifier
+		}
+	}
+	santos_ai_has_available_balloon_crossing_no_tooltip_trigger = yes
+}
+
+#Is a specific crossing possible and not yet crossed by this country?
+santos_ai_balloon_crossing_available_no_tooltip_trigger = {
+	#NUMBER --> Number of the crossing (1 Channel, 2 Alps, 3 Skagerrak, 4 Mediterranean, 5 Rio, 6 Pyrenees, 7 Andes, 8 Korea, 9 Bab)
+	#NAME --> Name used in santos_balloon_crossing_<NAME>_possible_no_tooltip_trigger
+	NOT = {
+		has_variable = santos_crossing_$NUMBER$_crossed_country_var
+	}
+	santos_balloon_crossing_$NAME$_possible_no_tooltip_trigger = yes
+}
+
+#Is any crossing available?
+santos_ai_has_available_balloon_crossing_no_tooltip_trigger = {
+	OR = {
+		santos_ai_small_balloon_crossing_available_no_tooltip_trigger = yes
+		santos_ai_medium_balloon_crossing_available_no_tooltip_trigger = yes
+		santos_ai_large_balloon_crossing_available_no_tooltip_trigger = yes
+	}
+}
+
+#Small crossings (8 progress, see santos_balloon_crossing_goal_trigger)
+santos_ai_small_balloon_crossing_available_no_tooltip_trigger = {
+	OR = {
+		santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 1 NAME = channel }
+		santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 5 NAME = rio }
+		santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 8 NAME = korea }
+	}
+}
+
+#Medium crossings (12 progress)
+santos_ai_medium_balloon_crossing_available_no_tooltip_trigger = {
+	OR = {
+		santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 3 NAME = skagerrak }
+		santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 6 NAME = pyrenees }
+		santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 9 NAME = bab }
+	}
+}
+
+#Large crossings (16 progress)
+santos_ai_large_balloon_crossing_available_no_tooltip_trigger = {
+	OR = {
+		santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 2 NAME = alps }
+		santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 4 NAME = mediterranean }
+		santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 7 NAME = andes }
+	}
+}
+
+santos_world_first_balloon_crossing_possible_no_tooltip_trigger = {
+
+	#NUMBER --> Number of the crossing
+
+	#NAME --> Name used in santos_balloon_crossing_<NAME>_possible_no_tooltip_trigger
+
+	NOT = {
+
+		santos_crossing_x_is_crossed_no_tooltip_trigger = { NUMBER = $NUMBER$ }
+
+	}
+
+	santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = $NUMBER$ NAME = $NAME$ }
+
+}
+
+### Alert ###
+
+#Is any crossing selectable which nobody in the world has crossed yet?
+santos_world_first_balloon_crossing_available_no_tooltip_trigger = {
+
+	OR = {
+		santos_world_first_balloon_crossing_possible_no_tooltip_trigger = { NUMBER = 1 NAME = channel }
+		santos_world_first_balloon_crossing_possible_no_tooltip_trigger = { NUMBER = 2 NAME = alps }
+		santos_world_first_balloon_crossing_possible_no_tooltip_trigger = { NUMBER = 3 NAME = skagerrak }
+		santos_world_first_balloon_crossing_possible_no_tooltip_trigger = { NUMBER = 4 NAME = mediterranean }
+		santos_world_first_balloon_crossing_possible_no_tooltip_trigger = { NUMBER = 5 NAME = rio }
+		santos_world_first_balloon_crossing_possible_no_tooltip_trigger = { NUMBER = 6 NAME = pyrenees }
+		santos_world_first_balloon_crossing_possible_no_tooltip_trigger = { NUMBER = 7 NAME = andes }
+		santos_world_first_balloon_crossing_possible_no_tooltip_trigger = { NUMBER = 8 NAME = korea }
+		santos_world_first_balloon_crossing_possible_no_tooltip_trigger = { NUMBER = 9 NAME = bab }
 	}
 }

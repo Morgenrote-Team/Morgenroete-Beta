@@ -1,0 +1,334 @@
+﻿#########################
+# AI BALLOONING EFFECTS #
+#########################
+
+#By Marco Dandolo
+
+############################################################################
+
+#Checks if the scope is an AI and then starts Ballooning Projects
+ai_start_ballooning_project_for_ai_effect = {
+	if = {
+		limit = {
+			santos_has_active_balloonist_no_tooltip_trigger = yes
+			santos_is_ballooning_automated_trigger = yes
+		}
+		ai_ballooning_automation_effect = yes
+	}
+}
+
+#Handles Ballooning for the AI and player automation
+ai_ballooning_automation_effect = {
+	hidden_effect = {
+		if = {
+			limit = {
+				santos_is_ballooning_automated_trigger = yes
+				santos_has_active_balloonist_no_tooltip_trigger = yes #Never start a second project while the Balloonist is busy
+			}
+
+			#Instant actions which do not occupy the Balloonist
+			ai_ballooning_instant_actions_effect = yes
+
+			#Uses a random list to decide which project to do.
+			# This allows for weighting using various factors.
+			# Entries must never end up with a negative weight, so penalties are always smaller than the base weight.
+			random_list = {
+				### Balloon Crossing ###
+				300 = { #High Priority - Crossings are unique and give the biggest rewards
+					#Triggers
+					trigger = {
+						santos_ai_can_start_balloon_crossing_no_tooltip_trigger = yes
+					}
+
+					#Modifiers / Weighting
+					modifier = {
+						if = {
+							limit = {
+								var:santos_balloonist_var ?= {
+									OR = {
+										has_trait = cautious
+										has_trait = ambitious
+									}
+								}
+							}
+							add = 100
+						}
+						if = {
+							limit = {
+								santos_balloonist_experience_at_least_no_tooltip_trigger = { VALUE = 150 } #Experienced Balloonists dare more
+							}
+							add = 100
+						}
+					}
+
+					#Effect
+					ai_ballooning_start_crossing_effect = yes
+				}
+				### Balloon Record ###
+				200 = { #Mid Priority - Records give prestige and research
+					#Triggers
+					trigger = {
+						mr_gui_has_sports_clubs_tech_trigger = yes
+						NOT = {
+							has_journal_entry = je_santos_balloon_record
+						}
+					}
+
+					#Modifiers / Weighting
+					modifier = {
+						if = {
+							limit = {
+								var:santos_balloonist_var ?= { #A specialised balloon is built for exactly this
+									OR = {
+										var:santos_balloon_type_var ?= flag:santos_balloon_type_altitude_flag
+										var:santos_balloon_type_var ?= flag:santos_balloon_type_distance_flag
+										var:santos_balloon_type_var ?= flag:santos_balloon_type_time_flag
+									}
+								}
+							}
+							add = 100
+						}
+						if = {
+							limit = {
+								var:santos_balloonist_var ?= {
+									OR = {
+										has_trait = innovative
+										has_trait = persistent
+										has_trait = meticulous
+									}
+								}
+							}
+							add = 50
+						}
+					}
+
+					#Effect
+					santos_balloon_record_button_effect = yes
+				}
+				### Balloon Adventure ###
+				100 = { #Low Priority -
+					#Triggers
+					trigger = {
+						mr_gui_has_research_charter_tech_trigger = yes
+						NOT = {
+							has_journal_entry = je_santos_balloon_adventure
+						}
+					}
+
+					#Modifiers / Weighting
+					modifier = {
+						if = {
+							limit = {
+								var:santos_balloonist_var ?= {
+									has_trait = explorer
+								}
+							}
+							add = 100
+						}
+					}
+
+					#Effect
+					santos_balloon_adventure_button_effect = yes
+				}
+			}
+		}
+	}
+}
+
+#Gordon Bennet Cup (and High Altitude Balloons)
+ai_ballooning_instant_actions_effect = {
+	### Gordon Bennett Cup ###
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = santos_gordon_bennett_cup_found_global_var
+			}
+			santos_has_balloonist_no_tooltip_trigger = yes
+			mr_gui_has_vikelas_international_sports_tech_trigger = yes
+			mr_gui_has_early_aviation_tech_trigger = yes
+			country_has_building_type_levels = {
+				target = bt:building_manzoni_publishing_industry
+				value >= 10
+			}
+		}
+		santos_gordon_bennett_cup_found_effect = yes
+	}
+}
+
+#Chooses which crossing to attempt.
+# Step 1: choose the difficulty tier (small = 8, medium = 12, large = 16 progress)
+# Step 2: choose one of the crossings of this tier which are possible and not yet crossed by this country
+ai_ballooning_start_crossing_effect = {
+	random_list = {
+		### Small Crossings ###
+		200 = { #English Channel, Río de la Plata, Korea Strait
+			#Triggers
+			trigger = {
+				santos_ai_small_balloon_crossing_available_no_tooltip_trigger = yes
+			}
+
+			#Modifiers / Weighting
+			modifier = {
+				if = {
+					limit = {
+						var:santos_balloonist_var ?= {
+							has_trait = ambitious
+						}
+					}
+					add = -50
+				}
+			}
+
+			#Effect
+			random_list = {
+				1 = {
+					trigger = {
+						santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 1 NAME = channel }
+					}
+					santos_balloon_crossing_button_effect = { TARGET = flag:santos_channel_flag }
+				}
+				1 = {
+					trigger = {
+						santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 5 NAME = rio }
+					}
+					santos_balloon_crossing_button_effect = { TARGET = flag:santos_rio_flag }
+				}
+				1 = {
+					trigger = {
+						santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 8 NAME = korea }
+					}
+					santos_balloon_crossing_button_effect = { TARGET = flag:santos_korea_flag }
+				}
+			}
+		}
+		### Medium Crossings ###
+		100 = { #Skagerrak, Pyrenees, Bab al-Mandab
+			#Triggers
+			trigger = {
+				santos_ai_medium_balloon_crossing_available_no_tooltip_trigger = yes
+			}
+
+			#Modifiers / Weighting
+			modifier = {
+				if = {
+					limit = {
+						santos_balloonist_experience_at_least_no_tooltip_trigger = { VALUE = 75 }
+					}
+					add = 50
+				}
+				if = {
+					limit = {
+						var:santos_balloonist_var ?= {
+							OR = {
+								has_trait = cautious
+								has_trait = ambitious
+							}
+						}
+					}
+					add = 50
+				}
+				if = {
+					limit = {
+						var:santos_balloonist_var ?= {
+							has_trait = reckless
+						}
+					}
+					add = -25
+				}
+			}
+
+			#Effect
+			random_list = {
+				1 = {
+					trigger = {
+						santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 3 NAME = skagerrak }
+					}
+					santos_balloon_crossing_button_effect = { TARGET = flag:santos_skagerrak_flag }
+				}
+				1 = {
+					trigger = {
+						santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 6 NAME = pyrenees }
+					}
+					santos_balloon_crossing_button_effect = { TARGET = flag:santos_pyrenees_flag }
+				}
+				1 = {
+					trigger = {
+						santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 9 NAME = bab }
+					}
+					santos_balloon_crossing_button_effect = { TARGET = flag:santos_bab_flag }
+				}
+			}
+		}
+		### Large Crossings ###
+		50 = { #The Alps, Mediterranean Sea, Andes
+			#Triggers
+			trigger = {
+				santos_ai_large_balloon_crossing_available_no_tooltip_trigger = yes
+			}
+
+			#Modifiers / Weighting
+			modifier = {
+				if = {
+					limit = {
+						santos_balloonist_experience_at_least_no_tooltip_trigger = { VALUE = 150 }
+					}
+					add = 150
+				}
+				if = {
+					limit = {
+						var:santos_balloonist_var ?= {
+							OR = {
+								has_trait = cautious
+								has_trait = ambitious
+							}
+						}
+					}
+					add = 100
+				}
+				if = {
+					limit = {
+						var:santos_balloonist_var ?= {
+							has_trait = reckless
+						}
+					}
+					add = -25
+				}
+			}
+
+			#Effect
+			random_list = {
+				1 = {
+					trigger = {
+						santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 2 NAME = alps }
+					}
+					santos_balloon_crossing_button_effect = { TARGET = flag:santos_alps_flag }
+				}
+				1 = {
+					trigger = {
+						santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 4 NAME = mediterranean }
+					}
+					santos_balloon_crossing_button_effect = { TARGET = flag:santos_mediterranean_flag }
+				}
+				1 = {
+					trigger = {
+						santos_ai_balloon_crossing_available_no_tooltip_trigger = { NUMBER = 7 NAME = andes }
+					}
+					santos_balloon_crossing_button_effect = { TARGET = flag:santos_andes_flag }
+				}
+			}
+		}
+	}
+}
+
+#Balloon Crossing (replaces the option effects of santos.401 for the AI)
+santos_balloon_crossing_button_effect = {
+	#TARGET --> Flag of the crossing, e.g. flag:santos_channel_flag
+	var:santos_balloonist_var ?= {
+		set_character_busy_and_immortal = yes
+	}
+	set_variable = {
+		name = santos_balloon_crossing_target_var
+		value = $TARGET$
+	}
+	add_journal_entry = { type = je_santos_balloon_crossing }
+}
