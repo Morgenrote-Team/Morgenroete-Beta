@@ -130,6 +130,9 @@ Copper
 - Event for STATE_KUOPIO, when its owner has researched Pneumatic Tools and a Geologist: Outokumpu. This will give Kuopio +5 potential for copper mines (historically, this copper company was quite important between the World Wars).
 - New Company: Outokumpu Oyj.
 
+Fixes:
+- Additional Support now gives 1 progress for all engineering projects and not just for civil engineering projects.
+
 Changes
 - Added Great Terroir (Wine bonus) to Aquitaine and Piedmont (Paradox, you added the best wine grounds in Europe and forgot about Bordeaux and Barolo?).
 - Removed old find x journal entries as they are no longer necessary (have been replaced for a few updates now).
