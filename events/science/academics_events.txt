@@ -9061,21 +9061,34 @@ academics.3102 = {
 			}
 			save_scope_as = academics_ruler_scope
 		}
-		if = {
-			limit = {
-				has_variable = curie_physicist_var
-			}
-			var:curie_physicist_var = {
-				save_scope_as = academics_retired_person_scope
-				set_retirement_variable_effect = yes
-			}
-		}
 	}
 
 	option = { #They should be removed from their positions and be banished!
 		name = academics.3102.g
 		default_option = yes
-		retire_physicist_effect = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					has_variable = curie_physicist_var
+				}
+				var:curie_physicist_var = {
+					save_scope_as = academics_retired_person_scope
+					curie_remove_official_modifiers_from_physicist_effect = yes
+					set_character_busy_and_immortal = yes
+					place_character_in_void = 1200
+					set_global_variable = {
+						name = academics_weber_in_void_global_var
+						value = this
+					}
+				}
+				remove_variable = curie_physicist_var
+			}
+		}
+		show_as_tooltip = {
+			scope:academics_retired_person_scope = {
+				retire_character = yes
+			}
+		}
 		if = {
 			limit = {
 				any_scope_character = {
@@ -9098,7 +9111,7 @@ academics.3102 = {
 			years = 10
 			is_decaying = yes
 		}
-		
+
 		hidden_effect = {
 			random_country = {
 				limit = {
@@ -9630,7 +9643,17 @@ academics.3108 = {
 	}
 
 	immediate = {
-		create_weber_wilhelm_eduard_effect = yes
+		global_var:academics_weber_in_void_global_var = {
+			save_scope_as = curie_new_physicist_scope
+		}
+		remove_global_variable = academics_weber_in_void_global_var
+		scope:curie_new_physicist_scope = {
+			free_character_from_void = yes
+			set_character_busy_and_immortal = no
+			transfer_character = root
+		}
+		debug_log = "This country gets Weber"
+		debug_log_scopes = yes
 	}
 
 	option = { #Welcome, welcome!
