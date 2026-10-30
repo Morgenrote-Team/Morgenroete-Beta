@@ -6,11 +6,11 @@
 
 ###########################
 
-santos_set_ballonist_unbusy_effect = {
+santos_set_balloonist_unbusy_effect = {
 	var:santos_balloonist_var ?= {
 		set_character_busy_and_immortal = no
 	}
-	#ai_balloning_automation_effect = yes
+	ai_ballooning_automation_effect = yes
 }
 
 #################################################################################
@@ -1126,4 +1126,525 @@ santos_gordon_bennett_cup_effect = {
 			post_notification = santos_gordon_bennett_cup_notification
 		}
 	}
+}
+
+####################################################################################################
+
+#Clears all Event log containers
+santos_balloon_crossing_clear_event_log_containers_je_scope_effect = {
+	every_container = {
+		limit = {
+			has_tag = santos_balloon_crossing_event
+		}
+		destroy_container = yes
+	}
+	clear_variable_list = santos_balloon_crossing_events_list
+}
+
+#Creates a new container which is used in the JE to display recent events.
+# Execute in the Journal Entry scope.
+# An event in this case is a short text which will be displayed in a list.
+santos_balloon_crossing_event_list_add_container_entry_effect = {
+	# ICON = Icon reference, in our case a flag which references a loc key
+	# TITLE_LOCALIZATION_KEY = Title localization
+	# TOOLTIP_KEY = Localization key for the event description
+	# PRIMARY_COUNTRY = Country to reference in event description
+	# ADDITIONAL_EFFECTS_CONTAINER = Additional effects in the container scope
+	create_container = {
+		tags = { mr_mod santos_balloon_crossing_event }
+		parent = this
+		save_scope_as = santos_event_container_scope
+	}
+
+	scope:santos_event_container_scope ?= {
+		set_variable = {
+			name = event_container_icon
+			value = $ICON$
+		}
+		set_variable = {
+			name = event_container_primary_country
+			value = $PRIMARY_COUNTRY$
+		}
+		set_variable = {
+			name = event_container_title_loc
+			value = $TITLE_LOCALIZATION_KEY$
+		}
+		set_variable = {
+			name = event_container_tt
+			value = $TOOLTIP_KEY$
+		}
+		set_variable = {
+			name = event_container_date
+			value = game_date
+		}
+		$ADDITIONAL_EFFECTS_CONTAINER$
+	}
+	add_to_variable_list = {
+		name = santos_balloon_crossing_events_list
+		target = scope:santos_event_container_scope
+	}
+}
+
+### Positive Effects ###
+
+santos_balloon_crossing_log_favorable_weather_event_effect = {
+	je:je_santos_balloon_crossing ?= {
+		santos_balloon_crossing_event_list_add_container_entry_effect = {
+			ICON = flag:santos_balloon_crossing_event_favorable_weather_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_balloon_crossing_event_favorable_weather_title_flag
+			TOOLTIP_KEY = flag:santos_balloon_crossing_event_favorable_weather_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = 1
+				}
+			"
+		}
+	}
+	santos_add_x_balloon_crossing_progress_effect = { AMOUNT = 1 }
+}
+
+santos_balloon_crossing_log_wind_shear_event_effect = {
+	je:je_santos_balloon_crossing ?= {
+		santos_balloon_crossing_event_list_add_container_entry_effect = {
+			ICON = flag:santos_balloon_crossing_event_wind_shear_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_balloon_crossing_event_wind_shear_title_flag
+			TOOLTIP_KEY = flag:santos_balloon_crossing_event_wind_shear_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = 2
+				}
+			"
+		}
+	}
+	santos_add_x_balloon_crossing_progress_effect = { AMOUNT = 2 }
+}
+
+santos_balloon_crossing_log_balloonist_maneuver_event_effect = {
+	je:je_santos_balloon_crossing ?= {
+		santos_balloon_crossing_event_list_add_container_entry_effect = {
+			ICON = flag:santos_balloon_crossing_event_balloonist_maneuver_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_balloon_crossing_event_balloonist_maneuver_title_flag
+			TOOLTIP_KEY = flag:santos_balloon_crossing_event_balloonist_maneuver_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = 3
+				}
+			"
+		}
+	}
+	santos_add_x_balloon_crossing_progress_effect = { AMOUNT = 3 }
+}
+
+santos_balloon_crossing_log_cautious_flight_event_effect = {
+	je:je_santos_balloon_crossing ?= {
+		santos_balloon_crossing_event_list_add_container_entry_effect = {
+			ICON = flag:santos_balloon_crossing_event_cautious_flight_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_balloon_crossing_event_cautious_flight_title_flag
+			TOOLTIP_KEY = flag:santos_balloon_crossing_event_cautious_flight_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_danger_var
+					value = -1
+				}
+			"
+		}
+		add_progress = {
+			name = santos_ballooning_danger_progress_bar
+			value = -1
+		}
+	}
+	santos_add_x_balloon_crossing_progress_effect = { AMOUNT = -1 }
+}
+
+### Negative Effects ###
+
+santos_balloon_crossing_log_unfavorable_weather_event_effect = {
+	je:je_santos_balloon_crossing ?= {
+		santos_balloon_crossing_event_list_add_container_entry_effect = {
+			ICON = flag:santos_balloon_crossing_event_unfavorable_weather_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_balloon_crossing_event_unfavorable_weather_title_flag
+			TOOLTIP_KEY = flag:santos_balloon_crossing_event_unfavorable_weather_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -1
+				}
+			"
+		}
+	}
+	santos_add_x_balloon_crossing_progress_effect = { AMOUNT = -1 }
+}
+
+santos_balloon_crossing_log_confusing_situation_event_effect = {
+	je:je_santos_balloon_crossing ?= {
+		santos_balloon_crossing_event_list_add_container_entry_effect = {
+			ICON = flag:santos_balloon_crossing_event_confusing_situation_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_balloon_crossing_event_confusing_situation_title_flag
+			TOOLTIP_KEY = flag:santos_balloon_crossing_event_confusing_situation_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_danger_var
+					value = 1
+				}
+			"
+		}
+		add_progress = {
+			name = santos_ballooning_danger_progress_bar
+			value = 1
+		}
+	}
+}
+
+santos_balloon_crossing_log_dangerous_fog_event_effect = {
+	je:je_santos_balloon_crossing ?= {
+		santos_balloon_crossing_event_list_add_container_entry_effect = {
+			ICON = flag:santos_balloon_crossing_event_dangerous_fog_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_balloon_crossing_event_dangerous_fog_title_flag
+			TOOLTIP_KEY = flag:santos_balloon_crossing_event_dangerous_fog_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_danger_var
+					value = 2
+				}
+			"
+		}
+		add_progress = {
+			name = santos_ballooning_danger_progress_bar
+			value = 2
+		}
+	}
+}
+
+santos_balloon_crossing_log_violent_storm_event_effect = {
+	je:je_santos_balloon_crossing ?= {
+		santos_balloon_crossing_event_list_add_container_entry_effect = {
+			ICON = flag:santos_balloon_crossing_event_violent_storm_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_balloon_crossing_event_violent_storm_title_flag
+			TOOLTIP_KEY = flag:santos_balloon_crossing_event_violent_storm_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -2
+				}
+				set_variable = {
+					name = event_container_danger_var
+					value = 2
+				}
+			"
+		}
+		add_progress = {
+			name = santos_ballooning_danger_progress_bar
+			value = 2
+		}
+	}
+	santos_add_x_balloon_crossing_progress_effect = { AMOUNT = -2 }
+}
+
+santos_balloon_crossing_log_balloonist_error_event_effect = {
+	je:je_santos_balloon_crossing ?= {
+		santos_balloon_crossing_event_list_add_container_entry_effect = {
+			ICON = flag:santos_balloon_crossing_event_balloonist_error_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_balloon_crossing_event_balloonist_error_title_flag
+			TOOLTIP_KEY = flag:santos_balloon_crossing_event_balloonist_error_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -3
+				}
+			"
+		}
+	}
+	santos_add_x_balloon_crossing_progress_effect = { AMOUNT = -3 }
+}
+
+santos_balloon_crossing_log_altitude_sickness_event_effect = {
+	je:je_santos_balloon_crossing ?= {
+		santos_balloon_crossing_event_list_add_container_entry_effect = {
+			ICON = flag:santos_balloon_crossing_event_altitude_sickness_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_balloon_crossing_event_altitude_sickness_title_flag
+			TOOLTIP_KEY = flag:santos_balloon_crossing_event_altitude_sickness_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_danger_var
+					value = 2
+				}
+			"
+		}
+		add_progress = {
+			name = santos_ballooning_danger_progress_bar
+			value = 2
+		}
+	}
+}
+
+santos_balloon_crossing_log_the_pampero_event_effect = {
+	je:je_santos_balloon_crossing ?= {
+		santos_balloon_crossing_event_list_add_container_entry_effect = {
+			ICON = flag:santos_balloon_crossing_event_the_pampero_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_balloon_crossing_event_the_pampero_title_flag
+			TOOLTIP_KEY = flag:santos_balloon_crossing_event_the_pampero_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_danger_var
+					value = 3
+				}
+			"
+		}
+		add_progress = {
+			name = santos_ballooning_danger_progress_bar
+			value = 3
+		}
+	}
+}
+
+santos_balloon_crossing_log_wind_calm_event_effect = {
+	je:je_santos_balloon_crossing ?= {
+		santos_balloon_crossing_event_list_add_container_entry_effect = {
+			ICON = flag:santos_balloon_crossing_event_wind_calm_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_balloon_crossing_event_wind_calm_title_flag
+			TOOLTIP_KEY = flag:santos_balloon_crossing_event_wind_calm_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -1
+				}
+				set_variable = {
+					name = event_container_danger_var
+					value = 2
+				}
+			"
+		}
+		add_progress = {
+			name = santos_ballooning_danger_progress_bar
+			value = 2
+		}
+	}
+	santos_add_x_balloon_crossing_progress_effect = { AMOUNT = -1 }
+}
+
+#######################################################################
+
+santos_add_x_balloon_crossing_progress_effect = {
+	# Amount = amount of Architectural Splendour to add
+	custom_description = {
+		text = "santos_add_x_balloon_crossing_progress_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+		#This part adds the AMOUNT of Architectural Splendour
+		mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = $AMOUNT$ NAME = santos_balloon_crossing_progress_var ADDITIONAL_SCRIPT_MATH = "min = 0 round = yes" }
+	}
+}
+
+#Effect that gets fired when a country has reached the progress (8/12/16)
+santos_balloon_crossing_succesful_effect = {
+	#Channel Crossed
+	if = {
+		limit = {
+			var:santos_balloon_crossing_target_var ?= flag:santos_channel_flag
+		}
+		trigger_event = {
+			id = santos.431
+		}
+	}
+	else_if = {
+		limit = {
+			var:santos_balloon_crossing_target_var ?= flag:santos_alps_flag
+		}
+		trigger_event = {
+			id = santos.432
+		}
+	}
+	else_if = {
+		limit = {
+			var:santos_balloon_crossing_target_var ?= flag:santos_skagerrak_flag
+		}
+		trigger_event = {
+			id = santos.433
+		}
+	}
+	else_if = {
+		limit = {
+			var:santos_balloon_crossing_target_var ?= flag:santos_mediterranean_flag
+		}
+		trigger_event = {
+			id = santos.434
+		}
+	}
+	else_if = {
+		limit = {
+			var:santos_balloon_crossing_target_var ?= flag:santos_rio_flag
+		}
+		trigger_event = {
+			id = santos.435
+		}
+	}
+	else_if = {
+		limit = {
+			var:santos_balloon_crossing_target_var ?= flag:santos_pyrenees_flag
+		}
+		trigger_event = {
+			id = santos.436
+		}
+	}
+	else_if = {
+		limit = {
+			var:santos_balloon_crossing_target_var ?= flag:santos_andes_flag
+		}
+		trigger_event = {
+			id = santos.437
+		}
+	}
+	else_if = {
+		limit = {
+			var:santos_balloon_crossing_target_var ?= flag:santos_korea_flag
+		}
+		trigger_event = {
+			id = santos.438
+		}
+	}
+	else_if = {
+		limit = {
+			var:santos_balloon_crossing_target_var ?= flag:santos_bab_flag
+		}
+		trigger_event = {
+			id = santos.439
+		}
+	}
+	#Resetting Balloon Crossing Points
+	set_variable = {
+		name = santos_balloon_crossing_progress_var
+		value = 0
+	}
+	santos_set_balloonist_unbusy_effect = no
+	hidden_effect = {
+		santos_balloon_crossing_clear_event_log_containers_je_scope_effect = yes
+	}
+}
+
+#Effect to add the specific crossing which a balloonist crossed for the first time
+santos_add_crossed_crossing_effect = {
+	#NUMBER --> Number of the crossing
+
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = value
+		value = $NUMBER$
+	}
+
+	random_in_global_list = {
+		variable = santos_crossings_global_list
+
+		limit = {
+			var:santos_crossing_number_var ?= $NUMBER$
+		}
+
+		set_variable = {
+			name = year
+			value = year
+		}
+		set_variable = {
+			name = balloonist_country
+			value = prev.country_definition
+		}
+		if = {
+			limit = {
+				prev.var:santos_balloonist_var ?= {
+					has_variable = com_name_full_no_formatting
+				}
+			}
+			set_variable = {
+				name = balloonist
+				value = prev.var:santos_balloonist_var.var:com_name_full_no_formatting
+			}
+		}
+		set_variable = santos_crossing_crossed_var
+	}
+	#var:santos_balloonist_var ?= {
+	#	set_variable = {
+	#		name = santos_balloonist_achievement_first_balloon_crossing_var
+	#		value = flag:santos_balloonist_achievement_first_balloon_crossing_loc
+	#	}
+	#}
+	
+	set_variable = {
+		name = santos_crossing_$NUMBER$_crossed_country_var
+		value = year
+	}
+	mr_change_variable_min_0_effect = { AMOUNT = 1 NAME = santos_crossings_number_var }
+	var:santos_balloonist_var ?= {
+		mr_change_variable_min_0_effect = { AMOUNT = 1 NAME = santos_balloon_crossings_number_personal_var }
+		add_trait = santos_balloonist_hero
+	}
+
+	custom_tooltip = santos_add_crossed_crossing_effect_tt
+	balloonist_experience_gain_effect = { AMOUNT = 35 }
+	big_santos_ballooning_research_effect = yes
+
+	remove_variable = santos_balloon_crossing_target_var
+}
+
+#Effect to add the specific crossing which a balloonist crossed
+santos_add_crossed_crossing_country_effect = {
+	#NUMBER --> Number of the crossing
+
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = value
+		value = $NUMBER$
+	}
+
+	set_variable = {
+		name = santos_crossing_$NUMBER$_crossed_country_var
+		value = year
+	}
+
+	mr_change_variable_min_0_effect = { AMOUNT = 1 NAME = santos_crossings_number_var }
+	var:santos_balloonist_var ?= {
+		mr_change_variable_min_0_effect = { AMOUNT = 1 NAME = santos_balloon_crossings_number_personal_var }
+	}
+
+	custom_tooltip = santos_add_crossed_crossing_country_effect_tt
+	balloonist_experience_gain_effect = { AMOUNT = 15 }
+	medium_santos_ballooning_research_effect = yes
+
+	remove_variable = santos_balloon_crossing_target_var
+}
+
+#######################################################################
+
+### AI ###
+
+#Balloon Ride
+santos_balloon_ride_button_effect = {
+	add_journal_entry = { type = je_santos_balloon_ride }
+}
+
+#Balloon Adventure
+santos_balloon_adventure_button_effect = {
+	var:santos_balloonist_var ?= {
+		set_character_busy_and_immortal = yes
+	}
+	add_journal_entry = { type = je_santos_balloon_adventure }
+}
+
+#Balloon Record
+santos_balloon_record_button_effect = {
+	var:santos_balloonist_var ?= {
+		set_character_busy_and_immortal = yes
+	}
+	add_journal_entry = { type = je_santos_balloon_record }
 }

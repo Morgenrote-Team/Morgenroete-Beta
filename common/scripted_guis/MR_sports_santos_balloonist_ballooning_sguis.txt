@@ -135,6 +135,13 @@ mr_balloonist_hydrogen_button = {
     effect = {
 		santos_set_balloon_fuel_hydrogen_effect = yes
     }
+
+	#AI will change to Hydrogen and will not change back again
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
 
 ### Change Type ###
@@ -166,5 +173,65 @@ mr_balloonist_change_type_button = {
 			id = santos.691
 			popup = yes
 		}
+    }
+
+		#AI only presses this when the Balloonist is unspecialized (no type, or All-round)
+
+	# AND has one of the three traits which would justify specializing (see santos.691)
+
+	ai_is_valid = {
+		var:santos_balloonist_var ?= {
+			NOR = {
+				var:santos_balloon_type_var ?= flag:santos_balloon_type_altitude_flag
+				var:santos_balloon_type_var ?= flag:santos_balloon_type_distance_flag
+				var:santos_balloon_type_var ?= flag:santos_balloon_type_time_flag
+			}
+		}
+		var:santos_balloonist_var ?= {
+			OR = {
+				has_trait = innovative
+				has_trait = meticulous
+				has_trait = persistent
+			}
+		}
+	}
+	ai_chance = {
+		base = 100 # Once ai_is_valid is true, the AI should press it
+	}
+	ai_frequency = 6 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+### Change Maps ###
+
+#Change Maps
+mr_balloonist_change_maps_to_africa_button = {
+    scope = country
+	
+	is_shown = {
+		NOT = {
+			has_variable = santos_balloonist_maps_changed_var
+		}
+	}
+
+    is_valid = {
+    }
+
+    effect = {
+		set_variable = santos_balloonist_maps_changed_var
+    }
+}
+
+mr_balloonist_change_maps_to_europe_button = {
+    scope = country
+	
+	is_shown = {
+		has_variable = santos_balloonist_maps_changed_var
+	}
+
+    is_valid = {
+    }
+
+    effect = {
+		remove_variable = santos_balloonist_maps_changed_var
     }
 }

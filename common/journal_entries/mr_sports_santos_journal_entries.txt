@@ -12,7 +12,7 @@
 je_santos_balloon_ride = {
 	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
 
-	group = je_group_curtiss_aviation
+	group = je_group_santos_ballooning
 
 	scripted_progress_bar = santos_balloon_ride_progress_bar
 
@@ -109,7 +109,7 @@ je_santos_balloon_adventure = {
 
 	scripted_button = santos_stop_ballonist_project_button
 
-	group = je_group_curtiss_aviation
+	group = je_group_santos_ballooning
 
 	scripted_progress_bar = santos_balloon_adventure_progress_bar
 
@@ -171,6 +171,7 @@ je_santos_balloon_adventure = {
 								1 = { trigger_event = { id = santos.503 } } #Squirrel Monkey
 								1 = { trigger_event = { id = santos.504 } } #Stoat
 								1 = { trigger_event = { id = santos.505 } } #Naked Mole-Rat
+								1 = { trigger_event = { id = santos.506 } } #Koala
 							}
 						}
 					}
@@ -204,7 +205,7 @@ je_santos_balloon_adventure = {
 				remove_modifier = santos_balloon_adventure_cost_modifier
 			}
 		}
-		santos_set_ballonist_unbusy_effect = yes
+		santos_set_balloonist_unbusy_effect = no
 	}
 
 	weight = 30
@@ -216,7 +217,7 @@ je_santos_balloon_record = {
 
 	scripted_button = santos_stop_ballonist_project_button
 
-	group = je_group_curtiss_aviation
+	group = je_group_santos_ballooning
 
 	scripted_progress_bar = santos_balloon_record_progress_bar
 
@@ -302,7 +303,7 @@ je_santos_balloon_record = {
 				remove_modifier = santos_balloon_record_cost_modifier
 			}
 		}
-		santos_set_ballonist_unbusy_effect = yes
+		santos_set_balloonist_unbusy_effect = no
 	}
 
 	weight = 30
@@ -312,72 +313,138 @@ je_santos_balloon_record = {
 je_santos_balloon_crossing = {
 	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
 
-	scripted_button = santos_stop_ballonist_project_button
+	group = je_group_santos_ballooning
 
-	group = je_group_curtiss_aviation
+	scripted_progress_bar = santos_ballooning_danger_progress_bar
 
-	scripted_progress_bar = santos_balloon_record_progress_bar
+	widget = {
+		gui = "gui/journal_entry_widgets/mr_character_je_widgets.gui"
+		name = "santos_balloon_crossing_header"
+		container = "custom_widget_container_je_icon"
+	}
+
+	widget = {
+		gui = "gui/journal_entry_widgets/santos_je_widgets.gui"
+		name = "widget_balloon_crossing_event_list_widget"
+		container = "custom_widget_container_5"
+	}
 
 	immediate = {
+		set_variable = {
+			name = santos_balloon_crossing_progress_var
+			value = 0
+		}
 		scope:journal_entry = {
 			add_modifier = {
-				name = santos_balloon_record_cost_modifier
+				name = santos_balloon_crossing_cost_modifier
 			}
 		}
 	}
 
-	on_monthly_pulse = {
+	#This on action controls the crossing itself. It only does anything if the crossing is currently ongoing.
+	on_weekly_pulse = {
 		effect = {
-			if = {
-				#If the Progress reaches the cost, the PM will be unlocked in a state
-				limit = {
-					je:je_santos_balloon_record = {
-						"scripted_bar_progress(santos_balloon_record_progress_bar)" >= 12
+			trigger_event = {
+				days = { 0 30 }
+				on_action = santos_balloon_crossing_on_action
+			}
+		}
+	}
+
+	current_value = {
+		value = var:santos_balloon_crossing_progress_var #value or variable you use to meassure progress
+	}
+
+	progressbar = yes
+
+	goal_add_value = {
+		value = santos_balloon_crossing_goal_value #value you want the variable to reach
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		santos_balloon_crossing_succesful_effect = yes
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = santos_ballooning_danger_progress_bar_at_full_tt
+			je:je_santos_balloon_crossing = {
+				"scripted_bar_progress(santos_ballooning_danger_progress_bar)" >= 5
+			}
+		}
+	}
+
+	on_fail = {
+		custom_tooltip = {
+			text = santos_ballooning_on_fail_tt
+			var:santos_balloonist_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			random_list = {
+				10 = {
+					modifier = {
+						add = santos_balloon_accident_danger_value
 					}
-				}
-				#AI will automatically check after 12 months if there is something better to do
-				if = {
-					limit = {
-						is_ai = yes
+					remove_variable = santos_balloon_crossing_target_var
+					if = {
+						limit = { has_variable = santos_no_balloonist_flight_events_var }
+						trigger_event = { id = santos.675 }
 					}
-					set_variable = santos_stop_balloonist_project_var
-				}
-				###Death Chance###
-				random_list = {
-					10 = {
-						modifier = {
-							add = santos_balloon_accident_record_value
-						}
-						if = {
-							limit = { has_variable = santos_no_balloonist_flight_events_var }
-							trigger_event = { id = santos.675 }
-						}
-						else = {
-							random_list = {
-								200 = { trigger_event = { id = santos.670 } }
-								1 = { trigger_event = { id = santos.674 } }
-								1 = { trigger_event = { id = santos.674 } }
-							}
-						}
-					}
-					90 = {
-						modifier = {
-							subtract = santos_balloon_accident_record_value
-						}
+					else = {
 						random_list = {
-							1 = { trigger_event = { id = santos.601 } }
-							1 = { trigger_event = { id = santos.602 } }
-							1 = { trigger_event = { id = santos.603 } }
+							200 = { trigger_event = { id = santos.670 } }
+							1 = { trigger_event = { id = santos.673 } }
+							1 = { trigger_event = { id = santos.674 } }
 						}
 					}
 				}
-				
-				#The cost will be subtracted from the current progress
-				je:je_santos_balloon_record = {
-					add_progress = {
-						name = santos_balloon_record_progress_bar
-						value = -12
+				90 = {
+					modifier = {
+						subtract = santos_balloon_accident_danger_value
 					}
+					trigger_event = { id = santos.441 }
+				}
+			}
+		}
+	}
+
+	timeout = 365
+
+	on_timeout = {
+		custom_tooltip = {
+			text = santos_ballooning_on_timeout_tt
+			var:santos_balloonist_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			random_list = {
+				10 = {
+					modifier = {
+						add = santos_balloon_accident_crossing_value
+					}
+					remove_variable = santos_balloon_crossing_target_var
+					if = {
+						limit = { has_variable = santos_no_balloonist_flight_events_var }
+						trigger_event = { id = santos.675 }
+					}
+					else = {
+						random_list = {
+							200 = { trigger_event = { id = santos.670 } }
+							1 = { trigger_event = { id = santos.673 } }
+							1 = { trigger_event = { id = santos.674 } }
+						}
+					}
+				}
+				90 = {
+					modifier = {
+						subtract = santos_balloon_accident_crossing_value
+					}
+					trigger_event = { id = santos.441 }
 				}
 			}
 		}
@@ -386,22 +453,24 @@ je_santos_balloon_crossing = {
 	invalid = {
 		custom_tooltip = {
 			text = santos_stop_balloonist_project_tt
-			OR = {
-				has_variable = santos_stop_balloonist_project_var
-				santos_has_balloonist_no_tooltip_trigger = no
+			NOT = {
+				has_variable = santos_balloonist_var
 			}
 		}
 	}
 
 	on_invalid = {
-		remove_variable = santos_stop_balloonist_project_var
+		var:santos_balloonist_var ?= {
+			set_character_busy_and_immortal = no
+		}
 		show_as_tooltip = {
 			scope:journal_entry = {
-				remove_modifier = santos_balloon_record_cost_modifier
+				remove_modifier = santos_balloon_crossing_cost_modifier
 			}
 		}
-		santos_set_ballonist_unbusy_effect = yes
 	}
 
-	weight = 30
+	weight = 100
+
+	should_be_pinned_by_default_uninvolved_or_context = yes
 }
