@@ -8,3 +8,4 @@ Physicist
 Balloonist
 - Stratospheric flight for Balloonist
 - Re-add historical events
+- Balloonists: Arban and Green
