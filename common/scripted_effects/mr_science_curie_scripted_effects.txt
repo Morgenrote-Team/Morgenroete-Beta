@@ -390,6 +390,8 @@ curie_add_x_magnetic_data_effect = {
 		name = curie_total_magnetic_data_global_var
 		add = $AMOUNT$
 	}
+
+	curie_magnetic_research_effect = yes
 }
 
 curie_set_magnetic_association_effect = {
@@ -455,23 +457,28 @@ curie_magnetic_progress_gain_effect = {
 }
 
 curie_magnetic_research_effect = {
-	change_global_variable = {
-		name = curie_total_magnetic_data_global_var
-		subtract = curie_magnetic_progress_goal
-	}
-	change_global_variable = {
-		name = curie_magnetic_research_global_var
-		add = 1
-	}
-
-	agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
-
-	every_country = {
+	if = {
 		limit = {
-			has_variable = curie_magnetic_association_member_var
+			global_var:curie_total_magnetic_data_global_var >= curie_magnetic_progress_goal
 		}
-		trigger_event = {
-			id = curie.103
+		change_global_variable = {
+			name = curie_total_magnetic_data_global_var
+			subtract = curie_magnetic_progress_goal
+		}
+		change_global_variable = {
+			name = curie_magnetic_research_global_var
+			add = 1
+		}
+
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+
+		every_country = {
+			limit = {
+				has_variable = curie_magnetic_association_member_var
+			}
+			trigger_event = {
+				id = curie.103
+			}
 		}
 	}
 }
@@ -1269,6 +1276,30 @@ curie_physicist_improve_meteorology_effect = {
 				name = curie_physicist_meteorology_cost_modifier
 				multiplier = mr_local_project_cost_very_small_value
 			}
+		}
+	}
+}
+
+##############################
+
+###Ranking for Physicists###
+
+#Adds the Physicists as global variables
+curie_create_physicist_ranking_effect = {
+	#Removes the global variable list
+	clear_global_variable_list = mr_physicist_ranking_global_list
+
+	ordered_character = {
+		limit = {
+			has_role = character_role_curie_physicist
+		}
+		order_by = curie_physicist_experience_current_specialization_character_scope_value
+		check_range_bounds = no
+
+		#This part adds all the countries to the list
+		add_to_global_variable_list = {
+			name = mr_physicist_ranking_global_list
+			target = this
 		}
 	}
 }

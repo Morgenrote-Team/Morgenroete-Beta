@@ -126,6 +126,7 @@
 	ai = {
 
 		treaty_categories = {
+			trade
 			other
 		}
 
@@ -134,75 +135,50 @@
 
 			# Only encourage AI-to-AI requests
 			if = {
-				limit = {
-					scope:other_country = {
-						is_ai = yes
-					}
+                limit = {
+                    is_ai = yes
+                    OR = {
+                        has_variable = lepsius_archaeologist_var
+                        has_variable = ito_naturalist_var
+                        has_variable = dubois_paleontologist_var
+                        has_variable = douglas_mountaineer_var
+                    }
+                }
 
-					mr_research_charter_ai_matching_opportunity_trigger = yes
-				}
+                # Baseline, wenn überhaupt ein passender Experte vorhanden ist
+                add = 0.05
 
-				# Baseline for a useful matching charter
-				add = 0.05
+                if = {
+                    limit = { has_variable = lepsius_archaeologist_var }
+                    add = 0.15
+                }
+                if = {
+                    limit = { has_variable = ito_naturalist_var }
+                    add = 0.15
+                }
+                if = {
+                    limit = { has_variable = dubois_paleontologist_var }
+                    add = 0.15
+                }
+                if = {
+                    limit = { has_variable = douglas_mountaineer_var }
+                    add = 0.15
+                }
 
-				# More relevant personnel -> more motivation to request
-				if = {
-					limit = {
-						has_variable = lepsius_archaeologist_var
-						scope:other_country = {
-							lepsius_has_excavation_site_for_licence_trigger = yes
-						}
-					}
-					add = 0.15
-				}
-
-				if = {
-					limit = {
-						has_variable = ito_naturalist_var
-						scope:other_country = {
-							ito_country_has_medicinal_plants_no_tooltip_trigger = yes
-						}
-					}
-					add = 0.15
-				}
-
-				if = {
-					limit = {
-						has_variable = dubois_paleontologist_var
-						scope:other_country = {
-							dubois_has_great_formation = yes
-						}
-					}
-					add = 0.15
-				}
-
-				if = {
-					limit = {
-						has_variable = douglas_mountaineer_var
-						scope:other_country = {
-							douglas_has_conquerable_summit_trigger = yes
-						}
-					}
-					add = 0.15
-				}
-
-				# Great Powers should pursue useful charters more aggressively
-				if = {
-					limit = {
-						country_rank >= rank_value:great_power
-					}
-					add = 0.20
-				}
-				else_if = {
-					limit = {
-						country_rank >= rank_value:major_power
-					}
-					add = 0.10
-				}
-			}
+                # Great Powers / Major Powers verfolgen nützliche Charters aggressiver
+                if = {
+                    limit = { country_rank >= rank_value:great_power }
+                    add = 1
+                }
+                else_if = {
+                    limit = { country_rank >= rank_value:major_power }
+                    add = 0.50
+                }
+            }
 		}
 
 		article_ai_usage = {
+			offer
 			request
 		}
 
@@ -352,38 +328,38 @@
 					}
 				}
 
-				if = {
-					limit = {
-						NOT = {
-							any_scope_treaty = {
-								binds = scope:other_country
-								any_scope_article = {
-									has_type = mr_research_charter
-								}
-							}
-						}
-						any_scope_treaty = {
-							count > 0
-							any_scope_article = {
-								has_type = mr_research_charter
-							}
-						}
-					}
-					add = {
-						desc = "DIPLOMATIC_ACCEPTANCE_NUM_RESEARCH_CHARTERS"
-						value = {
-							every_scope_treaty = {
-								limit = {
-									any_scope_article = {
-										has_type = mr_research_charter
-									}
-								}
-								add = 1
-							}
-						}
-						multiply = -15
-					}
-				}
+				#if = {
+				#	limit = {
+				#		NOT = {
+				#			any_scope_treaty = {
+				#				binds = scope:other_country
+				#				any_scope_article = {
+				#					has_type = mr_research_charter
+				#				}
+				#			}
+				#		}
+				#		any_scope_treaty = {
+				#			count > 0
+				#			any_scope_article = {
+				#				has_type = mr_research_charter
+				#			}
+				#		}
+				#	}
+				#	add = {
+				#		desc = "DIPLOMATIC_ACCEPTANCE_NUM_RESEARCH_CHARTERS"
+				#		value = {
+				#			every_scope_treaty = {
+				#				limit = {
+				#					any_scope_article = {
+				#						has_type = mr_research_charter
+				#					}
+				#				}
+				#				add = 1
+				#			}
+				#		}
+				#		multiply = -15
+				#	}
+				#}
 
 				add = {
 					desc = "DIPLOMATIC_ACCEPTANCE_ATTITUDE"

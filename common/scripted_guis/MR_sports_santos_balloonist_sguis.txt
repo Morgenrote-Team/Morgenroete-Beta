@@ -154,9 +154,6 @@ mr_balloonist_balloon_adventure_button = {
 		}
 	}
 	effect = {
-		var:santos_balloonist_var ?= {
-			set_character_busy_and_immortal = no
-		}
 		add_journal_entry = { type = je_santos_balloon_adventure }
 	}
 }
@@ -184,9 +181,6 @@ mr_balloonist_balloon_record_button = {
 		}
 	}
 	effect = {
-		var:santos_balloonist_var ?= {
-			set_character_busy_and_immortal = no
-		}
 		add_journal_entry = { type = je_santos_balloon_record }
 	}
 }
@@ -208,15 +202,26 @@ mr_balloonist_balloon_crossing_button = {
 
 	is_valid = {
 		santos_has_balloonist_trigger = yes
-		NOT = {
-			has_journal_entry = je_santos_balloon_crossing
+		custom_tooltip = {
+			text = MR_BALLOONIST_CROSSING_TRIGGER_TT
+			NOT = {
+				var:santos_balloonist_var ?= {
+					has_modifier = santos_balloon_demoralized_modifier
+				}
+			}
+		}
+		hidden_trigger = {
+			NOR = {
+				has_variable = santos_crossing_selection_var
+				has_journal_entry = je_santos_balloon_crossing
+			}
 		}
 	}
 	effect = {
-		var:santos_balloonist_var ?= {
-			set_character_busy_and_immortal = no
+		trigger_event = {
+			id = santos.401
+			popup = yes
 		}
-		add_journal_entry = { type = je_santos_balloon_crossing }
 	}
 }
 #Active
@@ -257,4 +262,70 @@ mr_gordon_bennett_cup_button_sgui = {
 			popup = yes
 		}
     }
+}
+
+#########################################################################################
+
+### Balloonist Automation ###
+
+mr_balloonist_automation_gui = {
+	scope = country
+	is_shown = {
+		NOT = { has_variable = santos_ballooning_automation_var }
+	}
+	is_valid = {
+		always = yes
+	}
+	effect = {
+		custom_tooltip = mr_balloonist_automation_gui_tt
+		custom_tooltip = {
+			text = santos_ballooning_no_more_flight_information_tt
+			set_variable = santos_no_balloonist_flight_events
+		}
+		set_variable = santos_ballooning_automation_var
+		ai_ballooning_automation_effect = yes
+	}
+}
+mr_stop_balloonist_automation_gui = {
+	scope = country
+	is_shown = {
+		has_variable = santos_ballooning_automation_var
+	}
+	is_valid = {
+		always = yes
+	}
+	effect = {
+		custom_tooltip = mr_stop_balloonist_automation_gui_tt
+		custom_tooltip = {
+			text = santos_ballooning_return_flight_information_tt
+			remove_variable = santos_no_balloonist_flight_events
+		}
+		remove_variable = santos_ballooning_automation_var
+	}
+}
+
+### Balloonist STOP ###
+
+#MR_STOP_BALLONIST_PROJECT_BUTTON
+mr_stop_ballonist_project_button_sgui = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_STOP_BALLOONIST_PROJECT_POSSIBLE_TT
+			NOT = { has_variable = santos_stop_balloonist_project_var }
+		}
+		custom_tooltip = {
+			text = MR_STOP_BALLOONIST_PROJECT_HAS_ACTIVE_PROJECT_TT
+			OR = {
+				has_journal_entry = je_santos_balloon_adventure
+				has_journal_entry = je_santos_balloon_record
+			}
+		}
+	}
+	effect = {
+		set_variable = {
+			name = santos_stop_balloonist_project_var
+			days = 7
+		}
+	}
 }
