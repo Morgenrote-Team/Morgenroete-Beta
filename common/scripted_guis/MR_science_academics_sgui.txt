@@ -198,7 +198,56 @@ mr_academics_hire_physicist_button_sgui = {
 		NOT = { has_variable = mr_academics_hire_physicist_window_active_var }
 	}
 	effect = {
-		academics_hire_academic_open_window_effect = { ROLE = physicist PROJECT = curie }
+		custom_tooltip = {
+			text = mr_academics_hire_physicist_button_tt
+
+			clear_variable_list = mr_academics_hire_physicist_variable_list
+			ordered_character = {
+				order_by = curie_physicist_experience_current_specialization_character_scope_value
+
+				limit = {
+					#Triggers for all countries
+					has_role = character_role_curie_physicist
+					NOR = {
+						is_ruler_of_own_country = yes
+						owner.var:curie_physicist_var ?= this
+						AND = {
+							owner ?= root
+							has_modifier = academics_character_recently_fired_modifier
+						}
+					}
+					#Triggers applying only to other countries
+					trigger_if = {
+						limit = {
+							NOT = { owner ?= root }
+						}
+						NOR = {
+							is_heir_of_own_country = yes
+							owner.var:tesla_engineer_var ?= this
+							owner.var:mendelejew_chemist_var ?= this
+							owner.var:verrier_astronomer_var ?= this
+							owner.var:curie_physicist_var ?= this
+							owner.var:agassiz_geologist_var ?= this
+							owner.var:dubois_paleontologist_var ?= this
+							owner.var:ito_naturalist_var ?= this
+							owner.var:theiler_biologist_var ?= this
+							owner.var:panum_physician_var ?= this
+							owner.var:lepsius_archaeologist_var ?= this
+							owner.var:andersson_anthropologist_var ?= this
+							owner.var:roy_ethnologist_var ?= this
+						}
+					}
+				}
+
+				root = {
+					add_to_variable_list = {
+						name = mr_academics_hire_physicist_variable_list
+						target = prev
+					}
+				}
+			}
+			set_variable = mr_academics_hire_physicist_window_active_var
+		}
 	}
 }
 
