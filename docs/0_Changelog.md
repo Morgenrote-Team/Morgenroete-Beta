@@ -142,6 +142,7 @@ Changes
 
 Characters:
 - Augustin-Louis Cauchy (French Physicist and Engineer)
+- Carl Gustav Jacob Jacobi (German Physicist)
 - Niels Henrik Abel (Norwegian Physicist)
 
 ####################
