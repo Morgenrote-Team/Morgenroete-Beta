@@ -34,6 +34,7 @@ Academics
 - Technologies in the tech tree now indicate when they unlock an academic or artistic promotion.
 
 Archaeology
+- Archaeology is available from 1828 on (you don't have to wait for Rosellini's letter).
 - Added 4 Events to the Maurya Empire Archaeological Region.
 - Added Major Local Artifact: Lion Capital of Ashoka.
 - Added Major Local Artifact: Pergamon Altar.
@@ -97,6 +98,7 @@ Research Charter
 - Research charter is associated with a diplomatic catalyst - countries may be a bit friendlier (or more hostile, if they denied the charter) after the treaty.
 - Countries with a higher rank will be VERY reluctant to give you a Research charter.
 - AI will only request Research Charters and mostly does this with other AI nations (player shouldn't be bothered too much).
+- France, Great Britain and Tuscany start with a Research Charter from Egypt.
 
 Technologies
 - Added Mathematics. This is the first technology in the Physics/Mathematics tree (before Classical Physics). Countries which start with manufacturies also start with mathematics.
