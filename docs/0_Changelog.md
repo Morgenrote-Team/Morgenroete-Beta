@@ -138,6 +138,9 @@ Changes
 - Removed old find x journal entries as they are no longer necessary (have been replaced for a few updates now).
 - Academic Mission Events no longer popup.
 
+Characters:
+- Niels Henrik Abel (Norwegian Physicist)
+
 ####################
 
 ### TO DO ###
