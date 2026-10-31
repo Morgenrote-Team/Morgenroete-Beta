@@ -139,6 +139,7 @@ Changes
 - Academic Mission Events no longer popup.
 
 Characters:
+- Augustin-Louis Cauchy (French Physicist and Engineer)
 - Niels Henrik Abel (Norwegian Physicist)
 
 ####################
