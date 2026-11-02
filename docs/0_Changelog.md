@@ -145,6 +145,7 @@ Characters:
 - Carl Gustav Jacob Jacobi (German Physicist)
 - Gustav Lejeune Dirichlet (German Physicist)
 - Georg Ohm (German Physicist)
+- William Rowan Hamilton (British Physicist and Astronomer)
 - Niels Henrik Abel (Norwegian Physicist)
 
 ####################
