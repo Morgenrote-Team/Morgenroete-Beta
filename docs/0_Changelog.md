@@ -146,6 +146,7 @@ Characters:
 - Gustav Lejeune Dirichlet (German Physicist)
 - Georg Ohm (German Physicist)
 - William Rowan Hamilton (British Physicist and Astronomer)
+- Henry John Stephen Smith (British Physicist)
 - Niels Henrik Abel (Norwegian Physicist)
 
 ####################
