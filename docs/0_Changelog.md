@@ -152,6 +152,7 @@ Characters:
 - William Rowan Hamilton (British Physicist and Astronomer)
 - Henry John Stephen Smith (British Physicist)
 - Niels Henrik Abel (Norwegian Physicist)
+- Charles-Édouard Guillaume (Swiss Physicist)
 
 ####################
 
