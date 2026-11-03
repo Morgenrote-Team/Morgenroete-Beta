@@ -140,6 +140,7 @@ Changes
 - Added Great Terroir (Wine bonus) to Aquitaine and Piedmont (Paradox, you added the best wine grounds in Europe and forgot about Bordeaux and Barolo?).
 - Removed old find x journal entries as they are no longer necessary (have been replaced for a few updates now).
 - Academic Mission Events no longer popup.
+- Einstein can now spawn as a Physicist even witout an event.
 
 Characters:
 - Augustin-Louis Cauchy (French Physicist and Engineer)
