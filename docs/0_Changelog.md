@@ -121,11 +121,12 @@ Technologies
 - Recognized countries which start with medical degrees also start with vaccination.
 
 Technologies (WIP)
-- Added Rocket Science. This Technology is needed for the Rocket Scientist Specialization.
-- Added Modern Rockets.
+- Added Rocket Science. This Technology is needed for the Rocket Scientist Specialization. Placeholder Modifiers.
+- Added Modern Rockets. Placeholder Modifiers. Special building not possible yet.
 - Added Nuclear Physics. This Technology is needed for the Nuclear Physicist Specialization.
-- Added Nuclear Fission.
+- Added Nuclear Fission. Special building not possible yet.
 - Added Nuclear Reactor and The Bomb. These are hidden technologies which will be activated by a JE (like Astro Physics).
+- Added International Awards. Only Modifiers, will activate Nobel prizes in the future.
 
 Copper
 - Additional (very small) Copper potentials for Tyrol, Lorraine, Provence, Sardinia and Rio Grande do Sul.
