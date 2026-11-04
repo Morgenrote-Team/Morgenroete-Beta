@@ -168,6 +168,7 @@ Characters:
 - William Rowan Hamilton (British Physicist and Astronomer)
 - Henry John Stephen Smith (British Physicist)
 - Niels Henrik Abel (Norwegian Physicist)
+- Kristian Birkeland (Norwegian Physicist)
 - Johann Jakob Balmer (Swiss Physicist)
 - Charles-Édouard Guillaume (Swiss Physicist)
 - Raoul Pictet (Swiss Physicist)
