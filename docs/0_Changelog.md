@@ -2,20 +2,36 @@ Changelog fot 2.9.0 "Curie"
 
 Physics - General
 - Added a new Academic: Physicist.
+- Four different types of Physics, based on the concept of Engineers: Mathematical Physicist (Mathematician), Meteorological Physicist (Meteorologist), Rocket Physicist, Nuclear Physicist.
+- Only Mathematicians and Meteorologist are ready for this updates, the other two will follow.
+- Added Physical Data, Formulas and Clouds as objects.
+- New GUIs for Physicist types.
+- All types of physicists can conduct physics experiments. Furthermore, every physicist can conduct a historic experiment in their lifetime, following in the footsteps of great role models. Successful physics experiments yield physical data.
+
+Physics - Mathematics
+- Mathematicians can invent new formulas; 25 formulas are in the game, 5 have been researched in 1836.
+- Mathematical formulas drive mathematical innovation. Mathematical innovation is a mathematician's default action, which enhances innovation capacity and mitigates the drawbacks of technologies that are ahead of their time.
+- Mathematicians can improve universities with a mathematics department using three modifiers.
+- A new math GUI displays the formulas that have already been found, the corresponding country, the respective inventor, and the year the formula was derived.
+
+Physics - Meteorology
+- Meteorological PMs in the Observatory are no longer manually available; they will be updated by a Meteorologist.
+- Changed Meteorological PMs: They no longer give agricultural bonus; however, all the modifiers against harvest conditions (NOTE: 'harvest coniditons' in this context always mean harvest conditions connected to weather) are stronger. The last PM needs more and different input goods.
+- After expanding the observatory's weather station a Meteorologist can prepare agricultural and marine weather reports that help mitigate the impact of adverse harvest conditions.
+- Meteorologists conduct weather observations. In doing so, they collect physical data and, in some cases, describe new types of clouds.
+- There are ten classic types of clouds: In most cases (though not all), knowledge of a specific cloud type mitigates the negative effects of harvest conditions (e.g., torrential rains) and enhances the positive effects of harvest conditions (e.g., optimal sunlight).
+- There are also two hidden cloud types that you can only find under certain circumstances.
+- A meteorologist can set up weather monitoring stations on telegraph poles (see below) to mitigate or improve the effects of harvest conditions using three modifiers.
+- A new meteorology GUI includes a cloud atlas featuring discovered and undiscovered clouds, their bonuses, and tips on how to find them.
 
 Physics - Geomagnetism
-- All content related to geomagnetism has been moved to and centralized in the “Mathematics” GUI (previously located under “Engineering”).
+- All content related to geomagnetism has been moved to and centralized in the Physicist GUI (previously located under 'Engineering').
 - It is now possible to found the Geomagnetic Association via an action in a modded game set before 1836.
 - New action: Geomagnetic Atlas.
 - All journal entries related to geomagnetism now have their own scripted progress bar.
 - The Geomagnetic Institute generates both magnetic data AND physical data.
 - The various buttons on the Engineer's interface that allowed players to unlock raw material deposits using magnetic data have been removed.
 - Instead, every time enough magnetic data has been collected worldwide, an event is unlocked for all members of the Magnetic Association that unlocks either physics experience and physical data, or a small deposit of raw materials (+2 for iron and lead, +1 for copper and oil); however, this also requires certain technological prerequisites. Each time a progress bar is completed, meeting the requirements the next time becomes more difficult.
-
-Physics - Meteorology
-- Added Meteorological Physicist (Metereologist)
-- Meteorological PMs in the Observatory are no longer manually available; they will be updated by a Meteorologist.
-- Changed Meteorological PMs: They no longer give agricultural bonus; however, all the modifiers against harvest conditions are stronger. The last PM needs more and different input goods.
 
 Physics - The Göttingen Seven
 - Hanover begins with a physicist and mathematician: Wilhelm Eduard Weber. During the “Göttingen Seven” event, Weber may lose his position. He may subsequently resurface in a German state that has criticized the behavior of the King of Hanover and does not have a mathematician of its own.
@@ -58,6 +74,7 @@ Ballooning
 - Added Balloon Ride (Default ACtion). This is an entire safe option for your balloonist, researching technologies and giving certain buildings a modifier.
 - Added Balloon Adventure. A balloonist can bring items from abroad (minerals, specimen, artifacts etc.) depending on his profession. Small risk to die.
 - Added Balloon Record. This works similar to the old system. Prestige adjusted to records (1 Prestige for every 500m altitude, 1 Prestige for every 100km distance, 1 Prestige for every 3h time). Balloonist will try to breach one of the three records every year. Moderate risko to die.
+- Added Balloon Crossing. There are a total of 9 different balloon crossings, such as the English Channel, the Alps, and the Río de la Plata. This feat is highly prestigious, but also very dangerous!
 
 Biology & Chemistry
 - Removed Cydia and Cochliomyia State Traits.
@@ -125,7 +142,6 @@ Technologies (WIP)
 - Added Modern Rockets. Placeholder Modifiers. Special building not possible yet.
 - Added Nuclear Physics. This Technology is needed for the Nuclear Physicist Specialization.
 - Added Nuclear Fission. Special building not possible yet.
-- Added Nuclear Reactor and The Bomb. These are hidden technologies which will be activated by a JE (like Astro Physics).
 - Added International Awards. Only Modifiers, will activate Nobel prizes in the future.
 
 Copper
