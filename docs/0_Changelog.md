@@ -171,6 +171,7 @@ Characters:
 - Johann Jakob Balmer (Swiss Physicist)
 - Charles-Édouard Guillaume (Swiss Physicist)
 - Raoul Pictet (Swiss Physicist)
+- Albert Riggenbach (Swiss Physicist)
 - Ludwig Schläfli (Swiss Physicist)
 
 ####################
