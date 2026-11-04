@@ -153,6 +153,7 @@ Characters:
 - Henry John Stephen Smith (British Physicist)
 - Niels Henrik Abel (Norwegian Physicist)
 - Charles-Édouard Guillaume (Swiss Physicist)
+- Ludwig Schläfli (Swiss Physicist)
 
 ####################
 
