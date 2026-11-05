@@ -157,6 +157,7 @@ Changes
 - Removed old find x journal entries as they are no longer necessary (have been replaced for a few updates now).
 - Academic Mission Events no longer popup.
 - Einstein can now spawn as a Physicist even witout an event.
+- Removed Swiss chocolate prestige good (there would be too many Prestige goods now :( )
 
 Characters:
 - Augustin-Louis Cauchy (French Physicist and Engineer)
