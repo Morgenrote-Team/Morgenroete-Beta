@@ -37,7 +37,7 @@ Morgenröte – Dawn of Flavor is a Mod to enrich the world of Victoria 3 with c
 
 [img]https://i.imgur.com/kmsIvg5.png[/img]
 [h1] Compatibility [/h1]
-Although we try to touch as few vanilla files as necessary, we still need to overwrite or inject into some of the files. This applies particularily to various technologies, buildings, pop needs and buy packages. Mods that also modify those files might need a compatch.
+Although we try touch as few vanilla files as necessary, we still need to overwrite or inject into some of the files. This applies particularily to various technologies, buildings, pop needs and buy packages. Mods that also modify those files might need a compatch.
 
 [b] Morgenröte can not be added to a already existing game. You need to start a new game with it. [/b]
 
