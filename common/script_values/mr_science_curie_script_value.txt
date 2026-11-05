@@ -4,50 +4,345 @@
 
 ############################################################################
 
-### TODO: Add remove stuff ###
-curie_physicist_character_rating_value = {
-	### Experience: 1 point per 50 Experience ###
-	value = var:curie_physicist_experience_var
-	divide = 50
-	### Positive Traits ###
-	#Experience Trait
+#Yearly Physical Data Value
+curie_yearly_physical_data_value = {
+	value = 0
+	###Technology###
+
+		if = {
+			limit = {
+					has_technology_researched = curie_mathematics_tech
+			}
+			add = 1
+		}
+		if = {
+			limit = {
+					has_technology_researched = verrier_spectroscopy_tech
+			}
+			add = 2
+		}
+		if = {
+			limit = {
+				has_technology_researched = verrier_radioactivity_tech
+			}
+			add = 3
+		}
+		if = {
+			limit = {
+				has_technology_researched = curie_nuclear_fission_tech
+			}
+			add = 4
+		}
+		###Observatory PMs###
+		if = {
+			limit = {
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_verrier_observatory
+						production_method = pm_curie_magnetic_observatory
+					}
+				}
+			}
+			add = 1
+		}
+		###University with Mathematics Focus###
+		if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_university
+					has_active_production_method = pm_dubois_university_mathematics
+				}
+			}
+			add = 2
+		}
+		###Physicist###
+		if = {
+			limit = {
+				curie_has_physicist = yes
+			}
+			add = 3
+		}
+		#Meteorological Observation###
+		if = {
+			limit = {
+				has_journal_entry = je_curie_meteorological_observation
+				curie_has_active_meteorological_physicist_trigger = yes
+			}
+			add = curie_meteorological_observation_yearly_physical_data_value
+		}
+
+}
+
+curie_magnetic_progress_goal = {
+	value = 100
+
 	if = {
 		limit = {
-			has_trait = curie_physicist_famous
+			has_global_variable = curie_magnetic_research_global_var
+			global_var:curie_magnetic_research_global_var = 1
 		}
-		add = 3
+		multiply = 2
+	}
+
+	if = {
+		limit = {
+			has_variable = curie_magnetic_research_global_var
+			global_var:curie_magnetic_research_global_var = 2
+		}
+		multiply = 3
+	}
+
+	if = {
+		limit = {
+			has_variable = curie_magnetic_research_global_var
+			global_var:curie_magnetic_research_global_var = 3
+		}
+		multiply = 5
+	}
+
+	if = {
+		limit = {
+			has_variable = curie_magnetic_research_global_var
+			global_var:curie_magnetic_research_global_var >= 4
+		}
+		multiply = 10
+	}
+}
+
+curie_magnetic_progress_add_value = {
+	value = global_var:curie_magnetic_association_members_global_var
+}
+
+curie_formula_cost_value = {
+	value = global_var:curie_discovered_formulas_global_number_var
+
+	multiply = 5
+}
+
+curie_mathematical_innovation_value = {
+	value = global_var:curie_international_mathematical_innovation_global_var
+
+	add = var:curie_national_mathematical_innovation_var
+}
+
+#Physical Data from Mathematics Project
+curie_physical_data_from_mathematics_project_value = {
+	value = var:mr_num_improved_buildings_var
+}
+
+curie_physical_data_from_mathematics_project_for_event_value = {
+	value = var:mr_num_improved_mathematics_buildings_var
+}
+
+### Physicist Experience of current specialization ###
+
+curie_physicist_experience_current_specialization_character_scope_value = {
+	if = {
+		limit = {
+			has_modifier = academics_is_mathematical_physicist_modifier
+		}
+
+		value = var:curie_mathematical_physicist_experience_var
 	}
 	else_if = {
 		limit = {
-			has_trait = curie_physicist_experienced
+			has_modifier = academics_is_meteorological_physicist_modifier
+		}
+
+		value = var:curie_meteorological_physicist_experience_var
+	}
+	else_if = {
+		limit = {
+			has_modifier = academics_is_rocket_physicist_modifier
+		}
+
+		value = var:curie_rocket_physicist_experience_var
+	}
+	else_if = {
+		limit = {
+			has_modifier = academics_is_nuclear_physicist_modifier
+		}
+
+		value = var:curie_nuclear_physicist_experience_var
+	}
+	else = {
+		value = 0
+	}
+}
+
+################################################################################################################
+
+#Value used to determine how many physical data the Meteorological Observation will produce per month
+curie_meteorological_observation_yearly_physical_data_value = {
+	#Base Physical Data
+	value = 1
+
+	#Observatory with Early Meteorology
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_curtiss_early_weather_station
+			}
+		}
+		add = 1
+	}
+
+	#Observatory with Standard Meteorology
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_curtiss_weather_station
+			}
 		}
 		add = 2
 	}
+
+	#Observatory with Modern Meteorology
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_curtiss_modern_weather_station
+			}
+		}
+		add = 3
+	}
+
+	#Experience of Meteorologist
+	if = {
+		limit = {
+			curie_has_meteorological_physicist_trigger = yes
+		}
+		add = {
+			value = var:curie_physicist_var.var:curie_meteorological_physicist_experience_var
+			divide = 50
+		}
+	}
+
+	round = yes
+}
+
+curie_meteorological_observation_yearly_physical_data_rounded_value = {
+	value = curie_meteorological_observation_yearly_physical_data_value
+	divide = 10
+	round = yes
+	multiply = 10
+}
+
+curie_agricultural_weather_service_value = {
+	value = 0
+
+	#Experience of Meteorologist
+	if = {
+		limit = {
+			curie_has_meteorological_physicist_trigger = yes
+		}
+		add = {
+			value = var:curie_physicist_var.var:curie_meteorological_physicist_experience_var
+			divide = 60
+		}
+	}
+
+	round = yes
+}
+
+#This Script value defines the progress when a physicist searches a new formula
+curie_physicist_character_rating_value = {
+	### Base Value ###
+	value = 1
+	### Experience: 1 point per 50 Experience ###
+	add = {
+		value = curie_physicist_experience_current_specialization_character_scope_value
+		divide = 50
+	}
+	#### Specialization Traits ###
+	#Mathematician
+	if = {
+		limit = {
+			has_trait = curie_mathematical_physicist
+		}
+		if = {
+			limit = { has_modifier = academics_is_mathematical_physicist_modifier }
+			add = 3
+		}
+		else = {
+			add = 1
+		}
+	}
+	#Meteorologist
+	if = {
+		limit = {
+			has_trait = curie_meteorological_physicist
+		}
+		if = {
+			limit = { has_modifier = academics_is_meteorological_physicist_modifier }
+			add = 3
+		}
+		else = {
+			add = 1
+		}
+	}
+	#Rocket Physicist
+	if = {
+		limit = {
+			has_trait = curie_rocket_physicist
+		}
+		if = {
+			limit = { has_modifier = academics_is_rocket_physicist_modifier }
+			add = 3
+		}
+		else = {
+			add = 1
+		}
+	}
+	#Nuclear Physicist
+	if = {
+		limit = {
+			has_trait = curie_nuclear_physicist
+		}
+		if = {
+			limit = { has_modifier = academics_is_nuclear_physicist_modifier }
+			add = 3
+		}
+		else = {
+			add = 1
+		}
+	}
+	### Positive Traits ###
+	#Experience Trait
 	else = {
 		add = 1
 	}
 	#General
 	if = {
 		limit = {
-			has_trait = verrier_mathematician
-		}
-		add = 2
-	}
-	if = {
-		limit = {
-			has_trait = curie_physicist
-		}
-		add = 2
-	}
-	if = {
-		limit = {
 			has_trait = meticulous
 		}
-		add = 1
+		add = 2
 	}
 	if = {
 		limit = {
 			has_trait = innovative
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_trait = erudite
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_trait = persistent
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_trait = charismatic
 		}
 		add = 1
 	}
@@ -57,24 +352,36 @@ curie_physicist_character_rating_value = {
 		}
 		add = 1
 	}
+	if = {
+		limit = {
+			has_trait = surveyor
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = literary
+		}
+		add = 0.5
+	}
+	if = {
+		limit = {
+			has_trait = klimt_painter
+		}
+		add = 0.5
+	}
 	### Negative Traits ###
 	if = {
 		limit = {
-			has_trait = alcoholic
+			has_trait = hedonist
 		}
 		subtract = 2
 	}
 	if = {
 		limit = {
-			has_trait = opium_addiction
+			curie_negative_trait_for_experiments_trigger = yes
 		}
-		subtract = 2
-	}
-	if = {
-		limit = {
-			has_trait = cocaine_addiction
-		}
-		subtract = 2
+		subtract = 3
 	}
 	if = {
 		limit = {

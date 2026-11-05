@@ -10,23 +10,23 @@ TRY_INJECT:electric_telegraph = {
 	era = era_2 #Mod changed from era 3 to era 2
 
 	modifier = {
-		country_war_exhaustion_casualties_mult = 0.05 #Morgenröte: changed from -0.25 to - 0.2
+		country_war_support_casualties_mult = 0.2 #Morgenröte: changed from -0.25 to - 0.2, Pidgeons get some bonus
 	}
 
 	ai_weight = {
+		value = 2
 		if = { #Morgenröte added this modifier
-			limit = { 
+			limit = {
 				tesla_has_electrical_engineer_trigger = yes
 			}
 			add = 2
 		}
-	}
-}
-
-TRY_INJECT:wargaming = {
-	modifier = {
-		unit_army_offense_mult = -0.1
-		#Morgenröte: removed moral loss, to messenger pidgeons #TODO add effect
+		if = {
+			limit = {
+				has_strategy = ai_strategy_unify_germany
+			}
+			add = 8
+		}
 	}
 }
 
@@ -45,12 +45,11 @@ TRY_REPLACE:military_aviation = {
 	era = era_4 #Morgenröte changed from Era 5
 	texture = "gfx/interface/icons/invention_icons/military_aviation.dds"
 	category = military
-	
+
 	modifier = {
-		# increased oil consumption
-		# increased recon/scouting/go fast
+		country_athletes_decorative_can_promote_pilot_boolean = yes #Morgenröte: Adds decorative promotion modifier
 	}
-	
+
 	unlocking_technologies = {
 		curtiss_early_aviation_tech
 		trench_works #Morgenröte: changed to this from defense_in_depth
@@ -61,10 +60,55 @@ TRY_REPLACE:military_aviation = {
 	}
 }
 
-TRY_INJECT:carrier_tech = {
-	unlocking_technologies = {	
-		dreadnought_tech
-		curtiss_seaplanes_tech #Morgenröte: added this tech as trigger
+TRY_REPLACE:dreadnought_tech = {
+	# Unlocks Dreadnoughts PM in Naval Bases
+	era = era_4
+	texture = "gfx/interface/icons/invention_icons/dreadnought.dds"
+	category = military
+
+	modifier = {
+		# increased coal consumption
+		# increased offense and defense?
+
+		# prestige bonus? Or a prestige bonus to overall naval size. Could apply this to mahanian_thought instead.
+	}
+
+	unlocking_technologies = {
+		pre_dreadnought_tech
+		sea_lane_strategies
+		concrete_dockyards
+	}
+
+	ai_weight = {
+		value = 1
+
+		# Important for naval powers
+		if = {
+			limit = { navy_size >= 20 }
+			add = 0.5
+		}
+	}
+}
+
+
+TRY_REPLACE:carrier_tech = {
+	# Unlocks Carriers PM in Naval Bases
+	era = era_5
+	texture = "gfx/interface/icons/invention_icons/carrier_tech.dds"
+	category = military
+
+	unlocking_technologies = {
+		curtiss_seaplanes_tech
+	}
+
+	ai_weight = {
+		value = 1
+
+		# Important for naval powers
+		if = {
+			limit = { navy_size >= 20 }
+			add = 0.5
+		}
 	}
 }
 
@@ -72,5 +116,12 @@ TRY_INJECT:modern_nursing = {
 
 	modifier = {
 		state_harvest_condition_panum_typhus_condition_impact_mult = -0.25 #Morgenröte added
+	}
+}
+
+TRY_INJECT:flamethrowers = {
+
+	modifier = {
+		state_harvest_condition_locust_swarm_impact_mult = -0.1 #Morgenröte: Added Modifier (Yes, they did this)
 	}
 }

@@ -1,0 +1,678 @@
+#### WIDGETS
+
+@panel_width_minus_30 = 510
+@panel_width = 540  				# used to be 460
+
+@layer_width = 500
+@layer_height = 52
+
+### Schneider Trophy Races ###
+
+#Current Race Ranking
+flowcontainer = {
+	name = "widget_curtiss_schneider_trophy_widgets"
+	ignoreinvisible = yes
+	direction = vertical
+	using = default_list_position
+
+	spacing = 10
+
+	widget = {
+		size = { 100% 5 }
+	}
+
+	#All involved Countries
+	com_journal_involved_countries_tiny_flags_with_scrollbar = {
+		blockoverride "com_involved_countries_header" {
+			default_header_clean_faded = {
+				parentanchor = hcenter
+				blockoverride "text" {
+					text = "CURTISS_PARTICIPANTS_LOC"
+				}
+				blockoverride "size" {
+					size = { 512 45 }
+				}
+			}
+		}
+	}
+
+	textbox = {
+		autoresize = yes
+		text = "[JournalEntry.GetReason]"
+		min_width = @panel_width_minus_30
+		max_width = @panel_width_minus_30
+		multiline = yes
+		using = default_list_position
+		align = nobaseline
+		margin = { 15 15 }
+
+		background = {
+			using = entry_bg
+		}
+	}
+
+	### Victory Ranking ###
+	flowcontainer = {
+		direction = vertical
+
+		visible = "[GetScriptedGui('curtiss_schneider_trophy_victory_ranking_visible_sgui').IsShown(GuiScope.SetRoot(JournalEntry.MakeScope).End)]"
+
+		section_header_button = {
+			blockoverride "layout" {
+				size = { 520 38 }
+			}
+			blockoverride "left_text" {
+				text = "CURTISS_SCHNEIDER_TROPHY_RANKING_HEADER"
+			}
+			blockoverride "onclick" {
+				onclick = "[GetVariableSystem.Toggle('curtiss_schneider_trophy_ranking_invisible')]"
+			}
+			blockoverride "onclick_showmore" {
+				visible = "[Not(GetVariableSystem.Exists('curtiss_schneider_trophy_ranking_invisible'))]"
+			}
+			blockoverride "onclick_showless" {
+				visible = "[GetVariableSystem.Exists('curtiss_schneider_trophy_ranking_invisible')]"
+			}
+		}
+
+		flowcontainer = {
+			visible = "[GetVariableSystem.Exists('curtiss_schneider_trophy_ranking_invisible')]"
+			datamodel = "[GetGlobalList('curtiss_schneider_trophy_ranking_global_list')]"
+			minimumsize = { 520 -1 }
+			direction = vertical
+
+			background = {
+				using = dark_area
+			}
+
+			flowcontainer = {
+				direction = vertical
+
+				widget = {
+					parentanchor = hcenter
+					size = { 500 35 }
+					maximumsize = { 500 35 }
+
+					vbox = {
+						layoutpolicy_vertical = expanding
+						layoutpolicy_horizontal = expanding
+
+						hbox = {
+							layoutpolicy_vertical = expanding
+							layoutpolicy_horizontal = expanding
+
+							margin_left = 10
+
+							textbox = {
+								text = "CURTISS_SCHNEIDER_TROPHY_PARTICIPANT_COUNTRY"
+								size = { 220 100% }
+								elide = right
+								align = nobaseline
+								alwaystransparent = yes
+								margin_left = 12
+							}
+
+							textbox = {
+								size = { 170 100% }
+								text = "CURTISS_SCHNEIDER_TROPHY_RANKING_CONSECUTIVE_VICTORIES"
+								elide = right
+								align = right|nobaseline
+								margin_right = 10
+							}
+
+							textbox = {
+								size = { 90 100% }
+								text = "CURTISS_SCHNEIDER_TROPHY_RANKING_VICTORIES"
+								elide = right
+								align = right|nobaseline
+								margin_right = 10
+							}
+						}
+					}
+				}
+			}
+
+			item = {
+				flowcontainer = {
+					direction = vertical
+
+					divider_clean = {
+						parentanchor = top
+					}
+
+					widget = {
+						parentanchor = hcenter
+						size = { 500 35 }
+						maximumsize = { 500 35 }
+						datacontext = "[Scope.GetCountry]"
+						visible = "[Scope.GetCountry.IsValid]"
+
+						vbox = {
+							layoutpolicy_vertical = expanding
+							layoutpolicy_horizontal = expanding
+
+							hbox = {
+								layoutpolicy_vertical = expanding
+								layoutpolicy_horizontal = expanding
+
+								margin_left = 10
+
+								tiny_flag = {}
+
+								textbox = {
+									text = "[Country.GetNameNoFormatting]"
+									size = { 260 100% }
+									elide = right
+									align = nobaseline
+									parentanchor = vcenter
+									alwaystransparent = yes
+									margin_left = 12
+								}
+
+								textbox = {
+									size = { 80 100% }
+									text = "CURTISS_SCHNEIDER_TROPHY_RANKING_CONSECUTIVE_VICTORIES_COUNTRY"
+									elide = right
+									align = right|nobaseline
+									margin_right = 10
+								}
+
+								textbox = {
+									size = { 80 100% }
+									text = "CURTISS_SCHNEIDER_TROPHY_RANKING_VICTORIES_COUNTRY"
+									elide = right
+									align = right|nobaseline
+									margin_right = 10
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		expand = {}
+	}
+
+	### Victory Log ###
+	flowcontainer = {
+		direction = vertical
+
+		visible = "[GetScriptedGui('curtiss_schneider_trophy_history_log_visible_sgui').IsShown(GuiScope.SetRoot(JournalEntry.MakeScope).End)]"
+
+		section_header_button = {
+			blockoverride "layout" {
+				size = { 520 38 }
+			}
+			blockoverride "left_text" {
+				text = "CURTISS_SCHNEIDER_TROPHY_HISTORY_LOG_HEADER"
+			}
+			blockoverride "onclick" {
+				onclick = "[GetVariableSystem.Toggle('curtiss_schneider_trophy_history_log_visible')]"
+			}
+			blockoverride "onclick_showmore" {
+				visible = "[Not(GetVariableSystem.Exists('curtiss_schneider_trophy_history_log_visible'))]"
+			}
+			blockoverride "onclick_showless" {
+				visible = "[GetVariableSystem.Exists('curtiss_schneider_trophy_history_log_visible')]"
+			}
+		}
+
+		flowcontainer = {
+			visible = "[GetVariableSystem.Exists('curtiss_schneider_trophy_history_log_visible')]"
+			datamodel = "[GetGlobalList('curtiss_schneider_trophy_history_log_global_list')]"
+			minimumsize = { 520 -1 }
+			direction = vertical
+
+			background = {
+				using = dark_area
+			}
+
+			flowcontainer = {
+				direction = vertical
+
+				widget = {
+					parentanchor = hcenter
+					size = { 500 35 }
+					maximumsize = { 500 35 }
+
+					vbox = {
+						layoutpolicy_vertical = expanding
+						layoutpolicy_horizontal = expanding
+
+						hbox = {
+							layoutpolicy_vertical = expanding
+							layoutpolicy_horizontal = expanding
+
+							margin_left = 10
+
+							textbox = {
+								text = "CURTISS_SCHNEIDER_TROPHY_HISTORY_LOG_YEAR_HEADER"
+								size = { 80 100% }
+								elide = right
+								align = nobaseline
+								alwaystransparent = yes
+								margin_left = 12
+							}
+
+							textbox = {
+								size = { 150 100% }
+								text = "CURTISS_SCHNEIDER_TROPHY_HISTORY_LOG_LOCATION_HEADER"
+								elide = right
+								align = nobaseline
+								margin_right = 10
+							}
+
+							textbox = {
+								size = { 230 100% }
+								text = "CURTISS_SCHNEIDER_TROPHY_HISTORY_LOG_COUNTRY_DEFINITION_HEADER"
+								elide = right
+								align = nobaseline
+								margin_right = 10
+							}
+						}
+					}
+				}
+			}
+
+			item = {
+				flowcontainer = {
+					direction = vertical
+
+					divider_clean = {
+						parentanchor = top
+					}
+
+					widget = {
+						parentanchor = hcenter
+						size = { 500 35 }
+						maximumsize = { 500 35 }
+
+						vbox = {
+							layoutpolicy_vertical = expanding
+							layoutpolicy_horizontal = expanding
+
+							hbox = {
+								layoutpolicy_vertical = expanding
+								layoutpolicy_horizontal = expanding
+
+								margin_left = 10
+
+								textbox = {
+									size = { 80 100% }
+									raw_text = "[Scope.Var('year_var').GetValue]"
+									elide = right
+									align = nobaseline
+									parentanchor = vcenter
+									alwaystransparent = yes
+									margin_left = 12
+								}
+
+								textbox = {
+									size = { 150 100% }
+									raw_text = "[Scope.Var('state_region_var').GetStateRegion.GetCustom('curtiss_schneider_trophy_host_city_name_state_region_custom_loc')]"
+									elide = right
+									align = nobaseline
+									margin_right = 10
+								}
+
+								textbox = {
+									visible = "[Scope.Var('country_var').GetCountry.IsValid]"
+									size = { 230 100% }
+									raw_text = "[Scope.Var('country_var').GetCountry.GetNameNoFlag]"
+									elide = right
+									align = nobaseline
+									margin_right = 10
+								}
+
+								textbox = {
+									visible = "[Not(Scope.Var('country_var').GetCountry.IsValid)]"
+									size = { 230 100% }
+									raw_text = "[Scope.Var('country_definition_var').GetCountryDefinition.GetName]"
+									elide = right
+									align = nobaseline
+									margin_right = 10
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		expand = {}
+	}
+
+	### Race Ranking ###
+	flowcontainer = {
+		direction = vertical
+
+		visible = "[GetScriptedGui('curtiss_schneider_trophy_race_active_sgui').IsShown(GuiScope.SetRoot(JournalEntry.MakeScope).End)]"
+
+		section_header_button = {
+			blockoverride "layout" {
+				size = { 520 38 }
+			}
+			blockoverride "left_text" {
+				text = "CURTISS_SCHNEIDER_TROPHY_PARTICIPANT_COUNTRIES_HEADER"
+			}
+			blockoverride "onclick" {
+				onclick = "[GetVariableSystem.Toggle('curtiss_schneider_trophy_participants_visible')]"
+			}
+			blockoverride "onclick_showmore" {
+				visible = "[Not(GetVariableSystem.Exists('curtiss_schneider_trophy_participants_visible'))]"
+			}
+			blockoverride "onclick_showless" {
+				visible = "[GetVariableSystem.Exists('curtiss_schneider_trophy_participants_visible')]"
+			}
+		}
+
+		flowcontainer = {
+			visible = "[GetVariableSystem.Exists('curtiss_schneider_trophy_participants_visible')]"
+			datamodel = "[JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_participants_list')]"
+			minimumsize = { 520 -1 }
+			direction = vertical
+
+			background = {
+				using = dark_area
+			}
+
+			flowcontainer = {
+				direction = vertical
+
+				widget = {
+					parentanchor = hcenter
+					size = { 500 35 }
+					maximumsize = { 500 35 }
+
+					vbox = {
+						layoutpolicy_vertical = expanding
+						layoutpolicy_horizontal = expanding
+
+						hbox = {
+							layoutpolicy_vertical = expanding
+							layoutpolicy_horizontal = expanding
+
+							margin_left = 10
+
+							textbox = {
+								text = "CURTISS_SCHNEIDER_TROPHY_PARTICIPANT_COUNTRY"
+								size = { 280 100% }
+								elide = right
+								align = nobaseline
+								alwaystransparent = yes
+								margin_left = 12
+							}
+
+							textbox = {
+								size = { 200 100% }
+								text = "CURTISS_SCHNEIDER_TROPHY_PARTICIPANT_POINTS"
+								elide = right
+								align = right|nobaseline
+								margin_right = 10
+							}
+						}
+					}
+				}
+			}
+
+			item = {
+				flowcontainer = {
+					direction = vertical
+
+					divider_clean = {
+						parentanchor = top
+					}
+
+					widget = {
+						parentanchor = hcenter
+						size = { 500 35 }
+						maximumsize = { 500 35 }
+						datacontext = "[Scope.GetCountry]"
+						visible = "[Scope.GetCountry.IsValid]"
+
+						vbox = {
+							layoutpolicy_vertical = expanding
+							layoutpolicy_horizontal = expanding
+
+							hbox = {
+								layoutpolicy_vertical = expanding
+								layoutpolicy_horizontal = expanding
+
+								margin_left = 10
+
+								tiny_flag = {}
+
+								textbox = {
+									text = "[Country.GetNameNoFormatting]"
+									size = { 340 100% }
+									elide = right
+									align = nobaseline
+									alwaystransparent = yes
+									margin_left = 12
+								}
+
+								textbox = {
+									size = { 80 100% }
+									text = "CURTISS_COUNTRY_SCHNEIDER_TROPHY_POINTS"
+									elide = right
+									align = right|nobaseline
+									margin_right = 10
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		expand = {}
+	}
+}
+
+flowcontainer = {
+	name = "widget_curtiss_schneider_trophy_event_list_widget"
+	parentanchor = hcenter
+	direction = vertical
+	spacing = 12
+	visible = "[GetScriptedGui('curtiss_schneider_trophy_race_active_sgui').IsShown(GuiScope.SetRoot(JournalEntry.MakeScope).End)]"
+	datamodel = "[JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')]"
+
+	curtiss_event_list_widget = {}
+}
+
+types curtiss_types
+{
+	### Event List ###
+	# Stolen from Manaflow and adapted.
+	# Thanks Bahmut | Chris
+	type curtiss_event_list_widget = flowcontainer {
+		parentanchor = hcenter
+		direction = vertical
+		oncreate = "[BindFoldOutContext]"
+
+		@log_entry_width = 500
+		@log_entry_height = 40
+		@log_entry_icon_width = 40
+		@log_entry_icon_header_width = @[log_entry_icon_width + 20]
+		@log_entry_country_header_width = 80
+		@log_entry_date_width = 120
+		@log_entry_title_width = @[log_entry_width - log_entry_icon_width - log_entry_date_width]
+
+		section_header_button = {
+			parentanchor = hcenter
+			onclick = "[PdxGuiFoldOut.Toggle]"
+
+			blockoverride "layout" {
+				size = { @[layer_width + 30] 38 }
+			}
+			blockoverride "onclick_showmore" {
+				visible = "[Not(PdxGuiFoldOut.IsUnfolded)]"
+			}
+			blockoverride "onclick_showless" {
+				visible = "[PdxGuiFoldOut.IsUnfolded]"
+			}
+			blockoverride "left_text" {
+				text = CURTISS_RACE_EVENTS_HEADER
+			}
+		}
+
+		flowcontainer = {
+			using = default_list_position
+			direction = vertical
+			margin_top = 5
+			margin_bottom = 10
+
+			# Header
+			widget = {
+				parentanchor = hcenter
+				size = { @log_entry_width 30 }
+				visible = "[PdxGuiFoldOut.IsUnfolded]"
+				hbox = {
+					spacing = 2
+					layoutpolicy_horizontal = expanding
+					button = {
+						using = sort_button_bg
+						enabled = no
+						text = CURTISS_RACE_EVENTS_HEADER_COUNTRY
+						minimumsize = { @log_entry_country_header_width 30 }
+						maximumsize = { @log_entry_country_header_width 30 }
+						align = hcenter|nobaseline
+						margin_left = 10
+						margin_right = 10
+						elide = right
+					}
+					button = {
+						using = sort_button_bg
+						layoutpolicy_horizontal = expanding
+						enabled = no
+						text = CURTISS_RACE_EVENTS_HEADER_EVENT
+						minimumsize = { -1 30 }
+						maximumsize = { -1 30 }
+						align = hcenter|nobaseline
+						margin_left = 10
+						margin_right = 10
+						elide = right
+					}
+					button = {
+						using = sort_button_bg
+						enabled = no
+						text = CURTISS_RACE_EVENTS_HEADER_DATE
+						minimumsize = { @log_entry_date_width 30 }
+						maximumsize = { @log_entry_date_width 30 }
+						align = hcenter|nobaseline
+						margin_left = 10
+						margin_right = 10
+						elide = right
+					}
+				}
+			}
+
+			flowcontainer = {
+				using = default_list_position
+				visible = "[And(
+					PdxGuiFoldOut.IsUnfolded,
+					DataModelHasItems(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')),
+				)]"
+				margin_top = 5
+				direction = vertical
+				datamodel = "[JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')]"
+				spacing = 5
+				bottomtotop = yes
+
+				item = {
+					curtiss_event_list_entry_widget = {}
+				}
+			}
+
+			flowcontainer = {
+				using = default_list_position
+				visible = "[And(
+					PdxGuiFoldOut.IsUnfolded,
+					Not(DataModelHasItems(JournalEntry.MakeScope.GetList('curtiss_schneider_trophy_events_list')))
+				)]"
+				direction = vertical
+
+				textbox = {
+					size = { @log_entry_width 80 }
+					text = CURTISS_RACE_EVENTS_ENTRIES_EMPTY
+					align = center
+				}
+			}
+		}
+	}
+
+	type curtiss_event_list_entry_widget = widget {
+		size = { @log_entry_width @log_entry_height }
+
+		background = {
+			using = dark_area
+			margin_left = -25
+			alpha = 0.1
+			modify_texture = {
+				using = simple_frame_mask
+			}
+		}
+		background = {
+			using = simple_frame
+			margin_left = -25
+		}
+
+		flowcontainer = {
+			ignoreinvisible = yes
+			# Icon
+			textbox = {
+				size = { @log_entry_icon_width @log_entry_height }
+				align = center
+				raw_text = "[Scope.Var('event_container_icon').GetFlagName]"
+				using = fontsize_xxl
+				background = {
+					margin = { 3 3 }
+					texture = "gfx/interface/backgrounds/round_button_bg.dds"
+				}
+			}
+			# Flag
+			widget = {
+				size = { 45 @log_entry_height }
+
+				tiny_flag = {
+					parentanchor = center
+					datacontext = "[Scope.Var('event_container_primary_country').GetCountry]"
+				}
+			}
+			# Event Title
+			textbox = {
+				size = { @[log_entry_title_width - 100] @log_entry_height }
+				raw_text = "[Scope.Var('event_container_title_loc').GetFlagName]"
+				tooltip = "[Scope.Var('event_container_tt').GetFlagName]"
+				default_format = "#header"
+				align = left
+				background = {
+					using = default_header_bg_faded
+					margin_top = 2
+				}
+			}
+			textbox = {
+				visible = "[Scope.Var('event_container_outcome_var').IsSet]"
+				size = { 50 @log_entry_height }
+				align = right
+				margin_left = 10
+				raw_text = "[Scope.Var('event_container_outcome_var').GetValue|0+] @curtiss_schneider_point!"
+			}
+			widget = {
+				visible = "[Not(Scope.Var('event_container_outcome_var').IsSet)]"
+				size = { 50 @log_entry_height }
+				align = right
+			}
+			widget = {
+				size = { @log_entry_date_width @log_entry_height }
+				textbox = {
+					autoresize = yes
+					parentanchor = center
+					raw_text = "#v [TimeKeeper.GetCurrentDateWithDiff(FixedPointToInt(Scope.ScriptValue('curtiss_schneider_trophy_race_event_time_value')))]#!"
+					background = {
+						using = entry_bg
+						margin = { 10 5 }
+					}
+				}
+			}
+		}
+	}
+}

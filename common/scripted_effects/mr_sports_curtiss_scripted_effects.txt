@@ -676,6 +676,253 @@ set_curtiss_shangrila_characters_effect = {
 
 ######SCHNEIDER TROPHY######
 
+#Effect to set time till next race
+curtiss_schneider_trophy_set_time_till_next_race_effect = {
+	#DAYS = days until next race
+	set_variable = {
+		name = curtiss_schneider_trophy_time_till_race_var
+		value = {
+			value = game_date
+			add = $DAYS$
+		}
+	}
+}
+
+#Effect that gets fired when a country has 30 Schneider Trophy points
+curtiss_schneider_trophy_victory_effect = {
+	if = {
+		limit = {
+			var:curtiss_schneider_trophy_point_var >= 30
+		}
+
+		#Schneider Trophy History log
+		curtiss_schneider_trophy_add_history_container_effect = { PLANE_MODEL = flag:mr_empty_flag }
+
+		#Victory Event
+		trigger_event = {
+			id = curtiss.111
+			popup = yes
+		}
+		#Resetting Schneider Trophy Points
+		set_variable = {
+			name = curtiss_schneider_trophy_point_var
+			value = 0
+		}
+
+		#New Host State
+		ordered_scope_state = {
+			limit = {
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_port
+				}
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 10
+				}
+			}
+			order_by = total_urbanization
+			max = 1 #Limits to the state with highest urbanization
+
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+		if = {
+			limit = { NOT = { exists = scope:curtiss_schneider_trophy_state } }
+			ordered_scope_state = {
+				limit = {
+					is_coastal = yes
+				}
+				order_by = total_urbanization
+				max = 1 #Limits to the state with highest urbanization
+
+				save_scope_as = curtiss_schneider_trophy_state
+			}
+		}
+		if = {
+			limit = { NOT = { exists = scope:curtiss_schneider_trophy_state } }
+			capital = {
+				save_scope_as = curtiss_schneider_trophy_state
+			}
+		}
+
+		#Ends the Race
+		je:je_curtiss_schneider_trophy_race_contextless = {
+			remove_variable = curtiss_schneider_trophy_race_active_var
+
+			#Sets new Host variables
+			set_variable = {
+				name = curtiss_schneider_trophy_host_nation_var
+				value = prev
+			}
+			set_variable = {
+				name = curtiss_schneider_trophy_host_state_var
+				value = scope:curtiss_schneider_trophy_state
+			}
+			set_variable = {
+				name = curtiss_schneider_trophy_host_state_region_var
+				value = scope:curtiss_schneider_trophy_state.state_region
+			}
+
+			#Resets Event Log
+			curtiss_schneider_trophy_clear_event_log_containers_je_scope_effect = yes
+
+			#Informs other countries about winner and removes variables, etc.
+			every_scope_je_involved = {
+				limit = {
+					NOT = { je:je_curtiss_schneider_trophy_race_contextless.var:curtiss_schneider_trophy_host_nation_var ?= this }
+				}
+
+				#Resets Schneider Trophy Points
+				set_variable = {
+					name = curtiss_schneider_trophy_point_var
+					value = 0
+				}
+
+				#Sends Event
+				trigger_event = curtiss.112
+
+				#Resets consecutive Victories
+				if = {
+					limit = { has_variable = curtiss_schneider_trophy_consecutive_victories_var }
+					set_variable = {
+						name = curtiss_schneider_trophy_consecutive_victories_var
+						value = 0
+					}
+				}
+				if = {
+					limit = {
+						has_modifier = curtiss_schneider_trophy_1_win_modifier
+					}
+					remove_modifier = curtiss_schneider_trophy_1_win_modifier
+				}
+				if = {
+					limit = {
+						has_modifier = curtiss_schneider_trophy_2_win_modifier
+					}
+					remove_modifier = curtiss_schneider_trophy_2_win_modifier
+				}
+				#Adds Schneider Veteran Trait to Pilot and adds experience
+				if = {
+					limit = {
+						NOT = {
+							var:curtiss_pilot_var ?= {
+								has_trait = curtiss_schneider_veteran
+							}
+						}
+					}
+					var:curtiss_pilot_var ?= {
+						add_trait = curtiss_schneider_veteran
+					}
+				}
+				curtiss_add_pilot_num_schneider_races_effect = { AMOUNT = 1 }
+				pilot_experience_gain_effect = {
+					AMOUNT = 25
+				}
+				#Resets other Variables
+				remove_modifier = curtiss_schneider_trophy_support_modifier
+				var:curtiss_pilot_var ?= {
+					set_character_busy_and_immortal = no
+					remove_modifier = curtiss_schneider_pilot_modifier
+				}
+			}
+		}
+	}
+}
+
+#Sets up the Schneider Trophy Race Ranking
+curtiss_schneider_trophy_race_ranking_set_up_effect_effect = {
+	#JOURNAL_ENTRY_SCOPE = scope of the JE (e.g. scope:je)
+	$JOURNAL_ENTRY_SCOPE$ = {
+		ordered_scope_je_involved = {
+			order_by = var:curtiss_schneider_trophy_point_var
+
+			$JOURNAL_ENTRY_SCOPE$ = {
+				add_to_variable_list = {
+					name = curtiss_schneider_trophy_participants_list
+					target = prev
+				}
+			}
+		}
+	}
+}
+
+#Sets up the Schneider Trophy Race Ranking
+curtiss_schneider_trophy_race_ranking_order_effect = {
+	#JOURNAL_ENTRY_SCOPE = scope of the JE (e.g. scope:je)
+	$JOURNAL_ENTRY_SCOPE$ = {
+		sort_variable_list = {
+			name = curtiss_schneider_trophy_participants_list
+			order = var:curtiss_schneider_trophy_point_var
+		}
+	}
+}
+
+#Sets up the Schneider Trophy Ranking
+curtiss_schneider_trophy_ranking_set_up_effect = {
+	#JOURNAL_ENTRY_SCOPE = scope of the JE (e.g. scope:je)
+
+	clear_global_variable_list = curtiss_schneider_trophy_ranking_global_list
+	$JOURNAL_ENTRY_SCOPE$ = {
+		ordered_scope_je_involved = {
+			limit = {
+				has_variable = curtiss_schneider_trophy_victories_var
+				var:curtiss_schneider_trophy_victories_var > 0
+			}
+			order_by = var:curtiss_schneider_trophy_victories_var
+
+			add_to_global_variable_list = {
+				name = curtiss_schneider_trophy_ranking_global_list
+				target = this
+			}
+		}
+	}
+}
+
+#Adds Schneider Trophy Race history Container to global list
+curtiss_schneider_trophy_add_history_container_effect = {
+	# PLANE_MODEL = Title localization
+	create_container = {
+		tags = { mr_mod curtiss_schneider_trophy_history_entry }
+		save_scope_as = curtiss_history_container_scope
+	}
+
+	scope:curtiss_history_container_scope ?= {
+		set_variable = {
+			name = year_var
+			value = year
+		}
+		set_variable = {
+			name = state_region_var
+			value = prev.je:je_curtiss_schneider_trophy_race_contextless.var:curtiss_schneider_trophy_host_state_var.state_region
+		}
+		set_variable = {
+			name = country_var
+			value = prev
+		}
+		set_variable = {
+			name = country_definition_var
+			value = prev.country_definition
+		}
+		set_variable = {
+			name = plane_model_var
+			value = $PLANE_MODEL$
+		}
+	}
+	add_to_global_variable_list = {
+		name = curtiss_schneider_trophy_history_log_global_list
+		target = scope:curtiss_history_container_scope
+	}
+}
+
+#Saves the Schneider Trophy Host State as a scope
+curtiss_schneider_trophy_set_host_state_scope_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		var:curtiss_schneider_trophy_host_state_var ?= {
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+	}
+}
+
 #Effect to add Number of Schneider Trophy Races
 curtiss_add_pilot_num_schneider_races_effect = {
 	var:curtiss_pilot_var ?= {
@@ -718,1626 +965,540 @@ curtiss_add_pilot_num_schneider_victories_effect = {
 	}
 }
 
-#Effect to add $AMOUNT$ Schneider Trophy Points
-curtiss_add_x_schneider_trophy_point_unscaled_effect = {
-	# Amount = amount of Painting tradition to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = schneider_trophy_point_amount
+curtiss_add_x_schneider_trophy_points_effect = {
+	# Amount = amount of Architectural Splendour to add
+	custom_description = {
+		text = "curtiss_add_x_schneider_trophy_points_effect_loc"
+		subject = this
 		value = $AMOUNT$
-	}
 
-	#This part is used to display an accurate tooltip (Gain, loss, etc.)
-	if = { #Negative Plural Tooltip if local_var is negative
-		limit = { $AMOUNT$ < 0 }
-		custom_tooltip = curtiss_add_x_schneider_trophy_point_minus_x_tt
-	}
-	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { $AMOUNT$ = 0 }
-		custom_tooltip = curtiss_add_x_schneider_trophy_point_0_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { $AMOUNT$ > 0 }
-		custom_tooltip = curtiss_add_x_schneider_trophy_point_plus_x_tt
-	}
+		#This part adds the AMOUNT of Architectural Splendour
+		mr_change_variable_with_additional_script_math_parameter_effect = { AMOUNT = $AMOUNT$ NAME = curtiss_schneider_trophy_point_var ADDITIONAL_SCRIPT_MATH = "min = 0 round = yes" }
 
-	#This part adds the AMOUNT of Schneider Trophy Points
-	if = { #Fallback if the variable does not exist yet
+		#Updates the Ranking
+		curtiss_schneider_trophy_race_ranking_order_effect = { JOURNAL_ENTRY_SCOPE = je:je_curtiss_schneider_trophy_race_contextless }
+		#Victoria effect in case the country has 30 or more points
+		curtiss_schneider_trophy_victory_effect = yes
+	}
+}
+
+### Schneider Trophy Event Log ###
+
+#Clears all Event log containers
+curtiss_schneider_trophy_clear_event_log_containers_je_scope_effect = {
+	every_container = {
 		limit = {
-			NOT = {
-				has_variable = curtiss_schneider_trophy_point_var
-			}
+			has_tag = curtiss_schneider_trophy_event
+		}
+		destroy_container = yes
+	}
+	clear_variable_list = curtiss_schneider_trophy_events_list
+}
+
+#Creates a new container which is used in the JE to display recent events.
+# Execute in the Journal Entry scope.
+# An event in this case is a short text which will be displayed in a list.
+curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+	# ICON = Icon reference, in our case a flag which references a loc key
+	# TITLE_LOCALIZATION_KEY = Title localization
+	# TOOLTIP_KEY = Localization key for the event description
+	# PRIMARY_COUNTRY = Country to reference in event description
+	# ADDITIONAL_EFFECTS_CONTAINER = Additional effects in the container scope
+	create_container = {
+		tags = { mr_mod curtiss_schneider_trophy_event }
+		parent = this
+		save_scope_as = curtiss_event_container_scope
+	}
+
+	scope:curtiss_event_container_scope ?= {
+		set_variable = {
+			name = event_container_icon
+			value = $ICON$
 		}
 		set_variable = {
-			name = curtiss_schneider_trophy_point_var
-			value = 0
+			name = event_container_primary_country
+			value = $PRIMARY_COUNTRY$
 		}
+		set_variable = {
+			name = event_container_title_loc
+			value = $TITLE_LOCALIZATION_KEY$
+		}
+		set_variable = {
+			name = event_container_tt
+			value = $TOOLTIP_KEY$
+		}
+		set_variable = {
+			name = event_container_date
+			value = game_date
+		}
+		$ADDITIONAL_EFFECTS_CONTAINER$
 	}
-	change_variable = {
-		name = curtiss_schneider_trophy_point_var
-		add = scope:schneider_trophy_point_amount
+	add_to_variable_list = {
+		name = curtiss_schneider_trophy_events_list
+		target = scope:curtiss_event_container_scope
 	}
 }
 
-#########################################################################
+curtiss_schneider_trophy_log_mechanical_problems_event_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_mechanical_problems_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_mechanical_problems_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_mechanical_problems_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -2
+				}
+			"
+		}
+	}
+}
 
+curtiss_schneider_trophy_log_crash_event_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_crash_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_crash_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_crash_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -3
+				}
+			"
+		}
+	}
+}
 
-############################
+curtiss_schneider_trophy_log_buoy_event_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_buoy_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_buoy_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_buoy_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -1
+				}
+			"
+		}
+	}
+}
 
-#by Lord R
+curtiss_schneider_trophy_log_maximum_speed_event_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_maximum_speed_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_maximum_speed_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_maximum_speed_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = scope:curtiss_schneider_trophy_points_scope_value
+				}
+			"
+		}
+	}
+}
 
-##########################
+curtiss_schneider_trophy_log_slalom_event_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_slalom_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_slalom_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_slalom_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = scope:curtiss_schneider_trophy_points_scope_value
+				}
+			"
+		}
+	}
+}
 
-###Schneider Trophy Participants###
-curtiss_create_participiants_list_schneider_effect = {
+curtiss_schneider_trophy_log_fog_event_effect = {
 	if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_1_global_var
+		limit = { scope:curtiss_schneider_trophy_points_scope_value >= 0 }
+		je:je_curtiss_schneider_trophy_race_contextless ?= {
+			curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+				ICON = flag:curtiss_schneider_trophy_event_fog_positive_icon_flag
+				TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_fog_title_flag
+				TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_fog_positive_flag
+				PRIMARY_COUNTRY = root
+				ADDITIONAL_EFFECTS_CONTAINER = "
+					set_variable = {
+						name = event_container_outcome_var
+						value = scope:curtiss_schneider_trophy_points_scope_value
+					}
+				"
 			}
 		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_1_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_2_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_2_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_3_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_3_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_4_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_4_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_5_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_5_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_6_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_6_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_7_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_7_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_8_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_8_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_9_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_9_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_10_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_10_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_11_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_11_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_12_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_12_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_13_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_13_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_14_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_14_global_var
-			value = ROOT
-		}
-	}
-	else_if = {
-		limit = {
-			NOT = {
-				has_global_variable = curtiss_schneider_participiant_15_global_var
-			}
-		}
-		set_global_variable = {
-			name = curtiss_schneider_participiant_15_global_var
-			value = ROOT
-		}
-	}
-}
-
-curtiss_remove_participiants_list_schneider_effect = {
-	remove_global_variable = curtiss_schneider_participiant_1_global_var
-	remove_global_variable = curtiss_schneider_participiant_2_global_var
-	remove_global_variable = curtiss_schneider_participiant_3_global_var
-	remove_global_variable = curtiss_schneider_participiant_4_global_var
-	remove_global_variable = curtiss_schneider_participiant_5_global_var
-	remove_global_variable = curtiss_schneider_participiant_6_global_var
-	remove_global_variable = curtiss_schneider_participiant_7_global_var
-	remove_global_variable = curtiss_schneider_participiant_8_global_var
-	remove_global_variable = curtiss_schneider_participiant_9_global_var
-	remove_global_variable = curtiss_schneider_participiant_10_global_var
-	remove_global_variable = curtiss_schneider_participiant_11_global_var
-	remove_global_variable = curtiss_schneider_participiant_12_global_var
-	remove_global_variable = curtiss_schneider_participiant_13_global_var
-	remove_global_variable = curtiss_schneider_participiant_14_global_var
-	remove_global_variable = curtiss_schneider_participiant_15_global_var
-}
-
-###RESEARCH BOOST###
-
-big_curtiss_ballooning_research_effect = {
-	if = {
-		limit = { has_game_rule = mr_tech_normal_rule }
-		if = {
-			limit = {
-				can_research = curtiss_messenger_pidgeons_tech
-			}
-			add_technology_progress = { progress = 3000 technology = curtiss_messenger_pidgeons_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_reconnaissance_balloon_tech
-			}
-			add_technology_progress = { progress = 3000 technology = curtiss_reconnaissance_balloon_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_early_aviation_tech
-			}
-			add_technology_progress = { progress = 3000 technology = curtiss_early_aviation_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = zeppelins
-			}
-			add_technology_progress = { progress = 3000 technology = zeppelins }
-		}
-		else = {
-			dubois_add_x_academy_progress = { AMOUNT = 90 }
-		}
-	}
-	else_if = {
-		limit = { has_game_rule = mr_tech_half_rule }
-		if = {
-			limit = {
-				can_research = curtiss_messenger_pidgeons_tech
-			}
-			add_technology_progress = { progress = 1500 technology = curtiss_messenger_pidgeons_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_reconnaissance_balloon_tech
-			}
-			add_technology_progress = { progress = 1500 technology = curtiss_reconnaissance_balloon_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_early_aviation_tech
-			}
-			add_technology_progress = { progress = 1500 technology = curtiss_early_aviation_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = zeppelins
-			}
-			add_technology_progress = { progress = 1500 technology = zeppelins }
-		}
-		else = {
-			dubois_add_x_academy_progress = { AMOUNT = 60 }
-		}
-	}
-	else_if = {
-		limit = { has_game_rule = mr_tech_quarter_rule }
-		if = {
-			limit = {
-				can_research = curtiss_messenger_pidgeons_tech
-			}
-			add_technology_progress = { progress = 750 technology = curtiss_messenger_pidgeons_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_reconnaissance_balloon_tech
-			}
-			add_technology_progress = { progress = 750 technology = curtiss_reconnaissance_balloon_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_early_aviation_tech
-			}
-			add_technology_progress = { progress = 750 technology = curtiss_early_aviation_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = zeppelins
-			}
-			add_technology_progress = { progress = 750 technology = zeppelins }
-		}
-		else = {
-			dubois_add_x_academy_progress = { AMOUNT = 30 }
-		}
-	}
-}
-
-medium_curtiss_ballooning_research_effect = {
-	if = {
-		limit = { has_game_rule = mr_tech_normal_rule }
-		if = {
-			limit = {
-				can_research = curtiss_messenger_pidgeons_tech
-			}
-			add_technology_progress = { progress = 2000 technology = curtiss_messenger_pidgeons_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_reconnaissance_balloon_tech
-			}
-			add_technology_progress = { progress = 2000 technology = curtiss_reconnaissance_balloon_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_early_aviation_tech
-			}
-			add_technology_progress = { progress = 2000 technology = curtiss_early_aviation_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = zeppelins
-			}
-			add_technology_progress = { progress = 2000 technology = zeppelins }
-		}
-		else = {
-			dubois_add_x_academy_progress = { AMOUNT = 60 }
-		}
-	}
-	else_if = {
-		limit = { has_game_rule = mr_tech_half_rule }
-		if = {
-			limit = {
-				can_research = curtiss_messenger_pidgeons_tech
-			}
-			add_technology_progress = { progress = 1000 technology = curtiss_messenger_pidgeons_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_reconnaissance_balloon_tech
-			}
-			add_technology_progress = { progress = 1000 technology = curtiss_reconnaissance_balloon_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_early_aviation_tech
-			}
-			add_technology_progress = { progress = 1000 technology = curtiss_early_aviation_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = zeppelins
-			}
-			add_technology_progress = { progress = 1000 technology = zeppelins }
-		}
-		else = {
-			dubois_add_x_academy_progress = { AMOUNT = 30 }
-		}
-	}
-	else_if = {
-		limit = { has_game_rule = mr_tech_quarter_rule }
-		if = {
-			limit = {
-				can_research = curtiss_messenger_pidgeons_tech
-			}
-			add_technology_progress = { progress = 500 technology = curtiss_messenger_pidgeons_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_reconnaissance_balloon_tech
-			}
-			add_technology_progress = { progress = 500 technology = curtiss_reconnaissance_balloon_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_early_aviation_tech
-			}
-			add_technology_progress = { progress = 500 technology = curtiss_early_aviation_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = zeppelins
-			}
-			add_technology_progress = { progress = 500 technology = zeppelins }
-		}
-		else = {
-			dubois_add_x_academy_progress = { AMOUNT = 15 }
-		}
-	}
-}
-
-small_curtiss_ballooning_research_effect = {
-	if = {
-		limit = { has_game_rule = mr_tech_normal_rule }
-		if = {
-			limit = {
-				can_research = curtiss_messenger_pidgeons_tech
-			}
-			add_technology_progress = { progress = 1000 technology = curtiss_messenger_pidgeons_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_reconnaissance_balloon_tech
-			}
-			add_technology_progress = { progress = 1000 technology = curtiss_reconnaissance_balloon_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_early_aviation_tech
-			}
-			add_technology_progress = { progress = 1000 technology = curtiss_early_aviation_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = zeppelins
-			}
-			add_technology_progress = { progress = 1000 technology = zeppelins }
-		}
-		else = {
-			dubois_add_x_academy_progress = { AMOUNT = 30 }
-		}
-	}
-	else_if = {
-		limit = { has_game_rule = mr_tech_half_rule }
-		if = {
-			limit = {
-				can_research = curtiss_messenger_pidgeons_tech
-			}
-			add_technology_progress = { progress = 500 technology = curtiss_messenger_pidgeons_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_reconnaissance_balloon_tech
-			}
-			add_technology_progress = { progress = 500 technology = curtiss_reconnaissance_balloon_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_early_aviation_tech
-			}
-			add_technology_progress = { progress = 500 technology = curtiss_early_aviation_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = zeppelins
-			}
-			add_technology_progress = { progress = 500 technology = zeppelins }
-		}
-		else = {
-			dubois_add_x_academy_progress = { AMOUNT = 20 }
-		}
-	}
-	else_if = {
-		limit = { has_game_rule = mr_tech_quarter_rule }
-		if = {
-			limit = {
-				can_research = curtiss_messenger_pidgeons_tech
-			}
-			add_technology_progress = { progress = 250 technology = curtiss_messenger_pidgeons_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_reconnaissance_balloon_tech
-			}
-			add_technology_progress = { progress = 250 technology = curtiss_reconnaissance_balloon_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = curtiss_early_aviation_tech
-			}
-			add_technology_progress = { progress = 250 technology = curtiss_early_aviation_tech }
-		}
-		else_if = {
-			limit = {
-				can_research = zeppelins
-			}
-			add_technology_progress = { progress = 250 technology = zeppelins }
-		}
-		else = {
-			dubois_add_x_academy_progress = { AMOUNT = 10 }
-		}
-	}
-}
-
-curtiss_ballooning_research_if_record_all_effect = {
-	if = {
-		limit = {
-			OR = {
-				curtiss_altitude_record_global_broken_trigger = yes
-				curtiss_distance_record_global_broken_trigger = yes
-				curtiss_time_record_global_broken_trigger = yes
-			}
-		}
-		big_curtiss_ballooning_research_effect = yes
-	}
-	else_if = {
-		limit = {
-			OR = {
-				curtiss_altitude_record_country_broken_trigger = yes
-				curtiss_distance_record_country_broken_trigger = yes
-				curtiss_time_record_country_broken_trigger = yes
-			}
-		}
-		medium_curtiss_ballooning_research_effect = yes
 	}
 	else = {
-		small_curtiss_ballooning_research_effect = yes
-	}
-}
-
-###BALLOON RECORDS###
-
-#Altitude
-curtiss_new_balloon_altitude_effect = {
-	if = {
-		limit = {
-			has_variable = curtiss_balloonist_var
-		}
-		if = {
-			limit = {
-				has_technology_researched = arc_welding
-			}
-			set_variable = {
-				name = new_balloon_altitude_var
-				value = { 14000 22100 }
-			}
-		}
-		else_if = {
-			limit = {
-				has_technology_researched = electric_arc_process
-			}
-			set_variable = {
-				name = new_balloon_altitude_var
-				value = { 10000 16000 }
-			}
-		}
-		else_if = {
-			limit = {
-				has_technology_researched = watertube_boiler
-			}
-			set_variable = {
-				name = new_balloon_altitude_var
-				value = { 7000 12000 }
-			}
-		}
-		else_if = {
-			limit = {
-				has_technology_researched = curtiss_reconnaissance_balloon_tech
-			}
-			set_variable = {
-				name = new_balloon_altitude_var
-				value = { 5000 10000 }
-			}
-		}
-		else_if = {
-			limit = {
-				has_technology_researched = curtiss_montgolfier_balloon_tech
-			}
-			set_variable = {
-				name = new_balloon_altitude_var
-				value = { 2000 5000 }
-			}
-		}
-		else = {
-			set_variable = {
-				name = new_balloon_altitude_var
-				value = { 100 2000 }
-			}
-		}
-
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = brave
-				}
-			}
-			change_variable = {
-				name = new_balloon_altitude_var
-				multiply = 1.05
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = ambitious
-				}
-			}
-			change_variable = {
-				name = new_balloon_altitude_var
-				multiply = 1.05
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = meticulous
-				}
-			}
-			change_variable = {
-				name = new_balloon_altitude_var
-				multiply = 1.05
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = innovative
-				}
-			}
-			change_variable = {
-				name = new_balloon_altitude_var
-				multiply = 1.1
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = curtiss_balloonist_experienced
-				}
-			}
-			change_variable = {
-				name = new_balloon_altitude_var
-				multiply = 1.1
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = curtiss_balloonist_famous
-				}
-			}
-			change_variable = {
-				name = new_balloon_altitude_var
-				multiply = 1.2
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = alcoholic
-				}
-			}
-			change_variable = {
-				name = new_balloon_altitude_var
-				multiply = 0.9
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = opium_addiction
-				}
-			}
-			change_variable = {
-				name = new_balloon_altitude_var
-				multiply = 0.9
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = senile
-				}
-			}
-			change_variable = {
-				name = new_balloon_altitude_var
-				multiply = 0.8
-			}
-		}
-
-		round_variable = {
-			name = new_balloon_altitude_var
-			nearest = 10
-		}
-	}
-}
-
-curtiss_balloon_country_altitude_record_effect = {
-	if = {
-		limit = {
-			NOT = {
-				has_variable = curtiss_balloon_altitude_record_var
-			}
-		}
-		set_variable = {
-			name = curtiss_balloon_altitude_record_var
-			value = var:new_balloon_altitude_var
-		}
-	}
-	balloonist_experience_gain_effect = { #if no record is broken, a total of 50 experience is added
-		AMOUNT = "10"
-	}
-	if = {
-		limit = {
-			var:new_balloon_altitude_var > var:curtiss_balloon_altitude_record_var
-		}
-		set_variable = {
-			name = curtiss_balloon_altitude_record_var
-			value = var:new_balloon_altitude_var
-		}
-		balloonist_experience_gain_effect = { #if country record is broken, a total of 25 experience is added
-			AMOUNT = "15"
-		}
-	}
-	if = {
-		limit = {
-			var:new_balloon_altitude_var > global_var:curtiss_balloon_altitude_record_global_var
-		}
-		set_global_variable = {
-			name = curtiss_balloon_altitude_record_global_var
-			value = var:new_balloon_altitude_var
-		}
-		set_global_variable = {
-			name = curtiss_balloon_altitude_record_holder_global_var
-			value = root
-		}
-		save_scope_as = curtiss_record_breaking_country
-
-		if = {
-			limit = { NOT = { has_modifier = curtiss_balloon_altitude_record_modifier } }
-			every_country = { #removes modifier from old country
-				limit = {
-					has_modifier = curtiss_balloon_altitude_record_modifier
-				}
-				remove_modifier = curtiss_balloon_altitude_record_modifier
-				post_notification = curtiss_altitude_record_broken_notification
-			}
-			add_modifier = { #adds modifier to new country
-				name = curtiss_balloon_altitude_record_modifier
-			}
-		}
-
-		balloonist_experience_gain_effect = { #if world record is broken, a total of 50 experience is added
-			AMOUNT = "25"
-		}
-	}
-}
-
-curtiss_balloon_country_altitude_experience_only_world_record_effect = { #only used for the first flight event, as otherwise balloonists would get 75 experience just from setting the first values
-	if = {
-		limit = {
-			NOT = {
-				has_variable = curtiss_balloon_altitude_record_var
-			}
-		}
-		set_variable = {
-			name = curtiss_balloon_altitude_record_var
-			value = var:new_balloon_altitude_var
-		}
-	}
-	if = {
-		limit = {
-			var:new_balloon_altitude_var > var:curtiss_balloon_altitude_record_var
-		}
-		set_variable = {
-			name = curtiss_balloon_altitude_record_var
-			value = var:new_balloon_altitude_var
-		}
-	}
-	if = {
-		limit = {
-			var:new_balloon_altitude_var > global_var:curtiss_balloon_altitude_record_global_var
-		}
-		set_global_variable = {
-			name = curtiss_balloon_altitude_record_global_var
-			value = var:new_balloon_altitude_var
-		}
-		set_global_variable = {
-			name = curtiss_balloon_altitude_record_holder_global_var
-			value = root
-		}
-		save_scope_as = curtiss_record_breaking_country
-
-		if = {
-			limit = { NOT = { has_modifier = curtiss_balloon_altitude_record_modifier } }
-			every_country = { #removes modifier from old country
-				limit = {
-					has_modifier = curtiss_balloon_altitude_record_modifier
-				}
-				post_notification = curtiss_altitude_record_broken_notification
-				remove_modifier = curtiss_balloon_altitude_record_modifier
-			}
-			add_modifier = { #adds modifier to new country
-				name = curtiss_balloon_altitude_record_modifier
-			}
-		}
-
-		balloonist_experience_gain_effect = { #if world record is broken, a total of 50 experience is added
-			AMOUNT = "50"
-		}
-	}
-}
-
-#Distance
-curtiss_new_balloon_distance_effect = {
-	if = {
-		limit = {
-			has_variable = curtiss_balloonist_var
-		}
-		if = {
-			limit = {
-				has_technology_researched = curtiss_modern_aviation_tech
-			}
-			set_variable = {
-				name = new_balloon_distance_var
-				value = { 2200 4200 }
-			}
-		}
-		else_if = {
-			limit = {
-				has_technology_researched = zeppelins
-			}
-			set_variable = {
-				name = new_balloon_distance_var
-				value = { 1400 2800 }
-			}
-		}
-		else_if = {
-			limit = {
-				has_technology_researched = curtiss_early_aviation_tech
-			}
-			set_variable = {
-				name = new_balloon_distance_var
-				value = { 1000 2000 }
-			}
-		}
-		else_if = {
-			limit = {
-				has_technology_researched = curtiss_reconnaissance_balloon_tech
-			}
-			set_variable = {
-				name = new_balloon_distance_var
-				value = { 700 1500 }
-			}
-		}
-		else_if = {
-			limit = {
-				has_technology_researched = curtiss_montgolfier_balloon_tech
-			}
-			set_variable = {
-				name = new_balloon_distance_var
-				value = { 400 800 }
-			}
-		}
-		else = {
-			set_variable = {
-				name = new_balloon_distance_var
-				value = { 10 400 }
-			}
-		}
-
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = brave
-				}
-			}
-			change_variable = {
-				name = new_balloon_distance_var
-				multiply = 1.05
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = ambitious
-				}
-			}
-			change_variable = {
-				name = new_balloon_distance_var
-				multiply = 1.05
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = meticulous
-				}
-			}
-			change_variable = {
-				name = new_balloon_distance_var
-				multiply = 1.05
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = innovative
-				}
-			}
-			change_variable = {
-				name = new_balloon_distance_var
-				multiply = 1.1
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = curtiss_balloonist_experienced
-				}
-			}
-			change_variable = {
-				name = new_balloon_distance_var
-				multiply = 1.1
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = curtiss_balloonist_famous
-				}
-			}
-			change_variable = {
-				name = new_balloon_distance_var
-				multiply = 1.2
-			}
-		}
-		if = {
-			limit = {
-				any_scope_building = {
-					is_building_type = building_textile_mill
-					level >= 5
-				}
-			}
-			change_variable = {
-				name = new_balloon_distance_var
-				multiply = 1.03
-			}
-		}
-		if = {
-			limit = {
-				any_scope_building = {
-					is_building_type = building_silk_plantation
-					level >= 5
-				}
-			}
-			change_variable = {
-				name = new_balloon_distance_var
-				multiply = 1.03
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = alcoholic
-				}
-			}
-			change_variable = {
-				name = new_balloon_distance_var
-				multiply = 0.9
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = opium_addiction
-				}
-			}
-			change_variable = {
-				name = new_balloon_distance_var
-				multiply = 0.9
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var = {
-					has_trait = senile
-				}
-			}
-			change_variable = {
-				name = new_balloon_distance_var
-				multiply = 0.8
-			}
-		}
-
-		round_variable = {
-			name = new_balloon_distance_var
-			nearest = 1
-		}
-	}
-}
-
-curtiss_balloon_country_distance_record_experience_only_world_record_effect = { #only used for the first flight event, as otherwise balloonists would get 75 experience just from setting the first values
-	if = {
-		limit = {
-			NOT = {
-				has_variable = curtiss_balloon_distance_record_var
-			}
-		}
-		set_variable = {
-			name = curtiss_balloon_distance_record_var
-			value = var:new_balloon_distance_var
-		}
-	}
-	if = {
-		limit = {
-			var:new_balloon_distance_var > var:curtiss_balloon_distance_record_var
-		}
-		set_variable = {
-			name = curtiss_balloon_distance_record_var
-			value = var:new_balloon_distance_var
-		}
-	}
-	if = {
-		limit = {
-			var:new_balloon_distance_var > global_var:curtiss_balloon_distance_record_global_var
-		}
-		set_global_variable = {
-			name = curtiss_balloon_distance_record_global_var
-			value = var:new_balloon_distance_var
-		}
-		set_global_variable = {
-			name = curtiss_balloon_distance_record_holder_global_var
-			value = root
-		}
-		save_scope_as = curtiss_record_breaking_country
-
-		if = {
-			limit = { NOT = { has_modifier = curtiss_balloon_distance_record_modifier } }
-			every_country = { #removes modifier from old country
-				limit = {
-					has_modifier = curtiss_balloon_distance_record_modifier
-				}
-				post_notification = curtiss_distance_record_broken_notification
-				remove_modifier = curtiss_balloon_distance_record_modifier
-			}
-			add_modifier = { #adds modifier to new country
-				name = curtiss_balloon_distance_record_modifier
-			}
-		}
-
-		balloonist_experience_gain_effect = { #if world record is broken, a total of 50 experience is added
-			AMOUNT = "50"
-		}
-	}
-}
-
-curtiss_balloon_country_distance_record_effect = {
-	if = {
-		limit = {
-			NOT = {
-				has_variable = curtiss_balloon_distance_record_var
-			}
-		}
-		set_variable = {
-			name = curtiss_balloon_distance_record_var
-			value = var:new_balloon_distance_var
-		}
-	}
-	balloonist_experience_gain_effect = { #if no record is broken, a total of 50 experience is added
-		AMOUNT = "10"
-	}
-	if = {
-		limit = {
-			var:new_balloon_distance_var > var:curtiss_balloon_distance_record_var
-		}
-		set_variable = {
-			name = curtiss_balloon_distance_record_var
-			value = var:new_balloon_distance_var
-		}
-		balloonist_experience_gain_effect = { #if country record is broken, a total of 25 experience is added
-			AMOUNT = "15"
-		}
-	}
-	if = {
-		limit = {
-			var:new_balloon_distance_var > global_var:curtiss_balloon_distance_record_global_var
-		}
-		set_global_variable = {
-			name = curtiss_balloon_distance_record_global_var
-			value = var:new_balloon_distance_var
-		}
-		set_global_variable = {
-			name = curtiss_balloon_distance_record_holder_global_var
-			value = root
-		}
-		save_scope_as = curtiss_record_breaking_country
-
-		if = {
-			limit = { NOT = { has_modifier = curtiss_balloon_distance_record_modifier } }
-			every_country = { #removes modifier from old country
-				limit = {
-					has_modifier = curtiss_balloon_distance_record_modifier
-				}
-				post_notification = curtiss_distance_record_broken_notification
-				remove_modifier = curtiss_balloon_distance_record_modifier
-			}
-			add_modifier = { #adds modifier to new country
-				name = curtiss_balloon_distance_record_modifier
-			}
-		}
-
-		balloonist_experience_gain_effect = { #if world record is broken, a total of 50 experience is added
-			AMOUNT = "25"
-		}
-	}
-}
-
-#Time
-curtiss_new_balloon_time_effect = {
-	set_variable = {
-		name = new_balloon_time_var
-		value = var:new_balloon_distance_var
-	}
-	change_variable = {
-		name = new_balloon_time_var
-		divide = 40
-	}
-	change_variable = {
-		name = new_balloon_time_var
-		multiply = { 0.7 1.3 }
-	}
-	if = {
-		limit = {
-			has_technology_researched = canneries
-		}
-		change_variable = {
-			name = new_balloon_time_var
-			multiply = 1.05
-		}
-	}
-	if = {
-		limit = {
-			has_technology_researched = vacuum_canning
-		}
-		change_variable = {
-			name = new_balloon_time_var
-			multiply = 1.05
-		}
-	}
-
-	round_variable = {
-		name = new_balloon_time_var
-		nearest = 0.1
-	}
-}
-
-curtiss_balloon_country_time_record_effect = {
-	if = {
-		limit = {
-			NOT = {
-				has_variable = curtiss_balloon_time_record_var
-			}
-		}
-		set_variable = {
-			name = curtiss_balloon_time_record_var
-			value = var:new_balloon_time_var
-		}
-	}
-	balloonist_experience_gain_effect = { #if no record is broken, a total of 50 experience is added
-		AMOUNT = "10"
-	}
-	if = {
-		limit = {
-			var:new_balloon_time_var > var:curtiss_balloon_time_record_var
-		}
-		set_variable = {
-			name = curtiss_balloon_time_record_var
-			value = var:new_balloon_time_var
-		}
-		balloonist_experience_gain_effect = { #if country record is broken, a total of 25 experience is added
-			AMOUNT = "15"
-		}
-	}
-	if = {
-		limit = {
-			var:new_balloon_time_var > global_var:curtiss_balloon_time_record_global_var
-		}
-		set_global_variable = {
-			name = curtiss_balloon_time_record_global_var
-			value = var:new_balloon_time_var
-		}
-		set_global_variable = {
-			name = curtiss_balloon_time_record_holder_global_var
-			value = root
-		}
-		save_scope_as = curtiss_record_breaking_country
-
-		if = {
-			limit = { NOT = { has_modifier = curtiss_balloon_time_record_modifier } }
-			every_country = { #removes modifier from old country
-				limit = {
-					has_modifier = curtiss_balloon_time_record_modifier
-				}
-				post_notification = curtiss_time_record_broken_notification
-				remove_modifier = curtiss_balloon_time_record_modifier
-			}
-			add_modifier = { #adds modifier to new country
-				name = curtiss_balloon_time_record_modifier
-			}
-		}
-
-		balloonist_experience_gain_effect = { #if world record is broken, a total of 50 experience is added
-			AMOUNT = "25"
-		}
-	}
-}
-
-curtiss_balloon_country_time_record_experience_only_world_record_effect = { #only used for the first flight event, as otherwise balloonists would get 75 experience just from setting the first values
-	if = {
-		limit = {
-			NOT = {
-				has_variable = curtiss_balloon_time_record_var
-			}
-		}
-		set_variable = {
-			name = curtiss_balloon_time_record_var
-			value = var:new_balloon_time_var
-		}
-	}
-	if = {
-		limit = {
-			var:new_balloon_time_var > var:curtiss_balloon_time_record_var
-		}
-		set_variable = {
-			name = curtiss_balloon_time_record_var
-			value = var:new_balloon_time_var
-		}
-	}
-	if = {
-		limit = {
-			var:new_balloon_time_var > global_var:curtiss_balloon_time_record_global_var
-		}
-		set_global_variable = {
-			name = curtiss_balloon_time_record_global_var
-			value = var:new_balloon_time_var
-		}
-		set_global_variable = {
-			name = curtiss_balloon_time_record_holder_global_var
-			value = root
-		}
-		save_scope_as = curtiss_record_breaking_country
-
-		if = {
-			limit = { NOT = { has_modifier = curtiss_balloon_time_record_modifier } }
-			every_country = { #removes modifier from old country
-				limit = {
-					has_modifier = curtiss_balloon_time_record_modifier
-				}
-				post_notification = curtiss_time_record_broken_notification
-				remove_modifier = curtiss_balloon_time_record_modifier
-			}
-			add_modifier = { #adds modifier to new country
-				name = curtiss_balloon_time_record_modifier
-			}
-		}
-
-		balloonist_experience_gain_effect = { #if world record is broken, a total of 50 experience is added
-			AMOUNT = "50"
-		}
-	}
-}
-
-###Create Balloonist###
-create_balloonist_effect = {
-	random_list = {
-		1 = {
-			trigger = {
-				c:GBR ?= this
-				NOT = { has_global_variable = curtiss_fogg_created_global_var }
-			}
-
-			create_character = {
-				age = { 20 30 }
-				template = mr_gbr_fogg_phileas_character_template
-
-				save_scope_as = curtiss_balloonist_scope
-			}
-
-			hidden_effect = {
-				var:curtiss_balloonist_var ?= {
-					if = {
-						limit = { is_historical = no }
-						free_character_from_void = no
+		je:je_curtiss_schneider_trophy_race_contextless ?= {
+			curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+				ICON = flag:curtiss_schneider_trophy_event_fog_neutral_icon_flag
+				TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_fog_title_flag
+				TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_fog_neutral_flag
+				PRIMARY_COUNTRY = root
+				ADDITIONAL_EFFECTS_CONTAINER = "
+					set_variable = {
+						name = event_container_outcome_var
+						value = scope:curtiss_schneider_trophy_points_scope_value
 					}
-				}
+				"
 			}
-			scope:curtiss_balloonist_scope = {
-				add_trait = curtiss_balloonist
+		}
+	}
+}
+
+curtiss_schneider_trophy_log_superior_flight_performance_event_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_superior_flight_performance_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_superior_flight_performance_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_superior_flight_performance_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
 				set_variable = {
-					name = curtiss_balloonist_experience_var
-					value = 0
+					name = event_container_outcome_var
+					value = 4
 				}
-				set_variable = mr_is_mr_character
-				academics_character_set_role_retirement_effect = {
-					ROLE = character_role_curtiss_balloonist
-					AGE_LEVEL = 2
-				}
-			}
-			set_variable = {
-				name = curtiss_balloonist_var
-				value = scope:curtiss_balloonist_scope
-			}
-
-			set_global_variable = curtiss_fogg_created_global_var
-		}
-		25 = { #Random Balloonist (fallback and to make it uncertain for historical once to appear)
-			random_list = {
-				5 = {
-					create_character = {
-						age = { 20 30 }
-						female = yes
-						trait_generation = {}
-						save_scope_as = curtiss_balloonist_scope
-						role = character_role_curtiss_balloonist
-					}
-					scope:curtiss_balloonist_scope = {
-						add_trait = curtiss_balloonist
-						set_variable = {
-							name = curtiss_balloonist_experience_var
-							value = 0
-						}
-						set_variable = mr_is_mr_character
-						mr_trait_generation_balloonist_effect = yes
-						academics_character_set_role_retirement_effect = {
-							ROLE = character_role_curtiss_balloonist
-							AGE_LEVEL = 2
-						}
-					}
-					set_variable = {
-						name = curtiss_balloonist_var
-						value = scope:curtiss_balloonist_scope
-					}
-
-					modifier = {
-						if = {
-							limit = { has_law = law_type:law_women_own_property }
-							add = 5
-						}
-						if = {
-							limit = { has_law = law_type:law_women_in_the_workplace }
-							add = 15
-						}
-						if = {
-							limit = { has_law = law_type:law_womens_suffrage }
-							add = 25
-						}
-					}
-				}
-				95 = {
-					create_character = {
-						age = { 20 30 }
-						trait_generation = {}
-						save_scope_as = curtiss_balloonist_scope
-						role = character_role_curtiss_balloonist
-					}
-					scope:curtiss_balloonist_scope = {
-						add_trait = curtiss_balloonist
-						set_variable = {
-							name = curtiss_balloonist_experience_var
-							value = 0
-						}
-						set_variable = mr_is_mr_character
-						mr_trait_generation_balloonist_effect = yes
-						academics_character_set_role_retirement_effect = {
-							ROLE = character_role_curtiss_balloonist
-							AGE_LEVEL = 2
-						}
-					}
-					set_variable = {
-						name = curtiss_balloonist_var
-						value = scope:curtiss_balloonist_scope
-					}
-
-					modifier = {
-						if = {
-							limit = { has_law = law_type:law_women_own_property }
-							add = -5
-						}
-						if = {
-							limit = { has_law = law_type:law_women_in_the_workplace }
-							add = -15
-						}
-						if = {
-							limit = { has_law = law_type:law_womens_suffrage }
-							add = -25
-						}
-					}
-				}
-			}
-		}
-	}
-	if = {
-		limit = {
-			any_scope_building = {
-				is_building_type = building_gaudi_sports
-			}
-		}
-		change_variable = {
-			name = curtiss_balloonist_experience_var
-			add = 75
-		}
-	}
-
-	set_variable = {
-		name = curtiss_balloon_name_randomizer_var
-		value = { 1 25 }
-	}
-	round_variable = {
-		name = curtiss_balloon_name_randomizer_var
-		nearest = 1
-	}
-
-	balloonist_cost_effect = yes
-}
-
-###Adds the right cost modifier to the country###
-balloonist_cost_effect = {
-	add_modifier = {
-		name = curtiss_sponsoring_balloonist_modifier
-	}
-}
-
-###Kill balloonist###
-kill_balloonist_effect = {
-	if = {
-		limit = {
-			has_variable = curtiss_balloonist_var
-		}
-		var:curtiss_balloonist_var ?= {
-			if = {
-				limit = { is_character_alive = yes }
-				kill_character = yes
-			}
-		}
-
-		remove_variable = curtiss_balloonist_var
-
-		if = {
-			limit = {
-				has_modifier = curtiss_sponsoring_balloonist_modifier
-			}
-			remove_modifier = curtiss_sponsoring_balloonist_modifier
+			"
 		}
 	}
 }
 
-#Balloonist Experience gain
-balloonist_experience_gain_effect = { #adds XP to the balloonist
-	# Amount = amountof XP to add
-	if = {
-		limit = {
-			has_variable = curtiss_balloonist_var
-		}
-		var:curtiss_balloonist_var ?= {
-			change_variable = {
-				name = curtiss_balloonist_experience_var
-				add = $AMOUNT$
-			}
-			clamp_variable = {
-				name = curtiss_balloonist_experience_var
-				min = 0
-				max = 300
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var ?= {
-					var:curtiss_balloonist_experience_var >= 100
-					NOR = {
-						has_trait = curtiss_balloonist_experienced
-						has_trait = curtiss_balloonist_famous
-					}
+curtiss_schneider_trophy_log_duel_event_positive_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_duel_positive_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_duel_title_positive_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_duel_positive_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = 5
 				}
-			}
-			if = {
-				limit = {
-					NOT = { has_variable = curtiss_no_balloonist_death_events }
-				}
-				trigger_event = {
-					id = curtiss.671
-					popup = yes
-				}
-			}
-			hidden_effect = {
-				var:curtiss_balloonist_var ?= {
-					remove_trait = curtiss_balloonist
-					add_trait = curtiss_balloonist_experienced
-				}
-			}
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var ?= {
-					var:curtiss_balloonist_experience_var >= 300
-					NOT = {
-						has_trait = curtiss_balloonist_famous
-					}
-				}
-			}
-			if = {
-				limit = {
-					NOT = { has_variable = curtiss_no_balloonist_death_events }
-				}
-				trigger_event = {
-					id = curtiss.672
-					popup = yes
-				}
-			}
-			hidden_effect = {
-				var:curtiss_balloonist_var = {
-					remove_trait = curtiss_balloonist
-					remove_trait = curtiss_balloonist_experienced
-					add_trait = curtiss_balloonist_famous
-				}
-			}
+			"
 		}
 	}
 }
 
-#level up for balloonist
-balloonist_level_up_effect = {
-	if = {
-		limit = {
-			has_variable = curtiss_balloonist_var
-		}
-		if = {
-			limit = {
-				var:curtiss_balloonist_var ?= {
-					NOT = {
-						has_trait = curtiss_balloonist_famous
-					}
-					var:curtiss_balloonist_experience_var >= 300
+curtiss_schneider_trophy_log_duel_event_negative_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_duel_negative_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_duel_title_negative_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_duel_negative_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -1
 				}
-			}
-			var:curtiss_balloonist_var ?= {
-				remove_trait = curtiss_balloonist
-				remove_trait = curtiss_balloonist_experienced
-				add_trait = curtiss_balloonist_famous
-			}
-		}
-		else_if = {
-			limit = {
-				var:curtiss_balloonist_var ?= {
-					NOR = {
-						has_trait = curtiss_balloonist_experienced
-						has_trait = curtiss_balloonist_famous
-					}
-					var:curtiss_balloonist_experience_var >= 100
-				}
-			}
-			var:curtiss_balloonist_var ?= {
-				remove_trait = curtiss_balloonist
-				add_trait = curtiss_balloonist_experienced
-			}
+			"
 		}
 	}
 }
 
-###Set up records for journal entry###
-set_up_records_je_effect = {
-	if = {
-		limit = {
-			NOT = {
-				has_variable = curtiss_balloon_altitude_record_var
-			}
-		}
-		set_variable = {
-			name = curtiss_balloon_altitude_record_var
-			value = 0
-		}
-	}
-
-	if = {
-		limit = {
-			NOT = {
-				has_variable = curtiss_balloon_distance_record_var
-			}
-		}
-		set_variable = {
-			name = curtiss_balloon_distance_record_var
-			value = 0
-		}
-	}
-
-	if = {
-		limit = {
-			NOT = {
-				has_variable = curtiss_balloon_time_record_var
-			}
-		}
-		set_variable = {
-			name = curtiss_balloon_time_record_var
-			value = 0
+curtiss_schneider_trophy_log_duel_event_positive_opponent_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_duel_positive_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_duel_title_positive_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_duel_positive_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = 3
+				}
+			"
 		}
 	}
 }
+
+curtiss_schneider_trophy_log_rivalry_event_positive_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_rivalry_icon_positive_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_rivalry_title_positive_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_rivalry_positive_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = 6
+				}
+			"
+		}
+	}
+}
+
+curtiss_schneider_trophy_log_rivalry_event_negative_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_rivalry_icon_negative_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_rivalry_title_negative_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_rivalry_negative_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -2
+				}
+			"
+		}
+	}
+}
+
+curtiss_schneider_trophy_log_rivalry_event_fly_ahead_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_rivalry_fly_ahead_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_rivalry_fly_ahead_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_rivalry_fly_ahead_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = 1
+				}
+			"
+		}
+	}
+}
+
+curtiss_schneider_trophy_log_rivalry_event_positive_opponent_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_rivalry_icon_positive_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_rivalry_title_positive_opponent_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_rivalry_positive_opponent_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = 2
+				}
+			"
+		}
+	}
+}
+
+curtiss_schneider_trophy_log_favorable_conditions_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_favorable_conditions_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_favorable_conditions_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_favorable_conditions_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = 3
+				}
+			"
+		}
+	}
+}
+
+curtiss_schneider_trophy_log_team_member_ill_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_team_member_ill_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_team_member_ill_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_team_member_ill_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = ""
+		}
+	}
+}
+
+curtiss_schneider_trophy_log_strange_engine_failure_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_strange_engine_failure_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_strange_engine_failure_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_strange_engine_failure_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -5
+				}
+			"
+		}
+	}
+}
+
+curtiss_schneider_trophy_log_sabotage_prevented_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_sabotage_prevented_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_sabotage_prevented_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_sabotage_prevented_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = ""
+		}
+	}
+}
+
+curtiss_schneider_trophy_log_sabotage_discovered_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless ?= {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_sabotage_discovered_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_sabotage_discovered_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_sabotage_discovered_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -5
+				}
+			"
+		}
+	}
+}
+
+curtiss_schneider_trophy_event_list_add_container_entry_debug_effect = {
+	je:je_curtiss_schneider_trophy_race_contextless = {
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_crash_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_crash_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_crash_flag
+			PRIMARY_COUNTRY = c:FRA
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -3
+				}
+			"
+		}
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_buoy_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_buoy_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_buoy_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -1
+				}
+			"
+		}
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_maximum_speed_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_maximum_speed_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_maximum_speed_flag
+			PRIMARY_COUNTRY = c:GBR
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = 3
+				}
+			"
+		}
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_slalom_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_slalom_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_slalom_flag
+			PRIMARY_COUNTRY = c:PRU
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = 2
+				}
+			"
+		}
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_fog_neutral_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_fog_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_fog_neutral_flag
+			PRIMARY_COUNTRY = c:SPA
+			ADDITIONAL_EFFECTS_CONTAINER = ""
+		}
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_superior_flight_performance_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_superior_flight_performance_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_superior_flight_performance_flag
+			PRIMARY_COUNTRY = c:POR
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = 2
+				}
+			"
+		}
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_duel_negative_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_duel_title_negative_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_duel_negative_flag
+			PRIMARY_COUNTRY = c:SAR
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -3
+				}
+			"
+		}
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_favorable_conditions_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_favorable_conditions_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_favorable_conditions_flag
+			PRIMARY_COUNTRY = c:TUR
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = 2
+				}
+			"
+		}
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_team_member_ill_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_team_member_ill_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_team_member_ill_flag
+			PRIMARY_COUNTRY = c:RUS
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -2
+				}
+			"
+		}
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_strange_engine_failure_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_strange_engine_failure_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_strange_engine_failure_flag
+			PRIMARY_COUNTRY = c:RUS
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -2
+				}
+			"
+		}
+		curtiss_schneider_trophy_event_list_add_container_entry_effect = {
+			ICON = flag:curtiss_schneider_trophy_event_sabotage_prevented_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:curtiss_schneider_trophy_event_sabotage_prevented_title_flag
+			TOOLTIP_KEY = flag:curtiss_schneider_trophy_event_sabotage_prevented_flag
+			PRIMARY_COUNTRY = c:SWI
+			ADDITIONAL_EFFECTS_CONTAINER = ""
+		}
+	}
+}
+
+##########################
 
 ###TEST PLANE###
 
@@ -2608,48 +1769,5 @@ curtiss_test_airplane_speed_effect = { #this is only a test speed for curtiss.70
 	round_variable = {
 		name = test_airplane_speed_var
 		nearest = 0.1
-	}
-}
-
-############################
-
-### GORDON BENNETT CUP ###
-
-curtiss_gordon_bennett_cup_effect = {
-	remove_global_variable = curtiss_gordon_bennett_cup_winner_global_var
-	every_country = {
-		limit = {
-			has_modifier = curtiss_gordon_bennett_cup_modifier
-		}
-		remove_modifier = curtiss_gordon_bennett_cup_modifier
-	}
-
-	ordered_country = {
-		limit = {
-			curtiss_has_balloonist_trigger = yes
-		}
-		order_by = curtiss_gordon_bennett_cup_score
-		max = 1 #Limits the list to top country
-		check_range_bounds = no #prevents errors
-
-		#This part checks one after another whether the first, second, etc. ranked countries are saved already.
-		#Luckily the ordered_country effect iterates through the countries one after another.
-		#So the first country gets saved to the first variable but as that variable now is set,
-		# the second country gets saved to the second variable and so on.
-		if = {
-			limit = {
-				NOT = { has_global_variable = curtiss_gordon_bennett_cup_winner_global_var }
-			}
-			set_global_variable = {
-				name = curtiss_gordon_bennett_cup_winner_global_var
-				value = this
-			}
-			balloonist_experience_gain_effect = { AMOUNT = 25 }
-			add_modifier = {
-				name = curtiss_gordon_bennett_cup_modifier
-			}
-			save_scope_as = curtiss_gordon_bennett_cup_winner
-			post_notification = curtiss_gordon_bennett_cup_notification
-		}
 	}
 }

@@ -1,5 +1,5 @@
 ﻿###########################
-# BALLONING SCRPIT VALUES #
+# ballooING SCRPIT VALUES #
 ###########################
 
 ############################################################################
@@ -9,7 +9,7 @@
 # Sabby
 ###########################
 
-curtiss_balloonist_experience_set_up_value = {
+santos_balloonist_experience_set_up_value = {
 	#Ballooning Tradition: 1 Reputation per 100 tradition up to a total of 100 reputation
 	if = {
 		limit = {
@@ -32,9 +32,9 @@ curtiss_ballooning_tradition = {
 		limit = {
 			owner = {
 				OR = {
-					has_modifier = curtiss_balloon_distance_record_modifier
-					has_modifier = curtiss_balloon_altitude_record_modifier
-					has_modifier = curtiss_balloon_time_record_modifier
+					has_modifier = santos_balloon_distance_record_modifier
+					has_modifier = santos_balloon_altitude_record_modifier
+					has_modifier = santos_balloon_time_record_modifier
 				}
 			}
 		}
@@ -65,10 +65,10 @@ curtiss_ballooning_tradition = {
 	### Balloonist ###
 	if = {
 		limit = {
-			has_variable = curtiss_balloonist_var
+			has_variable = santos_balloonist_var
 		}
 		add = {
-			value = var:curtiss_balloonist_var.var:curtiss_balloonist_experience_var
+			value = var:santos_balloonist_var.var:santos_balloonist_experience_var
 			divide = 50
 			floor = yes
 			max = 10

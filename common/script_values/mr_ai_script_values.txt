@@ -41,25 +41,10 @@ ai_promote_engineer_probability_value = {
 			NOR = {
 				dubois_has_formation = yes
 				dubois_can_discover_formation = yes
-				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = paleontological_license
-					}
-				}
 				dubois_has_rainforest_no_tooltip = yes
-				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = botanical_license
-					}
-				}
 				lepsius_has_excavation_site = yes
 				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = excavation_license
-					}
+					mr_has_research_charter_trigger = yes
 				}
 			}
 		}
@@ -140,25 +125,10 @@ ai_promote_astronomer_probability_value = {
 			NOR = {
 				dubois_has_formation = yes
 				dubois_can_discover_formation = yes
-				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = paleontological_license
-					}
-				}
 				dubois_has_rainforest_no_tooltip = yes
-				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = botanical_license
-					}
-				}
 				lepsius_has_excavation_site = yes
 				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = excavation_license
-					}
+					mr_has_research_charter_trigger = yes
 				}
 			}
 		}
@@ -169,6 +139,52 @@ ai_promote_astronomer_probability_value = {
 		limit = {
 			verrier_has_astronomer_no_tooltip_trigger = yes
 			var:verrier_astronomer_var ?= {
+				age < 60
+			}
+		}
+		add = -1000
+	}
+
+	#random_list breaks if it has a negative number as a chance.
+	min = 0
+}
+
+ai_promote_physicist_probability_value = {
+	value = 100
+	#Nations with an Observatory will be more eager to improve it with Geomagnetics and Meteorology
+	if = {
+		limit = {
+			verrier_astronomical_observation = yes
+		}
+		add = 50
+	}
+	#Smaller countries should slightly favor Physicists
+	if = {
+		limit = {
+			country_rank < rank_value:major_power
+		}
+		add = 25
+	}
+	#Nations without access to formations, rainforests or excavations sites have a higher chance to promote Physicists
+	if = {
+		limit = {
+			NOR = {
+				dubois_has_formation = yes
+				dubois_can_discover_formation = yes
+				dubois_has_rainforest_no_tooltip = yes
+				lepsius_has_excavation_site = yes
+				any_country = {
+					mr_has_research_charter_trigger = yes
+				}
+			}
+		}
+		add = 200
+	}
+	#If the AI has a Physicist already, it will not try to get another one except if the existing one is old.
+	if = {
+		limit = {
+			curie_has_physicist_no_tooltip_trigger = yes
+			var:curie_physicist_var ?= {
 				age < 60
 			}
 		}
@@ -250,10 +266,7 @@ ai_promote_paleontologist_probability_value = {
 				dubois_has_formation = yes
 				dubois_can_discover_formation = yes
 				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = paleontological_license
-					}
+					mr_has_research_charter_trigger = yes
 				}
 			}
 		}
@@ -322,10 +335,7 @@ ai_promote_naturalist_probability_value = {
 			OR = {
 				dubois_has_rainforest_no_tooltip = yes
 				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = botanical_license
-					}
+					mr_has_research_charter_trigger = yes
 				}
 			}
 		}
@@ -465,10 +475,7 @@ ai_promote_archaeologist_probability_value = {
 			OR = {
 				lepsius_has_excavation_site = yes
 				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = excavation_license
-					}
+					mr_has_research_charter_trigger = yes
 				}
 			}
 		}

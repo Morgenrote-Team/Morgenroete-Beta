@@ -13,6 +13,10 @@ je_elgar_composer_composing = {
 
 	group = je_group_elgar_music
 
+	activation_description = {
+		always = yes
+	}
+
 	immediate = {
 		scope:journal_entry = {
 			set_variable = {
@@ -114,18 +118,26 @@ je_elgar_composer_composing = {
 		}
 	}
 
-	fail = {
-		custom_tooltip = {
-			text = je_composer_dies_tt
-			NOT = {
-				has_variable = elgar_composer_var
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_composer_dies_tt
+				NOT = {
+					has_variable = elgar_composer_var
+				}
 			}
 		}
-	}
 
-	on_fail = {
-		var:elgar_composer_var ?= {
-			set_character_busy_and_immortal = no
+		effect = {
+			var:elgar_composer_var ?= {
+				set_character_busy_and_immortal = no
+			}
 		}
 	}
 
@@ -137,13 +149,13 @@ je_elgar_composer_conducting = {
 
 	group = je_group_elgar_music
 
-	immediate = {
-		scope:journal_entry = {
-			add_modifier = {
-				name = elgar_composer_on_conducting_modifier
-				multiplier = root.mr_local_project_cost_very_small_value
-			}
-		}
+	activation_description = {
+		always = yes
+	}
+
+	scaling_modifiers_while_active = {
+		modifier = elgar_composer_on_conducting_modifier
+		value = mr_local_project_cost_very_small_value
 	}
 
 	on_monthly_pulse = {
@@ -172,47 +184,63 @@ je_elgar_composer_conducting = {
 		add = 24
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = elgar.417
+				popup = yes
+			}
+			var:elgar_composer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			scope:journal_entry = {
+				remove_modifier = elgar_composer_on_conducting_modifier
+			}
 		}
 	}
 
-	on_complete = {
-		trigger_event = {
-			id = elgar.417
-			popup = yes
-		}
-		var:elgar_composer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		scope:journal_entry = {
-			remove_modifier = elgar_composer_on_conducting_modifier
-		}
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	fail = {
-		OR = {
-			custom_tooltip = {
-				text = je_composer_dies_tt
-				NOT = {
-					has_variable = elgar_composer_var
+		trigger = {
+			OR = {
+				custom_tooltip = {
+					text = je_composer_dies_tt
+					NOT = {
+						has_variable = elgar_composer_var
+					}
+				}
+				custom_tooltip = {
+					text = je_changed_composer_tt
+					has_variable = elgar_stopped_composing_remover_var
 				}
 			}
-			custom_tooltip = {
-				text = je_changed_composer_tt
-				has_variable = elgar_stopped_composing_remover_var
-			}
 		}
-	}
 
-	on_fail = {
-		remove_variable = elgar_stopped_composing_remover_var
-		var:elgar_composer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-		scope:journal_entry = {
-			remove_modifier = elgar_composer_on_conducting_modifier
+		effect = {
+			remove_variable = elgar_stopped_composing_remover_var
+			var:elgar_composer_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			scope:journal_entry = {
+				remove_modifier = elgar_composer_on_conducting_modifier
+			}
 		}
 	}
 
@@ -225,6 +253,10 @@ je_elgar_composer_touring = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	group = je_group_elgar_music
+
+	activation_description = {
+		always = yes
+	}
 
 	on_monthly_pulse = {
 		effect = {
@@ -243,41 +275,57 @@ je_elgar_composer_touring = {
 		add = 30
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = elgar.455
+				popup = yes
+			}
+			var:elgar_composer_var ?= {
+				set_character_busy_and_immortal = no
+			}
 		}
 	}
 
-	on_complete = {
-		trigger_event = {
-			id = elgar.455
-			popup = yes
-		}
-		var:elgar_composer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	fail = {
-		OR = {
-			custom_tooltip = {
-				text = je_composer_dies_tt
-				NOT = {
-					has_variable = elgar_composer_var
+		trigger = {
+			OR = {
+				custom_tooltip = {
+					text = je_composer_dies_tt
+					NOT = {
+						has_variable = elgar_composer_var
+					}
+				}
+				custom_tooltip = {
+					text = je_changed_composer_tt
+					has_variable = elgar_stopped_composing_remover_var
 				}
 			}
-			custom_tooltip = {
-				text = je_changed_composer_tt
-				has_variable = elgar_stopped_composing_remover_var
-			}
 		}
-	}
 
-	on_fail = {
-		remove_variable = elgar_stopped_composing_remover_var
-		var:elgar_composer_var ?= {
-			set_character_busy_and_immortal = no
+		effect = {
+			remove_variable = elgar_stopped_composing_remover_var
+			var:elgar_composer_var ?= {
+				set_character_busy_and_immortal = no
+			}
 		}
 	}
 
@@ -290,6 +338,10 @@ je_elgar_composer_masterpiece = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	group = je_group_elgar_music
+
+	activation_description = {
+		always = yes
+	}
 
 	scripted_button = elgar_stop_composing_button
 
@@ -311,6 +363,13 @@ je_elgar_composer_masterpiece = {
 
 	current_value = {
 		value = var:elgar_composer_progress
+	}
+
+	progressbar = yes
+
+	scaling_modifiers_while_active = {
+		modifier = elgar_composer_on_masterpiece_modifier
+		value = mr_local_project_cost_very_small_value
 	}
 
 	goal_add_value = {
@@ -365,67 +424,72 @@ je_elgar_composer_masterpiece = {
 		}
 	}
 
-	immediate = {
-		scope:journal_entry = {
-			add_modifier = {
-				name = elgar_composer_on_masterpiece_modifier
-				multiplier = root.mr_local_project_cost_very_small_value
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+
+		effect = {
+			custom_tooltip = {
+				text = je_elgar_composer_masterpiece_work_tt
+				elgar_add_elgar_composer_num_masterworks_effect = yes
+				var:elgar_composer_var ?= {
+					set_character_busy_and_immortal = no
+				}
+				random_list = {
+					1 = {}
+					2 = {
+						var:elgar_composer_var = {
+							save_scope_as = manzoni_artist_scope
+						}
+						trigger_event = {
+							id = manzoni.14
+							days = { 7 21 }
+						}
+					}
+				}
+				elgar_historical_or_generic_musical_masterpiece_effect = yes
 			}
 		}
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	on_complete = {
-		custom_tooltip = {
-			text = je_elgar_composer_masterpiece_work_tt
-			elgar_add_elgar_composer_num_masterworks_effect = yes
+		trigger = {
+			OR = {
+				custom_tooltip = {
+					text = je_stopped_composing_tt
+					has_variable = elgar_stopped_composing_remover_var
+				}
+				custom_tooltip = {
+					text = je_composer_dies_tt
+					NOT = {
+						has_variable = elgar_composer_var
+					}
+				}
+			}
+		}
+
+		effect = {
+			remove_variable = elgar_stopped_composing_remover_var
 			var:elgar_composer_var ?= {
 				set_character_busy_and_immortal = no
 			}
-			random_list = {
-				1 = {}
-				2 = {
-					var:elgar_composer_var = {
-						save_scope_as = manzoni_artist_scope
-					}
-					trigger_event = {
-						id = manzoni.14
-						days = { 7 21 }
-					}
-				}
-			}
-			elgar_historical_or_generic_musical_masterpiece_effect = yes
 		}
 	}
-
-	fail = {
-		OR = {
-			custom_tooltip = {
-				text = je_stopped_composing_tt
-				has_variable = elgar_stopped_composing_remover_var
-			}
-			custom_tooltip = {
-				text = je_composer_dies_tt
-				NOT = {
-					has_variable = elgar_composer_var
-				}
-			}
-		}
-	}
-
-	on_fail = {
-		remove_variable = elgar_stopped_composing_remover_var
-		var:elgar_composer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-	}
-
-	progressbar = yes
 
 	weight = 50
 }
@@ -434,6 +498,10 @@ je_elgar_composer_anthem = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	group = je_group_elgar_music
+
+	activation_description = {
+		always = yes
+	}
 
 	on_monthly_pulse = {
 		effect = {
@@ -449,41 +517,57 @@ je_elgar_composer_anthem = {
 		add = 6
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = elgar.822
+				popup = yes
+			}
+			var:elgar_composer_var ?= {
+				set_character_busy_and_immortal = no
+			}
 		}
 	}
 
-	on_complete = {
-		trigger_event = {
-			id = elgar.822
-			popup = yes
-		}
-		var:elgar_composer_var ?= {
-			set_character_busy_and_immortal = no
-		}
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	fail = {
-		OR = {
-			custom_tooltip = {
-				text = je_composer_dies_tt
-				NOT = {
-					has_variable = elgar_composer_var
+		trigger = {
+			OR = {
+				custom_tooltip = {
+					text = je_composer_dies_tt
+					NOT = {
+						has_variable = elgar_composer_var
+					}
+				}
+				custom_tooltip = {
+					text = je_changed_composer_tt
+					has_variable = elgar_stopped_composing_remover_var
 				}
 			}
-			custom_tooltip = {
-				text = je_changed_composer_tt
-				has_variable = elgar_stopped_composing_remover_var
-			}
 		}
-	}
 
-	on_fail = {
-		remove_variable = elgar_stopped_composing_remover_var
-		var:elgar_composer_var ?= {
-			set_character_busy_and_immortal = no
+		effect = {
+			remove_variable = elgar_stopped_composing_remover_var
+			var:elgar_composer_var ?= {
+				set_character_busy_and_immortal = no
+			}
 		}
 	}
 
@@ -498,6 +582,10 @@ je_elgar_composer_duel = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	group = je_group_elgar_music
+
+	activation_description = {
+		always = yes
+	}
 
 	immediate = {
 		scope:target = {
@@ -515,50 +603,66 @@ je_elgar_composer_duel = {
 		add = 100
 	}
 
-	complete = {
-		OR = {
-			custom_tooltip = {
-				text = je_elgar_composer_duel_success
-				scope:journal_entry = {
-					is_goal_complete = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			OR = {
+				custom_tooltip = {
+					text = je_elgar_composer_duel_success
+					scope:journal_entry = {
+						is_goal_complete = yes
+					}
 				}
-			}
-			scope:target = {
-				is_country_alive = no
-			}
-			custom_tooltip = {
-				text = je_elgar_composer_duel_rival_death
 				scope:target = {
-					elgar_has_composer = no
+					is_country_alive = no
+				}
+				custom_tooltip = {
+					text = je_elgar_composer_duel_rival_death
+					scope:target = {
+						elgar_has_composer = no
+					}
 				}
 			}
 		}
-	}
 
-	on_complete = {
-		add_modifier = {
-			name = elgar_composer_duel_victory_modifier
-			years = 5
-		}
-		trigger_event = {
-			id = elgar.449
-			popup = yes
-		}
-	}
-
-	fail = {
-		custom_tooltip = {
-			text = je_elgar_composer_duel_fail
-			scope:target = {
-				has_modifier = elgar_composer_duel_victory_modifier
+		effect = {
+			add_modifier = {
+				name = elgar_composer_duel_victory_modifier
+				years = 5
+			}
+			trigger_event = {
+				id = elgar.449
+				popup = yes
 			}
 		}
 	}
 
-	on_fail = {
-		trigger_event = {
-			id = elgar.450
-			popup = yes
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_elgar_composer_duel_fail
+				scope:target = {
+					has_modifier = elgar_composer_duel_victory_modifier
+				}
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = elgar.450
+				popup = yes
+			}
 		}
 	}
 
@@ -567,12 +671,70 @@ je_elgar_composer_duel = {
 	weight = 50
 }
 
+######VIVALDI######
+
+je_elgar_vivaldi_rediscovery = {
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	group = je_group_elgar_music
+
+	activation_description = {
+		always = yes
+	}
+
+	is_shown_when_inactive = {
+		#game_date >= 1880.1.1
+		any_scope_state = {
+			state_region = s:STATE_PIEDMONT
+		}
+		NOT = {
+			has_global_variable = elgar_vivaldi_var
+		}
+	}
+
+	possible = {
+		has_technology_researched = elgar_impressionism_tech
+		any_scope_state = {
+			state_region = s:STATE_PIEDMONT
+		}
+	}
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			has_technology_researched = elgar_neoclassicism_tech
+			manzoni_has_library = yes
+			elgar_has_composer = yes
+			any_scope_state = {
+				state_region = s:STATE_PIEDMONT
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = elgar.536
+			}
+		}
+	}
+
+	weight = 10
+}
+
 ######HISTORICAL######
 
 je_elgar_accademia_santa_cecilia = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	group = je_group_elgar_music
+
+	activation_description = {
+		always = yes
+	}
 
 	is_shown_when_inactive = {
 		exists = c:PAP
@@ -583,22 +745,35 @@ je_elgar_accademia_santa_cecilia = {
 		has_technology_researched = romanticism
 	}
 
-	complete = {
-		any_scope_state = {
-			state_region = s:STATE_LAZIO
-			any_scope_building = {
-				has_active_production_method = pm_artists_arts_academy_conservatory
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			any_scope_state = {
+				state_region = s:STATE_LAZIO
+				any_scope_building = {
+					has_active_production_method = pm_artists_arts_academy_conservatory
+				}
 			}
+		}
+
+		effect = {
+			elgar_add_x_music_tradition_effect = { AMOUNT = 50 }
+			artists_add_x_artistic_progress = { AMOUNT = 100 }
 		}
 	}
 
-	on_complete = {
-		elgar_add_x_music_tradition_effect = { AMOUNT = 50 }
-		artists_add_x_artistic_progress = { AMOUNT = 100 }
-	}
-
-	invalid = {
-		NOT = { exists = c:PAP }
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			NOT = { exists = c:PAP }
+		}
 	}
 
 	weight = 10
@@ -609,6 +784,10 @@ je_elgar_leipzig_conservatory = {
 
 	group = je_group_elgar_music
 
+	activation_description = {
+		always = yes
+	}
+
 	is_shown_when_inactive = {
 		exists = c:SAX
 		c:SAX = root
@@ -618,22 +797,35 @@ je_elgar_leipzig_conservatory = {
 		has_technology_researched = romanticism
 	}
 
-	complete = {
-		any_scope_state = {
-			state_region = s:STATE_SAXONY
-			any_scope_building = {
-				has_active_production_method = pm_artists_arts_academy_conservatory
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			any_scope_state = {
+				state_region = s:STATE_SAXONY
+				any_scope_building = {
+					has_active_production_method = pm_artists_arts_academy_conservatory
+				}
 			}
+		}
+
+		effect = {
+			elgar_add_x_music_tradition_effect = { AMOUNT = 50 }
+			artists_add_x_artistic_progress = { AMOUNT = 100 }
 		}
 	}
 
-	on_complete = {
-		elgar_add_x_music_tradition_effect = { AMOUNT = 50 }
-		artists_add_x_artistic_progress = { AMOUNT = 100 }
-	}
-
-	invalid = {
-		NOT = { exists = c:SAX }
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			NOT = { exists = c:SAX }
+		}
 	}
 
 	weight = 10
@@ -644,6 +836,10 @@ je_elgar_petrograd_conservatory = {
 
 	group = je_group_elgar_music
 
+	activation_description = {
+		always = yes
+	}
+
 	is_shown_when_inactive = {
 		exists = c:RUS
 		c:RUS = root
@@ -653,22 +849,35 @@ je_elgar_petrograd_conservatory = {
 		has_technology_researched = romanticism
 	}
 
-	complete = {
-		any_scope_state = {
-			state_region = s:STATE_INGRIA
-			any_scope_building = {
-				has_active_production_method = pm_artists_arts_academy_conservatory
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			any_scope_state = {
+				state_region = s:STATE_INGRIA
+				any_scope_building = {
+					has_active_production_method = pm_artists_arts_academy_conservatory
+				}
 			}
+		}
+
+		effect = {
+			elgar_add_x_music_tradition_effect = { AMOUNT = 50 }
+			artists_add_x_artistic_progress = { AMOUNT = 100 }
 		}
 	}
 
-	on_complete = {
-		elgar_add_x_music_tradition_effect = { AMOUNT = 50 }
-		artists_add_x_artistic_progress = { AMOUNT = 100 }
-	}
-
-	invalid = {
-		NOT = { exists = c:RUS }
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			NOT = { exists = c:RUS }
+		}
 	}
 
 	weight = 10

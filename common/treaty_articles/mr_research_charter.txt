@@ -1,0 +1,636 @@
+﻿mr_research_charter = {
+    kind = directed
+    #cost = 25
+
+	relations_progress_per_day = 1
+	relations_improvement_max = 50
+
+	max_target_involvement = 1000
+	target_involvement_applies_to = target_country
+
+	icon = "gfx/interface/icons/lens_toolbar_icons/mr_research_charter.dds"
+
+	flags = {
+		can_be_enforced
+		can_be_renegotiated
+		giftable
+		friendly
+	}
+
+	maintenance_paid_by = target_country
+
+	unlocked_by_technologies = {
+        lepsius_research_charter_tech
+    }
+
+	usage_limit = once_per_side
+
+	target_modifier = {
+		country_tech_spread_mult = -0.03
+	}
+
+	target_modifier = {
+		country_treaty_leverage_generation_add = 100
+	}
+
+	source_modifier = {
+		country_tech_spread_mult = 0.03
+	}
+
+	visible = {
+	}
+
+	possible = {
+		mr_can_have_research_charter_trigger = yes
+		NOT = {
+			has_war_with = scope:other_country
+		}
+		scope:other_country ?= {
+			NOT = {
+				is_country_type = unrecognized
+			}
+			country_rank >= rank_value:minor_power
+			has_technology_researched = lepsius_research_charter_tech
+		}
+	}
+
+	requirement_to_maintain = {
+		trigger = {
+			scope:source_country ?= {
+				mr_can_have_research_charter_trigger = yes
+			}
+		}
+	}
+
+	non_fulfillment = {
+		consequences = freeze
+		max_consecutive_contraventions = 1
+
+		conditions = {
+			weekly = {
+				scope:article = {
+					source_country = {
+						has_war_with = scope:article.target_country
+					}
+				}
+			}
+		}
+	}
+
+    can_ratify = {
+		scope:source_country = {
+			is_revolutionary = no
+		}
+        custom_tooltip = {
+            text = DUPLICATE_ARTICLE_SAME_INPUTS_TREATY
+            NOT = {
+                scope:source_country = {
+                    any_scope_treaty = {
+						binds = scope:target_country
+                        hidden_trigger = {
+							OR = {
+								scope:treaty = {
+									is_renegotiation = no
+								}
+								scope:treaty.amended_treaty != this
+							}
+						}
+						any_scope_article = {
+							has_type = mr_research_charter
+							source_country = scope:source_country
+						}
+                    }
+                }
+            }
+        }
+    }
+
+    on_entry_into_force = {
+		hidden_effect = {
+			scope:article_options.target_country = {
+				create_diplomatic_catalyst = {
+					type = catalyst_granted_mr_research_charter
+					target = scope:article_options.source_country
+				}
+			}
+		}
+	}
+
+	on_withdrawal = {}
+	on_break = {
+		scope:withdrawing_country = {
+			change_relations = { country = scope:non_withdrawing_country value = -10 }
+		}
+	}
+
+	ai = {
+
+		treaty_categories = {
+			trade
+			other
+		}
+
+		evaluation_chance = {
+        	value = 0.0
+
+			# Only encourage AI-to-AI requests
+			if = {
+                limit = {
+                    is_ai = yes
+                    OR = {
+						mr_can_have_research_charter_trigger = yes
+                        has_variable = lepsius_archaeologist_var
+                        has_variable = ito_naturalist_var
+                        has_variable = dubois_paleontologist_var
+                        has_variable = douglas_mountaineer_var
+                    }
+                }
+
+                # Baseline, wenn überhaupt ein passender Experte vorhanden ist
+                add = 0.05
+
+                if = {
+                    limit = { has_variable = lepsius_archaeologist_var }
+                    add = 0.15
+                }
+                if = {
+                    limit = { has_variable = ito_naturalist_var }
+                    add = 0.15
+                }
+                if = {
+                    limit = { has_variable = dubois_paleontologist_var }
+                    add = 0.15
+                }
+                if = {
+                    limit = { has_variable = douglas_mountaineer_var }
+                    add = 0.15
+                }
+
+                # Great Powers / Major Powers verfolgen nützliche Charters aggressiver
+                if = {
+                    limit = { country_rank >= rank_value:great_power }
+                    add = 1
+                }
+                else_if = {
+                    limit = { country_rank >= rank_value:major_power }
+                    add = 0.50
+                }
+            }
+		}
+
+		article_ai_usage = {
+			offer
+			request
+		}
+
+		inherent_accept_score = {
+			value = 0
+
+			if = {
+				limit = {
+					scope:source_country ?= this
+				}
+
+				# We are doing this to be able to reuse loc across treaties and diplomatic actions
+				scope:source_country = {
+					save_temporary_scope_as = target
+				}
+				scope:target_country = {
+					save_temporary_scope_as = actor
+				}
+
+				add = {
+					desc = "DIPLOMATIC_ACCEPTANCE_BASE_ADDITIONAL"
+					value = -10
+				}
+
+				if = {
+					limit = {
+						scope:target_country = { is_ai = yes }
+						OR = {
+							AND = {
+								scope:target_country = {
+									has_variable = lepsius_archaeologist_var
+								}
+								lepsius_has_excavation_site_for_licence_trigger = yes
+							}
+
+							AND = {
+								scope:target_country = {
+									has_variable = ito_naturalist_var
+								}
+								ito_country_has_medicinal_plants_no_tooltip_trigger = yes
+							}
+
+							AND = {
+								scope:target_country = {
+									has_variable = dubois_paleontologist_var
+								}
+								dubois_has_great_formation = yes
+							}
+
+							AND = {
+								scope:target_country = {
+									has_variable = douglas_mountaineer_var
+								}
+								douglas_has_conquerable_summit_trigger = yes
+							}
+						}
+					}
+
+					add = {
+						desc = "MR_RESEARCH_CHARTER_MATCHING_EXPERT"
+						value = 15
+					}
+				}
+
+				if = {
+					limit = {
+						country_rank >= rank_value:great_power
+					}
+					add = {
+						desc = "MR_RESEARCH_CHARTER_GREAT_POWER_PRIORITY"
+						value = 5
+					}
+				}
+
+
+				if = {
+					limit = {
+						has_strategic_adjacency = scope:target_country
+					}
+					add = {
+						desc = "DIPLOMATIC_ACCEPTANCE_NEIGHBORS"
+						value = 5
+					}
+				}
+
+				if = {
+					limit = {
+						has_strategy = ai_strategy_armed_isolationism
+					}
+					add = {
+						desc = "DIPLOMATIC_ACCEPTANCE_ISOLATIONIST"
+						add = -25
+					}
+				}
+
+				if = {
+					limit = {
+						exists = power_bloc
+						exists = scope:target_country.power_bloc
+					}
+					if = {
+						limit = {
+							power_bloc = scope:target_country.power_bloc
+						}
+						add = {
+							desc = "DIPLOMATIC_ACCEPTANCE_SAME_POWER_BLOC"
+							value = 25
+						}
+					}
+					else = {
+						add = {
+							desc = "DIPLOMATIC_ACCEPTANCE_DIFFERENT_POWER_BLOC"
+							value = -25
+						}
+					}
+				}
+
+				add = {
+					desc = "DIPLOMATIC_ACCEPTANCE_INFAMY"
+					if = {
+						limit = {
+							"scope:actor.infamy" >= infamy_threshold:infamous
+							"scope:actor.infamy" < infamy_threshold:notorious
+						}
+						value = -25
+					}
+					if = {
+						limit = {
+							"scope:actor.infamy" >= infamy_threshold:notorious
+							"scope:actor.infamy" < infamy_threshold:pariah
+						}
+						value = -50
+					}
+					if = {
+						limit = {
+							"scope:actor.infamy" >= infamy_threshold:pariah
+						}
+						value = -100
+					}
+				}
+
+				add = {
+					desc = "DIPLOMATIC_ACCEPTANCE_RANK"
+
+					if = {
+						limit = { scope:actor = { country_rank > root.country_rank } }
+						value = 10
+					}
+
+					if = {
+						limit = { scope:actor = { country_rank = root.country_rank } }
+						value = -15
+					}
+
+					if = {
+						limit = { scope:actor = { country_rank < root.country_rank } }
+						value = -1000
+					}
+				}
+
+				#if = {
+				#	limit = {
+				#		NOT = {
+				#			any_scope_treaty = {
+				#				binds = scope:other_country
+				#				any_scope_article = {
+				#					has_type = mr_research_charter
+				#				}
+				#			}
+				#		}
+				#		any_scope_treaty = {
+				#			count > 0
+				#			any_scope_article = {
+				#				has_type = mr_research_charter
+				#			}
+				#		}
+				#	}
+				#	add = {
+				#		desc = "DIPLOMATIC_ACCEPTANCE_NUM_RESEARCH_CHARTERS"
+				#		value = {
+				#			every_scope_treaty = {
+				#				limit = {
+				#					any_scope_article = {
+				#						has_type = mr_research_charter
+				#					}
+				#				}
+				#				add = 1
+				#			}
+				#		}
+				#		multiply = -15
+				#	}
+				#}
+
+				add = {
+					desc = "DIPLOMATIC_ACCEPTANCE_ATTITUDE"
+					if = {
+						limit = {
+							OR = {
+								has_attitude = {
+									who = scope:target_country
+									attitude = antagonistic
+								}
+								has_attitude = {
+									who = scope:target_country
+									attitude = domineering
+								}
+								has_attitude = {
+									who = scope:target_country
+									attitude = belligerent
+								}
+								has_attitude = {
+									who = scope:target_country
+									attitude = rebellious
+								}
+							}
+						}
+						value = -1000
+					}
+				}
+			}
+			else = {
+				scope:source_country = {
+					save_temporary_scope_as = actor
+				}
+				scope:target_country = {
+					save_temporary_scope_as = target
+				}
+
+				add = {
+					desc = "DIPLOMATIC_ACCEPTANCE_BASE_ADDITIONAL"
+					value = 15
+				}
+
+				if = {
+					limit = {
+						OR = {
+							AND = {
+								has_variable = lepsius_archaeologist_var
+								scope:source_country = {
+									lepsius_has_excavation_site_for_licence_trigger = yes
+								}
+							}
+ 
+							AND = {
+								has_variable = ito_naturalist_var
+								scope:source_country = {
+									ito_country_is_potential_botanical_expedition_target_no_tooltip_trigger = yes
+								}
+							}
+ 
+							AND = {
+								has_variable = dubois_paleontologist_var
+								scope:source_country = {
+									dubois_has_great_formation = yes
+								}
+							}
+ 
+							AND = {
+								has_variable = douglas_mountaineer_var
+								scope:source_country = {
+									douglas_has_conquerable_summit_trigger = yes
+								}
+							}
+						}
+					}
+ 
+					add = {
+						desc = "MR_RESEARCH_CHARTER_MATCHING_EXPERT"
+						value = 15
+					}
+				}
+ 
+				# Great Powers work hardest to secure a matching charter for their academics
+				if = {
+					limit = {
+						country_rank >= rank_value:great_power
+					}
+					add = {
+						desc = "MR_RESEARCH_CHARTER_GREAT_POWER_PRIORITY"
+						value = 10
+					}
+				}
+				else_if = {
+					limit = {
+						country_rank >= rank_value:major_power
+					}
+					add = {
+						desc = "MR_RESEARCH_CHARTER_GREAT_POWER_PRIORITY"
+						value = 5
+					}
+				}
+
+
+				# Discourage player-given Research Charters
+				# if the AI cannot use the charter for any expedition type.
+				if = {
+					limit = {
+						scope:source_country = {
+							is_player = yes
+						}
+
+						scope:target_country = {
+							is_ai = yes
+						}
+
+						NOT = {
+							OR = {
+								# Archaeologist + excavation site
+								AND = {
+									has_variable = lepsius_archaeologist_var
+									scope:source_country = {
+										lepsius_has_excavation_site_for_licence_trigger = yes
+									}
+								}
+
+								# Naturalist + suitable medicinal plants
+								AND = {
+									has_variable = ito_naturalist_var
+									scope:source_country = {
+										ito_country_is_potential_botanical_expedition_target_no_tooltip_trigger = yes
+									}
+								}
+
+								# Paleontologist + geological formation
+								AND = {
+									has_variable = dubois_paleontologist_var
+									scope:source_country = {
+										dubois_has_great_formation = yes
+									}
+								}
+
+								# Mountaineer + conquerable summit
+								AND = {
+									has_variable = douglas_mountaineer_var
+									scope:source_country = {
+										douglas_has_conquerable_summit_trigger = yes
+									}
+								}
+							}
+						}
+					}
+
+					add = {
+						desc = "MR_RESEARCH_CHARTER_NO_USABLE_EXPERT"
+						value = -40
+					}
+				}
+
+				if = {
+					limit = {
+						has_strategy = ai_strategy_armed_isolationism
+					}
+					add = {
+						desc = "DIPLOMATIC_ACCEPTANCE_ISOLATIONIST"
+						add = -10
+					}
+				}
+
+				add = {
+					desc = "DIPLOMATIC_ACCEPTANCE_RANK"
+
+					if = {
+						limit = { scope:actor = { country_rank > root.country_rank } }
+						value = 5
+					}
+
+					#if = {
+					#	limit = { scope:actor = { country_rank = root.country_rank } }
+					#	value = -15
+					#}
+
+					#if = {
+					#	limit = { scope:actor = { country_rank < root.country_rank } }
+					#	value = -1000
+					#}
+				}
+
+				#if = {
+				#	limit = {
+				#		NOT = {
+				#			any_scope_treaty = {
+				#				binds = scope:other_country
+				#				any_scope_article = {
+				#					has_type = mr_research_charter
+				#				}
+				#			}
+				#		}
+				#		any_scope_treaty = {
+				#			count > 0
+				#			any_scope_article = {
+				#				has_type = mr_research_charter
+				#			}
+				#		}
+				#	}
+				#	add = {
+				#		desc = "DIPLOMATIC_ACCEPTANCE_NUM_RESEARCH_CHARTERS"
+				#		value = {
+				#			every_scope_treaty = {
+				#				limit = {
+				#					any_scope_article = {
+				#						has_type = mr_research_charter
+				#					}
+				#				}
+				#				add = 1
+				#			}
+				#		}
+				#		multiply = -15
+				#	}
+				#}
+
+				#add = {
+				#	desc = "DIPLOMATIC_ACCEPTANCE_ATTITUDE"
+				#	if = {
+				#		limit = {
+				#			OR = {
+				#				has_attitude = {
+				#					who = scope:target_country
+				#					attitude = antagonistic
+				#				}
+				#				has_attitude = {
+				#					who = scope:target_country
+				#					attitude = domineering
+				#				}
+				#				has_attitude = {
+				#					who = scope:target_country
+				#					attitude = belligerent
+				#				}
+				#				has_attitude = {
+				#					who = scope:target_country
+				#					attitude = rebellious
+				#				}
+				#			}
+				#		}
+				#		value = -1000
+				#	}
+				#}
+			}
+		}
+	}
+
+	wargoal = {
+		execution_priority = 21
+
+		contestion_type = control_any_target_country_state
+
+		maneuvers = {
+			value = 5
+		}
+
+		infamy = {
+			value = 3
+		}
+	}
+}

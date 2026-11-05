@@ -270,7 +270,7 @@ engineer_experience_set_up_effect = {
 				1 = {
 					trigger = {
 						owner = {
-							has_technology_researched = verrier_physics_tech
+							has_technology_researched = electric_telegraph
 						}
 					}
 					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
@@ -971,12 +971,6 @@ verrier_set_new_astronomer_as_astronomer_effect = {
 		#Starts Project for new Astronomer if automation is active
 		ai_astronomy_automation_effect = yes
 
-		#Extracts the name as a variable
-		add_to_global_variable_list = {
-			name = com_character_name_extract
-			target = var:verrier_new_astronomer_var
-		}
-
 		#Removes variable
 		remove_variable = verrier_new_astronomer_var
 	}
@@ -1432,7 +1426,7 @@ retire_physicist_effect = {
 	custom_tooltip = {
 		text = retire_physicist_effect_tt
 
-		var:curie_physicist_var = {
+		var:curie_physicist_var ?= {
 			kill_character = yes
 		}
 	}
@@ -1474,7 +1468,12 @@ curie_set_new_physicist_as_physicist_effect = {
 		}
 
 		#Sets the Physicist busy if there is an active project
-		#TODO add busy effect
+		#if = {
+		#	limit = { curie_physicist_project_active_trigger = yes }
+		#	var:curie_physicist_var = {
+		#		set_character_busy_and_immortal = yes
+		#	}
+		#}
 
 		var:curie_physicist_var ?= {
 			add_modifier = {
@@ -1482,7 +1481,27 @@ curie_set_new_physicist_as_physicist_effect = {
 			}
 		}
 
-		#No Default Project JE
+		#Adds the Default action of the Physicist
+		#Mathematician
+		if = {
+			limit = {
+				curie_has_mathematical_physicist_trigger = yes
+				NOT = { has_journal_entry = je_curie_mathematical_innovation }
+			}
+			add_journal_entry = {
+				type = je_curie_mathematical_innovation
+			}
+		}
+		#Meteorologist
+		else_if = {
+			limit = {
+				curie_has_meteorological_physicist_trigger = yes
+				NOT = { has_journal_entry = je_curie_meteorological_observation }
+			}
+			add_journal_entry = {
+				type = je_curie_meteorological_observation
+			}
+		}
 
 		#Starts Project for new Physicist if automation is active
 		#TODO add Automation
@@ -1501,39 +1520,238 @@ curie_remove_new_physicist_effect = {
 
 # Used to set up the Experience of a character
 physicist_experience_set_up_effect = {
-	#Adds physicist experience (see effect for further information)
-	general_experience_set_up_effect = {
-		TYPE = curie_physicist_experience_var
-		UNI_PM = pm_dubois_university_mathematics
-	}
-
-	if = { #Adds the Experienced Physicist Trait if Experience is above 100
+	if = {
 		limit = {
-			var:curie_physicist_experience_var >= 100
-			NOT = {
-				var:curie_physicist_experience_var >= 300
-			}
 			NOR = {
-				has_trait = curie_physicist_experienced
-				has_trait = curie_physicist_famous
+				has_modifier = academics_is_mathematical_physicist_modifier
+				has_modifier = academics_is_meteorological_physicist_modifier
+				has_modifier = academics_is_rocket_physicist_modifier
+				has_modifier = academics_is_nuclear_physicist_modifier
 			}
 		}
-		remove_trait = curie_physicist
-		add_trait = curie_physicist_experienced
-	}
-	if = { #Adds the Famous Physicist Trait if Experience is above 300
-		limit = {
-			var:curie_physicist_experience_var >= 300
-			NOT = {
-				has_trait = curie_physicist_famous
+
+		if = {
+			limit = {
+				OR = {
+					has_trait = curie_mathematical_physicist
+					has_trait = curie_meteorological_physicist
+					has_trait = curie_rocket_physicist
+					has_trait = curie_nuclear_physicist
+				}
+			}
+			random_list = {
+				1 = {
+					trigger = { has_trait = curie_mathematical_physicist }
+
+					#Effect
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_mathematical_physicist_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = curie_mathematical_physicist_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					#Doctor/Professor
+					academics_mathematical_physicist_add_academic_title_effect = yes
+				}
+				1 = {
+					trigger = { has_trait = curie_meteorological_physicist }
+
+					#Effect
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_meteorological_physicist_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = curie_meteorological_physicist_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					#Doctor/Professor
+					academics_meteorological_physicist_add_academic_title_effect = yes
+				}
+				1 = {
+					trigger = { has_trait = curie_rocket_physicist }
+
+					#Effect
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_rocket_physicist_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = curie_rocket_physicist_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					#Doctor/Professor
+					academics_rocket_physicist_add_academic_title_effect = yes
+				}
+				1 = {
+					trigger = { has_trait = curie_nuclear_physicist }
+
+					#Effect
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_nuclear_physicist_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = curie_nuclear_physicist_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					#Doctor/Professor
+					academics_nuclear_physicist_add_academic_title_effect = yes
+				}
 			}
 		}
-		remove_trait = curie_physicist
-		remove_trait = curie_physicist_experienced
-		add_trait = curie_physicist_famous
+		else = {
+			random_list = { #Here, a random focus is chosen for the engineer. Then the Experience and trait are set up for them.
+				1 = {
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_mathematical_physicist_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = curie_mathematical_physicist_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					add_trait = curie_mathematical_physicist
+					#Doctor/Professor
+					academics_mathematical_physicist_add_academic_title_effect = yes
+				}
+				1 = {
+					trigger = {
+						owner = {
+							has_technology_researched = curtiss_meteorology_tech
+						}
+					}
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_meteorological_physicist_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = curie_meteorological_physicist_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					add_trait = curie_meteorological_physicist
+					#Doctor/Professor
+					academics_meteorological_physicist_add_academic_title_effect = yes
+				}
+				1 = {
+					trigger = {
+						owner = {
+							has_technology_researched = curie_rocket_science_tech
+						}
+					}
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_rocket_physicist_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = curie_rocket_physicist_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					add_trait = curie_rocket_physicist
+					#Doctor/Professor
+					academics_rocket_physicist_add_academic_title_effect = yes
+				}
+				1 = {
+					trigger = {
+						owner = {
+							has_technology_researched = verrier_nuclear_physics_tech
+						}
+					}
+					add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+						name = academics_is_nuclear_physicist_modifier
+					}
+					general_experience_set_up_effect = {
+						TYPE = curie_nuclear_physicist_experience_var
+						UNI_PM = pm_dubois_university_mathematics
+					}
+					add_trait = curie_nuclear_physicist
+					#Doctor/Professor
+					academics_nuclear_physicist_add_academic_title_effect = yes
+				}
+			}
+		}
 	}
 
-	academics_physicist_add_academic_title_effect = yes
+	if = { #Sets all not yet existing experience types
+		limit = {
+			NOT = {
+				has_variable = curie_mathematical_physicist_experience_var
+			}
+		}
+		set_variable = {
+			name = curie_mathematical_physicist_experience_var
+			value = 0
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_variable = curie_meteorological_physicist_experience_var
+			}
+		}
+		set_variable = {
+			name = curie_meteorological_physicist_experience_var
+			value = 0
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_variable = curie_rocket_physicist_experience_var
+			}
+		}
+		set_variable = {
+			name = curie_rocket_physicist_experience_var
+			value = 0
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_variable = curie_nuclear_physicist_experience_var
+			}
+		}
+		set_variable = {
+			name = curie_nuclear_physicist_experience_var
+			value = 0
+		}
+	}
+
+	#Other Variables
+
+	#Formulas
+	if = {
+		limit = {
+			NOT = {
+				has_variable = curie_discovered_formulas_character_number_var
+			}
+		}
+		set_variable = {
+			name = curie_discovered_formulas_character_number_var
+			value = 0
+		}
+	}
+
+	#Experiments
+	if = {
+		limit = {
+			NOT = {
+				has_variable = curie_discovered_experiments_character_number_var
+			}
+		}
+		set_variable = {
+			name = curie_discovered_experiments_character_number_var
+			value = 0
+		}
+	}
+
+	#Clouds
+	if = {
+		limit = {
+			NOT = {
+				has_variable = curie_discovered_clouds_character_number_var
+			}
+		}
+		set_variable = {
+			name = curie_discovered_clouds_character_number_var
+			value = 0
+		}
+	}
 }
 
 #Physicist Experience gain
@@ -1548,8 +1766,46 @@ physicist_experience_gain_effect = { #adds XP to the Physicist
 # scope = character
 curie_character_physicist_experience_gain_effect = { #adds Physicist XP to the Character
 	# AMOUNT = amount of XP to add
+	if = {
+		limit = {
+			has_modifier = academics_is_mathematical_physicist_modifier
+		}
+		curie_character_mathematical_physicist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+	else_if = {
+		limit = {
+			has_modifier = academics_is_meteorological_physicist_modifier
+		}
+		curie_character_meteorological_physicist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+	else_if = {
+		limit = {
+			has_modifier = academics_is_rocket_physicist_modifier
+		}
+		curie_character_rocket_physicist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+	else_if = {
+		limit = {
+			has_modifier = academics_is_nuclear_physicist_modifier
+		}
+		curie_character_nuclear_physicist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Mathematician Experience gain
+mathematical_physicist_experience_gain_effect = { #adds XP to the Physicist
+	# Amount = amount of XP to add
+	var:curie_physicist_var ?= {
+		curie_character_mathematical_physicist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Mathematician Experience Gain Effect
+# scope = character
+curie_character_mathematical_physicist_experience_gain_effect = { #adds Physicist XP to the Character
+	# AMOUNT = amount of XP to add
 	custom_description = {
-		text = "curie_character_physicist_experience_gain_effect_loc"
+		text = "curie_character_mathematical_physicist_experience_gain_effect_loc"
 		subject = this
 		value = $AMOUNT$
 
@@ -1557,19 +1813,19 @@ curie_character_physicist_experience_gain_effect = { #adds Physicist XP to the C
 		if = {
 			limit = {
 				NOT = {
-					has_variable = curie_physicist_experience_var
+					has_variable = curie_mathematical_physicist_experience_var
 				}
 			}
 			physicist_experience_set_up_effect = yes
 		}
 		#Actual change of Experience
 		change_variable = {
-			name = curie_physicist_experience_var
+			name = curie_mathematical_physicist_experience_var
 			add = $AMOUNT$
 		}
 		#Clamping to prevent overflow
 		clamp_variable = {
-			name = curie_physicist_experience_var
+			name = curie_mathematical_physicist_experience_var
 			min = 0
 			max = 300
 		}
@@ -1578,11 +1834,9 @@ curie_character_physicist_experience_gain_effect = { #adds Physicist XP to the C
 	#Add Traits if the character does not have one yet
 	if = {
 		limit = {
-			var:curie_physicist_experience_var >= 100
-			var:curie_physicist_experience_var < 300
-			NOR = {
-				has_trait = curie_physicist_experienced
-				has_trait = curie_physicist_famous
+			var:curie_mathematical_physicist_experience_var >= 100
+			NOT = {
+				has_trait = curie_mathematical_physicist
 			}
 		}
 		if = {
@@ -1592,51 +1846,334 @@ curie_character_physicist_experience_gain_effect = { #adds Physicist XP to the C
 			}
 			owner ?= {
 				trigger_event = {
-					id = academics.106
+					id = academics.150
 				}
 			}
 		}
 		else = {
-			post_notification = academics_character_is_experienced_notification
+			post_notification = academics_character_is_mathematical_physicist_notification
 		}
 		hidden_effect = {
-			remove_trait = curie_physicist
-			add_trait = curie_physicist_experienced
+			add_trait = curie_mathematical_physicist
 		}
 	}
-	if = {
-		limit = {
-			var:curie_physicist_experience_var >= 300
-			NOT = {
-				has_trait = curie_physicist_famous
-			}
-		}
+	#Add Academic Title if Character does not have one yet
+	academics_mathematical_physicist_add_academic_title_effect = yes
+}
+
+#Meteorologist Experience gain
+meteorological_physicist_experience_gain_effect = { #adds XP to the Physicist
+	# Amount = amount of XP to add
+	var:curie_physicist_var ?= {
+		curie_character_meteorological_physicist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Meteorologist Experience Gain Effect
+# scope = character
+curie_character_meteorological_physicist_experience_gain_effect = { #adds Physicist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "curie_character_meteorological_physicist_experience_gain_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
 		if = {
 			limit = {
-				exists = owner
-				owner.var:curie_physicist_var ?= this
-			}
-			owner ?= {
-				trigger_event = {
-					id = academics.107
+				NOT = {
+					has_variable = curie_meteorological_physicist_experience_var
 				}
 			}
+			physicist_experience_set_up_effect = yes
 		}
-		else = {
-			post_notification = academics_character_is_famous_notification
+		#Actual change of Experience
+		change_variable = {
+			name = curie_meteorological_physicist_experience_var
+			add = $AMOUNT$
 		}
-		hidden_effect = {
-			if = {
-				limit = { has_trait = curie_physicist }
-				remove_trait = curie_physicist
-			}
-			remove_trait = curie_physicist_experienced
-			add_trait = curie_physicist_famous
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = curie_meteorological_physicist_experience_var
+			min = 0
+			max = 300
 		}
 	}
 
+	#Add Traits if the character does not have one yet
+	if = {
+		limit = {
+			var:curie_meteorological_physicist_experience_var >= 100
+			NOT = {
+				has_trait = curie_meteorological_physicist
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:curie_physicist_var ?= this
+			}
+			owner ?= {
+				trigger_event = {
+					id = academics.151
+				}
+			}
+		}
+		else = {
+			post_notification = academics_character_is_meteorological_physicist_notification
+		}
+		hidden_effect = {
+			add_trait = curie_meteorological_physicist
+		}
+	}
 	#Add Academic Title if Character does not have one yet
-	academics_physicist_add_academic_title_effect = yes
+	academics_meteorological_physicist_add_academic_title_effect = yes
+}
+
+#Rocket Physicist Experience gain
+rocket_physicist_experience_gain_effect = { #adds XP to the Physicist
+	# Amount = amount of XP to add
+	var:curie_physicist_var ?= {
+		curie_character_rocket_physicist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Rocket Physicist Experience Gain Effect
+# scope = character
+curie_character_rocket_physicist_experience_gain_effect = { #adds Physicist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "curie_character_rocket_physicist_experience_gain_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = curie_rocket_physicist_experience_var
+				}
+			}
+			physicist_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = curie_rocket_physicist_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = curie_rocket_physicist_experience_var
+			min = 0
+			max = 300
+		}
+	}
+
+	#Add Traits if the character does not have one yet
+	if = {
+		limit = {
+			var:curie_rocket_physicist_experience_var >= 100
+			NOT = {
+				has_trait = curie_rocket_physicist
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:curie_physicist_var ?= this
+			}
+			owner ?= {
+				trigger_event = {
+					id = academics.152
+				}
+			}
+		}
+		else = {
+			post_notification = academics_character_is_rocket_physicist_notification
+		}
+		hidden_effect = {
+			add_trait = curie_rocket_physicist
+		}
+	}
+	#Add Academic Title if Character does not have one yet
+	academics_rocket_physicist_add_academic_title_effect = yes
+}
+
+#Nuclear Physicist Experience gain
+nuclear_physicist_experience_gain_effect = { #adds XP to the Physicist
+	# Amount = amount of XP to add
+	var:curie_physicist_var ?= {
+		curie_character_nuclear_physicist_experience_gain_effect = { AMOUNT = $AMOUNT$ }
+	}
+}
+
+#Character Nuclear Physicist Experience Gain Effect
+# scope = character
+curie_character_nuclear_physicist_experience_gain_effect = { #adds Physicist XP to the Character
+	# AMOUNT = amount of XP to add
+	custom_description = {
+		text = "curie_character_nuclear_physicist_experience_gain_effect_loc"
+		subject = this
+		value = $AMOUNT$
+
+		#Fallback if there is no Experience yet
+		if = {
+			limit = {
+				NOT = {
+					has_variable = curie_nuclear_physicist_experience_var
+				}
+			}
+			physicist_experience_set_up_effect = yes
+		}
+		#Actual change of Experience
+		change_variable = {
+			name = curie_nuclear_physicist_experience_var
+			add = $AMOUNT$
+		}
+		#Clamping to prevent overflow
+		clamp_variable = {
+			name = curie_nuclear_physicist_experience_var
+			min = 0
+			max = 300
+		}
+	}
+
+	#Add Traits if the character does not have one yet
+	if = {
+		limit = {
+			var:curie_nuclear_physicist_experience_var >= 100
+			NOT = {
+				has_trait = curie_nuclear_physicist
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner.var:curie_physicist_var ?= this
+			}
+			owner ?= {
+				trigger_event = {
+					id = academics.152
+				}
+			}
+		}
+		else = {
+			post_notification = academics_character_is_nuclear_physicist_notification
+		}
+		hidden_effect = {
+			add_trait = curie_nuclear_physicist
+		}
+	}
+	#Add Academic Title if Character does not have one yet
+	academics_nuclear_physicist_add_academic_title_effect = yes
+}
+
+#Sets the Physicist to be a Mathematician
+curie_set_mathematical_physicist_effect = {
+	custom_tooltip = {
+		text = curie_set_mathematical_physicist_tt
+
+		if = {
+			limit = {
+				has_variable = curie_physicist_var
+			}
+			var:curie_physicist_var = {
+				remove_modifier = academics_is_meteorological_physicist_modifier
+				remove_modifier = academics_is_rocket_physicist_modifier
+				remove_modifier = academics_is_nuclear_physicist_modifier
+
+				add_modifier = {
+					name = academics_is_mathematical_physicist_modifier
+				}
+			}
+
+			#Adds the Default Project for the Physicist
+			add_journal_entry = {
+				type = je_curie_mathematical_innovation
+			}
+		}
+	}
+}
+
+#Sets the Physicist to be a Meteorologist
+curie_set_meteorological_physicist_effect = {
+	custom_tooltip = {
+		text = curie_set_meteorological_physicist_tt
+
+		if = {
+			limit = {
+				has_variable = curie_physicist_var
+			}
+			var:curie_physicist_var = {
+				remove_modifier = academics_is_mathematical_physicist_modifier
+				remove_modifier = academics_is_rocket_physicist_modifier
+				remove_modifier = academics_is_nuclear_physicist_modifier
+
+				add_modifier = {
+					name = academics_is_meteorological_physicist_modifier
+				}
+			}
+
+			#Adds the Default Project for the Physicist
+			add_journal_entry = {
+				type = je_curie_meteorological_observation
+			}
+		}
+	}
+}
+
+#Sets the Physicist to be a Rocket Physicist
+curie_set_rocket_physicist_effect = {
+	custom_tooltip = {
+		text = curie_set_rocket_physicist_tt
+
+		if = {
+			limit = {
+				has_variable = curie_physicist_var
+			}
+			var:curie_physicist_var = {
+				remove_modifier = academics_is_mathematical_physicist_modifier
+				remove_modifier = academics_is_meteorological_physicist_modifier
+				remove_modifier = academics_is_nuclear_physicist_modifier
+
+				add_modifier = {
+					name = academics_is_rocket_physicist_modifier
+				}
+			}
+
+			#Adds the Default Project for the Physicist
+			add_journal_entry = {
+				type = je_curie_physics_experiment
+			}
+		}
+	}
+}
+
+#Sets the Physicist to be a Nuclear Physicist
+curie_set_nuclear_physicist_effect = {
+	custom_tooltip = {
+		text = curie_set_nuclear_physicist_tt
+
+		if = {
+			limit = {
+				has_variable = curie_physicist_var
+			}
+			var:curie_physicist_var = {
+				remove_modifier = academics_is_mathematical_physicist_modifier
+				remove_modifier = academics_is_meteorological_physicist_modifier
+				remove_modifier = academics_is_rocket_physicist_modifier
+
+				add_modifier = {
+					name = academics_is_nuclear_physicist_modifier
+				}
+			}
+
+			#Adds the Default Project for the Physicist
+			add_journal_entry = {
+				type = je_curie_physics_experiment
+			}
+		}
+	}
 }
 
 ######GEOLOGIST######
@@ -1956,7 +2493,7 @@ ito_set_new_naturalist_as_naturalist_effect = {
 			}
 		}
 
-		#Adds the Default action
+		#Adds the Default action of the Naturalist
 		if = {
 			limit = {
 				NOT = { has_journal_entry = je_ito_specimen_collection }
@@ -2208,7 +2745,7 @@ dubois_set_new_paleontologist_as_paleontologist_effect = {
 			}
 		}
 
-		#Adds the Default action
+		#Adds the Default action of the Paleontologist
 		if = {
 			limit = {
 				NOT = { has_journal_entry = je_systemize_fossils }
@@ -4160,15 +4697,15 @@ academics_academic_recruited_effect = {
 			popup = yes
 		}
 	}
-	#	else_if = {
-	#		limit = {
-	#			has_variable = academics_promote_physicist_active
-	#		}
-	#		trigger_event = {
-	#			id = academics.54 #Physicist
-	#			popup = yes
-	#		}
-	#	}
+	else_if = {
+		limit = {
+			has_variable = academics_promote_physicist_active
+		}
+		trigger_event = {
+			id = academics.54 #Physicist
+			popup = yes
+		}
+	}
 	else_if = {
 		limit = {
 			has_variable = academics_promote_geologist_active
@@ -4252,12 +4789,12 @@ academics_academic_recruited_effect = {
 					popup = yes
 				}
 			}
-#			1 = { #Physicist
-#				trigger_event = {
-#					id = academics.54
-#					popup = yes
-#				}
-#			}
+			1 = { #Physicist
+				trigger_event = {
+					id = academics.54
+					popup = yes
+				}
+			}
 			1 = { #Geologist
 				trigger_event = {
 					id = academics.55
@@ -4277,6 +4814,7 @@ academics_academic_recruited_effect = {
 				}
 			}
 			1 = { #Biologist
+				trigger = { has_technology_researched = panum_vaccination_tech }
 				trigger_event = {
 					id = academics.58
 					popup = yes
@@ -4289,7 +4827,7 @@ academics_academic_recruited_effect = {
 				}
 			}
 			1 = { #Anthropologist
-				trigger = { has_technology_researched = andersson_anthropology_tech }
+				trigger = { has_technology_researched = lepsius_early_archaeology_tech }
 				trigger_event = {
 					id = academics.60
 					popup = yes
@@ -4677,10 +5215,37 @@ academics_astronomer_add_academic_title_effect = {
 	}
 }
 
-#Effect for Physicist
-academics_physicist_add_academic_title_effect = {
+#Effect for Mathematician
+academics_mathematical_physicist_add_academic_title_effect = {
 	academics_character_add_title_from_experience_gain_effect = {
-		EXPERIENCE_VARIABLE = var:curie_physicist_experience_var
+		EXPERIENCE_VARIABLE = var:curie_mathematical_physicist_experience_var
+		BASE_CHANCE_DOCTOR = 50
+		BASE_CHANCE_PROFESSOR = -150
+	}
+}
+
+#Effect for Meteorologist
+academics_meteorological_physicist_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:curie_meteorological_physicist_experience_var
+		BASE_CHANCE_DOCTOR = 50
+		BASE_CHANCE_PROFESSOR = -150
+	}
+}
+
+#Effect for Rocket Physicist
+academics_rocket_physicist_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:curie_rocket_physicist_experience_var
+		BASE_CHANCE_DOCTOR = 50
+		BASE_CHANCE_PROFESSOR = -150
+	}
+}
+
+#Effect for Nuclear Physicist
+academics_nuclear_physicist_add_academic_title_effect = {
+	academics_character_add_title_from_experience_gain_effect = {
+		EXPERIENCE_VARIABLE = var:curie_nuclear_physicist_experience_var
 		BASE_CHANCE_DOCTOR = 50
 		BASE_CHANCE_PROFESSOR = -150
 	}

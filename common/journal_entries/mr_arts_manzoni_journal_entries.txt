@@ -13,6 +13,10 @@ manzoni_je_pro_government_newspaper = {
 
 	group = je_group_pbi
 
+	activation_description = {
+		always = yes
+	}
+
 	is_shown_when_inactive = {
 		any_scope_state = {
 			has_building = building_manzoni_publishing_industry
@@ -42,9 +46,6 @@ manzoni_je_pro_government_newspaper = {
 		}
 	}
 
-	invalid = {
-	}
-
 	weight = 100
 	transferable = no
 }
@@ -54,6 +55,10 @@ manzoni_je_freedom_of_the_press = {
 	icon = "gfx/interface/icons/event_icons/event_publishing_industry.dds"
 
 	group = je_group_pbi
+
+	activation_description = {
+		always = yes
+	}
 
 	is_shown_when_inactive = {
 		any_scope_state = {
@@ -93,6 +98,10 @@ je_manzoni_literary_circle = {
 
 	group = je_group_manzoni_literature
 
+	activation_description = {
+		always = yes
+	}
+
 	is_shown_when_inactive = {
 		has_technology_researched = romanticism
 	}
@@ -101,49 +110,37 @@ je_manzoni_literary_circle = {
 		has_technology_researched = realism
 	}
 
-	immediate = {
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-    fail = {
-    }
-
-	on_fail = {
-	}
-
-	complete = {
-		manzoni_has_writer = yes
-		manzoni_x_or_more_local_writers_tooltip_trigger = {
-			AMOUNT = 3
-		}
-		any_scope_state = {
-			is_production_method_active = {
-				building_type = building_art_academy
-				production_method = pm_artists_arts_academy_salon
+		trigger = {
+			manzoni_has_writer = yes
+			manzoni_x_or_more_local_writers_tooltip_trigger = {
+				AMOUNT = 3
+			}
+			any_scope_state = {
+				is_production_method_active = {
+					building_type = building_art_academy
+					production_method = pm_artists_arts_academy_salon
+				}
+			}
+			OR = {
+				has_technology_researched = elgar_impressionism_tech
+				has_technology_researched = elgar_expressionism_tech
+				has_technology_researched = elgar_art_nouveau_tech
 			}
 		}
-		OR = {
-			has_technology_researched = elgar_impressionism_tech
-			has_technology_researched = elgar_expressionism_tech
-			has_technology_researched = elgar_art_nouveau_tech
+
+		effect = {
+			trigger_event = {
+				id = manzoni.341
+			}
 		}
 	}
-
-	on_complete = {
-		trigger_event = {
-			id = manzoni.341
-		}
-	}
-
-	invalid = {
-	}
-
-	current_value = {
-	}
-
-	goal_add_value = {
-	}
-
-	progressbar = no
 
 	weight = 50
 }
@@ -154,6 +151,10 @@ je_manzoni_lucca = {
 	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
 
 	group = je_group_historical_content
+
+	activation_description = {
+		always = yes
+	}
 
 	is_shown_when_inactive = {
 		exists = c:LUC
@@ -169,83 +170,79 @@ je_manzoni_lucca = {
 		exists = c:TUS
 	}
 
-	immediate = {
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-    fail = {
-    }
-
-	on_fail = {
-	}
-
-	complete = {
-		custom_tooltip = {
-			text = maria_luigia_died_tt
-			c:PAR = {
-				ruler = {
-					NOT = {
-						has_variable = is_maria_luisa_var
+		trigger = {
+			custom_tooltip = {
+				text = maria_luigia_died_tt
+				c:PAR = {
+					ruler = {
+						NOT = {
+							has_variable = is_maria_luisa_var
+						}
 					}
 				}
 			}
 		}
-	}
 
-	on_complete = {
-		ruler = {
-			set_variable = manzoni_duke_of_lucca_var
-			save_scope_as = manzoni_ruler_scope
-			scope:manzoni_ruler_scope = {
-				transfer_character = c:PAR
+		effect = {
+			ruler = {
+				set_variable = manzoni_duke_of_lucca_var
+				save_scope_as = manzoni_ruler_scope
+				scope:manzoni_ruler_scope = {
+					transfer_character = c:PAR
+				}
+				c:PAR = {
+					scope:manzoni_ruler_scope = {
+						set_character_as_ruler = yes
+					}
+				}
 			}
 			c:PAR = {
-				scope:manzoni_ruler_scope = {
-					set_character_as_ruler = yes
+				trigger_event = {
+					id = manzoni.901
+					days = 1
+					popup = yes
+				}
+			}
+			c:TUS = {
+				trigger_event = {
+					id = manzoni.902
+					days = 2
+					popup = yes
 				}
 			}
 		}
-		c:PAR = {
-			trigger_event = {
-				id = manzoni.901
-				days = 1
-				popup = yes
-			}
-		}
-		c:TUS = {
-			trigger_event = {
-				id = manzoni.902
-				days = 2
-				popup = yes
-			}
-		}
 	}
 
-	invalid = {
-		OR = {
-			NOT = {
-				exists = c:LUC
-			}
-			NOT = {
-				exists = c:PAR
-			}
-			NOT = {
-				c:PAR = {
-					has_law = law_type:law_monarchy
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			OR = {
+				NOT = {
+					exists = c:LUC
+				}
+				NOT = {
+					exists = c:PAR
+				}
+				NOT = {
+					c:PAR = {
+						has_law = law_type:law_monarchy
+					}
+				}
+				NOT = {
+					exists = c:TUS
 				}
 			}
-			NOT = {
-				exists = c:TUS
-			}
 		}
 	}
-
-	current_value = {
-	}
-
-	goal_add_value = {
-	}
-
-	progressbar = no
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 

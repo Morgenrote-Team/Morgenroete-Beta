@@ -474,6 +474,60 @@ ai_chemistry_automation_effect = {
 						set_character_busy_and_immortal = yes
 					}
 				}
+				### Invent DDT ###
+				100 = {
+					#Triggers
+					trigger = {
+						NOR = {
+							has_journal_entry = je_mendelejew_ddt
+							has_technology_researched = mendelejew_ddt_tech
+						}
+						#Can AI afford the Project?
+						OR = {
+							net_fixed_income >= mr_medium_local_project_cost_weekly_value
+							gold_reserves >= mr_medium_local_project_cost_weekly_value
+						}
+						has_technology_researched = verrier_modern_physics_tech
+						has_technology_researched = plastics
+						has_technology_researched = theiler_modern_pesticides_tech
+						has_technology_researched = malaria_prevention
+						any_scope_building = {
+							is_building_type = building_verrier_observatory
+							level > 0
+						}
+						country_has_building_type_levels = {
+							target = bt:building_university
+							value  >= 10
+						}
+						any_scope_building = {
+							is_building_type = building_chemical_plant
+							level > 0
+							has_modifier = mendelejew_building_throughput_add_modifier
+							has_modifier = mendelejew_building_production_mult_modifier
+							has_modifier = mendelejew_building_goods_input_mult_modifier
+						}
+					}
+
+					#Modifiers / Weighting
+					modifier = {
+						#Ai Focus on Economy --> kind of important
+						if = {
+							limit = {
+								OR = {
+									has_strategy = ai_strategy_agricultural_expansion
+									has_strategy = ai_strategy_industrial_expansion
+								}
+							}
+							add = 100
+						}
+					}
+
+					#Effect
+					add_journal_entry = { type = je_mendelejew_ddt }
+					var:mendelejew_chemist_var ?= {
+						set_character_busy_and_immortal = yes
+					}
+				}
 			}
 		}
 	}

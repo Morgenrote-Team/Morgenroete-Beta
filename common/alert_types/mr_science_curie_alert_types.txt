@@ -25,6 +25,194 @@
 # player_commander
 # player_trade_route
 
+curie_physics_project_possible_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/alert_icons/curie_physics_alert.dds"
+
+	valid = {
+		curie_has_active_physicist_no_tooltip_trigger = yes
+		OR = {
+			### Physicist Experiment ###
+			#AND = {
+			#	NOT = {
+			#		has_journal_entry = je_curie_physics_experiment
+			#	}
+			#	NOR = {
+			#		has_modifier = curie_physics_experiment_successful_modifier
+			#		has_modifier = curie_physics_experiment_failure_modifier
+			#	}
+			#}
+			### Mathematical Projects ###
+			trigger_if = {
+				limit = {
+					curie_has_active_mathematical_physicist_trigger = yes
+				}
+				OR = {
+					#New Formula
+					AND = {
+						NOT = {
+							has_journal_entry = je_curie_formula_discovery
+						}
+						curie_formula_can_discover_trigger = yes
+						var:curie_physical_data_var >= curie_formula_cost_value
+					}
+					#Improve Mathematics
+					AND = {
+						NOT = {
+							has_journal_entry = je_curie_improve_mathematics_project
+						}
+						NOT = {
+							has_variable = curie_improve_mathematics_project_building_choser_var
+						}
+						curie_country_has_building_valid_for_mathematics_project_trigger = yes
+					}
+				}
+			}
+			### Meteorological Projects ###
+			trigger_if = {
+				limit = {
+					curie_has_active_meteorological_physicist_trigger = yes
+				}
+				OR = {
+					#Weather Station Expansion
+					AND = {
+						NOT = {
+							has_journal_entry = je_curie_weather_station_expansion
+						}
+						NOT = {
+							any_scope_building = {
+								is_building_type = building_verrier_observatory
+								has_active_production_method = pm_curtiss_modern_weather_station
+							}
+						}
+						trigger_if = {
+							mr_gui_has_meteorology_tech_trigger = yes
+							any_scope_building = {
+								is_building_type = building_verrier_observatory
+								has_active_production_method = pm_curtiss_no_weather_station
+							}
+						}
+						#Upgrade to Weather Station
+						trigger_if = {
+							mr_gui_has_reconnaissance_balloon_tech_trigger = yes
+							any_scope_building = {
+								is_building_type = building_verrier_observatory
+								has_active_production_method = pm_curtiss_early_weather_station
+							}
+						}
+						#Upgrade to Modern Weather Station
+						trigger_if = {
+							mr_gui_has_high_altitude_balloon_tech_trigger = yes
+							any_scope_building = {
+								is_building_type = building_verrier_observatory
+								has_active_production_method = pm_curtiss_weather_station
+							}
+						}
+						curie_cloud_can_discover_trigger = no
+					}
+					#Improve Meteorology
+					AND = {
+						NOT = {
+							has_journal_entry = je_curie_improve_meteorology_project
+						}
+						NOT = {
+							has_variable = curie_improve_meteorology_project_building_choser_var
+						}
+						curie_country_has_building_valid_for_meteorology_project_trigger = yes
+						curie_cloud_can_discover_trigger = no
+					}
+					#Agricultural Weather Service
+					AND = {
+						NOT = {
+							has_journal_entry = je_curie_agricultural_weather_service
+						}
+						any_scope_building = {
+							is_building_type = building_verrier_observatory
+							OR = {
+								has_active_production_method = pm_curtiss_weather_station
+								has_active_production_method = pm_curtiss_modern_weather_station
+							}
+						}
+						var:curie_physicist_var ?= {
+							var:curie_meteorological_physicist_experience_var >= 50
+						}
+						curie_cloud_can_discover_trigger = no
+					}
+					AND = {
+						NOT = {
+							has_journal_entry = je_curie_agricultural_weather_service
+						}
+						any_scope_building = {
+							is_building_type = building_verrier_observatory
+							OR = {
+								has_active_production_method = pm_curtiss_weather_station
+								has_active_production_method = pm_curtiss_modern_weather_station
+							}
+						}
+						var:curie_physicist_var ?= {
+							var:curie_meteorological_physicist_experience_var >= 50
+						}
+						navy_size >= 5
+						curie_cloud_can_discover_trigger = no
+					}
+				}
+			}
+		}
+	}
+
+#	open_panel = tech_tree
+	type = alert	# High importance
+	alert_group = morgenroete
+}
+
+curie_geomagnetics_possible_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/mr_icons/curie_magnetic_data.dds"
+
+	valid = {
+		curie_has_active_physicist_no_tooltip_trigger = yes
+		OR = {
+			AND = {
+				mr_gui_has_differential_geometry_tech_trigger = yes
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					level > 0
+				}
+				NOT = {
+					has_global_variable = curie_magnetic_association_global_var
+				}
+			}
+			AND = {
+				NOT = {
+					has_variable = curie_magnetic_station_var
+				}
+				has_global_variable = curie_magnetic_association_global_var
+				mr_gui_has_differential_geometry_tech_trigger = yes
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					has_active_production_method = pm_curie_no_magnetic_observatory
+					level > 0
+				}
+			}
+			AND = {
+				NOT = {
+					has_variable = curie_magnetic_atlas_var
+				}
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					has_active_production_method = pm_curie_magnetic_observatory
+					level > 0
+				}
+				var:curie_magnetic_data_var >= 15
+			}
+		}
+	}
+
+	open_panel = mr_science_mathematics_panel
+#	type = alert	# High importance
+	alert_group = morgenroete
+}
+
 curie_physicist_will_retire_soon_alert = {
 	script_context = player_country
 	texture = "gfx/interface/icons/invention_icons/verrier_nuclear_physics_tech.dds"

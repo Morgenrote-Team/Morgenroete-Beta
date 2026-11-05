@@ -8,140 +8,331 @@
 
 ######SCHNEIDER TROPHY######
 
-je_curtiss_found_schneider_trophy = {
-	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+je_curtiss_found_schneider_trophy_contextless = {
+	icon = "gfx/interface/icons/event_icons/event_seaplanes.dds"
 
-	group = je_group_curtiss_aviation
-
-	immediate = {
-		set_variable = {
-			name = je_curtiss_found_schneider_trophy_var
-			days = 1
-		}
+	activation_description = {
+		always = yes
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-		any_scope_state = {
-			is_incorporated = yes
-			any_scope_building = {
-				is_building_type = building_port
-			}
-			any_scope_building = {
-				is_building_type = building_urban_center
-				level >= 15
-			}
-		}
-		hidden_trigger = {
-			NOT = { has_variable = je_curtiss_found_schneider_trophy_var }
-		}
-	}
+	group = je_group_vikelas_international_sports_events
 
-	on_complete = {
-		trigger_event = {
-			id = curtiss.100
-			popup = yes
-		}
-	}
+	scripted_progress_bar = curtiss_nations_with_seaplanes_progress_bar
 
-	fail = {
-	}
+	should_be_involved = { always = no }
 
-	on_fail = {
-	}
-
-	current_value = {
-		if = {
-			limit = {
+	on_monthly_pulse = {
+		effect = {
+			every_country = {
+				limit = {
+					curtiss_schneider_trophy_possible = yes
+					NOT = { is_involved_in_journal_entry = je_curtiss_found_schneider_trophy_contextless }
+				}
 				scope:journal_entry = {
-					goal_value = 0
+					add_involved_country = prev
 				}
 			}
-			value = 0
-		}
-		else = {
-			value = global_var:curtiss_seaplane_nations #value or variable you use to meassure progress
 		}
 	}
 
-	goal_add_value = {
-		value = 5
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			scope:journal_entry = {
+				custom_tooltip = {
+					text = je_curtiss_found_schneider_trophy_contextless_seaplane_nations_number_trigger_tt
+					any_scope_je_involved = {
+						count >= 5
+					}
+				}
+				custom_tooltip = {
+					text = je_curtiss_found_schneider_trophy_contextless_seaplane_nations_founder_trigger_tt
+					any_scope_je_involved = {
+						country_rank >= rank_value:major_power
+						any_scope_state = {
+							is_incorporated = yes
+							any_scope_building = {
+								is_building_type = building_port
+							}
+							any_scope_building = {
+								is_building_type = building_urban_center
+								level >= 15
+							}
+						}
+					}
+				}
+			}
+		}
+
+		effect = {
+			scope:journal_entry = {
+				random_scope_je_involved = {
+					limit = {
+						country_rank >= rank_value:major_power
+						any_scope_state = {
+							is_incorporated = yes
+							any_scope_building = {
+								is_building_type = building_port
+							}
+							any_scope_building = {
+								is_building_type = building_urban_center
+								level >= 15
+							}
+						}
+					}
+					trigger_event = {
+						id = curtiss.100
+						popup = yes
+					}
+				}
+			}
+		}
 	}
 
-	progressbar = yes
+	# fires when a country becomes involved after activation of a contextless JE, ie not as a result of the should_be_involved trigger
+	# root = specific country
+	on_become_involved_after_activation = {
+		scope:journal_entry = {
+			add_progress = {
+				name = curtiss_nations_with_seaplanes_progress_bar
+				value = 1
+			}
+		}
+	}
+
+	# fires when a country stops being involved in a contextless JE
+	# root = specific country
+	on_no_longer_involved = {
+		scope:journal_entry = {
+			add_progress = {
+				name = curtiss_nations_with_seaplanes_progress_bar
+				value = -1
+			}
+		}
+	}
 
 	weight = 25
 }
 
-je_curtiss_schneider_trophy_race = {
-	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+#Schneider Trophy JE
+# This JE controlls the Trophy. Once a country wins 3 times in a row, the JE disappears
+#
+# The weekly pulse controls the Races themselves.
+# The monthly pulse controls when the race takes place.
+# The victory in a race is controlled in the schneider trophy points effect.
+je_curtiss_schneider_trophy_race_contextless = {
+	icon = "gfx/interface/icons/event_icons/event_seaplanes.dds"
 
-	group = je_group_curtiss_aviation
+	activation_description = {
+		always = yes
+	}
 
-	on_weekly_pulse = {
-		random_events = {
-			40 = curtiss.120 #Curtiss 120: Normal progress
-			1 = curtiss.121 #Curtiss 121: Mechanical problems
-			1 = curtiss.122 #Curtiss 122: Crash
-			1 = curtiss.123 #Curtiss 123: Buoy overlooked
-			2 = curtiss.124 #Curtiss 124: Maximum Speed
-			2 = curtiss.125 #Curtiss 125: Slalom maneuvers
-			1 = curtiss.126 #Curtiss 126: Fog
-			1 = curtiss.127 #Curtiss 127: Superior flight performance
-			2 = curtiss.128 #Curtiss 128: Duel
-			3 = curtiss.130 #Curtiss 130: Rivalry
-			2 = curtiss.132 #Curtiss 132: Favorable Conditions
-			1 = curtiss.133 #Curtiss 133: Team member ill
-			2 = curtiss.134 #Curtiss 134: A Great Race
-			1 = curtiss.135 #Curtiss 135: Sabotage ...
-		}
+	group = je_group_vikelas_international_sports_events
+
+	#Add Scripted Button here
+
+	should_be_involved = { always = no }
+
+	widget = {
+		gui = "gui/journal_entry_widgets/mr_character_je_widgets.gui"
+		name = "curtiss_schneider_trophy_race_header"
+		container = "custom_widget_container_je_icon"
+	}
+
+	widget = {
+		gui = "gui/journal_entry_widgets/curtiss_je_widgets.gui"
+		name = "widget_curtiss_schneider_trophy_widgets"
+		container = "custom_widget_container_je_icon"
+	}
+
+	widget = {
+		gui = "gui/journal_entry_widgets/curtiss_je_widgets.gui"
+		name = "widget_curtiss_schneider_trophy_event_list_widget"
+		container = "custom_widget_container_4"
 	}
 
 	immediate = {
-	}
-
-	complete = {
 		scope:journal_entry = {
-			is_goal_complete = yes
+			set_variable = com_hide_journal_reason
+			set_variable = com_hide_involved_countries
 		}
 	}
 
-	on_complete = {
-		set_global_variable = curtiss_schneider_trophy_race_end
-		trigger_event = {
-			id = curtiss.111
-			popup = yes
-		}
-	}
-
-	current_value = {
-		if = {
-			limit = {
-				scope:journal_entry = {
-					goal_value = 0
+	#This on action controls the race itself. It only does anything if the race is currently ongoing.
+	on_weekly_pulse = {
+		effect = {
+			scope:journal_entry = {
+				if = {
+					limit = {
+						has_variable = curtiss_schneider_trophy_race_active_var
+					}
+					#Race Events
+					every_scope_je_involved = {
+						### Event Pulse
+						trigger_event = {
+							days = { 0 30 }
+							on_action = curtiss_schneider_trophy_events_on_action
+						}
+					}
 				}
 			}
-			value = 0
-		}
-		else = {
-			value = var:curtiss_schneider_trophy_point_var #value or variable you use to meassure progress
 		}
 	}
 
-	goal_add_value = {
-		value = 30
-	}
+	#This on action controls when the race takes place and fires the events before the race itself starts.
+	on_monthly_pulse = {
+		effect = {
+			scope:journal_entry = {
+				### Maintenance ###
+				#Checks on Host Country and Host State
+				if = {
+					limit = {
+						OR = {
+							NOT = { exists = var:curtiss_schneider_trophy_host_nation_var }
+							NOT = { exists = var:curtiss_schneider_trophy_host_state_var }
+						}
+					}
+					var:curtiss_schneider_trophy_host_state_region_var = {
+						ordered_scope_state = {
+							order_by = total_urbanization
+							max = 1
 
-	invalid = {
-		custom_tooltip = {
-			text = je_curtiss_schneider_trophy_race_invalid
-			has_global_variable = curtiss_schneider_trophy_race_end
+							scope:journal_entry = {
+								set_variable = {
+									name = curtiss_schneider_trophy_host_state_var
+									value = prev
+								}
+							}
+							owner = {
+								scope:journal_entry = {
+									set_variable = {
+										name = curtiss_schneider_trophy_host_nation_var
+										value = prev
+									}
+								}
+							}
+						}
+					}
+				}
+
+				### Race Preparation ###
+				#The first stage invites countries that are not currently part of the Schneider Trophy.
+				if = {
+					limit = {
+						curtiss_schneider_trophy_time_till_next_race_value <= 180
+						NOT = { has_variable = curtiss_schneider_trophy_preparation_stage_var }
+					}
+					#Starts preparation stages
+					set_variable = {
+						name = curtiss_schneider_trophy_preparation_stage_var
+						value = 1
+					}
+					#Invites new Countries
+					every_country = {
+						limit = {
+							curtiss_schneider_trophy_possible = yes
+						}
+						if = {
+							limit = {
+								NOT = { is_involved_in_journal_entry = je_curtiss_schneider_trophy_race_contextless }
+							}
+							trigger_event = {
+								id = curtiss.101
+								popup = yes
+							}
+						}
+						else = {
+							#Add a Notification
+						}
+					}
+				}
+				#The second stage fires preparation events (Financing, Pilot, etc.)
+				else_if = {
+					limit = {
+						curtiss_schneider_trophy_time_till_next_race_value <= 120
+						var:curtiss_schneider_trophy_preparation_stage_var ?= 1
+					}
+					#Sets next stage
+					set_variable = {
+						name = curtiss_schneider_trophy_preparation_stage_var
+						value = 2
+					}
+					every_scope_je_involved = {
+						set_variable = {
+							name = curtiss_schneider_trophy_point_var
+							value = 0
+						}
+						#Curtiss 103: State Support
+						trigger_event = {
+							id = curtiss.103
+							days = { 5 15 }
+						}
+						#Curtiss 108: Leading pilot
+						trigger_event = {
+							id = curtiss.108
+							days = { 25 35 }
+						}
+						#Curtiss 140: [Aeronautical Engineer] constructs new engine
+						trigger_event = {
+							id = curtiss.140
+							days = { 55 65 }
+						}
+					}
+				}
+				#The Race actually gets started
+				else_if = {
+					limit = { curtiss_schneider_trophy_time_till_next_race_value <= 10 }
+					#Resets Stage
+					remove_variable = curtiss_schneider_trophy_preparation_stage_var
+					#Resets timer
+					curtiss_schneider_trophy_set_time_till_next_race_effect = { DAYS = 730 }
+					#Resets Event Log (In case anything got missed)
+					curtiss_schneider_trophy_clear_event_log_containers_je_scope_effect = yes
+					#Starts the Race
+					set_variable = curtiss_schneider_trophy_race_active_var
+					every_scope_je_involved = {
+						#Sets Points up
+						set_variable = {
+							name = curtiss_schneider_trophy_point_var
+							value = 0
+						}
+						curtiss_add_x_schneider_trophy_points_effect = { AMOUNT = curtiss_schneider_trophy_before_race_points_score }
+						#Removes Variables
+						remove_variable = curtiss_schneider_trophy_training_good
+						remove_variable = curtiss_schneider_trophy_training_normal
+						remove_variable = curtiss_schneider_trophy_new_engine
+						if = {
+							limit = { is_player = yes }
+							trigger_event = curtiss.110
+						}
+					}
+					curtiss_schneider_trophy_race_ranking_set_up_effect_effect = { JOURNAL_ENTRY_SCOPE = scope:journal_entry }
+				}
+			}
 		}
 	}
 
-	progressbar = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_curtiss_schneider_trophy_race_contextless_complete_tt
+				scope:journal_entry = {
+					has_variable = curtiss_end_of_schneider_trophy
+				}
+			}
+		}
+	}
 
 	weight = 100
 
@@ -155,7 +346,13 @@ je_curtiss_schneider_trophy_race = {
 je_curtiss_air_combat = {
 	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
 
+	activation_description = {
+		always = yes
+	}
+
 	group = je_group_curtiss_aviation
+
+	scripted_button = curtiss_recall_pilot_button
 
 	on_monthly_pulse = {
 		effect = {
@@ -184,36 +381,44 @@ je_curtiss_air_combat = {
 		}
 	}
 
-	immediate = {
-	}
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	complete = {
-		is_at_war = no
-	}
+		trigger = {
+			is_at_war = no
+		}
 
-	on_complete = {
-		trigger_event = {
-			id = curtiss.301
-			popup = yes
+		effect = {
+			trigger_event = {
+				id = curtiss.301
+				popup = yes
+			}
 		}
 	}
 
-	invalid = {
-		custom_tooltip = {
-			text = curtiss_recalled_pilot_tt
-			has_variable = curtiss_recall_pilot_var
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = curtiss_recalled_pilot_tt
+				has_variable = curtiss_recall_pilot_var
+			}
 		}
-	}
 
-	on_invalid = {
-		remove_variable = curtiss_recall_pilot_var
-		trigger_event = {
-			id = curtiss.301
-			popup = yes
-		}
+        effect = {
+			remove_variable = curtiss_recall_pilot_var
+			trigger_event = {
+				id = curtiss.301
+				popup = yes
+			}
+        }
 	}
-
-	scripted_button = curtiss_recall_pilot_button
 
 	weight = 100
 
@@ -227,7 +432,21 @@ je_curtiss_air_combat = {
 je_curtiss_testplane_build = {
 	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
 
+	activation_description = {
+		always = yes
+	}
+
 	group = je_group_curtiss_aviation
+
+	current_value = {
+		value = var:curtiss_testplane_progress_var
+	}
+
+	goal_add_value = {
+		value = 12
+	}
+
+	progressbar = yes
 
 	on_monthly_pulse = {
 		effect = {
@@ -253,38 +472,27 @@ je_curtiss_testplane_build = {
 		}
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+			curtiss_has_active_pilot = yes
 		}
-		curtiss_has_active_pilot = yes
-	}
 
-	on_complete = {
-		trigger_event = {
-			id = curtiss.700
-			popup = yes
+		effect = {
+			trigger_event = {
+				id = curtiss.700
+				popup = yes
+			}
 		}
 	}
-
-	fail = {
-	}
-
-	on_fail = {
-	}
-
-	current_value = {
-		value = var:curtiss_testplane_progress_var
-	}
-
-	goal_add_value = {
-		value = 12
-	}
-
-	invalid = {
-	}
-
-	progressbar = yes
 
 	weight = 25
 }
@@ -295,6 +503,10 @@ je_curtiss_testplane_build = {
 
 je_curtiss_airline_company = {
 	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	activation_description = {
+		always = yes
+	}
 
 	group = je_group_curtiss_aviation
 
@@ -341,7 +553,21 @@ je_curtiss_airline_company = {
 je_curtiss_spruce_goose_build = {
 	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
 
+	activation_description = {
+		always = yes
+	}
+
 	group = je_group_curtiss_aviation
+
+	current_value = {
+		value = var:curtiss_spruce_goose_progress
+	}
+
+	goal_add_value = {
+		value = 36
+	}
+
+	progressbar = yes
 
 	on_monthly_pulse = {
 		effect = {
@@ -367,37 +593,26 @@ je_curtiss_spruce_goose_build = {
 		}
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = curtiss.505
+				popup = yes
+			}
 		}
 	}
-
-	on_complete = {
-		trigger_event = {
-			id = curtiss.505
-			popup = yes
-		}
-	}
-
-	fail = {
-	}
-
-	on_fail = {
-	}
-
-	current_value = {
-		value = var:curtiss_spruce_goose_progress
-	}
-
-	goal_add_value = {
-		value = 36
-	}
-
-	invalid = {
-	}
-
-	progressbar = yes
 
 	weight = 25
 }
@@ -407,7 +622,21 @@ je_curtiss_spruce_goose_build = {
 je_curtiss_hindenburg_build = {
 	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
 
+	activation_description = {
+		always = yes
+	}
+
 	group = je_group_curtiss_aviation
+
+	current_value = {
+		value = var:curtiss_hindenburg_progress
+	}
+
+	goal_add_value = {
+		value = 24
+	}
+
+	progressbar = yes
 
 	on_monthly_pulse = {
 		effect = {
@@ -425,37 +654,26 @@ je_curtiss_hindenburg_build = {
 		}
 	}
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = curtiss.511
+				popup = yes
+			}
 		}
 	}
-
-	on_complete = {
-		trigger_event = {
-			id = curtiss.511
-			popup = yes
-		}
-	}
-
-	fail = {
-	}
-
-	on_fail = {
-	}
-
-	current_value = {
-		value = var:curtiss_hindenburg_progress
-	}
-
-	goal_add_value = {
-		value = 24
-	}
-
-	invalid = {
-	}
-
-	progressbar = yes
 
 	weight = 25
 }
@@ -464,6 +682,10 @@ je_curtiss_hindenburg_build = {
 
 je_curtiss_lindbergh_generic = {
 	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	activation_description = {
+		always = yes
+	}
 
 	group = je_group_curtiss_aviation
 
@@ -487,66 +709,83 @@ je_curtiss_lindbergh_generic = {
         has_technology_researched = curtiss_modern_aviation_tech
     }
 
-	complete = {
-		game_date >= 1920.1.1
-		NOT = {
-			game_date >= 1927.1.1
-		}
-		any_scope_state = {
-			any_scope_building = {
-				is_building_type = building_airport
-				is_under_construction = no
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			game_date >= 1920.1.1
+			NOT = {
+				game_date >= 1927.1.1
 			}
-		}
-		any_scope_state = {
-			any_scope_building = {
-				modifier:goods_output_aeroplanes_add > 0
-			}
-		}
-		OR = {
 			any_scope_state = {
-				state_region = s:STATE_ILE_DE_FRANCE
-			}
-			any_country = {
-				has_diplomatic_pact = {
-					who = ROOT
-					type = airspace_convention
+				any_scope_building = {
+					is_building_type = building_airport
+					is_under_construction = no
 				}
+			}
+			any_scope_state = {
+				any_scope_building = {
+					modifier:goods_output_aeroplanes_add > 0
+				}
+			}
+			OR = {
 				any_scope_state = {
 					state_region = s:STATE_ILE_DE_FRANCE
 				}
-			}
-		}
-		OR = {
-			any_scope_state = {
-				state_region = s:STATE_NEW_YORK
-			}
-			any_country = {
-				has_diplomatic_pact = {
-					who = ROOT
-					type = airspace_convention
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = airspace_convention
+					}
+					any_scope_state = {
+						state_region = s:STATE_ILE_DE_FRANCE
+					}
 				}
+			}
+			OR = {
 				any_scope_state = {
 					state_region = s:STATE_NEW_YORK
 				}
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = airspace_convention
+					}
+					any_scope_state = {
+						state_region = s:STATE_NEW_YORK
+					}
+				}
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = curtiss.40
+				popup = yes
 			}
 		}
 	}
 
-	on_complete = {
-		trigger_event = {
-			id = curtiss.40
-			popup = yes
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			has_global_variable = curtiss_lindbergh_happened
 		}
-	}
-
-	invalid = {
-		has_global_variable = curtiss_lindbergh_happened
 	}
 }
 
 je_curtiss_lindbergh_usa = {
 	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	activation_description = {
+		always = yes
+	}
 
 	group = je_group_curtiss_aviation
 
@@ -568,61 +807,74 @@ je_curtiss_lindbergh_usa = {
         has_technology_researched = curtiss_modern_aviation_tech
     }
 
-	complete = {
-		game_date >= 1920.1.1
-		NOT = {
-			game_date >= 1927.1.1
-		}
-		any_scope_state = {
-			any_scope_building = {
-				is_building_type = building_airport
-				is_under_construction = no
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			game_date >= 1920.1.1
+			NOT = {
+				game_date >= 1927.1.1
 			}
-		}
-		any_scope_state = {
-			any_scope_building = {
-				modifier:goods_output_aeroplanes_add > 0
-			}
-		}
-		OR = {
 			any_scope_state = {
-				state_region = s:STATE_ILE_DE_FRANCE
-			}
-			any_country = {
-				has_diplomatic_pact = {
-					who = ROOT
-					type = airspace_convention
+				any_scope_building = {
+					is_building_type = building_airport
+					is_under_construction = no
 				}
+			}
+			any_scope_state = {
+				any_scope_building = {
+					modifier:goods_output_aeroplanes_add > 0
+				}
+			}
+			OR = {
 				any_scope_state = {
 					state_region = s:STATE_ILE_DE_FRANCE
 				}
-			}
-		}
-		OR = {
-			any_scope_state = {
-				state_region = s:STATE_NEW_YORK
-			}
-			any_country = {
-				has_diplomatic_pact = {
-					who = ROOT
-					type = airspace_convention
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = airspace_convention
+					}
+					any_scope_state = {
+						state_region = s:STATE_ILE_DE_FRANCE
+					}
 				}
+			}
+			OR = {
 				any_scope_state = {
 					state_region = s:STATE_NEW_YORK
 				}
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = airspace_convention
+					}
+					any_scope_state = {
+						state_region = s:STATE_NEW_YORK
+					}
+				}
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = curtiss.41
+				popup = yes
 			}
 		}
 	}
 
-	on_complete = {
-		trigger_event = {
-			id = curtiss.41
-			popup = yes
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			has_global_variable = curtiss_lindbergh_happened
 		}
-	}
-
-	invalid = {
-		has_global_variable = curtiss_lindbergh_happened
 	}
 }
 
@@ -633,7 +885,21 @@ je_curtiss_lindbergh_usa = {
 je_curtiss_zeppelin_expedition = {
 	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
 
+	activation_description = {
+		always = yes
+	}
+
 	group = je_group_curtiss_aviation
+
+	current_value = {
+		value = var:curtiss_zeppelin_progress
+	}
+
+	goal_add_value = {
+		value = 16
+	}
+
+	progressbar = yes
 
 	on_weekly_pulse = {
 		random_events = {
@@ -649,31 +915,8 @@ je_curtiss_zeppelin_expedition = {
 			10 = curtiss.537 #Curtiss 537: Icy propellers
 			10 = curtiss.538 #Curtiss 538: Zeppelin anchorage
 			10 = curtiss.539 #Curtiss 539: Engine failure!
+			15 = curie.522 #Curie 522: Nacreous Cloud
 		}
-	}
-
-	immediate = {
-	}
-
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
-
-	on_complete = {
-		trigger_event = {
-			id = curtiss.523
-			popup = yes
-		}
-	}
-
-	current_value = {
-		value = var:curtiss_zeppelin_progress
-	}
-
-	goal_add_value = {
-		value = 16
 	}
 
 	status_desc = {
@@ -699,24 +942,48 @@ je_curtiss_zeppelin_expedition = {
 		}
 	}
 
-    fail = {
-		custom_tooltip = {
-			text = je_zeppelin_expedition_fail
-			var:curtiss_zeppelin_danger >= 3
-		}
-    }
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
 
-	on_fail = {
-		trigger_event = {
-			id = curtiss.524
-			popup = yes
+		trigger = {
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = curtiss.523
+				popup = yes
+			}
 		}
 	}
 
-	invalid = {
-	}
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
 
-	progressbar = yes
+		trigger = {
+			custom_tooltip = {
+				text = je_zeppelin_expedition_fail
+				var:curtiss_zeppelin_danger >= 3
+			}
+		}
+
+        effect = {
+			trigger_event = {
+				id = curtiss.524
+				popup = yes
+			}
+        }
+	}
 
 	weight = 25
 
@@ -730,31 +997,11 @@ je_curtiss_zeppelin_expedition = {
 je_curtiss_lost_horizon = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	activation_description = {
+		always = yes
+	}
+
 	group = je_group_curtiss_aviation
-
-	immediate = {
-	}
-
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
-
-	on_complete = {
-		set_variable = curtiss_road_to_shangrila
-		trigger_event = {
-			id = curtiss.255
-			popup = yes
-			days = 3
-		}
-	}
-
-	fail = {
-	}
-
-	on_fail = {
-	}
 
 	current_value = {
 		value = var:curtiss_shangrila_progress
@@ -764,10 +1011,30 @@ je_curtiss_lost_horizon = {
 		value = 3
 	}
 
-	invalid = {
-	}
-
 	progressbar = yes
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+
+		effect = {
+			set_variable = curtiss_road_to_shangrila
+			trigger_event = {
+				id = curtiss.255
+				popup = yes
+				days = 3
+			}
+		}
+	}
 
 	weight = 100
 

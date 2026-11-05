@@ -67,10 +67,7 @@ ai_mountain_expedition_1_effect = {
 				douglas_has_unconquered_level_1_summit_trigger = yes
 				any_country = {
 					douglas_has_unconquered_level_1_summit_trigger = yes
-					has_diplomatic_pact = {
-						who = ROOT
-						type = mountaineering_license
-					}
+					mr_has_research_charter_trigger = yes
 				}
 			}
 			NOR = {
@@ -116,10 +113,7 @@ ai_mountain_expedition_2_effect = {
 				douglas_has_unconquered_level_2_summit_trigger = yes
 				any_country = {
 					douglas_has_unconquered_level_2_summit_trigger = yes
-					has_diplomatic_pact = {
-						who = ROOT
-						type = mountaineering_license
-					}
+					mr_has_research_charter_trigger = yes
 				}
 			}
 			NOR = {
@@ -164,10 +158,7 @@ ai_mountain_expedition_3_effect = {
 				douglas_has_unconquered_level_3_summit_trigger = yes
 				any_country = {
 					douglas_has_unconquered_level_3_summit_trigger = yes
-					has_diplomatic_pact = {
-						who = ROOT
-						type = mountaineering_license
-					}
+					mr_has_research_charter_trigger = yes
 				}
 			}
 			NOR = {
@@ -206,10 +197,7 @@ ai_mountain_expedition_4_effect = {
 				douglas_has_unconquered_level_4_summit_trigger = yes
 				any_country = {
 					douglas_has_unconquered_level_4_summit_trigger = yes
-					has_diplomatic_pact = {
-						who = ROOT
-						type = mountaineering_license
-					}
+					mr_has_research_charter_trigger = yes
 				}
 			}
 			NOR = {
@@ -250,10 +238,7 @@ ai_mountain_expedition_5_effect = {
 				douglas_has_unconquered_level_5_summit_trigger = yes
 				any_country = {
 					douglas_has_unconquered_level_5_summit_trigger = yes
-					has_diplomatic_pact = {
-						who = ROOT
-						type = mountaineering_license
-					}
+					mr_has_research_charter_trigger = yes
 				}
 			}
 			NOR = {
@@ -868,10 +853,7 @@ ai_naturalist_effect = {
 					OR = {
 						ito_country_is_potential_botanical_expedition_target_no_tooltip_trigger = yes
 						any_country = {
-							has_diplomatic_pact = {
-								who = ROOT
-								type = botanical_license
-							}
+							mr_has_research_charter_trigger = yes
 							ito_country_is_potential_botanical_expedition_target_no_tooltip_trigger = yes
 						}
 					}
@@ -2555,8 +2537,8 @@ ai_nbc_effect = {
 			}
 			any_scope_state = {
 				any_scope_building = {
-					is_building_type = building_railway
-					has_active_production_method = pm_elgar_radio_stations
+					is_building_type = building_tesla_telegraph
+					has_active_production_method = pm_tesla_radio_station
 				}
 				percent >= 0.35
 			}
@@ -2587,8 +2569,8 @@ ai_nbc_effect = {
 				has_law = law_type:law_anarchy
 			}
 			any_scope_building = {
-				is_building_type = building_railway
-				has_active_production_method = pm_elgar_radio_stations
+				is_building_type = building_tesla_telegraph
+				has_active_production_method = pm_tesla_radio_station
 			}
 		}
 
@@ -2952,36 +2934,25 @@ ai_balloonist_recruitment_effect = {
 	if = {
 		limit = { #Only valid for countries that have montgolfier balloons but no balloonist
 			has_technology_researched = curtiss_montgolfier_balloon_tech
-			curtiss_no_balloonist_no_tooltip_trigger = yes
-			curtiss_balloonist_recruitment_score > 0
+			santos_no_balloonist_no_tooltip_trigger = yes
+			santos_balloonist_recruitment_score > 0
 		}
 
 		#Creates a balloonist
-		create_balloonist_effect = yes
+		create_new_character_base_effect = { CHARACTER = balloonist PROJECT = santos }
+		santos_set_new_balloonist_as_balloonist_effect = yes
 		#Balloonist's first flight (hidden)
 		trigger_event = {
-			id = curtiss.657
+			id = santos.657
 			popup = yes
 			days = { 1 7 }
 		}
-	}
-	#Foundation of the Gordon Bennett Cup
-	if = {
-		limit = { #Only valid for countries that have a balloonist
-			NOT = {
-				has_global_variable = santos_gordon_bennett_cup_found_global_var
-			}
-			curtiss_has_balloonist_trigger = yes
-			mr_gui_has_vikelas_international_sports_tech_trigger = yes
-			mr_gui_has_early_aviation_tech_trigger = yes
+		add_modifier = {
+			name = santos_balloon_contract_modifier
+			days = 365
 		}
-
-		#Gordon Bennett Cup established
-		set_global_variable = santos_gordon_bennett_cup_found_global_var
-		trigger_event = {
-			id = curtiss.681
-			popup = yes
-		}
+		#Activate AI
+		ai_start_ballooning_project_for_ai_effect = yes
 	}
 }
 
@@ -3124,12 +3095,6 @@ ai_mountaineer_effect = {
 
 			#Effect
 			add_journal_entry = { type = je_douglas_mountaineering_training }
-			je:je_douglas_mountaineering_training = {
-				add_modifier = {
-					name = douglas_mountaineering_training_modifier
-					multiplier = root.mr_local_project_cost_tiny_value
-				}
-			}
 			if = {
 				limit = {
 					has_variable = douglas_mountaineer_var
