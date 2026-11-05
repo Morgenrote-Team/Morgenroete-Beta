@@ -19,6 +19,7 @@ Morgenröte – Dawn of Flavor, Victoria 3 dünyasını kültür, güzellik ve y
     [*]Mühendislik
     [*]Kimya
     [*]Astronomi
+    [*]Fizik
     [*]Jeoloji
     [*]Paleontoloji
     [*]Doğa Tarihi
@@ -42,7 +43,7 @@ Vanilla dosyalarına mümkün olduğunca az müdahale etmeye çalışsak da baz�
 
 [img]https://i.imgur.com/TfiKms3.png[/img]
 [h1] Sürüm [/h1]
-Mevcut sürüm 2.8.3 "Mitsopoulos". Morgenröte, 1.13 sürümüyle uyumludur ve 1.7'ye kadar bağlantılı sürümleri bulunmaktadır.
+Mevcut sürüm 2.9.0 "Curie". Morgenröte, 1.15 sürümüyle uyumludur ve 1.7'ye kadar bağlantılı sürümleri bulunmaktadır.
 
 [img]https://i.imgur.com/Js8q5gp.png[/img]
 [h1] İçerik Üreticileri İçin Bilgiler [/h1]

@@ -19,6 +19,7 @@ Morgenröte – Dawn of Flavor is a Mod to enrich the world of Victoria 3 with c
     [*]Engineering
     [*]Chemistry
     [*]Astronomy
+    [*]Physics
     [*]Geology
     [*]Paleontology
     [*]Natural History
@@ -42,7 +43,7 @@ Although we try to touch as few vanilla files as necessary, we still need to ove
 
 [img]https://i.imgur.com/BjjffNY.png[/img]
 [h1] Version [/h1]
-The current version is 2.8.3 "Mitsopoulos". Morgenröte is compatible with 1.13 and has linked versions up to 1.7
+The current version is 2.9.0 "Curie". Morgenröte is compatible with 1.15 and has linked versions up to 1.7
 
 [img]https://i.imgur.com/FhcWzov.png[/img]
 [h1] Information for Creators [/h1]
