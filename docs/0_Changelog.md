@@ -5,3 +5,5 @@ Fixes:
 - Added missing locs to timeouts of Journal Entries.
 - Fixed various locs.
 - Fixed error spam and weird Journal Entry names for concluded Journal Entries.
+- Research Charter has a description now when doing treaties.
+- Fixed Balloonist Progress Bar Tooltips and Notification for Research Boost.
