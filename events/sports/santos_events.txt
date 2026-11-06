@@ -10,6 +10,473 @@ namespace = santos
 
 ###################
 
+#Santos 1: Text
+santos.1 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	hidden = yes
+
+	immediate = {
+		santos_stratospheric_flight_button_effect = yes
+	}
+}
+
+### Stratospheric Flight ###
+
+#Santos 301: Succesful Return
+santos.301 = {
+	dlc = dlc_morgenrote
+
+	placement = scope:santos_balloon_state
+
+	type = country_event
+
+	title = santos.301.t
+
+	desc = santos.301.d
+
+	flavor = santos.301.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/santos_pictures/santos_piccard_balloon.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_high_altitude.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+			}
+			save_scope_as = santos_balloon_state
+		}
+		santos_new_stratospheric_flight_altitude_effect = yes
+		if = {
+			limit = {
+				santos_altitude_record_global_broken_trigger = yes
+			}
+			medium_santos_ballooning_research_effect = yes
+			santos_balloon_country_altitude_record_effect = yes
+			post_notification = santos_balloon_altitude_record_notification
+		}
+		else_if = {
+			limit = {
+				santos_altitude_record_country_broken_trigger = yes
+				santos_altitude_record_global_broken_trigger = no
+			}
+			small_santos_ballooning_research_effect = yes
+			santos_balloon_country_altitude_record_effect = yes
+		}
+		else = {
+			santos_balloon_country_altitude_record_effect = yes
+		}
+
+		balloonist_level_up_effect = yes
+	}
+
+	option = {	#
+		name = santos.301.g
+		default_option = yes
+
+		if = {
+			limit = {
+				NOT = {
+					has_variable = santos_stratospheric_flight_successful_var
+				}
+			}
+			set_variable = santos_stratospheric_flight_successful_var
+		}
+		santos_balloon_country_altitude_experience_only_world_record_effect = yes
+		curie_add_x_physical_data_effect = { AMOUNT = santos_stratospheric_bonus_value }
+		add_modifier = {
+			name = santos_stratospheric_flight_success_modifier
+			years = 1
+		}
+	}
+}
+
+#Santos 302: Failure
+santos.302 = {
+	dlc = dlc_morgenrote
+
+	placement = scope:santos_balloon_state
+
+	type = country_event
+
+	title = santos.302.t
+
+	desc = santos.302.d
+
+	flavor = santos.302.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/santos_pictures/santos_stratospheric_flight.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_high_altitude.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+			}
+			save_scope_as = santos_balloon_state
+		}
+		var:santos_balloonist_var = {
+			save_scope_as = santos_balloonist_scope
+		}
+		random_scope_character = {
+			limit = {
+				is_ruler_of_own_country = yes
+			}
+			save_scope_as = santos_ruler_scope
+		}
+	}
+
+	option = {	#
+		name = santos.302.g
+		default_option = yes
+		if = {
+			limit = {
+				NOT = {
+					has_variable = santos_stratospheric_flight_successful_var
+				}
+			}
+			kill_physicist_effect = yes
+		}
+		kill_balloonist_effect = yes
+		add_modifier = {
+			name = santos_stratospheric_flight_failure_modifier
+			years = 2
+		}
+	}
+}
+
+### Positive Events ###
+
+#Santos 311: Stratospheric Flight: Normal Ascent
+santos.311 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	hidden = yes
+
+	cooldown = {
+		days = 7
+	}
+
+	immediate = {
+		santos_stratospheric_flight_log_normal_ascent_event_effect = yes
+	}
+}
+
+#Santos 312: Stratospheric Flight: Boost Ascent
+santos.312 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	hidden = yes
+
+	cooldown = {
+		days = 14
+	}
+
+	immediate = {
+		santos_stratospheric_flight_log_boost_ascent_event_effect = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = ambitious
+			}
+		  	factor = 3 #Ambitious Balloonist the best to do this
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				has_trait = innovative
+			}
+		  	factor = 2 #Also quite good
+		}
+		modifier = {
+			var:santos_balloonist_var ?= {
+				var:santos_balloonist_experience_var >= 200
+			}
+		  	factor = 1.5 #Experienced Balloonist will try
+		}
+	}
+}
+
+#Santos 313: Stratospheric Flight: Altitude Improvisation
+santos.313 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	hidden = yes
+
+	cooldown = {
+		days = 14
+	}
+
+	trigger = {
+		je:je_santos_stratospheric_flight = {
+			"scripted_bar_progress(santos_ballooning_danger_progress_bar)" >= 1
+		}
+	}
+
+	immediate = {
+		santos_stratospheric_flight_log_altitude_improvisation_event_effect = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:santos_balloonist_var ?= {
+				OR = {
+					has_trait = cautious
+					has_trait = innovative
+					has_trait = engineer
+				}
+			}
+		  	factor = 3 #Cautious Balloonist will try to fly more secure after risk has grown
+		}
+		modifier = {
+			curie_has_meteorological_physicist_no_tooltip_trigger = yes
+			var:curie_physicist_var ?= {
+				OR = {
+					has_trait = innovative
+					has_trait = erudite
+					has_trait = meticulous
+				}
+			}
+		  	factor = 3 #Heureka!
+		}
+	}
+}
+
+### Negative Events ###
+
+#Santos 321: Stratospheric Flight: Slow Ascent
+santos.321 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	hidden = yes
+
+	cooldown = {
+		days = 28
+	}
+
+	immediate = {
+		santos_stratospheric_flight_log_slow_ascent_event_effect = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:santos_balloonist_var ?= {
+				OR = {
+					var:santos_balloonist_var ?= { has_trait = reckless }
+					var:santos_balloonist_var ?= { has_trait = arrogant }
+					var:santos_balloonist_var ?= { has_trait = wrathful }
+					mr_character_has_negative_trait_trigger = yes
+				}
+			}
+			factor = 1.5 #Negative traits
+		}
+		modifier = {
+			has_technology_researched = logistics #Rip Panel
+		  	factor = 0.9
+		}
+		modifier = {
+			has_technology_researched = military_statistics #Bags of Fine Sand
+		  	factor = 0.9
+		}
+		modifier = {
+			has_technology_researched = mechanical_tools #Trail Rope
+		  	factor = 0.9
+		}
+	}
+}
+
+#Santos 322: Stratospheric Flight: Broken Rope
+santos.322 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	hidden = yes
+
+	cooldown = {
+		days = 14
+	}
+
+	immediate = {
+		santos_stratospheric_flight_log_broken_rope_event_effect = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:santos_balloonist_var ?= {
+				OR = {
+					var:santos_balloonist_var ?= { has_trait = reckless }
+					var:santos_balloonist_var ?= { has_trait = arrogant }
+					var:santos_balloonist_var ?= { has_trait = wrathful }
+					mr_character_has_negative_trait_trigger = yes
+				}
+			}
+			factor = 2 #Negative traits
+		}
+		modifier = {
+			OR = {
+                curie_has_meteorological_physicist_no_tooltip_trigger = yes
+                var:santos_balloonist_var ?= {
+					OR = {
+						has_trait = curie_meteorological_physicist
+						has_trait = engineer
+					}
+                }
+            }
+		  	factor = 0.1 #Meteorologist or balloonist with meteorological/engineer skills will notice problems before flight (not in all cases)
+		}
+	}
+}
+
+#Santos 323: Stratospheric Flight: Defective Valve
+santos.323 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	hidden = yes
+
+	cooldown = {
+		days = 14
+	}
+
+	immediate = {
+		santos_stratospheric_flight_log_defective_valve_event_effect = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:santos_balloonist_var ?= {
+				OR = {
+					var:santos_balloonist_var ?= { has_trait = reckless }
+					var:santos_balloonist_var ?= { has_trait = arrogant }
+					var:santos_balloonist_var ?= { has_trait = wrathful }
+					mr_character_has_negative_trait_trigger = yes
+				}
+			}
+			factor = 2 #Negative traits
+		}
+		modifier = {
+			OR = {
+                curie_has_meteorological_physicist_no_tooltip_trigger = yes
+                var:santos_balloonist_var ?= {
+					OR = {
+						has_trait = curie_meteorological_physicist
+						has_trait = engineer
+					}
+                }
+            }
+		  	factor = 0.1 #Meteorologist or balloonist with meteorological/engineer skills will notice problems before flight (not in all cases)
+		}
+	}
+}
+
+#Santos 324: Stratospheric Flight: Heat Buildup
+santos.324 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	hidden = yes
+
+	cooldown = {
+		days = 14
+	}
+
+	trigger = {
+		NAND = {
+			has_technology_researched = zeppelins
+			has_technology_researched = curie_rocket_science_tech
+		}
+	}
+
+	immediate = {
+		santos_stratospheric_flight_log_heat_buildup_event_effect = yes
+	}
+}
+
+#Santos 325: Stratospheric Flight: Material Fatigue
+santos.325 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	hidden = yes
+
+	cooldown = {
+		days = 14
+	}
+
+	trigger = {
+		NAND = {
+			has_technology_researched = vulcanization #Vulcanized Cotton Fabric
+			has_technology_researched = art_silk #Vulcanized Silk Fabric
+		}
+	}
+
+	immediate = {
+		santos_stratospheric_flight_log_material_fatigue_event_effect = yes
+	}
+}
+
+#Santos 326: Stratospheric Flight: Hydrogen Fire
+santos.326 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	hidden = yes
+
+	cooldown = {
+		days = 14
+	}
+
+	trigger = {
+		curtiss_has_helium = no
+	}
+
+	immediate = {
+		santos_stratospheric_flight_log_hydrogen_fire_effect = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			OR = {
+                curie_has_meteorological_physicist_no_tooltip_trigger = yes
+                var:santos_balloonist_var ?= {
+					OR = {
+						has_trait = curie_meteorological_physicist
+						has_trait = engineer
+					}
+                }
+            }
+		  	factor = 0.1 #Meteorologist or balloonist with meteorological/engineer skills will notice problems before flight (not in all cases)
+		}
+	}
+}
+
 #################################################################################
 
 ### Ballooon Crossing ###
@@ -1402,7 +1869,7 @@ santos.505 = {
 	}
 }
 
-#Santos 506: Balloonist returns with animal (Naked Mole-Rat)
+#Santos 506: Balloonist returns with animal (Koala)
 santos.506 = {
 	dlc = dlc_morgenrote
 

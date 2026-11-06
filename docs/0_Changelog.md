@@ -16,7 +16,7 @@ Fixes:
 - Added Meteorology Concept to the Weather Observation PM in the observatory to make it clearer that you need a meteorologist to expand it.
 - Added Geomagnetism Concept to the Geomagnetic Observatory PM in the observatory to make it clearer that you need a physicist and where to find the option to do enable it.
 - Added vanilla ideologies to overwritten vanilla writers.
-- - Fixed a Bug giving the balloonist not the right record prestige.
+- Fixed a Bug giving the balloonist not the right record prestige.
 
 Characters:
 - Improved Lepsius DNA.

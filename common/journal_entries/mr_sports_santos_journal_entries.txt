@@ -337,12 +337,8 @@ je_santos_balloon_crossing = {
 		container = "custom_widget_container_5"
 	}
 
-	immediate = {
-		scope:journal_entry = {
-			add_modifier = {
-				name = santos_balloon_crossing_cost_modifier
-			}
-		}
+	modifiers_while_active = {
+		santos_balloon_crossing_cost_modifier
 	}
 
 	#This on action controls the crossing itself. It only does anything if the crossing is currently ongoing.
@@ -487,6 +483,185 @@ je_santos_balloon_crossing = {
 						trigger_event = { id = santos.441 }
 					}
 				}
+			}
+		}
+	}
+
+	timeout = 365
+
+	weight = 100
+
+	should_be_pinned_by_default_uninvolved_or_context = yes
+}
+
+### Stratospheric Flight ###
+je_santos_stratospheric_flight = {
+	icon = "gfx/interface/icons/event_icons/event_high_altitude.dds"
+
+	activation_description = {
+		always = yes
+	}
+
+	group = je_group_santos_ballooning
+
+	scripted_progress_bar = santos_ballooning_progress_progress_bar
+	scripted_progress_bar = santos_ballooning_danger_progress_bar
+
+	widget = {
+		gui = "gui/journal_entry_widgets/mr_character_je_widgets.gui"
+		name = "santos_stratospheric_flight_header"
+		container = "custom_widget_container_je_icon"
+	}
+
+	widget = {
+		gui = "gui/journal_entry_widgets/santos_je_widgets.gui"
+		name = "widget_stratospheric_flight_event_list_widget"
+		container = "custom_widget_container_6"
+	}
+
+	modifiers_while_active = {
+		santos_stratospheric_flight_cost_modifier
+	}
+
+	#This on action controls the crossing itself. It only does anything if the crossing is currently ongoing.
+	on_weekly_pulse = {
+		effect = {
+			trigger_event = {
+				days = { 0 30 }
+				on_action = santos_stratospheric_flight_on_action
+			}
+		}
+	}
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_santos_balloon_crossing_goal
+				je:je_santos_stratospheric_flight = {
+					"scripted_bar_progress(santos_ballooning_progress_progress_bar)" >= 10
+				}
+			}
+		}
+
+		effect = {
+			var:santos_balloonist_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = santos_stratospheric_flight_successful_var
+					}
+				}
+				var:curie_physicist_var ?= {
+					set_character_busy_and_immortal = no
+				}
+			}
+			trigger_event = {
+				id = santos.301
+			}
+		}
+	}
+
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = santos_stop_balloonist_project_tt
+				NOT = {
+					has_variable = santos_balloonist_var
+				}
+			}
+		}
+
+        effect = {
+			var:santos_balloonist_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = santos_stratospheric_flight_successful_var
+					}
+				}
+				var:curie_physicist_var ?= {
+					set_character_busy_and_immortal = no
+				}
+			}
+			show_as_tooltip = {
+				scope:journal_entry = {
+					remove_modifier = santos_stratospheric_flight_cost_modifier
+				}
+			}
+        }
+	}
+
+	#Failure
+	outcome = {
+		header = je_standard_failure_header
+		effect_header = je_standard_on_failure_header
+		conclusion_desc = je_standard_failure_conclusion_desc
+		color = "blue_negative"
+
+		trigger = {
+			custom_tooltip = {
+				text = santos_ballooning_danger_progress_bar_at_full_tt
+				je:je_santos_stratospheric_flight = {
+					"scripted_bar_progress(santos_ballooning_danger_progress_bar)" >= 3
+				}
+			}
+		}
+
+        effect = {
+			var:santos_balloonist_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = santos_stratospheric_flight_successful_var
+					}
+				}
+				var:curie_physicist_var ?= {
+					set_character_busy_and_immortal = no
+				}
+			}
+			trigger_event = {
+				id = santos.302
+			}
+		}
+	}
+
+	#Timeout
+	outcome = {
+		header = JOURNAL_ENTRY_TIMEOUT
+		effect_header = JOURNAL_ENTRY_ON_TIMEOUT
+		flags = { timeout }
+		conclusion_desc = JOURNAL_ENTRY_TIMEOUT_CONCLUSION_DESC
+		effect = {
+			var:santos_balloonist_var ?= {
+				set_character_busy_and_immortal = no
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = santos_stratospheric_flight_successful_var
+					}
+				}
+				var:curie_physicist_var ?= {
+					set_character_busy_and_immortal = no
+				}
+			}
+			trigger_event = {
+				id = santos.302
 			}
 		}
 	}
