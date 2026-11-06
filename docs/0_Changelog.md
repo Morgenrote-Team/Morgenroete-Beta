@@ -8,3 +8,4 @@ Fixes:
 - Research Charter has a description now when doing treaties.
 - Fixed Balloonist Progress Bar Tooltips and Notification for Research Boost.
 - Hopefully fixed the Telegram Event showing a NULL_STATE instead of the neighbour state.
+- Changed Balloon Crossing Bar to a scripted progress bar.
