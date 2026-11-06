@@ -1,0 +1,93 @@
+name: ParaTranz - Push Source
+
+# Uploads localization/english to every ParaTranz project configured for this branch
+# in .github/paratranz-targets.json. Each project runs as its own job, so one failure
+# does not stop the others. Branches are chosen in that file only; on a branch it
+# does not mention, the workflow ends after reading it.
+# Automatic runs (on push) are switched per channel with repository variables
+# PARATRANZ_AUTO_<CHANNEL>, e.g. PARATRANZ_AUTO_BETA = true. Unset means off.
+# Manual runs always push.
+# Needs: secret PARATRANZ_TOKEN (an admin of every target project).
+
+on:
+  push:
+    paths: ["localization/english/**"]
+  workflow_dispatch:
+    inputs:
+      delete-files:
+        description: "Also delete ParaTranz files that no longer exist in the repo"
+        type: boolean
+        default: false
+
+concurrency:
+  group: paratranz-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  targets:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.read.outputs.matrix }}
+      any: ${{ steps.read.outputs.any }}
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with:
+          sparse-checkout: .github/paratranz-targets.json
+          sparse-checkout-cone-mode: false
+
+      - name: Read targets for ${{ github.ref_name }}
+        id: read
+        env:
+          BRANCH: ${{ github.ref_name }}
+          EVENT: ${{ github.event_name }}
+          REPO_VARS: ${{ toJSON(vars) }}
+        run: |
+          python3 - <<'EOF'
+          import json, os, re
+          config = json.load(open(".github/paratranz-targets.json", encoding="utf-8"))
+          repo_vars = json.loads(os.environ["REPO_VARS"] or "{}")
+          automatic = os.environ["EVENT"] == "push"
+          targets = []
+          for name, channel in config["channels"].items():
+              if channel["branch"] != os.environ["BRANCH"]:
+                  continue
+              switch = "PARATRANZ_AUTO_" + re.sub(r"\W", "_", name).upper()
+              if automatic and repo_vars.get(switch, "").strip().lower() != "true":
+                  print(f"::notice::Channel {name}: automatic push is off (set repository variable {switch} to true to enable)")
+                  continue
+              targets += channel["targets"]
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as out:
+              out.write(f"matrix={json.dumps(targets, ensure_ascii=False)}\n")
+              out.write(f"any={'true' if targets else 'false'}\n")
+          for t in targets:
+              print(f"{t['name']}: project {t['project']}, folder {t['prefix'] or '(root)'}")
+          if not targets:
+              print(f"::notice::Nothing to push for branch {os.environ['BRANCH']}")
+          EOF
+
+  push:
+    needs: targets
+    if: needs.targets.outputs.any == 'true'
+    name: push (${{ matrix.name }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      # one token shares one rate limit (480 requests/min), so go one project at a time
+      max-parallel: 1
+      matrix:
+        include: ${{ fromJSON(needs.targets.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests
+
+      - name: Push source text to project ${{ matrix.project }}
+        env:
+          PARATRANZ_TOKEN: ${{ secrets.PARATRANZ_TOKEN }}
+          PARATRANZ_PROJECT: ${{ matrix.project }}
+          PARATRANZ_PREFIX: ${{ matrix.prefix }}
+        run: python tools/paratranz_sync.py push ${{ inputs.delete-files && '--delete-files' || '' }}

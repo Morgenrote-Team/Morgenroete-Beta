@@ -19,6 +19,7 @@ Morgenröte – Dawn of Flavor (모르겐뢰테 - 정취의 여명)는 빅토리
     [*]공학
     [*]화학
     [*]천문학
+    [*]물리학
     [*]지질학
     [*]고생물학
     [*]자연사
@@ -42,7 +43,7 @@ Morgenröte – Dawn of Flavor (모르겐뢰테 - 정취의 여명)는 빅토리
 
 [img]https://i.imgur.com/tn44uPS.png[/img]
 [h1] 버전 [/h1]
-현재 최신 버전은 2.8.3 "Mitsopoulos"입니다. Morgenröte는 버전 1.13에 최적화되어 있으며 버전 1.7까지 연계됩니다.
+현재 최신 버전은 2.9.0 "Curie"입니다. Morgenröte는 버전 1.15에 최적화되어 있으며 버전 1.7까지 연계됩니다.
 
 [img]https://i.imgur.com/SnU12Jf.png[/img]
 [h1] 크리에이터 안내 [/h1]

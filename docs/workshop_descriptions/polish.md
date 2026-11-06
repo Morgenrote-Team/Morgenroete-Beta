@@ -19,6 +19,7 @@ Morgenröte – Dawn of Flavor to mod, który wzbogaca świat Victorii 3 o kultu
     [*]Inżynieria
     [*]Chemia
     [*]Astronomia
+    [*]Fizyka
     [*]Geologia
     [*]Paleontologia
     [*]Historia Naturalna
@@ -42,7 +43,7 @@ Chociaż staramy się ingerować w jak najmniejszą liczbę plików podstawowej 
 
 [img]https://i.imgur.com/BjjffNY.png[/img]
 [h1] Wersja [/h1]
-Aktualna wersja moda to 2.8.3 „Mitsopoulos”. Morgenröte jest kompatybilny z wersją gry 1.13 i ma powiązane wersje do 1.7
+Aktualna wersja moda to 2.9.0 „Skłodowska Curie”. Morgenröte jest kompatybilny z wersją gry 1.13 i ma powiązane wersje do 1.7
 
 [img]https://i.imgur.com/FhcWzov.png[/img]
 [h1] Informacje dla Twórców [/h1]

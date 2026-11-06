@@ -19,6 +19,7 @@ Morgenröte – Flavor Dawn est un mod destiné à enrichir l'univers de Victori
     [*]Ingénierie
     [*]Chimie
     [*]Astronomie
+    [*]Physique
     [*]Géologie
     [*]Paléontologie
     [*]Histoire naturelle
@@ -42,7 +43,7 @@ Même si nous nous efforçons de modifier le moins possible les fichiers d'origi
 
 [img]https://i.imgur.com/BjjffNY.png[/img]
 [h1] Version [/h1]
-La version actuelle est la 2.8.3 « Mitsopoulos ». Morgenröte est compatible avec la version 1.13 et propose des versions liées jusqu'à la 1.7.
+La version actuelle est la 2.9.0 « Curie ». Morgenröte est compatible avec la version 1.15 et propose des versions liées jusqu'à la 1.7.
 
 [img]https://i.imgur.com/CB7m7qZ.png[/img]
 [h1] Informations pour les Créateurs [/h1]
