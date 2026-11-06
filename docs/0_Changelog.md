@@ -17,6 +17,7 @@ Fixes:
 - Added Geomagnetism Concept to the Geomagnetic Observatory PM in the observatory to make it clearer that you need a physicist and where to find the option to do enable it.
 - Added vanilla ideologies to overwritten vanilla writers.
 - Fixed a Bug giving the balloonist not the right record prestige.
+- No more multiple balloonist action (you need an ACTIVE/not busy balloonist).
 
 Characters:
 - Improved Lepsius DNA.
