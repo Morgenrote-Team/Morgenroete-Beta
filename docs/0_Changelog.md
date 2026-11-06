@@ -9,4 +9,6 @@ Fixes:
 - Fixed Balloonist Progress Bar Tooltips and Notification for Research Boost.
 - Hopefully fixed the Telegram Event showing a NULL_STATE instead of the neighbour state.
 - Changed Balloon Crossing Bar to a scripted progress bar.
-- Favorable Weather got it's icon back
+- Favorable Weather got it's icon back.
+- Added Meteorology Concept to the Weather Observation PM in the observatory to make it clearer that you need a meteorologist to expand it.
+- Added Geomagnetism Concept to the Geomagnetic Observatory PM in the observatory to make it clearer that you need a physicist and where to find the option to do enable it.
