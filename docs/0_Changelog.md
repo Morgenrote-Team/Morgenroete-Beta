@@ -11,5 +11,7 @@ Fixes:
 Quality of Life:
 - Reworked more progress bars to use progress conditions, so you can actually see all potential progress conditions.
 
+Changes: Removed the cost from the Balloon Ride JE as default JEs shouldn't cost any money and the balloonist gets paid by the customers of the ride.
+
 Characters:
 -
