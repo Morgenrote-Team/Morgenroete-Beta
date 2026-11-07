@@ -22,4 +22,5 @@ Fixes:
 
 Characters:
 - Anders Jonas Ångström (Swedish Physicist)
+- Hugo Hildebrand Hildebrandsson (Swedish Physicist)
 - Improved Lepsius DNA.
