@@ -18,4 +18,5 @@ Fixes:
 - Added vanilla ideologies to overwritten vanilla writers.
 
 Characters:
+- Anders Jonas Ångström (Swedish Physicist)
 - Improved Lepsius DNA.
