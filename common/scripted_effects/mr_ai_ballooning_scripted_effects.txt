@@ -33,6 +33,59 @@ ai_ballooning_automation_effect = {
 			# This allows for weighting using various factors.
 			# Entries must never end up with a negative weight, so penalties are always smaller than the base weight.
 			random_list = {
+				### Stratopsheric Flight ###
+				400 = { #High Priority - Stratospheric Flights are unique and give the biggest rewards
+					#Triggers
+					trigger = {
+						NOT = {
+							has_variable = santos_stratospheric_flight_successful_var #Will only do one flight
+						}
+						santos_has_active_balloonist_trigger = yes
+						curie_has_active_meteorological_physicist_trigger = yes
+						mr_gui_has_high_altitude_balloon_tech_trigger = yes
+						mr_gui_has_electric_arc_process_tech_trigger = yes
+						custom_tooltip = {
+							text = MR_BALLOONIST_HAS_HYDROGEN_BALLOON_TRIGGER_TT
+							var:santos_balloonist_var ?= {
+								var:santos_balloon_fuel_var ?= flag:santos_balloon_fuel_hydrogen_flag
+							}
+						}
+						custom_tooltip = {
+							text = MR_BALLOONIST_NO_RECENT_STRATOSPHERIC_FLIGHT_TRIGGER_TT
+							NOR = {
+								has_modifier = santos_stratospheric_flight_success_modifier
+								has_modifier = santos_stratospheric_flight_failure_modifier
+							}
+						}
+						NOT = {
+							has_journal_entry = je_santos_stratospheric_flight
+						}
+					}
+
+					#Modifiers / Weighting
+					modifier = {
+						if = {
+							limit = {
+								var:santos_balloonist_var ?= {
+									OR = {
+										has_trait = cautious
+										has_trait = ambitious
+									}
+								}
+							}
+							add = 100
+						}
+						if = {
+							limit = {
+								santos_balloonist_experience_at_least_no_tooltip_trigger = { VALUE = 150 } #Experienced Balloonists dare more
+							}
+							add = 100
+						}
+					}
+
+					#Effect
+					santos_stratospheric_flight_button_effect = yes
+				}
 				### Balloon Crossing ###
 				300 = { #High Priority - Crossings are unique and give the biggest rewards
 					#Triggers

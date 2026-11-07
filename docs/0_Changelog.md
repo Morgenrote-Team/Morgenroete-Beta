@@ -2,6 +2,7 @@ Changelog fot 2.9.0a "Curie"
 
 Graphics:
 - Added more diverse mobilization option illustrations.
+- Added some missing Journal Entry Group illustrations.
 
 Fixes:
 - The Improve Forestry Project Map Mode now also shows states in which the project has been finished.
@@ -16,6 +17,12 @@ Fixes:
 - Added Meteorology Concept to the Weather Observation PM in the observatory to make it clearer that you need a meteorologist to expand it.
 - Added Geomagnetism Concept to the Geomagnetic Observatory PM in the observatory to make it clearer that you need a physicist and where to find the option to do enable it.
 - Added vanilla ideologies to overwritten vanilla writers.
+- Fixed a Bug giving the balloonist not the right record prestige.
+- No more multiple balloonist action (you need an ACTIVE/not busy balloonist).
+- Event Nautical Interest gives Admiral 10% screening. Also the admiral should be visible in the event again.
+- Fixed NULL_STATE in "Brigands"-Event for Italy.
 
 Characters:
+- Anders Jonas Ångström (Swedish Physicist)
+- Hugo Hildebrand Hildebrandsson (Swedish Physicist)
 - Improved Lepsius DNA.
