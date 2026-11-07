@@ -803,11 +803,30 @@ santos_balloon_country_altitude_experience_only_world_record_effect = { #only us
 			}
 			add_modifier = { #adds modifier to new country
 				name = santos_balloon_altitude_record_modifier
+				multiplier = var:new_balloon_altitude_var ##1 Prestige for every 500 Meters (multiplies with 0.002 Prestige)
 			}
 		}
 
 		balloonist_experience_gain_effect = { #if world record is broken, a total of 50 experience is added
 			AMOUNT = 50
+		}
+	}
+}
+
+santos_new_stratospheric_flight_altitude_effect = {
+	if = {
+		limit = {
+			has_variable = santos_balloonist_var
+		}
+		set_variable = {
+			name = new_balloon_altitude_var
+			value = santos_stratospheric_flight_altitude_value #Piccard was the first with more than 13,000 meters, but it is possible to reach 20,000 meters
+		}
+		var:santos_balloonist_var ?= {
+			set_variable = {
+				name = santos_balloon_altitude_record_personal_var
+				value = root.var:new_balloon_altitude_var
+			}
 		}
 	}
 }
@@ -940,6 +959,7 @@ santos_balloon_country_distance_record_experience_only_world_record_effect = { #
 			}
 			add_modifier = { #adds modifier to new country
 				name = santos_balloon_distance_record_modifier
+				multiplier = var:new_balloon_distance_var ##1 Prestige for every 100 Kilometers (multiplies with 0.01 Prestige)
 			}
 		}
 
@@ -1076,6 +1096,7 @@ santos_balloon_country_time_record_experience_only_world_record_effect = { #only
 			}
 			add_modifier = { #adds modifier to new country
 				name = santos_balloon_time_record_modifier
+				multiplier = var:new_balloon_time_var ##1 Prestige for every 3 hours (multiplies with 0.34 Prestige)
 			}
 		}
 
@@ -1184,6 +1205,8 @@ santos_balloon_crossing_event_list_add_container_entry_effect = {
 		target = scope:santos_event_container_scope
 	}
 }
+
+####################################################################################################
 
 ### Positive Effects ###
 
@@ -1534,7 +1557,7 @@ santos_balloon_crossing_succesful_effect = {
 			id = santos.439
 		}
 	}
-	santos_set_balloonist_unbusy_effect = no
+	santos_set_balloonist_unbusy_effect = yes
 	hidden_effect = {
 		santos_balloon_crossing_clear_event_log_containers_je_scope_effect = yes
 	}
@@ -1629,6 +1652,274 @@ santos_add_crossed_crossing_country_effect = {
 
 #######################################################################
 
+#Clears all Event log containers
+santos_stratospheric_flight_clear_event_log_containers_je_scope_effect = {
+	every_container = {
+		limit = {
+			has_tag = santos_stratospheric_flight_event
+		}
+		destroy_container = yes
+	}
+	clear_variable_list = santos_stratospheric_flight_events_list
+}
+
+#Creates a new container which is used in the JE to display recent events.
+# Execute in the Journal Entry scope.
+# An event in this case is a short text which will be displayed in a list.
+santos_stratospheric_flight_event_list_add_container_entry_effect = {
+	# ICON = Icon reference, in our case a flag which references a loc key
+	# TITLE_LOCALIZATION_KEY = Title localization
+	# TOOLTIP_KEY = Localization key for the event description
+	# PRIMARY_COUNTRY = Country to reference in event description
+	# ADDITIONAL_EFFECTS_CONTAINER = Additional effects in the container scope
+	create_container = {
+		tags = { mr_mod santos_stratospheric_flight_event }
+		parent = this
+		save_scope_as = santos_stratospheric_event_container_scope
+	}
+
+	scope:santos_stratospheric_event_container_scope ?= {
+		set_variable = {
+			name = event_container_icon
+			value = $ICON$
+		}
+		set_variable = {
+			name = event_container_primary_country
+			value = $PRIMARY_COUNTRY$
+		}
+		set_variable = {
+			name = event_container_title_loc
+			value = $TITLE_LOCALIZATION_KEY$
+		}
+		set_variable = {
+			name = event_container_tt
+			value = $TOOLTIP_KEY$
+		}
+		set_variable = {
+			name = event_container_date
+			value = game_date
+		}
+		$ADDITIONAL_EFFECTS_CONTAINER$
+	}
+	add_to_variable_list = {
+		name = santos_stratospheric_flight_events_list
+		target = scope:santos_stratospheric_event_container_scope
+	}
+}
+
+#######################################################################
+
+### Positive Effects ###
+
+santos_stratospheric_flight_log_normal_ascent_event_effect = {
+	je:je_santos_stratospheric_flight ?= {
+		santos_stratospheric_flight_event_list_add_container_entry_effect = {
+			ICON = flag:santos_stratospheric_flight_event_normal_ascent_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_stratospheric_flight_event_normal_ascent_title_flag
+			TOOLTIP_KEY = flag:santos_stratospheric_flight_event_normal_ascent_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = 1
+				}
+			"
+		}
+		add_progress = {
+			name = santos_ballooning_progress_progress_bar
+			value = 1
+		}
+	}
+}
+
+santos_stratospheric_flight_log_boost_ascent_event_effect = {
+	je:je_santos_stratospheric_flight ?= {
+		santos_stratospheric_flight_event_list_add_container_entry_effect = {
+			ICON = flag:santos_stratospheric_flight_event_boost_ascent_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_stratospheric_flight_event_boost_ascent_title_flag
+			TOOLTIP_KEY = flag:santos_stratospheric_flight_event_boost_ascent_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = 3
+				}
+			"
+		}
+		add_progress = {
+			name = santos_ballooning_progress_progress_bar
+			value = 3
+		}
+	}
+}
+
+santos_stratospheric_flight_log_altitude_improvisation_event_effect = {
+	je:je_santos_stratospheric_flight ?= {
+		santos_stratospheric_flight_event_list_add_container_entry_effect = {
+			ICON = flag:santos_stratospheric_flight_event_altitude_improvisation_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_stratospheric_flight_event_altitude_improvisation_title_flag
+			TOOLTIP_KEY = flag:santos_stratospheric_flight_event_altitude_improvisation_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_danger_var
+					value = -1
+				}
+			"
+		}
+		add_progress = {
+			name = santos_ballooning_danger_progress_bar
+			value = -1
+		}
+	}
+}
+
+### Negative Effects ###
+
+santos_stratospheric_flight_log_slow_ascent_event_effect = { #Nothing happens
+	je:je_santos_stratospheric_flight ?= {
+		santos_stratospheric_flight_event_list_add_container_entry_effect = {
+			ICON = flag:santos_stratospheric_flight_event_slow_ascent_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_stratospheric_flight_event_slow_ascent_title_flag
+			TOOLTIP_KEY = flag:santos_stratospheric_flight_event_slow_ascent_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+			"
+		}
+	}
+}
+
+santos_stratospheric_flight_log_broken_rope_event_effect = {
+	je:je_santos_stratospheric_flight ?= {
+		santos_stratospheric_flight_event_list_add_container_entry_effect = {
+			ICON = flag:santos_stratospheric_flight_event_broken_rope_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_stratospheric_flight_event_broken_rope_title_flag
+			TOOLTIP_KEY = flag:santos_stratospheric_flight_event_broken_rope_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -1
+				}
+				set_variable = {
+					name = event_container_danger_var
+					value = 1
+				}
+			"
+		}
+		add_progress = {
+			name = santos_ballooning_progress_progress_bar
+			value = -1
+		}
+		add_progress = {
+			name = santos_ballooning_danger_progress_bar
+			value = 1
+		}
+	}
+}
+
+santos_stratospheric_flight_log_defective_valve_event_effect = {
+	je:je_santos_stratospheric_flight ?= {
+		santos_stratospheric_flight_event_list_add_container_entry_effect = {
+			ICON = flag:santos_stratospheric_flight_event_defective_valve_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_stratospheric_flight_event_defective_valve_title_flag
+			TOOLTIP_KEY = flag:santos_stratospheric_flight_event_defective_valve_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -2
+				}
+			"
+		}
+		add_progress = {
+			name = santos_ballooning_progress_progress_bar
+			value = -2
+		}
+	}
+}
+
+santos_stratospheric_flight_log_heat_buildup_event_effect = {
+	je:je_santos_stratospheric_flight ?= {
+		santos_stratospheric_flight_event_list_add_container_entry_effect = {
+			ICON = flag:santos_stratospheric_flight_event_heat_buildup_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_stratospheric_flight_event_heat_buildup_title_flag
+			TOOLTIP_KEY = flag:santos_stratospheric_flight_event_heat_buildup_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_danger_var
+					value = 1
+				}
+			"
+		}
+		add_progress = {
+			name = santos_ballooning_danger_progress_bar
+			value = 1
+		}
+	}
+}
+
+santos_stratospheric_flight_log_material_fatigue_event_effect = {
+	je:je_santos_stratospheric_flight ?= {
+		santos_stratospheric_flight_event_list_add_container_entry_effect = {
+			ICON = flag:santos_stratospheric_flight_event_material_fatigue_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_stratospheric_flight_event_material_fatigue_title_flag
+			TOOLTIP_KEY = flag:santos_stratospheric_flight_event_material_fatigue_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -1
+				}
+				set_variable = {
+					name = event_container_danger_var
+					value = 2
+				}
+			"
+		}
+		add_progress = {
+			name = santos_ballooning_progress_progress_bar
+			value = -1
+		}
+		add_progress = {
+			name = santos_ballooning_danger_progress_bar
+			value = 2
+		}
+	}
+}
+
+santos_stratospheric_flight_log_hydrogen_fire_effect = { #Sudden Death
+	je:je_santos_stratospheric_flight ?= {
+		santos_stratospheric_flight_event_list_add_container_entry_effect = {
+			ICON = flag:santos_stratospheric_flight_event_hydrogen_fire_icon_flag
+			TITLE_LOCALIZATION_KEY = flag:santos_stratospheric_flight_event_hydrogen_fire_title_flag
+			TOOLTIP_KEY = flag:santos_stratospheric_flight_event_hydrogen_fire_flag
+			PRIMARY_COUNTRY = root
+			ADDITIONAL_EFFECTS_CONTAINER = "
+				set_variable = {
+					name = event_container_outcome_var
+					value = -3
+				}
+				set_variable = {
+					name = event_container_danger_var
+					value = 3
+				}
+			"
+		}
+		add_progress = {
+			name = santos_ballooning_progress_progress_bar
+			value = -3
+		}
+		add_progress = {
+			name = santos_ballooning_danger_progress_bar
+			value = 3
+		}
+	}
+}
+
+#######################################################################
+
 ### AI ###
 
 #Balloon Ride
@@ -1650,4 +1941,22 @@ santos_balloon_record_button_effect = {
 		set_character_busy_and_immortal = yes
 	}
 	add_journal_entry = { type = je_santos_balloon_record }
+}
+
+#Stratospheric Flight
+santos_stratospheric_flight_button_effect = {
+	var:santos_balloonist_var ?= {
+		set_character_busy_and_immortal = yes
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_variable = santos_stratospheric_flight_successful_var
+			}
+		}
+		var:curie_physicist_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	}
+	add_journal_entry = { type = je_santos_stratospheric_flight }
 }

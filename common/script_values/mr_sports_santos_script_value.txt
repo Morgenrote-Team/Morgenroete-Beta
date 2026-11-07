@@ -352,6 +352,157 @@ santos_average_balloon_altitude_value = {
 	max = 12000
 }
 
+#Stratospheric Altitude
+santos_stratospheric_flight_altitude_value = {
+	value = 12000
+
+	#Minimum 12,000 meters
+	#Maximum 22,000 meters - Albert W. Stevens and Orvil A. Anderson reached this altitude in 1935!
+
+	#Balloon Size
+	if = {
+		limit = {
+			has_technology_researched = zeppelins
+		}
+		add = { 100 500 }
+	}
+	if = {
+		limit = {
+			has_technology_researched = curie_rocket_science_tech
+		}
+		add = { 100 500 }
+	}
+	if = {
+		limit = {
+			has_technology_researched = curie_modern_rockets_tech
+		}
+		add = { 100 500 }
+	}
+	#Maximum: 1.500
+
+	#Balloon Modification: Good
+	if = {
+		limit = {
+			has_technology_researched = logistics #Rip Panel
+		}
+		add = { 450 500 }
+	}
+	if = {
+		limit = {
+			has_technology_researched = military_statistics #Bags of Fine Sand
+		}
+		add = { 450 500 }
+	}
+	if = {
+		limit = {
+			has_technology_researched = mechanical_tools #Trail Rope
+		}
+		add = { 450 500 }
+	}
+	if = {
+		limit = {
+			has_technology_researched = canneries #Canned Food
+		}
+		add = { 450 500 }
+	}
+	if = {
+		limit = {
+			has_technology_researched = rubber_mastication #Rubberized Fabrics
+		}
+		add = { 450 500 }
+	}
+	if = {
+		limit = {
+			has_technology_researched = vulcanization #Vulcanized Cotton Fabric
+		}
+		add = { 450 500 }
+	}
+	if = {
+		limit = {
+			has_technology_researched = art_silk #Vulcanized Silk Fabric
+		}
+		add = { 450 500 }
+	}
+	#Maximum 3.500
+
+	#Experience
+	if = {
+		limit = {
+			var:santos_balloonist_var ?= {
+				has_trait = santos_balloonist_experienced
+			}
+		}
+		multiply = 1.05
+	}
+	if = {
+		limit = {
+			var:santos_balloonist_var ?= {
+				has_trait = santos_balloonist_famous
+			}
+		}
+		multiply = 1.1
+	}
+	#Character Traits
+	if = {
+		limit = {
+			var:santos_balloonist_var ?= {
+				has_trait = innovative
+			}
+		}
+		multiply = 1.1
+	}
+	if = {
+		limit = {
+			var:santos_balloonist_var ?= {
+				has_trait = meticulous
+			}
+		}
+		multiply = 1.1
+	}
+	if = {
+		limit = {
+			var:santos_balloonist_var ?= {
+				has_trait = persistent
+			}
+		}
+		multiply = 1.1
+	}
+	if = {
+		limit = {
+			var:santos_balloonist_var ?= {
+				OR = {
+					has_trait = ambitious
+					has_trait = brave
+				}
+			}
+		}
+		multiply = 1.1
+	}
+
+	if = {
+		limit = {
+			var:santos_balloonist_var ?= {
+				mr_character_has_negative_trait_trigger = yes
+			}
+		}
+		multiply = 0.9
+	}
+
+	round = yes
+
+	max = 22000
+}
+
+#Stratospheric Bonus
+santos_stratospheric_bonus_value = {
+	value = 0
+	add = {
+		value = santos_stratospheric_flight_altitude_value
+		divide = 400
+		round = yes
+	}
+}
+
 #Distance
 santos_new_balloon_distance_value = {
 	value = 0
@@ -1481,6 +1632,12 @@ santos_balloon_crossing_goal_value = {
 	value = 0
 	if = {
 		limit = {
+			has_journal_entry = je_santos_stratospheric_flight
+		}
+		add = 10
+	}
+	if = {
+		limit = {
 			OR = {
 				var:santos_balloon_crossing_target_var ?= flag:santos_channel_flag
 				var:santos_balloon_crossing_target_var ?= flag:santos_rio_flag
@@ -1509,4 +1666,23 @@ santos_balloon_crossing_goal_value = {
 		}
 		add = 16
 	}
+}
+
+santos_balloon_crossing_danger_value = {
+	value = 0
+	if = {
+		limit = {
+			has_journal_entry = je_santos_stratospheric_flight
+		}
+		add = 3
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_journal_entry = je_santos_stratospheric_flight
+			}
+		}
+		add = 5
+	}
+	
 }
