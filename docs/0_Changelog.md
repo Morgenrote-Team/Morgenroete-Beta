@@ -21,6 +21,7 @@ Fixes:
 - No more multiple balloonist action (you need an ACTIVE/not busy balloonist).
 - Event Nautical Interest gives Admiral 10% screening. Also the admiral should be visible in the event again.
 - Fixed NULL_STATE in "Brigands"-Event for Italy.
+- Fixed a small bug causing the cost for conducting not getting applied correctly.
 
 Characters:
 - Anders Jonas Ångström (Swedish Physicist)
