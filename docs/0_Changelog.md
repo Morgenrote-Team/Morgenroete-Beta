@@ -2,6 +2,7 @@ Changelog fot 2.9.0a "Curie"
 
 Graphics:
 - Added more diverse mobilization option illustrations.
+- Added some missing Journal Entry Group illustrations.
 
 Fixes:
 - The Improve Forestry Project Map Mode now also shows states in which the project has been finished.
