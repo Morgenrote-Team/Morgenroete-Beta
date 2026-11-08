@@ -461,7 +461,7 @@ elgar_yearly_compositions_score = {
 
 	if = {
 		limit = {
-			root.var:elgar_composer_var = {
+			root.var:elgar_composer_var ?= {
 				has_trait = elgar_virtuoso #Virtuoso more effective
 			}
 		}
@@ -470,7 +470,7 @@ elgar_yearly_compositions_score = {
 
 	if = {
 		limit = {
-			root.var:elgar_composer_var = {
+			root.var:elgar_composer_var ?= {
 				has_trait = elgar_conductor #Conductor more effective
 			}
 		}
@@ -479,7 +479,7 @@ elgar_yearly_compositions_score = {
 
 	if = {
 		limit = {
-			root.var:elgar_composer_var = {
+			root.var:elgar_composer_var ?= {
 				has_trait = innovative #Positive traits will influence the outcome
 			}
 		}
@@ -487,7 +487,7 @@ elgar_yearly_compositions_score = {
 	}
 	if = {
 		limit = {
-			root.var:elgar_composer_var = {
+			root.var:elgar_composer_var ?= {
 				has_trait = meticulous #Positive traits will influence the outcome
 			}
 		}
@@ -495,7 +495,7 @@ elgar_yearly_compositions_score = {
 	}
 	if = {
 		limit = {
-			root.var:elgar_composer_var = {
+			root.var:elgar_composer_var ?= {
 				has_trait = ambitious #Positive traits will influence the outcome
 			}
 		}
@@ -503,7 +503,7 @@ elgar_yearly_compositions_score = {
 	}
 	if = {
 		limit = {
-			root.var:elgar_composer_var = {
+			root.var:elgar_composer_var ?= {
 				has_trait = persistent #Positive traits will influence the outcome
 			}
 		}
@@ -512,7 +512,7 @@ elgar_yearly_compositions_score = {
 
 	if = {
 		limit = {
-			root.var:elgar_composer_var = {
+			root.var:elgar_composer_var ?= {
 				has_trait = hedonist #Negative traits will influence the outcome
 			}
 		}
@@ -520,7 +520,7 @@ elgar_yearly_compositions_score = {
 	}
 	if = {
 		limit = {
-			root.var:elgar_composer_var = { #Negative traits will influence the outcome
+			root.var:elgar_composer_var ?= { #Negative traits will influence the outcome
 				OR = {
 					has_trait = alcoholic
 					has_trait = opium_addiction
@@ -538,16 +538,24 @@ elgar_yearly_compositions_score = {
 
 #This value determines the overall value of a composer for the Art Prizes
 elgar_composer_value = {
+	value = 0
 	if = {
 		limit = {
 			has_variable = elgar_composer_var
 		}
-		value = root.var:elgar_composer_var.var:elgar_composer_num_compositions_var #This is the total number of compositions
+		if = {
+			limit = {
+				var:elgar_composer_var ?= {
+					has_variable = elgar_composer_num_compositions_var
+				}
+			}
+			add = var:elgar_composer_var.var:elgar_composer_num_compositions_var #This is the total number of compositions
+		}
 
 		###Character Traits###
 		if = {
 			limit = {
-				root.var:elgar_composer_var = {
+				var:elgar_composer_var ?= {
 					has_trait = meticulous #If the composer is meticulous, his compositions will be better
 				}
 			}
@@ -555,7 +563,7 @@ elgar_composer_value = {
 		}
 		if = {
 			limit = {
-				root.var:elgar_composer_var = {
+				var:elgar_composer_var ?= {
 					has_trait = innovative #If the composer is innovative, his compositions will be more creative
 				}
 			}
@@ -563,7 +571,7 @@ elgar_composer_value = {
 		}
 		if = {
 			limit = {
-				root.var:elgar_composer_var = {
+				var:elgar_composer_var ?= {
 					has_trait = ambitious #Not as important as the other two, but an ambitious composer will never be content with mediocre works
 				}
 			}
@@ -572,7 +580,7 @@ elgar_composer_value = {
 		###Specialization###
 		if = {
 			limit = {
-				var:elgar_composer_var = {
+				var:elgar_composer_var ?= {
 					has_trait = elgar_conductor #A conductor is valuable
 				}
 			}
@@ -580,7 +588,7 @@ elgar_composer_value = {
 		}
 		if = {
 			limit = {
-				var:elgar_composer_var = {
+				var:elgar_composer_var ?= {
 					has_trait = elgar_virtuoso #A virtuoso is valuable
 				}
 			}
@@ -588,7 +596,7 @@ elgar_composer_value = {
 		}
 		if = {
 			limit = {
-				var:elgar_composer_var = {
+				var:elgar_composer_var ?= {
 					has_trait = elgar_travelling_composer #A travelling composer is valuable
 				}
 			}
