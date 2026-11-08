@@ -1,20 +1,16 @@
-Changelog fot 2.9.0b "Curie"
+Changelog fot 2.9.0c "Curie"
 
 Fixes:
-- The Physics Experiment now uses the colors the correct way around again. Green is positive, red is negative.
-- Fixed various localization issues.
-- The Skeleton Reconstruction now uses the correct progress conditions again.
-- Atmospheric Engine should definitely not give a negative modifier for infamy generation. Removed.
-- The Tonkünstler-Versammlung Event no longer tries to change relations to yourself.
-- Fixed some Journal Entries not getting their costs added properly.
-- The Weather Station Upgrade should now be possible to use and to complete.
-- The Balloonist Death event no longer causes another death event.
-- The Balloonist Death event no longer spams the error log like crazy.
+- Cost modifiers for Blueprint Research is now applied through a scaling modifier on the journal entry. Additionally the cost is now set correctly again.
+- Having a character who is not busy now also requires said character to be alive.
+- Peter Wilhelm Lund can no longer spawn multiple times.
+- Replaced the Expedition Progress bar of the Archaeological Expedition Journal Entry with a scripted progress bar so it no longer gets cut off. This can lead to it being bugged for an already started expedition though.
 
 Quality of Life:
-- Reworked more progress bars to use progress conditions, so you can actually see all potential progress conditions.
+-
 
-Changes: Removed the cost from the Balloon Ride JE as default JEs shouldn't cost any money and the balloonist gets paid by the customers of the ride.
+Changes:
+-
 
 Characters:
 -
