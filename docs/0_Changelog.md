@@ -11,4 +11,4 @@ Changes:
 -
 
 Characters:
--
+- Erik Ivar Fredholm (Swedish Physicist)
