@@ -12,4 +12,5 @@ Changes:
 
 Characters:
 - Erik Ivar Fredholm (Swedish Physicist)
+- Carl-Gustaf Rossby (Swedish Physicist)
 - Manne Siegbahn (Swedish Physicist)
