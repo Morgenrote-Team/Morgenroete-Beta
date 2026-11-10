@@ -1,7 +1,8 @@
 Changelog fot 2.9.0e "Curie"
 
 Ballooning:
-- There is a tiny chance that your balloonist may be enslaved on an adventure ride.
+- There is a tiny risk that your balloonist may be enslaved on an adventure ride.
+- The first country which uses Balloon Reconnaissance, has reseacrhed Camera and has a Balloonist will trigger the Event "First Aerial Photos from a Balloon".
 
 Biology:
 - Pathogens & Vaccines give a biological breakthrough instead of a medical avantgarde modifier to distinguish them.
