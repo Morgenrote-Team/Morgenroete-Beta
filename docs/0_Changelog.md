@@ -5,7 +5,8 @@ Fixes:
 
 Characters:
 - Francisque Arban (French Balloonist)
-- Charles Green (French Balloonist)
+- James Glaisher (British Balloonist and Physicist)
+- Charles Green (British Balloonist)
 
 Quality of Life:
 -
