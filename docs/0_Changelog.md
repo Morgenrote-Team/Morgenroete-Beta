@@ -5,6 +5,7 @@ Fixes:
 
 Characters:
 - Francisque Arban (French Balloonist)
+- Félix Nadar (French Balloonist)
 - James Glaisher (British Balloonist and Physicist)
 - Charles Green (British Balloonist)
 - Eduard Spelterini (Swiss Balloonist)
