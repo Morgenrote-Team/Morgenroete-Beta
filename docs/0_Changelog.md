@@ -1,17 +1,19 @@
-Changelog fot 2.9.0d "Curie"
+Changelog fot 2.9.0e "Curie"
 
 Fixes:
-- Morgenröte characters will no longer become interest group leaders on their own. I'm sorry Rudyard, you can't be the High Priest of India anymore.
-- Various small fixes.
+-
 
 Characters:
-- Erik Ivar Fredholm (Swedish Physicist)
-- Carl-Gustaf Rossby (Swedish Physicist)
-- Manne Siegbahn (Swedish Physicist)
+- Francisque Arban (French Balloonist)
+- Félix Nadar (French Balloonist)
+- James Glaisher (British Balloonist and Physicist)
+- Charles Green (British Balloonist)
+- Eduard Spelterini (Swiss Balloonist)
 
 Quality of Life:
 -
 
 Changes:
--
+- Auguste Piccard can now spawn as a Physicist.
+- John Wise can now spawn as a Balloonist.
 
