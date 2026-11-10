@@ -11,6 +11,10 @@ Biology:
 - Removed Biologist features from Medical Congress.
 - Biological Congress planned with 2.9.1.
 
+Physics:
+- The first nation that researches Modern Physics gains a free mathematician.
+- The first nation that researches Reconnaissance Balloons gains a free meteorologist.
+
 Fixes:
 - The event "Pirated Copies" should no longer try to change relations between you and yourself.
 - Various error log fixes.

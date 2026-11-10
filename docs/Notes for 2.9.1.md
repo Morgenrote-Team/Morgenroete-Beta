@@ -13,7 +13,7 @@ Balloonist
 - Finish modifications GUI
 
 Other
-- Meda Dams
+- Mega Dams
 - Physician Innovation for Haemophilia description
 - Add Congrees for Biologist to spread knowledge about vaccines&pathogens [x]
 - Look into Anthropology why AI does not find more skeletons and human forms
