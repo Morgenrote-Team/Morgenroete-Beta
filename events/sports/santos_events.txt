@@ -1932,7 +1932,6 @@ santos.511 = {
 	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
 
 	cooldown = {
 		years = 25
@@ -2082,7 +2081,6 @@ santos.512 = {
 	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
 
 	trigger = {
 	}
@@ -3139,5 +3137,105 @@ santos.691 = {
 
 	after = {
 		remove_variable = santos_balloon_type_event_active_var
+	}
+}
+
+#########################################
+
+#Santos 701: First aerial photos from a balloon
+santos.701 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:santos_balloon_state
+
+	title = santos.701.t
+
+	desc = santos.701.d
+
+	flavor = santos.701.f
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/santos_pictures/santos_military_ballooning.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_global_variable = santos_balloon_photos_global_var
+		}
+		has_technology_researched = camera
+		santos_has_balloonist_no_tooltip_trigger = yes
+		any_scope_war = {
+			any_scope_front = {
+				any_scope_general = {
+					owner = ROOT
+					this.commander_military_formation = {
+						has_mobilization_option = mobilization_option:curtiss_mobilization_option_balloon_recon
+					}
+				}
+				any_scope_state = {
+					NOT = { owner = ROOT }
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = santos_balloon_photos_global_var
+		random_scope_war = {
+			limit = {
+				any_scope_front = {
+					any_scope_general = {
+						owner = ROOT
+						this.commander_military_formation = {
+							has_mobilization_option = mobilization_option:curtiss_mobilization_option_balloon_recon
+						}
+					}
+				}
+			}
+			random_scope_front = {
+				limit = {
+				   any_scope_general = {
+					   owner = ROOT
+					   this.commander_military_formation = {
+						   has_mobilization_option = mobilization_option:curtiss_mobilization_option_balloon_recon
+					   }
+				   }
+				   any_scope_state = {
+					   NOT = { owner = ROOT }
+				   }
+				}
+				random_scope_general = {
+					limit = {
+					   owner = ROOT
+					   this.commander_military_formation = {
+						   has_mobilization_option = mobilization_option:curtiss_mobilization_option_balloon_recon
+					   }
+					}
+					save_scope_as = santos_balloon_general
+				}
+				random_scope_state = {
+					limit = {
+						NOT = { owner = ROOT }
+					}
+					save_scope_as = santos_balloon_state
+				}
+			}
+		}
+	}
+
+	option = {	#Those photos look great!
+		name = santos.701.g
+		default_option = yes
+
+		balloonist_experience_gain_effect = { AMOUNT = 10 }
+		medium_santos_ballooning_research_effect = yes
 	}
 }
