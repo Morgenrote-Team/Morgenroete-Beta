@@ -7,6 +7,7 @@ Characters:
 - Francisque Arban (French Balloonist)
 - James Glaisher (British Balloonist and Physicist)
 - Charles Green (British Balloonist)
+- Eduard Spelterini (Swiss Balloonist)
 
 Quality of Life:
 -
