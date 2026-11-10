@@ -11,7 +11,8 @@ Biology:
 - Biological Congress planned with 2.9.1.
 
 Fixes:
--
+- The event "Pirated Copies" should no longer try to change relations between you and yourself.
+- Various error log fixes.
 
 Characters:
 - Sophus Lie (Norwegian Physicist)
