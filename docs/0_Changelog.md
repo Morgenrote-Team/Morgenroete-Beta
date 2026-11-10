@@ -12,6 +12,7 @@ Fixes:
 -
 
 Characters:
+- Sophus Lie (Norwegian Physicist)
 - Francisque Arban (French Balloonist)
 - Félix Nadar (French Balloonist)
 - James Glaisher (British Balloonist and Physicist)
