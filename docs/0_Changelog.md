@@ -4,7 +4,7 @@ Fixes:
 -
 
 Characters:
--
+- Francisque Arban (French Balloonist)
 
 Quality of Life:
 -
