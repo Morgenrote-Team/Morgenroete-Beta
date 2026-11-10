@@ -8,9 +8,9 @@ Physicist
 
 Balloonist
 - Stratospheric flight for Balloonist [x]
-- Re-add historical events
+- Re-add historical events [x]
 - Balloonists: Arban and Green [x]
-- Finish modifications GUI.
+- Finish modifications GUI
 
 Other
 - Meda Dams

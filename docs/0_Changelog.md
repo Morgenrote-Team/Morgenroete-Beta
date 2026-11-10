@@ -4,6 +4,7 @@ Ballooning:
 - There is a tiny risk that your balloonist may be enslaved on a balloon adventure.
 - Event for Switzerland about Alpine Ballooning for tourists may trigger on a balloon ride.
 - The first country which uses Balloon Reconnaissance, has reseacrhed Camera and has a Balloonist will trigger the Event "First Aerial Photos from a Balloon".
+- A mechanical engineer may invent the first steerable airship when doing mechanical research.
 
 Biology:
 - Pathogens & Vaccines give a biological breakthrough instead of a medical avantgarde modifier to distinguish them.
