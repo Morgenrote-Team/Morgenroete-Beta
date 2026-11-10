@@ -152,7 +152,12 @@ santos.302 = {
 			}
 			kill_physicist_effect = yes
 		}
+		set_variable = {
+			name = mr_no_death_event_var
+			days = 1
+		}
 		kill_balloonist_effect = yes
+		remove_variable = mr_no_death_event_var
 		add_modifier = {
 			name = santos_stratospheric_flight_failure_modifier
 			years = 2
@@ -1906,6 +1911,210 @@ santos.506 = {
 	}
 }
 
+#Santos 511: Balloonist enslaved in Africa!
+santos.511 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = santos.511.t
+
+	desc = santos.511.d
+
+	flavor = santos.511.f
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/santos_pictures/santos_arban_slave.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	cooldown = {
+		years = 25
+	}
+
+	trigger = {
+		any_country = {
+			AND = {
+				OR = {
+					has_law = law_type:law_debt_slavery
+					has_law = law_type:law_slave_trade
+					has_law = law_type:law_legacy_slavery
+				}
+				OR = {
+					has_state_in_state_region = STATE_ALGIERS
+					has_state_in_state_region = STATE_CONSTANTINE
+					has_state_in_state_region = STATE_EAST_SAHARA
+					has_state_in_state_region = STATE_FEZ
+					has_state_in_state_region = STATE_INNER_MOROCCO
+					has_state_in_state_region = STATE_LIBYA
+					has_state_in_state_region = STATE_LIBYAN_DESERT
+					has_state_in_state_region = STATE_MARRAKECH
+					has_state_in_state_region = STATE_SAHARA
+					mr_country_owns_oran_trigger = yes
+					has_state_in_state_region = STATE_TRIPOLI
+					has_state_in_state_region = STATE_TUNISIA
+					has_state_in_state_region = STATE_WEST_SAHARA
+					has_state_in_state_region = STATE_AL_RIF
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				AND = {
+					OR = {
+						has_law = law_type:law_debt_slavery
+						has_law = law_type:law_slave_trade
+						has_law = law_type:law_legacy_slavery
+					}
+					OR = {
+						has_state_in_state_region = STATE_ALGIERS
+						has_state_in_state_region = STATE_CONSTANTINE
+						has_state_in_state_region = STATE_EAST_SAHARA
+						has_state_in_state_region = STATE_FEZ
+						has_state_in_state_region = STATE_INNER_MOROCCO
+						has_state_in_state_region = STATE_LIBYA
+						has_state_in_state_region = STATE_LIBYAN_DESERT
+						has_state_in_state_region = STATE_MARRAKECH
+						has_state_in_state_region = STATE_SAHARA
+						mr_country_owns_oran_trigger = yes
+						has_state_in_state_region = STATE_TRIPOLI
+						has_state_in_state_region = STATE_TUNISIA
+						has_state_in_state_region = STATE_WEST_SAHARA
+						has_state_in_state_region = STATE_AL_RIF
+					}
+				}
+			}
+			save_scope_as = santos_balloonist_slaver_scope
+		}
+	}
+
+	option = {	#We will free him from his captors!
+		name = santos.511.g
+		default_option = yes
+
+		scope:santos_balloonist_slaver_scope = {
+			change_relations = {
+				country = root
+				value = -20
+			}
+		}
+
+		set_variable = santos_force_freed_balloonist_var
+		hidden_effect = {
+			trigger_event = {
+				id = santos.512
+				days = 7
+			}
+		}
+	}
+
+	option = {	#Let us just pay and get this over with...
+		name = santos.511.h
+
+		add_treasury = -50000
+
+		hidden_effect = {
+			trigger_event = {
+				id = santos.512
+				days = 7
+			}
+		}
+	}
+
+	option = {	#A balloonist's life isn't worth all that trouble.
+		name = santos.511.i
+		set_variable = {
+			name = mr_no_death_event_var
+			days = 1
+		}
+		kill_balloonist_effect = yes
+		remove_variable = mr_no_death_event_var
+
+		add_radicals = {
+			value = 0.01
+			pop_type = academics
+		}
+	}
+}
+
+#Santos 512: Ballonist freed from slavery
+santos.512 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = santos.512.t
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = santos_force_freed_balloonist_var
+			}
+			desc = santos.512.d1
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_variable = santos_force_freed_balloonist_var
+				}
+			}
+			desc = santos.512.d2
+		}
+	}
+
+	flavor = santos.512.f
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/santos_pictures/santos_francisque_arban.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	option = {	#A succesful rescue!
+		name = santos.512.g
+		default_option = yes
+
+		trigger = {
+			has_variable = santos_force_freed_balloonist_var
+		}
+
+		small_santos_ballooning_research_effect = yes
+	}
+
+	option = {	#Welcome back Arban!
+		name = santos.512.h
+
+		trigger = {
+			NOT = {
+				has_variable = santos_force_freed_balloonist_var
+			}
+		}
+
+		small_santos_ballooning_research_effect = yes
+	}
+
+	after = {
+		remove_variable = santos_force_freed_balloonist_var
+	}
+}
+
 #################################################################################
 
 #Santos 601: Balloonist tries to set new Altitude record (hidden)
@@ -2770,7 +2979,7 @@ santos.681 = {
 	duration = 3
 
 	event_image = {
-		texture = "gfx/event_pictures/curtiss_pictures/curtiss_gordon_bennett.dds"
+		texture = "gfx/event_pictures/santos_pictures/santos_gordon_bennett.dds"
 	}
 
 	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"

@@ -1,5 +1,8 @@
 Changelog fot 2.9.0e "Curie"
 
+Ballooning:
+- There is a tiny chance that your balloonist may be enslaved on an adventure ride.
+
 Biology:
 - Pathogens & Vaccines give a biological breakthrough instead of a medical avantgarde modifier to distinguish them.
 - Removed Biologist features from Medical Congress.
