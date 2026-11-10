@@ -1,7 +1,8 @@
 Changelog fot 2.9.0e "Curie"
 
 Ballooning:
-- There is a tiny risk that your balloonist may be enslaved on an adventure ride.
+- There is a tiny risk that your balloonist may be enslaved on a balloon adventure.
+- Event for Switzerland about Alpine Ballooning for tourists may trigger on a balloon ride.
 - The first country which uses Balloon Reconnaissance, has reseacrhed Camera and has a Balloonist will trigger the Event "First Aerial Photos from a Balloon".
 
 Biology:
