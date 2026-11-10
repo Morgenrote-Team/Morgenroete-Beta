@@ -16,7 +16,7 @@ Characters:
 - Eduard Spelterini (Swiss Balloonist)
 
 Quality of Life:
--
+- Completed crossings in the balloonist window now get highlighted with a glow effect.
 
 Changes:
 - Auguste Piccard can now spawn as a Physicist.
