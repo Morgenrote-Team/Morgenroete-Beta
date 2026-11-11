@@ -23,6 +23,7 @@ Fixes:
 - Various error log fixes.
 
 Characters:
+- James Prescott Joule (British Physicist)
 - Sophus Lie (Norwegian Physicist)
 - Francisque Arban (French Balloonist)
 - Félix Nadar (French Balloonist)
