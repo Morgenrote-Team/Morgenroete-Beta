@@ -25,6 +25,7 @@ Fixes:
 
 Characters:
 - Christian Doppler (Austrian Physicist)
+- Hippolyte Fizeau (French Physicist)
 - Léon Foucault (French Physicist)
 - James Prescott Joule (British Physicist)
 - Sophus Lie (Norwegian Physicist)
