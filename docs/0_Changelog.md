@@ -24,6 +24,7 @@ Fixes:
 - Various error log fixes.
 
 Characters:
+- Christian Doppler (Austrian Physicist)
 - James Prescott Joule (British Physicist)
 - Sophus Lie (Norwegian Physicist)
 - Francisque Arban (French Balloonist)
