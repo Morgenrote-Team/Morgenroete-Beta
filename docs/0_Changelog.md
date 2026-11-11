@@ -43,3 +43,5 @@ Changes:
 - Auguste Piccard can now spawn as a Physicist.
 - John Wise can now spawn as a Balloonist.
 
+Translations:
+- Updated translations, in particular Chinese and Polish.
