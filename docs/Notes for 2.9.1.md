@@ -3,7 +3,7 @@ TO DO for 2.9.1 "Piccard"
 Physicist
 - Free Mathematician for the first nation that discovers Modern Physics [x]
 - Free Meteorologist for the first nation that discovers Reconnaissance Balloon [x]
-- Turing Machine for Mathematician
+- Turing Machine for Mathematician [x]
 - Radiosonde for Meteorologist
 
 Balloonist
