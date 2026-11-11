@@ -20,9 +20,14 @@ Physics:
 
 Fixes:
 - The event "Pirated Copies" should no longer try to change relations between you and yourself.
+- The notification bug MAX_RECURSIVE_DEPTH should be fixed.
 - Various error log fixes.
 
 Characters:
+- Christian Doppler (Austrian Physicist)
+- Hippolyte Fizeau (French Physicist)
+- Léon Foucault (French Physicist)
+- James Prescott Joule (British Physicist)
 - Sophus Lie (Norwegian Physicist)
 - Francisque Arban (French Balloonist)
 - Félix Nadar (French Balloonist)
