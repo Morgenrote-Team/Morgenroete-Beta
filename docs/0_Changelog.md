@@ -8,6 +8,9 @@ Biology:
 - Added Cavendish Bananas as an action for the Biologist to introduce the Cavendish to rescue your banana plantations.
 - Added Biology Congress for vaccines, pathogens and pesticides.
 
+Medicine:
+- Added event about Hemophilia Treatise.
+
 Physics:
 - Added Turing Machine for Mathematician.
 
