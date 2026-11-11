@@ -31,6 +31,7 @@ Quality of Life:
 - Completed crossings in the balloonist window now get highlighted with a glow effect.
 
 Changes:
+- If the first construction phase of Neuschwanstein has already been completed, any country with a german primary culture can complete Neuschwanstein.
 - Auguste Piccard can now spawn as a Physicist.
 - John Wise can now spawn as a Balloonist.
 
