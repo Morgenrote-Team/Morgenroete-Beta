@@ -11,6 +11,9 @@ Biology:
 - Removed Biologist features from Medical Congress.
 - Biological Congress planned with 2.9.1.
 
+Geology
+- Geologists may find historical gorges (added state trait).
+
 Physics:
 - The first nation that researches Modern Physics gains a free mathematician.
 - The first nation that researches Reconnaissance Balloons gains a free meteorologist.
