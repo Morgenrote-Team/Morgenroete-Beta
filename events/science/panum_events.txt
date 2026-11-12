@@ -341,6 +341,7 @@ namespace = panum
 #Panum 2203: Strange Medicine
 #Panum 2204: Herbal Remedies?
 #Panum 2205: Animal Testing
+#Panum 2206: Treatise on Hemophilia
 
 ### Character Treatment ###
 
@@ -25378,6 +25379,82 @@ panum.2205 = {
 		name = panum.2205.i
 	}
 
+}
+
+#Panum 2206: Treatise on Hemophilia
+panum.2206 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2206.t
+	desc = panum.2206.d
+	flavor = panum.2206.f
+
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:panum_physician_scope
+	right_icon = scope:panum_patient_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	fire_only_once = yes
+
+	trigger = {
+		has_technology_researched = pharmaceuticals
+		any_scope_character = {
+			has_trait = hemophilia
+		}
+		panum_has_active_physician_no_tooltip_trigger = yes
+		var:panum_physician_var ?= {
+			OR = {
+				has_trait = meticulous
+				has_trait = literary
+				has_trait = panum_surgeon
+			}
+		}
+	}
+
+	immediate = {
+		var:panum_physician_var ?= {
+			save_scope_as = panum_physician_scope
+		}
+		random_scope_character ?= {
+			limit = {
+				has_trait = hemophilia
+			}
+			save_scope_as = panum_patient_scope
+		}
+	}
+
+	option = {
+		name = panum.2206.g #Good
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = panum_hemophilia_disease_global_var
+				}
+			}
+			set_global_variable = panum_hemophilia_disease_global_var
+				var:panum_physician_var = {
+					set_variable = {
+						name = panum_physician_achievement_hemophilia_disease_var
+						value = flag:panum_physician_achievement_hemophilia_disease_loc
+					}
+				}
+			panum_add_x_medical_score_points_effect = { AMOUNT = 1 }
+			panum_small_add_technology = yes
+		}
+		physician_experience_gain_effect = { AMOUNT = 15 }
+		dubois_add_x_academy_progress = { AMOUNT = 30 }
+		add_modifier = {
+			name = panum_hemophilia_treatise_modifier
+		}
+	}
 }
 
 #Panum 2211: Disease research
