@@ -18,7 +18,7 @@ Fixes:
 -
 
 Characters:
--
+- James Franck (German Physicist)
 
 Quality of Life:
 -
