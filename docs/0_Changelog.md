@@ -20,6 +20,7 @@ Fixes:
 Characters:
 - James Franck (German Physicist)
 - Rudolf Kohlrausch (German Physicist)
+- Arthur Stanley Eddington (British Physicist and Astronomer)
 
 Quality of Life:
 -
