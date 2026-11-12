@@ -15,3 +15,4 @@ Quality of Life:
 
 Changes:
 - We now use the CMF error platypus system. This means we no longer overwrite the error deer.
+- Automated/AI Physicists might now focus more on mathematics or Physicis if they historically were focused more on one of the two fields. E.g. Bernhard Riemann will try to find new formulas while James Prescott Joule will focus more on Physical Experiments.
