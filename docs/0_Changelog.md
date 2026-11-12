@@ -8,6 +8,12 @@ Biology:
 - Added Cavendish Bananas as an action for the Biologist to introduce the Cavendish to rescue your banana plantations.
 - Added Biology Congress for vaccines, pathogens and pesticides.
 
+Engineering:
+- Added Mega Dams. Historical example: Hoover Dam.
+- Civil Engineer can develop a Mega Dam Design if there is a Gorge in the country. After finishing the JE, you get the Mega Dam Technology.
+- Mega Dam Technology allows Mega Dam building. It can be build in certain location where a Geologist has found a gorge.
+- Mega Dams are a bit overpowered because they are rare: They produce 1.000 electricity with minimal input goods.
+
 Medicine:
 - Added event about Hemophilia Treatise.
 
