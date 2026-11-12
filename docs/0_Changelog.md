@@ -19,6 +19,7 @@ Fixes:
 
 Characters:
 - James Franck (German Physicist)
+- Rudolf Kohlrausch (German Physicist)
 
 Quality of Life:
 -
