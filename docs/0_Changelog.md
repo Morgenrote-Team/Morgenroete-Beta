@@ -13,6 +13,7 @@ Engineering:
 - Civil Engineer can develop a Mega Dam Design if there is a Gorge in the country. After finishing the JE, you get the Mega Dam Technology.
 - Mega Dam Technology allows Mega Dam building. It can be build in certain location where a Geologist has found a gorge.
 - Mega Dams are a bit overpowered because they are rare: They produce 1.000 electricity with minimal input goods.
+- NOTE: The location for mega dams are distributed at game start, so you may need to start a new game with 2.9.1 if you want to build a mega dam.
 
 Medicine:
 - Added event about Hemophilia Treatise.
