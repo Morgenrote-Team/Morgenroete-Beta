@@ -15,7 +15,7 @@ Physics:
 - Added Turing Machine for Mathematician.
 
 Fixes:
--
+- Composers should no longer stay busy when they become travelling composers.
 
 Characters:
 - James Franck (German Physicist)
