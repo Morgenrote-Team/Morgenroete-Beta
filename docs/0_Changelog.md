@@ -18,6 +18,7 @@ Fixes:
 - Composers should no longer stay busy when they become travelling composers.
 
 Characters:
+- Joseph Plateau (Belgian Physicist)
 - James Franck (German Physicist)
 - Rudolf Kohlrausch (German Physicist)
 - Arthur Stanley Eddington (British Physicist and Astronomer)
