@@ -48,3 +48,4 @@ Changes:
 - Geologists may find Formations, Geysers and Gorges even when busy with another task.
 - Allow/ban foreign mountaineers removed as a mountaineer action because it is no longer needed (treaty article).
 - Allow/ban artifact export removed as an archaeologist action because it is no longer needed (treaty article).
+- Adolphe Quetelet can now also spawn as a Physicist.
