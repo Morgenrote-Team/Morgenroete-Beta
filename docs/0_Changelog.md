@@ -26,6 +26,7 @@ Fixes:
 - Fixed a bug in the options to search for Australopithecus, which searched for Australopithecus in Java instead of Africa.
 - Fixed a bug in the "systemize pithecanthropus" trigger which searched for vero man insteadt of pithecanthropus types.
 - Fixed a bug which saved the false year of the discovery of the Tianyuan man.
+- Fixed a bug for palaenthropus in the Middle East.
 
 Characters:
 - Joseph Plateau (Belgian Physicist)
