@@ -33,6 +33,7 @@ Fixes:
 Characters:
 - Joseph Plateau (Belgian Physicist)
 - James Franck (German Physicist)
+- Gustav Hertz (German Physicist)
 - Rudolf Kohlrausch (German Physicist)
 - Arthur Stanley Eddington (British Physicist and Astronomer)
 
