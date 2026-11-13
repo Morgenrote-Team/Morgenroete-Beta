@@ -13,7 +13,7 @@ Balloonist
 - Finish modifications (Ballooning GUI)
 
 Other
-- Mega Dams
+- Mega Dams [x]
 - Physician Innovation for Haemophilia description [x]
 - Add Panama Disease [x]
 - Add Congrees for Biologist to spread knowledge about vaccines, pathogens and pesticides [x]
