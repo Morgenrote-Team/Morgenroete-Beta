@@ -17,4 +17,5 @@ Other
 - Physician Innovation for Haemophilia description [x]
 - Add Panama Disease [x]
 - Add Congrees for Biologist to spread knowledge about vaccines, pathogens and pesticides [x]
-- Look into Anthropology why AI does not find more skeletons and human forms
+- Look into Anthropology why AI does not find more skeletons and human forms [x]
+- Remove ban-actions as they were used for the diplomatic action licenses. [x]
