@@ -25,6 +25,7 @@ Fixes:
 - Composers should no longer stay busy when they become travelling composers.
 - Fixed a bug in the options to search for Australopithecus, which searched for Australopithecus in Java instead of Africa.
 - Fixed a bug in the "systemize pithecanthropus" trigger which searched for vero man insteadt of pithecanthropus types.
+- Fixed a bug which saved the false year of the discovery of the Tianyuan man.
 
 Characters:
 - Joseph Plateau (Belgian Physicist)
