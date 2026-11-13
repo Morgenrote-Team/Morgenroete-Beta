@@ -14,7 +14,7 @@ Engineering:
 - Civil Engineer can develop a Mega Dam Design if there is a Gorge in the country. After finishing the JE, you get the Mega Dam Technology.
 - Mega Dam Technology allows Mega Dam building. It can be build in certain location where a Geologist has found a gorge.
 - Mega Dams are a bit overpowered because they are rare: They produce 1.000 electricity with minimal input goods.
-- NOTE: The location for mega dams are distributed at game start, so you may need to start a new game with 2.9.1 if you want to build a mega dam.
+- NOTE: The locations for mega dams are distributed at game start, so you may need to start a new game with 2.9.1 if you want to build a mega dam.
 
 Medicine:
 - Added event about Hemophilia Treatise.
@@ -45,3 +45,5 @@ Changes:
 - Automated/AI Physicists might now focus more on mathematics or Physicis if they historically were focused more on one of the two fields. E.g. Bernhard Riemann will try to find new formulas while James Prescott Joule will focus more on Physical Experiments.
 - Introduced an AI effect in anthropology to change PMs in the anthropological institute.
 - Geologists may find Formations, Geysers and Gorges even when busy with another task.
+- Allow/ban foreign mountaineers removed as a mountaineer action because it is no longer needed (treaty article).
+- Allow/ban artifact export removed as an archaeologist action because it is no longer needed (treaty article).
