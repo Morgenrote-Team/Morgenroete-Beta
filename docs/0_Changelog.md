@@ -16,6 +16,7 @@ Physics:
 
 Fixes:
 - Composers should no longer stay busy when they become travelling composers.
+- The death events for historical characters should work again now.
 
 Characters:
 - Joseph Plateau (Belgian Physicist)
