@@ -7,6 +7,7 @@ Biology:
 - Added Panama Disease.
 - Added Cavendish Bananas as an action for the Biologist to introduce the Cavendish to rescue your banana plantations.
 - Added Biology Congress for vaccines, pathogens and pesticides.
+- Even without JE Microorganism Research, the biologist receives microorganisms every month. However, he receives twice as many when JE is active.
 
 Engineering:
 - Added Mega Dams. Historical example: Hoover Dam.
@@ -35,7 +36,7 @@ Characters:
 - Arthur Stanley Eddington (British Physicist and Astronomer)
 
 Quality of Life:
--
+- Added monthly microorganisms in the Biologist GUI.
 
 Changes:
 - We now use the CMF error platypus system. This means we no longer overwrite the error deer.

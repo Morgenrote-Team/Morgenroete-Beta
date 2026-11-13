@@ -130,7 +130,15 @@ theiler_biologist_character_rating_value = {
 #Value used to determine how many microorganisms the Microrganism Research will find per month
 theiler_microorganisms_research_monthly_microorganisms_value = {
 	#Base Microorganisms
-	value = { 5 15 }
+	value = 0
+
+	#Biologist
+	if = {
+		limit = {
+			has_variable = theiler_biologist_var
+		}
+		add = 10
+	}
 
 	#Early Compound Microscope
 	if = {
@@ -156,15 +164,24 @@ theiler_microorganisms_research_monthly_microorganisms_value = {
 		add = 150
 	}
 
-	#Experience of Biologist
+	#Experienced Trait
 	if = {
 		limit = {
-			theiler_has_biologist_no_tooltip_trigger = yes
+			var:theiler_biologist_var ?= {
+				has_trait = theiler_biologist_experienced
+			}
 		}
-		add = {
-			value = var:theiler_biologist_var.var:theiler_biologist_experience_var
-			divide = 30
+		add = 5
+	}
+
+	#Famous Trait
+	if = {
+		limit = {
+			var:theiler_biologist_var ?= {
+				has_trait = theiler_biologist_famous
+			}
 		}
+		add = 15
 	}
 
 	#Microbiologist Trait
@@ -207,6 +224,13 @@ theiler_microorganisms_research_monthly_microorganisms_value = {
 			}
 		}
 		multiply = 0.5
+	}
+	if = {
+		limit = {
+			theiler_has_active_biologist_no_tooltip_trigger = yes
+			has_journal_entry = je_theiler_microorganism_research
+		}
+		multiply = 2
 	}
 
 	round = yes
