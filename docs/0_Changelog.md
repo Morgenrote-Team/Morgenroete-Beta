@@ -40,6 +40,7 @@ Characters:
 
 Quality of Life:
 - Added monthly microorganisms in the Biologist GUI.
+- Modifiers for Mathematics and Meteorology have their own icon.
 
 Changes:
 - We now use the CMF error platypus system. This means we no longer overwrite the error deer.
