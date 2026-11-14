@@ -31,6 +31,7 @@ Fixes:
 - Fixed a bug which saved the false year of the discovery of the Tianyuan man.
 - Fixed a bug for palaenthropus in the Middle East.
 - Biologists no longer conduct Cossack Breeding Programs.
+- Physics Experiments which were not yet conducted no longer show up as invisible entries.
 
 Characters:
 - Joseph Plateau (Belgian Physicist)
