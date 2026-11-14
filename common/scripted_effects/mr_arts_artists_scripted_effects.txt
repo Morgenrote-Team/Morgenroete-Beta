@@ -279,7 +279,7 @@ set_composer_travelling_composer_effect = {
 			text = elgar_set_composer_travelling_composer_tt
 
 			var:elgar_composer_var = {
-				elgar_set_composer_travelling_composer = yes
+				elgar_character_set_composer_travelling_composer_effect = yes
 			}
 
 			remove_variable = elgar_composer_var
@@ -292,15 +292,9 @@ elgar_set_new_composer_as_composer_effect = {
 	custom_tooltip = {
 		text = elgar_replace_composer_with_new_composer_tt
 
-		if = {
-			limit = {
-				has_variable = elgar_composer_var
-			}
-
-			#Sends the old Painter to the independent Painters
-			var:elgar_composer_var = {
-				elgar_set_composer_travelling_composer = yes
-			}
+		#Sends the old Composer to the travelling Composers
+		var:elgar_composer_var ?= {
+			elgar_character_set_composer_travelling_composer_effect = yes
 		}
 
 		set_variable = {
@@ -316,6 +310,11 @@ elgar_set_new_composer_as_composer_effect = {
 		if = {
 			limit = { has_modifier = elgar_conductor_exhausted_modifier }
 			remove_modifier = elgar_conductor_exhausted_modifier
+		}
+		var:elgar_composer_var ?= {
+			add_modifier = {
+				name = artists_character_is_official_composer_modifier
+			}
 		}
 
 		remove_variable = elgar_new_composer_var
@@ -337,8 +336,29 @@ elgar_remove_new_composer_effect = {
 }
 
 #Sets Composer as Travelling composer
-elgar_set_composer_travelling_composer = {
+elgar_character_set_composer_travelling_composer_effect = {
 	remove_modifier = artists_character_is_official_composer_modifier
+
+	set_character_busy_and_immortal = no
+
+	if = {
+		limit = {
+			has_modifier = elgar_conductor_conducts_modifier
+		}
+		remove_modifier = elgar_conductor_conducts_modifier
+	}
+	if = {
+		limit = {
+			has_modifier = elgar_conductor_touring_modifier
+		}
+		remove_modifier = elgar_conductor_touring_modifier
+	}
+	if = {
+		limit = {
+			has_modifier = elgar_conductor_masterpiece_modifier
+		}
+		remove_modifier = elgar_conductor_masterpiece_modifier
+	}
 
 	#Is used to prevent a country from getting that composer immediately afterwards
 	set_variable = {
@@ -370,7 +390,7 @@ set_new_composer_travelling_composer_effect = {
 		text = elgar_set_new_composer_travelling_composer_tt
 
 		scope:elgar_new_composer_scope = {
-			elgar_set_composer_travelling_composer = yes
+			elgar_character_set_composer_travelling_composer_effect = yes
 		}
 
 		remove_variable = elgar_new_composer_var

@@ -1,47 +1,57 @@
-Changelog fot 2.9.0e "Curie"
+Changelog fot 2.9.1 "Piccard"
 
 Ballooning:
-- There is a tiny risk that your balloonist may be enslaved on a balloon adventure.
-- Event for Switzerland about Alpine Ballooning for tourists may trigger on a balloon ride.
-- The first country which uses Balloon Reconnaissance, has reseacrhed Camera and has a Balloonist will trigger the Event "First Aerial Photos from a Balloon".
-- A mechanical engineer may invent the first steerable airship when doing mechanical research.
+- Added Stratospheric Flight, including new altitude records.
 
 Biology:
-- Pathogens & Vaccines give a biological breakthrough instead of a medical avantgarde modifier to distinguish them.
-- Removed Biologist features from Medical Congress.
-- Biological Congress planned with 2.9.1.
+- Added Panama Disease.
+- Added Cavendish Bananas as an action for the Biologist to introduce the Cavendish to rescue your banana plantations.
+- Added Biology Congress for vaccines, pathogens and pesticides.
+- Even without JE Microorganism Research, the biologist receives microorganisms every month. However, he receives twice as many when JE is active.
 
-Geology
-- Geologists may find historical gorges (added state trait).
+Engineering:
+- Added Mega Dams. Historical example: Hoover Dam.
+- Civil Engineer can develop a Mega Dam Design if there is a Gorge in the country. After finishing the JE, you get the Mega Dam Technology.
+- Mega Dam Technology allows Mega Dam building. It can be build in certain location where a Geologist has found a gorge.
+- Mega Dams are a bit overpowered because they are rare: They produce 1.000 electricity with minimal input goods.
+- NOTE: The locations for mega dams are distributed at game start, so you may need to start a new game with 2.9.1 if you want to build a mega dam.
+
+Medicine:
+- Added event about Hemophilia Treatise.
 
 Physics:
-- The first nation that researches Modern Physics gains a free mathematician.
-- The first nation that researches Reconnaissance Balloons gains a free meteorologist.
+- Added Turing Machine for Mathematician.
+- Added Radiosonde for Meteorologist.
 
 Fixes:
-- The event "Pirated Copies" should no longer try to change relations between you and yourself.
-- The notification bug MAX_RECURSIVE_DEPTH should be fixed.
-- Various error log fixes.
+- Composers should no longer stay busy when they become travelling composers.
+- The death events for historical characters should work again now.
+- Fixed a bug in the options to search for Australopithecus, which searched for Australopithecus in Java instead of Africa.
+- Fixed a bug in the "Systemize Pithecanthropus" trigger which searched for vero man instead of pithecanthropus types.
+- Fixed a bug which saved the false year of the discovery of the Tianyuan man.
+- Fixed a bug for palaenthropus in the Middle East.
 
 Characters:
-- Christian Doppler (Austrian Physicist)
-- Hippolyte Fizeau (French Physicist)
-- Léon Foucault (French Physicist)
-- James Prescott Joule (British Physicist)
-- Sophus Lie (Norwegian Physicist)
-- Francisque Arban (French Balloonist)
-- Félix Nadar (French Balloonist)
-- James Glaisher (British Balloonist and Physicist)
-- Charles Green (British Balloonist)
-- Eduard Spelterini (Swiss Balloonist)
+- Joseph Plateau (Belgian Physicist)
+- Pierre Idrac (French Physicist)
+- Richard Aßmann (German Physicist)
+- James Franck (German Physicist)
+- Hugo Hergesell (German Physicist)
+- Gustav Hertz (German Physicist)
+- Heinrich Hertz (German Physicist and Engineer)
+- Rudolf Kohlrausch (German Physicist)
+- Arthur Stanley Eddington (British Physicist and Astronomer)
 
 Quality of Life:
-- Completed crossings in the balloonist window now get highlighted with a glow effect.
+- Added monthly microorganisms in the Biologist GUI.
+- Modifiers for Mathematics and Meteorology have their own icon.
 
 Changes:
-- If the first construction phase of Neuschwanstein has already been completed, any country with a german primary culture can complete Neuschwanstein.
-- Auguste Piccard can now spawn as a Physicist.
-- John Wise can now spawn as a Balloonist.
-
-Translations:
-- Updated translations, in particular Chinese and Polish.
+- We now use the CMF error platypus system. This means we no longer overwrite the error deer.
+- Automated/AI Physicists might now focus more on mathematics or Physicis if they historically were focused more on one of the two fields. E.g. Bernhard Riemann will try to find new formulas while James Prescott Joule will focus more on Physical Experiments.
+- Introduced an AI effect in anthropology to change PMs in the anthropological institute.
+- Geologists may find Formations, Geysers and Gorges even when busy with another task.
+- Allow/ban foreign mountaineers removed as a mountaineer action because it is no longer needed (treaty article).
+- Allow/ban artifact export removed as an archaeologist action because it is no longer needed (treaty article).
+- Various characters can now also spawn as a Physicist.
+- Most Morgenröte characters can become interest group leaders again. However, they will now have less prominence which will hopefully keep them from becoming politicians all the time.

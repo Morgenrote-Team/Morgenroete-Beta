@@ -1620,6 +1620,77 @@ je_gaudi_topographic_map_project = {
 	weight = 30
 }
 
+###Decision Problem###
+je_tesla_mega_dam_project = {
+	icon = "gfx/interface/icons/invention_icons/tesla_mega_dam_tech.dds"
+
+	activation_description = {
+		always = yes
+	}
+
+	group = je_group_tesla_engineers
+
+	scripted_progress_bar = tesla_engineer_mega_dam_project_progress_bar
+
+	scripted_button = gaudi_stop_engineering_project_button
+
+	modifiers_while_active = {
+		tesla_dam_engineering_project_cost_modifier
+	}
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_tesla_mega_dam_project_complete_tt
+				scope:journal_entry = {
+					"scripted_bar_progress(tesla_engineer_mega_dam_project_progress_bar)" >= 60
+				}
+			}
+		}
+
+		effect = {
+			add_technology_researched = tesla_mega_dam_tech
+			civil_engineer_experience_gain_effect = { AMOUNT = 35 }
+			remove_variable = gaudi_can_stop_active_engineering_project_var
+			remove_variable = gaudi_stop_engineering_project_var
+			tesla_set_engineer_unbusy_effect = yes
+		}
+	}
+
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = gaudi_stop_engineering_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						tesla_has_engineer = yes
+						tesla_has_no_civil_engineer_trigger = yes
+					}
+					has_variable = gaudi_stop_engineering_project_var
+				}
+			}
+		}
+
+        effect = {
+			remove_variable = gaudi_can_stop_active_engineering_project_var
+			remove_variable = gaudi_stop_engineering_project_var
+			tesla_set_engineer_unbusy_effect = yes
+        }
+	}
+
+	weight = 50
+}
+
 ###################
 
 ######MECHANICAL ENGINEER PROJECTS######
