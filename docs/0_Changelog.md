@@ -21,6 +21,7 @@ Medicine:
 
 Physics:
 - Added Turing Machine for Mathematician.
+- Added Radiosonde for Meteorologist.
 
 Fixes:
 - Composers should no longer stay busy when they become travelling composers.

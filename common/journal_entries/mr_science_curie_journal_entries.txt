@@ -811,20 +811,6 @@ je_curie_weather_station_expansion = {
 		value = mr_local_project_cost_very_small_value
 	}
 
-#	on_monthly_pulse = {
-#		random_events = {
-#			700 = 0
-#
-#			10 = mendelejew.211 #Mendelejew 211: A new Laboratory
-#			10 = mendelejew.212 #Mendelejew 212: Unknown Chemical Compound
-#			10 = mendelejew.213 #Mendelejew 213: Chemical Assistant
-#			10 = mendelejew.214 #Mendelejew 214: Bad samples
-#			10 = mendelejew.215 #Mendelejew 215: GEOLOGIST helps
-#
-#			20 = mendelejew.401 #Mendelejew 401: A Chemical Experiment
-#		}
-#	}
-
 	#Completion
 	outcome = {
 		header = je_standard_completion_header
@@ -1103,6 +1089,70 @@ je_curie_marine_weather_service = {
 	}
 
 	timeout = 1095
+
+	weight = 50
+}
+
+###Radiosonde###
+je_curie_radiosonde = {
+	icon = "gfx/interface/icons/event_icons/event_meteorology.dds"
+
+	activation_description = {
+		always = yes
+	}
+
+	group = je_group_curie_physics
+
+	scripted_progress_bar = curie_physicist_radiosonde_progress_bar
+
+	scripted_button = curie_stop_physicist_project_button
+
+	modifiers_while_active = {
+		curie_physicist_radiosonde_cost_modifier
+	}
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			custom_tooltip = {
+				text = je_curie_radiosonde_progress_complete_tt
+				scope:journal_entry = {
+					"scripted_bar_progress(curie_physicist_radiosonde_progress_bar)" >= 100
+				}
+			}
+		}
+
+		effect = {
+			trigger_event = { id = curie.531 }
+			remove_variable = curie_stop_physics_project_var
+			curie_set_physicist_unbusy_effect = yes
+		}
+	}
+
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_physicist_dies_tt
+				OR = {
+					has_variable = curie_stop_physics_project_var
+					curie_has_physicist_no_tooltip_trigger = no
+				}
+			}
+		}
+
+        effect = {
+			remove_variable = curie_stop_physics_project_var
+			curie_set_physicist_unbusy_effect = yes
+        }
+	}
 
 	weight = 50
 }
