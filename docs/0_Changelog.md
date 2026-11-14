@@ -35,6 +35,7 @@ Characters:
 - Joseph Plateau (Belgian Physicist)
 - Richard Aßmann (German Physicist)
 - James Franck (German Physicist)
+- Hugo Hergesell (German Physicist)
 - Gustav Hertz (German Physicist)
 - Heinrich Hertz (German Physicist and Engineer)
 - Rudolf Kohlrausch (German Physicist)
