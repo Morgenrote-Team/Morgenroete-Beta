@@ -32,6 +32,7 @@ Fixes:
 - Fixed a bug for palaenthropus in the Middle East.
 - Biologists no longer conduct Cossack Breeding Programs.
 - Physics Experiments which were not yet conducted no longer show up as invisible entries.
+- The Paleontological Excavation Journal Entries now get the correct cost applied once and not twice.
 
 Characters:
 - Joseph Plateau (Belgian Physicist)
