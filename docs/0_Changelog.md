@@ -28,6 +28,7 @@ Medicine:
 Physics:
 - Added Turing Machine for Mathematician.
 - Added Radiosonde for Meteorologist.
+- Improve Mathematics: Researching Differential Geometry, Modern Physics, Nuclear Physics gives extra points on the Progress Bar.
 
 Fixes:
 - Composers should no longer stay busy when they become travelling composers.
