@@ -7,4 +7,4 @@ Biologist
 - Change Progress Bar for Vaccine and Pathogen
 
 Helium
-- Add Helium PM for Oil fields
+- Add Helium PM for Oil fields -> Natural Gas Tech -> PM Natural Gas Raffinery for Oil Rig (+10% Oil throughput) -> +Helium isolated = Helium-Trigger

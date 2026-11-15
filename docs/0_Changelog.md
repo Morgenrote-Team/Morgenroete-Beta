@@ -7,6 +7,7 @@ Ballooning:
 - Added Stratospheric Flight, including new altitude records.
 - Added Helium as fuel. Hydrogen is slightly better for records, but Helium will reduce the risk of an accident and will prevent a hydrogen fire when doing stratospheric flights (which will always end in a catastrophe).
 - Balloonists doing altitude records above 8,000 meters will die of hypoxia without Oxygen Cylinders (Electric Arc Process).
+- Not longer possible to do actions while your balloon has the "balloon modifications" modifier.
 
 Biology:
 - Added Panama Disease.
