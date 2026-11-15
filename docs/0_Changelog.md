@@ -42,6 +42,7 @@ Fixes:
 - The Paleontological Excavation Journal Entries now get the correct cost applied once and not twice.
 - The Archaeological Team Alert no longer appears after all Archaeological Teams were created.
 - The Balloonist alert and the button in the Ballooning GUI now send you to the aviation tab instead of the sports tab.
+- Hopefully fixed a Balloonist AI issue which was unbusy and did several tasks at once.
 - The Anthropologist should no longer randomly start to work for the player.
 
 Characters:
