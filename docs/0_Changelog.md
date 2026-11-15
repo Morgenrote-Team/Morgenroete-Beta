@@ -2,6 +2,7 @@ Changelog fot 2.9.1 "Piccard"
 
 Ballooning:
 - Added Stratospheric Flight, including new altitude records.
+- Balloonist doing altitude records above 8,000 meters will die of hypoxia without Oxygen Cylinders (Electric Arc Process).
 
 Biology:
 - Added Panama Disease.
