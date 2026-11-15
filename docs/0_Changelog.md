@@ -1,8 +1,5 @@
 Changelog fot 2.9.1 "Piccard"
 
-Aviation
-- Helium Reserve Event will trigger always when you have an oil field; however, Helium must have been isolated before by a chemist and you need zeppelins or high altitude balloon tech.
-
 Ballooning:
 - Added Stratospheric Flight, including new altitude records.
 - Added Helium as fuel. Hydrogen is slightly better for records, but Helium will reduce the risk of an accident and will prevent a hydrogen fire when doing stratospheric flights (which will always end in a catastrophe).
@@ -16,12 +13,22 @@ Biology:
 - Added Biology Congress for vaccines, pathogens and pesticides.
 - Even without JE Microorganism Research, the biologist receives microorganisms every month. However, he receives twice as many when JE is active.
 
+Chemistry:
+- Added Natural Gas Production tehcnology, giving 15% oil output for oil rigs and enabling Helium Plant.
+
 Engineering:
 - Added Mega Dams. Historical example: Hoover Dam.
 - Civil Engineer can develop a Mega Dam Design if there is a Gorge in the country. After finishing the JE, you get the Mega Dam Technology.
 - Mega Dam Technology allows Mega Dam building. It can be build in certain location where a Geologist has found a gorge.
 - Mega Dams are a bit overpowered because they are rare: They produce 1.000 electricity with minimal input goods.
 - NOTE: The locations for mega dams are distributed at game start, so you may need to start a new game with 2.9.1 if you want to build a mega dam.
+
+Helium:
+- Complete overhaul of the Helium concept. The old events and the Helium Deposit modifier have been removed.
+- To find helium, you need a geologist, the natural gas production technology, and helium must have been isolated as an element.
+- Geologists discover helium in much the same way as they do formations, gorges, or geysers.
+- In states with the Helium state trait, helium factories can be built. The owner of such a factory can fill balloons and zeppelins with helium. Additionally, the Overlord of a country with a helium factory has access to helium.
+- Helium is an EXTREMELY RARE MATERIAL that, even today, is produced by only a few countries; this was even more true in 1930. The countries with helium reserves are: Texas, Alberta, Posen, Sahara, Vrystaat, Samara, Sichuan, Northern Territory.
 
 Medicine:
 - Added event about Hemophilia Treatise.
@@ -66,7 +73,7 @@ Changes:
 - We now use the CMF error platypus system. This means we no longer overwrite the error deer.
 - Automated/AI Physicists might now focus more on mathematics or Physicis if they historically were focused more on one of the two fields. E.g. Bernhard Riemann will try to find new formulas while James Prescott Joule will focus more on Physical Experiments.
 - Introduced an AI effect in anthropology to change PMs in the anthropological institute.
-- Geologists may find Formations, Geysers and Gorges even when busy with another task.
+- Geologists may find Formations, Geysers, Gorges and Helium even when busy with another task.
 - Allow/ban foreign mountaineers removed as a mountaineer action because it is no longer needed (treaty article).
 - Allow/ban artifact export removed as an archaeologist action because it is no longer needed (treaty article).
 - Various characters can now also spawn as a Physicist.
