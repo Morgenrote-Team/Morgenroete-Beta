@@ -34,6 +34,7 @@ Fixes:
 - Physics Experiments which were not yet conducted no longer show up as invisible entries.
 - The Paleontological Excavation Journal Entries now get the correct cost applied once and not twice.
 - The Archaeological Team Alert no longer appears after all Archaeological Teams were created.
+- Hominid Prospecting should work correctly again.
 
 Characters:
 - Joseph Plateau (Belgian Physicist)
