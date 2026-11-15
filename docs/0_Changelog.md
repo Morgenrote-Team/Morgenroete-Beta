@@ -37,6 +37,7 @@ Fixes:
 - The Archaeological Team Alert no longer appears after all Archaeological Teams were created.
 - Hominid Prospecting should work correctly again.
 - The Balloonist alert and the button in the Ballooning GUI now send you to the aviation tab instead of the sports tab.
+- The Anthropologist should no longer randomly start to work for the player.
 
 Characters:
 - Joseph Plateau (Belgian Physicist)
