@@ -35,6 +35,7 @@ Fixes:
 - The Paleontological Excavation Journal Entries now get the correct cost applied once and not twice.
 - The Archaeological Team Alert no longer appears after all Archaeological Teams were created.
 - Hominid Prospecting should work correctly again.
+- The Balloonist alert and the button in the Ballooning GUI now send you to the aviation tab instead of the sports tab.
 
 Characters:
 - Joseph Plateau (Belgian Physicist)
