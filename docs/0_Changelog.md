@@ -1,8 +1,12 @@
 Changelog fot 2.9.1 "Piccard"
 
+Aviation
+- Helium Reserve Event will trigger always when you have an oil field; however, Helium must have been isolated before by a chemist and you need zeppelins or high altitude balloon tech.
+
 Ballooning:
 - Added Stratospheric Flight, including new altitude records.
-- Balloonist doing altitude records above 8,000 meters will die of hypoxia without Oxygen Cylinders (Electric Arc Process).
+- Added Helium as fuel. Hydrogen is slightly better for records, but Helium will reduce the risk of an accident and will prevent a hydrogen fire when doing stratospheric flights (which will always end in a catastrophe).
+- Balloonists doing altitude records above 8,000 meters will die of hypoxia without Oxygen Cylinders (Electric Arc Process).
 
 Biology:
 - Added Panama Disease.
@@ -31,11 +35,11 @@ Fixes:
 - Fixed a bug in the "Systemize Pithecanthropus" trigger which searched for vero man instead of pithecanthropus types.
 - Fixed a bug which saved the false year of the discovery of the Tianyuan man.
 - Fixed a bug for palaenthropus in the Middle East.
+- Hominid Prospecting and Hominid Expedition should work correctly again.
 - Biologists no longer conduct Cossack Breeding Programs.
 - Physics Experiments which were not yet conducted no longer show up as invisible entries.
 - The Paleontological Excavation Journal Entries now get the correct cost applied once and not twice.
 - The Archaeological Team Alert no longer appears after all Archaeological Teams were created.
-- Hominid Prospecting should work correctly again.
 - The Balloonist alert and the button in the Ballooning GUI now send you to the aviation tab instead of the sports tab.
 - The Anthropologist should no longer randomly start to work for the player.
 
