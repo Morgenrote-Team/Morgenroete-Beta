@@ -30,6 +30,11 @@ Fixes:
 - Fixed a bug in the "Systemize Pithecanthropus" trigger which searched for vero man instead of pithecanthropus types.
 - Fixed a bug which saved the false year of the discovery of the Tianyuan man.
 - Fixed a bug for palaenthropus in the Middle East.
+- Biologists no longer conduct Cossack Breeding Programs.
+- Physics Experiments which were not yet conducted no longer show up as invisible entries.
+- The Paleontological Excavation Journal Entries now get the correct cost applied once and not twice.
+- The Archaeological Team Alert no longer appears after all Archaeological Teams were created.
+- Hominid Prospecting should work correctly again.
 
 Characters:
 - Joseph Plateau (Belgian Physicist)
