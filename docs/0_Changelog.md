@@ -68,6 +68,7 @@ Characters:
 - Arthur Stanley Eddington (British Physicist and Astronomer)
 - William Ferrel (American Physicist)
 - Joseph Henry (American Physicist)
+- Benjamin Peirce (American Physicist)
 
 Quality of Life:
 - Added monthly microorganisms in the Biologist GUI.
