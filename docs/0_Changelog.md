@@ -72,6 +72,7 @@ Characters:
 - Benjamin Peirce (American Physicist)
 - Henry Tracey Coxwell (British Balloonist)
 - Emil Messner (Swiss Balloonist)
+- Théodore Schaeck (Swiss Balloonist)
 - Thaddeus S. C. Lowe (American Balloonist and Physicist)
 - Park Van Tassel (American Balloonist)
 
