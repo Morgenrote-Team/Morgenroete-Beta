@@ -79,3 +79,4 @@ Changes:
 - Allow/ban artifact export removed as an archaeologist action because it is no longer needed (treaty article).
 - Various characters can now also spawn as a Physicist.
 - Most Morgenröte characters can become interest group leaders again. However, they will now have less prominence which will hopefully keep them from becoming politicians all the time.
+- Lucien Vidie can now spawn as a Meteorologist.
