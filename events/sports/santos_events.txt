@@ -457,7 +457,11 @@ santos.326 = {
 	}
 
 	trigger = {
-		curtiss_has_helium = no
+		NOT = {
+			var:santos_balloonist_var ?= {
+                var:santos_balloon_fuel_var ?= flag:santos_balloon_fuel_helium_flag
+            }
+		}
 	}
 
 	immediate = {
@@ -476,7 +480,7 @@ santos.326 = {
 					}
                 }
             }
-		  	factor = 0.1 #Meteorologist or balloonist with meteorological/engineer skills will notice problems before flight (not in all cases)
+		  	factor = 0.33 #Meteorologist or balloonist with meteorological/engineer skills will notice problems before flight (not in all cases)
 		}
 	}
 }
@@ -793,6 +797,10 @@ santos.401 = {
 
 		trigger = {
 			is_player = yes
+		}
+
+		var:santos_balloonist_var ?= {
+			set_character_busy_and_immortal = no
 		}
 	}
 
@@ -2140,6 +2148,9 @@ santos.601 = {
 				}
 				var:new_balloon_altitude_var >= 8000
 			}
+			trigger_event = {
+				id = santos.677
+			}
 		}
 		else_if = {
 			limit = {
@@ -2962,6 +2973,69 @@ santos.676 = {
 	}
 }
 
+#santos 677: Death from Lack of Oxygen
+santos.677 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = santos.677.t
+
+	desc = santos.677.d
+
+	flavor = santos.677.f
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:santos_balloonist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = { #triggered by effect
+	}
+
+	immediate = {
+		var:santos_balloonist_var = {
+			save_scope_as = santos_balloonist_scope
+		}
+	}
+
+	option = {	#How horrible!
+		name = santos.677.g
+		default_option = yes
+
+		set_variable = {
+			name = mr_no_death_event_var
+			days = 1
+		}
+		kill_balloonist_effect = yes
+		remove_variable = mr_no_death_event_var
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {	#Terrible! Is there another balloonist we could sponsor?
+		name = santos.677.h
+
+		set_variable = {
+			name = mr_no_death_event_var
+			days = 1
+		}
+		kill_and_replace_balloonist_effect = yes
+		remove_variable = mr_no_death_event_var
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
 #Santos 681: Gordon Bennett Cup
 santos.681 = {
 	dlc = dlc_morgenrote
@@ -3137,6 +3211,138 @@ santos.691 = {
 
 	after = {
 		remove_variable = santos_balloon_type_event_active_var
+	}
+}
+
+#Santos 692: Change Fuel
+santos.692 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = santos.692.t
+
+	desc = santos.692.d
+
+	flavor = santos.692.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/santos_pictures/santos_balloon_type.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = santos_balloon_fuel_event_active_var
+	}
+
+	option = {	#Coal Gas
+		name = santos.692.g
+		highlighted_option = yes
+
+		show_as_unavailable = {
+			NOT = {
+				var:santos_balloonist_var ?= {
+					var:santos_balloon_fuel_var ?= flag:santos_balloon_fuel_coal_gas_flag
+				}
+			}
+		}
+		trigger = {
+			hidden_trigger = {
+				NOT = {
+					var:santos_balloonist_var ?= {
+						var:santos_balloon_fuel_var ?= flag:santos_balloon_fuel_coal_gas_flag
+					}
+				}
+			}
+		}
+		santos_set_balloon_fuel_coal_gas_effect = yes
+		#AI has a different way to do this
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {	#Hydrogen
+		name = santos.692.h
+		highlighted_option = yes
+
+		show_as_unavailable = {
+			NOT = {
+				var:santos_balloonist_var ?= {
+					var:santos_balloon_fuel_var ?= flag:santos_balloon_fuel_hydrogen_flag
+				}
+			}
+		}
+		trigger = {
+			hidden_trigger = {
+				NOT = {
+					var:santos_balloonist_var ?= {
+						var:santos_balloon_fuel_var ?= flag:santos_balloon_fuel_hydrogen_flag
+					}
+				}
+			}
+			custom_tooltip = {
+				text = MR_BALLOONIST_HYDROGEN_FACTORY_TRIGGER_TT
+				curtiss_has_hydrogen = yes
+			}
+		}
+		santos_set_balloon_fuel_hydrogen_effect = yes
+		#AI has a different way to do this
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {	#Helium
+		name = santos.692.i
+		highlighted_option = yes
+
+		show_as_unavailable = {
+			NOT = {
+				var:santos_balloonist_var ?= {
+					var:santos_balloon_fuel_var ?= flag:santos_balloon_fuel_helium_flag
+				}
+			}
+		}
+
+		trigger = {
+			hidden_trigger = {
+				NOT = {
+					var:santos_balloonist_var ?= {
+						var:santos_balloon_fuel_var ?= flag:santos_balloon_fuel_helium_flag
+					}
+				}
+			}
+			custom_tooltip = {
+				text = MR_BALLOONIST_HELIUM_FACTORY_TRIGGER_TT
+				curtiss_has_helium = yes
+			}
+		}
+		santos_set_balloon_fuel_helium_effect = yes
+		#AI has a different way to do this
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {	#None
+		name = santos.691.k
+		trigger = {
+			is_player = yes
+		}
+		default_option = yes
+	}
+
+	after = {
+		remove_variable = santos_balloon_fuel_event_active_var
 	}
 }
 

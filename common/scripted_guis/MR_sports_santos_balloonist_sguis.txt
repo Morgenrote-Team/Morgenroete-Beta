@@ -64,50 +64,6 @@ mr_fire_balloonist_button_sgui = {
     }
 }
 
-######NO MORE FLIGHT INFORMATION######
-#mr_ballooning_no_more_flight_information_sgui = {
-#    scope = country
-#
-#	is_shown = {
-#		santos_has_balloonist_trigger = yes
-#		NOT = {
-#			has_variable = santos_no_balloonist_flight_events
-#		}
-#	}
-#
-#    is_valid = {
-#		always = yes
-#    }
-#
-#    effect = {
-#		custom_tooltip = {
-#			text = santos_ballooning_no_more_flight_information_tt
-#			set_variable = santos_no_balloonist_flight_events
-#		}
-#    }
-#}
-
-######SHOW FLIGHT INFORMATION######
-#mr_ballooning_flight_information_sgui = {
-#    scope = country
-#
-#	is_shown = {
-#		santos_has_balloonist_trigger = yes
-#		has_variable = santos_no_balloonist_flight_events
-#	}
-#
-#    is_valid = {
-#		always = yes
-#    }
-#
-#    effect = {
-#		custom_tooltip = {
-#			text = santos_ballooning_return_flight_information_tt
-#			remove_variable = santos_no_balloonist_flight_events
-#		}
-#    }
-#}
-
 ##############################################################################################
 
 #MR_BALLOONIST_BALLOON_RIDE_BUTTON
@@ -123,9 +79,15 @@ mr_balloonist_balloon_ride_button = {
 		NOT = {
 			has_journal_entry = je_santos_balloon_ride
 		}
+		custom_tooltip = {
+			text = MR_BALLOONIST_MODIFICATION_POSSIBLE_TRIGGER_TT
+			NOT = {
+				has_modifier = santos_balloon_modification_modifier
+			}
+		}
 	}
 	effect = {
-		add_journal_entry = { type = je_santos_balloon_ride }
+		santos_balloon_ride_button_effect = yes
 	}
 }
 #Active
@@ -151,9 +113,15 @@ mr_balloonist_balloon_adventure_button = {
 		NOT = {
 			has_journal_entry = je_santos_balloon_adventure
 		}
+		custom_tooltip = {
+			text = MR_BALLOONIST_MODIFICATION_POSSIBLE_TRIGGER_TT
+			NOT = {
+				has_modifier = santos_balloon_modification_modifier
+			}
+		}
 	}
 	effect = {
-		add_journal_entry = { type = je_santos_balloon_adventure }
+		santos_balloon_adventure_button_effect = yes
 	}
 }
 #Active
@@ -178,9 +146,15 @@ mr_balloonist_balloon_record_button = {
 		NOT = {
 			has_journal_entry = je_santos_balloon_record
 		}
+		custom_tooltip = {
+			text = MR_BALLOONIST_MODIFICATION_POSSIBLE_TRIGGER_TT
+			NOT = {
+				has_modifier = santos_balloon_modification_modifier
+			}
+		}
 	}
 	effect = {
-		add_journal_entry = { type = je_santos_balloon_record }
+		santos_balloon_record_button_effect = yes
 	}
 }
 #Active
@@ -209,6 +183,12 @@ mr_balloonist_balloon_crossing_button = {
 				}
 			}
 		}
+		custom_tooltip = {
+			text = MR_BALLOONIST_MODIFICATION_POSSIBLE_TRIGGER_TT
+			NOT = {
+				has_modifier = santos_balloon_modification_modifier
+			}
+		}
 		hidden_trigger = {
 			NOR = {
 				has_variable = santos_crossing_selection_var
@@ -220,6 +200,9 @@ mr_balloonist_balloon_crossing_button = {
 		trigger_event = {
 			id = santos.401
 			popup = yes
+		}
+		var:santos_balloonist_var ?= {
+			set_character_busy_and_immortal = no
 		}
 	}
 }
@@ -250,9 +233,12 @@ mr_balloonist_stratospheric_flight_button = {
 		mr_gui_has_high_altitude_balloon_tech_trigger = yes
 		mr_gui_has_electric_arc_process_tech_trigger = yes
 		custom_tooltip = {
-			text = MR_BALLOONIST_HAS_HYDROGEN_BALLOON_TRIGGER_TT
+			text = MR_BALLOONIST_HAS_HYDROGEN_OR_HELIUM_BALLOON_TRIGGER_TT
 			var:santos_balloonist_var ?= {
-				var:santos_balloon_fuel_var ?= flag:santos_balloon_fuel_hydrogen_flag
+				OR = {
+					var:santos_balloon_fuel_var ?= flag:santos_balloon_fuel_hydrogen_flag
+					var:santos_balloon_fuel_var ?= flag:santos_balloon_fuel_helium_flag
+				}
 			}
 		}
 		custom_tooltip = {
@@ -265,9 +251,18 @@ mr_balloonist_stratospheric_flight_button = {
 		NOT = {
 			has_journal_entry = je_santos_stratospheric_flight
 		}
+		custom_tooltip = {
+			text = MR_BALLOONIST_MODIFICATION_POSSIBLE_TRIGGER_TT
+			NOT = {
+				has_modifier = santos_balloon_modification_modifier
+			}
+		}
 	}
 	effect = {
 		santos_stratospheric_flight_button_effect = yes
+		var:santos_balloonist_var ?= {
+			set_character_busy_and_immortal = no
+		}
 	}
 }
 #Active
