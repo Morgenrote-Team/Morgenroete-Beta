@@ -53,6 +53,7 @@ Fixes:
 - The Balloonist alert and the button in the Ballooning GUI now send you to the aviation tab instead of the sports tab.
 - Hopefully fixed a Balloonist AI issue which was unbusy and did several tasks at once.
 - The Anthropologist should no longer randomly start to work for the player.
+- Seaplane Tenders get unlocked with Seaplanes again.
 
 Characters:
 - Joseph Plateau (Belgian Physicist)
@@ -70,6 +71,10 @@ Characters:
 - Joseph Henry (American Physicist)
 - Benjamin Peirce (American Physicist)
 - Henry Tracey Coxwell (British Balloonist)
+- Emil Messner (Swiss Balloonist)
+- Théodore Schaeck (Swiss Balloonist)
+- Thaddeus S. C. Lowe (American Balloonist and Physicist)
+- Park Van Tassel (American Balloonist)
 
 Quality of Life:
 - Added monthly microorganisms in the Biologist GUI.
