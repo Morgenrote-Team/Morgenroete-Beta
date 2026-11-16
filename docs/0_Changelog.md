@@ -57,6 +57,7 @@ Fixes:
 Characters:
 - Joseph Plateau (Belgian Physicist)
 - Pierre Idrac (French Physicist)
+- Émilien Renou (French Physicist)
 - Richard Aßmann (German Physicist)
 - James Franck (German Physicist)
 - Hugo Hergesell (German Physicist)
