@@ -67,6 +67,7 @@ Characters:
 - Rudolf Kohlrausch (German Physicist)
 - Arthur Stanley Eddington (British Physicist and Astronomer)
 - William Ferrel (American Physicist)
+- Joseph Henry (American Physicist)
 
 Quality of Life:
 - Added monthly microorganisms in the Biologist GUI.
