@@ -54,6 +54,7 @@ Characters:
 - Hugo Hergesell (German Physicist)
 - Gustav Hertz (German Physicist)
 - Heinrich Hertz (German Physicist and Engineer)
+- Ludwig Friedrich Kämtz (German Physicist)
 - Rudolf Kohlrausch (German Physicist)
 - Arthur Stanley Eddington (British Physicist and Astronomer)
 
