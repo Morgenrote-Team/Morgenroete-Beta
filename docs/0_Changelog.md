@@ -69,6 +69,7 @@ Characters:
 - William Ferrel (American Physicist)
 - Joseph Henry (American Physicist)
 - Benjamin Peirce (American Physicist)
+- Henry Tracey Coxwell (British Balloonist)
 
 Quality of Life:
 - Added monthly microorganisms in the Biologist GUI.
