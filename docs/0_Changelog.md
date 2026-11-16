@@ -72,6 +72,7 @@ Characters:
 - Benjamin Peirce (American Physicist)
 - Henry Tracey Coxwell (British Balloonist)
 - Thaddeus S. C. Lowe (American Balloonist and Physicist)
+- Park Van Tassel (American Balloonist)
 
 Quality of Life:
 - Added monthly microorganisms in the Biologist GUI.
