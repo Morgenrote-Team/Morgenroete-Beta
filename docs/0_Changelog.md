@@ -55,6 +55,7 @@ Fixes:
 - The Anthropologist should no longer randomly start to work for the player.
 - Seaplane Tenders get unlocked with Seaplanes again.
 - Switched the Pathogen and Vaccine Journal Entry progress bars to scripted progress bars, to no longer shove the Journal Entries to the side in the Journal. This might break the bar if you already started the project before the update but the JE should still finish.
+- The country that receives a research charter should gain leverage on the country which granted the charter, not vice-versa.
 
 Characters:
 - Joseph Plateau (Belgian Physicist)
@@ -80,6 +81,7 @@ Characters:
 Quality of Life:
 - Added monthly microorganisms in the Biologist GUI.
 - Modifiers for Mathematics and Meteorology have their own icon.
+- Research Charters now appear in the diplomatic lens.
 
 Changes:
 - We now use the CMF error platypus system. This means we no longer overwrite the error deer.
