@@ -54,7 +54,7 @@ Fixes:
 - Hopefully fixed a Balloonist AI issue which was unbusy and did several tasks at once.
 - The Anthropologist should no longer randomly start to work for the player.
 - Seaplane Tenders get unlocked with Seaplanes again.
-- Switched the Pathogen Journal Entry progress bars to scripted progress bars, to no longer shove the Journal Entries to the side in the Journal. This might break the bar if you already started the project before the update but the JE should still finish.
+- Switched the Pathogen and Vaccine Journal Entry progress bars to scripted progress bars, to no longer shove the Journal Entries to the side in the Journal. This might break the bar if you already started the project before the update but the JE should still finish.
 
 Characters:
 - Joseph Plateau (Belgian Physicist)
