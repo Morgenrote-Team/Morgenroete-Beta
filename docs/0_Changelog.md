@@ -4,7 +4,8 @@ Fixes:
 -
 
 Characters:
-- Louis Blériot (French Pilot)
+- Louis Blériot (French Pilot and Engineer)
+- Émile Taddéoli (Swiss Pilot and Car Racer)
 
 DNA:
 - Added a DNA to Ernest Archdeacon.
