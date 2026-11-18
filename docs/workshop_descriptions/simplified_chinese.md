@@ -42,7 +42,7 @@
 
 [img]https://i.imgur.com/W7Zvt4d.png[/img]
 [h1]版本说明[/h1]
-　　当前模组版本为 2.9.0 “Curie”。兼容游戏 1.15 版本，同时最多兼容至 1.7 版本。
+　　当前模组版本为 2.9.1 “Piccard”。兼容游戏 1.15 版本，同时最多兼容至 1.7 版本。
 
 [img]https://i.imgur.com/Mn078vX.png[/img]
 [h1]创作者须知[/h1]

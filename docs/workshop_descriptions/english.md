@@ -43,7 +43,7 @@ Although we try touch as few vanilla files as necessary, we still need to overwr
 
 [img]https://i.imgur.com/BjjffNY.png[/img]
 [h1] Version [/h1]
-The current version is 2.9.0 "Curie". Morgenröte is compatible with 1.15 and has linked versions up to 1.7
+The current version is 2.9.1 "Piccard". Morgenröte is compatible with 1.15 and has linked versions up to 1.7
 
 [img]https://i.imgur.com/FhcWzov.png[/img]
 [h1] Information for Creators [/h1]
