@@ -56,6 +56,7 @@ Fixes:
 - Seaplane Tenders get unlocked with Seaplanes again.
 - Switched the Pathogen and Vaccine Journal Entry progress bars to scripted progress bars, to no longer shove the Journal Entries to the side in the Journal. This might break the bar if you already started the project before the update but the JE should still finish.
 - The country that receives a research charter should gain leverage on the country which granted the charter, not vice-versa.
+- Equip Signal Corps should no longer be possible to start after already finishing it.
 
 Characters:
 - Joseph Plateau (Belgian Physicist)
