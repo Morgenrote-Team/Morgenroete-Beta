@@ -1,19 +1,18 @@
-Changelog fot 2.9.1a "Piccard"
-
-Updated to Victoria 3 1.15.2
+Changelog fot 2.9.1b "Piccard"
 
 Fixes:
-- New Balloonists should no longer be able to start another project if there is already a project ongoing.
+- Official Engineers should no longer be hireable if they also have another role (will hopefully resolve this differently in the future).
 
 Characters:
-- Louis Blériot (French Pilot and Engineer)
-- Émile Taddéoli (Swiss Pilot and Car Racer)
+- Armand Dufaux (Swiss Pilot and Engineer)
+- Henri Dufaux (Swiss Pilot and Engineer)
+- Walter Mittelholzer (Swiss Pilot)
 
 DNA:
-- Added a DNA to Ernest Archdeacon.
+-
 
 Quality of Life:
-- The Pharmaceutical Journal Entries now have Map Modes which show you where the relevant Medicinal Herb grows.
+-
 
 Changes:
-- The Close button in the Morgenröte JE now works immediately.
+- Getting rid of your composer now immediately ends the Composer Journal Entries instead of taking a day and locking the actions for your new Composer.

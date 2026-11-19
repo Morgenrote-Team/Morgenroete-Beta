@@ -241,6 +241,7 @@ kill_composer_effect = {
 	var:elgar_composer_var = {
 		free_character_from_void = no
 	}
+	elgar_remove_all_composer_je_effect = yes
 
 	remove_variable = elgar_composer_var
 	hidden_effect = {
@@ -285,6 +286,7 @@ set_composer_travelling_composer_effect = {
 			remove_variable = elgar_composer_var
 		}
 	}
+	elgar_remove_all_composer_je_effect = yes
 }
 
 # Set new Composer as official Composer
@@ -296,17 +298,13 @@ elgar_set_new_composer_as_composer_effect = {
 		var:elgar_composer_var ?= {
 			elgar_character_set_composer_travelling_composer_effect = yes
 		}
+		elgar_remove_all_composer_je_effect = yes
 
 		set_variable = {
 			name = elgar_composer_var
 			value = scope:elgar_new_composer_scope
 		}
 
-		#Removes ongoing projects
-		set_variable = {
-			name = elgar_stopped_composing_remover_var
-			days = 5
-		}
 		if = {
 			limit = { has_modifier = elgar_conductor_exhausted_modifier }
 			remove_modifier = elgar_conductor_exhausted_modifier
@@ -320,8 +318,13 @@ elgar_set_new_composer_as_composer_effect = {
 		remove_variable = elgar_new_composer_var
 
 		#Adds the Default Action
-		add_journal_entry = {
-			type = je_elgar_composer_composing
+		if = {
+			limit = {
+				NOT = { has_journal_entry = je_elgar_composer_composing }
+			}
+			add_journal_entry = {
+				type = je_elgar_composer_composing
+			}
 		}
 	}
 }
