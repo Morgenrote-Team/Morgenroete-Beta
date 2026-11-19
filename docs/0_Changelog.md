@@ -1,7 +1,7 @@
 Changelog fot 2.9.1b "Piccard"
 
 Fixes:
--
+- Official Engineers should no longer be hireable if they also have another role (will hopefully resolve this differently in the future).
 
 Characters:
 - Henri Dufaux (Swiss Pilot and Engineer)
