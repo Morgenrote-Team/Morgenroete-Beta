@@ -3,7 +3,7 @@ Changelog fot 2.9.1a "Piccard"
 Updated to Victoria 3 1.15.2
 
 Fixes:
--
+- New Balloonists should no longer be able to start another project if there is already a project ongoing.
 
 Characters:
 - Louis Blériot (French Pilot and Engineer)
