@@ -1,5 +1,7 @@
 Changelog fot 2.9.1a "Piccard"
 
+Updated to Victoria 3 1.15.2
+
 Fixes:
 -
 
@@ -14,4 +16,4 @@ Quality of Life:
 - The Pharmaceutical Journal Entries now have Map Modes which show you where the relevant Medicinal Herb grows.
 
 Changes:
--
+- The Close button in the Morgenröte JE now works immediately.
