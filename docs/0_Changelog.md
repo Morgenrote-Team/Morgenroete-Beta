@@ -6,6 +6,7 @@ Fixes:
 Characters:
 - Armand Dufaux (Swiss Pilot and Engineer)
 - Henri Dufaux (Swiss Pilot and Engineer)
+- Walter Mittelholzer (Swiss Pilot)
 
 DNA:
 -
