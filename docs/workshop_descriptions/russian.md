@@ -43,7 +43,7 @@ Morgenröte — Dawn of Flavor — мод, наполняющий Victoria 3 к�
 
 [img]https://i.imgur.com/otJPctW.png[/img]
 [h1] Версия [/h1]
-Текущая версия — 2.9.0 Curie. Morgenröte совместим с версией 1.15; по ссылкам также доступны версии до 1.7.
+Текущая версия — 2.9.1 Piccard. Morgenröte совместим с версией 1.15; по ссылкам также доступны версии до 1.7.
 
 [img]https://i.imgur.com/09F7UbK.png[/img]
 [h1] Для авторов [/h1]
