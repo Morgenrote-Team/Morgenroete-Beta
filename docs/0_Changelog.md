@@ -13,6 +13,7 @@ DNA:
 
 Quality of Life:
 - Geologist Projects can now be closed immediately when clicking the button instead of taking a day to actually close.
+- Anthropologist Projects can now be closed immediately when clicking the button instead of taking a day to actually close.
 
 Changes:
 - Getting rid of your composer now immediately ends the Composer Journal Entries instead of taking a day and locking the actions for your new Composer.
