@@ -219,14 +219,10 @@ mr_geologist_ore_vein_stop_button_sgui = {
 	is_shown = {
 		has_journal_entry = je_agassiz_improve_mines_project
 	}
-	is_valid = {
-		NOT = { has_variable = agassiz_stop_geologist_improving_project_var }
-		has_journal_entry = je_agassiz_improve_mines_project
-	}
 	effect = {
 		custom_tooltip = {
 			text = mr_geologist_ore_vein_stop_effect_tt
-			set_variable = agassiz_stop_geologist_improving_project_var
+			mr_close_journal_entry_effect = { TYPE = je_agassiz_improve_mines_project }
 		}
 	}
 }
@@ -281,13 +277,10 @@ mr_geologist_oil_stop_button_sgui = {
 	is_shown = {
 		has_journal_entry = je_agassiz_find_oil_project
 	}
-	is_valid = {
-		NOT = { has_variable = agassiz_stop_geologist_improving_project_var }
-	}
 	effect = {
 		custom_tooltip = {
 			text = mr_geologist_oil_stop_button_effect_tt
-			set_variable = agassiz_stop_geologist_improving_project_var
+			mr_close_journal_entry_effect = { TYPE = je_agassiz_find_oil_project }
 		}
 	}
 }
@@ -484,22 +477,21 @@ mr_stop_geologist_project_button_sgui = {
 	scope = country
 	is_valid = {
 		custom_tooltip = {
-			text = MR_STOP_GEOLOGIST_PROJECT_POSSIBLE_TT
-			NOT = { has_variable = agassiz_stop_geologist_improving_project_var }
-		}
-		custom_tooltip = {
 			text = MR_STOP_GEOLOGIST_PROJECT_HAS_ACTIVE_PROJECT_TT
 			OR = {
-				has_journal_entry = je_agassiz_geological_research
 				has_journal_entry = je_agassiz_improve_mines_project
 				has_journal_entry = je_agassiz_find_oil_project
 			}
 		}
 	}
 	effect = {
-		set_variable = {
-			name = agassiz_stop_geologist_improving_project_var
-			days = 7
+		if = {
+			limit = { has_journal_entry = je_agassiz_improve_mines_project }
+			mr_close_journal_entry_effect = { TYPE = je_agassiz_improve_mines_project }
+		}
+		if = {
+			limit = { has_journal_entry = je_agassiz_find_oil_project }
+			mr_close_journal_entry_effect = { TYPE = je_agassiz_find_oil_project }
 		}
 	}
 }
