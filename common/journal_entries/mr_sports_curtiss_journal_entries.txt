@@ -880,7 +880,178 @@ je_curtiss_lindbergh_usa = {
 
 #######################################################################################
 
-######ZEPPELIN EXPEDITION######
+######LOST HORIZON######
+
+je_curtiss_lost_horizon = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	activation_description = {
+		always = yes
+	}
+
+	group = je_group_curtiss_aviation
+
+	current_value = {
+		value = var:curtiss_shangrila_progress
+	}
+
+	goal_add_value = {
+		value = 3
+	}
+
+	progressbar = yes
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+
+		effect = {
+			set_variable = curtiss_road_to_shangrila
+			trigger_event = {
+				id = curtiss.255
+				popup = yes
+				days = 3
+			}
+		}
+	}
+
+	weight = 100
+
+	should_be_pinned_by_default_uninvolved_or_context = yes
+}
+
+#######################################################################################
+
+######ZEPPELINS######
+
+### Blau Gas ###
+
+je_curtiss_propellant_invention = {
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	activation_description = {
+		always = yes
+	}
+
+	group = je_group_curtiss_aviation
+
+	scripted_progress_bar = curtiss_propellant_invention_project_progress_bar
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			mendelejew_has_chemist = yes
+			custom_tooltip = {
+				text = curtiss_propellant_invention_project_progress_bar_at_full_tt
+				je:je_curtiss_propellant_invention = {
+					"scripted_bar_progress(curtiss_propellant_invention_project_progress_bar)" >= 24
+				}
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = curtiss.1011
+			}
+			mendelejew_set_chemist_unbusy_effect = yes
+			var:mendelejew_chemist_var ?= {
+				set_variable = {
+					name = mendelejew_chemist_achievement_blau_gas_var
+					value = flag:mendelejew_chemist_achievement_blau_gas_loc
+				}
+			}
+		}
+	}
+
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			custom_tooltip = {
+				text = je_chemist_dies_tt
+				NOT = {
+					has_variable = mendelejew_chemist_var
+				}
+			}
+		}
+	}
+
+	weight = 10
+}
+
+### Ballast Water ###
+
+je_curtiss_ballast_invention = {
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	activation_description = {
+		always = yes
+	}
+
+	group = je_group_curtiss_aviation
+
+	scripted_progress_bar = curtiss_ballast_invention_project_progress_bar
+
+	#Completion
+	outcome = {
+		header = je_standard_completion_header
+		effect_header = je_standard_on_completion_header
+		conclusion_desc = je_standard_completion_conclusion_desc
+		color = "gold_positive"
+
+		trigger = {
+			mendelejew_has_chemist = yes
+			custom_tooltip = {
+				text = curtiss_ballast_invention_project_progress_bar_at_full_tt
+				je:je_curtiss_ballast_invention = {
+					"scripted_bar_progress(curtiss_ballast_invention_project_progress_bar)" >= 24
+				}
+			}
+		}
+
+		effect = {
+			trigger_event = {
+				id = curtiss.1012
+			}
+			tesla_set_engineer_unbusy_effect = yes
+			var:tesla_engineer_var ?= {
+				set_variable = {
+					name = tesla_engineer_achievement_ballast_water_var
+					value = flag:tesla_engineer_achievement_ballast_water_loc
+				}
+			}
+		}
+	}
+
+	#Invalid
+	outcome = {
+		flags = { hidden invalid_outcome }
+		conclusion_desc = je_standard_failure_conclusion_desc
+		trigger = {
+			tesla_has_aeronautical_engineer_no_tooltip_trigger = no
+		}
+	}
+
+	weight = 10
+}
+
+
+### Arctic Zeppelin Expedition ###
 
 je_curtiss_zeppelin_expedition = {
 	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
@@ -986,57 +1157,6 @@ je_curtiss_zeppelin_expedition = {
 	}
 
 	weight = 25
-
-	should_be_pinned_by_default_uninvolved_or_context = yes
-}
-
-#######################################################################################
-
-######LOST HORIZON######
-
-je_curtiss_lost_horizon = {
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
-
-	activation_description = {
-		always = yes
-	}
-
-	group = je_group_curtiss_aviation
-
-	current_value = {
-		value = var:curtiss_shangrila_progress
-	}
-
-	goal_add_value = {
-		value = 3
-	}
-
-	progressbar = yes
-
-	#Completion
-	outcome = {
-		header = je_standard_completion_header
-		effect_header = je_standard_on_completion_header
-		conclusion_desc = je_standard_completion_conclusion_desc
-		color = "gold_positive"
-
-		trigger = {
-			scope:journal_entry = {
-				is_goal_complete = yes
-			}
-		}
-
-		effect = {
-			set_variable = curtiss_road_to_shangrila
-			trigger_event = {
-				id = curtiss.255
-				popup = yes
-				days = 3
-			}
-		}
-	}
-
-	weight = 100
 
 	should_be_pinned_by_default_uninvolved_or_context = yes
 }
