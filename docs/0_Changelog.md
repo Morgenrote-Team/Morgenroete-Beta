@@ -2,6 +2,7 @@ Changelog fot 2.9.1c "Piccard"
 
 Fixes:
 - Recalling a Paleontological Excavation now also recalls you Paleontologist.
+- Composers no longer end their task immediately.
 
 Characters:
 -
