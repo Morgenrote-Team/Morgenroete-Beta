@@ -1,0 +1,1553 @@
+types mr_main_sports_panel_types {
+
+	type mr_sports_zeppelin_panel = fullscreen_block_window {
+		name = "mr_sports_zeppelin_panel"
+		datacontext = "[GetMetaPlayer.GetPlayedOrObservedCountry]"
+
+		visible = "[GetVariableSystem.HasValue('com_open_window', 'mr_sports_zeppelin')]"
+
+		blockoverride "animation_state_block" {
+			state = {
+				name = _show
+				# Close open panel before showing this one
+				on_start = "[InformationPanelBar.ClosePanel]"
+				on_start = "[MapListPanelManager.CloseCurrentPanel]"
+				# Fullscreen panels hide topbar
+				on_finish = "[GetVariableSystem.Set('com_fullscreen', 'com_fullscreen')]"
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/markets"
+				}
+				start_sound = {
+					soundeffect = "snapshot:/Dynamic/mute_world_80"
+				}
+				start_sound = {
+					soundeffect = "snapshot:/Dynamic/mute_vfx_war_100"
+				}
+			}
+
+			state = {
+				name = _hide
+				on_start = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_1_selection')]"
+				on_start = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_2_selection')]"
+				on_start = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_3_selection')]"
+				on_start = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_4_selection')]"
+				on_start = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_5_selection')]"
+				on_start = "[GetVariableSystem.Clear('com_fullscreen')]"
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/markets_stop"
+				}
+			}
+		}
+
+		blockoverride "window_header_name" {
+			text = MR_ZEPPELIN
+			default_format = "#bold"
+		}
+
+		blockoverride "back_button_fullscreen" {
+			back_button_large = {
+				position = { 11 15 }
+				parentanchor = top|left
+                onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_1_selection')]"
+                onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_2_selection')]"
+                onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_3_selection')]"
+                onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_4_selection')]"
+                onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_5_selection')]"
+                onclick = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_sports_sgui')]"
+				tooltip = "MR_RETURN_SPORTS_TAB_TT"
+				input_action = "back"
+			}
+		}
+
+		close_button_large = {
+			name = "tutorial_highlight_close_button"
+			parentanchor = top|right
+			onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_1_selection')]"
+			onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_2_selection')]"
+			onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_3_selection')]"
+			onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_4_selection')]"
+			onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_5_selection')]"
+			onclick = "[GetVariableSystem.Clear('com_open_window')]"
+			onclick = "[GetVariableSystem.Clear('com_alert_action')]"
+			onclick = "[GetVariableSystem.Clear('com_fullscreen')]"
+			shortcut = "close_window"
+			position = { -56 115 }
+		}
+
+		blockoverride "close_button_position" {
+			visible = no
+		}
+
+		blockoverride "fixed_top" {
+			flowcontainer = {
+				minimumsize = { 100% -1 }
+				margin_top = 20
+
+				button = {
+					#Button to get back to the Academy of Science
+					using = default_button_primary_big_action
+					size = { 250 40 }
+					raw_text = "MR_RETURN_SPORTS_AND_TOURNAMENTS"
+					using = fontsize_medium
+					onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_1_selection')]"
+					onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_2_selection')]"
+					onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_3_selection')]"
+					onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_4_selection')]"
+					onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_5_selection')]"
+					onclick = "[GetVariableSystem.Set('com_open_window', 'mr_sidebar_button_sports_sgui')]"
+					onclick = "[GetVariableSystem.Set('mr_sports_tab', 'aeronautics')]"
+					tooltip = "MR_RETURN_SPORTS_AND_TOURNAMENTS_TT"
+				}
+			}
+		}
+
+		blockoverride "scrollarea_content" {
+			flowcontainer = {
+				minimumsize = { 100% -1 }
+				margin = { 0 20 }
+				margin_left = 20
+				spacing = 10
+
+				#Left Page
+				flowcontainer = {
+					direction = vertical
+					ignoreinvisible = yes
+					spacing = 10
+
+					#Zeppelin - Main Information
+					widget = {
+						size = { 650 730 }
+						parentanchor = left
+
+						datacontext = "[Country.MakeScope.Var('curtiss_captain_var')]"
+
+						background = {
+							using = entry_bg_simple
+						}
+
+						default_header_clean = {
+							size = { 650 50 }
+							position = { 1 -3 }
+							blockoverride "text" {
+							}
+							textbox = {
+								text = "ZEPPELIN_INFORMATION_HEADER_TEXT"
+								parentanchor = center
+								position = { 0 0 }
+								autoresize = yes
+								max_width = 190
+								elide = right
+								using = fontsize_xxl
+							}
+						}
+
+						flowcontainer = {
+							direction = vertical
+							ignoreinvisible = yes
+							spacing = 10
+                            position = { 70 70 }
+
+							widget = {
+								size = { 500 250 }
+
+                                icon = {
+									visible = "[GetScriptedGui('mr_zeppelin_passenger_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = center
+                                    tooltip = "ZEPPELIN_PASSENGER_ICON_TT"
+									size = { 500 250 }
+									texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_passenger.dds"
+								}
+
+								icon = {
+									visible = "[GetScriptedGui('mr_zeppelin_expedition_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = center
+                                    tooltip = "ZEPPELIN_EXPEDITION_ICON_TT"
+									size = { 500 250 }
+									texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_expedition.dds"
+								}
+
+                                icon = {
+									visible = "[GetScriptedGui('mr_zeppelin_military_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = center
+                                    tooltip = "ZEPPELIN_MILITARY_ICON_TT"
+									size = { 500 250 }
+									texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_military.dds"
+								}
+
+                                icon = {
+									visible = "[GetScriptedGui('mr_zeppelin_generic_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									parentanchor = center
+                                    tooltip = "ZEPPELIN_GENERIC_ICON_TT"
+									size = { 500 250 }
+									texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_generic.dds"
+								}
+							}
+						}
+
+						widget = {
+							size = { 650 730 }
+
+							textbox = {
+								text = "MR_ZEPPELIN_NAME"
+								position = { 50 340 }
+								max_width = 500
+								autoresize = yes
+								elide = right
+								using = fontsize_large
+							}
+
+							textbox = {
+								text = "MR_ZEPPELIN_YEAR"
+								position = { 50 380 }
+								max_width = 500
+								autoresize = yes
+								elide = right
+								using = fontsize_large
+							}
+
+                            textbox = {
+								text = "MR_ZEPPELIN_VOLUME"
+								position = { 50 420 }
+								max_width = 500
+								autoresize = yes
+								elide = right
+								using = fontsize_large
+							}
+
+							textbox = {
+								text = "MR_ZEPPELIN_SPEED"
+                                tooltip = "curtiss_zeppelin_speed_overview_tt"
+								position = { 50 460 }
+								max_width = 250
+								autoresize = yes
+								elide = right
+								using = fontsize_large
+							}
+
+							textbox = {
+								text = "MR_ZEPPELIN_RANGE"
+                                tooltip = "curtiss_zeppelin_range_overview_tt"
+								position = { 50 500 }
+								max_width = 500
+								autoresize = yes
+								elide = left
+								using = fontsize_large
+							}
+							
+							textbox = {
+								text = "MR_ZEPPELIN_ENDURANCE"
+                                tooltip = "curtiss_zeppelin_endurance_overview_tt"
+								position = { 50 540 }
+								max_width = 500
+								autoresize = yes
+								elide = left
+								using = fontsize_large
+							}
+
+							textbox = {
+								text = "MR_ZEPPELIN_CAPTAIN"
+								position = { 320 340 }
+								max_width = 500
+								autoresize = yes
+								elide = right
+								using = fontsize_large
+							}
+
+							textbox = {
+								text = "MR_ZEPPELIN_ENGINE"
+								position = { 320 380 }
+								max_width = 500
+								autoresize = yes
+								elide = right
+								using = fontsize_large
+							}
+
+							textbox = {
+								text = "MR_ZEPPELIN_STRUCTURE"
+								position = { 320 420 }
+								max_width = 500
+								autoresize = yes
+								elide = right
+								using = fontsize_large
+							}
+
+							textbox = {
+								text = "MR_ZEPPELIN_FORM"
+								position = { 320 460 }
+								max_width = 500
+								autoresize = yes
+								elide = right
+								using = fontsize_large
+							}
+
+							textbox = {
+								text = "MR_ZEPPELIN_CELLS"
+								position = { 320 500 }
+								max_width = 500
+								autoresize = yes
+								elide = right
+								using = fontsize_large
+							}
+
+                            textbox = {
+								text = "MR_ZEPPELIN_INVENTION"
+								position = { 320 540 }
+								max_width = 500
+								autoresize = yes
+								elide = left
+								using = fontsize_large
+							}
+
+							#Hydrogen Bar
+							default_progressbar_horizontal = {
+								layoutpolicy_horizontal = expanding
+								visible = "[GetScriptedGui('mr_zeppelin_hydrogen_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+								tooltip = "MR_HYDROGEN_BAR_TT"
+								size = { 610 35 }
+								position = { 20 590 }
+								blockoverride "values" {
+									min = 0
+									max = 6
+									value = "[FixedPointToFloat(Country.MakeScope.Var('curtiss_zeppelin_fuel_var').GetValue)]"
+								}
+								textbox = {
+									text = "MR_HYDROGEN_BAR"
+									tooltip = "MR_HYDROGEN_BAR_TT"
+									size = { 100% 100% }
+									using = fontsize_xl
+									align = center
+								}
+							}
+
+                            #Helium Bar
+                            white_progressbar_horizontal = {
+                                layoutpolicy_horizontal = expanding
+                                visible = "[GetScriptedGui('mr_zeppelin_helium_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                                tooltip = "MR_HELIUM_BAR_TT"
+                                size = { 610 35 }
+                                position = { 20 590 }
+                                blockoverride "values" {
+                                    min = 0
+                                    max = 6
+                                    value = "[FixedPointToFloat(Country.MakeScope.Var('curtiss_zeppelin_fuel_var').GetValue)]"
+                                }
+                                textbox = {
+                                    text = "MR_HELIUM_BAR"
+                                    tooltip = "MR_HELIUM_BAR_TT"
+                                    size = { 100% 100% }
+                                    using = fontsize_xl
+                                    align = center
+                                }
+                            }
+
+                            #Change Fuel/Type Buttons
+                            flowcontainer = {
+                                direction = horizontal
+                                ignoreinvisible = yes
+                                parentanchor = hcenter
+                                spacing = 30
+                                position = { 0 665 }
+
+                                #Helium
+                                button = {
+                                    using = default_button_primary_big_action
+                                    size = { 250 40 }
+                                    raw_text = "MR_ZEPPELIN_HELIUM_BUTTON"
+                                    using = fontsize_medium
+
+                                    datacontext = "[GetScriptedGui('mr_zeppelin_helium_button')]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                                    tooltip = "MR_ZEPPELIN_HELIUM_BUTTON_TT"
+                                    #tooltip = "[ScriptedGui.BuildTooltip( GuiScope.SetRoot( GetMetaPlayer.GetPlayedOrObservedCountry.MakeScope ).End )]"
+                                }
+
+                                #Hydrogen
+                                button = {
+                                    using = default_button_primary_big_action
+                                    size = { 250 40 }
+                                    raw_text = "MR_ZEPPELIN_HYDROGEN_BUTTON"
+                                    using = fontsize_medium
+
+                                    datacontext = "[GetScriptedGui('mr_zeppelin_hydrogen_button')]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                                    tooltip = "MR_ZEPPELIN_HYDROGEN_BUTTON_TT"
+                                    #tooltip = "[ScriptedGui.BuildTooltip( GuiScope.SetRoot( GetMetaPlayer.GetPlayedOrObservedCountry.MakeScope ).End )]"
+                                }
+                            }
+						}
+					}
+				}
+
+				#Center Page
+				flowcontainer = {
+					direction = vertical
+					ignoreinvisible = yes
+					spacing = 10
+
+					#Zeppelin - Modules
+					widget = {
+						size = { 500 730 }
+						parentanchor = left
+
+						datacontext = "[Country.MakeScope.Var('curtiss_captain_var')]"
+
+						background = {
+							using = entry_bg_simple
+						}
+
+						default_header_clean = {
+							size = { 500 50 }
+							position = { 1 -3 }
+							blockoverride "text" {
+							}
+							textbox = {
+								text = "ZEPPELIN_MODULES_HEADER_TEXT"
+								parentanchor = center
+								position = { 0 0 }
+								autoresize = yes
+								max_width = 190
+								elide = right
+								using = fontsize_xxl
+							}
+						}
+
+						mr_zeppelin_module_stack = {
+							position = { 15 55 }
+						}
+					}
+				}
+
+				#Right Page
+				flowcontainer = {
+					direction = vertical
+					ignoreinvisible = yes
+					spacing = 10
+
+					#Arctic Header
+					widget = {
+						size = { 630 730 }
+						parentanchor = left
+
+						datacontext = "[Country.MakeScope.Var('curtiss_captain_var')]"
+
+						background = {
+							using = entry_bg_simple
+						}
+
+						default_header_clean = {
+							size = { 630 50 }
+							position = { 1 -3 }
+							blockoverride "text" {
+							}
+							textbox = {
+								text = "ARCTIC_HEADER_TEXT"
+								parentanchor = center
+								position = { 0 0 }
+								autoresize = yes
+								max_width = 500
+								elide = right
+								using = fontsize_xxl
+							}
+						}
+
+						flowcontainer = {
+							direction = vertical
+							ignoreinvisible = yes
+							spacing = 10
+                            position = { 70 80 }
+
+							widget = {
+								size = { 500 500 }
+
+								icon = {
+									#visible = "[GetScriptedGui('mr_ballooning_tier_1_balloon_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+									#parentanchor = center
+									#position = { 70 80 }
+									size = { 500 500 }
+									texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_arctic_map_frame.dds"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+types mr_zeppelin_module_types {
+
+    # Round module icon with separate open/close hit targets. Only one is visible
+    # at a time, so clicking the same module icon toggles its option panel closed.
+    type mr_zeppelin_module_icon_button = widget {
+        size = { 86 86 }
+
+        button = {
+            texture = "gfx/interface/backgrounds/round_frame_dec.dds"
+            size = { 100% 100% }
+            tooltip = "MR_ZEPPELIN_CHANGE_MODULE_TT"
+            using = confirm_button_sound
+
+            # Visible only while this slot's option panel is closed.
+            block "module_icon_open_action" {}
+        }
+
+        button = {
+            texture = "gfx/interface/backgrounds/round_frame_dec.dds"
+            size = { 100% 100% }
+            tooltip = "MR_ZEPPELIN_CLOSE_SELECTION_TT"
+            using = confirm_button_sound
+
+            # Visible only while this slot's option panel is open.
+            block "module_icon_close_action" {}
+        }
+    }
+
+    # Compact option row styled after the vanilla right_click_menu_item.
+    # Fixed coordinates keep the icon, title, and effect text aligned identically
+    # for every option, regardless of how many effect lines are displayed.
+    type mr_zeppelin_module_choice_button = button {
+        name = "mr_zeppelin_module_choice_button"
+        align = left|nobaseline
+        using = fontsize_large
+
+        block "size" {
+            # Four effect lines plus the option title fit inside this row.
+            size = { 350 116 }
+        }
+
+        block "button" {
+            using = default_button
+        }
+
+        block "properties" {
+            visible = yes
+            enabled = yes
+        }
+
+        block "choice_icon" {
+            icon = {
+                parentanchor = top|left
+                position = { 14 32 }
+                block "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_generic.dds"
+                }
+                size = { 52 52 }
+            }
+        }
+
+        # Both textboxes use the same fixed left coordinate and top alignment.
+        textbox = {
+            parentanchor = top|left
+            position = { 78 9 }
+            size = { 270 24 }
+            align = left|top
+            using = fontsize_medium
+            block "choice_name" {
+                text = "MR_ZEPPELIN_SLOT_SELECTION_OPTION"
+            }
+        }
+
+        textbox = {
+            parentanchor = top|left
+            position = { 78 35 }
+            size = { 270 74 }
+            align = left|top
+            using = fontsize_small
+            fontsize_min = 11
+            multiline = yes
+            block "choice_effects" {
+                text = "MR_ZEPPELIN_SLOT_SELECTION_EFFECTS"
+            }
+        }
+
+        block "sound" {
+            using = select_button_sound
+        }
+    }
+
+    # One reusable card for a single Zeppelin module slot.
+    type mr_zeppelin_module_card = widget {
+        size = { 470 122 }
+
+        background = {
+            using = entry_bg_simple
+        }
+
+        block "module_icon" {
+            icon = {
+                texture = "gfx/interface/backgrounds/round_frame_dec.dds"
+                position = { 10 18 }
+                size = { 86 86 }
+                alwaystransparent = yes
+            }
+
+            icon = {
+                texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_expedition.dds"
+                position = { 28 36 }
+                size = { 50 50 }
+                alwaystransparent = yes
+            }
+        }
+
+        textbox = {
+            position = { 108 10 }
+            max_width = 345
+            autoresize = yes
+            elide = right
+            using = fontsize_large
+            block "module_slot_label" {
+                text = "MR_ZEPPELIN_SLOT_1"
+            }
+        }
+
+        textbox = {
+            position = { 108 40 }
+            max_width = 345
+            autoresize = yes
+            elide = right
+            using = fontsize_medium
+            block "module_effects" {
+                text = "[GetMetaPlayer.GetPlayedOrObservedCountry.GetCustom('curtiss_zeppelin_slot_1_module_effects')]"
+                tooltip = "[GetMetaPlayer.GetPlayedOrObservedCountry.GetCustom('curtiss_zeppelin_slot_1_module_tt')]"
+            }
+        }
+
+    }
+
+    # Five Modules
+    type mr_zeppelin_module_stack = widget {
+        size = { 470 638 }
+
+        flowcontainer = {
+            direction = vertical
+            spacing = 7
+            ignoreinvisible = yes
+
+            # Slot 1: Cabins, Station, Climber, Tanks
+            mr_zeppelin_module_card = {
+                blockoverride "module_slot_label" {
+                    text = "MR_ZEPPELIN_SLOT_1"
+                    tooltip = "[GetMetaPlayer.GetPlayedOrObservedCountry.GetCustom('curtiss_zeppelin_slot_1_module_tt')]"
+                }
+                blockoverride "module_tooltip" {
+                    text = "[GetMetaPlayer.GetPlayedOrObservedCountry.GetCustom('curtiss_zeppelin_slot_1_module_effects')]"
+                }
+                blockoverride "module_icon" {
+                    mr_zeppelin_module_icon_button = {
+                        position = { 10 18 }
+                        blockoverride "module_icon_open_action" {
+                            visible = "[Not(GetVariableSystem.HasValue('curtiss_zeppelin_slot_1_selection', 'open'))]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_2_selection')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_3_selection')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_4_selection')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_5_selection')]"
+                            onclick = "[GetVariableSystem.Set('curtiss_zeppelin_slot_1_selection', 'open')]"
+                        }
+
+                        blockoverride "module_icon_close_action" {
+                            visible = "[GetVariableSystem.HasValue('curtiss_zeppelin_slot_1_selection', 'open')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_1_selection')]"
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_cabins.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_1_cabins_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_station.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_1_station_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_climber.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_1_climber_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_tanks.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_1_tanks_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+                    }
+                }
+            }
+
+            # Slot 2: Deck, Insulation, Equipment, Bomb
+            mr_zeppelin_module_card = {
+                blockoverride "module_slot_label" {
+                    text = "MR_ZEPPELIN_SLOT_2"
+                    tooltip = "[GetMetaPlayer.GetPlayedOrObservedCountry.GetCustom('curtiss_zeppelin_slot_2_module_tt')]"
+                }
+                blockoverride "module_effects" {
+                    text = "[GetMetaPlayer.GetPlayedOrObservedCountry.GetCustom('curtiss_zeppelin_slot_2_module_effects')]"
+                }
+                blockoverride "module_icon" {
+                    mr_zeppelin_module_icon_button = {
+                        position = { 10 18 }
+                        blockoverride "module_icon_open_action" {
+                            visible = "[Not(GetVariableSystem.HasValue('curtiss_zeppelin_slot_2_selection', 'open'))]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_1_selection')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_3_selection')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_4_selection')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_5_selection')]"
+                            onclick = "[GetVariableSystem.Set('curtiss_zeppelin_slot_2_selection', 'open')]"
+                        }
+
+                        blockoverride "module_icon_close_action" {
+                            visible = "[GetVariableSystem.HasValue('curtiss_zeppelin_slot_2_selection', 'open')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_2_selection')]"
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_deck.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_2_deck_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_insulation.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_2_insulation_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_equipment.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_2_equipment_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_bomb.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_2_bomb_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+                    }
+                }
+            }
+
+            # Slot 3: Radio, Magnetometer, Basket
+            mr_zeppelin_module_card = {
+                blockoverride "module_slot_label" {
+                    text = "MR_ZEPPELIN_SLOT_3"
+                    tooltip = "[GetMetaPlayer.GetPlayedOrObservedCountry.GetCustom('curtiss_zeppelin_slot_3_module_tt')]"
+                }
+                blockoverride "module_effects" {
+                    text = "[GetMetaPlayer.GetPlayedOrObservedCountry.GetCustom('curtiss_zeppelin_slot_3_module_effects')]"
+                }
+                blockoverride "module_icon" {
+                    mr_zeppelin_module_icon_button = {
+                        position = { 10 18 }
+                        blockoverride "module_icon_open_action" {
+                            visible = "[Not(GetVariableSystem.HasValue('curtiss_zeppelin_slot_3_selection', 'open'))]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_1_selection')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_2_selection')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_4_selection')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_5_selection')]"
+                            onclick = "[GetVariableSystem.Set('curtiss_zeppelin_slot_3_selection', 'open')]"
+                        }
+
+                        blockoverride "module_icon_close_action" {
+                            visible = "[GetVariableSystem.HasValue('curtiss_zeppelin_slot_3_selection', 'open')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_3_selection')]"
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_radio.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_3_radio_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_magnetometer.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_3_magnetometer_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_basket.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_3_basket_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+                    }
+                }
+            }
+
+            # Slot 4: Airmail, Floats, Cargo
+            mr_zeppelin_module_card = {
+                blockoverride "module_slot_label" {
+                    text = "MR_ZEPPELIN_SLOT_4"
+                    tooltip = "[GetMetaPlayer.GetPlayedOrObservedCountry.GetCustom('curtiss_zeppelin_slot_4_module_tt')]"
+                }
+                blockoverride "module_effects" {
+                    text = "[GetMetaPlayer.GetPlayedOrObservedCountry.GetCustom('curtiss_zeppelin_slot_4_module_effects')]"
+                }
+                blockoverride "module_icon" {
+                    mr_zeppelin_module_icon_button = {
+                        position = { 10 18 }
+                        blockoverride "module_icon_open_action" {
+                            visible = "[Not(GetVariableSystem.HasValue('curtiss_zeppelin_slot_4_selection', 'open'))]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_1_selection')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_2_selection')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_3_selection')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_5_selection')]"
+                            onclick = "[GetVariableSystem.Set('curtiss_zeppelin_slot_4_selection', 'open')]"
+                        }
+
+                        blockoverride "module_icon_close_action" {
+                            visible = "[GetVariableSystem.HasValue('curtiss_zeppelin_slot_4_selection', 'open')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_4_selection')]"
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_airmail.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_4_airmail_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_floats.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_4_floats_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_cargo.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_4_cargo_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+                    }
+                }
+            }
+
+            # Slot 5: Lounge, Cage, Carrier
+            mr_zeppelin_module_card = {
+                size = { 470 142 }
+                blockoverride "module_slot_label" {
+                    text = "MR_ZEPPELIN_SLOT_5"
+                    tooltip = "[GetMetaPlayer.GetPlayedOrObservedCountry.GetCustom('curtiss_zeppelin_slot_5_module_tt')]"
+                }
+                blockoverride "module_effects" {
+                    text = "[GetMetaPlayer.GetPlayedOrObservedCountry.GetCustom('curtiss_zeppelin_slot_5_module_effects')]"
+                }
+                blockoverride "module_icon" {
+                    mr_zeppelin_module_icon_button = {
+                        position = { 10 18 }
+                        blockoverride "module_icon_open_action" {
+                            visible = "[Not(GetVariableSystem.HasValue('curtiss_zeppelin_slot_5_selection', 'open'))]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_1_selection')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_2_selection')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_3_selection')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_4_selection')]"
+                            onclick = "[GetVariableSystem.Set('curtiss_zeppelin_slot_5_selection', 'open')]"
+                        }
+
+                        blockoverride "module_icon_close_action" {
+                            visible = "[GetVariableSystem.HasValue('curtiss_zeppelin_slot_5_selection', 'open')]"
+                            onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_5_selection')]"
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_lounge.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_5_lounge_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_cage.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_5_cage_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+
+                        icon = {
+                            texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_carrier.dds"
+                            visible = "[GetScriptedGui('curtiss_zeppelin_slot_5_carrier_active_sgui').IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                            position = { 13 13 }
+                            size = { 60 60 }
+                            alwaystransparent = yes
+                        }
+                    }
+                }
+            }
+        }
+
+        # Selection panels sit to the right of the module icons.
+        mr_zeppelin_slot_1_selection_overlay = {
+            position = { 100 14 }
+        }
+        mr_zeppelin_slot_2_selection_overlay = {
+            position = { 100 14 }
+        }
+        mr_zeppelin_slot_3_selection_overlay = {
+            position = { 100 14 }
+        }
+        mr_zeppelin_slot_4_selection_overlay = {
+            position = { 100 14 }
+        }
+        mr_zeppelin_slot_5_selection_overlay = {
+            position = { 100 14 }
+        }
+    }
+
+    # Compact module pickers. These are intentionally rendered inside the Zeppelin panel,
+    # but use the frame, typography, and row treatment of vanilla right_click_menu items.
+    type mr_zeppelin_slot_1_selection_overlay = right_click_menu_widget {
+        # Use the same native overlay widget setup as the vanilla right-click menu.
+        gfxtype = windowgfx
+        shaderfile = "gfx/FX/pdxgui_default.shader"
+        widgetanchor = top|left
+        movable = no
+        layer = layer_rightclickmenu
+
+        size = { 370 535 }
+        visible = "[GetVariableSystem.HasValue('curtiss_zeppelin_slot_1_selection', 'open')]"
+
+        # The native menu background and frame are drawn on the dedicated right-click-menu layer.
+        background = {
+            using = default_background
+        }
+        background = {
+            using = frame_small
+        }
+
+        default_header_clean_faded = {
+            size = { 350 50 }
+            position = { 10 3 }
+            blockoverride "text" {
+            }
+            textbox = {
+                text = "MR_ZEPPELIN_SLOT_SELECTION_HEADER"
+                parentanchor = center
+                autoresize = yes
+                max_width = 190
+                elide = right
+                using = fontsize_xxl
+            }
+        }
+
+
+        flowcontainer = {
+            direction = vertical
+            spacing = 3
+            ignoreinvisible = yes
+            position = { 10 52 }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_1_cabins_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_1_CABINS_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_1_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_cabins.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_1_CABINS"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_cabins_loc"
+                }
+            }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_1_station_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_1_STATION_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_1_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_station.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_1_STATION"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_station_loc"
+                }
+            }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_1_climber_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_1_CLIMBER_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_1_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_climber.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_1_CLIMBER"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_climber_loc"
+                }
+            }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_1_tanks_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_1_TANKS_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_1_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_tanks.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_1_TANKS"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_tanks_loc"
+                }
+            }
+
+        }
+    }
+
+    type mr_zeppelin_slot_2_selection_overlay = right_click_menu_widget {
+        # Use the same native overlay widget setup as the vanilla right-click menu.
+        gfxtype = windowgfx
+        shaderfile = "gfx/FX/pdxgui_default.shader"
+        widgetanchor = top|left
+        movable = no
+        layer = layer_rightclickmenu
+
+        size = { 370 535 }
+        visible = "[GetVariableSystem.HasValue('curtiss_zeppelin_slot_2_selection', 'open')]"
+
+        # The native menu background and frame are drawn on the dedicated right-click-menu layer.
+        background = {
+            using = default_background
+        }
+        background = {
+            using = frame_small
+        }
+
+        default_header_clean_faded = {
+            size = { 350 50 }
+            position = { 10 3 }
+            blockoverride "text" {
+            }
+            textbox = {
+                text = "MR_ZEPPELIN_SLOT_SELECTION_HEADER"
+                parentanchor = center
+                autoresize = yes
+                max_width = 190
+                elide = right
+                using = fontsize_xxl
+            }
+        }
+
+
+        flowcontainer = {
+            direction = vertical
+            spacing = 3
+            ignoreinvisible = yes
+            position = { 10 52 }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_2_deck_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_2_DECK_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_2_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_deck.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_2_DECK"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_deck_loc"
+                }
+            }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_2_insulation_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_2_INSULATION_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_2_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_insulation.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_2_INSULATION"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_insulation_loc"
+                }
+            }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_2_equipment_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_2_EQUIPMENT_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_2_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_equipment.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_2_EQUIPMENT"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_equipment_loc"
+                }
+            }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_2_bomb_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_2_BOMB_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_2_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_bomb.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_2_BOMB"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_bomb_loc"
+                }
+            }
+
+        }
+    }
+
+    type mr_zeppelin_slot_3_selection_overlay = right_click_menu_widget {
+        # Use the same native overlay widget setup as the vanilla right-click menu.
+        gfxtype = windowgfx
+        shaderfile = "gfx/FX/pdxgui_default.shader"
+        widgetanchor = top|left
+        movable = no
+        layer = layer_rightclickmenu
+
+        size = { 370 535 }
+        visible = "[GetVariableSystem.HasValue('curtiss_zeppelin_slot_3_selection', 'open')]"
+
+        # The native menu background and frame are drawn on the dedicated right-click-menu layer.
+        background = {
+            using = default_background
+        }
+        background = {
+            using = frame_small
+        }
+
+        default_header_clean_faded = {
+            size = { 350 50 }
+            position = { 10 3 }
+            blockoverride "text" {
+            }
+            textbox = {
+                text = "MR_ZEPPELIN_SLOT_SELECTION_HEADER"
+                parentanchor = center
+                autoresize = yes
+                max_width = 190
+                elide = right
+                using = fontsize_xxl
+            }
+        }
+
+
+        flowcontainer = {
+            direction = vertical
+            spacing = 3
+            ignoreinvisible = yes
+            position = { 10 52 }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_3_radio_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_3_RADIO_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_3_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_radio.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_3_RADIO"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_radio_loc"
+                }
+            }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_3_magnetometer_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_3_MAGNETOMETER_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_3_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_magnetometer.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_3_MAGNETOMETER"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_magnetometer_loc"
+                }
+            }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_3_basket_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_3_BASKET_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_3_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_basket.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_3_BASKET"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_basket_loc"
+                }
+            }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_3_none_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "[ScriptedGui.BuildTooltip( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_3_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_none.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_3_NONE"
+                }
+                blockoverride "choice_effects" {
+                    visible = no
+                }
+            }
+
+        }
+    }
+
+    type mr_zeppelin_slot_4_selection_overlay = right_click_menu_widget {
+        # Use the same native overlay widget setup as the vanilla right-click menu.
+        gfxtype = windowgfx
+        shaderfile = "gfx/FX/pdxgui_default.shader"
+        widgetanchor = top|left
+        movable = no
+        layer = layer_rightclickmenu
+
+        size = { 370 535 }
+        visible = "[GetVariableSystem.HasValue('curtiss_zeppelin_slot_4_selection', 'open')]"
+
+        # The native menu background and frame are drawn on the dedicated right-click-menu layer.
+        background = {
+            using = default_background
+        }
+        background = {
+            using = frame_small
+        }
+
+        default_header_clean_faded = {
+            size = { 350 50 }
+            position = { 10 3 }
+            blockoverride "text" {
+            }
+            textbox = {
+                text = "MR_ZEPPELIN_SLOT_SELECTION_HEADER"
+                parentanchor = center
+                autoresize = yes
+                max_width = 190
+                elide = right
+                using = fontsize_xxl
+            }
+        }
+
+
+        flowcontainer = {
+            direction = vertical
+            spacing = 3
+            ignoreinvisible = yes
+            position = { 10 52 }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_4_airmail_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_4_AIRMAIL_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_4_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_airmail.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_4_AIRMAIL"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_airmail_loc"
+                }
+            }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_4_floats_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_4_FLOATS_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_4_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_floats.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_4_FLOATS"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_floats_loc"
+                }
+            }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_4_cargo_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_4_CARGO_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_4_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_cargo.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_4_CARGO"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_cargo_loc"
+                }
+            }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_4_none_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "[ScriptedGui.BuildTooltip( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_4_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_none.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_4_NONE"
+                }
+                blockoverride "choice_effects" {
+                    visible = no
+                }
+            }
+
+        }
+    }
+
+    type mr_zeppelin_slot_5_selection_overlay = right_click_menu_widget {
+        # Use the same native overlay widget setup as the vanilla right-click menu.
+        gfxtype = windowgfx
+        shaderfile = "gfx/FX/pdxgui_default.shader"
+        widgetanchor = top|left
+        movable = no
+        layer = layer_rightclickmenu
+
+        size = { 370 535 }
+        visible = "[GetVariableSystem.HasValue('curtiss_zeppelin_slot_5_selection', 'open')]"
+
+        # The native menu background and frame are drawn on the dedicated right-click-menu layer.
+        background = {
+            using = default_background
+        }
+        background = {
+            using = frame_small
+        }
+
+        default_header_clean_faded = {
+            size = { 350 50 }
+            position = { 10 3 }
+            blockoverride "text" {
+            }
+            textbox = {
+                text = "MR_ZEPPELIN_SLOT_SELECTION_HEADER"
+                parentanchor = center
+                autoresize = yes
+                max_width = 190
+                elide = right
+                using = fontsize_xxl
+            }
+        }
+
+
+        flowcontainer = {
+            direction = vertical
+            spacing = 3
+            ignoreinvisible = yes
+            position = { 10 52 }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_5_lounge_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_5_LOUNGE_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_5_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_lounge.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_5_LOUNGE"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_lounge_loc"
+                }
+            }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_5_cage_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_5_CAGE_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_5_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_cage.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_5_CAGE"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_cage_loc"
+                }
+            }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_5_carrier_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "MR_ZEPPELIN_SLOT_5_CARRIER_TT"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_5_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_carrier.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_5_CARRIER"
+                }
+                blockoverride "choice_effects" {
+                    text = "curtiss_zeppelin_effects_carrier_loc"
+                }
+            }
+
+            mr_zeppelin_module_choice_button = {
+                datacontext = "[GetScriptedGui('curtiss_zeppelin_slot_5_none_button_sgui')]"
+                blockoverride "properties" {
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    tooltip = "[ScriptedGui.BuildTooltip( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Country.MakeScope ).End )]"
+                    onclick = "[GetVariableSystem.Clear('curtiss_zeppelin_slot_5_selection')]"
+                }
+                blockoverride "texture" {
+                    texture = "gfx/interface/icons/GUI_icons/zeppelin/GUI_zeppelin_none.dds"
+                }
+                blockoverride "choice_name" {
+                    text = "MR_ZEPPELIN_SLOT_5_NONE"
+                }
+                blockoverride "choice_effects" {
+                    visible = no
+                }
+            }
+
+        }
+    }
+}

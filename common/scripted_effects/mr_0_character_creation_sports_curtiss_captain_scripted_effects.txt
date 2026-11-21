@@ -1,0 +1,120 @@
+﻿###################################################
+# CURTISS NEW CHARACTER CREATION SCRPITED EFFECTS #
+###################################################
+
+############################################################################
+
+# Creates a new Airship Captain without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
+mr_create_historical_captain_for_character_creation_effect = {
+	random_list = {
+		25 = { #Antoine de Saint-Exupéry, France [PLACEHOLDER]
+			trigger = {
+				NOT = { has_global_variable = mr_de_saint_exupery_created_global_var }
+				country_has_primary_culture = cu:french
+				has_state_in_state_region = STATE_RHONE
+				year >= 1920 #Age 20
+				year <= 1940 #Age 40
+			}
+			create_character = {
+				template = mr_fra_de_saint_exupery_antoine_character_template
+				save_scope_as = curtiss_new_captain_scope
+			}
+			set_variable = {
+				name = curtiss_new_captain_var
+				value = scope:curtiss_new_captain_scope
+			}
+
+			modifier = {
+				add = {
+					value = year
+					subtract = 1900
+					subtract = 20
+					min = 0
+					multiply = 2
+					multiply = -0.25
+				}
+			}
+		}
+	}
+}
+
+mr_create_random_captain_for_character_creation_effect = {
+	random_list = {
+		1 = {
+			create_character = {
+				female = yes
+				trait_generation = {}
+				save_scope_as = curtiss_new_captain_scope
+				role = character_role_curtiss_captain
+			}
+			scope:curtiss_new_captain_scope = {
+				add_trait = curtiss_captain
+				mr_trait_generation_captain_effect = yes
+				mr_make_character_captain_effect = yes
+			}
+			set_variable = {
+				name = curtiss_new_captain_var
+				value = scope:curtiss_new_captain_scope
+			}
+
+			modifier = {
+				if = {
+					limit = { has_law = law_type:law_women_own_property }
+					add = 4
+				}
+				if = {
+					limit = { has_law = law_type:law_women_in_the_workplace }
+					add = 9
+				}
+				if = {
+					limit = { has_law = law_type:law_womens_suffrage }
+					add = 19
+				}
+			}
+		}
+		99 = {
+			create_character = {
+				age = { 20 25 }
+				trait_generation = {}
+				save_scope_as = curtiss_new_captain_scope
+				role = character_role_curtiss_captain
+			}
+			scope:curtiss_new_captain_scope = {
+				add_trait = curtiss_captain
+				mr_trait_generation_captain_effect = yes
+				mr_make_character_captain_effect = yes
+			}
+			set_variable = {
+				name = curtiss_new_captain_var
+				value = scope:curtiss_new_captain_scope
+			}
+
+			modifier = {
+				if = {
+					limit = { has_law = law_type:law_women_own_property }
+					add = -4
+				}
+				if = {
+					limit = { has_law = law_type:law_women_in_the_workplace }
+					add = -9
+				}
+				if = {
+					limit = { has_law = law_type:law_womens_suffrage }
+					add = -19
+				}
+			}
+		}
+	}
+}
+
+mr_make_character_captain_effect = {
+	captain_experience_set_up_effect = yes
+	set_variable = mr_is_mr_character
+	academics_character_set_role_retirement_effect = {
+		ROLE = character_role_curtiss_captain
+		AGE_LEVEL = 2
+	}
+}
+
