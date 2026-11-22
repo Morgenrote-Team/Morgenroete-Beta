@@ -300,6 +300,8 @@ zeppelin.121 = {
 zeppelin.131 = {
 	dlc = dlc_morgenrote
 
+	placement = scope:zeppelin_state_scope
+
 	type = country_event
 
 	title = zeppelin.131.t
@@ -371,10 +373,68 @@ zeppelin.131 = {
 	}
 
 	immediate = {
+		random_scope_character = {
+			limit = {
+				has_role_of_type = ruler
+			}
+			save_scope_as = zeppelin_ruler_scope
+		}
+		if = {
+			limit = {
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_zeppelin_hangar
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					any_scope_state = {
+						any_scope_building = {
+							is_building_type = building_zeppelin_hangar
+						}
+					}
+				}
+				save_scope_as = zeppelin_state_scope
+			}
+		}
+		else = {
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				save_scope_as = zeppelin_state_scope
+			}
+		}
 	}
 
-	option = {	#Small Zeppelin
+	option = {	#I salute you!
 		name = zeppelin.131.g
-		
+		if = {
+			limit = {
+				zeppelin_size_large_trigger = yes
+			}
+			captain_experience_gain_effect = 5
+			scope:zeppelin_state_scope = {
+				add_loyalists_in_state = {
+					value = 0.05
+				}
+			}
+		}
+		if = {
+			limit = {
+				zeppelin_size_giant_trigger = yes
+			}
+			captain_experience_gain_effect = 10
+			scope:zeppelin_state_scope = {
+				add_loyalists_in_state = {
+					value = 0.1
+				}
+			}
+			add_modifier = {
+				name = zeppelin_christening_modifier
+				days = 365
+			}
+		}
 	}
 }
