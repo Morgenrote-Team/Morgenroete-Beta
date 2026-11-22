@@ -222,3 +222,117 @@ zeppelin_volume_value = {
 
 	round_to = 1000
 }
+
+#Zeppelin Construction Cost 
+zeppelin_construction_cost_value = {
+	if = {
+		limit = {
+			var:zeppelin_construction_target_var ?= flag:zeppelin_small_flag
+		}
+		add = 1000
+	}
+	if = {
+		limit = {
+			var:zeppelin_construction_target_var ?= flag:zeppelin_medium_flag
+		}
+		add = 2000
+	}
+	if = {
+		limit = {
+			var:zeppelin_construction_target_var ?= flag:zeppelin_large_flag
+		}
+		add = 3500
+	}
+	if = {
+		limit = {
+			var:zeppelin_construction_target_var ?= flag:zeppelin_large_flag
+		}
+		add = 5000
+	}
+}
+
+#Zeppelin Construction Goal Value
+zeppelin_construction_goal_value = {
+	value = 0
+	if = {
+		limit = {
+			var:zeppelin_construction_target_var ?= flag:zeppelin_small_flag
+		}
+		add = 6
+	}
+	if = {
+		limit = {
+			var:zeppelin_construction_target_var ?= flag:zeppelin_medium_flag
+		}
+		add = 12
+	}
+	if = {
+		limit = {
+			var:zeppelin_construction_target_var ?= flag:zeppelin_large_flag
+		}
+		add = 30
+	}
+	if = {
+		limit = {
+			var:zeppelin_construction_target_var ?= flag:zeppelin_giant_flag
+		}
+		add = 60
+	}
+}
+
+#Zeppelin Construction Progress Value
+zeppelin_construction_progress_value = {
+	value = {
+		desc = "tesla_engineering_progress_base_tt"
+		value = 1
+	}
+	#Having a Zeppelin Hangar
+	progress_condition = {
+		limit = {
+			zeppelin_has_hangar_trigger = yes
+		}
+		add = {
+			desc = "zeppelin_construction_progress_zeppelin_hangar_value_tt"
+			value = 0.5
+		}
+	}
+	#Having a Aeronautical Engineer
+	progress_condition = {
+		limit = {
+			tesla_has_aeronautical_engineer_no_tooltip_trigger = yes
+		}
+		add = {
+			desc = "tesla_engineering_progress_aeronautical_engineer_value_tt"
+			value = 0.5
+		}
+	}
+	#Engineer's Aeronautical Engineering Experience divided by 300
+	progress_condition = {
+		limit = {
+			var:tesla_engineer_var ?= {
+				has_variable = tesla_aeronautical_engineer_experience_var
+				var:tesla_aeronautical_engineer_experience_var > 0
+			}
+		}
+		add = {
+			desc = "tesla_engineering_progress_aeronautical_experience_tt"
+			value = tesla_engineering_progress_aeronautical_experience_value
+		}
+	}
+	#Engineer has a Balloonist Trait
+	progress_condition = {
+		limit = {
+			var:tesla_engineer_var ?= {
+				OR = {
+					has_trait = santos_balloonist
+					has_trait = santos_balloonist_experienced
+					has_trait = santos_balloonist_famous
+				}
+			}
+		}
+		add = {
+			desc = "tesla_engineering_progress_balloonist_trait_tt"
+			value = 0.5
+		}
+	}
+}
