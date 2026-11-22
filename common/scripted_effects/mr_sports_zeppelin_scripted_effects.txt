@@ -13,12 +13,14 @@
 zeppelin_construction_button_effect = {
 	trigger_event = {
 		id = zeppelin.121
+		popup = yes
 	}
 }
 
 zeppelin_construction_new_button_effect = {
 	trigger_event = {
 		id = zeppelin.122
+		popup = yes
 	}
 }
 
@@ -56,6 +58,7 @@ zeppelin_mooring_button_effect = {
 
 #Effect that gets fired when a country has reached the progress (8/12/16)
 zeppelin_construction_finished_effect = {
+	zeppelin_constructed_by_engineer_effect = yes
 	zeppelin_set_name_effect = yes
 	zeppelin_set_size_effect = yes
 	zeppelin_set_inactive_effect = yes
@@ -102,6 +105,40 @@ zeppelin_set_zeppelin_fuel_helium_effect = {
 				value = flag:zeppelin_fuel_helium_flag
 			}
 		}
+	}
+}
+
+zeppelin_constructed_by_engineer_effect = {
+	if = {
+		limit = {
+			tesla_has_aeronautical_engineer_no_tooltip_trigger = yes
+		}
+		var:zeppelin_captain_var ?= {
+			set_variable = {
+				name = zeppelin_constructed_by_engineer_var
+				value = flag:zeppelin_constructed_by_engineer_flag
+			}	
+		}
+	}
+	if = {
+		limit = {
+			tesla_has_aeronautical_engineer_no_tooltip_trigger = no
+			var:zeppelin_captain_var ?= { var:zeppelin_constructed_by_engineer_var = flag:constructed_by_engineer_flag }
+		}
+		var:zeppelin_captain_var ?= {
+			remove_variable = zeppelin_constructed_by_engineer_var
+		}
+	}
+}
+
+zeppelin_set_name_effect = {
+	set_variable = {
+		name = zeppelin_name_randomizer_var
+		value = { 1 20 }
+	}
+	round_variable = {
+		name = zeppelin_name_randomizer_var
+		nearest = 1
 	}
 }
 
@@ -186,16 +223,5 @@ zeppelin_set_maiden_voyage_effect = {
 			name = zeppelin_year_var
 			value = year
 		}
-	}
-}
-
-zeppelin_set_name_effect = {
-	set_variable = {
-		name = zeppelin_name_randomizer_var
-		value = { 1 20 }
-	}
-	round_variable = {
-		name = zeppelin_name_randomizer_var
-		nearest = 1
 	}
 }
