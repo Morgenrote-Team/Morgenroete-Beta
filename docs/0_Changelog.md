@@ -7,6 +7,7 @@ Characters:
 - Robert Mayer (German Physicist and Physician)
 - C. H. D. Buys Ballot (Dutch Physicist)
 - Rijk van Rees (dutch Physicist)
+- Bernt Michael Holmboe (Norwegian Physicist)
 
 Quality of Life:
 -
