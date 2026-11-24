@@ -1,14 +1,13 @@
-Changelog fot 2.9.1c "Piccard"
+Changelog fot 2.9.1d "Piccard"
 
 Fixes:
-- Recalling a Paleontological Excavation now also recalls you Paleontologist.
-- Composers no longer end their task immediately.
-
-Characters:
 -
 
+Characters:
+- C. H. D. Buys Ballot (Dutch Physicist)
+
 Quality of Life:
-- Paleontological Excavations now get recalled immediately instead of taking a day.
+-
 
 Changes:
 -
