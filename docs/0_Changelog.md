@@ -4,6 +4,7 @@ Fixes:
 -
 
 Characters:
+- Joseph Petzval (Austrian Physicist)
 - Robert Mayer (German Physicist and Physician)
 - Konstantinos Negris (Greek Physicist)
 - C. H. D. Buys Ballot (Dutch Physicist)
