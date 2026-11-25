@@ -206,7 +206,7 @@ je_zeppelin_ballast_invention = {
 
 ### Arctic Zeppelin Expedition ###
 
-je_curtiss_zeppelin_expedition = {
+je_zeppelin_expedition = {
 	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
 
 	activation_description = {
@@ -215,52 +215,48 @@ je_curtiss_zeppelin_expedition = {
 
 	group = je_group_curtiss_aviation
 
-	current_value = {
-		value = var:curtiss_zeppelin_progress
+	scripted_progress_bar = zeppelin_expedition_progress_bar
+	scripted_progress_bar = zeppelin_expedition_danger_bar
+
+	widget = {
+		gui = "gui/journal_entry_widgets/mr_character_je_widgets.gui"
+		name = "zeppelin_expedition_header"
+		container = "custom_widget_container_je_icon"
 	}
 
-	goal_add_value = {
-		value = 16
+	widget = {
+		gui = "gui/journal_entry_widgets/santos_je_widgets.gui"
+		name = "widget_zeppelin_expedition_event_list_widget"
+		container = "custom_widget_container_7"
 	}
 
-	progressbar = yes
+	modifiers_while_active = {
+		modifier = zeppelin_expedition_cost_modifier
+	}
 
+	#Expedition Logs: Clear Weather (+1 Progress), Strong Winds (0 progress, +100 km/h), Icy Propellers (+1 Danger, Arctic Equipment), Superheat (+1 Danger, Synthetic-Latex), Engine failure (+1 Danger, High Performance Engine), Zeppelin Anchorage (-1 Danger)
+	#Progress 2: Aurora Borealis/Ice Bear
+	#Progress 5: First Arctic Region. Posibility to explore: Search Fossiles and Specimen (Ichthyostega/Meteorite/Storm), Build Meteorological Station (Nacreous Cloud)
+	#Progress 8: Magnetic Studies/Narwhal
+	#Progress 10: Second Arctic Region. No Possibility to explore.
 	on_weekly_pulse = {
-		random_events = {
-			125 = curtiss.529 #Curtiss 529: Expedition progress
-			5 = curtiss.527 #Curtiss 527: North Pole Passage
-			20 = curtiss.528 #Curtiss 528: Rendez-Vous with $COUNTRY$
-			10 = curtiss.531 #Curtiss 531: Discovery of ice free passage/Aurora Borealis/Icebears
-			10 = curtiss.532 #Curtiss 532: New maps/Magnetic studies/Narwhal (storm may come)
-			10 = curtiss.533 #Curtiss 533: Searching fossiles/Meteorological station/Surveying Arctica (land)
-			10 = curtiss.534 #Curtiss 534: Strong winds
-			10 = curtiss.535 #Curtiss 535: Storm
-			10 = curtiss.536 #Curtiss 536: Clear weather
-			10 = curtiss.537 #Curtiss 537: Icy propellers
-			10 = curtiss.538 #Curtiss 538: Zeppelin anchorage
-			10 = curtiss.539 #Curtiss 539: Engine failure!
-			15 = curie.522 #Curie 522: Nacreous Cloud
+		events = {
+			zeppelin.231 #Zeppelin 231 Aurora Borealis/Icebears
+			zeppelin.232 #Zeppelin 232 Magnetic Studies/Narwhal
+			zeppelin.233 #Zeppelin 233 Arctic Region
+			zeppelin.234 #Zeppelin 234 Arctic Region
+			zeppelin.235 #Zeppelin 235 North Pole Passage
 		}
-	}
-
-	status_desc = {
-		first_valid = {
-			triggered_desc = {
-				desc = curtiss_zeppelin_0_danger
-				trigger = {
-					var:curtiss_zeppelin_danger = 0
+		effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_variable = zeppelin_arctic_event_active_var
+					}
 				}
-			}
-			triggered_desc = {
-				desc = curtiss_zeppelin_1_danger
-				trigger = {
-					var:curtiss_zeppelin_danger = 1
-				}
-			}
-			triggered_desc = {
-				desc = curtiss_zeppelin_2_danger
-				trigger = {
-					var:curtiss_zeppelin_danger = 2
+				trigger_event = {
+					days = { 0 30 }
+					on_action = zeppelin_expedition_on_action
 				}
 			}
 		}
@@ -274,15 +270,18 @@ je_curtiss_zeppelin_expedition = {
 		color = "gold_positive"
 
 		trigger = {
-			scope:journal_entry = {
-				is_goal_complete = yes
+			custom_tooltip = {
+				text = zeppelin_expedition_progress_bar_at_full_tt
+				je:je_zeppelin_expedition = {
+					"scripted_bar_progress(zeppelin_expedition_progress_bar)" >= zeppelin_expedition_goal_value
+				}
 			}
 		}
 
 		effect = {
+			zeppelin_remove_expedition_variables_effect = yes
 			trigger_event = {
-				id = curtiss.523
-				popup = yes
+				id = zeppelin.541
 			}
 		}
 	}
@@ -296,15 +295,17 @@ je_curtiss_zeppelin_expedition = {
 
 		trigger = {
 			custom_tooltip = {
-				text = je_zeppelin_expedition_fail
-				var:curtiss_zeppelin_danger >= 3
+				text = zeppelin_expedition_danger_bar_at_full_tt
+				je:je_zeppelin_expedition = {
+					"scripted_bar_progress(zeppelin_expedition_danger_bar)" >= zeppelin_expedition_danger_bar_value
+				}
 			}
 		}
 
         effect = {
+			zeppelin_remove_expedition_variables_effect = yes
 			trigger_event = {
-				id = curtiss.524
-				popup = yes
+				id = zeppelin.542
 			}
         }
 	}
