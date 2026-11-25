@@ -610,17 +610,17 @@ zeppelin.131 = {
 ### Zeppelin Expedition ###
 
 #Zeppelin 201: Expedition: Selection
-zeppelin.121 = {
+zeppelin.201 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = zeppelin.121.t
-	desc = zeppelin.121.d
-	flavor = zeppelin.121.f
+	title = zeppelin.201.t
+	desc = zeppelin.201.d
+	flavor = zeppelin.201.f
 
 	event_image = {
-		texture = "gfx/event_pictures/zeppelin_pictures/zeppelin_construction.dds"
+		texture = "gfx/event_pictures/zeppelin_pictures/zeppelin_expedition.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -633,107 +633,199 @@ zeppelin.121 = {
 	}
 
 	immediate = {
-		set_variable = zeppelin_construction_selection_var
 	}
 
-	option = {	#Small Zeppelin
-		name = zeppelin_small_flag
-		highlighted_option = yes
-		custom_tooltip = zeppelin.121.zepelin_small_cost_tt
-		show_as_unavailable = {
-			always = yes
-		}
-
-		trigger = {
-			zeppelin_no_active_zeppelin_construction_trigger = yes
-		}
-
-		set_variable = {
-			name = zeppelin_construction_target_var
-			value = flag:zeppelin_small_flag
-		}
-		add_journal_entry = {
-			type = je_zeppelin_construction
-		}
-	}
-
-	option = {	#Medium-sized Zeppelin
-		name = zeppelin_medium_flag
-		highlighted_option = yes
-		custom_tooltip = zeppelin.121.zepelin_medium_cost_tt
-		show_as_unavailable = {
-			always = yes
-		}
-
-		trigger = {
-			zeppelin_construction_medium_possible_trigger = yes
-			zeppelin_no_active_zeppelin_construction_trigger = yes
-		}
-
-		set_variable = {
-			name = zeppelin_construction_target_var
-			value = flag:zeppelin_medium_flag
-		}
-		add_journal_entry = {
-			type = je_zeppelin_construction
-		}
-	}
-
-	option = {	#Large Zeppelin
-		name = zeppelin_large_flag
-		highlighted_option = yes
-		custom_tooltip = zeppelin.121.zepelin_large_cost_tt
-		show_as_unavailable = {
-			always = yes
-		}
-
-		trigger = {
-			zeppelin_construction_large_possible_trigger = yes
-			zeppelin_no_active_zeppelin_construction_trigger = yes
-		}
-
-		set_variable = {
-			name = zeppelin_construction_target_var
-			value = flag:zeppelin_large_flag
-		}
-		add_journal_entry = {
-			type = je_zeppelin_construction
-		}
-	}
-
-	option = {	#Giant Zeppelin
-		name = zeppelin_giant_flag
-		highlighted_option = yes
-		custom_tooltip = zeppelin.121.zepelin_giant_cost_tt
-		show_as_unavailable = {
-			always = yes
-		}
-
-		trigger = {
-			zeppelin_construction_giant_possible_trigger = yes
-			zeppelin_no_active_zeppelin_construction_trigger = yes
-		}
-
-		set_variable = {
-			name = zeppelin_construction_target_var
-			value = flag:zeppelin_giant_flag
-		}
-		add_journal_entry = {
-			type = je_zeppelin_construction
-		}
-	}
-
-	option = {	#Nevermind
-		name = dubois.201.g
+	option = { #Normal Expedition
+		name = zeppelin.201.g
 		default_option = yes
+		highlighted_option = yes
+		show_as_unavailable = {
+			always = yes
+		}
 
 		trigger = {
-			is_player = yes
+			OR = {
+				dubois_has_naturalist = yes
+				curie_has_physicist_trigger = yes
+			}
+		}
+
+		add_journal_entry = {
+			type = je_zeppelin_expedition
+		}
+	}
+
+	option = { #Nature Expedition
+		name = zeppelin.201.h
+		highlighted_option = yes
+		show_as_unavailable = {
+			always = yes
+		}
+
+		trigger = {
+			dubois_has_naturalist = yes
+		}
+
+		set_variable = zeppelin_expedition_nature_var
+		add_journal_entry = {
+			type = je_zeppelin_expedition
+		}
+	}
+
+	option = { #Physics Expedition
+		name = zeppelin.201.i
+		highlighted_option = yes
+		show_as_unavailable = {
+			always = yes
+		}
+
+		trigger = {
+			curie_has_physicist_trigger = yes
+		}
+
+		set_variable = zeppelin_expedition_physics_var
+		add_journal_entry = {
+			type = je_zeppelin_expedition
+		}
+	}
+}
+
+#Zeppelin 202: Expedition: Return
+zeppelin.202 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = zeppelin.202.t
+	desc = zeppelin.202.d
+	flavor = zeppelin.202.f
+
+	event_image = {
+		texture = "gfx/event_pictures/zeppelin_pictures/zeppelin_arctic.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Glory
+		name = zeppelin.201.g
+		default_option = yes
+		#Arctic Map Bonus
+		if = { 
+			limit = { 
+				var:zeppelin_captain_var ?= { 
+					var:zeppelin_slot_1_var ?= flag:zeppelin_slot_1_station_flag 
+				} 
+			} 
+			zeppelin_random_arctic_region_effect = yes
+		}
+		#Physics Bonus
+		if = {
+			limit = {
+				has_variable = zeppelin_expedition_physics_var
+				var:zeppelin_captain_var ?= { var:zeppelin_slot_3_var ?= flag:zeppelin_slot_3_magnetometer_flag }
+			}
+			curie_add_x_physical_data_effect = { AMOUNT = 60 }
+			curie_add_x_magnetic_data_effect = { AMOUNT = 40 }
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_variable = zeppelin_expedition_physics_var
+					var:zeppelin_captain_var ?= { var:zeppelin_slot_3_var ?= flag:zeppelin_slot_3_magnetometer_flag }
+				}
+			}
+			curie_add_x_physical_data_effect = { AMOUNT = 30 }
+			curie_add_x_magnetic_data_effect = { AMOUNT = 20 }
+		}
+		else = {
+			curie_add_x_physical_data_effect = { AMOUNT = 15 }
+			curie_add_x_magnetic_data_effect = { AMOUNT = 10 }
+		}
+		#Nature Bonus
+		if = {
+			limit = {
+				has_variable = zeppelin_expedition_nature_var
+				var:zeppelin_captain_var ?= { var:zeppelin_slot_5_var ?= flag:zeppelin_slot_5_cage_flag }
+			}
+			dubois_add_x_specimen_effect = { AMOUNT = 6000 }
+			agassiz_add_x_generic_minerals_effect = { AMOUNT = 4000 }
+			dubois_add_x_fossils_effect = { AMOUNT = 4 }
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_variable = zeppelin_expedition_nature_var
+					var:zeppelin_captain_var ?= { var:zeppelin_slot_5_var ?= flag:zeppelin_slot_5_cage_flag }
+				}
+			}
+			dubois_add_x_specimen_effect = { AMOUNT = 3000 }
+			agassiz_add_x_generic_minerals_effect = { AMOUNT = 2000 }
+			dubois_add_x_fossils_effect = { AMOUNT = 2 }
+		}
+		else = {
+			dubois_add_x_specimen_effect = { AMOUNT = 1500 }
+			agassiz_add_x_generic_minerals_effect = { AMOUNT = 1000 }
+			dubois_add_x_fossils_effect = { AMOUNT = 1 }
+		}
+		add_modifier = {
+			name = zeppelin_recent_expedition_modifier
+			years = 1
 		}
 	}
 
 	after = {
-		remove_variable = zeppelin_construction_selection_var
+		zeppelin_finish_expedition_effect = yes
+	}
+}
+
+#Zeppelin 203: Expedition: Disaster
+zeppelin.203 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = zeppelin.203.t
+	desc = zeppelin.203.d
+	flavor = zeppelin.203.f
+
+	event_image = {
+		texture = "gfx/event_pictures/zeppelin_pictures/zeppelin_icebergs.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Tragedy!
+		name = zeppelin.201.g
+		default_option = yes
+		kill_captain_effect = yes
+		add_modifier = {
+			name = zeppelin_recent_expedition_disaster_modifier
+			years = 2
+		}
+	}
+
+	after = {
+		zeppelin_finish_expedition_effect = yes
 	}
 }
 
