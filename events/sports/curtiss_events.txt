@@ -197,7 +197,7 @@ namespace = curtiss
 #Curtiss 421: General with Aerobatic Team
 #Curtiss 422: Engineer prepares new Prototype
 #Curtiss 423: SPRUCE GOOSE at the Parade
-#Curtiss 424: Hindenburg at the Parade
+#Curtiss 424: [GetPlayer.GetCustom('zeppelin_name_type')] at the Parade
 #Curtiss 425: Influencing the Masses
 
 #Curtiss 431: Aircraft Parade ends
@@ -214,15 +214,6 @@ namespace = curtiss
 #Curtiss 507: Like a rock
 #Curtiss 508: A Nightmare
 #Curtiss 509: Building progress
-
-#Hindenburg
-
-#Curtiss 510: The $COUNTRY$
-#Curtiss 511: $COUNTRY$'s Maiden Voyage
-#Curtiss 512: $COUNTRY$'s next voyage
-#Curtiss 513: $COUNTRY$' disaster
-#Curtiss 514: Helium instead of Hydrogen
-#Curtiss 519: Building progress
 
 #Test Flights
 
@@ -10867,7 +10858,7 @@ curtiss.411 = {
 			}
 			else_if = {
 				limit = {
-					has_variable = curtiss_has_hindenburg_var
+					zeppelin_size_giant_trigger = yes
 				}
 				trigger_event = {
 					id = curtiss.424
@@ -10966,7 +10957,7 @@ curtiss.412 = {
 			}
 			else_if = {
 				limit = {
-					has_variable = curtiss_has_hindenburg_var
+					zeppelin_size_giant_trigger = yes
 				}
 				trigger_event = {
 					id = curtiss.424
@@ -11061,7 +11052,7 @@ curtiss.413 = {
 			}
 			else_if = {
 				limit = {
-					has_variable = curtiss_has_hindenburg_var
+					zeppelin_size_giant_trigger = yes
 				}
 				trigger_event = {
 					id = curtiss.424
@@ -11220,7 +11211,7 @@ curtiss.421 = {
 			}
 			else_if = {
 				limit = {
-					has_variable = curtiss_has_hindenburg_var
+					zeppelin_size_giant_trigger = yes
 				}
 				trigger_event = {
 					id = curtiss.424
@@ -11295,7 +11286,7 @@ curtiss.422 = {
 			}
 			else_if = {
 				limit = {
-					has_variable = curtiss_has_hindenburg_var
+					zeppelin_size_giant_trigger = yes
 				}
 				trigger_event = {
 					id = curtiss.424
@@ -11378,7 +11369,7 @@ curtiss.423 = {
 	}
 }
 
-#Curtiss 424: Hindenburg at the Parade
+#Curtiss 424: [GetPlayer.GetCustom('zeppelin_name_type')] at the Parade
 
 curtiss.424 = {
 	dlc = dlc_morgenrote
@@ -12196,393 +12187,6 @@ curtiss.508 = {
 				}
 			}
 		}
-	}
-}
-
-####################################################################################################################################
-
-######HINDENBURG######
-
-#Curtiss 510: The $COUNTRY$
-
-curtiss.510 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = curtiss.510.t
-
-	desc = curtiss.510.d
-
-	flavor = curtiss.510.f
-
-	duration = 2
-
-	event_image = {
-		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin.dds"
-	}
-
-	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
-
-	trigger = {
-	}
-
-	immediate = {
-	}
-
-	option = {	#A great vision!
-		name = curtiss.510.g
-		default_option = yes
-		random_scope_state = {
-			limit = {
-				any_scope_building = {
-					modifier:goods_output_aeroplanes_add > 0
-				}
-			}
-			add_modifier = {
-				name = curtiss_zeppelin_wharf_modifier
-			}
-		}
-	}
-}
-
-#Curtiss 511: $COUNTRY$'s Maiden Voyage
-
-curtiss.511 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = curtiss.511.t
-
-	desc = curtiss.511.d
-
-	flavor = curtiss.511.f
-
-	duration = 2
-
-	event_image = {
-		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_city.dds"
-	}
-
-	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
-
-	trigger = {
-	}
-
-	immediate = {
-		set_variable = curtiss_has_hindenburg_var
-		remove_modifier = curtiss_hindenburg_build_modifier
-		random_country = {
-			limit = {
-				has_diplomatic_pact = {
-					who = ROOT
-					type = airspace_convention
-				}
-			}
-			save_scope_as = curtiss_zeppelin_destination
-		}
-	}
-
-	option = {	#A national tour
-		name = curtiss.511.g
-		default_option = yes
-		var:tesla_engineer_var = {
-			set_character_busy_and_immortal = no
-		}
-		aeronautical_engineer_experience_gain_effect = { AMOUNT = 50 }
-		curtiss_add_x_flight_route_effect = { AMOUNT = 1 }
-		add_modifier = {
-			name = curtiss_hindenburg_national_modifier
-			days = 365
-		}
-	}
-
-	option = {	#An international tour
-		name = curtiss.511.h
-		trigger = {
-			any_country = {
-				has_diplomatic_pact = {
-					who = ROOT
-					type = airspace_convention
-				}
-			}
-		}
-		var:tesla_engineer_var = {
-			set_character_busy_and_immortal = no
-		}
-		aeronautical_engineer_experience_gain_effect = { AMOUNT = 50 }
-		curtiss_add_x_flight_route_effect = { AMOUNT = 2 }
-		add_modifier = {
-			name = curtiss_hindenburg_international_modifier
-			days = 365
-		}
-		scope:curtiss_zeppelin_destination = {
-			change_relations = {
-				country = ROOT
-				value = 5
-			}
-		}
-	}
-
-	after = {
-		hidden_effect = {
-			if = {
-				limit = {
-					curtiss_has_helium = no
-				}
-				random_list = { #First voyage should be safer
-					85 = {
-						trigger_event = {
-							id = curtiss.512
-							days = 365
-						}
-					}
-					15 = {
-						trigger_event = {
-							id = curtiss.513
-							days = { 100 200 }
-							popup = yes
-						}
-					}
-				}
-			}
-			if = {
-				limit = {
-					curtiss_has_helium = yes
-				}
-				random_list = {
-					98 = {
-						trigger_event = {
-							id = curtiss.512
-							days = 365
-						}
-					}
-					2 = {
-						trigger_event = {
-							id = curtiss.513
-							days = { 100 200 }
-							popup = yes
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-#Curtiss 512: $COUNTRY$'s next voyage
-
-curtiss.512 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = curtiss.512.t
-
-	desc = curtiss.512.d
-
-	flavor = curtiss.511.f
-
-	duration = 2
-
-	event_image = {
-		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_city.dds"
-	}
-
-	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
-
-	trigger = {
-	}
-
-	immediate = {
-		random_country = {
-			limit = {
-				has_diplomatic_pact = {
-					who = ROOT
-					type = airspace_convention
-				}
-			}
-			save_scope_as = curtiss_zeppelin_destination
-		}
-	}
-
-	option = {	#A national tour
-		name = curtiss.511.g
-		default_option = yes
-		add_modifier = {
-			name = curtiss_hindenburg_national_modifier
-			days = 365
-		}
-	}
-
-	option = {	#An international tour
-		name = curtiss.511.h
-		trigger = {
-			any_country = {
-				has_diplomatic_pact = {
-					who = ROOT
-					type = airspace_convention
-				}
-			}
-		}
-		add_modifier = {
-			name = curtiss_hindenburg_international_modifier
-			days = 365
-		}
-		scope:curtiss_zeppelin_destination = {
-			change_relations = {
-				country = ROOT
-				value = 5
-			}
-		}
-	}
-
-	after = {
-		hidden_effect = {
-			if = {
-				limit = {
-					curtiss_has_helium = no
-				}
-				random_list = {
-					75 = {
-						trigger_event = {
-							id = curtiss.512
-							days = 365
-						}
-					}
-					25 = {
-						trigger_event = {
-							id = curtiss.513
-							days = { 100 200 }
-							popup = yes
-						}
-					}
-				}
-			}
-			if = {
-				limit = {
-					curtiss_has_helium = yes
-				}
-				random_list = {
-					98 = {
-						trigger_event = {
-							id = curtiss.512
-							days = 365
-						}
-					}
-					2 = {
-						trigger_event = {
-							id = curtiss.513
-							days = { 100 200 }
-							popup = yes
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-#Curtiss 513: $COUNTRY$' disaster
-
-curtiss.513 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = curtiss.513.t
-
-	desc = curtiss.513.d
-
-	flavor = curtiss.513.f
-
-	duration = 2
-
-	event_image = {
-		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_disaster.dds"
-	}
-
-	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	trigger = {
-	}
-
-	immediate = {
-		remove_variable = curtiss_has_hindenburg_var
-		remove_modifier = curtiss_hindenburg_national_modifier
-		remove_modifier = curtiss_hindenburg_international_modifier
-	}
-
-	option = {	#A hard blow for the zeppelin industry.
-		name = curtiss.513.g
-		default_option = yes
-		add_modifier = {
-			name = curtiss_hindenburg_disaster_modifier
-			years = 5
-		}
-		random_scope_state = {
-			limit = {
-				any_scope_building = {
-					modifier:goods_output_aeroplanes_add > 0
-					level >= 10
-				}
-			}
-			remove_modifier = curtiss_zeppelin_wharf_modifier
-		}
-	}
-}
-
-#Curtiss 514: Helium instead of Hydrogen
-
-curtiss.514 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = curtiss.514.t
-
-	desc = curtiss.514.d
-
-	flavor = curtiss.514.f
-
-	duration = 2
-
-	event_image = {
-		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin.dds"
-	}
-
-	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
-
-	trigger = {
-		var:curtiss_hindenburg_progress > 6
-		curtiss_has_helium = yes
-		NOT = {
-			has_variable = curtiss_zeppelin_helium_var
-		}
-	}
-
-	immediate = {
-		set_variable = curtiss_zeppelin_helium_var
-	}
-
-	option = {	#Perfect
-		name = curtiss.514.g
-		default_option = yes
 	}
 }
 
