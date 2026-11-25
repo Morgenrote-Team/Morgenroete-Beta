@@ -10,6 +10,7 @@ Characters:
 - C. H. D. Buys Ballot (Dutch Physicist)
 - Rijk van Rees (dutch Physicist)
 - Bernt Michael Holmboe (Norwegian Physicist)
+- Daniel da Silva (Portuguese Physicist)
 
 Quality of Life:
 -
