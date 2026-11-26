@@ -9,6 +9,7 @@ Characters:
 - Konstantinos Negris (Greek Physicist)
 - C. H. D. Buys Ballot (Dutch Physicist)
 - Rijk van Rees (dutch Physicist)
+- Luigi Federico Menabrea (Italian Physicist)
 - Bernt Michael Holmboe (Norwegian Physicist)
 - Daniel da Silva (Portuguese Physicist)
 - Vicente Vázquez Queipo (Spanish Physicist)
