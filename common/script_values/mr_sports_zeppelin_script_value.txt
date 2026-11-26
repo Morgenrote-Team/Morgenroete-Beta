@@ -27,6 +27,8 @@ zeppelin_speed_value = {
 	if = { limit = { has_variable = zeppelin_blau_gas_invented_var } add = 5 } #Blau Gas
 	if = { limit = { has_variable = zeppelin_ballast_water_invented_var } add = 5 } #Ballast Water
 
+	if = { limit = { zeppelin_passenger_specialization_trigger = yes } add = 5 } #Specialization
+
 	#Slot 1 Upper Deck
 	if = { limit = { var:zeppelin_captain_var ?= { var:zeppelin_slot_1_var ?= flag:zeppelin_slot_1_cabins_flag } } add = -5 } #Passenger Cabins
 	if = { limit = { var:zeppelin_captain_var ?= { var:zeppelin_slot_1_var ?= flag:zeppelin_slot_1_station_flag } } add = -10 } #Research Station
@@ -178,11 +180,17 @@ zeppelin_passengers_value = {
 
 	value = 0 # Base
 
+	if = { limit = { zeppelin_passenger_specialization_trigger = yes } add = 10 } #Specialization
+
+	if = { limit = { var:zeppelin_captain_var ?= { has_modifier = zeppelin_aluminium_piano_modifier } } add = 5 } #Aluminium Piano
+
+	if = { limit = { var:zeppelin_captain_var ?= { has_trait = charismatic } } add = 2 } #Charismatic Captain
+
 	#Slot 1
 	if = { limit = { var:zeppelin_captain_var ?= { var:zeppelin_slot_1_var ?= flag:zeppelin_slot_1_cabins_flag } } add = 20 } #Passenger Cabins
 
 	#Slot 2
-	if = { limit = { var:zeppelin_captain_var ?= { var:zeppelin_slot_2_var ?= flag:zeppelin_slot_2_deck_flag } } add = 10 } #Promenade Deck
+	if = { limit = { var:zeppelin_captain_var ?= { var:zeppelin_slot_2_var ?= flag:zeppelin_slot_2_deck_flag } } add = 15 } #Promenade Deck
 
 	#Slot 5
 	if = { limit = { var:zeppelin_captain_var ?= { var:zeppelin_slot_5_var ?= flag:zeppelin_slot_5_lounge_flag } } add = 30 } #Lounge
@@ -248,6 +256,8 @@ zeppelin_volume_value = {
 	round_to = 1000
 }
 
+###################################################################################
+
 #Zeppelin Construction Cost 
 zeppelin_construction_cost_value = {
 	if = {
@@ -309,7 +319,7 @@ zeppelin_construction_goal_value = {
 zeppelin_construction_progress_value = {
 	value = {
 		desc = "tesla_engineering_progress_base_tt"
-		value = 1
+		value = 1000
 	}
 	#Having a Zeppelin Hangar
 	progress_condition = {
@@ -361,6 +371,8 @@ zeppelin_construction_progress_value = {
 		}
 	}
 }
+
+##################################################################################
 
 #Zeppelin Expedition Progress Value
 zeppelin_expedition_progress_value = {
@@ -448,4 +460,53 @@ zeppelin_expedition_range_value = {
 	}
 
 	round = yes
+}
+
+##############################################################################
+
+#Zeppelin Reputation Value
+zeppelin_reputation_value = {
+	value = zeppelin_passengers_value
+
+	if = {
+		limit = {
+			zeppelin_global_flight_trigger = yes
+		}
+		multiply = 1
+	}
+	else_if = {
+		limit = {
+			zeppelin_intercontinental_flight_trigger = yes
+		}
+		multiply = 0.5
+	}
+	else_if = {
+		limit = {
+			zeppelin_international_flight_trigger = yes
+		}
+		multiply = 0.35
+	}
+	else_if = {
+		limit = {
+			zeppelin_national_flight_trigger = yes
+		}
+		multiply = 0.2
+	}
+	else_if = {
+		limit = {
+			zeppelin_regional_flight_trigger = yes
+		}
+		multiply = 0.1
+	}
+	else = {
+		multiply = 0.05
+	}
+}
+
+#Zeppelin Cargo Value
+zeppelin_cargo_value = {
+	value = 5
+
+	if = { limit = { var:zeppelin_captain_var ?= { var:zeppelin_slot_4_var ?= flag:zeppelin_slot_4_airmail_flag } } add = 5 } #Airmail
+	if = { limit = { var:zeppelin_captain_var ?= { var:zeppelin_slot_4_var ?= flag:zeppelin_slot_4_cargo_flag } } add = 15 } #Cargo Hold
 }

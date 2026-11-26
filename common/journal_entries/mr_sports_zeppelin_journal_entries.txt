@@ -313,6 +313,58 @@ je_zeppelin_expedition = {
 	should_be_pinned_by_default_uninvolved_or_context = yes
 }
 
-je_zeppelin_passenger_transport = {}
+je_zeppelin_passenger_flight = {
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	activation_description = {
+		always = yes
+	}
+
+	group = je_group_curtiss_aviation
+
+	modifiers_while_active = {
+		zeppelin_passenger_transport_cost_modifier
+	}
+
+	scaling_modifiers_while_active = {
+		modifier = zeppelin_reputation_modifier
+		value = zeppelin_reputation_value 
+	}
+
+	scaling_modifiers_while_active = {
+		modifier = zeppelin_cargo_modifier
+		value = zeppelin_cargo_value
+	}
+
+	#Expedition Logs: Clear Weather (+1 Progress), Strong Winds (0 progress, +100 km/h), Icy Propellers (+1 Danger, Arctic Equipment), Superheat (+1 Danger, Synthetic-Latex), Engine failure (+1 Danger, High Performance Engine), Zeppelin Anchorage (-1 Danger)
+	#Progress 2: Aurora Borealis/Ice Bear
+	#Progress 5: First Arctic Region. Posibility to explore: Search Fossiles and Specimen (Ichthyostega/Meteorite/Storm), Build Meteorological Station (Nacreous Cloud)
+	#Progress 8: Magnetic Studies/Narwhal
+	#Progress 10: Second Arctic Region. No Possibility to explore.
+	on_weekly_pulse = {
+		events = {
+			zeppelin.231 #Zeppelin 231 Aurora Borealis/Icebears
+			zeppelin.232 #Zeppelin 232 Magnetic Studies/Narwhal
+			zeppelin.233 #Zeppelin 233 Arctic Region
+			zeppelin.234 #Zeppelin 234 Arctic Region
+			zeppelin.235 #Zeppelin 235 North Pole Passage
+		}
+		effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_variable = zeppelin_arctic_event_active_var
+					}
+				}
+				trigger_event = {
+					days = { 0 30 }
+					on_action = zeppelin_expedition_on_action
+				}
+			}
+		}
+	}
+
+	weight = 25
+}
 
 je_zeppelin_military_operation = {}
