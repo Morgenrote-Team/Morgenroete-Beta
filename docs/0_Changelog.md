@@ -14,6 +14,9 @@ Zeppelin - Expedition
 - Polar Bear can only be catched with a Polar Bear Cage.
 - You can chose a nature, physics or no focus for an expedition. Focus needs a naturalist or a physicist.
 - One of the main goals is the mapping of Antarctica. There are eight region + the north Pole. After you mapped 8 regions, you get the crossing of the North Pole. First nation doing this gets a pretsige bonus.
-- Depending on modules and range, a zeppelin can get 1-3 arctic rgeions per trip.
+- Depending on modules and range, a zeppelin can get 1-3 arctic regions per trip.
 - The Zeppelin GUI includes a map of the Arctic that shows which regions you have already explored and which you haven't.
 - The four discoveries in the Arctic—geographical, zoological, paleontological, and physical—are highlighted in the Arctic GUI.
+
+Quality of Life:
+- The Geomagnetic Research Alert will you send directly to the Geomagnetic Observatory options.
