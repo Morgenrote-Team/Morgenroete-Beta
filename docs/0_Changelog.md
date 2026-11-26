@@ -11,6 +11,7 @@ Characters:
 - Rijk van Rees (dutch Physicist)
 - Bernt Michael Holmboe (Norwegian Physicist)
 - Daniel da Silva (Portuguese Physicist)
+- Vicente Vázquez Queipo (Spanish Physicist)
 
 Quality of Life:
 -
