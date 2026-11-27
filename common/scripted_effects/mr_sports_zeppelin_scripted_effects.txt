@@ -555,3 +555,80 @@ zeppelin_expedition_log_hydrogen_fire_event_effect = {
 		}
 	}
 }
+
+#########################################################################
+
+### Zeppelin Passenger Flight ###
+
+zeppelin_new_speed_effect = {
+	if = {
+		limit = {
+			has_variable = zeppelin_captain_var
+		}
+		set_variable = {
+			name = new_zeppelin_speed_var
+			value = zeppelin_speed_value
+		}
+		var:zeppelin_captain_var ?= {
+			set_variable = {
+				name = zeppelin_speed_record_personal_var
+				value = root.var:new_zeppelin_speed_var
+			}
+		}
+	}
+}
+
+zeppelin_country_speed_record_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = zeppelin_speed_record_var
+			}
+		}
+		set_variable = {
+			name = zeppelin_speed_record_var
+			value = var:new_zeppelin_speed_var
+		}
+	}
+	
+	if = {
+		limit = {
+			var:new_zeppelin_speed_var > var:zeppelin_speed_record_var
+		}
+		set_variable = {
+			name = zeppelin_speed_record_var
+			value = var:new_zeppelin_speed_var
+		}
+		captain_experience_gain_effect = { AMOUNT = 10 } #if country record is broken, a total of 10 experience is added
+	}
+	if = {
+		limit = {
+			var:new_zeppelin_speed_var > global_var:zeppelin_speed_record_global_var
+		}
+		set_global_variable = {
+			name = zeppelin_speed_record_global_var
+			value = var:new_zeppelin_speed_var
+		}
+		set_global_variable = {
+			name = zeppelin_speed_record_holder_global_var
+			value = root
+		}
+		save_scope_as = zeppelin_record_breaking_country
+
+		if = {
+			limit = { NOT = { has_modifier = zeppelin_speed_record_modifier } }
+			every_country = { #removes modifier from old country
+				limit = {
+					has_modifier = zeppelin_speed_record_modifier
+				}
+				#post_notification = zeppelin_speed_record_broken_notification
+				remove_modifier = zeppelin_speed_record_modifier
+			}
+			add_modifier = { #adds modifier to new country
+				name = zeppelin_speed_record_modifier
+			}
+		}
+
+		captain_experience_gain_effect = { AMOUNT = 25 } #if world record is broken, a total of 25 experience is added
+	}
+}
