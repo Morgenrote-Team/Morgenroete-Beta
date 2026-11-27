@@ -20,7 +20,6 @@ zeppelin.1 = {
 	hidden = yes
 
 	immediate = {
-		zeppelin_passenger_flight_button_effect = yes
 	}
 }
 
@@ -1634,5 +1633,209 @@ zeppelin.235 = {
 
 	after = {
 		remove_variable = zeppelin_arctic_event_active_var
+	}
+}
+
+###########################################################################################################
+
+### Passenger Flight ###
+
+#Zeppelin 301: Passenger Flight: Selection
+zeppelin.301 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = zeppelin.301.t
+	desc = zeppelin.301.d
+	flavor = zeppelin.301.f
+
+	event_image = {
+		texture = "gfx/event_pictures/zeppelin_pictures/zeppelin_ticket.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = zeppelin_special_passenger_flight_var
+		}
+	}
+
+	immediate = {
+		set_variable = {
+			name = zeppelin_special_passenger_flight_var
+			years = 5
+		}
+		if = {
+			limit = {
+				has_variable = elgar_composer_var
+				NOT = {
+					var:elgar_composer_var ?= {
+						var:zeppelin_artist_on_board_var ?= flag:zeppelin_flag
+					}
+				}
+			}
+			var:elgar_composer_var = {
+				save_scope_as = zeppelin_guest_scope
+			}
+		}
+		else_if = {
+			limit = {
+				has_variable = klimt_painter_var
+				NOT = {
+					var:elgar_composer_var ?= {
+						var:zeppelin_artist_on_board_var ?= flag:zeppelin_flag
+					}
+				}
+			}
+			var:klimt_painter_var = {
+				save_scope_as = zeppelin_guest_scope
+			}
+		}
+		else_if = {
+			limit = {
+				has_variable = manzoni_writer_var
+				NOT = {
+					var:manzoni_writer_var ?= {
+						var:zeppelin_artist_on_board_var ?= flag:zeppelin_flag
+					}
+				}
+			}
+			var:manzoni_writer_var = {
+				save_scope_as = zeppelin_guest_scope
+			}
+		}
+	}
+
+	option = { #Invite Government IG
+		name = zeppelin.301.g
+		default_option = yes
+
+		random_interest_group = {
+			limit = {
+    			is_in_government = yes
+			}
+			add_modifier = {
+				name = zeppelin_ig_flight_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = { #Invite Opposition IG
+		name = zeppelin.301.h
+
+		random_interest_group = {
+			limit = {
+    			is_in_government = no
+			}
+			add_modifier = {
+				name = zeppelin_ig_flight_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = { #Invite locals
+		name = zeppelin.301.i
+		
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+			}
+		}
+	}
+
+	option = { #Invite Artist
+		name = zeppelin.301.j
+
+		trigger = {
+			OR = {
+				AND = {
+					has_variable = elgar_composer_var
+					NOT = {
+						var:elgar_composer_var ?= {
+							var:zeppelin_artist_on_board_var ?= flag:zeppelin_flag
+						}
+					}
+				}
+				AND = {
+					has_variable = klimt_painter_var
+					NOT = {
+						var:klimt_painter_var ?= {
+							var:zeppelin_artist_on_board_var ?= flag:zeppelin_flag
+						}
+					}
+				}
+				AND = {
+					has_variable = manzoni_writer_var
+					NOT = {
+						var:manzoni_writer_var ?= {
+							var:zeppelin_artist_on_board_var ?= flag:zeppelin_flag
+						}
+					}
+				}
+			}
+		}
+		
+		if = {
+			limit = {
+				has_variable = elgar_composer_var
+				NOT = {
+					var:elgar_composer_var ?= {
+						var:zeppelin_artist_on_board_var ?= flag:zeppelin_flag
+					}
+				}
+			}
+			elgar_add_x_music_tradition_unscaled_effect = { AMOUNT = 15 }
+			var:elgar_composer_var = {
+				set_variable = {
+					name = var:zeppelin_artist_on_board_var
+					value = flag:zeppelin_flag
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_variable = klimt_painter_var
+				NOT = {
+					var:klimt_painter_var ?= {
+						var:zeppelin_artist_on_board_var ?= flag:zeppelin_flag
+					}
+				}
+			}
+			klimt_add_x_painting_tradition_unscaled_effect = { AMOUNT = 10 }
+			var:klimt_painter_var = {
+				set_variable = {
+					name = var:zeppelin_artist_on_board_var
+					value = flag:zeppelin_flag
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_variable = manzoni_writer_var
+				NOT = {
+					var:manzoni_writer_var ?= {
+						var:zeppelin_artist_on_board_var ?= flag:zeppelin_flag
+					}
+				}
+			}
+			manzoni_add_x_literary_tradition_unscaled_effect = { AMOUNT = 15 }
+			var:manzoni_writer_var = {
+				set_variable = {
+					name = var:zeppelin_artist_on_board_var
+					value = flag:zeppelin_flag
+				}
+			}
+		}
 	}
 }
