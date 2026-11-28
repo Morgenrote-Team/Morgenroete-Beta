@@ -1,7 +1,7 @@
 Changelog fot 2.9.1d "Piccard"
 
-Fixes:
--
+Translations:
+- Updated translations (including a 100% German translation again)
 
 Characters:
 - Joseph Petzval (Austrian Physicist)
@@ -14,9 +14,3 @@ Characters:
 - Bernt Michael Holmboe (Norwegian Physicist)
 - Daniel da Silva (Portuguese Physicist)
 - Vicente Vázquez Queipo (Spanish Physicist)
-
-Quality of Life:
--
-
-Changes:
--
