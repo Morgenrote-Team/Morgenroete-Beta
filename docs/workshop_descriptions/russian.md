@@ -54,12 +54,12 @@ Morgenröte — Dawn of Flavor — мод, наполняющий Victoria 3 к�
 Эти переводы уже встроены в мод и не требуют отдельной загрузки. Помощь с переводом приветствуется.
 
 [b] Бразильский португальский: [/b]
-Готово на 73%
+Готово на 64%
 https://paratranz.cn/projects/15095
 Благодарим: rifa-456 и koyomim
 
 [b] Французский: [/b]
-Готово на 70%
+Готово на 61%
 https://paratranz.cn/projects/15098
 Благодарим: Aurcan (Aurélien), Shamalau12, SirYusblack (Sir Yusbalck), Luffy0810 (lopotitchaton) и bneuder
 
@@ -69,17 +69,17 @@ https://paratranz.cn/projects/15094
 Благодарим: kindum553, Speckschicht, Cr41gy, Temp3r-79 и OttovonBismarckderErste
 
 [b] Японский: [/b]
-Готово на 17%
+Готово на 20%
 https://paratranz.cn/projects/15115
 Благодарим: Nostromo, henriot (Henriot), flowlanss, yukinon-o7 (さとうささら(yukinon)), sonobe5963 и dokusai226
 
 [b] Корейский: [/b]
-Готово на 91%
+Готово на 95%
 https://paratranz.cn/projects/15116
 Благодарим: hangukhistory3-lgtm (Hansto), MOLRAYO (이슬람 [Islamic]), sanguisetcinis (Sujo) и U1ster (Yuster)
 
 [b] Польский: [/b]
-Готово на 64%
+Готово на 100%
 https://paratranz.cn/projects/15118
 Благодарим: Edfit99 (Edfit), ArmagedonYT, Anscylla, W0lsZcZ4n (W0lsZcZ@n), GeneralPaczek, PiotrPilip, maisik177 и saperstoer
 
@@ -94,12 +94,12 @@ https://paratranz.cn/projects/15113
 Благодарим: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王), nyr102498 (伊恩) и zjm200410 (MOJUN)
 
 [b] Испанский: [/b]
-Готово на 65%
+Готово на 50%
 https://paratranz.cn/projects/15114
 Благодарим: tremblejj, melufacharlo-cmyk, D4nn3rion (Dannerion), VWM26, Drascend и Nickbonham22
 
 [b] Турецкий: [/b]
-Готово на 100%
+Готово на 85%
 https://paratranz.cn/projects/15153
 Благодарим: aek.aykut1 и t2lha
 

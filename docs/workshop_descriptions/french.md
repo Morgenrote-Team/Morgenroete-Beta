@@ -54,12 +54,12 @@ La musique ajoutée par Morgenröte relève du domaine public en Europe. Malheur
 Ces traductions sont déjà intégrées au mod. Vous n'avez pas besoin de les télécharger. Cela dit, toute aide supplémentaire pour la traduction est toujours la bienvenue.
 
 [b] Brésilien-Portugais: [/b]
-73% complet
+64% complet
 https://paratranz.cn/projects/15095
 Merci à: rifa-456 et koyomim
 
 [b] Français: [/b]
-70% complet
+61% complet
 https://paratranz.cn/projects/15098
 Merci à: Aurcan (Aurélien), Shamalau12, SirYusblack (Sir Yusbalck), Luffy0810 (lopotitchaton) et bneuder
 
@@ -69,17 +69,17 @@ https://paratranz.cn/projects/15094
 Merci à: kindum553, Speckschicht, Cr41gy, Temp3r-79 et OttovonBismarckderErste
 
 [b] Japonais: [/b]
-17% complet
+20% complet
 https://paratranz.cn/projects/15115
 Merci à: Nostromo, henriot (Henriot), flowlanss, yukinon-o7 (さとうささら(yukinon)), sonobe5963 et dokusai226
 
 [b] Coréen: [/b]
-91% complet
+95% complet
 https://paratranz.cn/projects/15116
 Merci à: hangukhistory3-lgtm (Hansto), MOLRAYO (이슬람 [Islamic]), sanguisetcinis (Sujo) et U1ster (Yuster)
 
 [b] Polonais: [/b]
-64% complet
+100% complet
 https://paratranz.cn/projects/15118
 Merci à: Edfit99 (Edfit), ArmagedonYT, Anscylla, W0lsZcZ4n (W0lsZcZ@n), GeneralPaczek, PiotrPilip, maisik177 et saperstoer
 
@@ -94,12 +94,12 @@ https://paratranz.cn/projects/15113
 Merci à: Cette team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王), nyr102498 (伊恩) et zjm200410 (MOJUN)
 
 [b] Espagnol: [/b]
-65% complet
+50% complet
 https://paratranz.cn/projects/15114
 Merci à: tremblejj, melufacharlo-cmyk, D4nn3rion (Dannerion), VWM26, Drascend et Nickbonham22
 
 [b] Turc: [/b]
-100% complet
+85% complet
 https://paratranz.cn/projects/15153
 Merci à: aek.aykut1 et t2lha
 
