@@ -54,12 +54,12 @@ The music Morgenröte adds is in the public domain in Europe. Sadly some other c
 These translations are already implemented in the mod. You don't need to download them. Additional help with translating is always welcome though.
 
 [b] Brazilian-Portuguese: [/b]
-73% complete
+64% complete
 https://paratranz.cn/projects/15095
 Thanks to: rifa-456 and koyomim
 
 [b] French: [/b]
-70% complete
+61% complete
 https://paratranz.cn/projects/15098
 Thanks to: Aurcan (Aurélien), Shamalau12, SirYusblack (Sir Yusbalck), Luffy0810 (lopotitchaton) and bneuder
 
@@ -69,17 +69,17 @@ https://paratranz.cn/projects/15094
 Thanks to: kindum553, Speckschicht, Cr41gy, Temp3r-79 and OttovonBismarckderErste
 
 [b] Japanese: [/b]
-17% complete
+20% complete
 https://paratranz.cn/projects/15115
 Thanks to: Nostromo, henriot (Henriot), flowlanss, yukinon-o7 (さとうささら(yukinon)), sonobe5963 and dokusai226
 
 [b] Korean: [/b]
-91% complete
+95% complete
 https://paratranz.cn/projects/15116
 Thanks to: hangukhistory3-lgtm (Hansto), MOLRAYO (이슬람 [Islamic]), sanguisetcinis (Sujo) and U1ster (Yuster)
 
 [b] Polish: [/b]
-64% complete
+100% complete
 https://paratranz.cn/projects/15118
 Thanks to: Edfit99 (Edfit), ArmagedonYT, Anscylla, W0lsZcZ4n (W0lsZcZ@n), GeneralPaczek, PiotrPilip, maisik177 and saperstoer
 
@@ -94,12 +94,12 @@ https://paratranz.cn/projects/15113
 Thanks to: this team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王), nyr102498 (伊恩) and zjm200410 (MOJUN)
 
 [b] Spanish: [/b]
-65% complete
+50% complete
 https://paratranz.cn/projects/15114
 Thanks to: tremblejj, melufacharlo-cmyk, D4nn3rion (Dannerion), VWM26, Drascend and Nickbonham22
 
 [b] Turkish: [/b]
-100% complete
+85% complete
 https://paratranz.cn/projects/15153
 Thanks to: aek.aykut1 and t2lha
 

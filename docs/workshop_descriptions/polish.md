@@ -54,12 +54,12 @@ Muzyka dodana przez Morgenröte należy w Europie do domeny publicznej. Niestety
 Tłumaczenia te zostały już wprowadzone do moda. Nie musisz ich pobierać. Dodatkowa pomoc przy tłumaczeniu jest jednak zawsze mile widziana.
 
 [b] Portugalski (Brazylia): [/b]
-73% ukończone
+64% ukończone
 https://paratranz.cn/projects/15095
 Podziękowania dla: rifa-456 and koyomim
 
 [b] Francuski: [/b]
-70% ukończone
+61% ukończone
 https://paratranz.cn/projects/15098
 Podziękowania dla: Aurcan (Aurélien), Shamalau12, SirYusblack (Sir Yusbalck), Luffy0810 (lopotitchaton) and bneuder
 
@@ -69,17 +69,17 @@ https://paratranz.cn/projects/15094
 Podziękowania dla: kindum553, Speckschicht, Cr41gy, Temp3r-79 and OttovonBismarckderErste
 
 [b] Japoński: [/b]
-17% ukończone
+20% ukończone
 https://paratranz.cn/projects/15115
 Podziękowania dla: Nostromo, henriot (Henriot), flowlanss, yukinon-o7 (さとうささら(yukinon)), sonobe5963 and dokusai226
 
 [b] Koreański: [/b]
-91% ukończone
+95% ukończone
 https://paratranz.cn/projects/15116
 Podziękowania dla: hangukhistory3-lgtm (Hansto), MOLRAYO (이슬람 [Islamic]), sanguisetcinis (Sujo) and U1ster (Yuster)
 
 [b] Polski: [/b]
-64% ukończone
+100% ukończone
 https://paratranz.cn/projects/15118
 Podziękowania dla: Edfit99 (Edfit), ArmagedonYT, Anscylla, W0lsZcZ4n (W0lsZcZ@n), GeneralPaczek, PiotrPilip, maisik177 and saperstoer
 
@@ -94,12 +94,12 @@ https://paratranz.cn/projects/15113
 Podziękowania dla: this team: https://paratranz.cn/projects/5488, nicocorey (Ford), 9Milk (牛奶大魔王), nyr102498 (伊恩) and zjm200410 (MOJUN)
 
 [b] Hiszpański: [/b]
-65% ukończone
+50% ukończone
 https://paratranz.cn/projects/15114
 Podziękowania dla: tremblejj, melufacharlo-cmyk, D4nn3rion (Dannerion), VWM26, Drascend and Nickbonham22
 
 [b] Turecki: [/b]
-100% ukończone
+85% ukończone
 https://paratranz.cn/projects/15153
 Podziękowania dla: aek.aykut1 and t2lha
 
